@@ -3,12 +3,26 @@ import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 import { type Coin } from './types/shared';
 
-const cachedCoinsMap: Record<string, Coin> = {};
+interface SymbolNetwork {
+  network: {
+    name: string;
+    slug: string;
+    icon_url: string;
+  };
+  contract_address: string;
+  symbol_network_type: 'TOKEN' | 'COIN';
+}
+
+interface CoinSymbol extends Coin {
+  networks: SymbolNetwork[];
+}
+
+const cachedCoinsMap: Record<string, CoinSymbol> = {};
 
 const getCoins = async (slugs: string[]) => {
   const unseenSlugs = slugs.filter(x => !cachedCoinsMap[x]);
   if (unseenSlugs.length > 0) {
-    const data = await ofetch<Coin[]>('delphi/symbol/search/', {
+    const data = await ofetch<CoinSymbol[]>('delphi/symbol/search', {
       query: { slugs: unseenSlugs.join(',') },
     });
     Object.assign(

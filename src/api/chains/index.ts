@@ -78,25 +78,20 @@ export type AutoTraderSupportedQuotes =
   | AutoTraderTonSupportedQuotes
   | AutoTraderSolanaSupportedQuotes;
 
-const ensureSolQuote = (
-  quote: AutoTraderSupportedQuotes,
-): AutoTraderSolanaSupportedQuotes | undefined =>
-  quote === 'the-open-network' ? undefined : quote;
-
-const ensureTonQuote = (
-  quote: AutoTraderSupportedQuotes,
-): AutoTraderTonSupportedQuotes | undefined =>
-  quote === 'wrapped-solana' || quote === 'usd-coin' ? undefined : quote;
-
 export const useAccountBalance = (
-  quote: AutoTraderSupportedQuotes,
+  quote?: string,
   network?: 'solana' | 'the-open-network' | null,
 ) => {
   const activeNet = useActiveNetwork();
-  const solResult = useSolanaAccountBalance(ensureSolQuote(quote));
-  const tonResult = useAccountJettonBalance(ensureTonQuote(quote));
-
   const net = network ?? activeNet;
+
+  const solResult = useSolanaAccountBalance(
+    net === 'solana' ? quote : undefined,
+  );
+  const tonResult = useAccountJettonBalance(
+    net === 'the-open-network' ? quote : undefined,
+  );
+
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
   return { data: null, isLoading: false };
@@ -126,9 +121,11 @@ export const useAccountAllQuotesBalance = () => {
 
 export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
   const net = useActiveNetwork();
-  const transferTonAssets = useTonTransferAssetsMutation(ensureTonQuote(quote));
+  const transferTonAssets = useTonTransferAssetsMutation(
+    net === 'solana' ? quote : undefined,
+  );
   const transferSolanaAssets = useSolanaTransferAssetsMutation(
-    ensureSolQuote(quote),
+    net === 'the-open-network' ? quote : undefined,
   );
 
   if (net === 'solana') return transferSolanaAssets;

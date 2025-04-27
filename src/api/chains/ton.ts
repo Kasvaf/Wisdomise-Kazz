@@ -11,6 +11,7 @@ import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { gtag } from 'config/gtag';
+import { useSymbolInfo } from 'api/symbol';
 import { usePromiseOfEffect } from './utils';
 
 const tonClient = new TonClient({
@@ -25,70 +26,76 @@ export const WSDM_CONTRACT_ADDRESS = String(
   import.meta.env.VITE_WSDM_CONTRACT_ADDRESS,
 );
 
-const CONTRACT_ADDRESSES = {
-  WSDM: WSDM_CONTRACT_ADDRESS,
-  tether: USDT_CONTRACT_ADDRESS,
-} as const;
-
-const CONTRACT_DECIMAL = {
-  'the-open-network': 9,
-  'WSDM': 6,
-  'tether': USDT_DECIMAL,
-} as const;
-
 export type AutoTraderTonSupportedQuotes = 'tether' | 'the-open-network';
 
-const useJettonWalletAddress = (
-  quote?: 'WSDM' | AutoTraderTonSupportedQuotes,
-) => {
+const useJettonWalletAddress = (slug?: string) => {
   const address = useTonAddress();
+  const isNative = slug === 'the-open-network';
+  const { data } = useSymbolInfo(slug);
+  const netInfo = data?.networks.find(
+    x => x.network.slug === 'the-open-network',
+  );
 
   return useQuery({
-    queryKey: ['jetton-wallet-address', address, quote],
+    queryKey: ['jetton-wallet-address', address, slug],
     queryFn: async () => {
-      if (!address || !quote || quote === 'the-open-network') return;
+      if (isNative) {
+        return { decimals: 9, walletAddress: '' };
+      }
 
-      const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
+      if (!address || !slug || !netInfo) return;
+
+      const jettonMasterAddress = Address.parse(netInfo.contract_address);
       const ownerAddress = Address.parse(address);
 
       try {
-        const { stack } = await tonClient.runMethod(
-          jettonMasterAddress,
-          'get_wallet_address',
-          [
-            {
-              type: 'slice',
-              cell: beginCell().storeAddress(ownerAddress).endCell(),
-            },
-          ],
-        );
+        const [decimals, walletAddress] = await Promise.all([
+          tonClient
+            .runMethod(jettonMasterAddress, 'get_jetton_data')
+            .then(({ stack }) => {
+              // stack: total_supply, mintable, admin_address, content, jetton_wallet_code, decimals
+              stack.readBigNumber(); // total_supply
+              stack.readBoolean(); // mintable
+              stack.readAddress(); // admin_address
+              stack.readCell(); // content
+              stack.readCell(); // jetton_wallet_code
+              return Number(stack.readNumber()); // decimals
+            }),
 
-        const jettonWalletAddress = stack.readAddress();
-        return jettonWalletAddress.toString();
+          tonClient
+            .runMethod(jettonMasterAddress, 'get_wallet_address', [
+              {
+                type: 'slice',
+                cell: beginCell().storeAddress(ownerAddress).endCell(),
+              },
+            ])
+            .then(({ stack }) => stack.readAddress().toString()),
+        ]);
+
+        return { decimals, walletAddress };
       } catch (error) {
         console.error('Error fetching jetton wallet address:', error);
       }
     },
     staleTime: Number.POSITIVE_INFINITY,
-    enabled: !!address,
+    enabled: isNative || (!!address && !!netInfo),
   });
 };
 
-export const useAccountJettonBalance = (
-  contract?: 'WSDM' | AutoTraderTonSupportedQuotes,
-) => {
+export const useAccountJettonBalance = (slug?: string) => {
   const address = useTonAddress();
-  const { data: jettonAddress } = useJettonWalletAddress(contract);
-  const addr = contract === 'the-open-network' ? address : jettonAddress;
+  const { data: { walletAddress, decimals } = {} } =
+    useJettonWalletAddress(slug);
+  const addr = slug === 'the-open-network' ? address : walletAddress;
 
   return useQuery({
-    queryKey: ['accountJettonBalance', contract, addr],
+    queryKey: ['accountJettonBalance', slug, addr],
     queryFn: async () => {
-      if (!addr || !contract) return null;
+      if (!addr || !slug || !decimals) return null;
       const parsedAddress = Address.parse(addr);
 
       let balance: bigint | undefined;
-      if (contract === 'the-open-network') {
+      if (slug === 'the-open-network') {
         balance = await tonClient.getBalance(parsedAddress);
       } else {
         const { stack, exit_code: errorCode } =
@@ -102,21 +109,19 @@ export const useAccountJettonBalance = (
         balance = stack.readBigNumber();
       }
 
-      return balance == null
-        ? null
-        : Number(fromBigMoney(balance, CONTRACT_DECIMAL[contract]));
+      return balance == null ? null : Number(fromBigMoney(balance, decimals));
     },
     refetchInterval: 10_000,
     staleTime: 500,
+    enabled: !!decimals,
   });
 };
 
-export const useTonTransferAssetsMutation = (
-  quote?: AutoTraderTonSupportedQuotes,
-) => {
+export const useTonTransferAssetsMutation = (slug?: string) => {
   const address = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
-  const { data: jettonWalletAddress } = useJettonWalletAddress(quote);
+  const { data: { decimals, walletAddress } = {} } =
+    useJettonWalletAddress(slug);
   const { save } = useUserStorage('last-parsed-deposit-address');
   const queryClient = useQueryClient();
 
@@ -129,7 +134,7 @@ export const useTonTransferAssetsMutation = (
     amount: string;
     gasFee: string;
   }) => {
-    if (!quote) return;
+    if (!slug || !decimals) return;
 
     const noneBounceableAddress = Address.parse(recipientAddress).toString({
       bounceable: false,
@@ -142,18 +147,18 @@ export const useTonTransferAssetsMutation = (
       validUntil: Date.now() + 10 * 60 * 1000,
       network: isProduction ? CHAIN.MAINNET : CHAIN.TESTNET,
       messages: [
-        quote === 'the-open-network'
+        slug === 'the-open-network'
           ? {
               address: noneBounceableAddress,
               amount: toBigMoney(amount, 9).toString(),
             }
           : {
-              address: jettonWalletAddress ?? '',
+              address: walletAddress ?? '',
               amount: toBigMoney('0.05', 9).toString(),
               payload: beginCell()
                 .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
                 .storeUint(0, 64) // query_id:uint64
-                .storeCoins(toBigMoney(amount, CONTRACT_DECIMAL[quote])) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default).
+                .storeCoins(toBigMoney(amount, decimals)) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default).
                 .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
                 .storeAddress(Address.parse(address)) // response_destination:MsgAddress
                 .storeUint(0, 1) // custom_payload:(Maybe ^Cell)

@@ -12,45 +12,62 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { fromBigMoney, toBigMoney } from 'utils/money';
+import { useSymbolInfo } from 'api/symbol';
 import { usePromiseOfEffect } from './utils';
-
-const CONTRACT_ADDRESSES = {
-  'wrapped-solana': 'So11111111111111111111111111111111111111112',
-  'tether': 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
-  'usd-coin': 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-} as const;
-
-const CONTRACT_DECIMAL = {
-  'wrapped-solana': 9,
-  'usd-coin': 6,
-  'tether': 6,
-} as const;
 
 export type AutoTraderSolanaSupportedQuotes =
   | 'tether'
   | 'usd-coin'
   | 'wrapped-solana';
 
-export const useSolanaAccountBalance = (
-  quote?: AutoTraderSolanaSupportedQuotes,
-) => {
+const useContractInfo = (slug?: string) => {
+  const { connection } = useConnection();
+  const { data } = useSymbolInfo(slug);
+  const netInfo = data?.networks.find(x => x.network.slug === 'solana');
+  return useQuery({
+    queryKey: ['sol-contract-info', slug],
+    queryFn: async () => {
+      if (!netInfo) return;
+
+      const mintPublicKey = new PublicKey(netInfo.contract_address);
+      const accountInfo = await connection.getParsedAccountInfo(mintPublicKey);
+      const data = accountInfo.value?.data;
+      if (
+        data &&
+        // use type assertion for parsed account data
+        typeof data === 'object' &&
+        'parsed' in data &&
+        data.program === 'spl-token'
+      ) {
+        return {
+          contract: netInfo.contract_address,
+          decimals: data.parsed.info.decimals,
+        };
+      }
+    },
+    enabled: !!slug && !!netInfo,
+  });
+};
+
+export const useSolanaAccountBalance = (slug?: string) => {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
+  const { data: { contract } = {} } = useContractInfo(slug);
 
   return useQuery({
-    queryKey: ['sol-balance', quote, publicKey?.toString()],
+    queryKey: ['sol-balance', slug, publicKey?.toString()],
     queryFn: async () => {
-      if (!publicKey || !quote) return null;
+      if (!publicKey || !slug || !contract) return null;
 
       try {
-        if (quote === 'wrapped-solana') {
+        if (slug === 'wrapped-solana' || slug === 'solana') {
           return Number(
             fromBigMoney(await connection.getBalance(publicKey), 9),
           );
         } else {
           // Get the associated token address
           const tokenAddress = await getAssociatedTokenAddress(
-            new PublicKey(CONTRACT_ADDRESSES[quote]),
+            new PublicKey(contract),
             publicKey,
             false,
             TOKEN_PROGRAM_ID,
@@ -74,15 +91,15 @@ export const useSolanaAccountBalance = (
     },
     refetchInterval: 10_000,
     staleTime: 500,
+    enabled: !!contract,
   });
 };
 
-export const useSolanaTransferAssetsMutation = (
-  quote?: AutoTraderSolanaSupportedQuotes,
-) => {
+export const useSolanaTransferAssetsMutation = (slug?: string) => {
   const { connection } = useConnection();
   const { publicKey, signTransaction } = useWallet();
   const queryClient = useQueryClient();
+  const { data: { contract, decimals } = {} } = useContractInfo(slug);
 
   return async ({
     recipientAddress,
@@ -93,12 +110,12 @@ export const useSolanaTransferAssetsMutation = (
     amount: string;
     gasFee: string;
   }) => {
-    if (!signTransaction || !publicKey || !quote)
+    if (!signTransaction || !publicKey || !slug || !contract)
       throw new Error('Wallet not connected');
-    const tokenMint = new PublicKey(CONTRACT_ADDRESSES[quote]);
+    const tokenMint = new PublicKey(contract);
     const transaction = new Transaction();
 
-    if (quote === 'wrapped-solana') {
+    if (slug === 'wrapped-solana') {
       // Native SOL transfer
       transaction.add(
         SystemProgram.transfer({
@@ -146,7 +163,7 @@ export const useSolanaTransferAssetsMutation = (
           userATA,
           recipientATA,
           publicKey,
-          toBigMoney(amount, CONTRACT_DECIMAL[quote]),
+          toBigMoney(amount, decimals),
           [],
           TOKEN_PROGRAM_ID,
         ),
