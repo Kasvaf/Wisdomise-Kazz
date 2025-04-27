@@ -15,12 +15,12 @@ import { PageTitle } from 'shared/PageTitle';
 import BtnLiveSupport from './BtnLiveSupport';
 import {
   ProfileIcon,
-  SubscriptionIcon,
   WsdmTokenIcon,
   ExternalAccountIcon,
   ReferralIcon,
   RewardIcon,
   UserIcon,
+  SubscriptionIcon,
 } from './icons';
 
 const PageAccount: FC = () => {
@@ -54,24 +54,20 @@ const PageAccount: FC = () => {
             icon={SubscriptionIcon}
             onClick={trackClick('subscription_menu')}
             badge={
-              <Badge
-                color={subscription.remaining ? 'white' : 'red'}
-                label={
-                  <span className="flex items-center gap-1">
-                    <span>{subscription.title}</span>
-                    {subscription.level !== 0 && (
-                      <>
-                        {'|'}
-                        <ReadableDuration
-                          value={subscription.remaining}
-                          zeroText={t('pro:zero-hour')}
-                        />{' '}
-                        {t('menu.billing.remains')}
-                      </>
-                    )}
-                  </span>
-                }
-              />
+              subscription.level !== 0 && (
+                <Badge
+                  color={subscription.remaining ? 'white' : 'red'}
+                  label={
+                    <span className="flex items-center gap-1">
+                      <ReadableDuration
+                        value={subscription.remaining}
+                        zeroText={t('pro:zero-hour')}
+                      />{' '}
+                      {t('menu.billing.remains')}
+                    </span>
+                  }
+                />
+              )
             }
           />
         )}

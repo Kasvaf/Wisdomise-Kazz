@@ -1,11 +1,12 @@
 import type { RefObject } from 'react';
-import { bxDownload, bxLink } from 'boxicons-quasar';
+import { bxCopy, bxDownload, bxLink } from 'boxicons-quasar';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import { useScreenshot } from 'shared/useScreenshot';
 import { useSocialShare } from 'shared/useSocialShare';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
+import { Input } from 'shared/v1-components/Input';
 import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as XIcon } from './images/twitter.svg';
 import { ReactComponent as LinkedinIcon } from './images/linkedin.svg';
@@ -29,9 +30,22 @@ export function ReferralShareLinks({
 
   return (
     <div>
-      <p className="mb-3 text-xs text-v1-content-secondary">
+      <p className="text-xs text-v1-content-secondary">
         Download the Image and Share It With Your Referral Link
       </p>
+      <Input
+        readOnly={true}
+        size="md"
+        className="my-3 w-full"
+        suffixIcon={
+          <Icon
+            name={bxCopy}
+            className="ml-3"
+            onClick={() => copy(myReferralLink)}
+          />
+        }
+        value={myReferralLink}
+      />
       <div className="flex flex-wrap gap-2">
         <div className="flex gap-2 [&>*]:bg-transparent [&>*]:px-2">
           <Button

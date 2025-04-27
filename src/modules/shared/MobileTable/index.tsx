@@ -19,6 +19,7 @@ export function MobileTable<RecordType extends object>({
   surface = 2,
   rowKey,
   loading,
+  isActive,
   onClick,
 }: {
   dataSource: RecordType[];
@@ -28,6 +29,7 @@ export function MobileTable<RecordType extends object>({
   surface?: Surface;
   columns: Array<MobileTableColumn<RecordType>>;
   rowKey: (row: RecordType) => string | number;
+  isActive?: (row: RecordType) => boolean;
   onClick?: (row: RecordType) => void;
 }) {
   const colors = useSurface(surface);
@@ -41,6 +43,7 @@ export function MobileTable<RecordType extends object>({
         'relative w-full rounded-lg bg-[--row-color]',
         typeof onClick === 'function' &&
           'cursor-pointer transition-all hover:bg-[--active-color] active:bg-[--active-color]',
+        isActive?.(row) && '!bg-v1-surface-l5 contrast-125 saturate-150',
         rowClassName,
       )}
       data-table="tr"

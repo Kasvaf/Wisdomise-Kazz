@@ -33,7 +33,8 @@ export const track = (
     | 'click_on'
     | 'Click On'
     | `Feedback ${string}`
-    | 'wallet_connected',
+    | 'wallet_connected'
+    | 'stake_completed',
   payload: Record<string, string | number | undefined | null> = {},
 ) => {
   void analytics.track(eventName, {

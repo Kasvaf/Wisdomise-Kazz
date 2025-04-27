@@ -1,14 +1,38 @@
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
-import { useCoinDetails } from 'api';
+import { useMemo } from 'react';
+import { useCoinDetails, useNCoinDetails } from 'api';
 import useIsMobile from 'utils/useIsMobile';
+import { type CoinDetails } from 'api/types/shared';
 
 const CoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,
   height,
 }) => {
   const isMobile = useIsMobile();
-  const coinOverview = useCoinDetails({ slug });
-  const chart = coinOverview.data?.charts?.[0];
+  const coin = useCoinDetails({ slug });
+  const nCoin = useNCoinDetails({ slug });
+  const charts = useMemo(() => {
+    let charts: Required<CoinDetails['charts']> = [];
+    if (nCoin.data?.address) {
+      // TODO its toff, fix this
+      charts = [
+        ...charts,
+        {
+          id: 'coingecko_manual',
+          priority: 0,
+          type: 'gecko_terminal',
+          url: `https://www.geckoterminal.com/solana/pools/${nCoin.data.address}`,
+          embedUrl: `https://www.geckoterminal.com/solana/pools/${nCoin.data.address}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=1m`,
+        },
+      ];
+    }
+    if (coin.data?.charts) {
+      charts = [...charts, ...coin.data.charts];
+    }
+    return charts;
+  }, [coin, nCoin]);
+
+  const chart = charts.length > 0 ? charts[0] : null;
   if (!chart) return null;
 
   return chart.type === 'gecko_terminal' ? (

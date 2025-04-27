@@ -1,11 +1,13 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
+import { AccessShield } from 'shared/AccessShield';
 
 export const SocialRadarTable: FC<{
   onClick: (coin: SocialRadarCoin) => void;
@@ -63,15 +65,27 @@ export const SocialRadarTable: FC<{
     [],
   );
 
+  const { slug } = useParams<{ slug: string }>();
   return (
-    <MobileTable
-      className="max-w-full"
-      columns={columns}
-      dataSource={coins.data ?? []}
-      rowKey={r => JSON.stringify(r.symbol)}
-      loading={coins.isLoading}
-      surface={2}
-      onClick={onClick}
-    />
+    <AccessShield
+      mode="children"
+      sizes={{
+        guest: true,
+        initial: true,
+        free: true,
+        vip: false,
+      }}
+    >
+      <MobileTable
+        className="max-w-full"
+        columns={columns}
+        dataSource={coins.data ?? []}
+        rowKey={r => JSON.stringify(r.symbol)}
+        isActive={r => r.symbol.slug === slug}
+        loading={coins.isLoading}
+        surface={2}
+        onClick={onClick}
+      />
+    </AccessShield>
   );
 };

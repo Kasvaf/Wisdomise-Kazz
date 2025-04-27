@@ -25,8 +25,8 @@ menu:
       Cryptos and Never Miss a Market Move!
     full-title: Notification & Alerts
   billing:
-    title: Subscription
-    subtitle: Manage your subscription, renew, and view invoices
+    title: Wise Club
+    subtitle: Join Wise Club, manage your subscription, renew, and view invoices
     remains: remains
   coin:
     title: Coin
@@ -56,7 +56,7 @@ menu:
     title: Technical
   token:
     title: WSDM Token
-    subtitle: Use tokens for premium access
+    subtitle: Migrate your tWSDM, withdraw your investments
   trench:
     title: Trench
   whale:

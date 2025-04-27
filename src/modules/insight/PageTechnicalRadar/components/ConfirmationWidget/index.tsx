@@ -235,12 +235,10 @@ export function ConfirmationWidget<I extends Indicator>({
       <AccessShield
         mode="children"
         sizes={{
-          'guest': true,
-          'initial': 2,
-          'free': 2,
-          'pro': 2,
-          'pro+': false,
-          'pro_max': false,
+          guest: true,
+          initial: true,
+          free: true,
+          vip: false,
         }}
         className="space-y-4"
       >

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { bxCopy } from 'boxicons-quasar';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import {
@@ -10,18 +9,14 @@ import {
 } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import Badge from 'shared/Badge';
-import Icon from 'shared/Icon';
-import { Input } from 'shared/v1-components/Input';
-import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
-import { useReferral } from 'modules/account/PageReferral/useReferral';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
 import useModal from 'shared/useModal';
 import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
 import trader from './images/trader.png';
-import { ReactComponent as Logo } from './images/logo.svg';
+import { ReactComponent as WiseClub } from './images/wise-club.svg';
 import { ReactComponent as Users } from './images/users.svg';
 import { ReactComponent as IconUser } from './images/user.svg';
 import { ReactComponent as Bag } from './images/bag.svg';
@@ -35,10 +30,8 @@ import gradient2 from './images/gradient-2.png';
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
   const [RewardModal, openRewardModal] = useRewardModal();
-  const [rewardAmount, setRewardAmount] = useState(0);
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
-  const myReferralLink = useReferral();
   const navigate = useNavigate();
   const el = useRef<HTMLDivElement>(null);
   const [ReferralOnboardingModal, openReferralOnboardingModal] = useModal(
@@ -47,14 +40,13 @@ export default function ReferralPage() {
   );
   const [done] = useLocalStorage('referral-onboarding', false);
 
-  const [copy, content] = useShare('copy');
-
   const { mutateAsync: claimBonusBag, isPending: claimIsLoading } =
     useClaimReferralBonusBag();
 
   const claim = () => {
-    setRewardAmount(referral?.ready_to_claim ?? 0);
-    void claimBonusBag().then(() => openRewardModal({ amount: rewardAmount }));
+    void claimBonusBag().then(() =>
+      openRewardModal({ amount: referral?.ready_to_claim ?? 0 }),
+    );
   };
 
   useEffect(() => {
@@ -90,7 +82,7 @@ export default function ReferralPage() {
             <div className="rounded-xl bg-v1-surface-l2 mobile:p-4">
               <div
                 ref={el}
-                className="relative overflow-hidden rounded-xl bg-v1-surface-l2 p-4"
+                className="relative mb-3 overflow-hidden rounded-xl bg-v1-surface-l2 p-4"
               >
                 <img
                   src={logoOutline}
@@ -109,19 +101,6 @@ export default function ReferralPage() {
                 />
                 <ReferralQrCode className="relative !text-xs" />
               </div>
-
-              <Input
-                readOnly={true}
-                className="my-6 w-full"
-                suffixIcon={
-                  <Icon
-                    name={bxCopy}
-                    className="ml-3"
-                    onClick={() => copy(myReferralLink)}
-                  />
-                }
-                value={myReferralLink}
-              />
               <ReferralShareLinks screenshotTarget={el} fileName="referral" />
             </div>
           </div>
@@ -203,7 +182,7 @@ export default function ReferralPage() {
           <div className="rounded-xl bg-v1-surface-l2 p-3">
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
-                <Logo />
+                <WiseClub />
               </div>
               <div>
                 <h2>${referral?.referral_subscription_revenue.toFixed(2)}</h2>
@@ -254,7 +233,7 @@ export default function ReferralPage() {
                   className={user.is_subscribed ? '' : 'grayscale'}
                   label={
                     <span className="-ml-3">
-                      <Logo className="inline h-4" />
+                      <WiseClub className="inline h-4" />
                       {t('page-referral.subscription')}
                     </span>
                   }
@@ -280,7 +259,6 @@ export default function ReferralPage() {
           ))}
         </div>
       </div>
-      {content}
       {RewardModal}
       {ReferralOnboardingModal}
     </PageWrapper>

@@ -4,11 +4,11 @@ import { type ReactNode, useCallback, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Card from 'shared/Card';
-import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { shortenAddress } from 'utils/shortenAddress';
 import { defaultChain } from 'config/wagmi';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
 import useSignInWithEthereum from './useSiwe';
@@ -35,8 +35,9 @@ export default function ConnectWalletGuard({
   const { t } = useTranslation('wisdomise-token');
   const [showNonce, setShowNonce] = useState(false);
   const [showError, setShowError] = useState(true);
-  const { mutateAsync } = useNonceVerificationMutation();
-  const { signInWithEthereum } = useSignInWithEthereum();
+  const { mutateAsync, isPending: isVerifying } =
+    useNonceVerificationMutation();
+  const { signInWithEthereum, isLoading } = useSignInWithEthereum();
   const { data: nonceResponse, refetch } = useGenerateNonceQuery();
   const [showWrapperContent, setShowWrapperContent] = useState(false);
   const [showConnectWallet, setShowConnectWallet] = useState(true);
@@ -102,7 +103,7 @@ export default function ConnectWalletGuard({
           </p>
           <Button
             className="mt-3"
-            variant="alternative"
+            variant="outline"
             onClick={() => disconnect()}
           >
             {t('connect-wallet.disconnect')}
@@ -125,14 +126,17 @@ export default function ConnectWalletGuard({
           <h2 className="w-[17rem] text-lg">
             {t('connect-wallet.verify-nonce')}
           </h2>
-          <div className="w-full rounded-xl bg-white/10 py-6 text-lg font-semibold text-white/60">
+          <div className="w-full rounded-xl bg-v1-surface-l4 py-6 text-lg font-semibold text-white/60">
             {nonceResponse?.nonce}
           </div>
           <div className="flex flex-wrap gap-4">
-            <Button onClick={handleSignAndVerification}>
+            <Button
+              onClick={handleSignAndVerification}
+              loading={isLoading || isVerifying}
+            >
               {t('connect-wallet.sign')}
             </Button>
-            <Button variant="alternative" onClick={() => disconnect()}>
+            <Button variant="outline" onClick={() => disconnect()}>
               {t('connect-wallet.disconnect')}
             </Button>
           </div>

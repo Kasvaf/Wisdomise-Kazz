@@ -1,4 +1,5 @@
 import { useMemo, type FC } from 'react';
+import { useParams } from 'react-router-dom';
 import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
 import { NCoinSecurity } from 'modules/insight/PageNetworkRadar/components/NCoinSecurity';
 import {
@@ -60,11 +61,13 @@ export const NetworkRadarTable: FC<{
     [],
   );
 
+  const { slug } = useParams<{ slug: string }>();
   return (
     <MobileTable
       columns={columns}
       dataSource={nCoins.data ?? []}
       rowKey={r => JSON.stringify(r.base_symbol.slug)}
+      isActive={row => row.base_symbol.slug === slug}
       loading={nCoins.isLoading}
       surface={2}
       onClick={onClick}

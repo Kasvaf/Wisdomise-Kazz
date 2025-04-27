@@ -5,7 +5,7 @@ import { type NonceVerificationBody } from 'api/defi';
 export default function useSignInWithEthereum() {
   const { address } = useAccount();
   const { chain } = useNetwork();
-  const { signMessageAsync } = useSignMessage();
+  const { signMessageAsync, isLoading } = useSignMessage();
 
   function createMessage(address: string, statement: string, nonce: string) {
     const messageParams: Partial<SiweMessage> = {
@@ -41,7 +41,7 @@ export default function useSignInWithEthereum() {
     };
   }
 
-  return { signInWithEthereum };
+  return { signInWithEthereum, isLoading };
 }
 
 function toMessage(message: Partial<SiweMessage>): string {

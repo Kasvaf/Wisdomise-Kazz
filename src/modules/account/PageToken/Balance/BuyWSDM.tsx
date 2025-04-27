@@ -41,7 +41,7 @@ const EXCHANGES = [
   {
     name: 'Quickswap',
     icon: <Quickswap />,
-    url: 'https://quickswap.exchange/#/swap?currency0=0xc2132D05D31c914a87C6611C10748AEb04B58e8F&currency1=0x5F2F8818002dc64753daeDF4A6CB2CcB757CD220&swapIndex=0',
+    url: 'https://dapp.quickswap.exchange/swap/best/0xc2132D05D31c914a87C6611C10748AEb04B58e8F/0x5F2F8818002dc64753daeDF4A6CB2CcB757CD220',
   },
 ];
 

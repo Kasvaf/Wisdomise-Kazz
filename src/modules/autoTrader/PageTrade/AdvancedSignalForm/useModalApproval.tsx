@@ -136,7 +136,7 @@ const ModalApproval: React.FC<{
               {Number(data?.trade_fee) * 100}% of transactions + network gas fee
             </InfoLine>
 
-            {!isLoading && !isMiniApp && Number(data?.trade_fee) && (
+            {!isLoading && !isMiniApp && Number(data?.trade_fee) > 0.6 && (
               <NavLink
                 to="/account/billing"
                 className="mt-2 flex items-center gap-2 text-xs"

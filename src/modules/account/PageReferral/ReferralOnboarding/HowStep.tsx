@@ -3,7 +3,6 @@ import { NavigateButtons } from 'modules/insight/PageOnboarding/components/Navig
 import qrCode from './images/qr-code.png';
 import num1 from './images/1.png';
 import num2 from './images/2.png';
-import num3 from './images/3.png';
 
 export default function HowStep({
   onNext,
@@ -28,19 +27,19 @@ export default function HowStep({
           Invite Friends Using Your Unique Referral Link.
         </p>
         <div className="max-w-xl">
+          {/* <div className="mb-5 flex items-center gap-4"> */}
+          {/*   <img src={num1} alt="1" className="size-12" /> */}
+          {/*   <div> */}
+          {/*     <p className="mb-1 text-xl mobile:text-sm">Friends Subscribe</p> */}
+          {/*     <p className="text-sm text-v1-content-secondary"> */}
+          {/*       When Your Friends Purchase Any Subscription Plan, You Earn{' '} */}
+          {/*       <span className="text-v1-content-positive">30%</span> of Their */}
+          {/*       Subscription fee. All plans included. */}
+          {/*     </p> */}
+          {/*   </div> */}
+          {/* </div> */}
           <div className="mb-5 flex items-center gap-4">
             <img src={num1} alt="1" className="size-12" />
-            <div>
-              <p className="mb-1 text-xl mobile:text-sm">Friends Subscribe</p>
-              <p className="text-sm text-v1-content-secondary">
-                When Your Friends Purchase Any Subscription Plan, You Earn{' '}
-                <span className="text-v1-content-positive">30%</span> of Their
-                Subscription fee. All plans included.
-              </p>
-            </div>
-          </div>
-          <div className="mb-5 flex items-center gap-4">
-            <img src={num2} alt="1" className="size-12" />
             <div>
               <p className="mb-1 text-xl mobile:text-sm">
                 Friends Trade With Auto Trader (Level 1)
@@ -53,7 +52,7 @@ export default function HowStep({
             </div>
           </div>
           <div className="mb-5 flex items-center gap-4">
-            <img src={num3} alt="1" className="size-12" />
+            <img src={num2} alt="1" className="size-12" />
             <div>
               <p className="mb-1 text-xl mobile:text-sm">
                 Friends’ Friends Trade With Auto Trader (Level 2)
