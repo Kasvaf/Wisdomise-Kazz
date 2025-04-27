@@ -5,9 +5,8 @@ export interface TableColumn<RecordType extends object> {
   key: string;
   title?: ReactNode;
   info?: ReactNode;
-  sortable?: boolean;
   hidden?: boolean;
-  width?: string;
+  width?: string | number;
   className?: string;
   render: (row: RecordType, index: number) => ReactNode;
   sticky?: 'start' | 'end';
@@ -25,10 +24,11 @@ export interface TableProps<RecordType extends object> {
   columns: Array<TableColumn<RecordType>>;
   loading?: boolean;
   className?: string;
+  rowClassName?: string;
   surface?: Surface;
   isActive?: RowFunction<RecordType, boolean>;
   onClick?: RowFunction<RecordType>;
-  onMouseEnter?: RowFunction<RecordType>;
-  onMouseLeave?: RowFunction<RecordType>;
   rowHeight: number;
+  rowHoverPrefix?: RowFunction<RecordType, ReactNode>;
+  rowHoverSuffix?: RowFunction<RecordType, ReactNode>;
 }

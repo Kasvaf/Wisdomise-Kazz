@@ -18,18 +18,28 @@ export function Table<RecordType extends object>({
   loading,
   surface,
   rowHeight,
+  onClick,
+  isActive,
+  rowHoverPrefix,
+  rowHoverSuffix,
+  rowClassName,
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
 
   const colors = useSurface(surface ?? 2);
 
   const tds = useMemo(
-    () => columns.filter(col => !col.hidden) ?? [],
+    () =>
+      (columns.filter(col => !col.hidden) ?? []).map(td => ({
+        ...td,
+        width:
+          typeof td.width === 'number' ? `${td.width}px` : td.width ?? 'auto',
+      })),
     [columns],
   );
   const ths = useMemo(
     () =>
-      tds.some(col => !!col.title || !!col.info || col.sortable) &&
+      tds.some(col => !!col.title || !!col.info) &&
       !loading &&
       dataSource.length > 0
         ? tds.map(th => ({
@@ -56,6 +66,7 @@ export function Table<RecordType extends object>({
         return {
           index,
           key,
+          data,
           tds: tds.map(td => ({
             ...td,
             content: td.render(data, index),
@@ -84,18 +95,26 @@ export function Table<RecordType extends object>({
         {ths.length > 0 && (
           <thead>
             <tr>
-              {ths.map(th => (
+              {rowHoverPrefix && (
+                <th data-sticky="start" style={{ width: '0px' }} />
+              )}
+              {ths.map((th, index, self) => (
                 <th
                   key={th.key}
                   style={{
                     width: th.width,
                   }}
+                  data-first-child={index === 0}
+                  data-last-child={index === self.length - 1}
                   data-align={th.align ?? 'start'}
                   data-sticky={th.sticky ?? 'none'}
                 >
                   <div>{th.content}</div>
                 </th>
               ))}
+              {rowHoverSuffix && (
+                <th data-sticky="end" style={{ width: '0px' }} />
+              )}
             </tr>
           </thead>
         )}
@@ -128,18 +147,39 @@ export function Table<RecordType extends object>({
               {trs.slice(...chunk.range).map(tr => (
                 <tr
                   key={tr.key}
-                  data-key={tr.key}
                   style={{ height: `${rowHeight}px` }}
+                  data-key={tr.key}
+                  data-clickable={
+                    typeof onClick === 'function' ? 'true' : 'false'
+                  }
+                  data-active={isActive?.(tr.data, tr.index) ? 'true' : 'false'}
+                  onClick={() => onClick?.(tr.data, tr.index)}
+                  className={rowClassName}
                 >
-                  {tr.tds.map(td => (
+                  {rowHoverPrefix && (
+                    <td data-sticky="start" style={{ width: '0px' }} data-hover>
+                      <div>{rowHoverPrefix(tr.data, tr.index)}</div>
+                    </td>
+                  )}
+                  {tr.tds.map((td, index, self) => (
                     <td
                       key={td.key}
+                      style={{
+                        width: td.width,
+                      }}
+                      data-first-child={index === 0}
+                      data-last-child={index === self.length - 1}
                       data-align={td.align ?? 'start'}
                       data-sticky={td.sticky ?? 'none'}
                     >
                       <div>{td.content}</div>
                     </td>
                   ))}
+                  {rowHoverSuffix && (
+                    <td data-sticky="end" style={{ width: '0px' }} data-hover>
+                      <div>{rowHoverSuffix(tr.data, tr.index)}</div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </TableSection>
