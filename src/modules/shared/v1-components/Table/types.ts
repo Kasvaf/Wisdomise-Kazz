@@ -20,7 +20,7 @@ export type RowFunction<RecordType extends object, ReturnType = void> = (
 
 export interface TableProps<RecordType extends object> {
   dataSource: RecordType[];
-  rowKey: RowFunction<RecordType, string>;
+  rowKey: RowFunction<RecordType, string | number>;
   columns: Array<TableColumn<RecordType>>;
   loading?: boolean;
   className?: string;
