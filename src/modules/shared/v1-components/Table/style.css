@@ -1,0 +1,77 @@
+.wsdm-table {
+  @apply relative w-full max-w-full overflow-x-auto overflow-y-visible rounded-lg mobile:overflow-x-hidden;
+  scrollbar-width: none;
+
+  table {
+    @apply w-max min-w-full table-fixed border-separate border-spacing-x-0 border-spacing-y-2 text-sm mobile:max-w-full;
+
+    &:has(thead) {
+      @apply -mt-2;
+    }
+  }
+
+  tr {
+    @apply relative rounded-lg bg-[--current-color];
+
+    &[data-placeholder] {
+      @apply bg-transparent;
+    }
+  }
+
+  tr td,
+  tr th {
+    @apply relative overflow-hidden bg-[--current-color] p-0;
+
+    &:first-child {
+      @apply rounded-s-lg;
+
+      & > div {
+        @apply ps-3;
+      }
+    }
+
+    &:last-child {
+      @apply rounded-e-lg;
+
+      & > div {
+        @apply pe-3;
+      }
+    }
+
+    & > div {
+      @apply flex size-full max-h-full items-center px-3 mobile:px-0;
+    }
+
+    &[data-align='center'] > div {
+      @apply justify-center;
+    }
+
+    &[data-align='start'] > div {
+      @apply justify-start;
+    }
+
+    &[data-align='end'] > div {
+      @apply justify-end;
+    }
+
+    &[data-sticky='start'] {
+      @apply sticky start-0 z-10 bg-gradient-to-r from-[--current-color] via-[--current-color] to-transparent;
+    }
+
+    &[data-sticky='end'] {
+      @apply sticky end-0 z-10 bg-gradient-to-l from-[--current-color] via-[--current-color] to-transparent;
+    }
+  }
+
+  tr th {
+    @apply whitespace-nowrap text-sm font-light;
+
+    & > div {
+      @apply gap-1 py-2 text-v1-content-primary/60;
+
+      & > [data-info] {
+        @apply size-4;
+      }
+    }
+  }
+}
