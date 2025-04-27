@@ -11,6 +11,7 @@ import PriceChange from 'shared/PriceChange';
 import logo from 'shared/ShareTools/images/logo.png';
 import SharingModal from 'shared/ShareTools/SharingModal';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
+import { formatNumber } from 'utils/numbers';
 import autoTrader from './images/auto-trader.png';
 import spaceship from './images/spaceship.png';
 import gradient1 from './images/gradient-1.png';
@@ -34,7 +35,10 @@ export default function PositionSharingModal({
   const initialQuote = initialQuoteAsset(position);
   const el = useRef<HTMLDivElement>(null);
 
-  const { data: lastPrice } = useLastPriceQuery({ slug: position.base_slug });
+  const { data: lastPrice } = useLastPriceQuery({
+    slug: position.base_slug,
+    quote: position.quote_slug,
+  });
 
   return (
     <SharingModal
@@ -109,11 +113,24 @@ export default function PositionSharingModal({
                 )}
                 <div className="flex justify-between gap-3">
                   <span>Entry Price</span>
-                  <span>{position.entry_price}</span>
+                  <span>
+                    {position.entry_price} {position.quote_name}
+                  </span>
                 </div>
                 <div className="flex justify-between gap-3">
-                  <span>Exit Price</span>
-                  <span>{position.exit_price ?? lastPrice?.toFixed(3)}</span>
+                  <span>
+                    {position.exit_price ? 'Exit Price' : 'Current Price'}
+                  </span>
+                  <span>
+                    {position.exit_price ??
+                      formatNumber(lastPrice ?? 0, {
+                        compactInteger: false,
+                        seperateByComma: false,
+                        decimalLength: 3,
+                        minifyDecimalRepeats: false,
+                      })}{' '}
+                    {position.quote_name}
+                  </span>
                 </div>
               </div>
             </div>
