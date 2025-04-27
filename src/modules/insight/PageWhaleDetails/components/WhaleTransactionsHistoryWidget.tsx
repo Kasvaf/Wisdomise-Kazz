@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { type ReactNode, useEffect, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { useWhaleTransactions, type WhaleTransaction } from 'api';
@@ -9,6 +9,7 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
 import { ReadableDate } from 'shared/ReadableDate';
 import { type Coin as CoinType } from 'api/types/shared';
+import Spinner from 'shared/Spinner';
 
 export function WhaleTransactionsHistoryWidget({
   className,
@@ -16,12 +17,14 @@ export function WhaleTransactionsHistoryWidget({
   networkName,
   coin,
   hr,
+  emptyContent,
 }: {
   className?: string;
   holderAddress: string;
   networkName: string;
   coin?: CoinType;
   hr?: boolean;
+  emptyContent?: ReactNode;
 }) {
   const { t } = useTranslation('whale');
 
@@ -120,7 +123,8 @@ export function WhaleTransactionsHistoryWidget({
     [t],
   );
 
-  if (transactions.data?.results.length === 0) return null;
+  if (transactions.data?.results.length === 0)
+    return emptyContent ? <>{emptyContent}</> : null;
 
   return (
     <>
@@ -134,25 +138,31 @@ export function WhaleTransactionsHistoryWidget({
           )}
           {t('whale_transaction_history.title')}
         </div>
-        <AccessShield
-          mode="table"
-          sizes={{
-            guest: false,
-            initial: false,
-            free: false,
-            vip: false,
-          }}
-        >
-          <Table
-            columns={columns}
-            dataSource={transactions.data?.results ?? []}
-            rowKey={row => JSON.stringify(row)}
-            tableLayout="fixed"
-            className="whitespace-nowrap"
-            loading={transactions.isLoading}
-            {...tableProps}
-          />
-        </AccessShield>
+        {transactions.isLoading ? (
+          <div className="flex items-center justify-center p-4">
+            <Spinner className="size-10" />
+          </div>
+        ) : (
+          <AccessShield
+            mode="table"
+            sizes={{
+              guest: false,
+              initial: false,
+              free: false,
+              vip: false,
+            }}
+          >
+            <Table
+              columns={columns}
+              dataSource={transactions.data?.results ?? []}
+              rowKey={row => JSON.stringify(row)}
+              tableLayout="fixed"
+              className="whitespace-nowrap"
+              loading={transactions.isLoading}
+              {...tableProps}
+            />
+          </AccessShield>
+        )}
       </div>
       {hr && <hr className="border-white/10" />}
     </>

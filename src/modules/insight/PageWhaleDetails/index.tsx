@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Modal } from 'antd';
+import { t } from 'i18next';
 import useIsMobile from 'utils/useIsMobile';
 import { type Coin } from 'api/types/shared';
 import InsightPageWrapper from '../InsightPageWrapper';
@@ -85,8 +86,12 @@ export default function PageWhaleDetails() {
         <WhaleTransactionsHistoryWidget
           holderAddress={holderAddress}
           networkName={networkName}
-          hr
           coin={selectedCoinTrx}
+          emptyContent={
+            <div className="p-4 text-v1-content-secondary">
+              {t('common:nothing-to-show')}
+            </div>
+          }
         />
       </Modal>
     </InsightPageWrapper>
