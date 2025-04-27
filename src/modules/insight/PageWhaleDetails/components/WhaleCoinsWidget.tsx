@@ -2,7 +2,8 @@
 import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
-import { bxGridAlt, bxTransferAlt } from 'boxicons-quasar';
+import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { type SingleWhale, useWhaleDetails, type WhaleAssetLabel } from 'api';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -17,6 +18,8 @@ import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { CoinLabels } from 'shared/CoinLabels';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { type Coin as CoinType } from 'api/types/shared';
+import useIsMobile from 'utils/useIsMobile';
+import { Checkbox } from 'shared/v1-components/Checkbox';
 
 const HOLDING_LABELS: WhaleAssetLabel[] = [
   'dust',
@@ -39,9 +42,11 @@ export function WhaleCoinsWidget({
   hr?: boolean;
   onSelect?: (coin: CoinType) => void;
 }) {
+  const isMobile = useIsMobile();
   const { t } = useTranslation('whale');
-
+  const [hoveredRow, setHoveredRow] = useState<number>();
   const [label, setLabel] = useState<WhaleAssetLabel | undefined>(undefined);
+  const [showDusts, setShowDusts] = useState(false);
   const whale = useWhaleDetails({
     holderAddress,
     networkName,
@@ -53,6 +58,9 @@ export function WhaleCoinsWidget({
         title: t('whale_coins.name'),
         fixed: 'left',
         render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
+      },
+      {
+        render: (_, row) => row.label ?? '---',
       },
       {
         colSpan: type === 'trading' ? 1 : 0,
@@ -116,9 +124,13 @@ export function WhaleCoinsWidget({
       },
       {
         colSpan: type === 'trading' ? 1 : 0,
-        title: t('whale_coins.avg_sold'),
+        title: t('whale_coins.remaining'),
         render: (_, row) => (
-          <ReadableNumber value={row.recent_avg_sold} label="$" popup="never" />
+          <ReadableNumber
+            value={row.remaining_percent}
+            label="%"
+            popup="never"
+          />
         ),
       },
       {
@@ -146,24 +158,36 @@ export function WhaleCoinsWidget({
         ),
       },
       {
-        colSpan: typeof onSelect === 'function' ? 1 : 0,
-        title: '',
-        render: (_, row) => (
-          <div className="flex items-center justify-end whitespace-nowrap">
-            <Button
-              size="xs"
-              variant="outline"
-              surface={4}
-              onClick={() => onSelect?.(row.symbol)}
-            >
-              <Icon name={bxTransferAlt} />
-              {t('whale_coins.view_transactions')}
-            </Button>
-          </div>
+        colSpan: typeof onSelect === 'function' && !isMobile ? 1 : 0,
+        fixed: 'right',
+        width: 1,
+        render: (_, row, index) => (
+          <Tooltip
+            open={index === hoveredRow && typeof onSelect === 'function'}
+            rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-inner]:!p-0"
+            placement="top"
+            title={
+              <Button
+                className="absolute -bottom-7 -right-2 mobile:right-8"
+                variant="primary"
+                size="xs"
+                fab
+                onClick={async () => {
+                  onSelect?.(row.symbol);
+                }}
+              >
+                <Icon
+                  name={bxDotsHorizontalRounded}
+                  size={6}
+                  strokeWidth={0.4}
+                />
+              </Button>
+            }
+          />
         ),
       },
     ],
-    [onSelect, t, type],
+    [hoveredRow, isMobile, onSelect, t, type],
   );
 
   const data =
@@ -175,6 +199,12 @@ export function WhaleCoinsWidget({
           : !HOLDING_LABELS.includes(x.label)),
     ) ?? [];
 
+  const filteredData = data.filter(row => {
+    if (type === 'holding' && !showDusts && row.label === 'dust') return false;
+
+    return !label || label === row.label;
+  });
+
   if (whale.isLoading || data?.length === 0) return null;
 
   return (
@@ -185,7 +215,7 @@ export function WhaleCoinsWidget({
             ? t('whale_coins.trading_title')
             : t('whale_coins.holding_title')}
         </h3>
-        <div className="mb-4 flex items-center gap-3">
+        <div className="mb-4 flex max-w-full items-center gap-2 overflow-auto">
           <Button
             variant={label ? 'ghost' : 'primary'}
             onClick={() => setLabel(undefined)}
@@ -196,69 +226,88 @@ export function WhaleCoinsWidget({
             {t('common:all')}
           </Button>
           <div className="h-4 w-px bg-white/10" />
-          <ButtonSelect
-            value={label}
-            variant="primary"
-            onChange={setLabel}
-            size="md"
-            surface={2}
-            options={
-              type === 'trading'
-                ? [
-                    {
-                      label: 'Active Trade',
-                      value: 'trading',
-                    },
-                    {
-                      label: 'New Investments',
-                      value: 'new_investment',
-                    },
-                    {
-                      label: 'Exit Portfolios',
-                      value: 'exit_portfolio',
-                    },
-                    {
-                      label: 'Load',
-                      value: 'loading',
-                    },
-                    {
-                      label: 'Unload',
-                      value: 'unloading',
-                    },
-                  ]
-                : [
-                    {
-                      label: 'Holdings',
-                      value: 'holding',
-                    },
-                    {
-                      label: 'Stable Coins',
-                      value: 'stable',
-                    },
-                    {
-                      label: 'Low Worth Coins (Dusts)',
-                      value: 'dust',
-                    },
-                  ]
-            }
-          />
+          <div className="flex w-full items-center justify-between gap-2">
+            <ButtonSelect
+              value={label}
+              variant="primary"
+              onChange={setLabel}
+              size="md"
+              surface={2}
+              innerScroll={false}
+              options={
+                type === 'trading'
+                  ? [
+                      {
+                        label: 'Active Trade',
+                        value: 'trading',
+                      },
+                      {
+                        label: 'New Investments',
+                        value: 'new_investment',
+                      },
+                      {
+                        label: 'Exit Portfolios',
+                        value: 'exit_portfolio',
+                      },
+                      {
+                        label: 'Load',
+                        value: 'loading',
+                      },
+                      {
+                        label: 'Unload',
+                        value: 'unloading',
+                      },
+                    ]
+                  : [
+                      {
+                        label: 'Holdings',
+                        value: 'holding',
+                      },
+                      {
+                        label: 'Stable Coins',
+                        value: 'stable',
+                      },
+                    ]
+              }
+            />
+            {type === 'holding' && (
+              <Checkbox
+                value={showDusts}
+                onChange={setShowDusts}
+                label="Show Low Worth Coins (Dusts)"
+                size="lg"
+                className="whitespace-nowrap"
+                block
+              />
+            )}
+          </div>
         </div>
-        <AccessShield
-          mode="table"
-          sizes={{
-            guest: false,
-            initial: false,
-            free: false,
-            vip: false,
-          }}
-        >
-          <Table
-            columns={columns}
-            dataSource={data.filter(row => label === row.label || !label)}
-            rowKey={row => JSON.stringify(row.symbol)}
-            loading={whale.isLoading}
-          />
-        </AccessShield>
+        {filteredData.length === 0 ? (
+          <p className="p-3 text-center text-sm text-v1-content-secondary">
+            {t('common:nothing-to-show')}
+          </p>
+        ) : (
+          <AccessShield
+            mode="table"
+            sizes={{
+              guest: false,
+              initial: false,
+              free: false,
+              vip: false,
+            }}
+          >
+            <Table
+              columns={columns}
+              dataSource={filteredData}
+              rowKey={row => JSON.stringify(row.symbol)}
+              loading={whale.isLoading}
+              onRow={(_, index) => ({
+                onMouseEnter: () => setHoveredRow(index),
+                onMouseLeave: () => setHoveredRow(undefined),
+              })}
+            />
+          </AccessShield>
+        )}
       </div>
       {hr && <hr className="border-white/10" />}
     </>

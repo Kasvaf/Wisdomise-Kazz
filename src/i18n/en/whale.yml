@@ -104,6 +104,7 @@ whale_coins:
   name: Name
   avg_cost: Avg Cost
   avg_sold: Avg Sold
+  remaining: Remaining
   badge: Badge
   balance: Balance
   chg_30d: Chg (30D)
@@ -114,7 +115,6 @@ whale_coins:
   number_of_transactions: TRX
   total_profit: Total Profit
   trading_title: Active Coins and Tokens
-  view_transactions: View Transactions
 whale_historical_pnl:
   title: Historical PNL Chart
   last_30_trading_pnl: Last 30 Days Trading PnL
