@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC } from 'react';
 import { clsx } from 'clsx';
-import { bxlTwitter, bxsCopy } from 'boxicons-quasar';
+import { bxsCopy } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
 import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
@@ -15,7 +15,9 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { useCommunityData } from '../hooks/useCommunityData';
+import { ReactComponent as TwitterIcon } from '../hooks/useCommunityData/x.svg';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export const CoinTitleWidget: FC<{
@@ -103,19 +105,25 @@ export const CoinTitleWidget: FC<{
                   {socials.length > 0 && (
                     <div className="flex flex-nowrap items-center gap-1">
                       {socials.map(social => (
-                        <a
+                        <HoverTooltip
+                          disabled={!social.preview}
                           key={social.href}
-                          href={social.href}
-                          className={clsx(
-                            'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/70 transition-all hover:brightness-110 active:brightness-90',
-                            'size-[18px] shrink-0 justify-center',
-                            '[&_svg]:size-[12px]',
-                          )}
-                          target="_blank"
-                          rel="noreferrer"
+                          title={social.preview}
                         >
-                          {social.icon}
-                        </a>
+                          <a
+                            key={social.href}
+                            href={social.href}
+                            className={clsx(
+                              'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/70 transition-all hover:brightness-110 active:brightness-90',
+                              'size-[18px] shrink-0 justify-center',
+                              '[&_svg]:size-[10px]',
+                            )}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {social.icon}
+                          </a>
+                        </HoverTooltip>
                       ))}
                     </div>
                   )}
@@ -127,12 +135,12 @@ export const CoinTitleWidget: FC<{
                     className={clsx(
                       'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
                       'h-[18px] shrink-0 justify-center',
-                      '[&_svg]:size-[12px]',
+                      '[&_svg]:size-[10px]',
                     )}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <Icon name={bxlTwitter} />
+                    <TwitterIcon />
                     {'Search'}
                   </a>
 
