@@ -29,6 +29,15 @@
 
       --current-color: var(--next-color);
     }
+
+    &[data-skeleton='true'] div {
+      &::after {
+        @apply absolute left-[-150%] top-0 h-full w-[150%] bg-gradient-to-r from-transparent via-[--next-color] to-transparent;
+        animation: wsdm-table-shimmer 1.5s infinite;
+        content: '';
+        pointer-events: none;
+      }
+    }
   }
 
   tr td,
@@ -52,7 +61,7 @@
     }
 
     & > div {
-      @apply flex size-full max-h-full items-center px-3 mobile:px-0;
+      @apply flex size-full max-h-full items-center px-3 py-2 mobile:px-0;
     }
 
     &[data-align='center'] > div {
@@ -114,5 +123,14 @@
         @apply size-4;
       }
     }
+  }
+}
+
+@keyframes wsdm-table-shimmer {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 100%;
   }
 }

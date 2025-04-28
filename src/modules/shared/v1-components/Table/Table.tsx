@@ -3,12 +3,15 @@ import { useMemo, useRef } from 'react';
 import { useSurface } from 'utils/useSurface';
 import './style.css';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import useIsMobile from 'utils/useIsMobile';
 import { type TableProps } from './types';
 import { ReactComponent as InfoIcon } from './info.svg';
 import { TableSection } from './TableSection';
 import { useChunks } from './useChunks';
-import { LoadingSpinner } from './LoadingSpinner';
 import { EmptyContent } from './EmptyContent';
+import { SkeletonTrs } from './SkeletonTrs';
+
+const CHUNK_SIZE = 32;
 
 export function Table<RecordType extends object>({
   columns,
@@ -17,7 +20,6 @@ export function Table<RecordType extends object>({
   className,
   loading,
   surface,
-  rowHeight,
   onClick,
   isActive,
   rowHoverPrefix,
@@ -25,8 +27,11 @@ export function Table<RecordType extends object>({
   rowClassName,
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
-  const colors = useSurface(surface ?? 2);
+  const rowHeight = isMobile ? 54 : 68;
+
+  const colors = useSurface(surface ?? 3);
 
   const tds = useMemo(
     () =>
@@ -38,11 +43,27 @@ export function Table<RecordType extends object>({
       })),
     [columns],
   );
+
+  const trs = useMemo(
+    () =>
+      (dataSource ?? []).map((data, index) => {
+        const key = rowKey?.(data, index) ?? JSON.stringify(data);
+        return {
+          index,
+          key,
+          data,
+          tds: tds.map(td => ({
+            ...td,
+            content: td.render(data, index),
+          })),
+        };
+      }),
+    [dataSource, rowKey, tds],
+  );
+
   const ths = useMemo(
     () =>
-      tds.some(col => !!col.title || !!col.info) &&
-      !loading &&
-      dataSource.length > 0
+      tds.some(col => !!col.title || !!col.info) && !loading && trs.length > 0
         ? tds.map(th => ({
             ...th,
             content: (
@@ -57,28 +78,11 @@ export function Table<RecordType extends object>({
             ),
           }))
         : [],
-    [dataSource.length, loading, tds],
-  );
-
-  const trs = useMemo(
-    () =>
-      (dataSource ?? []).map((data, index) => {
-        const key = rowKey(data, index);
-        return {
-          index,
-          key,
-          data,
-          tds: tds.map(td => ({
-            ...td,
-            content: td.render(data, index),
-          })),
-        };
-      }),
-    [dataSource, rowKey, tds],
+    [trs, loading, tds],
   );
 
   const chunks = useChunks({
-    chunkSize: 32,
+    chunkSize: CHUNK_SIZE,
     totalRows: trs.length,
   });
 
@@ -121,13 +125,7 @@ export function Table<RecordType extends object>({
         )}
         {loading ? (
           <tbody>
-            <tr data-placeholder>
-              <td colSpan={99} data-align="center">
-                <div>
-                  <LoadingSpinner />
-                </div>
-              </td>
-            </tr>
+            <SkeletonTrs length={CHUNK_SIZE} rowHeight={rowHeight} />
           </tbody>
         ) : trs.length === 0 ? (
           <tbody>
@@ -143,12 +141,11 @@ export function Table<RecordType extends object>({
           chunks.map(chunk => (
             <TableSection
               key={chunk.key}
-              style={{ height: `${chunk.size * (rowHeight + 8)}px` }}
+              optimisticStyle={{ height: `${chunk.size * (rowHeight + 8)}px` }}
             >
               {trs.slice(...chunk.range).map(tr => (
                 <tr
                   key={tr.key}
-                  style={{ height: `${rowHeight}px` }}
                   data-key={tr.key}
                   data-clickable={
                     typeof onClick === 'function' ? 'true' : 'false'

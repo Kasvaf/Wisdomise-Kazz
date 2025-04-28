@@ -19,8 +19,8 @@ export type RowFunction<RecordType extends object, ReturnType = void> = (
 ) => ReturnType;
 
 export interface TableProps<RecordType extends object> {
-  dataSource: RecordType[];
-  rowKey: RowFunction<RecordType, string | number>;
+  dataSource?: RecordType[];
+  rowKey?: RowFunction<RecordType, string | number>;
   columns: Array<TableColumn<RecordType>>;
   loading?: boolean;
   className?: string;
@@ -28,7 +28,6 @@ export interface TableProps<RecordType extends object> {
   surface?: Surface;
   isActive?: RowFunction<RecordType, boolean>;
   onClick?: RowFunction<RecordType>;
-  rowHeight: number;
   rowHoverPrefix?: RowFunction<RecordType, ReactNode>;
   rowHoverSuffix?: RowFunction<RecordType, ReactNode>;
 }

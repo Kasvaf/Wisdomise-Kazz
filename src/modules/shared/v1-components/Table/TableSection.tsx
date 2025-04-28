@@ -1,9 +1,16 @@
-import { useEffect, useRef, useState, type FC } from 'react';
+import {
+  type CSSProperties,
+  useEffect,
+  useRef,
+  useState,
+  type FC,
+} from 'react';
 
-export const TableSection: FC<Omit<JSX.IntrinsicElements['tbody'], 'ref'>> = ({
-  children,
-  ...props
-}) => {
+export const TableSection: FC<
+  Omit<JSX.IntrinsicElements['tbody'], 'ref'> & {
+    optimisticStyle?: CSSProperties;
+  }
+> = ({ children, style, optimisticStyle, ...props }) => {
   const element = useRef<HTMLTableSectionElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -31,7 +38,14 @@ export const TableSection: FC<Omit<JSX.IntrinsicElements['tbody'], 'ref'>> = ({
   }, []);
 
   return (
-    <tbody ref={element} {...props}>
+    <tbody
+      ref={element}
+      style={{
+        ...style,
+        ...(!visible && optimisticStyle),
+      }}
+      {...props}
+    >
       {visible ? children : null}
     </tbody>
   );
