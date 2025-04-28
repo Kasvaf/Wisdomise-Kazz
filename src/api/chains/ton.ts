@@ -49,9 +49,11 @@ const useJettonWalletAddress = (slug?: string) => {
 
       try {
         const [decimals, walletAddress] = await Promise.all([
-          ofetch(`${TON_API}/${netInfo.contract_address}`).then(
-            data => data.metadata.decimals,
-          ),
+          netInfo.decimals
+            ? Promise.resolve(netInfo.decimals)
+            : ofetch(`${TON_API}/${netInfo.contract_address}`).then(
+                data => data.metadata.decimals,
+              ),
 
           tonClient
             .runMethod(jettonMasterAddress, 'get_wallet_address', [

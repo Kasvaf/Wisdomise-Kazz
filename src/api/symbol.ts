@@ -11,6 +11,7 @@ interface SymbolNetwork {
   };
   contract_address: string;
   symbol_network_type: 'TOKEN' | 'COIN';
+  decimals: number;
 }
 
 interface CoinSymbol extends Coin {

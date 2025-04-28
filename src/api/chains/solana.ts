@@ -34,6 +34,12 @@ const useContractInfo = (slug?: string) => {
         };
       }
       if (!netInfo) return;
+      if (netInfo.decimals) {
+        return {
+          contract: netInfo.contract_address,
+          decimals: netInfo.decimals,
+        };
+      }
 
       const mintPublicKey = new PublicKey(netInfo.contract_address);
       const accountInfo = await connection.getParsedAccountInfo(mintPublicKey);
