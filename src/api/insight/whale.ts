@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
@@ -446,28 +446,34 @@ export const useWhaleTransactions = (config: {
   holderAddress: string;
   networkName: string;
   pageSize: number;
-  page: number;
+  // page: number;
 }) =>
-  useQuery({
+  useInfiniteQuery({
     queryKey: [
       'whale-transactions',
       config.slug,
       config.holderAddress,
       config.networkName,
-      config.page,
+      // config.page,
       config.pageSize,
     ],
-    queryFn: () =>
+    queryFn: ({ pageParam = 1 }) =>
       ofetch<PageResponse<WhaleTransaction>>('delphi/holders/transactions/', {
         query: {
           holder_address: config.holderAddress,
           network_name: config.networkName,
           slug: config.slug,
           page_size: config.pageSize,
-          page: config.page,
+          page: pageParam,
         },
         meta: { auth: false },
       }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.next) {
+        return allPages.length + 1;
+      }
+    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });

@@ -1,15 +1,16 @@
-import { type ReactNode, useEffect, useMemo } from 'react';
-import { type ColumnType } from 'antd/es/table';
+import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWhaleTransactions, type WhaleTransaction } from 'api';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import Table, { useTableState } from 'shared/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
 import { ReadableDate } from 'shared/ReadableDate';
 import { type Coin as CoinType } from 'api/types/shared';
-import Spinner from 'shared/Spinner';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { usePageState } from 'shared/usePageState';
+import { type Surface } from 'utils/useSurface';
+import { Button } from 'shared/v1-components/Button';
 
 export function WhaleTransactionsHistoryWidget({
   className,
@@ -18,6 +19,7 @@ export function WhaleTransactionsHistoryWidget({
   coin,
   hr,
   emptyContent,
+  surface = 2,
 }: {
   className?: string;
   holderAddress: string;
@@ -25,33 +27,29 @@ export function WhaleTransactionsHistoryWidget({
   coin?: CoinType;
   hr?: boolean;
   emptyContent?: ReactNode;
+  surface?: Surface;
 }) {
   const { t } = useTranslation('whale');
 
-  const [tableProps, tableState, setTableState] = useTableState<
-    Parameters<typeof useWhaleTransactions>[0]
-  >('transactions', {
-    holderAddress,
-    networkName,
-    page: 1,
-    pageSize: 10,
-    slug: coin?.slug,
-  });
+  const [tableState] = usePageState<Parameters<typeof useWhaleTransactions>[0]>(
+    'transactions',
+    {
+      holderAddress,
+      networkName,
+      pageSize: 10,
+      slug: coin?.slug,
+    },
+  );
 
   const transactions = useWhaleTransactions(tableState);
 
-  useEffect(() => {
-    setTableState({
-      total: transactions.data?.count ?? 0,
-    });
-  }, [transactions.data, setTableState]);
-
-  const columns = useMemo<Array<ColumnType<WhaleTransaction>>>(
+  const columns = useMemo<Array<TableColumn<WhaleTransaction>>>(
     () => [
       {
         title: t('whale_transaction_history.name'),
-        fixed: 'left',
-        render: (_, row) => (
+        sticky: 'start',
+        width: 220,
+        render: row => (
           <Coin
             coin={{
               slug: '',
@@ -65,29 +63,34 @@ export function WhaleTransactionsHistoryWidget({
       },
       {
         title: t('whale_transaction_history.transaction_type'),
-        render: (_, row) => <>{row.transaction_type}</>,
+        render: row => <>{row.transaction_type}</>,
+        width: 130,
       },
       {
         title: t('whale_transaction_history.amount'),
-        render: (_, row) => (
+        width: 130,
+        render: row => (
           <ReadableNumber value={row.amount} label="$" popup="never" />
         ),
       },
       {
         title: t('whale_transaction_history.price'),
-        render: (_, row) => (
+        width: 130,
+        render: row => (
           <ReadableNumber value={row.price} label="$" popup="never" />
         ),
       },
       {
         title: t('whale_transaction_history.worth'),
-        render: (_, row) => (
+        width: 130,
+        render: row => (
           <ReadableNumber value={row.worth} label="$" popup="never" />
         ),
       },
       {
         title: t('whale_transaction_history.date'),
-        render: (_, row) => (
+        width: 180,
+        render: row => (
           <ReadableDate
             value={row.related_at_datetime}
             format="ddd, MMM D, YYYY"
@@ -96,7 +99,8 @@ export function WhaleTransactionsHistoryWidget({
       },
       {
         title: t('whale_transaction_history.profit'),
-        render: (_, row) => (
+        width: 160,
+        render: row => (
           <DirectionalNumber
             value={row.profit}
             showIcon={false}
@@ -109,7 +113,7 @@ export function WhaleTransactionsHistoryWidget({
       },
       {
         title: t('whale_transaction_history.link'),
-        render: (_, row) => (
+        render: row => (
           <a
             href={row.link?.url}
             target="_blank"
@@ -123,7 +127,10 @@ export function WhaleTransactionsHistoryWidget({
     [t],
   );
 
-  if (transactions.data?.results.length === 0)
+  const allTransactions =
+    transactions.data?.pages.flatMap(page => page.results) ?? [];
+
+  if (allTransactions.length === 0)
     return emptyContent ? <>{emptyContent}</> : null;
 
   return (
@@ -138,31 +145,40 @@ export function WhaleTransactionsHistoryWidget({
           )}
           {t('whale_transaction_history.title')}
         </div>
-        {transactions.isLoading ? (
-          <div className="flex items-center justify-center p-4">
-            <Spinner className="size-10" />
-          </div>
-        ) : (
-          <AccessShield
-            mode="table"
-            sizes={{
-              guest: false,
-              initial: false,
-              free: false,
-              vip: false,
-            }}
-          >
-            <Table
-              columns={columns}
-              dataSource={transactions.data?.results ?? []}
-              rowKey={row => JSON.stringify(row)}
-              tableLayout="fixed"
-              className="whitespace-nowrap"
-              loading={transactions.isLoading}
-              {...tableProps}
-            />
-          </AccessShield>
-        )}
+        <AccessShield
+          mode="table"
+          sizes={{
+            guest: false,
+            initial: false,
+            free: false,
+            vip: false,
+          }}
+        >
+          <Table
+            columns={columns}
+            dataSource={allTransactions}
+            rowKey={(row, i) => `${row.related_at_datetime} ${i}`}
+            scrollable
+            loading={transactions.isLoading}
+            surface={surface}
+            chunkSize={10}
+            className="max-h-[540px]"
+            footer={
+              transactions.hasNextPage && (
+                <Button
+                  size="xs"
+                  onClick={() => transactions.fetchNextPage()}
+                  variant="link"
+                  loading={
+                    transactions.isFetchingNextPage || transactions.isLoading
+                  }
+                >
+                  {'Load More Transactions'}
+                </Button>
+              )
+            }
+          />
+        </AccessShield>
       </div>
       {hr && <hr className="border-white/10" />}
     </>

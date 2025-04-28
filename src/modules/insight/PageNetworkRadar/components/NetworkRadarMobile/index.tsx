@@ -1,10 +1,9 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import {
   type NetworkRadarNCoin,
   useNetworkRadarNCoins,
@@ -19,27 +18,19 @@ import { NCoinPreDetailModal } from '../NCoinPreDetailModal';
 
 export const NetworkRadarMobile = () => {
   const { t } = useTranslation('network-radar');
-  const [, tableState] = useTableState<
-    Required<Parameters<typeof useNetworkRadarNCoins>[0]>
-  >('', {
-    page: 1,
-    pageSize: 10,
-    networks: [],
-  });
 
   const [selectedRow, setSelectedRow] = useState<null | NetworkRadarNCoin>(
     null,
   );
   const [modal, setModal] = useState(false);
 
-  const nCoins = useNetworkRadarNCoins(tableState);
+  const nCoins = useNetworkRadarNCoins({});
   useLoadingBadge(nCoins.isFetching);
 
-  const columns = useMemo<Array<MobileTableColumn<NetworkRadarNCoin>>>(
+  const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
     () => [
       {
         key: 'rank',
-        className: 'max-w-10 min-w-2 text-start text-xs font-medium',
         render: row => row._rank,
       },
       {
@@ -56,20 +47,18 @@ export const NetworkRadarMobile = () => {
       },
       {
         key: 'age',
-        className: 'max-w-12 min-w-8',
         render: row => (
           <NCoinAge
             value={row.creation_datetime}
             imgClassName="size-3"
-            className="h-[25px] text-xxs"
+            className="mt-[3px] text-xxs"
           />
         ),
       },
       {
         key: 'market_data',
-        className: 'max-w-20',
         render: row => (
-          <div className="flex h-[25px] flex-col justify-between">
+          <div className="flex flex-col justify-between">
             <NCoinTradingVolume
               value={row}
               imgClassName="size-3"
@@ -100,6 +89,7 @@ export const NetworkRadarMobile = () => {
       },
       {
         key: 'security',
+        align: 'end',
         render: row => (
           <NCoinSecurity
             value={row}
@@ -127,12 +117,13 @@ export const NetworkRadarMobile = () => {
           vip: false,
         }}
       >
-        <MobileTable
+        <Table
           columns={columns}
           dataSource={nCoins.data ?? []}
-          rowKey={r => JSON.stringify(r.base_symbol.slug)}
+          rowKey={r => r.base_contract_address}
           loading={nCoins.isLoading}
           surface={2}
+          scrollable={false}
           onClick={r => {
             setSelectedRow(r);
             setModal(true);

@@ -3,19 +3,18 @@ import { useMemo, useRef } from 'react';
 import { useSurface } from 'utils/useSurface';
 import './style.css';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import useIsMobile from 'utils/useIsMobile';
 import { type TableProps } from './types';
 import { ReactComponent as InfoIcon } from './info.svg';
 import { TableSection } from './TableSection';
 import { useChunks } from './useChunks';
 import { EmptyContent } from './EmptyContent';
 import { SkeletonTrs } from './SkeletonTrs';
-
-const CHUNK_SIZE = 32;
+import { Sort, useSorted } from './Sort';
+import { useRowHeight } from './useRowHeight';
 
 export function Table<RecordType extends object>({
   columns,
-  dataSource,
+  dataSource: _dataSource,
   rowKey,
   className,
   loading,
@@ -25,13 +24,17 @@ export function Table<RecordType extends object>({
   rowHoverPrefix,
   rowHoverSuffix,
   rowClassName,
+  scrollable,
+  chunkSize = 48,
+  footer,
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
 
-  const rowHeight = isMobile ? 54 : 68;
+  const rowHeight = useRowHeight(root, 59.5);
 
   const colors = useSurface(surface ?? 3);
+
+  const [dataSource, sort, setSort] = useSorted(_dataSource ?? [], columns);
 
   const tds = useMemo(
     () =>
@@ -64,10 +67,15 @@ export function Table<RecordType extends object>({
   const ths = useMemo(
     () =>
       tds.some(col => !!col.title || !!col.info) && !loading && trs.length > 0
-        ? tds.map(th => ({
+        ? tds.map((th, index) => ({
             ...th,
             content: (
               <>
+                {typeof th.sorter === 'function' && (
+                  <Sort
+                    value={sort.index === index ? sort.order ?? 'none' : 'none'}
+                  />
+                )}
                 {th.title}
                 {th.info && (
                   <HoverTooltip title={th.info}>
@@ -78,11 +86,11 @@ export function Table<RecordType extends object>({
             ),
           }))
         : [],
-    [trs, loading, tds],
+    [tds, loading, trs.length, sort.index, sort.order],
   );
 
   const chunks = useChunks({
-    chunkSize: CHUNK_SIZE,
+    chunkSize,
     totalRows: trs.length,
   });
 
@@ -94,6 +102,7 @@ export function Table<RecordType extends object>({
         ['--next-color' as never]: colors.next,
         ['--later-color' as never]: colors.later,
       }}
+      data-scrollable={scrollable ? 'true' : 'false'}
       ref={root}
     >
       <table>
@@ -110,13 +119,29 @@ export function Table<RecordType extends object>({
                     width: th.width,
                   }}
                   data-first-child={index === 0}
-                  data-last-child={index === self.length - 1}
+                  data-last-child={
+                    !scrollable && index === self.length - 1 ? 'true' : 'false'
+                  }
                   data-align={th.align ?? 'start'}
                   data-sticky={th.sticky ?? 'none'}
+                  data-clickable={typeof th.sorter === 'function'}
                 >
-                  <div>{th.content}</div>
+                  <div
+                    onClick={() =>
+                      typeof th.sorter === 'function'
+                        ? setSort(index)
+                        : undefined
+                    }
+                  >
+                    {th.content}
+                  </div>
                 </th>
               ))}
+              {scrollable && (
+                <td style={{ width: 'auto' }} data-last-child="true">
+                  <div />
+                </td>
+              )}
               {rowHoverSuffix && (
                 <th data-sticky="end" style={{ width: '0px' }} />
               )}
@@ -125,7 +150,7 @@ export function Table<RecordType extends object>({
         )}
         {loading ? (
           <tbody>
-            <SkeletonTrs length={CHUNK_SIZE} rowHeight={rowHeight} />
+            <SkeletonTrs length={chunkSize} rowHeight={rowHeight} />
           </tbody>
         ) : trs.length === 0 ? (
           <tbody>
@@ -138,10 +163,13 @@ export function Table<RecordType extends object>({
             </tr>
           </tbody>
         ) : (
-          chunks.map(chunk => (
+          chunks.map((chunk, index) => (
             <TableSection
               key={chunk.key}
-              optimisticStyle={{ height: `${chunk.size * (rowHeight + 8)}px` }}
+              optimisticStyle={{
+                height: `${chunk.size * (rowHeight + 8)}px`,
+              }}
+              alwaysVisible={index === 0}
             >
               {trs.slice(...chunk.range).map(tr => (
                 <tr
@@ -166,13 +194,22 @@ export function Table<RecordType extends object>({
                         width: td.width,
                       }}
                       data-first-child={index === 0}
-                      data-last-child={index === self.length - 1}
+                      data-last-child={
+                        !scrollable && index === self.length - 1
+                          ? 'true'
+                          : 'false'
+                      }
                       data-align={td.align ?? 'start'}
                       data-sticky={td.sticky ?? 'none'}
                     >
                       <div>{td.content}</div>
                     </td>
                   ))}
+                  {scrollable && (
+                    <td style={{ width: 'auto' }} data-last-child="true">
+                      <div />
+                    </td>
+                  )}
                   {rowHoverSuffix && (
                     <td data-sticky="end" style={{ width: '0px' }} data-hover>
                       <div>{rowHoverSuffix(tr.data, tr.index)}</div>
@@ -182,6 +219,20 @@ export function Table<RecordType extends object>({
               ))}
             </TableSection>
           ))
+        )}
+        {footer && (
+          <tfoot>
+            <tr data-placeholder="true">
+              <td
+                data-align="center"
+                colSpan={99}
+                data-first-child="true"
+                data-last-child="true"
+              >
+                {footer}
+              </td>
+            </tr>
+          </tfoot>
         )}
       </table>
     </div>

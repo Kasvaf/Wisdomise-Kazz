@@ -1,8 +1,7 @@
 /* eslint-disable import/max-dependencies */
-import { Fragment, useMemo } from 'react';
-import { type ColumnType } from 'antd/es/table';
+import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import Table from 'shared/Table';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
 import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
 import { AccessShield } from 'shared/AccessShield';
@@ -34,43 +33,43 @@ export function CoinRadarTable({ className }: { className?: string }) {
     networks: network ? [network] : [],
   });
   useLoadingBadge(coins.isFetching);
-  const columns = useMemo<Array<ColumnType<CoinRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [
       {
-        fixed: 'left',
         title: t('table.rank'),
         key: 'rank',
-        render: (_, row) => (
+        render: row => (
           <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
-        width: 50,
+        width: 64,
       },
       {
         title: t('table.name'),
-        render: (_, row) => <Coin coin={row.symbol} />,
-        width: 200,
+        sticky: 'start',
+        render: row => <Coin coin={row.symbol} />,
+        width: 220,
       },
       {
-        colSpan: hasFlag('/coin-radar/social-radar?side-suggestion') ? 1 : 0,
+        hidden: !hasFlag('/coin-radar/social-radar?side-suggestion'),
         key: 'social_radar_sentiment',
-        title: [
-          <span key="1" className="flex items-center gap-1">
+        title: (
+          <span className="flex items-center gap-1">
             <DebugPin
               title="/coin-radar/social-radar?side-suggestion"
               color="orange"
             />
             <SocialRadarIcon className="inline-block size-4 grayscale" />
             {t('table.social_radar_sentiment')}
-          </span>,
-          <Fragment key="2">
-            <Trans
-              ns="coin-radar"
-              i18nKey="coin-radar:social-radar.table.sentiment.info"
-            />
-          </Fragment>,
-        ],
-        width: 310,
-        render: (_, row) =>
+          </span>
+        ),
+        info: (
+          <Trans
+            ns="coin-radar"
+            i18nKey="coin-radar:social-radar.table.sentiment.info"
+          />
+        ),
+        width: 250,
+        render: row =>
           row.social_radar_insight ? (
             <SocialRadarSentiment
               value={row.social_radar_insight}
@@ -82,15 +81,15 @@ export function CoinRadarTable({ className }: { className?: string }) {
       },
       {
         key: 'technical_radar_sentiment',
-        title: [
-          <span key="1" className="flex items-center gap-1">
+        title: (
+          <span className="flex items-center gap-1">
             <TechnicalRadarIcon className="inline-block size-4 grayscale" />
             {t('table.technical_radar_sentiment')}
-          </span>,
-          <ConfirmationBadgesInfo key="2" />,
-        ],
-        width: 310,
-        render: (_, row) =>
+          </span>
+        ),
+        info: <ConfirmationBadgesInfo key="2" />,
+        width: 270,
+        render: row =>
           row.technical_radar_insight ? (
             <TechnicalRadarSentiment
               value={row.technical_radar_insight}
@@ -102,8 +101,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
       },
       {
         title: t('table.labels'),
-        className: 'min-h-16 min-w-72',
-        render: (_, row) => (
+        render: row => (
           <CoinLabels
             categories={row.symbol.categories}
             labels={row.symbol_labels}
@@ -139,22 +137,18 @@ export function CoinRadarTable({ className }: { className?: string }) {
           />
         </>
       }
-      loading={coins.isLoading}
-      empty={(coins.data ?? [])?.length === 0}
       className="min-h-[500px]"
     >
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           columns={columns}
           dataSource={coins.data?.slice(0, 10)}
-          rowKey={r => JSON.stringify(r.symbol)}
-          pagination={{
-            pageSize: 99,
-            hideOnSinglePage: true,
-          }}
-          surface={2}
-          tableLayout="fixed"
+          chunkSize={10}
+          rowKey={(r, i) => `${r.symbol.slug} ${i}`}
+          surface={3}
           className={className}
+          scrollable
+          loading={coins.isLoading}
         />
       </AccessShield>
     </OverviewWidget>

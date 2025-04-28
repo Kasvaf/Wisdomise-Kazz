@@ -91,6 +91,7 @@ export default function PageWhaleDetails() {
               {t('common:nothing-to-show')}
             </div>
           }
+          surface={3}
         />
       </Modal>
     </InsightPageWrapper>

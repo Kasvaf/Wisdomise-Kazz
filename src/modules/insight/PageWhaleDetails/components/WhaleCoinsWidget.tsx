@@ -1,13 +1,11 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
-import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';
-import { Tooltip } from 'antd';
 import { type SingleWhale, useWhaleDetails, type WhaleAssetLabel } from 'api';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import Table from 'shared/Table';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
@@ -18,7 +16,6 @@ import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { CoinLabels } from 'shared/CoinLabels';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { type Coin as CoinType } from 'api/types/shared';
-import useIsMobile from 'utils/useIsMobile';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 
 const HOLDING_LABELS: WhaleAssetLabel[] = [
@@ -42,9 +39,7 @@ export function WhaleCoinsWidget({
   hr?: boolean;
   onSelect?: (coin: CoinType) => void;
 }) {
-  const isMobile = useIsMobile();
   const { t } = useTranslation('whale');
-  const [hoveredRow, setHoveredRow] = useState<number>();
   const [label, setLabel] = useState<WhaleAssetLabel | undefined>(undefined);
   const [showDusts, setShowDusts] = useState(false);
   const whale = useWhaleDetails({
@@ -52,44 +47,44 @@ export function WhaleCoinsWidget({
     networkName,
   });
 
-  const columns = useMemo<Array<ColumnType<SingleWhale['assets'][number]>>>(
+  const columns = useMemo<Array<TableColumn<SingleWhale['assets'][number]>>>(
     () => [
       {
         title: t('whale_coins.name'),
-        fixed: 'left',
-        render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
+        sticky: 'start',
+        render: row => <Coin coin={row.symbol} imageClassName="size-6" />,
       },
       {
-        colSpan: type === 'trading' ? 1 : 0,
+        hidden: type === 'holding',
         title: t('whale_coins.avg_cost'),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber value={row.recent_avg_cost} label="$" popup="never" />
         ),
       },
       {
-        colSpan: type === 'holding' ? 1 : 0,
+        hidden: type === 'trading',
         title: t('whale_coins.info'),
-        render: (_, row) => <CoinPriceInfo marketData={row.market_data} />,
+        render: row => <CoinPriceInfo marketData={row.market_data} />,
       },
       {
-        colSpan: type === 'trading' ? 1 : 0,
+        hidden: type === 'holding',
         title: t('whale_coins.badge'),
-        render: (_, row) => <WhaleAssetBadge value={row.label} />,
+        render: row => <WhaleAssetBadge value={row.label} />,
       },
       {
         title: t('whale_coins.market_cap'),
-        render: (_, row) => <CoinMarketCap marketData={row.market_data} />,
+        render: row => <CoinMarketCap marketData={row.market_data} />,
       },
       {
-        colSpan: type === 'trading' ? 1 : 0,
+        hidden: type === 'holding',
         title: t('whale_coins.avg_sold'),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber value={row.recent_avg_sold} label="$" popup="never" />
         ),
       },
       {
         title: t('whale_coins.total_profit'),
-        render: (_, row) => (
+        render: row => (
           <div className="flex gap-1">
             <ReadableNumber
               value={row.total_profit_last_ndays}
@@ -109,20 +104,21 @@ export function WhaleCoinsWidget({
       },
       {
         title: t('whale_coins.number_of_transactions'),
-        render: (_, row) => (
+        width: 70,
+        render: row => (
           <ReadableNumber value={row.total_recent_transfers} popup="never" />
         ),
       },
       {
         title: t('whale_coins.balance'),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber value={row.worth} label="$" popup="never" />
         ),
       },
       {
-        colSpan: type === 'trading' ? 1 : 0,
+        hidden: type === 'holding',
         title: t('whale_coins.remaining'),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber
             value={row.remaining_percent}
             label="%"
@@ -131,9 +127,9 @@ export function WhaleCoinsWidget({
         ),
       },
       {
-        colSpan: type === 'holding' ? 1 : 0,
+        hidden: type === 'trading',
         title: t('whale_coins.chg_30d'),
-        render: (_, row) => (
+        render: row => (
           <DirectionalNumber
             value={row.last_30_days_price_change}
             label="%"
@@ -143,8 +139,7 @@ export function WhaleCoinsWidget({
       },
       {
         title: t('whale_coins.labels'),
-        className: 'min-h-16 min-w-72',
-        render: (_, row) => (
+        render: row => (
           <CoinLabels
             categories={row.symbol.categories}
             labels={row.symbol_labels}
@@ -154,37 +149,8 @@ export function WhaleCoinsWidget({
           />
         ),
       },
-      {
-        colSpan: typeof onSelect === 'function' && !isMobile ? 1 : 0,
-        fixed: 'right',
-        width: 1,
-        render: (_, row, index) => (
-          <Tooltip
-            open={index === hoveredRow && typeof onSelect === 'function'}
-            rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-inner]:!p-0"
-            placement="top"
-            title={
-              <Button
-                className="absolute -bottom-7 -right-2 mobile:right-8"
-                variant="primary"
-                size="xs"
-                fab
-                onClick={async () => {
-                  onSelect?.(row.symbol);
-                }}
-              >
-                <Icon
-                  name={bxDotsHorizontalRounded}
-                  size={6}
-                  strokeWidth={0.4}
-                />
-              </Button>
-            }
-          />
-        ),
-      },
     ],
-    [hoveredRow, isMobile, onSelect, t, type],
+    [t, type],
   );
 
   const data =
@@ -298,10 +264,29 @@ export function WhaleCoinsWidget({
               dataSource={filteredData}
               rowKey={row => JSON.stringify(row.symbol)}
               loading={whale.isLoading}
-              onRow={(_, index) => ({
-                onMouseEnter: () => setHoveredRow(index),
-                onMouseLeave: () => setHoveredRow(undefined),
-              })}
+              scrollable
+              surface={2}
+              className="max-h-[540px] overflow-y-auto"
+              rowHoverSuffix={
+                typeof onSelect === 'function'
+                  ? row => (
+                      <Button
+                        variant="primary"
+                        size="xs"
+                        fab
+                        onClick={async () => {
+                          onSelect?.(row.symbol);
+                        }}
+                      >
+                        <Icon
+                          name={bxDotsHorizontalRounded}
+                          size={6}
+                          strokeWidth={0.4}
+                        />
+                      </Button>
+                    )
+                  : undefined
+              }
             />
           </AccessShield>
         )}

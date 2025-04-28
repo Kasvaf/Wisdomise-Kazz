@@ -1,9 +1,8 @@
 import { type ReactNode, useMemo } from 'react';
-import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
+
 import { OverviewWidget } from 'shared/OverviewWidget';
-import Table, { useTableState } from 'shared/Table';
 import { useHasFlag, useWhaleRadarWhales, type WhaleShort } from 'api';
 import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
 import { Network } from 'shared/Network';
@@ -15,6 +14,8 @@ import { DebugPin } from 'shared/DebugPin';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { usePageState } from 'shared/usePageState';
 
 export function WhaleRadarWhalesWidget({
   className,
@@ -26,11 +27,9 @@ export function WhaleRadarWhalesWidget({
   const { t } = useTranslation('whale');
   const hasFlag = useHasFlag();
 
-  const [tableProps, tableState, setTableState] = useTableState<
+  const [tableState, setTableState] = usePageState<
     Parameters<typeof useWhaleRadarWhales>[0]
   >('whales', {
-    page: 1,
-    pageSize: 5,
     networkNames: [],
     query: '',
   });
@@ -38,12 +37,13 @@ export function WhaleRadarWhalesWidget({
   const whales = useWhaleRadarWhales(tableState);
   useLoadingBadge(whales.isFetching);
 
-  const columns = useMemo<Array<ColumnType<WhaleShort>>>(
+  const columns = useMemo<Array<TableColumn<WhaleShort>>>(
     () => [
       {
         title: t('top_whales.address'),
-        fixed: 'left',
-        render: (_, row) => (
+        sticky: 'start',
+        width: 180,
+        render: row => (
           <Wallet
             wallet={{
               address: row.holder_address,
@@ -54,7 +54,8 @@ export function WhaleRadarWhalesWidget({
       },
       {
         title: t('top_whales.network'),
-        render: (_, row) => (
+        width: 100,
+        render: row => (
           <Network
             network={{
               name: row.network_name,
@@ -65,21 +66,22 @@ export function WhaleRadarWhalesWidget({
         ),
       },
       {
-        title: [t('top_whales.balance.title'), t('top_whales.balance.info')],
-        align: 'right',
-        dataIndex: 'balance_usdt',
-        sorter: true,
-        render: (_, row) => (
+        title: t('top_whales.balance.title'),
+        info: t('top_whales.balance.info'),
+        width: 120,
+        align: 'end',
+        key: 'balance_usdt',
+        sorter: (a, b) => (a.balance_usdt ?? 0) - (b.balance_usdt ?? 0),
+        render: row => (
           <ReadableNumber label="$" value={row.balance_usdt} popup="never" />
         ),
       },
       {
-        title: [
-          t('top_whales.trading_volume.title'),
-          t('top_whales.trading_volume.info'),
-        ],
-        align: 'right',
-        render: (_, row) => (
+        title: t('top_whales.trading_volume.title'),
+        info: t('top_whales.trading_volume.info'),
+        width: 150,
+        align: 'end',
+        render: row => (
           <ReadableNumber
             label="$"
             value={row.recent_trading_volume}
@@ -89,22 +91,24 @@ export function WhaleRadarWhalesWidget({
       },
       {
         title: t('top_whales.tokens'),
-        align: 'right',
-        render: (_, row) => <Coins coins={row.top_assets.map(r => r.symbol)} />,
+        align: 'end',
+        width: 100,
+        render: row => <Coins coins={row.top_assets.map(r => r.symbol)} />,
       },
       {
-        title: [
+        title: (
           <>
             <DebugPin title="?trading_pnl" color="orange" />
             {t('top_whales.trading_pnl.title')}
-          </>,
-          t('top_whales.trading_pnl.info'),
-        ],
-        colSpan: hasFlag('?trading_pnl') ? 1 : 0,
-        align: 'right',
-        dataIndex: 'recent_trading_pnl',
-        sorter: true,
-        render: (_, row) => (
+          </>
+        ),
+        width: 150,
+        info: t('top_whales.trading_pnl.info'),
+        hidden: !hasFlag('?trading_pnl'),
+        align: 'end',
+        sorter: (a, b) =>
+          (a.recent_trading_pnl ?? 0) - (b.recent_trading_pnl ?? 0),
+        render: row => (
           <DirectionalNumber
             value={row.recent_trading_pnl}
             label="$"
@@ -113,18 +117,20 @@ export function WhaleRadarWhalesWidget({
         ),
       },
       {
-        title: [
+        title: (
           <>
             <DebugPin title="?trading_pnl" color="orange" />
             {t('top_whales.returns.title')}
-          </>,
-          t('top_whales.returns.info'),
-        ],
-        align: 'right',
-        dataIndex: 'recent_trading_pnl_percentage',
-        colSpan: hasFlag('?trading_pnl') ? 1 : 0,
-        sorter: true,
-        render: (_, row) => (
+          </>
+        ),
+        width: 150,
+        info: t('top_whales.returns.info'),
+        align: 'end',
+        sorter: (a, b) =>
+          (a.recent_trading_pnl_percentage ?? 0) -
+          (b.recent_trading_pnl_percentage ?? 0),
+        hidden: !hasFlag('?trading_pnl'),
+        render: row => (
           <DirectionalNumber
             value={row.recent_trading_pnl_percentage}
             label="%"
@@ -139,9 +145,10 @@ export function WhaleRadarWhalesWidget({
             {t('top_whales.wins_losses')}
           </>
         ),
-        align: 'right',
-        colSpan: hasFlag('?win_lose') ? 1 : 0,
-        render: (_, row) => (
+        width: 100,
+        align: 'end',
+        hidden: !hasFlag('?win_lose'),
+        render: row => (
           <div>
             <ReadableNumber value={row.recent_trading_wins ?? 0} />
             <span>/</span>
@@ -151,8 +158,8 @@ export function WhaleRadarWhalesWidget({
       },
       {
         title: t('top_whales.buy_sell'),
-        align: 'right',
-        render: (_, row) => (
+        align: 'end',
+        render: row => (
           <div>
             <ReadableNumber
               value={row.recent_total_buys}
@@ -168,8 +175,8 @@ export function WhaleRadarWhalesWidget({
       },
       {
         title: t('top_whales.trading_holding'),
-        align: 'right',
-        render: (_, row) => (
+        align: 'end',
+        render: row => (
           <div>
             <ReadableNumber value={row.total_trading_assets ?? 0} />
             <span>/</span>
@@ -178,12 +185,10 @@ export function WhaleRadarWhalesWidget({
         ),
       },
       {
-        title: [
-          t('top_whales.trades_per_day.title'),
-          t('top_whales.trades_per_day.info'),
-        ],
-        align: 'right',
-        render: (_, row) => (
+        title: t('top_whales.trades_per_day.title'),
+        info: t('top_whales.trades_per_day.info'),
+        align: 'end',
+        render: row => (
           <ReadableNumber
             value={row?.recent_average_trades_per_day}
             popup="never"
@@ -196,9 +201,11 @@ export function WhaleRadarWhalesWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[427px] mobile:min-h-[647px]', className)}
+      className={clsx(
+        'max-h-[700px] min-h-[427px] mobile:min-h-[647px]',
+        className,
+      )}
       title={<>{t('top_whales.title')}</>}
-      loading={whales.isLoading}
       empty={whales.data?.length === 0}
       headerClassName="flex-wrap"
       headerActions={
@@ -224,7 +231,6 @@ export function WhaleRadarWhalesWidget({
                 onChange={networkNames => {
                   setTableState({
                     networkNames,
-                    page: 1,
                   });
                 }}
                 tooltipPlacement="bottomRight"
@@ -246,8 +252,9 @@ export function WhaleRadarWhalesWidget({
         <Table
           columns={columns}
           dataSource={whales.data ?? []}
-          rowKey="holder_address"
-          {...tableProps}
+          rowKey={r => r.holder_address}
+          loading={whales.isLoading}
+          scrollable
         />
       </AccessShield>
     </OverviewWidget>

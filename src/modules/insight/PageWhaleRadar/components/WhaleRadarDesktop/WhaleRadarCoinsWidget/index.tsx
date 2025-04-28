@@ -1,9 +1,8 @@
 import { type ReactNode, useMemo } from 'react';
-import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
+
 import { OverviewWidget } from 'shared/OverviewWidget';
-import Table, { useTableState } from 'shared/Table';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
@@ -13,6 +12,8 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { RadarFilter } from 'modules/insight/RadarFilter';
+import { type TableColumn, Table } from 'shared/v1-components/Table';
+import { usePageState } from 'shared/usePageState';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
@@ -27,11 +28,9 @@ export function WhaleRadarCoinsWidget({
   headerActions?: ReactNode;
 }) {
   const { t } = useTranslation('whale');
-  const [tableProps, tableState, setTableState] = useTableState<
+  const [tableState, setTableState] = usePageState<
     Parameters<typeof useWhaleRadarCoins>[0]
   >('coins', {
-    page: 1,
-    pageSize: 10,
     sortBy: 'rank',
     sortOrder: 'ascending',
     days: 7,
@@ -46,20 +45,23 @@ export function WhaleRadarCoinsWidget({
   const coins = useWhaleRadarCoins(tableState);
   useLoadingBadge(coins.isFetching);
 
-  const columns = useMemo<Array<ColumnType<WhaleRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
     () => [
       {
         title: t('top_coins.rank'),
-        fixed: 'left',
-        render: (_, row) => row.rank,
+        render: row => row.rank,
+        width: 64,
       },
       {
         title: t('top_coins.name'),
-        render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
+        sticky: 'start',
+        render: row => <Coin coin={row.symbol} imageClassName="size-6" />,
+        width: 220,
       },
       {
         title: t('top_coins.wallet_number'),
-        render: (_, row) => (
+        width: 130,
+        render: row => (
           <WhaleRadarSentiment
             value={row}
             coin={row.symbol}
@@ -71,34 +73,29 @@ export function WhaleRadarCoinsWidget({
       {
         title: t('top_coins.market_cap'),
         width: 140,
-        render: (_, row) => <CoinMarketCap marketData={row.data} />,
+        render: row => <CoinMarketCap marketData={row.data} />,
       },
       {
-        title: [
-          t('top_coins.buy_volume.title'),
-          t('top_coins.buy_volume.info'),
-        ],
+        title: t('top_coins.buy_volume.title'),
+        info: t('top_coins.buy_volume.info'),
         width: 240,
-        render: (_, row) => <CoinPriceInfo marketData={row.data} />,
+        render: row => <CoinPriceInfo marketData={row.data} />,
       },
       {
-        title: [
-          t('top_coins.buy_volume.title'),
-          t('top_coins.buy_volume.info'),
-        ],
-        render: (_, row) => <WhaleCoinBuySellInfo value={row} type="buy" />,
+        title: t('top_coins.buy_volume.title'),
+        info: t('top_coins.buy_volume.info'),
+        width: 170,
+        render: row => <WhaleCoinBuySellInfo value={row} type="buy" />,
       },
       {
-        title: [
-          t('top_coins.sell_volume.title'),
-          t('top_coins.sell_volume.info'),
-        ],
-        render: (_, row) => <WhaleCoinBuySellInfo value={row} type="sell" />,
+        title: t('top_coins.sell_volume.title'),
+        info: t('top_coins.sell_volume.info'),
+        width: 170,
+        render: row => <WhaleCoinBuySellInfo value={row} type="sell" />,
       },
       {
         title: t('top_coins.labels'),
-        className: 'min-h-16 min-w-72',
-        render: (_, row) => (
+        render: row => (
           <CoinLabels
             categories={row.symbol.categories}
             labels={row.symbol_labels}
@@ -114,7 +111,10 @@ export function WhaleRadarCoinsWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[610px] shrink-0 mobile:min-h-[670px]', className)}
+      className={clsx(
+        'max-h-[700px] min-h-[610px] shrink-0 mobile:min-h-[670px]',
+        className,
+      )}
       title={
         <>
           <WhaleRadarIcon className="size-6" />
@@ -122,7 +122,6 @@ export function WhaleRadarCoinsWidget({
           <Realtime />
         </>
       }
-      loading={coins.isLoading}
       empty={coins.data?.length === 0}
       headerClassName="flex-wrap"
       headerActions={
@@ -159,9 +158,10 @@ export function WhaleRadarCoinsWidget({
       >
         <Table
           columns={columns}
+          loading={coins.isLoading}
           dataSource={coins.data ?? []}
-          rowKey={r => JSON.stringify(r.symbol)}
-          {...tableProps}
+          rowKey={r => r.symbol.slug}
+          scrollable
         />
       </AccessShield>
     </OverviewWidget>

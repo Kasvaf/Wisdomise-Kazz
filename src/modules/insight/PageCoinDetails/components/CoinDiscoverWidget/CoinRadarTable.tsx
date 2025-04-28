@@ -1,9 +1,9 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
@@ -17,23 +17,23 @@ export const CoinRadarTable: FC<{
     networks,
   });
 
-  const columns = useMemo<Array<MobileTableColumn<CoinRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => (
           <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
       },
       {
         key: 'coin',
+        width: 64,
         render: row => (
           <Coin
             coin={row.symbol}
             imageClassName="size-7"
             className="text-sm"
-            truncate={60}
+            truncate={64}
             nonLink={true}
             abbrevationSuffix={
               <DirectionalNumber
@@ -54,8 +54,9 @@ export const CoinRadarTable: FC<{
       },
       {
         key: 'sentiment',
+        align: 'end',
         render: row => (
-          <div className="flex justify-end gap-2">
+          <div className="flex shrink-0 origin-right scale-75 justify-end gap-2">
             {row.social_radar_insight && (
               <SocialRadarSentiment
                 value={row.social_radar_insight}
@@ -77,15 +78,16 @@ export const CoinRadarTable: FC<{
 
   const { slug } = useParams<{ slug: string }>();
   return (
-    <MobileTable
+    <Table
       className="max-w-full"
       columns={columns}
       dataSource={coins.data ?? []}
-      rowKey={r => JSON.stringify(r.symbol)}
+      rowKey={r => r.symbol.slug}
       loading={coins.isLoading}
       surface={2}
       isActive={row => row.symbol.slug === slug}
       onClick={onClick}
+      scrollable={false}
     />
   );
 };
