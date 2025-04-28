@@ -4,19 +4,19 @@ import {
   useSupportedNetworks,
   useSupportedPairs,
 } from 'api';
-import { type AutoTraderSupportedQuotes, useAccountBalance } from 'api/chains';
+import { useAccountBalance } from 'api/chains';
 import { useSymbolInfo, useSymbolsInfo } from 'api/symbol';
 
 const useSwapState = () => {
   const [base, setBase] = useState<string>();
-  const [quote, setQuote] = useState<AutoTraderSupportedQuotes>('tether');
-
+  const [quote, setQuote] = useState('tether');
   const [dir, setDir] = useState<'buy' | 'sell'>('buy');
-  const { data: baseInfo } = useSymbolInfo(base);
-  const { data: quoteInfo } = useSymbolInfo(quote);
-  const [isMarketPrice, setIsMarketPrice] = useState(true);
   const [quoteAmount, setQuoteAmount] = useState('100');
   const [baseAmount, setBaseAmount] = useState('100');
+  const [isMarketPrice, setIsMarketPrice] = useState(true);
+
+  const { data: baseInfo } = useSymbolInfo(base);
+  const { data: quoteInfo } = useSymbolInfo(quote);
   const networks = useSupportedNetworks(base, quote);
   const selectedNet = networks?.[0] ?? 'solana';
 
@@ -24,7 +24,7 @@ const useSwapState = () => {
   const firstQuote = pairs?.[0]?.quote?.slug;
   useEffect(() => {
     if (firstQuote) {
-      setQuote(firstQuote as AutoTraderSupportedQuotes);
+      setQuote(firstQuote);
     }
   }, [firstQuote]);
   const supportedQuotes = useSymbolsInfo(pairs?.map(x => x.quote.slug));
@@ -51,7 +51,7 @@ const useSwapState = () => {
 
   const quoteFields = {
     balance: quoteBalance,
-    coin: quote as string,
+    coin: quote,
     coinInfo: quoteInfo,
     setCoin: setQuote,
     useCoinList: useCallback(() => supportedQuotes, [supportedQuotes]),
@@ -78,6 +78,16 @@ const useSwapState = () => {
 
   const from = dir === 'buy' ? quoteFields : baseFields;
   const to = dir === 'buy' ? baseFields : quoteFields;
+
+  // make sure amount is always less than balance
+  const fb = from.balance;
+  const fa = +from.amount;
+  const setFa = from.setAmount;
+  useEffect(() => {
+    if (fb != null && fa > fb) {
+      setFa(String(fb));
+    }
+  }, [fa, fb, setFa]);
 
   return {
     selectedNet,

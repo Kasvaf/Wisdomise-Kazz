@@ -2,16 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
+import { v4 } from 'uuid';
 import {
   useTraderCancelPositionMutation,
   useTraderFirePositionMutation,
   type CreatePositionRequest,
 } from 'api';
-import {
-  type AutoTraderSupportedQuotes,
-  useActiveWallet,
-  useTransferAssetsMutation,
-} from 'api/chains';
+import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
@@ -29,10 +26,7 @@ const useActionHandlers = (state: SwapState) => {
 
     dir,
 
-    // isMarketPrice,
-    // setIsMarketPrice,
-    // toPrice,
-    // setToPrice,
+    isMarketPrice,
   } = state;
   const { address } = useActiveWallet();
   const navigate = useNavigate();
@@ -42,10 +36,7 @@ const useActionHandlers = (state: SwapState) => {
     useTraderFirePositionMutation();
   const [isFiring, setIsFiring] = useState(false);
 
-  const transferAssetsHandler = useTransferAssetsMutation(
-    from.coin as AutoTraderSupportedQuotes,
-    // TODO: this function doesn't support base slugs yet
-  );
+  const transferAssetsHandler = useTransferAssetsMutation(from.coin);
 
   const [ModalApproval, showModalApproval] = useModalApproval();
   const firePosition = async () => {
@@ -54,6 +45,11 @@ const useActionHandlers = (state: SwapState) => {
     const createData: CreatePositionRequest = {
       network,
       mode: dir === 'buy' ? 'BUY_AND_HOLD' : 'SELL_AND_HOLD',
+      // one of following:
+      ...(dir === 'buy'
+        ? { quote_amount: quoteAmount }
+        : { base_amount: baseAmount }),
+
       signal: {
         action: 'open',
         pair_slug: base + '/' + quote,
@@ -63,15 +59,45 @@ const useActionHandlers = (state: SwapState) => {
           order_expires_at: parseDur('1h'),
           suggested_action_expires_at: parseDur('1h'),
         },
-        take_profit: { items: [] },
+        take_profit: {
+          items:
+            dir === 'sell'
+              ? [
+                  {
+                    // sell order
+                    key: v4(),
+                    amount_ratio: 1, // always 1
+                    price_exact: isMarketPrice ? 0 : +quoteAmount / +baseAmount, // happens when price >= 123
+                  },
+                ]
+              : [], // buy = hold -> no take-profit
+        },
         stop_loss: { items: [] },
-        open_orders: { items: [] },
+        open_orders: {
+          items: [
+            dir === 'buy'
+              ? {
+                  key: v4(),
+                  condition: isMarketPrice
+                    ? { type: 'true' }
+                    : {
+                        type: 'compare',
+                        left: 'price',
+                        op: '<=',
+                        right: 100,
+                      },
+                  amount: 1, // buy all at once
+                }
+              : {
+                  // sell
+                  key: v4(),
+                  condition: { type: 'true' },
+                  amount: 0, // no open
+                },
+          ],
+        },
       },
       withdraw_address: address,
-      quote_slug: quote,
-      quote_amount: quoteAmount,
-      base_slug: base,
-      base_amount: baseAmount,
     } as const;
     if (!(await showModalApproval(state, createData))) return;
 

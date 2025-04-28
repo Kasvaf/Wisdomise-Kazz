@@ -119,7 +119,7 @@ export const useAccountAllQuotesBalance = () => {
   };
 };
 
-export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
+export const useTransferAssetsMutation = (quote?: string) => {
   const net = useActiveNetwork();
   const transferTonAssets = useTonTransferAssetsMutation(
     net === 'solana' ? quote : undefined,

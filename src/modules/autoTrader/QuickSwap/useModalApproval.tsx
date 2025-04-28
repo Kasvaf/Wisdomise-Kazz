@@ -76,7 +76,7 @@ const ModalApproval: React.FC<{
         <div className="my-2 border border-white/5" />
 
         {to.coinInfo && <Coin nonLink coin={to.coinInfo} />}
-        <InfoLine label="Initial Deposit (Send)">
+        <InfoLine label="Estimated Amount (Receive)">
           <div className="font-medium">
             {to.amount} {to?.coinInfo?.abbreviation}
           </div>
