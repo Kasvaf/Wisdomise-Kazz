@@ -15,7 +15,6 @@ const useSwapState = () => {
   const { data: baseInfo } = useSymbolInfo(base);
   const { data: quoteInfo } = useSymbolInfo(quote);
   const [isMarketPrice, setIsMarketPrice] = useState(true);
-  const [toPrice, setToPrice] = useState('5');
   const [quoteAmount, setQuoteAmount] = useState('100');
   const [baseAmount, setBaseAmount] = useState('100');
   const networks = useSupportedNetworks(base, quote);
@@ -31,6 +30,7 @@ const useSwapState = () => {
   const supportedQuotes = useSymbolsInfo(pairs?.map(x => x.quote.slug));
 
   const { data: quoteBalance } = useAccountBalance(quote, selectedNet);
+  const { data: baseBalance } = useAccountBalance(base, selectedNet);
 
   const { data: basePriceByQuote } = useLastPriceQuery({
     slug: base,
@@ -55,6 +55,7 @@ const useSwapState = () => {
     coinInfo: quoteInfo,
     setCoin: setQuote,
     useCoinList: useCallback(() => supportedQuotes, [supportedQuotes]),
+
     amount: quoteAmount,
     setAmount: setQuoteAmount,
     price: quotePrice,
@@ -63,11 +64,12 @@ const useSwapState = () => {
   };
 
   const baseFields = {
-    balance: 0, // TODO: read base's balance too, once we have contract addresses
+    balance: baseBalance,
     coin: base,
     coinInfo: baseInfo,
     setCoin: undefined,
     useCoinList: undefined,
+
     amount: baseAmount,
     setAmount: setBaseAmount,
     price: basePrice,
@@ -90,15 +92,13 @@ const useSwapState = () => {
     baseAmount,
 
     dir,
-    swapFromTo: useCallback(
-      () => setDir(dir => (dir === 'buy' ? 'sell' : 'buy')),
-      [],
-    ),
+    swapFromTo: useCallback(() => {
+      setDir(dir => (dir === 'buy' ? 'sell' : 'buy'));
+      setIsMarketPrice(true);
+    }, []),
 
     isMarketPrice,
     setIsMarketPrice,
-    toPrice,
-    setToPrice,
   };
 };
 

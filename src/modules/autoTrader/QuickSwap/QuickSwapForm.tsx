@@ -22,17 +22,18 @@ const QuickSwapForm: React.FC<{
 }> = ({ state }) => {
   const {
     selectedNet,
+    dir,
     from,
     to,
     swapFromTo,
     isMarketPrice,
     setIsMarketPrice,
-    toPrice,
-    setToPrice,
   } = state;
   const selectedNetAbr = NET_ABR[selectedNet];
   const { ModalApproval, firePosition, isEnabled, isSubmitting } =
     useActionHandlers(state);
+  const targetReady = from.priceByOther !== undefined;
+  const marketToAmount = +from.amount * Number(from.priceByOther);
 
   return (
     <div className="flex flex-col">
@@ -115,11 +116,7 @@ const QuickSwapForm: React.FC<{
               {isMarketPrice ? (
                 <div className="text-2xl leading-none">
                   {/* Total assets in Quote */}
-                  {to.priceByOther ? (
-                    roundSensible(+to.amount / to.priceByOther)
-                  ) : (
-                    <Spin />
-                  )}
+                  {targetReady ? roundSensible(marketToAmount) : <Spin />}
                 </div>
               ) : (
                 <AmountInputBox
@@ -132,8 +129,8 @@ const QuickSwapForm: React.FC<{
               )}
               <div className="text-xs">
                 {/* Total assets in Dollar */}
-                {to.price && to.priceByOther ? (
-                  '$' + roundSensible((to.price * +to.amount) / to.priceByOther)
+                {to.price && targetReady ? (
+                  '$' + roundSensible(marketToAmount * to.price)
                 ) : (
                   <Spin />
                 )}
@@ -144,10 +141,14 @@ const QuickSwapForm: React.FC<{
           <div className="my-3 w-full border-t border-v1-surface-l4" />
           <div className="flex items-center justify-between">
             <div className="text-v1-content-secondary">
-              {to.priceByOther ? (
+              {from.priceByOther && to.amount && from.amount ? (
                 <>
                   1 {from.coinInfo?.abbreviation} ≈{' '}
-                  {roundSensible(1 / to.priceByOther)}{' '}
+                  {roundSensible(
+                    isMarketPrice
+                      ? from.priceByOther
+                      : +to.amount / +from.amount,
+                  )}{' '}
                   {to.coinInfo?.abbreviation}
                 </>
               ) : (
@@ -159,7 +160,12 @@ const QuickSwapForm: React.FC<{
               Market Price
               <Toggle
                 checked={isMarketPrice}
-                onChange={setIsMarketPrice}
+                onChange={v => {
+                  setIsMarketPrice(v);
+                  if (!v && targetReady) {
+                    to.setAmount(roundSensible(marketToAmount));
+                  }
+                }}
                 variant="brand"
               />
             </div>
@@ -169,12 +175,23 @@ const QuickSwapForm: React.FC<{
             <>
               <div className="my-3 w-full border-t border-v1-surface-l4" />
               <div className="text-v1-content-secondary">
-                % Under the Market Price (Stop Market)
+                % {+to.amount < marketToAmount ? 'Under' : 'Over'} the Market
+                Price (Stop Market)
               </div>
               <AmountInputBox
-                value={toPrice}
-                onChange={setToPrice}
-                suffix="%"
+                value={String(
+                  Math.round(
+                    10_000 * Math.abs(+to.amount / marketToAmount - 1),
+                  ) / 100,
+                )}
+                onChange={newVal =>
+                  to.setAmount(
+                    roundSensible(
+                      (((dir === 'buy' ? -1 : 1) * +newVal) / 100 + 1) *
+                        marketToAmount,
+                    ),
+                  )
+                }
               />
             </>
           )}
