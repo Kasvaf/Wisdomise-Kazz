@@ -7,6 +7,7 @@ import {
 } from '@tonconnect/ui-react';
 import { Address, beginCell, TonClient } from '@ton/ton';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { ofetch } from 'ofetch';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 import { fromBigMoney, toBigMoney } from 'utils/money';
@@ -18,15 +19,13 @@ const tonClient = new TonClient({
   endpoint: `${String(import.meta.env.VITE_TONCENTER_BASE_URL)}/api/v2/jsonRPC`,
 });
 
-export const USDT_DECIMAL = Number(import.meta.env.VITE_USDT_DECIMAL);
-export const USDT_CONTRACT_ADDRESS = String(
-  import.meta.env.VITE_USDT_CONTRACT_ADDRESS,
-);
 export const WSDM_CONTRACT_ADDRESS = String(
   import.meta.env.VITE_WSDM_CONTRACT_ADDRESS,
 );
 
 export type AutoTraderTonSupportedQuotes = 'tether' | 'the-open-network';
+
+const TON_API = 'https://tonapi.io/v2/jettons';
 
 const useJettonWalletAddress = (slug?: string) => {
   const address = useTonAddress();
@@ -50,17 +49,9 @@ const useJettonWalletAddress = (slug?: string) => {
 
       try {
         const [decimals, walletAddress] = await Promise.all([
-          tonClient
-            .runMethod(jettonMasterAddress, 'get_jetton_data')
-            .then(({ stack }) => {
-              // stack: total_supply, mintable, admin_address, content, jetton_wallet_code, decimals
-              stack.readBigNumber(); // total_supply
-              stack.readBoolean(); // mintable
-              stack.readAddress(); // admin_address
-              stack.readCell(); // content
-              stack.readCell(); // jetton_wallet_code
-              return Number(stack.readNumber()); // decimals
-            }),
+          ofetch(`${TON_API}/${netInfo.contract_address}`).then(
+            data => data.metadata.decimals,
+          ),
 
           tonClient
             .runMethod(jettonMasterAddress, 'get_wallet_address', [
