@@ -7,6 +7,7 @@ import { ReactComponent as FacebookIcon } from './facebook.svg';
 import { ReactComponent as RedditIcon } from './reddit.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
 import { ReactComponent as TwitterIcon } from './x.svg';
+import { ReactComponent as TwitterPostIcon } from './x_post.svg';
 
 function extractTwitterInfo(twitterScreenerName: string): {
   type: 'profile' | 'post' | 'other';
@@ -61,18 +62,18 @@ export const useCommunityData = (
         {
           type: 'social',
           name: isPost ? 'twitter-post' : 'twitter-profile',
-          icon: <TwitterIcon />,
+          icon: isPost ? <TwitterPostIcon /> : <TwitterIcon />,
           preview: isPost ? (
-            <div className="relative h-52 w-96">
+            <>
               {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
               <iframe
                 title="twitter-preview"
                 src={`https://platform.twitter.com/embed/Tweet.html?dnt=false&frame=false&hideCard=true&hideThread=true&id=${
                   twitterInfo?.value ?? '0'
                 }&lang=en&&theme=dark&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=350px`}
-                className="absolute left-0 top-0 h-full w-full"
+                className="h-64 w-[450px]"
               />
-            </div>
+            </>
           ) : null,
           label: t('coin-details.tabs.coin_links.twitter'),
           href: `https://x.com/${value.links?.twitter_screen_name}`,

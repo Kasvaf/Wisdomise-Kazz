@@ -3,6 +3,7 @@ import { type FC } from 'react';
 import { clsx } from 'clsx';
 import { bxsCopy } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from 'antd';
 import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
 import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
 import { useCoinDetails, useNCoinDetails } from 'api';
@@ -15,7 +16,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { HoverTooltip } from 'shared/HoverTooltip';
 import { useCommunityData } from '../hooks/useCommunityData';
 import { ReactComponent as TwitterIcon } from '../hooks/useCommunityData/x.svg';
 import { PriceAlertButton } from './PriceAlertButton';
@@ -105,16 +105,18 @@ export const CoinTitleWidget: FC<{
                   {socials.length > 0 && (
                     <div className="flex flex-nowrap items-center gap-1">
                       {socials.map(social => (
-                        <HoverTooltip
-                          disabled={!social.preview}
+                        <Tooltip
+                          open={social.preview ? undefined : false}
                           key={social.href}
                           title={social.preview}
+                          rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-arrow]:hidden"
+                          placement="bottom"
                         >
                           <a
                             key={social.href}
                             href={social.href}
                             className={clsx(
-                              'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/70 transition-all hover:brightness-110 active:brightness-90',
+                              'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/60 transition-all hover:brightness-110 active:brightness-90',
                               'size-[18px] shrink-0 justify-center',
                               '[&_svg]:size-[10px]',
                             )}
@@ -123,7 +125,7 @@ export const CoinTitleWidget: FC<{
                           >
                             {social.icon}
                           </a>
-                        </HoverTooltip>
+                        </Tooltip>
                       ))}
                     </div>
                   )}
@@ -133,7 +135,7 @@ export const CoinTitleWidget: FC<{
                       ...contactAddresses,
                     ].join('%20OR%20')})&src=typed_query&f=live`}
                     className={clsx(
-                      'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
+                      'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xs text-white/60 transition-all hover:brightness-110 active:brightness-90',
                       'h-[18px] shrink-0 justify-center',
                       '[&_svg]:size-[10px]',
                     )}
