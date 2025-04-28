@@ -25,7 +25,9 @@ const ModalApproval: React.FC<{
   createData: CreatePositionRequest;
   onResolve?: (fired?: boolean) => void;
 }> = ({ formState, createData, onResolve }) => {
-  const { from, to } = formState;
+  const { from, to, isMarketPrice } = formState;
+  const targetReady = from.priceByOther !== undefined;
+  const marketToAmount = +from.amount * Number(from.priceByOther);
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
@@ -78,7 +80,16 @@ const ModalApproval: React.FC<{
         {to.coinInfo && <Coin nonLink coin={to.coinInfo} />}
         <InfoLine label="Estimated Amount (Receive)">
           <div className="font-medium">
-            {to.amount} {to?.coinInfo?.abbreviation}
+            {isMarketPrice ? (
+              targetReady ? (
+                roundSensible(marketToAmount)
+              ) : (
+                <Spin />
+              )
+            ) : (
+              to.amount
+            )}{' '}
+            {to?.coinInfo?.abbreviation}
           </div>
         </InfoLine>
 
