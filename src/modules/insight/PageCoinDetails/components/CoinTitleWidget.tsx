@@ -166,6 +166,11 @@ export const CoinTitleWidget: FC<{
                     <p className="text-xs text-v1-content-secondary">
                       {t('common.buy_sell')}
                       {' (24h)'}
+                      {(nCoin.data.update.total_num_buys ?? 0) +
+                        (nCoin.data.update.total_num_sells ?? 0) >
+                      5000
+                        ? ' 🔥'
+                        : ''}
                     </p>
                     <NCoinBuySell
                       value={{
