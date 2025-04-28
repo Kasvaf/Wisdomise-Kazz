@@ -6,7 +6,7 @@ import { ReactComponent as CapIcon } from './cap.svg';
 export function CoinMarketCap({
   className,
   marketData,
-  singleLine,
+  singleLine: _singleLine,
 }: {
   className?: string;
   marketData?: Pick<
@@ -15,6 +15,8 @@ export function CoinMarketCap({
   > | null;
   singleLine?: boolean;
 }) {
+  const singleLine =
+    _singleLine || typeof marketData?.market_cap_category !== 'string';
   return (
     <span className={clsx('inline-flex flex-col gap-px', className)}>
       {!singleLine && (
