@@ -114,7 +114,7 @@ export function WhaleStatsWidget({
 
           {hasFlag('/coin-radar/whale-radar?trading_pnl') && (
             <>
-              <StatRow label={t('whale_overview.trading_pnl')} beta>
+              <StatRow label={t('whale_overview.trading_pnl')}>
                 <DebugPin
                   title="/coin-radar/whale-radar?trading_pnl"
                   color="orange"
@@ -154,7 +154,6 @@ export function WhaleStatsWidget({
             <StatRow
               label={t('whale_overview.trading_win_rate')}
               className="w-full flex-wrap"
-              beta
             >
               <DebugPin
                 title="/coin-radar/whale-radar?win_lose"
