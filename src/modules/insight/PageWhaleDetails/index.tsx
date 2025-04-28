@@ -69,7 +69,6 @@ export default function PageWhaleDetails() {
         <WhaleTransactionsHistoryWidget
           holderAddress={holderAddress}
           networkName={networkName}
-          hr
         />
       </div>
 
