@@ -264,7 +264,7 @@ export function useTraderPositionsQuery({
 }
 
 export interface CreatePositionRequest {
-  mode?: 'BUY_AND_SELL' | 'BUY_AND_HOLD' | 'SELL_AND_HOLD';
+  mode?: 'buy_and_sell' | 'buy_and_hold' | 'sell_and_hold';
   signal: Signal;
   withdraw_address: string;
   quote_slug?: string;

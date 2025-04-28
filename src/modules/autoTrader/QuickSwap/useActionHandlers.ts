@@ -44,7 +44,7 @@ const useActionHandlers = (state: SwapState) => {
 
     const createData: CreatePositionRequest = {
       network,
-      mode: dir === 'buy' ? 'BUY_AND_HOLD' : 'SELL_AND_HOLD',
+      mode: dir === 'buy' ? 'buy_and_hold' : 'sell_and_hold',
       // one of following:
       ...(dir === 'buy'
         ? { quote_amount: quoteAmount }
