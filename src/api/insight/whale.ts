@@ -250,7 +250,7 @@ export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
           slug,
         },
       }).then(resp => {
-        if (!resp.wallet_count) return null;
+        if (resp.label_percents.length === 0) return null;
         return resp;
       }),
   });
