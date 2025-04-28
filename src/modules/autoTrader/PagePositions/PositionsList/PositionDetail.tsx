@@ -158,7 +158,7 @@ const PositionDetail: React.FC<{
               </div>
             ))}
 
-        {position.pnl != null && (
+        {position.pnl != null && position.mode === 'buy_and_sell' && (
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1 text-v1-content-secondary">
               P / L
@@ -182,13 +182,42 @@ const PositionDetail: React.FC<{
         )}
 
         {position.status === 'CLOSED' && !!position.final_quote_amount && (
-          <div className="flex items-center justify-between">
-            <span>Withdrawn Amount</span>
-            <span className="flex items-center">
-              {roundSensible(position.final_quote_amount)} {position.quote_name}
-              <AssetIcon slug={position.quote_slug} className="ml-1" />
-            </span>
-          </div>
+          <>
+            <div className="flex items-center justify-between">
+              <span>Withdrawn Amount</span>
+
+              {position.mode === 'buy_and_hold' ? (
+                <span className="flex items-center">
+                  {roundSensible(position.current_assets?.[0]?.amount)}{' '}
+                  {position.current_assets?.[0]?.asset_name}
+                  <AssetIcon
+                    slug={position.current_assets?.[0]?.asset_slug}
+                    className="ml-1"
+                  />
+                </span>
+              ) : (
+                <span className="flex items-center">
+                  {roundSensible(position.final_quote_amount)}{' '}
+                  {position.quote_name}
+                  <AssetIcon slug={position.quote_slug} className="ml-1" />
+                </span>
+              )}
+            </div>
+            {position.mode !== 'buy_and_sell' &&
+              initialDeposit != null &&
+              !!position.current_assets?.[0]?.amount && (
+                <div className="flex items-center justify-between">
+                  <span>Swap Price</span>
+                  <span className="flex items-center">
+                    {roundSensible(
+                      position.mode === 'buy_and_hold'
+                        ? initialDeposit / +position.current_assets[0].amount
+                        : +position.current_assets[0].amount / initialDeposit,
+                    )}
+                  </span>
+                </div>
+              )}
+          </>
         )}
 
         {position.status !== 'CANCELED' && (
