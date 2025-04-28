@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import { type Surface } from 'utils/useSurface';
 
 export interface TableColumn<RecordType extends object> {
-  key: string;
+  key?: string;
   title?: ReactNode;
   info?: ReactNode;
   hidden?: boolean;

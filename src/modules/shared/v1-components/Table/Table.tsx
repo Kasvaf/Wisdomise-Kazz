@@ -30,10 +30,11 @@ export function Table<RecordType extends object>({
 
   const tds = useMemo(
     () =>
-      (columns.filter(col => !col.hidden) ?? []).map(td => ({
+      (columns.filter(col => !col.hidden) ?? []).map((td, index) => ({
         ...td,
         width:
           typeof td.width === 'number' ? `${td.width}px` : td.width ?? 'auto',
+        key: td.key ?? index.toString(),
       })),
     [columns],
   );
