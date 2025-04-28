@@ -50,19 +50,19 @@ const PositionDetail: React.FC<{
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <span className="text-white/30">#{position.id}</span>
+          {!!position.mode && position.mode !== 'buy_and_sell' && (
+            <span className="rounded-full bg-white/10 px-2">Swap</span>
+          )}
+
           <NavLink to={`/coin/${position.base_slug}`}>
             {position.pair_name}
           </NavLink>
-          {position.network_slug && ( // TODO check won't be necessary once backend is DONE
-            <>
-              <span className="text-white/30">on</span>
-              <NetworkIcon
-                network={position.network_slug}
-                withTitle
-                className="text-white/50"
-              />
-            </>
-          )}
+          <span className="text-white/30">on</span>
+          <NetworkIcon
+            network={position.network_slug}
+            withTitle
+            className="text-white/50"
+          />
         </div>
         <div className="flex items-center gap-3">
           <CancelButton position={position} />
