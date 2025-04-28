@@ -122,10 +122,10 @@ export const useAccountAllQuotesBalance = () => {
 export const useTransferAssetsMutation = (quote?: string) => {
   const net = useActiveNetwork();
   const transferTonAssets = useTonTransferAssetsMutation(
-    net === 'solana' ? quote : undefined,
+    net === 'the-open-network' ? quote : undefined,
   );
   const transferSolanaAssets = useSolanaTransferAssetsMutation(
-    net === 'the-open-network' ? quote : undefined,
+    net === 'solana' ? quote : undefined,
   );
 
   if (net === 'solana') return transferSolanaAssets;
