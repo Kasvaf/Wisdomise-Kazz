@@ -19,7 +19,7 @@ export const BtnQuickSwap: React.FC<{ slug?: string } & ButtonProps> = ({
   const wallet = useActiveWallet();
 
   const hasFlag = useHasFlag();
-  if (!isMobile && !hasFlag('/desk-trader')) {
+  if (!isMobile || !hasFlag('/mobile-swap')) {
     return null;
   }
 
