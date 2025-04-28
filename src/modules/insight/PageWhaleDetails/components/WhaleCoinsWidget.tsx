@@ -60,9 +60,6 @@ export function WhaleCoinsWidget({
         render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
       },
       {
-        render: (_, row) => row.label ?? '---',
-      },
-      {
         colSpan: type === 'trading' ? 1 : 0,
         title: t('whale_coins.avg_cost'),
         render: (_, row) => (
