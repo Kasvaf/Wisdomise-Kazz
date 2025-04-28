@@ -83,7 +83,7 @@ export function CoinNetworksLabel({
         disabled={!clickable}
       >
         <span className={clsx(size === 'xs' ? 'px-1' : 'px-2')}>
-          {size === 'md' ? t('common.chain') : 'Ch'}
+          {size === 'xs' ? 'Ch' : t('common.chain')}
         </span>
         {value.length > 0 && (
           <span className="-ms-1 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1 text-v1-content-primary">

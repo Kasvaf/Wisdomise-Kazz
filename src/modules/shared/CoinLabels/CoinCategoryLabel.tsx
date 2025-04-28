@@ -47,7 +47,7 @@ export function CoinCategoryLabel({
       chevron={false}
     >
       <span className={clsx(size === 'xs' ? 'px-1' : 'px-2')}>
-        {size === 'md' ? t('common.category') : 'Ca'}
+        {size === 'xs' ? 'Cat' : t('common.category')}
       </span>
       {value.length > 0 && (
         <span className="-ms-1 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1">
