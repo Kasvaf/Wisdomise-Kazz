@@ -3,6 +3,7 @@
 @import 'overrides';
 @import 'transitions';
 @import 'splash';
+@plugin 'tailwind-scrollbar';
 
 @tailwind base;
 @tailwind components;
@@ -14,7 +15,7 @@
   }
   html,
   body {
-    @apply font-poppins;
+    @apply font-poppins scrollbar-thin;
   }
 }
 

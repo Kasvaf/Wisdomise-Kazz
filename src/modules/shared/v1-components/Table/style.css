@@ -1,7 +1,6 @@
 /* Base Table Styles */
 .wsdm-table {
-  @apply relative w-full rounded-lg;
-  scrollbar-width: none;
+  @apply relative w-full rounded-lg scrollbar-thin;
 }
 
 /* Scrollable Table */
@@ -123,11 +122,13 @@
 }
 
 /* Sticky Columns */
-.wsdm-table tr td[data-sticky='start'] {
+.wsdm-table tr td[data-sticky='start'],
+.wsdm-table tr th[data-sticky='start'] {
   @apply sticky start-0 z-10 bg-gradient-to-r from-[--current-color] via-[--current-color] to-transparent;
 }
 
-.wsdm-table tr td[data-sticky='end'] {
+.wsdm-table tr td[data-sticky='end'],
+.wsdm-table tr th[data-sticky='end'] {
   @apply sticky end-0 z-10 bg-gradient-to-l from-[--current-color] via-[--current-color] to-transparent;
 }
 

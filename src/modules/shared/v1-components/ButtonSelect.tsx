@@ -116,7 +116,7 @@ export function ButtonSelect<T>({
       <div
         className={clsx(
           'flex h-full flex-nowrap items-center gap-0  whitespace-nowrap text-v1-content-primary ',
-          innerScroll ? 'w-full overflow-hidden mobile:overflow-auto' : 'w-max',
+          innerScroll ? ['scrollbar-none', 'w-full overflow-auto'] : 'w-max',
         )}
         ref={buttonsRef}
       >

@@ -19,12 +19,13 @@ import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import TraderSection from './TraderSection';
 
+const sideClasses = clsx(
+  'sticky top-[76px] max-h-[calc(100vh-76px)] overflow-y-auto scrollbar-none',
+);
+
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
-  const sideClasses = clsx(
-    'sticky top-[76px] max-h-[calc(100vh-76px)] overflow-y-auto',
-  );
 
   return (
     <div className="flex flex-nowrap justify-between">
