@@ -109,7 +109,7 @@ export const NetworkRadarMobile = () => {
         <h1 className="text-sm">{t('page.title')}</h1>
       </div>
       <AccessShield
-        mode="mobile_table"
+        mode="table"
         sizes={{
           guest: false,
           initial: false,

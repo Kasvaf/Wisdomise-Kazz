@@ -141,7 +141,7 @@ export const HotCoinsMobile = () => {
           surface={2}
         />
       </div>
-      <AccessShield mode="mobile_table" sizes={homeSubscriptionsConfig}>
+      <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           rowClassName="tour-item-row"
           columns={columns}

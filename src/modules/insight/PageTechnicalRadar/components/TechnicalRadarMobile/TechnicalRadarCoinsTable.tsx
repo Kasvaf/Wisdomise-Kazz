@@ -105,7 +105,7 @@ export const TechnicalRadarCoinsTable: FC<{
         surface={1}
       />
       <AccessShield
-        mode="mobile_table"
+        mode="table"
         sizes={{
           guest: true,
           initial: true,

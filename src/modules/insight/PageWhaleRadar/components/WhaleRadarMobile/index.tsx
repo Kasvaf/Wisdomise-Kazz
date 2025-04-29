@@ -111,7 +111,7 @@ export const WhaleRadarMobile = () => {
         surface={1}
       />
       <AccessShield
-        mode="mobile_table"
+        mode="table"
         sizes={{
           guest: false,
           initial: false,
