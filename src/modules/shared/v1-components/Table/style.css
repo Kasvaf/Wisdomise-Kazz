@@ -1,6 +1,6 @@
 /* Base Table Styles */
 .wsdm-table {
-  @apply relative w-full rounded-lg scrollbar-thin;
+  @apply relative w-full rounded-lg scrollbar-none;
 }
 
 /* Scrollable Table */
