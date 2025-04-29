@@ -130,7 +130,7 @@ export const useLastCandleQuery = ({
         query: {
           base,
           quote: theQuote,
-          network_slug: bestNet,
+          network: bestNet,
           market,
           convert_to_usd: convertToUsd,
           t: String(Date.now()),
