@@ -5,7 +5,6 @@ import { Coin } from 'shared/Coin';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { TableRank } from 'shared/TableRank';
 import { WhaleRadarSentiment } from 'modules/insight/PageWhaleRadar/components/WhaleRadarSentiment';
 
 export const WhaleRadarTable: FC<{
@@ -19,11 +18,6 @@ export const WhaleRadarTable: FC<{
 
   const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
     () => [
-      {
-        key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => <TableRank>{row.rank}</TableRank>,
-      },
       {
         key: 'coin',
         render: row => (

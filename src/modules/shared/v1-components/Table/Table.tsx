@@ -118,6 +118,7 @@ export function Table<RecordType extends object>({
                   style={{
                     width: th.width,
                   }}
+                  className={th.className}
                   data-first-child={index === 0}
                   data-last-child={
                     !scrollable && index === self.length - 1 ? 'true' : 'false'
@@ -193,6 +194,7 @@ export function Table<RecordType extends object>({
                       style={{
                         width: td.width,
                       }}
+                      className={td.className}
                       data-first-child={index === 0}
                       data-last-child={
                         !scrollable && index === self.length - 1

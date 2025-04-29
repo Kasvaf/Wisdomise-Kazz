@@ -3,7 +3,7 @@ import { type FC, type ReactNode } from 'react';
 
 export const TableRank: FC<{
   highlighted?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
 }> = ({ highlighted, children }) => (
   <div className="contents">
     {highlighted && (

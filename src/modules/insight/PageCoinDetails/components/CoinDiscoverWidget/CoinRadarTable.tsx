@@ -21,9 +21,9 @@ export const CoinRadarTable: FC<{
     () => [
       {
         key: 'rank',
-        render: row => (
-          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
-        ),
+        width: 10,
+        className: '[&>div]:!p-0',
+        render: row => <TableRank highlighted={row._highlighted} />,
       },
       {
         key: 'coin',

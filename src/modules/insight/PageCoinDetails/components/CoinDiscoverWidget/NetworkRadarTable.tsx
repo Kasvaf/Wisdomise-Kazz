@@ -8,7 +8,6 @@ import {
 } from 'api/insight/network';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
-import { TableRank } from 'shared/TableRank';
 
 export const NetworkRadarTable: FC<{
   onClick: (row: NetworkRadarNCoin) => void;
@@ -18,11 +17,6 @@ export const NetworkRadarTable: FC<{
 
   const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
     () => [
-      {
-        key: 'rank',
-        className: 'max-w-10 min-w-2 text-start text-xs font-medium',
-        render: row => <TableRank>{row._rank}</TableRank>,
-      },
       {
         key: 'coin',
         render: row => (
