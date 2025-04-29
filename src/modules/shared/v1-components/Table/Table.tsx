@@ -222,21 +222,12 @@ export function Table<RecordType extends object>({
             </TableSection>
           ))
         )}
-        {footer && (
-          <tfoot>
-            <tr data-placeholder="true">
-              <td
-                data-align="center"
-                colSpan={99}
-                data-first-child="true"
-                data-last-child="true"
-              >
-                {footer}
-              </td>
-            </tr>
-          </tfoot>
-        )}
       </table>
+      {footer && (
+        <div className="sticky end-0 start-0 flex w-full items-center justify-center gap-2">
+          {footer}
+        </div>
+      )}
     </div>
   );
 }

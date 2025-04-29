@@ -36,7 +36,7 @@ export function WhaleTransactionsHistoryWidget({
     {
       holderAddress,
       networkName,
-      pageSize: 10,
+      pageSize: 7,
       slug: coin?.slug,
     },
   );
@@ -161,8 +161,7 @@ export function WhaleTransactionsHistoryWidget({
             scrollable
             loading={transactions.isLoading}
             surface={surface}
-            chunkSize={10}
-            className="max-h-[540px]"
+            chunkSize={7}
             footer={
               transactions.hasNextPage && (
                 <Button
@@ -173,7 +172,7 @@ export function WhaleTransactionsHistoryWidget({
                     transactions.isFetchingNextPage || transactions.isLoading
                   }
                 >
-                  {'Load More Transactions'}
+                  {t('common:load-more')}
                 </Button>
               )
             }

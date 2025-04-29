@@ -42,6 +42,7 @@ export function WhaleCoinsWidget({
   const { t } = useTranslation('whale');
   const [label, setLabel] = useState<WhaleAssetLabel | undefined>(undefined);
   const [showDusts, setShowDusts] = useState(false);
+  const [limit, setLimit] = useState<undefined | number>(10);
   const whale = useWhaleDetails({
     holderAddress,
     networkName,
@@ -261,12 +262,11 @@ export function WhaleCoinsWidget({
           >
             <Table
               columns={columns}
-              dataSource={filteredData}
-              rowKey={row => JSON.stringify(row.symbol)}
+              dataSource={filteredData.slice(0, limit)}
+              rowKey={row => row.symbol.slug}
               loading={whale.isLoading}
               scrollable
               surface={2}
-              className="max-h-[540px] overflow-y-auto"
               rowHoverSuffix={
                 typeof onSelect === 'function'
                   ? row => (
@@ -286,6 +286,18 @@ export function WhaleCoinsWidget({
                       </Button>
                     )
                   : undefined
+              }
+              footer={
+                filteredData.length > 10 &&
+                limit && (
+                  <Button
+                    size="xs"
+                    onClick={() => setLimit(undefined)}
+                    variant="link"
+                  >
+                    {t('common:load-more')}
+                  </Button>
+                )
               }
             />
           </AccessShield>
