@@ -34,14 +34,14 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
         )}
       </div>
 
-      <hr className="border-white/10" />
+      <hr className="border-white/10 [&:has(+:not(.id-positions-list))]:hidden" />
 
       <PositionsList
         slug={slug}
         isOpen
         noEmptyState
         noLoadingState
-        className="[&_.id-position-item]:rounded-md"
+        className="id-positions-list [&_.id-position-item]:rounded-md"
       />
     </>
   );

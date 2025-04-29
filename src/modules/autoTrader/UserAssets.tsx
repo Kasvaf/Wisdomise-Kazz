@@ -13,8 +13,8 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
 
   return (
     <NavLink
-      className="flex items-center justify-between"
-      to={`/trader/positions?slug=${asset.slug}`}
+      className="flex items-center justify-between p-3 hover:bg-v1-background-hover"
+      to={`/coin/${asset.slug}`}
     >
       {baseInfo ? (
         <div className="flex items-center">
@@ -75,7 +75,7 @@ const UserAssetsInternal: React.FC<Props> = ({
 
       <div
         className={clsx(
-          'flex flex-col gap-3 rounded-xl bg-v1-surface-l2 p-4',
+          'flex flex-col rounded-xl bg-v1-surface-l2',
           containerClassName,
         )}
       >

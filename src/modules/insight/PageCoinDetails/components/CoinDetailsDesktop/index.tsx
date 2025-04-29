@@ -37,7 +37,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
       >
         <div className="contents [&:not(:has(.id-assets))]:hidden">
           <h3 className="my-2 text-xxs">Your Portfolio</h3>
-          <div className="space-y-4 rounded-md bg-v1-surface-l2 p-3">
+          <div className="shrink-0 space-y-4 overflow-hidden rounded-md bg-v1-surface-l2">
             <UserAssets
               noTotal
               className="id-assets"
