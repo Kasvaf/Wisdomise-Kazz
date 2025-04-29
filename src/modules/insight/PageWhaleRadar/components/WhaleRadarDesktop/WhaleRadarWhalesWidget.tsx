@@ -201,10 +201,7 @@ export function WhaleRadarWhalesWidget({
 
   return (
     <OverviewWidget
-      className={clsx(
-        'max-h-[700px] min-h-[427px] mobile:min-h-[647px]',
-        className,
-      )}
+      className={clsx('min-h-[427px] mobile:min-h-[647px]', className)}
       title={<>{t('top_whales.title')}</>}
       empty={whales.data?.length === 0}
       headerClassName="flex-wrap"
@@ -254,6 +251,7 @@ export function WhaleRadarWhalesWidget({
           dataSource={whales.data ?? []}
           rowKey={r => r.holder_address}
           loading={whales.isLoading}
+          className="max-h-[485px]"
           scrollable
         />
       </AccessShield>

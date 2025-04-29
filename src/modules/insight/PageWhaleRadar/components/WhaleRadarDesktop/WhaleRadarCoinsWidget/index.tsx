@@ -111,10 +111,7 @@ export function WhaleRadarCoinsWidget({
 
   return (
     <OverviewWidget
-      className={clsx(
-        'max-h-[700px] min-h-[610px] shrink-0 mobile:min-h-[670px]',
-        className,
-      )}
+      className={clsx('min-h-[610px] shrink-0 mobile:min-h-[670px]', className)}
       title={
         <>
           <WhaleRadarIcon className="size-6" />
@@ -160,6 +157,7 @@ export function WhaleRadarCoinsWidget({
           columns={columns}
           loading={coins.isLoading}
           dataSource={coins.data ?? []}
+          className="max-h-[470px]"
           rowKey={r => r.symbol.slug}
           scrollable
         />
