@@ -4,6 +4,7 @@ import Trader from 'modules/autoTrader/PageTrade/Trader';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import PositionsList from 'modules/autoTrader/PagePositions/PositionsList';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
 const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
@@ -32,6 +33,16 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
           </div>
         )}
       </div>
+
+      <hr className="border-white/10" />
+
+      <PositionsList
+        slug={slug}
+        isOpen
+        noEmptyState
+        noLoadingState
+        className="[&_.id-position-item]:rounded-md"
+      />
     </>
   );
 };

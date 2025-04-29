@@ -44,7 +44,10 @@ const PositionDetail: React.FC<{
 
   return (
     <div
-      className={clsx('rounded-3xl bg-v1-surface-l2 p-4 text-xs', className)}
+      className={clsx(
+        'id-position-item rounded-3xl bg-v1-surface-l2 p-4 text-xs',
+        className,
+      )}
       key={position.key}
     >
       <div className="flex items-center justify-between">

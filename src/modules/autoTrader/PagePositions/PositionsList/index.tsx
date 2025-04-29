@@ -2,7 +2,6 @@ import { Pagination } from 'antd';
 import Spinner from 'shared/Spinner';
 import { useTraderPositionsQuery } from 'api';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import useIsMobile from 'utils/useIsMobile';
 import NoPosition from './NoPosition';
 import PositionDetail from './PositionDetail';
 
@@ -11,8 +10,10 @@ const PositionsList: React.FC<{
   slug?: string;
   isOpen: boolean;
   noEmptyState?: boolean;
-}> = ({ slug, isOpen, noEmptyState }) => {
-  const isMobile = useIsMobile();
+  noLoadingState?: boolean;
+  grid?: boolean;
+  className?: string;
+}> = ({ slug, isOpen, noEmptyState, noLoadingState, grid, className }) => {
   const [page, setPage] = useSearchParamAsState<string>('page', '1');
   const { data: positions, isLoading } = useTraderPositionsQuery({
     slug,
@@ -23,16 +24,18 @@ const PositionsList: React.FC<{
   const positionsRes = positions?.positions ?? [];
 
   return isLoading ? (
-    <div className="my-8 flex justify-center">
-      <Spinner />
-    </div>
+    <>
+      {!noLoadingState && (
+        <div className="my-8 flex justify-center">
+          <Spinner />
+        </div>
+      )}
+    </>
   ) : positionsRes.length > 0 ? (
-    <div>
+    <div className={className}>
       <div
         className={
-          isMobile
-            ? 'flex flex-col gap-3'
-            : 'grid grid-cols-2 gap-3 xl:grid-cols-3'
+          grid ? 'grid grid-cols-2 gap-3 xl:grid-cols-3' : 'flex flex-col gap-3'
         }
       >
         {positionsRes.map(position => (
@@ -40,7 +43,7 @@ const PositionsList: React.FC<{
         ))}
       </div>
 
-      <div className="mt-3 flex justify-center">
+      <div className="mt-3 flex justify-center empty:hidden">
         <Pagination
           current={+page}
           onChange={x => setPage(String(x))}

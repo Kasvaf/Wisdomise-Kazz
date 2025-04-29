@@ -44,7 +44,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
               containerClassName="!p-0"
             />
           </div>
-          <hr className="mt-3 border-white/10" />
+          <hr className="border-white/10" />
         </div>
 
         <CoinDiscoverWidget />
@@ -92,7 +92,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
       {/* Trade + Additional */}
       <div className="relative w-1/3 min-w-[22rem] max-w-96 p-3 pe-0 pt-0">
         <div className={sideClasses}>
-          <div className="space-y-4 py-2">
+          <div className="space-y-3 py-2">
             <TraderSection slug={slug} />
             <hr className="border-white/10" />
 

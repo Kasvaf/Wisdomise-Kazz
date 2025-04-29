@@ -49,7 +49,11 @@ const PagePositions = () => {
         />
       </div>
 
-      <PositionsList slug={slug} isOpen={filter === 'active'} />
+      <PositionsList
+        slug={slug}
+        isOpen={filter === 'active'}
+        grid={!isMobile}
+      />
 
       {filter === 'active' && slug && (
         <div
