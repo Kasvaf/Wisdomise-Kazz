@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ofetch } from 'config/ofetch';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { type PricesExchange, type MarketTypes } from './types/shared';
-import { NETWORK_MAIN_EXCHANGE, useSupportedPairs } from './trader';
+import { type MarketTypes } from './types/shared';
+import { useSupportedPairs } from './trader';
 
 export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d';
 export interface Candle {
@@ -82,14 +82,13 @@ interface LastCandleResponse {
 interface LastCandleParams {
   slug?: string; // slug
   quote?: string;
-  exchange?: PricesExchange;
+  network?: 'solana' | 'the-open-network';
   market?: MarketTypes;
   convertToUsd?: boolean;
 }
 
-const NETWORK_TO_EXCHANGE = NETWORK_MAIN_EXCHANGE as Record<string, string>;
 export const useLastCandleQuery = ({
-  exchange,
+  network,
   slug: base,
   quote,
   market = 'SPOT',
@@ -106,39 +105,32 @@ export const useLastCandleQuery = ({
   );
 
   // first pair that matches both quote and active-network
-  const net = useActiveNetwork();
+  const activeNet = useActiveNetwork();
+  const net = network || activeNet;
+
   const bestPair =
     netPairs?.find(
-      x =>
-        (!quote || x.quote === quote) &&
-        (exchange ? true : !net || (x.net === net && NETWORK_TO_EXCHANGE[net])),
+      x => (!quote || x.quote === quote) && (!net || x.net === net),
     ) ||
     // first pair that matches a quote, with a well-known exchange (net is not active)
     netPairs?.find(
       x =>
         (!quote || x.quote === quote) &&
-        (exchange ? true : x.net in NETWORK_TO_EXCHANGE),
+        (x.net === 'the-open-network' || x.net === 'solana'),
     ) ||
     netPairs?.[0];
 
   const theQuote = bestPair?.quote;
-  const bestExchange = exchange || NETWORK_TO_EXCHANGE[bestPair?.net ?? ''];
+  const bestNet = network || bestPair?.net;
 
   return useQuery({
-    queryKey: [
-      'last-candle',
-      base,
-      theQuote,
-      bestExchange,
-      market,
-      convertToUsd,
-    ],
+    queryKey: ['last-candle', base, theQuote, bestNet, market, convertToUsd],
     queryFn: async () => {
       const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
         query: {
           base,
           quote: theQuote,
-          exchange: bestExchange,
+          network_slug: bestNet,
           market,
           convert_to_usd: convertToUsd,
           t: String(Date.now()),
@@ -146,7 +138,7 @@ export const useLastCandleQuery = ({
       });
       return data;
     },
-    enabled: Boolean(base && theQuote && bestExchange && market),
+    enabled: Boolean(base && theQuote && bestNet && market),
     staleTime: 1000,
     refetchInterval: 10_000,
   });
@@ -163,7 +155,7 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
 export const useCandlesBySlugs = (userConfig: {
   base?: string;
   quote?: string;
-  exchange: string;
+  network: 'the-open-network' | 'solana';
   resolution?: Resolution;
   start?: string;
   end?: string;

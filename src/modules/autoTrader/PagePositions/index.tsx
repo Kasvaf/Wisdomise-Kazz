@@ -41,7 +41,7 @@ const PagePositions = () => {
           className="w-80 mobile:w-full"
           filterTokens={x => x !== 'tether'}
           value={slug}
-          priceExchange="auto"
+          showPrice
           onChange={setSlug}
           emptyOption="All Tradable Coins & Tokens"
           mini={false}

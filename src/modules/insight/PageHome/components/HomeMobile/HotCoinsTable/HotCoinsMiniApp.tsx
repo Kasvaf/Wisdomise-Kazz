@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 import { useTraderCoins } from 'api';
-import { isMiniApp } from 'utils/version';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
@@ -14,7 +13,7 @@ export const HotCoinsMiniApp = () => {
     page: 1,
     pageSize: 500,
     filter: undefined,
-    networkName: isMiniApp ? 'ton' : undefined,
+    networkName: 'ton',
     days: 7,
   });
 

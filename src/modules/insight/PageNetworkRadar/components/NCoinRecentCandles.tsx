@@ -23,7 +23,7 @@ export const NCoinRecentCandles: FC<
       ),
     ).toISOString(),
     resolution: '1m',
-    exchange: 'Raydium',
+    network: 'solana',
     skip_empty_candles: true,
   });
 
