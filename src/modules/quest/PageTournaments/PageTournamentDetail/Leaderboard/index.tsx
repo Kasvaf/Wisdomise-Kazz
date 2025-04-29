@@ -150,7 +150,9 @@ export function LeaderboardItem({
         )}
       >
         <div className="flex h-full items-center justify-between rounded-xl bg-v1-surface-l3/90 px-3 text-xs">
-          <div className="w-6 shrink-0">{participant.rank}</div>
+          <div className="w-6 shrink-0">
+            {participant.trading_volume > 0 ? participant.rank : '-'}
+          </div>
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
             <IconUser />
           </div>
