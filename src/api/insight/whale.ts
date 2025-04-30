@@ -179,7 +179,7 @@ export interface SingleWhale {
     recent_avg_sold?: null | number;
     remaining_percent?: null | number;
     symbol_labels?: null | string[];
-    security?: null | {
+    symbol_security?: null | {
       data: NetworkSecurity[];
     };
     networks?: null | CoinNetwork[];

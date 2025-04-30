@@ -113,15 +113,18 @@ export function WhaleTransactionsHistoryWidget({
       },
       {
         title: t('whale_transaction_history.link'),
-        render: row => (
-          <a
-            href={row.link?.url}
-            target="_blank"
-            referrerPolicy="no-referrer"
-            rel="noreferrer"
-            className="text-v1-content-link underline hover:text-v1-content-link-hover"
-          >{`${row.link?.name ?? 'Transaction'} Link`}</a>
-        ),
+        render: row =>
+          row.link?.url ? (
+            <a
+              href={row.link?.url}
+              target="_blank"
+              referrerPolicy="no-referrer"
+              rel="noreferrer"
+              className="text-v1-content-link underline hover:text-v1-content-link-hover"
+            >{`${row.link?.name ?? 'Transaction'} Link`}</a>
+          ) : (
+            <span className="opacity-70">-</span>
+          ),
       },
     ],
     [t],
