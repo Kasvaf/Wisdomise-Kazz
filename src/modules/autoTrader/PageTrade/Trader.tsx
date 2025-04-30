@@ -1,3 +1,4 @@
+import { Spin } from 'antd';
 import { useTraderPositionQuery } from 'api';
 import Spinner from 'shared/Spinner';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
@@ -8,6 +9,21 @@ export default function Trader(inputs: TraderInputs) {
   const { slug, positionKey } = inputs;
   const position = useTraderPositionQuery({ positionKey });
   const formState = useSignalFormStates(inputs);
+  const {
+    confirming: [confirming],
+    firing: [firing],
+  } = formState;
+
+  if (confirming || firing) {
+    return (
+      <div className="flex items-center justify-center gap-2 text-sm text-v1-content-secondary">
+        <Spin size="small" />
+        {firing
+          ? 'Creating the trading plan...'
+          : 'Confirming transaction on network...'}
+      </div>
+    );
+  }
 
   return (
     <div>

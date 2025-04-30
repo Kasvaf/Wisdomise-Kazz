@@ -127,7 +127,7 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
     amount: string;
     gasFee: string;
   }) => {
-    if (!slug || !decimals) return;
+    if (!slug || !decimals) throw new Error('Wallet not connected');
 
     const noneBounceableAddress = Address.parse(recipientAddress).toString({
       bounceable: false,
@@ -177,6 +177,8 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
     await tonConnectUI.sendTransaction(transaction);
     await queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
     gtag('event', 'trade');
+
+    return () => new Promise(resolve => setTimeout(resolve, 7000));
   };
 };
 

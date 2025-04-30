@@ -199,18 +199,21 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
       transaction.feePayer = publicKey;
 
       // Sign and send transaction
-      // const signature =
       const signedTransaction = await signTransaction(transaction);
-      await connection.sendRawTransaction(signedTransaction.serialize());
-
-      // Wait for confirmation
-      // await connection.confirmTransaction({
-      //   signature,
-      //   blockhash: latestBlockhash.blockhash,
-      //   lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
-      // });
-
+      const signature = await connection.sendRawTransaction(
+        signedTransaction.serialize(),
+      );
       await queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+
+      return async () => {
+        // Wait for confirmation
+        const r = await connection.confirmTransaction({
+          signature,
+          blockhash: latestBlockhash.blockhash,
+          lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+        });
+        return r.value.err == null;
+      };
     } catch (error) {
       console.error('Error sending transaction:', error);
       throw error;

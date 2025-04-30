@@ -25,6 +25,22 @@ const QuickTrade: React.FC<TraderInputs> = inputs => {
     baseSlug: normSlug,
   });
 
+  const {
+    confirming: [confirming],
+    firing: [firing],
+  } = formState;
+
+  if (confirming || firing) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-5 text-sm text-v1-content-secondary">
+        <Spinner className="!size-24" />
+        {firing
+          ? 'Creating the trading plan...'
+          : 'Confirming transaction on network...'}
+      </div>
+    );
+  }
+
   return (
     <div>
       {coinLoading ? (

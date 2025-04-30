@@ -103,6 +103,8 @@ const useSignalFormStates = ({ quote, setQuote }: TraderInputs) => {
   const [takeProfits, setTakeProfits] = useState<TpSlData[]>([]);
   const [stopLosses, setStopLosses] = useState<TpSlData[]>([]);
   const [safetyOpens, setSafetyOpens] = useState<OpenOrderData[]>([]);
+  const firing = useState(false);
+  const confirming = useState(false);
 
   const remainingVolume = useMemo(
     () =>
@@ -149,6 +151,8 @@ const useSignalFormStates = ({ quote, setQuote }: TraderInputs) => {
     remainingVolume,
     remainingTpVolume,
     remainingSlVolume,
+    firing,
+    confirming,
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
