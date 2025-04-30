@@ -203,7 +203,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
       const signature = await connection.sendRawTransaction(
         signedTransaction.serialize(),
       );
-      await queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+      void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
 
       return async () => {
         // Wait for confirmation

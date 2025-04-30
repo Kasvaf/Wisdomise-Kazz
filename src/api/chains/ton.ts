@@ -175,7 +175,7 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
     };
 
     await tonConnectUI.sendTransaction(transaction);
-    await queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
+    void queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
     gtag('event', 'trade');
 
     return () => new Promise(resolve => setTimeout(resolve, 7000));
