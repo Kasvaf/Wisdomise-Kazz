@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from 'react';
 import {
   type LeagueDetail,
   useLeagueProfileQuery,
@@ -18,33 +19,55 @@ export default function useLeague() {
   const { data: profile, isLoading: profileIsLoading } =
     useLeagueProfileQuery();
 
-  const enrichedLeague = league?.details.map(d => ({
-    ...d,
-    image: LEAGUE_ASSETS[d.slug].image,
-  }));
+  const enrichedLeague = useMemo(
+    () =>
+      league?.details.map(d => ({
+        ...d,
+        image: LEAGUE_ASSETS[d.slug].image,
+      })),
+    [league?.details],
+  );
 
-  const findLeague = (slug?: string) => {
-    return enrichedLeague?.find(l => l.slug === slug);
-  };
+  const findLeague = useCallback(
+    (slug?: string) => {
+      return enrichedLeague?.find(l => l.slug === slug);
+    },
+    [enrichedLeague],
+  );
 
-  const currentLeague = findLeague(profile?.league_slug);
-  const nextLeague = findLeague(profile?.promotion_detail?.next_league);
-  const prevLeague = findLeague(profile?.promotion_detail?.prev_league);
+  const currentLeague = useMemo(
+    () => findLeague(profile?.league_slug),
+    [findLeague, profile?.league_slug],
+  );
+  const nextLeague = useMemo(
+    () => findLeague(profile?.result?.next_league_slug),
+    [findLeague, profile?.result?.next_league_slug],
+  );
 
-  return {
-    isLoading: leagueIsLoading || profileIsLoading,
-    profile: {
-      ...profile,
-      league: currentLeague,
-      promotion_detail: {
-        ...profile?.promotion_detail,
-        prev_league: prevLeague,
-        next_league: nextLeague,
+  return useMemo(
+    () => ({
+      isLoading: leagueIsLoading || profileIsLoading,
+      profile: {
+        ...profile,
+        league: currentLeague,
+        result: {
+          ...profile?.result,
+          next_league: nextLeague,
+        },
       },
-    },
-    league: {
-      ...league,
-      details: enrichedLeague?.sort((l1, l2) => l1.level - l2.level),
-    },
-  };
+      league: {
+        ...league,
+        details: enrichedLeague?.sort((l1, l2) => l1.level - l2.level),
+      },
+    }),
+    [
+      currentLeague,
+      enrichedLeague,
+      league,
+      leagueIsLoading,
+      nextLeague,
+      profile,
+      profileIsLoading,
+    ],
+  );
 }

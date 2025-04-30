@@ -296,10 +296,19 @@ export const useLeagueLeaderboardQuery = (leagueSlug?: string) => {
 };
 
 export const useLeagueClaimMutation = () => {
+  const client = useQueryClient();
   return useMutation({
     mutationFn: async () => {
       return await ofetch(`${TEMPLE_ORIGIN}/api/v1/trader/leagues/claim`, {
         method: 'post',
+      });
+    },
+    onSuccess: () => {
+      void client.invalidateQueries({
+        queryKey: ['leagueProfile'],
+      });
+      void client.invalidateQueries({
+        queryKey: ['leagueLeaderboard'],
       });
     },
   });
