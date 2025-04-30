@@ -239,6 +239,7 @@ export const useGamificationRewards = () => {
     daily: findMissionReward('tether_daily'),
     tradeReferral: findMissionReward('tether_trade-referral'),
     subReferral: findMissionReward('tether_sub-referral'),
+    league: findMissionReward('tether_league'),
     total: findMissionReward('tether'),
     claimed: findMissionReward('tether_claimed'),
   };

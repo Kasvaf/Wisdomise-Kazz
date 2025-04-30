@@ -1,11 +1,9 @@
-import { bxsTrophy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { useIsLoggedIn } from '../auth/jwt-store';
-import { IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
+import { IconQuests, IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
 const TraderButtons = () => {
   const isMobile = useIsMobile();
@@ -31,18 +29,17 @@ const TraderButtons = () => {
       </Button>
 
       <Button
-        onClick={() => navigate('/trader/quests/tournaments')}
+        onClick={() => navigate('/trader/quests')}
         size={isMobile ? 'md' : 'xs'}
         variant="ghost"
         className={clsx(
           isMobile ? '!px-4' : '!px-2',
-          pathname.startsWith('/trader/quests/tournaments') &&
-            '!text-v1-content-notice',
+          pathname.startsWith('/trader/quests') && '!text-v1-content-notice',
         )}
         surface={isMobile ? 2 : 3}
       >
-        <Icon name={bxsTrophy} className="text-v1-background-notice" />
-        Tournaments
+        <IconQuests />
+        Earn & Win
       </Button>
     </div>
   );
