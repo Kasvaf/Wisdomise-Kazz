@@ -96,12 +96,11 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     } as const;
 
     if (!(await showModalApproval(data, createData))) return;
-
     try {
+      setIsFiring(true);
       const res = await mutateAsync(createData);
 
       try {
-        setIsFiring(true);
         const awaitConfirm = await transferAssetsHandler({
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
@@ -132,11 +131,11 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
           network,
           positionKey: res.position_key,
         });
-      } finally {
-        setIsFiring(false);
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
+    } finally {
+      setIsFiring(false);
     }
   };
 

@@ -24,7 +24,12 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
           </div>
         ) : supportedPairs?.length ? (
           <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
-            <Trader quote={quote} setQuote={setQuote} slug={slug} />
+            <Trader
+              quote={quote}
+              setQuote={setQuote}
+              slug={slug}
+              loadingClassName="bg-v1-surface-l2"
+            />
           </ActiveNetworkProvider>
         ) : (
           <div className="my-8 flex flex-col items-center gap-3 text-center text-sm">

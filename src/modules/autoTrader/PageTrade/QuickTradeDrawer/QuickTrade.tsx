@@ -1,4 +1,6 @@
+import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
+import { Spin } from 'antd';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { Coin } from 'shared/Coin';
@@ -30,17 +32,6 @@ const QuickTrade: React.FC<TraderInputs> = inputs => {
     firing: [firing],
   } = formState;
 
-  if (confirming || firing) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-5 text-sm text-v1-content-secondary">
-        <Spinner className="!size-24" />
-        {firing
-          ? 'Creating the trading plan...'
-          : 'Confirming transaction on network...'}
-      </div>
-    );
-  }
-
   return (
     <div>
       {coinLoading ? (
@@ -48,13 +39,27 @@ const QuickTrade: React.FC<TraderInputs> = inputs => {
           <Spinner />
         </div>
       ) : (
-        <div>
+        <div className="relative">
           <div className="mb-8 flex items-center justify-between">
             {coin && <Coin coin={coin} />}
             <BtnWalletConnect />
           </div>
 
           <PartIntro data={formState} baseSlug={normSlug} noManualPreset />
+
+          {(confirming || firing) && (
+            <div
+              className={clsx(
+                'flex items-center justify-center gap-2 text-sm',
+                'absolute inset-0 rounded-sm bg-v1-surface-l4',
+              )}
+            >
+              <Spin size="small" />
+              {firing
+                ? 'Creating the trading plan...'
+                : 'Confirming transaction on network...'}
+            </div>
+          )}
         </div>
       )}
 
@@ -62,6 +67,7 @@ const QuickTrade: React.FC<TraderInputs> = inputs => {
         <Button
           block
           variant="outline"
+          disabled={confirming || firing}
           onClick={() =>
             isMobile
               ? navigate(`/trader/bot/${normSlug ?? ''}`)
