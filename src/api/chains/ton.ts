@@ -178,7 +178,8 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
     void queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
     gtag('event', 'trade');
 
-    return () => new Promise(resolve => setTimeout(resolve, 7000));
+    return () =>
+      new Promise<boolean>(resolve => setTimeout(() => resolve(true), 7000));
   };
 };
 

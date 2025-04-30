@@ -109,9 +109,14 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
 
         setConfirming(true);
         void awaitConfirm()
-          .then(() =>
-            notification.success({ message: 'Position created successfully' }),
-          )
+          .then(res => {
+            if (res) {
+              notification.success({
+                message: 'Position created successfully',
+              });
+            }
+            return res;
+          })
           .finally(() => {
             setConfirming(false);
             if (isMobile) {
