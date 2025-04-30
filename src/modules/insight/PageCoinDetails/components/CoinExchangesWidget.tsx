@@ -10,6 +10,7 @@ import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { type CoinExchange } from 'api/types/shared';
 import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 
 export function CoinExchangesWidget({
   slug,
@@ -25,6 +26,7 @@ export function CoinExchangesWidget({
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinDetails({ slug });
   const [query, setQuery] = useState('');
+  const [limit, setLimit] = useState<number | undefined>(6);
   const isMobile = useIsMobile();
 
   const columns = useMemo<Array<TableColumn<CoinExchange>>>(
@@ -107,10 +109,22 @@ export function CoinExchangesWidget({
         <Table
           loading={coinOverview.isLoading}
           columns={columns}
-          dataSource={data}
+          dataSource={data.slice(0, limit)}
           rowKey={row => row.exchange.id}
           surface={2}
           scrollable
+          footer={
+            (data?.length ?? 0) > 6 &&
+            limit && (
+              <Button
+                size="xs"
+                onClick={() => setLimit(undefined)}
+                variant="link"
+              >
+                {t('common:load-more')}
+              </Button>
+            )
+          }
         />
       </div>
       {hr && <hr className="border-white/10" />}

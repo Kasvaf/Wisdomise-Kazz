@@ -13,6 +13,7 @@ import { Input } from 'shared/v1-components/Input';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 
 function CoinWhalesWidgetWithType({
   type,
@@ -31,6 +32,7 @@ function CoinWhalesWidgetWithType({
   const isMobile = useIsMobile();
   const whales = useCoinWhales({ slug, type });
   const [query, setQuery] = useState('');
+  const [limit, setLimit] = useState<number | undefined>(6);
 
   const columns = useMemo<Array<TableColumn<CoinWhale>>>(
     () => [
@@ -160,10 +162,22 @@ function CoinWhalesWidgetWithType({
         <Table
           loading={whales.isLoading}
           columns={columns}
-          dataSource={data ?? []}
+          dataSource={data?.slice(0, limit) ?? []}
           rowKey={row => `${row.holder_address}${row.network_name ?? ''}`}
           surface={2}
           scrollable
+          footer={
+            (data?.length ?? 0) > 6 &&
+            limit && (
+              <Button
+                size="xs"
+                onClick={() => setLimit(undefined)}
+                variant="link"
+              >
+                {t('common:load-more')}
+              </Button>
+            )
+          }
         />
       </div>
       {hr && <hr className="border-white/10" />}

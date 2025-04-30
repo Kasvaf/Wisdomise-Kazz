@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { clsx } from 'clsx';
 import { bxsCopy } from 'boxicons-quasar';
@@ -12,6 +12,7 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
 import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
 
 export function CoinPoolsWidget({
   slug,
@@ -26,6 +27,7 @@ export function CoinPoolsWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const pools = useCoinPools({ slug, network: 'solana' });
+  const [limit, setLimit] = useState<number | undefined>(6);
   const [copy, copyNotif] = useShare('copy');
 
   const columns = useMemo<Array<TableColumn<Pool>>>(
@@ -109,10 +111,22 @@ export function CoinPoolsWidget({
         <Table
           loading={pools.isLoading}
           columns={columns}
-          dataSource={pools.data ?? []}
+          dataSource={pools.data?.slice(0, limit)}
           rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
           surface={2}
           scrollable
+          footer={
+            (pools.data?.length ?? 0) > 6 &&
+            limit && (
+              <Button
+                size="xs"
+                onClick={() => setLimit(undefined)}
+                variant="link"
+              >
+                {t('common:load-more')}
+              </Button>
+            )
+          }
         />
       </div>
       {copyNotif}
