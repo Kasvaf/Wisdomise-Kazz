@@ -6,6 +6,7 @@ import {
   type FC,
   type ReactNode,
 } from 'react';
+import { useIntersectionObserver } from './IntersectionProvider';
 
 export const TableSection: FC<
   Omit<JSX.IntrinsicElements['tbody'], 'ref'> & {
@@ -23,29 +24,15 @@ export const TableSection: FC<
 }) => {
   const element = useRef<HTMLTableSectionElement>(null);
   const [visible, setVisible] = useState(false);
+  const { register, unregister } = useIntersectionObserver();
+
   useEffect(() => {
     const el = element.current;
     if (!el || alwaysVisible) return;
 
-    const observer = new IntersectionObserver(
-      entries => {
-        for (const entry of entries) {
-          if (entry.target === el) {
-            setVisible(entry.isIntersecting);
-          }
-        }
-      },
-      {
-        root: null,
-        threshold: 0,
-        rootMargin: '150px',
-      },
-    );
-
-    observer.observe(el);
-
-    return () => observer.disconnect();
-  }, [alwaysVisible]);
+    register(el, setVisible);
+    return () => unregister(el);
+  }, [alwaysVisible, register, unregister]);
 
   return (
     <tbody

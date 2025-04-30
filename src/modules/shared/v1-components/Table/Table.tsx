@@ -11,6 +11,7 @@ import { EmptyContent } from './EmptyContent';
 import { SkeletonTrs } from './SkeletonTrs';
 import { Sort, useSorted } from './Sort';
 import { useRowHeight } from './useRowHeight';
+import { IntersectionObserverProvider } from './IntersectionProvider';
 
 export function Table<RecordType extends object>({
   columns,
@@ -164,63 +165,71 @@ export function Table<RecordType extends object>({
             </tr>
           </tbody>
         ) : (
-          chunks.map((chunk, index) => (
-            <TableSection
-              key={chunk.key}
-              optimisticStyle={{
-                height: `${chunk.size * (rowHeight + 8)}px`,
-              }}
-              alwaysVisible={index === 0}
-            >
-              {trs.slice(...chunk.range).map(tr => (
-                <tr
-                  key={tr.key}
-                  data-key={tr.key}
-                  data-clickable={
-                    typeof onClick === 'function' ? 'true' : 'false'
-                  }
-                  data-active={isActive?.(tr.data, tr.index) ? 'true' : 'false'}
-                  onClick={() => onClick?.(tr.data, tr.index)}
-                  className={rowClassName}
-                >
-                  {rowHoverPrefix && (
-                    <td data-sticky="start" style={{ width: '0px' }} data-hover>
-                      <div>{rowHoverPrefix(tr.data, tr.index)}</div>
-                    </td>
-                  )}
-                  {tr.tds.map((td, index, self) => (
-                    <td
-                      key={td.key}
-                      style={{
-                        width: td.width,
-                      }}
-                      className={td.className}
-                      data-first-child={index === 0}
-                      data-last-child={
-                        !scrollable && index === self.length - 1
-                          ? 'true'
-                          : 'false'
-                      }
-                      data-align={td.align ?? 'start'}
-                      data-sticky={td.sticky ?? 'none'}
-                    >
-                      <div>{td.content}</div>
-                    </td>
-                  ))}
-                  {scrollable && (
-                    <td style={{ width: 'auto' }} data-last-child="true">
-                      <div />
-                    </td>
-                  )}
-                  {rowHoverSuffix && (
-                    <td data-sticky="end" style={{ width: '0px' }} data-hover>
-                      <div>{rowHoverSuffix(tr.data, tr.index)}</div>
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </TableSection>
-          ))
+          <IntersectionObserverProvider>
+            {chunks.map((chunk, index) => (
+              <TableSection
+                key={chunk.key}
+                optimisticStyle={{
+                  height: `${chunk.size * (rowHeight + 8)}px`,
+                }}
+                alwaysVisible={index === 0}
+              >
+                {trs.slice(...chunk.range).map(tr => (
+                  <tr
+                    key={tr.key}
+                    data-key={tr.key}
+                    data-clickable={
+                      typeof onClick === 'function' ? 'true' : 'false'
+                    }
+                    data-active={
+                      isActive?.(tr.data, tr.index) ? 'true' : 'false'
+                    }
+                    onClick={() => onClick?.(tr.data, tr.index)}
+                    className={rowClassName}
+                  >
+                    {rowHoverPrefix && (
+                      <td
+                        data-sticky="start"
+                        style={{ width: '0px' }}
+                        data-hover
+                      >
+                        <div>{rowHoverPrefix(tr.data, tr.index)}</div>
+                      </td>
+                    )}
+                    {tr.tds.map((td, index, self) => (
+                      <td
+                        key={td.key}
+                        style={{
+                          width: td.width,
+                        }}
+                        className={td.className}
+                        data-first-child={index === 0}
+                        data-last-child={
+                          !scrollable && index === self.length - 1
+                            ? 'true'
+                            : 'false'
+                        }
+                        data-align={td.align ?? 'start'}
+                        data-sticky={td.sticky ?? 'none'}
+                      >
+                        <div>{td.content}</div>
+                      </td>
+                    ))}
+                    {scrollable && (
+                      <td style={{ width: 'auto' }} data-last-child="true">
+                        <div />
+                      </td>
+                    )}
+                    {rowHoverSuffix && (
+                      <td data-sticky="end" style={{ width: '0px' }} data-hover>
+                        <div>{rowHoverSuffix(tr.data, tr.index)}</div>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </TableSection>
+            ))}
+          </IntersectionObserverProvider>
         )}
       </table>
       {footer && (
