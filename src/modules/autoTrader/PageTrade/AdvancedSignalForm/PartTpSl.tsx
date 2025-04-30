@@ -50,7 +50,7 @@ const PartTpSl: React.FC<{
   return (
     <div>
       <div className="mb-2 flex justify-between">
-        <h1 className="flex items-center gap-1">
+        <h1 className="flex items-center gap-1 text-sm">
           {type === 'TP'
             ? t('signal-form.take-profit')
             : t('signal-form.stop-loss')}
