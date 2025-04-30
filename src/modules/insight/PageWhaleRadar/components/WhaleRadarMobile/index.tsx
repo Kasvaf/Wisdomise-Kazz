@@ -12,6 +12,7 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { RadarFilter } from 'modules/insight/RadarFilter';
 import { usePageState } from 'shared/usePageState';
+import { TableRank } from 'shared/TableRank';
 import { WhaleRadarSentiment } from '../WhaleRadarSentiment';
 
 export const WhaleRadarMobile = () => {
@@ -40,8 +41,7 @@ export const WhaleRadarMobile = () => {
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => row.rank,
+        render: row => <TableRank>{row.rank}</TableRank>,
       },
       {
         key: 'coin',
@@ -75,8 +75,7 @@ export const WhaleRadarMobile = () => {
       },
       {
         key: 'labels',
-        className: 'max-w-24 min-w-16',
-        width: '85px',
+        align: 'end',
         render: row => (
           <div className="flex flex-col items-end justify-center gap-2">
             <CoinLabels
