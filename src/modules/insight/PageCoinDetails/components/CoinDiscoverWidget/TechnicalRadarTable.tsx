@@ -3,7 +3,7 @@ import { type FC, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
@@ -15,14 +15,13 @@ export const TechnicalRadarTable: FC<{
 }> = ({ onClick, networks }) => {
   const coins = useTechnicalRadarCoins({ networks });
 
-  const columns = useMemo<Array<MobileTableColumn<TechnicalRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<TechnicalRadarCoin>>>(
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => (
-          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
-        ),
+        width: 10,
+        className: '[&>div]:!p-0',
+        render: row => <TableRank highlighted={row._highlighted} />,
       },
       {
         key: 'coin',
@@ -52,11 +51,8 @@ export const TechnicalRadarTable: FC<{
       },
       {
         key: 'sentiment',
-        render: row => (
-          <div className="flex justify-end">
-            <TechnicalRadarSentiment value={row} mode="tiny" />
-          </div>
-        ),
+        align: 'end',
+        render: row => <TechnicalRadarSentiment value={row} mode="tiny" />,
       },
     ],
     [],
@@ -73,7 +69,7 @@ export const TechnicalRadarTable: FC<{
         vip: false,
       }}
     >
-      <MobileTable
+      <Table
         className="max-w-full"
         columns={columns}
         dataSource={coins.data ?? []}
@@ -82,6 +78,7 @@ export const TechnicalRadarTable: FC<{
         loading={coins.isLoading}
         surface={2}
         onClick={onClick}
+        scrollable={false}
       />
     </AccessShield>
   );

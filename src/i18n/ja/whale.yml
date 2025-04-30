@@ -136,6 +136,21 @@ whale_balance_chart:
   balance: 残高
   current_balance: 現在の残高
   title: ウォレット残高チャート
+whale_coins:
+  avg_cost: 平均費用
+  avg_sold: 平均販売数
+  badge: バッジ
+  balance: 残高
+  chg_30d: 変化（30D）
+  holding_title: コインとトークンの保有
+  info: 情報
+  labels: ラベル
+  market_cap: 時価総額
+  name: 信号発信者名
+  number_of_transactions: TRX
+  remaining: 残り
+  total_profit: 総利益
+  trading_title: アクティブなコインとトークン
 whale_historical_pnl:
   last_30_trading_pnl: 過去 30 日間の取引損益
   title: 過去の損益チャート
@@ -157,12 +172,14 @@ whale_overview:
     info: 長期的な利益のためにクジラのウォレットに保管されるトークン。
     title: 保留
   losses: 損失
+  total_balance: 合計残高
   trading_pnl: 取引損益（未実現）
   trading_tokens:
     info: アクティビティが高く、クジラによって頻繁に売買されるトークン。
     title: トークン取引
   trading_volume: 取引量
   trading_win_rate: 取引勝率
+  unrealized_trading_pnl: 未実現取引損益
   wins: 勝利
 whale_trades:
   avg_duration: 平均所要時間
@@ -173,6 +190,16 @@ whale_trades:
   title: 取引
   trading_pnl: 取引損益
   volume_of_trades: 取引量
+whale_transaction_history:
+  amount: 金額
+  date: 日付
+  link: リンク
+  name: 信号発信者名
+  price: 価格
+  profit: 利益
+  title: 取引履歴
+  transaction_type: 取引の種類
+  worth: 価値
 whales_on_coin:
   active_empty: 現在アクティブなウォレットはありません
   active_title: スマートウォレットがアクティブ

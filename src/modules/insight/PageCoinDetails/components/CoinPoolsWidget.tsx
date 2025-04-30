@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
-import { type ColumnType } from 'antd/es/table';
+import { useMemo, useState } from 'react';
+
 import { clsx } from 'clsx';
 import { bxsCopy } from 'boxicons-quasar';
 import { useCoinPools } from 'api';
-import Table from 'shared/Table';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { type Pool } from 'api/types/shared';
 import { shortenAddress } from 'utils/shortenAddress';
@@ -12,6 +12,7 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
 import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
 
 export function CoinPoolsWidget({
   slug,
@@ -26,13 +27,14 @@ export function CoinPoolsWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const pools = useCoinPools({ slug, network: 'solana' });
+  const [limit, setLimit] = useState<number | undefined>(6);
   const [copy, copyNotif] = useShare('copy');
 
-  const columns = useMemo<Array<ColumnType<Pool>>>(
+  const columns = useMemo<Array<TableColumn<Pool>>>(
     () => [
       {
         title: t('pools.table.address'),
-        render: (_, row) => (
+        render: row => (
           <div className="flex items-center gap-1 text-xs">
             {shortenAddress(row.address ?? '')}
             <Icon
@@ -43,35 +45,32 @@ export function CoinPoolsWidget({
             />
           </div>
         ),
-        width: '10%',
+        sticky: 'start',
       },
       {
         title: t('pools.table.name'),
-        render: (_, row) => <p className="text-xs">{row.name ?? '---'}</p>,
-        width: '20%',
+        render: row => <p className="text-xs">{row.name ?? '---'}</p>,
       },
       {
         title: t('pools.table.created_at'),
         sorter: (a, b) =>
           new Date(a.pool_created_at ?? 0).getTime() -
           new Date(b.pool_created_at ?? 0).getTime(),
-        render: (_, row) => (
+        render: row => (
           <ReadableDate value={row.pool_created_at} className="text-xs" />
         ),
-        width: '10%',
       },
       {
         title: t('pools.table.dex'),
-        render: (_, row) => (
+        render: row => (
           <p className="text-xs capitalize">
             {row.dex?.replaceAll('-', ' ') ?? '---'}
           </p>
         ),
-        width: '20%',
       },
       {
         title: t('pools.table.txns'),
-        render: (_, row) => (
+        render: row => (
           <NCoinBuySell
             value={{
               buys: row.h24_buys,
@@ -80,18 +79,16 @@ export function CoinPoolsWidget({
             className="text-xs"
           />
         ),
-        width: '20%',
       },
       {
         title: t('pools.table.volume'),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber
             value={row.h24_volume_usd_liquidity}
             label="$"
             className="text-xs"
           />
         ),
-        width: '20%',
       },
     ],
     [copy, t],
@@ -114,14 +111,22 @@ export function CoinPoolsWidget({
         <Table
           loading={pools.isLoading}
           columns={columns}
-          dataSource={pools.data ?? []}
+          dataSource={pools.data?.slice(0, limit)}
           rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
-          tableLayout="auto"
-          pagination={{
-            pageSize: 5,
-            hideOnSinglePage: true,
-          }}
-          surface={1}
+          surface={2}
+          scrollable
+          footer={
+            (pools.data?.length ?? 0) > 6 &&
+            limit && (
+              <Button
+                size="xs"
+                onClick={() => setLimit(undefined)}
+                variant="link"
+              >
+                {t('common:load-more')}
+              </Button>
+            )
+          }
         />
       </div>
       {copyNotif}

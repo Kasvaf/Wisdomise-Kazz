@@ -1,12 +1,11 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
-import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
@@ -14,14 +13,13 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import { RadarFilter } from 'modules/insight/RadarFilter';
+import { usePageState } from 'shared/usePageState';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 
 export const SocialRadarMobile = () => {
-  const [, tableState, setTableState] = useTableState<
+  const [tableState, setTableState] = usePageState<
     Required<Parameters<typeof useSocialRadarCoins>[0]>
   >('', {
-    page: 1,
-    pageSize: 10,
     sortBy: 'rank',
     sortOrder: 'ascending',
     query: '',
@@ -41,11 +39,10 @@ export const SocialRadarMobile = () => {
 
   useLoadingBadge(coins.isFetching);
 
-  const columns = useMemo<Array<MobileTableColumn<SocialRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<SocialRadarCoin>>>(
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => (
           <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
@@ -82,7 +79,7 @@ export const SocialRadarMobile = () => {
       },
       {
         key: 'labels',
-        className: 'max-w-24 min-w-16',
+        align: 'end',
         render: row => (
           <div className="flex flex-col items-end justify-center gap-2">
             <CoinLabels
@@ -117,7 +114,7 @@ export const SocialRadarMobile = () => {
         surface={1}
       />
       <AccessShield
-        mode="mobile_table"
+        mode="table"
         sizes={{
           guest: true,
           initial: true,
@@ -125,16 +122,17 @@ export const SocialRadarMobile = () => {
           vip: false,
         }}
       >
-        <MobileTable
+        <Table
           columns={columns}
           dataSource={coins.data ?? []}
-          rowKey={r => JSON.stringify(r.symbol)}
+          rowKey={r => r.symbol.slug}
           loading={coins.isLoading}
           surface={2}
           onClick={r => {
             setSelectedRow(r);
             setModal(true);
           }}
+          scrollable={false}
         />
       </AccessShield>
       <CoinPreDetailModal

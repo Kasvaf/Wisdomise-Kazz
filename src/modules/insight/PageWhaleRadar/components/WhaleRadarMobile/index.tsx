@@ -1,25 +1,24 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
-import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { RadarFilter } from 'modules/insight/RadarFilter';
+import { usePageState } from 'shared/usePageState';
+import { TableRank } from 'shared/TableRank';
 import { WhaleRadarSentiment } from '../WhaleRadarSentiment';
 
 export const WhaleRadarMobile = () => {
-  const [, tableState, setTableState] = useTableState<
+  const [tableState, setTableState] = usePageState<
     Required<Parameters<typeof useWhaleRadarCoins>[0]>
   >('', {
-    page: 1,
-    pageSize: 10,
     sortBy: 'rank',
     sortOrder: 'ascending',
     query: '',
@@ -38,12 +37,11 @@ export const WhaleRadarMobile = () => {
   const [selectedRow, setSelectedRow] = useState<null | WhaleRadarCoin>(null);
   const [modal, setModal] = useState(false);
 
-  const columns = useMemo<Array<MobileTableColumn<WhaleRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => row.rank,
+        render: row => <TableRank>{row.rank}</TableRank>,
       },
       {
         key: 'coin',
@@ -77,8 +75,7 @@ export const WhaleRadarMobile = () => {
       },
       {
         key: 'labels',
-        className: 'max-w-24 min-w-16',
-        width: '85px',
+        align: 'end',
         render: row => (
           <div className="flex flex-col items-end justify-center gap-2">
             <CoinLabels
@@ -113,7 +110,7 @@ export const WhaleRadarMobile = () => {
         surface={1}
       />
       <AccessShield
-        mode="mobile_table"
+        mode="table"
         sizes={{
           guest: false,
           initial: false,
@@ -121,7 +118,7 @@ export const WhaleRadarMobile = () => {
           vip: false,
         }}
       >
-        <MobileTable
+        <Table
           columns={columns}
           dataSource={coins.data ?? []}
           rowKey={r => JSON.stringify(r.symbol)}
@@ -131,6 +128,7 @@ export const WhaleRadarMobile = () => {
             setSelectedRow(r);
             setModal(true);
           }}
+          scrollable={false}
         />
       </AccessShield>
       <CoinPreDetailModal

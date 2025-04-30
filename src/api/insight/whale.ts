@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
@@ -175,6 +175,14 @@ export interface SingleWhale {
     last_30_days_price_change?: null | number;
     worth?: null | number;
     symbol: Coin;
+    recent_avg_cost?: null | number;
+    recent_avg_sold?: null | number;
+    remaining_percent?: null | number;
+    symbol_labels?: null | string[];
+    symbol_security?: null | {
+      data: NetworkSecurity[];
+    };
+    networks?: null | CoinNetwork[];
   }>;
   scanner_link?: null | {
     name: string;
@@ -242,7 +250,7 @@ export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
           slug,
         },
       }).then(resp => {
-        if (!resp.wallet_count) return null;
+        if (resp.label_percents.length === 0) return null;
         return resp;
       }),
   });
@@ -415,4 +423,57 @@ export const useCoinWhales = (config: {
           return false;
         return true;
       }),
+  });
+
+export interface WhaleTransaction {
+  symbol_slug: string;
+  transaction_type: 'Sent' | 'Received';
+  amount?: number | null;
+  price?: number | null;
+  worth?: number | null;
+  profit?: number | null;
+  related_at_datetime: string;
+  symbol?: Coin | null;
+  coinstats_info?: Pick<Coin, 'abbreviation' | 'logo_url' | 'name'> | null;
+  link?: null | {
+    name: string;
+    url: string;
+  };
+}
+
+export const useWhaleTransactions = (config: {
+  slug?: string;
+  holderAddress: string;
+  networkName: string;
+  pageSize: number;
+  // page: number;
+}) =>
+  useInfiniteQuery({
+    queryKey: [
+      'whale-transactions',
+      config.slug,
+      config.holderAddress,
+      config.networkName,
+      // config.page,
+      config.pageSize,
+    ],
+    queryFn: ({ pageParam = 1 }) =>
+      ofetch<PageResponse<WhaleTransaction>>('delphi/holders/transactions/', {
+        query: {
+          holder_address: config.holderAddress,
+          network_name: config.networkName,
+          slug: config.slug,
+          page_size: config.pageSize,
+          page: pageParam,
+        },
+        meta: { auth: false },
+      }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.next) {
+        return allPages.length + 1;
+      }
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });

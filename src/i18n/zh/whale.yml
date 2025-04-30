@@ -133,6 +133,21 @@ whale_balance_chart:
   balance: 餘額
   current_balance: 当前余额
   title: 钱包余额表
+whale_coins:
+  avg_cost: 平均成本
+  avg_sold: 平均销售量
+  badge: 徽章
+  balance: 餘額
+  chg_30d: 更改（30天）
+  holding_title: 持有硬币和代币
+  info: 信息
+  labels: 标签
+  market_cap: 市值
+  name: 名稱
+  number_of_transactions: TRX
+  remaining: 其余的
+  total_profit: 总利润
+  trading_title: 活跃硬币和代币
 whale_historical_pnl:
   last_30_trading_pnl: 过去 30 天交易盈亏
   title: 历史盈亏图表
@@ -154,12 +169,14 @@ whale_overview:
     info: 鲸鱼钱包中持有的代币可带来长期收益。
     title: 保留
   losses: 损失
+  total_balance: 总余额
   trading_pnl: 交易盈亏（未实现）
   trading_tokens:
     info: 活跃度较高的代币，被巨鲸频繁买卖。
     title: 交易代币
   trading_volume: 交易量
   trading_win_rate: 交易胜率
+  unrealized_trading_pnl: 未实现交易盈亏
   wins: 胜利
 whale_trades:
   avg_duration: 平均持续时间
@@ -170,6 +187,16 @@ whale_trades:
   title: 交易
   trading_pnl: 交易盈亏
   volume_of_trades: 交易量
+whale_transaction_history:
+  amount: 金額
+  date: 日期
+  link: 关联
+  name: 名稱
+  price: 價格
+  profit: 利润
+  title: 交易历史
+  transaction_type: 交易类型
+  worth: 值得
 whales_on_coin:
   active_empty: 目前没有活跃的钱包
   active_title: 智能钱包活跃于

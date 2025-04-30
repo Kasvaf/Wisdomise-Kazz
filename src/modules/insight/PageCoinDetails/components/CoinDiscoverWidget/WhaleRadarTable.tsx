@@ -3,9 +3,8 @@ import { type FC, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { TableRank } from 'shared/TableRank';
 import { WhaleRadarSentiment } from 'modules/insight/PageWhaleRadar/components/WhaleRadarSentiment';
 
 export const WhaleRadarTable: FC<{
@@ -17,13 +16,8 @@ export const WhaleRadarTable: FC<{
     networks,
   });
 
-  const columns = useMemo<Array<MobileTableColumn<WhaleRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
     () => [
-      {
-        key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => <TableRank>{row.rank}</TableRank>,
-      },
       {
         key: 'coin',
         render: row => (
@@ -52,11 +46,8 @@ export const WhaleRadarTable: FC<{
       },
       {
         key: 'sentiment',
-        render: row => (
-          <div className="flex justify-end">
-            <WhaleRadarSentiment value={row} mode="tiny" />
-          </div>
-        ),
+        align: 'end',
+        render: row => <WhaleRadarSentiment value={row} mode="tiny" />,
       },
     ],
     [],
@@ -64,7 +55,7 @@ export const WhaleRadarTable: FC<{
 
   const { slug } = useParams<{ slug: string }>();
   return (
-    <MobileTable
+    <Table
       className="max-w-full"
       columns={columns}
       dataSource={coins.data ?? []}
@@ -73,6 +64,7 @@ export const WhaleRadarTable: FC<{
       loading={coins.isLoading}
       surface={2}
       onClick={onClick}
+      scrollable={false}
     />
   );
 };

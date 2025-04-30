@@ -133,7 +133,7 @@ export function OverviewWidget({
       {/* Content */}
       <div
         className={clsx(
-          'relative h-auto min-h-20 grow overflow-auto',
+          'relative h-auto min-h-20 grow overflow-auto scrollbar-none',
           contentClassName,
         )}
       >

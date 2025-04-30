@@ -3,7 +3,7 @@ import { type FC, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
@@ -18,14 +18,13 @@ export const SocialRadarTable: FC<{
     networks,
   });
 
-  const columns = useMemo<Array<MobileTableColumn<SocialRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<SocialRadarCoin>>>(
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => (
-          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
-        ),
+        width: 10,
+        className: '[&>div]:!p-0',
+        render: row => <TableRank highlighted={row._highlighted} />,
       },
       {
         key: 'coin',
@@ -55,11 +54,8 @@ export const SocialRadarTable: FC<{
       },
       {
         key: 'sentiment',
-        render: row => (
-          <div className="flex justify-end">
-            <SocialRadarSentiment value={row} mode="tiny" />
-          </div>
-        ),
+        align: 'end',
+        render: row => <SocialRadarSentiment value={row} mode="tiny" />,
       },
     ],
     [],
@@ -76,7 +72,7 @@ export const SocialRadarTable: FC<{
         vip: false,
       }}
     >
-      <MobileTable
+      <Table
         className="max-w-full"
         columns={columns}
         dataSource={coins.data ?? []}
@@ -85,6 +81,7 @@ export const SocialRadarTable: FC<{
         loading={coins.isLoading}
         surface={2}
         onClick={onClick}
+        scrollable={false}
       />
     </AccessShield>
   );

@@ -39,6 +39,7 @@ export function DirectionalNumber({
   direction: directionType,
   label,
   format,
+  emptyText,
 }: {
   className?: string;
   value?: number | null;
@@ -50,6 +51,7 @@ export function DirectionalNumber({
   suffix?: ReactNode;
   label?: string;
   format?: Partial<FormatNumberOptions>;
+  emptyText?: string | undefined;
 }) {
   const direction = useMemo(() => {
     if (!directionType || directionType === 'auto') {
@@ -84,6 +86,7 @@ export function DirectionalNumber({
         label={label}
         className="text-inherit"
         format={format}
+        emptyText={emptyText}
       />
       {suffix}
     </span>

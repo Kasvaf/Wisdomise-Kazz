@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useWhaleDetails } from 'api';
-import { OverviewWidget } from 'shared/OverviewWidget';
 import { formatNumber } from 'utils/numbers';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
@@ -13,10 +12,12 @@ export function WhaleBalanceChartWidget({
   className,
   holderAddress,
   networkName,
+  hr,
 }: {
   className?: string;
   holderAddress: string;
   networkName: string;
+  hr?: boolean;
 }) {
   const { t } = useTranslation('whale');
   const whale = useWhaleDetails({
@@ -75,33 +76,35 @@ export function WhaleBalanceChartWidget({
     };
   }, [whale, t]);
 
+  if (whale.isLoading || !whale.data?.holder_address) return null;
+
   return (
-    <OverviewWidget
-      className={clsx('min-h-[317px]', className)}
-      loading={whale.isLoading}
-      empty={!whale.data?.holder_address}
-      title={t('whale_balance_chart.title')}
-      contentClassName="overflow-hidden"
-    >
-      <div className="flex items-end justify-between gap-2">
-        <div>
-          <p className="text-xs text-v1-content-secondary">
-            {t('whale_balance_chart.current_balance')}
-          </p>
-          <ReadableNumber
-            value={whale.data?.last_30_balance_updates?.[0]?.balance_usdt}
-            label="$"
-            className="block text-2xl"
-          />
+    <>
+      <div className={clsx('h-[317px] overflow-hidden', className)}>
+        <h3 className="mb-4 text-sm font-semibold">
+          {t('whale_balance_chart.title')}
+        </h3>
+        <div className="flex items-end justify-between gap-2">
+          <div>
+            <p className="text-xs text-v1-content-secondary">
+              {t('whale_balance_chart.current_balance')}
+            </p>
+            <ReadableNumber
+              value={whale.data?.last_30_balance_updates?.[0]?.balance_usdt}
+              label="$"
+              className="block text-2xl"
+            />
+          </div>
+          <div>
+            <PriceChange
+              value={whale.data?.last_30_days_balance_change_percentage}
+              className="block text-sm"
+            />
+          </div>
         </div>
-        <div>
-          <PriceChange
-            value={whale.data?.last_30_days_balance_change_percentage}
-            className="block text-sm"
-          />
-        </div>
+        <Area className="!-mx-6 2xl:!-mx-8" {...config} />
       </div>
-      <Area className="!-mx-6 2xl:!-mx-8" {...config} />
-    </OverviewWidget>
+      {hr && <hr className="border-white/10" />}
+    </>
   );
 }

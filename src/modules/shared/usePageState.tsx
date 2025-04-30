@@ -1,32 +1,16 @@
-import { Table as AntTable, type TableProps } from 'antd';
-import { clsx } from 'clsx';
-import { bxInfoCircle } from 'boxicons-quasar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Icon from 'shared/Icon';
-import { type Surface, useSurface } from 'utils/useSurface';
-import { HoverTooltip } from 'shared/HoverTooltip';
-import expandSrc from './expand.svg';
-import './style.css';
-
-interface TablePagination {
-  page: number;
-  total?: number;
-  pageSize: number;
-  sortBy?: string; // keyof Columns
-  sortOrder?: 'ascending' | 'descending';
-}
 
 const toParam = (prefix: string, param: string) =>
   [prefix, param].filter(x => !!x).join('-');
 
 const TABLE_STATE_ARRAY_SPLITTER = '&&';
 
-export const useTableState = <
+export const usePageState = <
   T extends Record<string, string | number | boolean | string[]>,
 >(
   queryPrefix: string,
-  initialState: TablePagination & T,
+  initialState: T,
 ) => {
   const initialStateRef = useRef(initialState);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -133,108 +117,5 @@ export const useTableState = <
     [],
   );
 
-  return useMemo(
-    () =>
-      [
-        {
-          pagination: {
-            total: state.total ?? undefined,
-            current: state.page,
-            pageSize: state.pageSize ?? 10,
-          },
-          onChange: (pagination, _, sorter) => {
-            const sortBy =
-              Array.isArray(sorter) || typeof sorter.order !== 'string'
-                ? initialStateRef.current.sortBy
-                : typeof sorter?.field === 'string'
-                ? sorter.field
-                : typeof sorter?.column?.key === 'string'
-                ? sorter.column.key
-                : initialStateRef.current.sortBy;
-            const sortOrder =
-              Array.isArray(sorter) || typeof sorter.order !== 'string'
-                ? initialStateRef.current.sortOrder
-                : sorter.order === 'ascend'
-                ? 'ascending'
-                : 'descending';
-            setState({
-              ...state,
-              ...(pagination.current && {
-                page: pagination.current,
-              }),
-              ...(pagination.pageSize && {
-                pageSize: pagination.pageSize,
-              }),
-              sortBy,
-              sortOrder,
-            });
-          },
-        } satisfies Partial<TableProps<any>>,
-        state,
-        setState,
-      ] as const,
-    [setState, state],
-  );
+  return useMemo(() => [state, setState] as const, [setState, state]);
 };
-export default function Table<RecordType extends object>({
-  pagination,
-  columns,
-  surface = 2,
-  ...props
-}: TableProps<RecordType> & {
-  surface?: Surface;
-}) {
-  const colors = useSurface(surface);
-  return (
-    <AntTable<RecordType>
-      bordered={false}
-      showSorterTooltip={false}
-      {...props}
-      style={{
-        ['--table-zebra-color' as never]: colors.next,
-        ['--table-current-color' as never]: colors.current,
-      }}
-      columns={columns
-        ?.filter(col => col.colSpan !== 0)
-        .map(col => ({
-          ...col,
-          title: (
-            <span className="inline-flex items-center gap-1">
-              {Array.isArray(col.title) ? col.title[0] : col.title}
-              {Array.isArray(col.title) && col.title[1] && (
-                <HoverTooltip title={col.title[1]}>
-                  <Icon name={bxInfoCircle} size={16} strokeWidth={0.5} />
-                </HoverTooltip>
-              )}
-            </span>
-          ),
-        }))}
-      pagination={
-        pagination === false
-          ? false
-          : {
-              showSizeChanger: false,
-              showPrevNextJumpers: true,
-              showLessItems: true,
-              responsive: false,
-              ...pagination,
-            }
-      }
-      scroll={{ x: true }}
-      expandable={{
-        ...props.expandable,
-        expandIcon: props.expandable
-          ? props => (
-              <button onClick={e => props.onExpand(props.record, e)}>
-                <img
-                  src={expandSrc}
-                  className={clsx('transition', props.expanded && 'rotate-180')}
-                />
-              </button>
-            )
-          : undefined,
-      }}
-    />
-  );
-}
-Table.EXPAND_COLUMN = AntTable.EXPAND_COLUMN;

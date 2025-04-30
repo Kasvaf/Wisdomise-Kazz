@@ -1,18 +1,19 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
-import { type ColumnType } from 'antd/es/table';
+
 import { clsx } from 'clsx';
 import { bxSearch } from 'boxicons-quasar';
+import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
 import { type CoinWhale, useCoinWhales } from 'api';
-import Table from 'shared/Table';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Wallet } from 'shared/Wallet';
 import { Network } from 'shared/Network';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 
 function CoinWhalesWidgetWithType({
   type,
@@ -31,12 +32,14 @@ function CoinWhalesWidgetWithType({
   const isMobile = useIsMobile();
   const whales = useCoinWhales({ slug, type });
   const [query, setQuery] = useState('');
+  const [limit, setLimit] = useState<number | undefined>(6);
 
-  const columns = useMemo<Array<ColumnType<CoinWhale>>>(
+  const columns = useMemo<Array<TableColumn<CoinWhale>>>(
     () => [
       {
         title: t('whales_on_coin.address'),
-        render: (_, row) => (
+        sticky: 'start',
+        render: row => (
           <Wallet
             wallet={{
               address: row.holder_address,
@@ -47,7 +50,7 @@ function CoinWhalesWidgetWithType({
       },
       {
         title: t('whales_on_coin.badge'),
-        render: (_, row) => (
+        render: row => (
           <WhaleAssetBadge
             value={row.asset.label}
             date={row.asset.last_label_action_datetime}
@@ -56,7 +59,7 @@ function CoinWhalesWidgetWithType({
       },
       {
         title: t('whales_on_coin.network'),
-        render: (_, row) => (
+        render: row => (
           <Network
             network={{
               name: row.network_name,
@@ -69,7 +72,7 @@ function CoinWhalesWidgetWithType({
       },
       {
         title: t('whales_on_coin.balance'),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber
             value={row.asset.worth}
             label="$"
@@ -80,7 +83,7 @@ function CoinWhalesWidgetWithType({
       },
       {
         title: t('whales_on_coin.trading_vol'),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber
             value={
               (row.asset.total_recent_sell_amount ?? 0) +
@@ -94,7 +97,7 @@ function CoinWhalesWidgetWithType({
       },
       {
         title: t('whales_on_coin.total_pnl'),
-        render: (_, row) => (
+        render: row => (
           <DirectionalNumber
             value={row.asset.pnl}
             direction="auto"
@@ -107,7 +110,7 @@ function CoinWhalesWidgetWithType({
       },
       {
         title: t('whales_on_coin.returns'),
-        render: (_, row) => (
+        render: row => (
           <DirectionalNumber
             value={row.asset.pnl_percent}
             direction="auto"
@@ -159,14 +162,22 @@ function CoinWhalesWidgetWithType({
         <Table
           loading={whales.isLoading}
           columns={columns}
-          dataSource={data ?? []}
+          dataSource={data?.slice(0, limit) ?? []}
           rowKey={row => `${row.holder_address}${row.network_name ?? ''}`}
-          tableLayout="auto"
-          pagination={{
-            pageSize: 5,
-            hideOnSinglePage: true,
-          }}
-          surface={1}
+          surface={2}
+          scrollable
+          footer={
+            (data?.length ?? 0) > 6 &&
+            limit && (
+              <Button
+                size="xs"
+                onClick={() => setLimit(undefined)}
+                variant="link"
+              >
+                {t('common:load-more')}
+              </Button>
+            )
+          }
         />
       </div>
       {hr && <hr className="border-white/10" />}

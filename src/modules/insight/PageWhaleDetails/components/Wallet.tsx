@@ -4,8 +4,8 @@ import { type FC } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { shortenAddress } from 'utils/shortenAddress';
-import { useShare } from './useShare';
-import { Button } from './v1-components/Button';
+import { Button } from 'shared/v1-components/Button';
+import { useShare } from 'shared/useShare';
 
 export const Wallet: FC<{
   wallet: {

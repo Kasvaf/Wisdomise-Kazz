@@ -18,10 +18,7 @@ import { ReactComponent as Sparkle } from './sparkle.svg';
 const calcSize = (size: number | boolean) =>
   size === true ? 999 : size === false ? 0 : size < 1 ? 0 : size;
 
-const useShield = (
-  mode: 'table' | 'mobile_table' | 'children',
-  size: number | boolean,
-) => {
+const useShield = (mode: 'table' | 'children', size: number | boolean) => {
   const root = useRef<HTMLDivElement>(null);
   const shield = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(!!(size === 0 || size === false));
@@ -38,11 +35,9 @@ const useShield = (
         mode === 'table'
           ? [
               ...root.current.querySelectorAll(
-                'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
+                'tbody > tr:not([data-placeholder]):not([data-skeleton])',
               ),
             ]
-          : mode === 'mobile_table'
-          ? [...root.current.querySelectorAll('[data-table="tr"]')]
           : [
               ...root.current.querySelectorAll(
                 '*:not([aria-hidden]):not([data-pro-locker])',
@@ -102,7 +97,7 @@ export function AccessShield({
   sizes,
 }: PropsWithChildren<{
   className?: string;
-  mode: 'table' | 'mobile_table' | 'children';
+  mode: 'table' | 'children';
   sizes: Record<UserGroup, number | boolean>;
 }>) {
   const { t } = useTranslation('pro');
@@ -130,7 +125,7 @@ export function AccessShield({
         {calcSize(size) > 0 && (
           <div
             className={clsx(
-              'z-[2] w-full rounded-xl',
+              'z-10 w-full rounded-xl',
               height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
               maxHeight < 900 ? 'justify-center' : 'justify-start',
               'flex flex-col items-center backdrop-blur',

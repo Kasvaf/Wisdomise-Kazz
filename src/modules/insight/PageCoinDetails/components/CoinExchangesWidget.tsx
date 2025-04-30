@@ -1,15 +1,16 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
-import { type ColumnType } from 'antd/es/table';
+
 import { bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useCoinDetails } from 'api';
-import Table from 'shared/Table';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { type CoinExchange } from 'api/types/shared';
 import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 
 export function CoinExchangesWidget({
   slug,
@@ -25,14 +26,16 @@ export function CoinExchangesWidget({
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinDetails({ slug });
   const [query, setQuery] = useState('');
+  const [limit, setLimit] = useState<number | undefined>(6);
   const isMobile = useIsMobile();
 
-  const columns = useMemo<Array<ColumnType<CoinExchange>>>(
+  const columns = useMemo<Array<TableColumn<CoinExchange>>>(
     () => [
       {
         title: t('available-exchanges.table.exchange'),
         width: '45%',
-        render: (_, row) => (
+        sticky: 'start',
+        render: row => (
           <div className="inline-flex items-center gap-2 text-xs leading-tight">
             <img
               src={row.exchange.icon_url}
@@ -46,7 +49,7 @@ export function CoinExchangesWidget({
       {
         title: t('available-exchanges.table.price'),
         sorter: (a, b) => (a.price_in_usd ?? 0) - (b.price_in_usd ?? 0),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber
             value={row.price_in_usd}
             label="usdt"
@@ -57,7 +60,7 @@ export function CoinExchangesWidget({
       {
         title: t('available-exchanges.table.volume_24h'),
         sorter: (a, b) => (a.volume_24h ?? 0) - (b.volume_24h ?? 0),
-        render: (_, row) => (
+        render: row => (
           <ReadableNumber
             value={row.volume_24h}
             label="$"
@@ -106,13 +109,22 @@ export function CoinExchangesWidget({
         <Table
           loading={coinOverview.isLoading}
           columns={columns}
-          dataSource={data}
+          dataSource={data.slice(0, limit)}
           rowKey={row => row.exchange.id}
-          tableLayout="fixed"
-          pagination={{
-            pageSize: 5,
-          }}
-          surface={1}
+          surface={2}
+          scrollable
+          footer={
+            (data?.length ?? 0) > 6 &&
+            limit && (
+              <Button
+                size="xs"
+                onClick={() => setLimit(undefined)}
+                variant="link"
+              >
+                {t('common:load-more')}
+              </Button>
+            )
+          }
         />
       </div>
       {hr && <hr className="border-white/10" />}
