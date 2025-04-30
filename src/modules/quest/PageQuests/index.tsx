@@ -12,7 +12,7 @@ export default function PageQuests() {
   const hasFlag = useHasFlag();
 
   return (
-    <PageWrapper footer={null} hasBack title="Quests" loading={isLoading}>
+    <PageWrapper footer={null} hasBack title="Earn & Win" loading={isLoading}>
       <PageTitle
         className="py-5"
         title="Earn & Win"
