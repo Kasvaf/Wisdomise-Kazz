@@ -99,7 +99,8 @@ export function ButtonSelect<T>({
   return (
     <div
       className={clsx(
-        'relative max-w-full overflow-hidden',
+        'relative overflow-hidden',
+        innerScroll ? 'max-w-full' : 'w-max min-w-max max-w-max',
         /* Size: height, padding, font-size, border-radius */
         size === 'xs' && 'h-xs rounded-md text-xxs',
         size === 'sm' && 'h-sm rounded-lg text-xxs',
@@ -116,7 +117,9 @@ export function ButtonSelect<T>({
       <div
         className={clsx(
           'flex h-full flex-nowrap items-center gap-0  whitespace-nowrap text-v1-content-primary ',
-          innerScroll ? ['scrollbar-none', 'w-full overflow-auto'] : 'w-max',
+          innerScroll
+            ? ['scrollbar-none', 'w-full overflow-auto']
+            : 'w-max min-w-max shrink-0',
         )}
         ref={buttonsRef}
       >
