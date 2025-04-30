@@ -57,7 +57,7 @@ export const CoinTitleWidget: FC<{
         {symbol ? (
           <>
             <div className="flex items-center justify-start gap-2 mobile:w-full mobile:flex-wrap">
-              <CoinLogo coin={symbol} className="size-10" />
+              <CoinLogo value={symbol} className="size-10" />
               <div className="flex flex-col justify-between gap-1">
                 <div className="flex items-center gap-1">
                   <p className="text-base font-medium">

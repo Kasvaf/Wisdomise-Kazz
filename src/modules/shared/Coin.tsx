@@ -9,14 +9,15 @@ import useMenuItems from 'modules/base/Layout/MenuItems/useMenuItems';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
-  coin,
+  value,
   className,
   noCors,
 }: {
-  coin: CoinType;
+  value?: CoinType | string | null;
   className?: string;
   noCors?: boolean;
 }) {
+  const url = typeof value === 'string' ? value : value?.logo_url;
   return (
     <div
       className={clsx(
@@ -24,11 +25,9 @@ export function CoinLogo({
         className,
       )}
       style={{
-        ...(typeof coin.logo_url === 'string' && {
+        ...(url && {
           backgroundImage: `url("${
-            noCors
-              ? `https://corsproxy.io/?url=${coin.logo_url}`
-              : coin.logo_url
+            noCors ? `https://corsproxy.io/?url=${url}` : url
           }")`,
         }),
       }}
@@ -91,7 +90,7 @@ export function Coin({
   const content = (
     <>
       <CoinLogo
-        coin={coin}
+        value={coin}
         className={clsx(
           'shrink-0',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
