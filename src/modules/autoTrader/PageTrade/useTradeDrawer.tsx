@@ -23,7 +23,12 @@ export default function useTradeDrawer() {
       >
         {inputs && open && (
           <ActiveNetworkProvider base={inputs.slug} quote={quote}>
-            <Trader quote={quote} setQuote={setQuote} {...inputs} />
+            <Trader
+              quote={quote}
+              setQuote={setQuote}
+              {...inputs}
+              loadingClassName="bg-v1-surface-l4"
+            />
           </ActiveNetworkProvider>
         )}
       </DrawerModal>

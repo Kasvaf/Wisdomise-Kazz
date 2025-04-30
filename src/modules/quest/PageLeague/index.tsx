@@ -21,6 +21,8 @@ import {
 } from 'modules/quest/PageTournaments/TournamentCard';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
+import LeagueResultModalContent from 'modules/quest/PageLeague/LeagueResultModalContent';
+import useModal from 'shared/useModal';
 import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
 import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDetail/Leaderboard/champion.svg';
 import prize from './images/prize.png';
@@ -39,12 +41,28 @@ export default function PageLeague() {
       ? undefined
       : league.details?.[selectedLeagueIndex].slug,
   );
+  const [leagueResultModal, openLeagueResultModal] = useModal(
+    LeagueResultModalContent,
+    {
+      closable: false,
+      maskClosable: false,
+      mobileDrawer: true,
+      className:
+        '[&>.ant-drawer-wrapper-body]:!bg-v1-surface-l1 [&>.ant-modal-content]:!bg-v1-surface-l1',
+    },
+  );
 
   const selectedLeague = league.details?.[selectedLeagueIndex ?? 0];
   const rewardedUsersMinRank = selectedLeague?.prizes.reduce(
     (min, p) => Math.max(min, p.end_rank),
     0,
   );
+
+  useEffect(() => {
+    if (profile.result.next_league_slug) {
+      void openLeagueResultModal({});
+    }
+  }, [openLeagueResultModal, profile.result]);
 
   useEffect(() => {
     if (profile.league && !selectedLeagueIndex) {
@@ -154,6 +172,7 @@ export default function PageLeague() {
           rewardedUsersMinRank={rewardedUsersMinRank}
         />
       </div>
+      {leagueResultModal}
     </PageWrapper>
   );
 }

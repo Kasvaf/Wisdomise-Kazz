@@ -1,58 +1,19 @@
-import { clsx } from 'clsx';
 import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { roundSensible } from 'utils/numbers';
 import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
-import { useSymbolInfo } from 'api/symbol';
 import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Spin from 'shared/Spin';
-import InfoLine from 'modules/autoTrader/components/InfoLine';
-import MessageBox from 'modules/autoTrader/components/MessageBox';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { ReactComponent as ProIcon } from 'assets/Pro.svg';
 import { isMiniApp } from 'utils/version';
-import { type SignalFormState } from './useSignalFormStates';
-
-const PriceVol: React.FC<{
-  amountRatio: string;
-  priceExact?: string;
-  className?: string;
-}> = ({ amountRatio, priceExact, className }) => {
-  return (
-    <div className={clsx('flex justify-end', className)}>
-      {amountRatio}% at {priceExact || 'market'}
-    </div>
-  );
-};
-
-const PriceVols: React.FC<{
-  items: Array<{
-    key: string;
-    amountRatio: string;
-    priceExact?: string;
-    removed: boolean;
-    applied: boolean;
-    appliedAt?: Date;
-  }>;
-}> = ({ items }) => {
-  const itemsFiltered = items.filter(x => !x.removed);
-  return (
-    <>
-      {itemsFiltered.length === 0
-        ? 'None'
-        : itemsFiltered.map(x => (
-            <PriceVol
-              key={x.key}
-              amountRatio={x.amountRatio}
-              priceExact={x.priceExact}
-            />
-          ))}
-    </>
-  );
-};
+import { Coin } from 'shared/Coin';
+import InfoLine from '../components/InfoLine';
+import MessageBox from '../components/MessageBox';
+import { type SwapState } from './useSwapState';
 
 const MIN_GAS = {
   TON: 0.1,
@@ -60,17 +21,13 @@ const MIN_GAS = {
 };
 
 const ModalApproval: React.FC<{
-  formState: SignalFormState;
+  formState: SwapState;
   createData: CreatePositionRequest;
   onResolve?: (fired?: boolean) => void;
 }> = ({ formState, createData, onResolve }) => {
-  const {
-    amount: [amount],
-    quote: [quote],
-    safetyOpens: [safetyOpens],
-    takeProfits: [takeProfits],
-    stopLosses: [stopLosses],
-  } = formState;
+  const { from, to, isMarketPrice } = formState;
+  const targetReady = from.priceByOther !== undefined;
+  const marketToAmount = +from.amount * Number(from.priceByOther);
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
@@ -78,9 +35,10 @@ const ModalApproval: React.FC<{
   const { mutate, data, isPending: isLoading } = usePreparePositionMutation();
   useEffect(() => mutate(createData), [createData, mutate]);
 
-  const { data: quoteInfo } = useSymbolInfo(quote);
   const nativeAmount =
-    Number(data?.gas_fee) + (quoteInfo?.abbreviation === gasAbbr ? +amount : 0);
+    Number(data?.gas_fee) +
+    (from.coinInfo?.abbreviation === gasAbbr ? +from.amount : 0);
+
   const remainingGas = Number(nativeBalance) - nativeAmount;
   const hasEnoughGas = remainingGas > MIN_GAS[gasAbbr];
   const impact = Number(data?.price_impact);
@@ -88,9 +46,10 @@ const ModalApproval: React.FC<{
   return (
     <div className="flex h-full flex-col text-white">
       <div className="flex grow flex-col gap-4">
-        <InfoLine label="Initial Deposit">
+        {from.coinInfo && <Coin nonLink coin={from.coinInfo} />}
+        <InfoLine label="Initial Deposit (Send)">
           <div className="font-medium">
-            {amount} {quoteInfo?.abbreviation}
+            {from.amount} {from?.coinInfo?.abbreviation}
           </div>
         </InfoLine>
 
@@ -118,14 +77,20 @@ const ModalApproval: React.FC<{
 
         <div className="my-2 border border-white/5" />
 
-        <InfoLine label="Open Orders" className="text-sm">
-          <PriceVols items={safetyOpens} />
-        </InfoLine>
-        <InfoLine label="Take Profit" className="text-sm">
-          <PriceVols items={takeProfits} />
-        </InfoLine>
-        <InfoLine label="Stop Loss" className="text-sm">
-          <PriceVols items={stopLosses} />
+        {to.coinInfo && <Coin nonLink coin={to.coinInfo} />}
+        <InfoLine label="Estimated Amount (Receive)">
+          <div className="font-medium">
+            {isMarketPrice ? (
+              targetReady ? (
+                roundSensible(marketToAmount)
+              ) : (
+                <Spin />
+              )
+            ) : (
+              to.amount
+            )}{' '}
+            {to?.coinInfo?.abbreviation}
+          </div>
         </InfoLine>
 
         <div className="my-2 border border-white/5" />
@@ -136,7 +101,7 @@ const ModalApproval: React.FC<{
               {Number(data?.trade_fee) * 100}% of transactions + network gas fee
             </InfoLine>
 
-            {!isLoading && !isMiniApp && Number(data?.trade_fee) > 0.6 && (
+            {!isLoading && !isMiniApp && Number(data?.trade_fee) && (
               <NavLink
                 to="/account/billing"
                 className="mt-2 flex items-center gap-2 text-xs"
@@ -207,7 +172,7 @@ export default function useModalApproval() {
   });
   return [
     Modal,
-    (formState: SignalFormState, createData: CreatePositionRequest) =>
+    (formState: SwapState, createData: CreatePositionRequest) =>
       showModal({ formState, createData }),
   ] as const;
 }

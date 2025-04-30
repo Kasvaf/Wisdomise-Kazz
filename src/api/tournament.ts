@@ -33,10 +33,9 @@ export interface LeaderboardParticipant {
   rank: number;
   league_slug?: string;
   promotion_status?: PromotionStatus;
-  promotion_detail?: {
-    prev_league: string;
-    next_league: string;
+  result?: {
     reward_items: PrizeItem[];
+    next_league_slug: string;
   };
 }
 

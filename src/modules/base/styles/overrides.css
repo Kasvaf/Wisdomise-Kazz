@@ -142,10 +142,13 @@ div[data-tc-modal] {
   }
 }
 
-.modal-drawer .ant-drawer-content {
-  border-radius: 24px 24px 0 0;
-  .ant-drawer-title {
-    @apply text-center text-lg;
+.modal-drawer,
+.ant-drawer {
+  .ant-drawer-content {
+    border-radius: 24px 24px 0 0;
+    .ant-drawer-title {
+      @apply text-center text-lg;
+    }
   }
 }
 

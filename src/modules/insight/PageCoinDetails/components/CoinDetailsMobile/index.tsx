@@ -1,6 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import { BtnQuickSwap } from 'modules/autoTrader/QuickSwap/BtnQuickSwap';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
@@ -24,7 +25,10 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
     <div className="flex flex-col gap-3">
       <NCoinRisksBanner slug={slug} />
       <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
-      <BtnAutoTrade slug={slug} block className="w-full" variant="primary" />
+      <div className="flex gap-2">
+        <BtnAutoTrade slug={slug} block className="grow" variant="primary" />
+        <BtnQuickSwap slug={slug} block className="grow" variant="outline" />
+      </div>
       <CoinSentimentsWidget slug={slug} />
       <NCoinSentimentWidget slug={slug} />
       <CoinStatsWidget slug={slug} />

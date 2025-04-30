@@ -60,7 +60,7 @@ const useAutoTraderRoutes = () => {
             {
               path: '',
               element: <PageQuests />,
-              handle: { crumb: 'Quests' },
+              handle: { crumb: 'Earn & Win' },
             },
             {
               path: 'tournaments',

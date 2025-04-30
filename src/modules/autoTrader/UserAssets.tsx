@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { type UserAssetPair, useUserAssets } from 'api';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
@@ -10,11 +10,16 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
+  const { slug: activeCoinSlug } = useParams<{ slug: string }>();
 
   return (
     <NavLink
-      className="flex items-center justify-between"
-      to={`/trader/positions?slug=${asset.slug}`}
+      className={clsx(
+        'flex items-center justify-between p-3 hover:bg-v1-background-hover',
+        activeCoinSlug === asset.slug &&
+          '!bg-v1-surface-l5 contrast-125 saturate-150',
+      )}
+      to={`/coin/${asset.slug}`}
     >
       {baseInfo ? (
         <div className="flex items-center">
@@ -75,7 +80,7 @@ const UserAssetsInternal: React.FC<Props> = ({
 
       <div
         className={clsx(
-          'flex flex-col gap-3 rounded-xl bg-v1-surface-l2 p-4',
+          'flex flex-col rounded-xl bg-v1-surface-l2',
           containerClassName,
         )}
       >

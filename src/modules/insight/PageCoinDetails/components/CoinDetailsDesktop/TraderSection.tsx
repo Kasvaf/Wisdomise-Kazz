@@ -4,6 +4,7 @@ import Trader from 'modules/autoTrader/PageTrade/Trader';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import PositionsList from 'modules/autoTrader/PagePositions/PositionsList';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
 const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
@@ -23,7 +24,12 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
           </div>
         ) : supportedPairs?.length ? (
           <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
-            <Trader quote={quote} setQuote={setQuote} slug={slug} />
+            <Trader
+              quote={quote}
+              setQuote={setQuote}
+              slug={slug}
+              loadingClassName="bg-v1-surface-l2"
+            />
           </ActiveNetworkProvider>
         ) : (
           <div className="my-8 flex flex-col items-center gap-3 text-center text-sm">
@@ -32,6 +38,16 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
           </div>
         )}
       </div>
+
+      <hr className="border-white/10 [&:has(+:not(.id-positions-list))]:hidden" />
+
+      <PositionsList
+        slug={slug}
+        isOpen
+        noEmptyState
+        noLoadingState
+        className="id-positions-list [&_.id-position-item]:rounded-md"
+      />
     </>
   );
 };

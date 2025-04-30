@@ -36,7 +36,11 @@ const League = () => {
         <div className="flex items-center justify-around text-center text-xs">
           <div>
             <h3 className="mb-2 text-v1-content-secondary">Rank</h3>
-            <p>#{profile?.rank}</p>
+            <p>
+              {(profile?.trading_volume ?? 0) > 0
+                ? `#${profile?.rank ?? ''}`
+                : '-'}
+            </p>
           </div>
           <div className="h-8 border-r border-v1-border-primary/30"></div>
           <div>

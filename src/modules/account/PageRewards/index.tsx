@@ -19,9 +19,11 @@ import gradient from './images/gradient.png';
 import dailySrc from './images/daily.png';
 import refSubSrc from './images/ref-sub.png';
 import refFeeSrc from './images/ref-fee.png';
+// eslint-disable-next-line import/max-dependencies
+import leagueSrc from './images/league.png';
 
 export default function PageRewards() {
-  const { subReferral, tradeReferral, daily, total, claimed } =
+  const { subReferral, tradeReferral, daily, total, claimed, league } =
     useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
@@ -121,6 +123,9 @@ export default function PageRewards() {
             image={refSubSrc}
             amount={subReferral}
           />
+          {hasFlag('/trader/quests/league') && (
+            <RewardItem title="League" image={leagueSrc} amount={league} />
+          )}
         </div>
       )}
 
@@ -172,7 +177,7 @@ function RewardItem({
   return (
     <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l2">
       <div className="relative flex h-full items-center">
-        <div className="grow p-3">
+        <div className="flex grow gap-x-3 p-3 mobile:flex-col">
           <img src={image} alt="" className="size-10" />
           <p className="mt-2">{title}</p>
         </div>

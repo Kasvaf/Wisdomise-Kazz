@@ -11,6 +11,7 @@ const EditButton: React.FC<{ position: Position }> = ({ position }) => {
   const navigate = useNavigate();
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
   if (!isPositionUpdatable(position)) return null;
+  if (position.mode && position.mode !== 'buy_and_sell') return null;
 
   return (
     <Button
