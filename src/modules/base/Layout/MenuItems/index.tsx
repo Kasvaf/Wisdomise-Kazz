@@ -38,7 +38,7 @@ const MenuItems: React.FC<{
         >
           <DebugPin title={item.link} color="orange" />
           {item.icon}
-          <div className="mt-1 text-xs font-normal">{item.text}</div>
+          <div className="text-xs font-normal">{item.text}</div>
         </NavLink>
       ))}
     </div>
