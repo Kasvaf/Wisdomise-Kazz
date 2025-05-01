@@ -5,7 +5,7 @@ import AmountInputBox from 'shared/AmountInputBox';
 import { type SwapState } from '../QuickSwap/useSwapState';
 
 const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
-  const { dir, to, from, isMarketPrice, setIsMarketPrice } = state;
+  const { to, from, isMarketPrice, setIsMarketPrice } = state;
   const targetReady = from.priceByOther !== undefined;
   const marketToAmount = +from.amount * Number(from.priceByOther);
 
@@ -54,12 +54,7 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
                 100,
             )}
             onChange={newVal =>
-              to.setAmount(
-                roundSensible(
-                  (((dir === 'buy' ? -1 : 1) * +newVal) / 100 + 1) *
-                    marketToAmount,
-                ),
-              )
+              to.setAmount(roundSensible((+newVal / 100 + 1) * marketToAmount))
             }
           />
         </>
