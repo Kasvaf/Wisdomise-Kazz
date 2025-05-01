@@ -8,15 +8,14 @@ import {
   useEffect,
   Fragment,
   memo,
-  type ComponentProps,
 } from 'react';
-import { Tooltip as AntTooltip, Drawer as AntDrawer } from 'antd';
-import { bxChevronDown, bxLoader, bxX } from 'boxicons-quasar';
+import { bxChevronDown, bxLoader } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface, useSurface } from 'utils/useSurface';
 import { Button } from './Button';
 import { Checkbox } from './Checkbox';
+import { Popover, POPVER_OPENER_CLASS } from './Popover';
 
 interface SelectProps<V, M extends boolean = false> {
   size?: 'xs' | 'sm' | 'md' | 'xl';
@@ -35,8 +34,6 @@ interface SelectProps<V, M extends boolean = false> {
   options?: V[];
 
   render?: (item: V | undefined, target: 'option' | 'value') => ReactNode;
-
-  tooltipPlacement?: ComponentProps<typeof AntTooltip>['placement'];
 
   allowClear?: boolean;
 
@@ -228,7 +225,6 @@ export function Select<V, M extends boolean = false>({
   prefixIcon,
   suffixIcon,
   chevron = true,
-  tooltipPlacement = 'bottomLeft',
   disabled,
   surface = 3,
 }: SelectProps<V, M>) {
@@ -319,107 +315,8 @@ export function Select<V, M extends boolean = false>({
     return result;
   }, [allowClear, options, searchValue, valueAsArray]);
 
-  const popupContent = useMemo(() => {
-    return (
-      <div
-        className={clsx(
-          'flex h-full w-full flex-col overflow-hidden',
-          showSearch ? 'mobile:h-[96svh]' : 'max-h-[60svh]',
-        )}
-        ref={titleRef}
-        tabIndex={-1}
-      >
-        {showSearch && (
-          <div className="flex items-center gap-2 p-4">
-            <input
-              placeholder="Search Here"
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l5 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
-              value={searchValue ?? ''}
-              onChange={e => onSearch?.(e.target.value)}
-              ref={searchRef}
-            />
-            {isMobile && (
-              <Button
-                variant="ghost"
-                size="md"
-                className="w-md"
-                surface={5}
-                onClick={() => setIsOpen(false)}
-              >
-                <Icon name={bxX} />
-              </Button>
-            )}
-          </div>
-        )}
-        <div className="relative flex max-h-48 shrink grow flex-col gap-px overflow-auto mobile:max-h-none">
-          {loading ? (
-            <div
-              className="flex min-h-12 items-center justify-center"
-              key="loading"
-            >
-              <Icon
-                name={bxLoader}
-                className="inline-block size-4 animate-spin"
-                size={16}
-              />
-            </div>
-          ) : (
-            <>
-              {visibleOptions.map((opt, index) => (
-                <Option
-                  key={`${JSON.stringify(opt)}${index}`}
-                  size={size}
-                  onClick={() => handleOptionClick(opt)}
-                  selected={
-                    opt === undefined
-                      ? valueAsArray.length === 0
-                      : valueAsArray.includes(opt)
-                  }
-                  checkbox={multiple}
-                >
-                  <RenderedValue
-                    value={opt}
-                    render={render}
-                    target="option"
-                    loading={loading}
-                    size={size}
-                  />
-                </Option>
-              ))}
-            </>
-          )}
-        </div>
-        {isMobile && !showSearch && (
-          <div className="p-4">
-            <Button
-              variant="ghost"
-              block
-              className="w-full"
-              surface={5}
-              onClick={() => setIsOpen(false)}
-            >
-              {'OK'}
-            </Button>
-          </div>
-        )}
-      </div>
-    );
-  }, [
-    showSearch,
-    searchValue,
-    isMobile,
-    loading,
-    visibleOptions,
-    onSearch,
-    size,
-    valueAsArray,
-    multiple,
-    render,
-    handleOptionClick,
-  ]);
-
-  const rootContent = useMemo(
-    () => (
+  return (
+    <>
       <div
         className={clsx(
           /* Size: height, padding, font-size, border-radius */
@@ -434,6 +331,7 @@ export function Select<V, M extends boolean = false>({
           block ? 'flex' : 'inline-flex',
           'items-center justify-between gap-1 overflow-hidden',
           !disabled && 'cursor-pointer',
+          POPVER_OPENER_CLASS,
           className,
         )}
         style={{
@@ -444,7 +342,7 @@ export function Select<V, M extends boolean = false>({
           tabIndex: 0,
         })}
         ref={contentRef}
-        onClick={() => (disabled ? null : setIsOpen(p => !p))}
+        onClick={() => (disabled ? null : setIsOpen(true))}
       >
         {prefixIcon}
         <div className="relative shrink grow truncate">
@@ -470,57 +368,85 @@ export function Select<V, M extends boolean = false>({
           />
         )}
       </div>
-    ),
-    [
-      size,
-      block,
-      disabled,
-      className,
-      colors,
-      prefixIcon,
-      allowClear,
-      multiple,
-      renderFn,
-      placeholder,
-      value,
-      loading,
-      suffixIcon,
-      chevron,
-      isOpen,
-    ],
-  );
 
-  return isMobile ? (
-    <>
-      {rootContent}
-      <AntDrawer
-        closable
-        placement="bottom"
+      <Popover
+        mode={isMobile ? 'bottomsheet' : 'popup'}
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="!rounded-t-2xl !bg-v1-surface-l4 text-v1-content-primary [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-content-wrapper]:h-full [&_.ant-drawer-header]:hidden"
-        destroyOnClose
-        height="auto"
+        surface={3}
       >
-        {popupContent}
-      </AntDrawer>
+        <div
+          className={clsx(
+            'flex h-full w-full flex-col overflow-hidden',
+            showSearch ? 'mobile:h-[96svh]' : 'max-h-[60svh]',
+          )}
+          ref={titleRef}
+          tabIndex={-1}
+        >
+          {showSearch && (
+            <div className="flex items-center gap-2 p-4">
+              <input
+                placeholder="Search Here"
+                className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l5 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
+                value={searchValue ?? ''}
+                onChange={e => onSearch?.(e.target.value)}
+                ref={searchRef}
+              />
+            </div>
+          )}
+          <div className="relative flex max-h-48 shrink grow flex-col gap-px overflow-auto mobile:max-h-none">
+            {loading ? (
+              <div
+                className="flex min-h-12 items-center justify-center"
+                key="loading"
+              >
+                <Icon
+                  name={bxLoader}
+                  className="inline-block size-4 animate-spin"
+                  size={16}
+                />
+              </div>
+            ) : (
+              <>
+                {visibleOptions.map((opt, index) => (
+                  <Option
+                    key={`${JSON.stringify(opt)}${index}`}
+                    size={size}
+                    onClick={() => handleOptionClick(opt)}
+                    selected={
+                      opt === undefined
+                        ? valueAsArray.length === 0
+                        : valueAsArray.includes(opt)
+                    }
+                    checkbox={multiple}
+                  >
+                    <RenderedValue
+                      value={opt}
+                      render={render}
+                      target="option"
+                      loading={loading}
+                      size={size}
+                    />
+                  </Option>
+                ))}
+              </>
+            )}
+          </div>
+          {isMobile && !showSearch && (
+            <div className="p-4">
+              <Button
+                variant="ghost"
+                block
+                className="w-full"
+                surface={5}
+                onClick={() => setIsOpen(false)}
+              >
+                {'OK'}
+              </Button>
+            </div>
+          )}
+        </div>
+      </Popover>
     </>
-  ) : (
-    <AntTooltip
-      placement={tooltipPlacement}
-      title={popupContent}
-      rootClassName={clsx(
-        'w-auto text-v1-content-primary',
-        '[&_.ant-tooltip-arrow]:hidden',
-        '[&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-inner]:!text-inherit',
-        '[&_.ant-tooltip-inner]:overflow-hidden [&_.ant-tooltip-inner]:!p-0',
-        '[&_.ant-tooltip-inner]:w-max [&_.ant-tooltip-inner]:min-w-56 [&_.ant-tooltip-inner]:max-w-60',
-        '[&_.ant-tooltip-content]:w-full [&_.ant-tooltip-content]:overflow-visible',
-      )}
-      open={isOpen}
-      destroyTooltipOnHide
-    >
-      {rootContent}
-    </AntTooltip>
   );
 }
