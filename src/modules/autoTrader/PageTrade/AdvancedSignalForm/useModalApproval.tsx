@@ -1,11 +1,9 @@
 import { clsx } from 'clsx';
-import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { roundSensible } from 'utils/numbers';
-import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
+import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
-import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Spin from 'shared/Spin';
@@ -75,8 +73,7 @@ const ModalApproval: React.FC<{
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
   const { data: nativeBalance } = useAccountNativeBalance();
-  const { mutate, data, isPending: isLoading } = usePreparePositionMutation();
-  useEffect(() => mutate(createData), [createData, mutate]);
+  const { data, isLoading } = usePreparePositionQuery(createData);
 
   const { data: quoteInfo } = useSymbolInfo(quote);
   const nativeAmount =
@@ -95,16 +92,8 @@ const ModalApproval: React.FC<{
         </InfoLine>
 
         <InfoLine
-          label={
-            <div className="flex items-center gap-1">
-              <span>Gas Fee (Reserved)</span>
-              <InfoButton
-                size={16}
-                title="Gas Fee (Reserved)"
-                text="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
-              />
-            </div>
-          }
+          label="Gas Fee (Reserved)"
+          info="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
           className="text-sm"
         >
           {isLoading ? (
