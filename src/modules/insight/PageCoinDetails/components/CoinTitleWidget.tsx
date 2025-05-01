@@ -97,7 +97,7 @@ export const CoinTitleWidget: FC<{
                     <>
                       <ContractAddress
                         value={
-                          matchedNetwork.symbol_network_type === 'COIN'
+                          matchedNetwork.symbol_network_type === 'TOKEN'
                             ? true
                             : matchedNetwork.contract_address
                         }
