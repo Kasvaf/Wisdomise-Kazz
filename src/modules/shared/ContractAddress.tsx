@@ -21,12 +21,9 @@ export const ContractAddress: FC<{
           )}
         >
           {shortenAddress(value)}
-          <Icon
-            name={bxsCopy}
-            size={12}
-            className="cursor-pointer"
-            onClick={() => copy(value)}
-          />
+          <button onClick={() => copy(value)} className="cursor-copy">
+            <Icon name={bxsCopy} size={12} />
+          </button>
           {copyNotif}
         </div>
       ) : value === true || value === '' ? (
