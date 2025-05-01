@@ -43,7 +43,7 @@ export const CoinCommunityLinks: FC<{
             key={social.href}
             href={social.href}
             className={clsx(
-              'shrink-0 rounded-full bg-white/10 text-xxs text-white/60 transition-all hover:brightness-110 active:brightness-90',
+              'shrink-0 rounded-full bg-white/10 text-xxs text-white/60 transition-all hover:text-white/60 hover:brightness-110 active:brightness-90',
               size === 'xs' &&
                 'flex size-[18px] items-center justify-center [&_svg]:size-[10px]',
               size === 'sm' &&
