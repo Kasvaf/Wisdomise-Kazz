@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
 import { isDebugMode } from 'utils/version';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import {
   type MarketData,
   type Coin,
@@ -116,8 +117,9 @@ export const useSocialRadarCoins = (config: {
   sources?: string[];
   securityLabels?: string[];
   trendLabels?: string[];
-}) =>
-  useQuery({
+}) => {
+  const [defaultNetwork] = useGlobalNetwork();
+  return useQuery({
     queryKey: ['social-radar-coins', config.windowHours],
     queryFn: () =>
       ofetch<SocialRadarCoin[]>('delphi/social-radar/coins-social-signal/', {
@@ -133,7 +135,7 @@ export const useSocialRadarCoins = (config: {
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher(config.networks).array(
+            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
               row.networks?.map(x => x.network.slug),
             ) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
@@ -176,6 +178,7 @@ export const useSocialRadarCoins = (config: {
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });
+};
 
 export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>
   useQuery({

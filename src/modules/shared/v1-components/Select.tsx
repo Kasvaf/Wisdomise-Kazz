@@ -104,7 +104,7 @@ function Option({
         size === 'md' && 'h-md px-3 text-xs',
         size === 'xl' && 'h-xl px-3 text-sm',
         'group flex shrink-0 flex-nowrap items-center justify-between gap-1 mobile:px-5',
-        'hover:bg-white/5',
+        'cursor-pointer hover:bg-white/5',
         !checkbox && selected && '!bg-white/10',
       )}
       onClick={onClick}
@@ -447,7 +447,7 @@ export function Select<V, M extends boolean = false>({
         onClick={() => (disabled ? null : setIsOpen(p => !p))}
       >
         {prefixIcon}
-        <div className="shrink grow truncate">
+        <div className="relative shrink grow truncate">
           <InnerContent
             allowClear={allowClear}
             multiple={multiple}

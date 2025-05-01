@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { bxBell } from 'boxicons-quasar';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
@@ -12,6 +12,7 @@ import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
 import { isDebugMode } from 'utils/version';
 import { type AlertMessenger } from 'api';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
 export function StepOne({
@@ -21,6 +22,9 @@ export function StepOne({
   onDelete,
 }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
+  const setDefaultValue = useRef(true);
+  const [defaultNetwork] = useGlobalNetwork();
+
   const {
     value: [value, setValue],
   } = useEditingAlert();
@@ -65,6 +69,13 @@ export function StepOne({
     },
     [setValue],
   );
+
+  useEffect(() => {
+    if (!value.key && setDefaultValue.current) {
+      setDefaultValue.current = false;
+      setForm('networks', [defaultNetwork] as never);
+    }
+  }, [value, setForm, defaultNetwork]);
 
   return (
     <form

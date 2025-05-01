@@ -1,23 +1,20 @@
 /* eslint-disable import/max-dependencies */
-import { type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
-import { bxsCopy } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import { Tooltip } from 'antd';
 import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
 import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
 import { useCoinDetails, useNCoinDetails } from 'api';
 import { CoinLogo } from 'shared/Coin';
-import { shortenAddress } from 'utils/shortenAddress';
-import { useShare } from 'shared/useShare';
-import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { useCommunityData } from '../hooks/useCommunityData';
-import { ReactComponent as TwitterIcon } from '../hooks/useCommunityData/x.svg';
+import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
+import { ContractAddress } from 'shared/ContractAddress';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { type CoinNetwork } from 'api/types/shared';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export const CoinTitleWidget: FC<{
@@ -26,22 +23,32 @@ export const CoinTitleWidget: FC<{
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
-  const [copy, copyNotif] = useShare('copy');
   const coin = useCoinDetails({ slug });
   const nCoin = useNCoinDetails({ slug });
+  const [globalNetwork] = useGlobalNetwork();
   const isLoading =
     coin.isLoading || nCoin.isLoading || coin.isPending || nCoin.isPending;
   const isNCoin = !!nCoin.data?.base_symbol;
   const symbol = nCoin.data?.base_symbol || coin.data?.symbol;
-  const contactAddresses = [
-    nCoin.data?.base_contract_address,
-    ...(nCoin.data?.base_contract_address
-      ? []
-      : coin?.data?.networks?.map(x => x?.contract_address) ?? []),
-  ].filter(x => !!x) as string[];
-  const socials = useCommunityData(
-    nCoin.data?.base_community_data || coin.data?.community_data,
-  ).filter(x => x.type === 'social');
+
+  const networks = useMemo<CoinNetwork[]>(() => {
+    const ret: CoinNetwork[] = [];
+    if (nCoin.data?.base_contract_address && nCoin.data.network) {
+      return [
+        {
+          contract_address: nCoin.data.base_contract_address,
+          symbol_network_type: 'COIN',
+          network: nCoin.data.network,
+        },
+      ];
+    }
+    if (coin?.data?.networks) {
+      return coin?.data?.networks;
+    }
+    return ret;
+  }, [nCoin.data, coin.data]);
+
+  const matchedNetwork = networks.find(x => x.network.slug === globalNetwork);
 
   useLoadingBadge(isLoading);
 
@@ -86,65 +93,30 @@ export const CoinTitleWidget: FC<{
                   />
                 </div>
                 <div className="flex items-center gap-1">
-                  {contactAddresses.length === 1 && (
+                  {matchedNetwork && (
                     <>
-                      <div className="flex items-center gap-1 text-xs text-v1-content-secondary">
-                        {shortenAddress(contactAddresses[0])}
-                        <Icon
-                          name={bxsCopy}
-                          size={12}
-                          className="cursor-pointer"
-                          onClick={() => copy(contactAddresses[0])}
-                        />
-                      </div>
+                      <ContractAddress
+                        value={
+                          matchedNetwork.symbol_network_type === 'COIN'
+                            ? true
+                            : matchedNetwork.contract_address
+                        }
+                      />
                       <span className="size-[2px] rounded-full bg-white" />
                     </>
                   )}
 
                   {/* Socials */}
-                  {socials.length > 0 && (
-                    <div className="flex flex-nowrap items-center gap-1">
-                      {socials.map(social => (
-                        <Tooltip
-                          open={social.preview ? undefined : false}
-                          key={social.href}
-                          title={social.preview}
-                          rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-arrow]:hidden"
-                          placement="bottom"
-                        >
-                          <a
-                            key={social.href}
-                            href={social.href}
-                            className={clsx(
-                              'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/60 transition-all hover:brightness-110 active:brightness-90',
-                              'size-[18px] shrink-0 justify-center',
-                              '[&_svg]:size-[10px]',
-                            )}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {social.icon}
-                          </a>
-                        </Tooltip>
-                      ))}
-                    </div>
-                  )}
-                  <a
-                    href={`https://x.com/search?q=(${[
-                      symbol.abbreviation && `$${symbol.abbreviation}`,
-                      ...contactAddresses,
-                    ].join('%20OR%20')})&src=typed_query&f=live`}
-                    className={clsx(
-                      'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xs text-white/60 transition-all hover:brightness-110 active:brightness-90',
-                      'h-[18px] shrink-0 justify-center',
-                      '[&_svg]:size-[10px]',
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <TwitterIcon />
-                    {'Search'}
-                  </a>
+                  <CoinCommunityLinks
+                    coin={symbol}
+                    contractAddresses={networks.map(x => x.contract_address)}
+                    value={
+                      nCoin.data?.base_community_data.links ||
+                      coin.data?.community_data?.links
+                    }
+                    size="xs"
+                    includeTwitterSearch
+                  />
 
                   {/* Developer Data */}
                   {isNCoin && isDebugMode && (
@@ -270,7 +242,6 @@ export const CoinTitleWidget: FC<{
                 size="md"
               />
             </div>
-            {copyNotif}
           </>
         ) : (
           <p className="w-full animate-pulse text-center text-sm">

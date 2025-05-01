@@ -9,7 +9,6 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
-import { NetworkSelect } from 'shared/NetworkSelect';
 import { ExchangeSelect } from 'shared/ExchangeSelect';
 import {
   type useNetworks,
@@ -73,7 +72,6 @@ export function RadarFilter({
             return (
               areEqual(x.filters.categories ?? [], value.categories ?? []) &&
               areEqual(x.filters.exchanges ?? [], value.exchanges ?? []) &&
-              areEqual(x.filters.networks ?? [], value.networks ?? []) &&
               areEqual(x.filters.sources ?? [], value.sources ?? []) &&
               areEqual(
                 x.filters.securityLabels ?? [],
@@ -86,7 +84,6 @@ export function RadarFilter({
         ? whalePresetFilters.find(x => {
             return (
               areEqual(x.filters.categories ?? [], value.categories ?? []) &&
-              areEqual(x.filters.networks ?? [], value.networks ?? []) &&
               areEqual(
                 x.filters.securityLabels ?? [],
                 value.securityLabels ?? [],
@@ -106,7 +103,6 @@ export function RadarFilter({
   const isFiltersApplied = useMemo(
     () =>
       value.categories?.length ||
-      value.networks?.length ||
       value.securityLabels?.length ||
       value.trendLabels?.length ||
       (radar === 'social-radar-24-hours'
@@ -119,7 +115,6 @@ export function RadarFilter({
       value.categories?.length,
       value.exchanges?.length,
       value.excludeNativeCoins,
-      value.networks?.length,
       value.profitableOnly,
       value.securityLabels?.length,
       value.sources?.length,
@@ -414,25 +409,6 @@ export function RadarFilter({
               allowClear
               onChange={categories =>
                 setLocalState(p => ({ ...p, categories: categories ?? [] }))
-              }
-            />
-          </div>
-          <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common:network')}
-            </p>
-            <NetworkSelect
-              className="grow"
-              value={localState.networks}
-              multiple
-              filter={
-                radar === 'social-radar-24-hours' || radar === 'technical-radar'
-                  ? radar
-                  : undefined
-              }
-              allowClear
-              onChange={networks =>
-                setLocalState(p => ({ ...p, networks: networks ?? [] }))
               }
             />
           </div>

@@ -66,22 +66,6 @@ const aiPreset = {
   },
 };
 
-const solPreset = {
-  label: '🔥 SOL',
-  slug: 'sol',
-  filters: {
-    networks: ['solana'],
-  },
-};
-
-const basePreset = {
-  label: '🔥 BASE',
-  slug: 'base',
-  filters: {
-    networks: ['base'],
-  },
-};
-
 const defiPreset = {
   label: '🔥 DeFi',
   slug: 'defi',
@@ -219,8 +203,6 @@ export const socialPresetFilters: Array<
 > = [
   memesPreset,
   aiPreset,
-  solPreset,
-  basePreset,
   defiPreset,
   rwaPreset,
   gamingPreset,
@@ -236,8 +218,6 @@ export const technicalPresetFilters: Array<
 > = [
   memesPreset,
   aiPreset,
-  solPreset,
-  basePreset,
   defiPreset,
   rwaPreset,
   gamingPreset,
@@ -250,12 +230,4 @@ export const technicalPresetFilters: Array<
 
 export const whalePresetFilters: Array<
   PresetFilter<Partial<Parameters<typeof useWhaleRadarCoins>[0]>>
-> = [
-  profitablePreset,
-  solPreset,
-  basePreset,
-  memesPreset,
-  aiPreset,
-  rwaPreset,
-  gamingPreset,
-];
+> = [profitablePreset, memesPreset, aiPreset, rwaPreset, gamingPreset];

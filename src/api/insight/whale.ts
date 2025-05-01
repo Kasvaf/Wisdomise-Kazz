@@ -2,6 +2,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { type PageResponse } from '../types/page';
 import {
   type NetworkSecurity,
@@ -57,10 +58,11 @@ export type WhalesFilter =
   | 'wealthy_wallets';
 
 export const useWhaleRadarWhales = (config: {
-  networkNames?: string[];
+  networkNames?: string[]; // TODO ask to convert this to network slug
   query?: string;
-}) =>
-  useQuery({
+}) => {
+  const [defaultNetwork] = useGlobalNetwork();
+  return useQuery({
     queryKey: ['whale-radar-whales'],
     queryFn: async () => {
       const data = await resolvePageResponseToArray<WhaleShort>(
@@ -76,7 +78,10 @@ export const useWhaleRadarWhales = (config: {
     select: data =>
       data.filter(row => {
         if (
-          !matcher(config?.networkNames).array([row.network_name]) ||
+          !matcher([
+            defaultNetwork,
+            ...(config?.networkNames?.map(x => x.toLowerCase()) ?? []),
+          ]).array([row.network_name.toLowerCase()]) ||
           !matcher(config?.query).string(row.holder_address)
         )
           return false;
@@ -88,6 +93,7 @@ export const useWhaleRadarWhales = (config: {
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
+};
 
 export interface WhaleCoin {
   rank: number;
@@ -285,8 +291,10 @@ export const useWhaleRadarCoins = (config: {
   trendLabels?: string[];
   profitableOnly?: boolean;
   excludeNativeCoins?: boolean;
-}) =>
-  useQuery({
+}) => {
+  const [defaultNetwork] = useGlobalNetwork();
+
+  return useQuery({
     queryKey: ['whale-radar-coins', config.days],
     queryFn: () =>
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
@@ -304,7 +312,7 @@ export const useWhaleRadarCoins = (config: {
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher(config.networks).array(
+            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
               row.networks.map(x => x.network.slug),
             ) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
@@ -345,6 +353,7 @@ export const useWhaleRadarCoins = (config: {
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
+};
 
 export type WhaleAssetLabel =
   | 'holding'

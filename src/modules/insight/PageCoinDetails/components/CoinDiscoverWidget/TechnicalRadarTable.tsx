@@ -11,9 +11,8 @@ import { AccessShield } from 'shared/AccessShield';
 
 export const TechnicalRadarTable: FC<{
   onClick: (coin: TechnicalRadarCoin) => void;
-  networks: string[];
-}> = ({ onClick, networks }) => {
-  const coins = useTechnicalRadarCoins({ networks });
+}> = ({ onClick }) => {
+  const coins = useTechnicalRadarCoins({});
 
   const columns = useMemo<Array<TableColumn<TechnicalRadarCoin>>>(
     () => [

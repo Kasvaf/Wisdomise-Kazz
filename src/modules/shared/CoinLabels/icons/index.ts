@@ -10,11 +10,13 @@ import { ReactComponent as OversoldOpportunity } from './oversold_opportunity.sv
 import { ReactComponent as OverboughtRisk } from './overbought_risk.svg';
 import { ReactComponent as StrongBullishDivergence } from './strong_bullish_divergence.svg';
 import { ReactComponent as StrongBearishDivergence } from './strong_bearish_divergence.svg';
-import { ReactComponent as NewBorn } from './new_born.svg';
 // Security Icons
 import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Warning } from './warning.svg';
 import { ReactComponent as Risk } from './risk.svg';
+// Custom Icons
+import { ReactComponent as NewBorn } from './new_born.svg';
+import { ReactComponent as CoinGecko } from './coingecko.svg';
 
 export const trendIcons = {
   hype: Hype,
@@ -35,6 +37,7 @@ export const trendIcons = {
   strong_bullish_divergence: StrongBullishDivergence,
   strong_bearish_divergence: StrongBearishDivergence,
   new_born: NewBorn,
+  coingecko: CoinGecko,
 };
 
 export const securityIcons = {

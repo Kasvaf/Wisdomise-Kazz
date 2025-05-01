@@ -1,5 +1,6 @@
 import { type ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { clsx } from 'clsx';
 import { useNetworks } from 'api';
 import { Select } from 'shared/v1-components/Select';
 
@@ -7,6 +8,8 @@ export function NetworkSelect<M extends boolean>({
   filter,
   valueType = 'slug',
   size,
+  iconOnly,
+  className,
   ...props
 }: Omit<
   ComponentProps<typeof Select<string, M>>,
@@ -20,6 +23,7 @@ export function NetworkSelect<M extends boolean>({
 > & {
   filter?: NonNullable<Parameters<typeof useNetworks>['0']>['filter'];
   valueType?: 'name' | 'slug';
+  iconOnly?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const [query, setQuery] = useState('');
@@ -35,9 +39,20 @@ export function NetworkSelect<M extends boolean>({
       searchValue={query}
       onSearch={setQuery}
       size={size}
-      render={val => {
+      chevron={!iconOnly}
+      className={clsx(className, iconOnly && ['aspect-square !p-0'])}
+      render={(val, target) => {
         if (!val) return t('common.all_networks');
         const opt = options.data?.find(x => x[valueType] === val);
+        if (iconOnly && target === 'value')
+          return (
+            <div className="relative flex size-full items-center justify-center">
+              <img
+                src={opt?.icon_url ?? ''}
+                className="relative size-[80%] overflow-hidden rounded-lg"
+              />
+            </div>
+          );
         return (
           <div className="flex items-center gap-2">
             <img

@@ -11,9 +11,8 @@ import { Coin } from 'shared/Coin';
 
 export const NetworkRadarTable: FC<{
   onClick: (row: NetworkRadarNCoin) => void;
-  networks: string[];
-}> = ({ onClick, networks }) => {
-  const nCoins = useNetworkRadarNCoins({ networks });
+}> = ({ onClick }) => {
+  const nCoins = useNetworkRadarNCoins({});
 
   const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
     () => [

@@ -8,6 +8,8 @@ import ScrollToTop from './ScrollToTop';
 import BottomNavBar from './BottomNavBar';
 import MobileHeader from './MobileHeader';
 import DesktopHeader from './DesktopHeader';
+import { NetworkMenu } from './NetworkMenu';
+import { AlertButton } from './AlertButton';
 
 export interface LayoutProps {
   hasBack?: boolean;
@@ -22,7 +24,7 @@ export interface LayoutProps {
 const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   hasBack,
   title,
-  extension,
+  extension: userExtension,
   header,
   footer,
   mainClassName,
@@ -31,6 +33,22 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   useHubSpot();
   const isMobile = useIsMobile();
   const Header = isMobile ? MobileHeader : DesktopHeader;
+  const extension = (
+    <>
+      {userExtension}
+      {/* <GlobalSearch
+        surface={isMobile ? 2 : 3}
+        size="xs"
+        className="min-w-[122px]"
+      /> */}
+      <NetworkMenu surface={isMobile ? 2 : 3} size="xs" className="shrink-0" />
+      <AlertButton
+        surface={isMobile ? 1 : 2}
+        size="xs"
+        className="ms-6 shrink-0"
+      />
+    </>
+  );
   return (
     <div className="relative flex min-h-screen flex-col bg-v1-surface-l1">
       <header className="sticky top-0 z-20 w-full">

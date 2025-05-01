@@ -19,6 +19,12 @@ call-change:
   positive: Positive
   short_desciption: Risk Of Decline
 coin_labels:
+  coingecko:
+    title: Listed in CoinGecko
+    info: >-
+      This asset is listed on CoinGecko, a widely used cryptocurrency data
+      platform. Listing on CoinGecko helps provide visibility, market data, and
+      credibility by tracking price, volume, and other metrics across exchanges.
   hype:
     title: Hype
     info: >-

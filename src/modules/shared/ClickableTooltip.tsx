@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
-import { useOnClickOutside, useEventListener } from 'usehooks-ts';
+import { useEventListener, useOnClickOutside } from 'usehooks-ts';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from './Icon';
 
@@ -16,6 +16,7 @@ export function ClickableTooltip({
   title,
   children,
   className,
+  tooltipClassName,
   tooltipPlacement = 'bottom',
   drawerPlacement = 'bottom',
   disabled,
@@ -25,12 +26,14 @@ export function ClickableTooltip({
   title?: ReactNode;
   children?: ReactNode;
   className?: string;
+  tooltipClassName?: string;
   tooltipPlacement?: ComponentProps<typeof AntTooltip>['placement'];
   drawerPlacement?: ComponentProps<typeof AntDrawer>['placement'];
   disabled?: boolean;
   onOpenChange?: (v: boolean) => void;
   chevron?: boolean;
 }) {
+  const rootRef = useRef<HTMLSpanElement>(null);
   const isMobile = useIsMobile();
   const lastIsOpen = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -55,6 +58,50 @@ export function ClickableTooltip({
       setIsOpen(false);
     }
   });
+  useEffect(() => {
+    const rootEl = rootRef.current;
+    const titleEl = titleRef.current;
+
+    let newState: boolean | null = null;
+
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    const run = () => {
+      if (timeout !== null) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (!disabled && newState !== null) setIsOpen(newState);
+      }, 100);
+    };
+
+    let watchBlur = false;
+    const handleOpen = () => {
+      newState = true;
+      watchBlur = true;
+      run();
+    };
+
+    const handleClose = () => {
+      if (watchBlur) {
+        newState = false;
+        run();
+      }
+    };
+
+    rootEl?.addEventListener('click', handleOpen);
+    titleEl?.addEventListener('click', handleOpen);
+    rootEl?.addEventListener('focusin', handleOpen);
+    titleEl?.addEventListener('focusin', handleOpen);
+    rootEl?.addEventListener('focusout', handleClose);
+    titleEl?.addEventListener('focusout', handleClose);
+
+    return () => {
+      rootEl?.removeEventListener('click', handleOpen);
+      titleEl?.removeEventListener('click', handleOpen);
+      rootEl?.removeEventListener('focusin', handleOpen);
+      titleEl?.removeEventListener('focusin', handleOpen);
+      rootEl?.removeEventListener('focusout', handleClose);
+      titleEl?.removeEventListener('focusout', handleClose);
+    };
+  }, [disabled]);
 
   useEffect(() => {
     if (isOpen !== lastIsOpen.current) {
@@ -64,14 +111,7 @@ export function ClickableTooltip({
   }, [isOpen, onOpenChange]);
 
   const root = (
-    <span
-      className={rootClassName}
-      onClick={() => {
-        if (disabled !== true) {
-          setIsOpen(p => !p);
-        }
-      }}
-    >
+    <span ref={rootRef} className={rootClassName}>
       {children}
       {disabled !== true && chevron !== false && (
         <Icon
@@ -114,7 +154,10 @@ export function ClickableTooltip({
             </div>
           }
           placement={tooltipPlacement}
-          rootClassName="!max-w-[400px] min-w-[150px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-3 [&_.ant-tooltip-inner]:!text-inherit"
+          rootClassName={clsx(
+            'min-w-[150px] !max-w-[400px] [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-inner]:!p-3 [&_.ant-tooltip-inner]:!text-inherit',
+            tooltipClassName,
+          )}
           open={isOpen}
           destroyTooltipOnHide
         >
