@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { isPositionUpdatable, useTraderPositionQuery } from 'api';
-import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
@@ -16,10 +15,7 @@ export default function PageTrade() {
 
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
-  const [quote, setQuote] = useSearchParamAsState<AutoTraderSupportedQuotes>(
-    'quote',
-    'tether',
-  );
+  const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
   const [positionKey] = useSearchParamAsState('pos');
 
   useEnsureIsSupportedPair({ slug, nextPage: '/' });

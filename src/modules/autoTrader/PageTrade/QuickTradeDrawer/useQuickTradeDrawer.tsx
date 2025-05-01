@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { DrawerModal } from 'shared/DrawerModal';
-import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { type TraderInputs } from '../types';
 import QuickTrade from './QuickTrade';
@@ -10,7 +9,7 @@ type DrawerInputs = Omit<TraderInputs, 'quote' | 'setQuote'>;
 export default function useQuickTradeDrawer() {
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState<DrawerInputs>();
-  const [quote, setQuote] = useState<AutoTraderSupportedQuotes>('tether');
+  const [quote, setQuote] = useState('tether');
 
   const component = (
     <div onClick={e => e.stopPropagation()}>
