@@ -1,44 +1,49 @@
-/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
-import { bxPlusCircle } from 'boxicons-quasar';
-import { useSymbolInfo } from 'api/symbol';
-import { useAccountBalance } from 'api/chains';
+import { Spin } from 'antd';
 import AmountInputBox from 'shared/AmountInputBox';
-import Icon from 'shared/Icon';
-import Spin from 'shared/Spin';
-import { Button } from 'shared/v1-components/Button';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { ReactComponent as WalletIcon } from 'modules/base/wallet/wallet-icon.svg';
-import { type SignalFormState } from './useSignalFormStates';
-import QuoteSelector from './QuoteSelector';
-import AIPresets from './AIPressets';
-import useSensibleSteps from './useSensibleSteps';
+import { Button } from 'shared/v1-components/Button';
+import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
+import { type SwapState } from '../QuickSwap/useSwapState';
+import useSensibleSteps from '../PageTrade/AdvancedSignalForm/useSensibleSteps';
+import MarketField from './MarketField';
+import BtnBuySell from './BtnBuySell';
 
-const PartIntro: React.FC<{
-  data: SignalFormState;
-  baseSlug: string;
-  noManualPreset?: boolean;
-}> = ({ data, baseSlug, noManualPreset }) => {
+const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    isUpdate: [isUpdate],
-    amount: [amount, setAmount],
-    quote: [quote, setQuote],
-  } = data;
+    quoteFields: {
+      balance: quoteBalance,
+      amount,
+      setAmount,
+      balanceLoading,
+      coinInfo: quoteInfo,
+    },
+    quote,
+    setQuote,
+    base,
+  } = state;
 
-  const { data: quoteInfo } = useSymbolInfo(quote);
   const net = useActiveNetwork();
   const isNativeQuote =
     (net === 'the-open-network' && quote === 'the-open-network') ||
     (net === 'solana' && quote === 'wrapped-solana');
-
-  const { data: quoteBalance, isLoading: balanceLoading } =
-    useAccountBalance(quote);
 
   const steps = useSensibleSteps(quoteBalance);
 
   return (
     <div>
       <AmountInputBox
+        max={quoteBalance || 0}
+        value={amount}
+        onChange={setAmount}
+        noSuffixPad
+        suffix={
+          base &&
+          quote && (
+            <QuoteSelector baseSlug={base} value={quote} onChange={setQuote} />
+          )
+        }
         label={
           <div className="flex items-center justify-between text-xs">
             <span>Amount</span>
@@ -52,14 +57,11 @@ const PartIntro: React.FC<{
                 <div
                   className={clsx(
                     'flex items-center gap-1',
-                    !isUpdate &&
-                      !isNativeQuote &&
+                    !isNativeQuote &&
                       'cursor-pointer text-white/40 hover:text-white',
                   )}
                   onClick={() =>
-                    !isUpdate &&
-                    !isNativeQuote &&
-                    setAmount(String(quoteBalance))
+                    !isNativeQuote && setAmount(String(quoteBalance))
                   }
                 >
                   {quoteBalance ? (
@@ -68,9 +70,6 @@ const PartIntro: React.FC<{
                         <WalletIcon className="mr-1" /> {String(quoteBalance)}{' '}
                         {quoteInfo?.abbreviation}
                       </span>
-                      {!isUpdate && !isNativeQuote && (
-                        <Icon name={bxPlusCircle} size={16} />
-                      )}
                     </>
                   ) : (
                     <span className="text-v1-content-negative">No Balance</span>
@@ -80,23 +79,11 @@ const PartIntro: React.FC<{
             )}
           </div>
         }
-        max={quoteBalance || 0}
-        value={amount}
-        onChange={setAmount}
-        noSuffixPad
-        suffix={
-          <QuoteSelector
-            baseSlug={baseSlug}
-            value={quote}
-            onChange={setQuote}
-            disabled={isUpdate}
-          />
-        }
-        className="mb-3"
-        disabled={isUpdate || balanceLoading || !quoteBalance}
+        className="mb-2"
+        disabled={balanceLoading || !quoteBalance}
       />
 
-      {Boolean(quoteBalance) && !isUpdate && (
+      {Boolean(quoteBalance) && (
         <div className="mb-3 flex gap-1.5">
           {steps.map(({ label, value }) => (
             <Button
@@ -105,6 +92,7 @@ const PartIntro: React.FC<{
               variant={value === amount ? 'primary' : 'ghost'}
               className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
               onClick={() => setAmount(value)}
+              surface={2}
             >
               {label}
             </Button>
@@ -112,14 +100,10 @@ const PartIntro: React.FC<{
         </div>
       )}
 
-      <AIPresets
-        data={data}
-        baseSlug={baseSlug}
-        quoteSlug={quote}
-        noManual={noManualPreset}
-      />
+      <MarketField state={state} />
+      <BtnBuySell state={state} className="mt-6 w-full" />
     </div>
   );
 };
 
-export default PartIntro;
+export default BuyForm;

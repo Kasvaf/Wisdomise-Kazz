@@ -11,8 +11,8 @@ const useSwapState = () => {
   const [base, setBase] = useState<string>();
   const [quote, setQuote] = useState('tether');
   const [dir, setDir] = useState<'buy' | 'sell'>('buy');
-  const [quoteAmount, setQuoteAmount] = useState('100');
-  const [baseAmount, setBaseAmount] = useState('100');
+  const [quoteAmount, setQuoteAmount] = useState('0');
+  const [baseAmount, setBaseAmount] = useState('0');
   const [isMarketPrice, setIsMarketPrice] = useState(true);
 
   const { data: baseInfo } = useSymbolInfo(base);
@@ -29,8 +29,14 @@ const useSwapState = () => {
   }, [firstQuote]);
   const supportedQuotes = useSymbolsInfo(pairs?.map(x => x.quote.slug));
 
-  const { data: quoteBalance } = useAccountBalance(quote, selectedNet);
-  const { data: baseBalance } = useAccountBalance(base, selectedNet);
+  const { data: quoteBalance, isLoading: quoteLoading } = useAccountBalance(
+    quote,
+    selectedNet,
+  );
+  const { data: baseBalance, isLoading: baseLoading } = useAccountBalance(
+    base,
+    selectedNet,
+  );
 
   const { data: basePriceByQuote } = useLastPriceQuery({
     slug: base,
@@ -51,6 +57,7 @@ const useSwapState = () => {
 
   const quoteFields = {
     balance: quoteBalance,
+    balanceLoading: quoteLoading,
     coin: quote,
     coinInfo: quoteInfo,
     setCoin: setQuote,
@@ -65,6 +72,7 @@ const useSwapState = () => {
 
   const baseFields = {
     balance: baseBalance,
+    balanceLoading: baseLoading,
     coin: base,
     coinInfo: baseInfo,
     setCoin: undefined,
@@ -97,11 +105,14 @@ const useSwapState = () => {
     setQuote,
     from,
     to,
+    quoteFields,
+    baseFields,
 
     quoteAmount,
     baseAmount,
 
     dir,
+    setDir,
     swapFromTo: useCallback(() => {
       setDir(dir => (dir === 'buy' ? 'sell' : 'buy'));
       setIsMarketPrice(true);
