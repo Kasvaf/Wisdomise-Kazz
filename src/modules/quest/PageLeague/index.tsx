@@ -65,7 +65,7 @@ export default function PageLeague() {
   }, [openLeagueResultModal, profile.result]);
 
   useEffect(() => {
-    if (profile.league && !selectedLeagueIndex) {
+    if (profile.league && selectedLeagueIndex === undefined) {
       setSelectedLeagueIndex(
         league.details?.findIndex(l => l.level === profile.league?.level),
       );
@@ -127,7 +127,7 @@ export default function PageLeague() {
                         isActive ? 'size-40' : 'size-32 opacity-50',
                       )}
                       slug={item.slug}
-                      isActive={selectedLeagueIndex === index}
+                      isActive={isActive}
                     />
                     <h2
                       className={clsx(
