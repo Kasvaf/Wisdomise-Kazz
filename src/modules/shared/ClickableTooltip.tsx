@@ -1,4 +1,3 @@
-// TODO refactor sources
 import { type Drawer as AntDrawer, type Tooltip as AntTooltip } from 'antd';
 import { clsx } from 'clsx';
 import {
