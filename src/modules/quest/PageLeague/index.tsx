@@ -152,7 +152,10 @@ export default function PageLeague() {
           {me && me.league_slug === selectedLeague?.slug && (
             <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
               <h2 className="mb-2">My Status</h2>
-              <LeaderboardItem participant={me} />
+              <LeaderboardItem
+                participant={me}
+                isTopLevel={selectedLeague?.level === 2}
+              />
             </div>
           )}
         </div>

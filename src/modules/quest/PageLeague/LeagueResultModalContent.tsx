@@ -29,14 +29,14 @@ export default function LeagueResultModalContent({
       <img
         src={bg}
         alt=""
-        className="absolute end-0 top-0 h-full w-full rounded-xl mobile:rounded-3xl"
+        className="absolute end-0 top-0 size-full rounded-xl mobile:rounded-3xl"
       />
       {profile.promotion_status === 'PROMOTING' && (
         <video
           muted
           autoPlay
           playsInline
-          className="absolute top-0 h-full w-full object-cover opacity-50 mix-blend-exclusion"
+          className="absolute top-0 size-full object-cover opacity-50 mix-blend-exclusion"
         >
           <source src={video} />
         </video>
