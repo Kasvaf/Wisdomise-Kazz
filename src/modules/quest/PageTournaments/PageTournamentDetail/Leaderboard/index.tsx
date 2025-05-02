@@ -46,7 +46,9 @@ export default function Leaderboard({
             participants[index].promotion_status !==
               participants[index - 1].promotion_status
           }
-          hasReward={p.rank <= (rewardedUsersMinRank ?? 0)}
+          hasReward={
+            !!p.trading_volume && p.rank <= (rewardedUsersMinRank ?? 0)
+          }
           isTopLevel={isTopLevel}
         />
       ))}

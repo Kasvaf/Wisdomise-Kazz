@@ -82,7 +82,7 @@ export default function PageLeague() {
       <PageTitle
         className="pt-8"
         title="Compete, Rise, and Conquer!"
-        description="Compete Weekly, Earn Points, and Climb the Ranks. Top 10 Advance and Win Prizes. Stay Competitive and Aim for the Top!"
+        description="Compete Weekly, Earn Points, and Climb the Ranks. Stay Competitive and Aim for the Top!"
       />
 
       <div className="mx-auto my-8 h-48">
