@@ -2,22 +2,36 @@ import { bxSearch } from 'boxicons-quasar';
 import { useState, type ComponentProps, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'usehooks-ts';
+import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { Input } from 'shared/v1-components/Input';
-import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useDetailedCoins } from 'api';
 import { CoinLogo } from 'shared/Coin';
 import { CoinLabels } from 'shared/CoinLabels';
 import { ContractAddress } from 'shared/ContractAddress';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
+import { Select } from 'shared/v1-components/Select';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 
 export const GlobalSearch: FC<
   Omit<
-    ComponentProps<typeof Input>,
-    'prefixIcon' | 'value' | 'onChange' | 'placeholder' | 'type'
+    ComponentProps<typeof Select>,
+    | 'prefixIcon'
+    | 'value'
+    | 'onChange'
+    | 'placeholder'
+    | 'options'
+    | 'render'
+    | 'chevron'
+    | 'showSearch'
+    | 'loading'
+    | 'searchValue'
+    | 'onSearch'
+    | 'multiple'
   >
 > = props => {
   const { t } = useTranslation('common');
+  const [network] = useGlobalNetwork();
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
 
@@ -25,33 +39,38 @@ export const GlobalSearch: FC<
     query: debouncedQuery,
   });
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
-    <ClickableTooltip
-      title={
-        <div className="flex flex-col gap-1">
-          {coins.data?.map((row, i) => (
-            <div
-              className="flex items-center justify-start gap-2"
-              key={`${row?.contract_address ?? ''} ${
-                row?.symbol.slug ?? ''
-              } ${i}`}
-            >
-              <CoinLogo value={row.symbol} className="size-6" />
-              <div className="flex flex-col justify-between gap-px">
+    <Select
+      value={undefined}
+      multiple={false}
+      onChange={slug => {
+        if (slug) navigate(`/coin/${slug}`);
+      }}
+      options={coins.data?.map(x => x.symbol.slug)}
+      dialogClassName="w-[520px] mobile:w-auto"
+      render={opt => {
+        const row = coins.data?.find(x => x.symbol.slug === opt);
+        if (!row) return '';
+        return (
+          <div className="flex items-center justify-between gap-4 px-2 py-3 mobile:px-1">
+            <div className="flex items-center justify-start gap-2">
+              <CoinLogo
+                value={row.symbol}
+                className="size-7"
+                network={network}
+              />
+              <div className="flex flex-col justify-between gap-px whitespace-nowrap">
                 <div className="flex items-center gap-1">
-                  <p className="text-xs font-medium">
+                  <p className="text-sm font-medium">
                     {row?.symbol.abbreviation ?? '---'}
                   </p>
-                  <p className="text-xxs text-v1-content-secondary">
+                  <p className="max-w-14 overflow-hidden truncate text-xxs text-v1-content-secondary">
                     {row?.symbol.name ?? '---'}
                   </p>
                   <CoinLabels
-                    labels={[
-                      row.is_in_coingecko ? 'coingecko' : 'new_born',
-                      ...(row?.symbol_labels ?? []),
-                    ].filter(x => !!x)}
+                    labels={[...(row?.symbol_labels ?? [])].filter(x => !!x)}
                     coin={row.symbol}
                     security={row.symbol_security ? [row.symbol_security] : []}
                     size="xs"
@@ -75,23 +94,43 @@ export const GlobalSearch: FC<
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      }
-      className="!cursor-text"
-      tooltipClassName="!max-w-[460px] !w-full"
+            <div className="flex grow items-center justify-end gap-4 justify-self-end whitespace-nowrap text-xs mobile:gap-2 [&_label]:text-v1-content-secondary">
+              <p>
+                <label>{'MC: '}</label>
+                <ReadableNumber
+                  value={row.symbol_market_data?.market_cap}
+                  label="$"
+                  popup="never"
+                  format={{ decimalLength: 1 }}
+                />
+              </p>
+              <p>
+                <label>{'24h V: '}</label>
+                <ReadableNumber
+                  value={row.symbol_market_data?.volume_24h}
+                  label="$"
+                  popup="never"
+                  format={{ decimalLength: 1 }}
+                />
+              </p>
+            </div>
+          </div>
+        );
+      }}
+      searchPlaceholder={`Search in ${network
+        .split('-')
+        .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
+        .join(' ')} Network`}
       chevron={false}
-    >
-      <Input
-        prefixIcon={
-          <Icon name={bxSearch} className="text-v1-content-secondary" />
-        }
-        placeholder={t('search_coins')}
-        type="string"
-        value={query}
-        onChange={newQuery => setQuery(newQuery)}
-        {...props}
-      />
-    </ClickableTooltip>
+      showSearch
+      loading={coins.isLoading}
+      searchValue={query}
+      onSearch={setQuery}
+      prefixIcon={
+        <Icon name={bxSearch} className="text-v1-content-secondary" />
+      }
+      placeholder={t('search_coins')}
+      {...props}
+    />
   );
 };

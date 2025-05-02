@@ -10,6 +10,7 @@ import MobileHeader from './MobileHeader';
 import DesktopHeader from './DesktopHeader';
 import { NetworkMenu } from './NetworkMenu';
 import { AlertButton } from './AlertButton';
+import { GlobalSearch } from './GlobalSearch';
 
 export interface LayoutProps {
   hasBack?: boolean;
@@ -36,17 +37,23 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   const extension = (
     <>
       {userExtension}
-      {/* <GlobalSearch
-        surface={isMobile ? 2 : 3}
-        size="xs"
-        className="min-w-[122px]"
-      /> */}
-      <NetworkMenu surface={isMobile ? 2 : 3} size="xs" className="shrink-0" />
-      <AlertButton
-        surface={isMobile ? 1 : 2}
-        size="xs"
-        className="ms-6 shrink-0"
-      />
+      <div className="flex items-center gap-2">
+        <GlobalSearch
+          surface={isMobile ? 2 : 3}
+          size={isMobile ? 'sm' : 'xs'}
+          className="min-w-[122px] grow"
+        />
+        <NetworkMenu
+          surface={isMobile ? 2 : 3}
+          size={isMobile ? 'sm' : 'xs'}
+          className="shrink-0"
+        />
+        <AlertButton
+          surface={isMobile ? 1 : 2}
+          size={isMobile ? 'sm' : 'xs'}
+          className="ms-6 shrink-0 mobile:ms-0"
+        />
+      </div>
     </>
   );
   return (
