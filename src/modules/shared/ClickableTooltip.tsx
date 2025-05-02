@@ -47,7 +47,11 @@ export function ClickableTooltip({
           DIALOG_OPENER_CLASS,
           className,
         )}
-        onClick={() => setIsOpen(p => !p)}
+        onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          setIsOpen(p => !p);
+        }}
       >
         {children}{' '}
         {disabled !== true && chevron !== false && (
@@ -63,7 +67,7 @@ export function ClickableTooltip({
       </span>
       <Dialog
         className={clsx(
-          'min-w-[150px] max-w-[400px] p-3 mobile:max-w-full',
+          'w-max min-w-[150px] max-w-[410px] p-3 mobile:max-w-full',
           tooltipClassName,
         )}
         mode={isMobile ? 'bottomsheet' : 'popup'}

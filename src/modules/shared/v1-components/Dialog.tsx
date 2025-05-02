@@ -12,6 +12,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useDebounce } from 'usehooks-ts';
 import { type Surface, useSurface } from 'utils/useSurface';
+import { useComponentsContext } from './ComponentsProvider';
 
 export const DIALOG_OPENER_CLASS = 'custom-popover';
 
@@ -32,88 +33,63 @@ const useTransition = (value: boolean, timeout: number) => {
   return state;
 };
 
-const useLastHoverPosition = (
+export const usePopupPosition = (
   target: RefObject<HTMLDivElement>,
   enabled: boolean,
+  calculateBy?: 'target' | 'pointer',
 ) => {
-  const lastHover = useRef<HTMLElement | null>(null);
+  const context = useComponentsContext();
+  if (!context) throw new Error('use Dialog inside ComponentsProvider');
   const [style, setStyle] = useState<CSSProperties>({});
-
-  useEffect(() => {
-    const handler = (event: Event) => {
-      lastHover.current = event.target as HTMLElement | null;
-    };
-
-    document.addEventListener('pointerover', handler);
-    return () => {
-      document.removeEventListener('pointerover', handler);
-    };
-  }, []);
-
+  // TODOOOO
   useEffect(() => {
     if (!enabled) return;
 
     const computeStyle = () => {
-      let anchor = lastHover.current;
-      while (anchor) {
-        if (anchor.matches?.(`.${DIALOG_OPENER_CLASS}`)) break;
-        anchor = anchor.parentElement;
-      }
+      const popupRect = target.current?.getBoundingClientRect();
+      const pointerPosition = context.getPointerPosition();
 
-      const targetRect = target.current?.getBoundingClientRect();
-      const anchorRect = anchor?.getBoundingClientRect();
-      if (!targetRect || !anchorRect) return;
+      const anchorRect = context.getLastClickRect(`.${DIALOG_OPENER_CLASS}`);
 
-      const vMargin = 8;
-      const hMargin = 8;
+      const margin = 8;
       const style: CSSProperties = {};
 
-      const spaceBelow = window.innerHeight - anchorRect.bottom;
-      const spaceAbove = anchorRect.top;
+      if (!popupRect) return style;
 
-      // Vertical positioning
-      if (spaceBelow >= targetRect.height + vMargin) {
-        style.top = anchorRect.bottom + vMargin;
-      } else if (spaceAbove >= targetRect.height + vMargin) {
-        style.bottom = window.innerHeight - anchorRect.top + vMargin;
+      const preferredTop =
+        (calculateBy === 'target'
+          ? anchorRect?.top ?? pointerPosition.top
+          : pointerPosition.top) +
+        (calculateBy === 'target' ? anchorRect?.height ?? 0 : 0) +
+        margin;
+
+      if (preferredTop + popupRect.height <= window.innerHeight) {
+        style.top = preferredTop;
       } else {
-        if (spaceBelow >= spaceAbove) {
-          style.top = Math.min(
-            anchorRect.bottom + vMargin,
-            window.innerHeight - targetRect.height - vMargin,
-          );
-        } else {
-          style.bottom = Math.max(
-            window.innerHeight - anchorRect.top + vMargin,
-            vMargin,
-          );
-        }
+        style.bottom =
+          window.innerHeight -
+          (calculateBy === 'target'
+            ? anchorRect?.top ?? pointerPosition.top
+            : pointerPosition.top) +
+          margin;
       }
 
-      const spaceRight = window.innerWidth - anchorRect.left;
-      const spaceLeft = anchorRect.right;
+      // Horizontal centering
+      let left =
+        (calculateBy === 'target'
+          ? anchorRect?.left ?? pointerPosition.left
+          : pointerPosition.left) +
+        (calculateBy === 'target' ? (anchorRect?.width ?? 0) / 2 : 0) -
+        popupRect.width / 2;
 
-      const centeredLeft =
-        anchorRect.left + anchorRect.width / 2 - targetRect.width / 2;
-      const fitsCentered =
-        centeredLeft >= hMargin &&
-        centeredLeft + targetRect.width <= window.innerWidth - hMargin;
-
-      if (fitsCentered) {
-        style.left = centeredLeft;
-      } else if (spaceRight >= targetRect.width + hMargin) {
-        style.left = anchorRect.left;
-      } else if (spaceLeft >= targetRect.width + hMargin) {
-        style.right = window.innerWidth - anchorRect.right;
-      } else {
-        style.left = Math.max(
-          hMargin,
-          Math.min(
-            centeredLeft,
-            window.innerWidth - targetRect.width - hMargin,
-          ),
-        );
+      // Adjust if it overflows
+      if (left < margin) {
+        left = margin + 16;
+      } else if (left + popupRect.width + margin > window.innerWidth) {
+        left = window.innerWidth - popupRect.width - margin - 16;
       }
+
+      style.left = left;
 
       setStyle(style);
     };
@@ -121,7 +97,7 @@ const useLastHoverPosition = (
     computeStyle();
     window.addEventListener('resize', computeStyle);
     return () => window.removeEventListener('resize', computeStyle);
-  }, [enabled, target]);
+  }, [calculateBy, context, enabled, target]);
 
   return style;
 };
@@ -137,6 +113,7 @@ export const Dialog: FC<{
   surface?: Surface;
   className?: string;
   overlay?: boolean;
+  calculatePopupPositonBy?: 'target' | 'pointer';
 }> = ({
   children,
   open: isOpen = false,
@@ -148,21 +125,28 @@ export const Dialog: FC<{
   surface = 3,
   footer,
   overlay = true,
+  calculatePopupPositonBy = 'target',
 }) => {
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
   const state = useTransition(isOpen, 250);
+  const lastFocus = useRef<HTMLElement | null>(null);
 
-  const popupPosition = useLastHoverPosition(
+  const popupPosition = usePopupPosition(
     root,
     (state === true || (isOpen && state === null)) && mode === 'popup',
+    calculatePopupPositonBy,
   );
 
   const toggle = useCallback(
     (newValue?: boolean) => {
       if (newValue === false) {
+        if (lastFocus.current) {
+          lastFocus.current?.focus?.();
+        }
         onClose?.();
       } else {
+        lastFocus.current = document.activeElement as HTMLElement | null;
         onOpen?.();
       }
     },
@@ -204,7 +188,6 @@ export const Dialog: FC<{
                   )}
                   onClick={e => {
                     e.stopPropagation();
-                    e.preventDefault();
                     toggle(false);
                   }}
                 />
@@ -236,7 +219,7 @@ export const Dialog: FC<{
                     state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
                   ],
                   mode === 'popup' && [
-                    'h-auto max-h-[90svh] w-auto max-w-[90svw] rounded-2xl shadow-xl',
+                    'h-auto max-h-[90svh] w-auto max-w-[90svw] rounded-xl shadow-xl',
                     state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
                   ],
                 )}

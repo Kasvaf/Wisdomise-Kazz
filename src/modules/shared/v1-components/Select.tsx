@@ -45,7 +45,12 @@ interface SelectProps<V, M extends boolean = false> {
   suffixIcon?: ReactNode;
   className?: string;
 
+  dialogClassName?: string;
+  dialogSurface?: Surface;
+
   surface?: Surface;
+
+  searchPlaceholder?: string;
 }
 
 function InternalRenderedValue<V>({
@@ -96,11 +101,11 @@ function Option({
     <div
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
-        size === 'xs' && 'h-xs px-2 text-xs',
-        size === 'sm' && 'h-sm px-2 text-xs',
-        size === 'md' && 'h-md px-3 text-xs',
-        size === 'xl' && 'h-xl px-3 text-sm',
-        'group flex shrink-0 flex-nowrap items-center justify-between gap-1 mobile:px-5',
+        size === 'xs' && 'min-h-xs px-2 text-xs',
+        size === 'sm' && 'min-h-sm px-2 text-xs',
+        size === 'md' && 'min-h-md px-3 text-xs',
+        size === 'xl' && 'min-h-xl px-3 text-sm',
+        'group flex shrink-0 flex-nowrap items-center justify-between gap-1 mobile:px-3',
         'cursor-pointer hover:bg-white/5',
         !checkbox && selected && '!bg-white/10',
       )}
@@ -123,7 +128,7 @@ function Option({
         } catch {}
       }}
     >
-      <div className="max-w-max overflow-hidden" ref={childRef}>
+      <div className="w-full overflow-hidden" ref={childRef}>
         {children}
       </div>
       {checkbox && (
@@ -227,6 +232,9 @@ export function Select<V, M extends boolean = false>({
   chevron = true,
   disabled,
   surface = 3,
+  dialogSurface = 3,
+  dialogClassName,
+  searchPlaceholder = 'Search Here',
 }: SelectProps<V, M>) {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
@@ -244,18 +252,23 @@ export function Select<V, M extends boolean = false>({
           searchRef.current?.focus();
         }
       }, 100);
-      const blurHandler = (e: FocusEvent) => {
-        if (
-          !contentRef.current?.contains(e?.relatedTarget as never) &&
-          !titleRef.current?.contains(e?.relatedTarget as never)
-        ) {
-          setIsOpen(false);
-        }
+      let blurTimeout = setTimeout(() => false);
+      const blurHandler = () => {
+        clearTimeout(blurTimeout);
+        blurTimeout = setTimeout(() => {
+          if (
+            !contentRef.current?.contains(document.activeElement) &&
+            !titleRef.current?.contains(document.activeElement)
+          ) {
+            setIsOpen(false);
+          }
+        }, 2000);
       };
       window.addEventListener('focusout', blurHandler);
       return () => {
         window.removeEventListener('focusout', blurHandler);
         clearTimeout(focusTimeout);
+        clearTimeout(blurTimeout);
       };
     }
   }, [isOpen, isMobile, onSearch]);
@@ -373,20 +386,34 @@ export function Select<V, M extends boolean = false>({
         mode={isMobile ? 'bottomsheet' : 'popup'}
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        surface={3}
+        surface={dialogSurface}
+        className={dialogClassName}
+        footer={
+          isMobile &&
+          !showSearch && (
+            <div className="p-3">
+              <Button
+                variant="ghost"
+                block
+                className="w-full"
+                surface={5}
+                onClick={() => setIsOpen(false)}
+              >
+                {'OK'}
+              </Button>
+            </div>
+          )
+        }
       >
         <div
-          className={clsx(
-            'flex h-full w-full flex-col overflow-hidden',
-            showSearch ? 'mobile:h-[96svh]' : 'max-h-[60svh]',
-          )}
+          className={clsx('flex h-full w-full flex-col overflow-hidden')}
           ref={titleRef}
           tabIndex={-1}
         >
           {showSearch && (
-            <div className="flex items-center gap-2 p-4">
+            <div className="flex items-center gap-2 p-3">
               <input
-                placeholder="Search Here"
+                placeholder={searchPlaceholder}
                 className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l5 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
                 value={searchValue ?? ''}
                 onChange={e => onSearch?.(e.target.value)}
@@ -394,7 +421,7 @@ export function Select<V, M extends boolean = false>({
               />
             </div>
           )}
-          <div className="relative flex max-h-48 shrink grow flex-col gap-px overflow-auto mobile:max-h-none">
+          <div className="relative flex max-h-72 shrink grow flex-col gap-px overflow-auto mobile:max-h-none">
             {loading ? (
               <div
                 className="flex min-h-12 items-center justify-center"
@@ -432,19 +459,7 @@ export function Select<V, M extends boolean = false>({
               </>
             )}
           </div>
-          {isMobile && !showSearch && (
-            <div className="p-4">
-              <Button
-                variant="ghost"
-                block
-                className="w-full"
-                surface={5}
-                onClick={() => setIsOpen(false)}
-              >
-                {'OK'}
-              </Button>
-            </div>
-          )}
+          {}
         </div>
       </Dialog>
     </>

@@ -41,6 +41,7 @@ export function HoverTooltip({
         onClose={() => onOpenChange?.(false)}
         onOpen={() => onOpenChange?.(true)}
         overlay={false}
+        calculatePopupPositonBy="pointer"
       >
         {title}
       </Dialog>
