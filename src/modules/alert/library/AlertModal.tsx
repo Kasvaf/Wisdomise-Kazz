@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
-import { DrawerModal } from 'shared/DrawerModal';
+import { Dialog } from 'shared/v1-components/Dialog';
+import useIsMobile from 'utils/useIsMobile';
 
 export function AlertModal({
   open,
@@ -10,15 +11,16 @@ export function AlertModal({
   onClose?: () => void;
   children?: ReactNode;
 }) {
+  const isMobile = useIsMobile();
   return (
-    <DrawerModal
+    <Dialog
       open={open}
       onClose={onClose}
-      destroyOnClose
-      className="max-w-lg mobile:!max-h-[85svh] mobile:max-w-full"
-      closable={false}
+      mode={isMobile ? 'bottomsheet' : 'end-drawer'}
+      className="w-full max-w-lg p-6 mobile:max-w-full"
+      surface={4}
     >
       {children}
-    </DrawerModal>
+    </Dialog>
   );
 }
