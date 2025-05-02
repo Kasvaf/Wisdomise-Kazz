@@ -15,7 +15,7 @@ import useIsMobile from 'utils/useIsMobile';
 import { type Surface, useSurface } from 'utils/useSurface';
 import { Button } from './Button';
 import { Checkbox } from './Checkbox';
-import { Popover, POPVER_OPENER_CLASS } from './Popover';
+import { Dialog, DIALOG_OPENER_CLASS } from './Dialog';
 
 interface SelectProps<V, M extends boolean = false> {
   size?: 'xs' | 'sm' | 'md' | 'xl';
@@ -331,7 +331,7 @@ export function Select<V, M extends boolean = false>({
           block ? 'flex' : 'inline-flex',
           'items-center justify-between gap-1 overflow-hidden',
           !disabled && 'cursor-pointer',
-          POPVER_OPENER_CLASS,
+          DIALOG_OPENER_CLASS,
           className,
         )}
         style={{
@@ -369,7 +369,7 @@ export function Select<V, M extends boolean = false>({
         )}
       </div>
 
-      <Popover
+      <Dialog
         mode={isMobile ? 'bottomsheet' : 'popup'}
         open={isOpen}
         onClose={() => setIsOpen(false)}
@@ -446,7 +446,7 @@ export function Select<V, M extends boolean = false>({
             </div>
           )}
         </div>
-      </Popover>
+      </Dialog>
     </>
   );
 }

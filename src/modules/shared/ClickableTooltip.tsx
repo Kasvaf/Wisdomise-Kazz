@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
 import useIsMobile from 'utils/useIsMobile';
-import { Popover, POPVER_OPENER_CLASS } from './v1-components/Popover';
+import { Dialog, DIALOG_OPENER_CLASS } from './v1-components/Dialog';
 import Icon from './Icon';
 
 export function ClickableTooltip({
@@ -45,7 +45,7 @@ export function ClickableTooltip({
           'group relative inline-flex select-none items-center gap-1',
           disabled !== true && 'cursor-help',
           isOpen && 'pointer-events-none',
-          POPVER_OPENER_CLASS,
+          DIALOG_OPENER_CLASS,
           className,
         )}
         onClick={() => setIsOpen(p => !p)}
@@ -62,7 +62,7 @@ export function ClickableTooltip({
           />
         )}
       </span>
-      <Popover
+      <Dialog
         className={clsx(
           'min-w-[150px] max-w-[400px] p-3 mobile:max-w-full',
           tooltipClassName,
@@ -73,7 +73,7 @@ export function ClickableTooltip({
         surface={4}
       >
         {title}
-      </Popover>
+      </Dialog>
     </>
   );
 }

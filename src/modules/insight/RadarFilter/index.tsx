@@ -1,7 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
-import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { bxGridAlt, bxSliderAlt } from 'boxicons-quasar';
 import { CategorySelect } from 'shared/CategorySelect';
@@ -19,6 +18,7 @@ import {
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import { type Surface } from 'utils/useSurface';
 import useIsMobile from 'utils/useIsMobile';
+import { Dialog } from 'shared/v1-components/Dialog';
 import {
   socialPresetFilters,
   technicalPresetFilters,
@@ -350,13 +350,39 @@ export function RadarFilter({
           surface={surface}
         />
       </div>
-      <Modal
+      <Dialog
         open={open}
-        onCancel={() => setOpen(false)}
-        centered
-        className="max-w-[500px] mobile:max-w-[360px]"
-        destroyOnClose
-        footer={false}
+        onClose={() => setOpen(false)}
+        className="w-[500px] p-4 mobile:w-auto"
+        mode={isMobile ? 'bottomsheet' : 'modal'}
+        surface={2}
+        footer={
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="lg"
+              block
+              onClick={() => {
+                setOpen(false);
+              }}
+              className="shrink-0 grow"
+            >
+              {t('common:actions.cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              size="lg"
+              block
+              onClick={() => {
+                onChange?.(localState);
+                setOpen(false);
+              }}
+              className="shrink-0 grow"
+            >
+              {t('common:apply_filters')}
+            </Button>
+          </div>
+        }
       >
         <p className="text-xl font-semibold">{t('common:filters')}</p>
         <div className="mt-8 space-y-4">
@@ -457,32 +483,7 @@ export function RadarFilter({
             </div>
           )}
         </div>
-        <div className="mt-20 flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="lg"
-            block
-            onClick={() => {
-              setOpen(false);
-            }}
-            className="shrink-0 grow"
-          >
-            {t('common:actions.cancel')}
-          </Button>
-          <Button
-            variant="primary"
-            size="lg"
-            block
-            onClick={() => {
-              onChange?.(localState);
-              setOpen(false);
-            }}
-            className="shrink-0 grow"
-          >
-            {t('common:apply_filters')}
-          </Button>
-        </div>
-      </Modal>
+      </Dialog>
     </div>
   );
 }

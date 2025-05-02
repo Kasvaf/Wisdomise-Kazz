@@ -1,33 +1,50 @@
 import { type ScatterConfig } from '@ant-design/plots';
-import { Tooltip as AntTooltip } from 'antd';
-import { type ComponentProps, type ReactNode } from 'react';
+import { type Tooltip as AntTooltip } from 'antd';
+import { useState, type ComponentProps, type ReactNode } from 'react';
+import { clsx } from 'clsx';
+import { Dialog, DIALOG_OPENER_CLASS } from './v1-components/Dialog';
 
 export function HoverTooltip({
   title,
   children,
-  placement = 'bottom',
   disabled,
   onOpenChange,
 }: {
   title?: ReactNode;
   children?: ReactNode;
-  placement?: ComponentProps<typeof AntTooltip>['placement'];
+  placement?: ComponentProps<typeof AntTooltip>['placement']; // DEPRECATED
   disabled?: boolean;
   onOpenChange?: (v: boolean) => void;
 }) {
+  const [open, setOpen] = useState(false);
   if (disabled) {
     return <>{children}</>;
   }
   return (
-    <AntTooltip
-      title={title}
-      placement={placement}
-      rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-3 [&_.ant-tooltip-inner]:!text-inherit [&_.ant-tooltip-inner]:!text-sm [&_.ant-tooltip-inner]:text-v1-content-primary"
-      onOpenChange={onOpenChange}
-      destroyTooltipOnHide
-    >
-      {children}
-    </AntTooltip>
+    <>
+      <span
+        className={clsx('cursor-help', DIALOG_OPENER_CLASS)}
+        onMouseEnter={() => {
+          setOpen(true);
+        }}
+        onMouseLeave={() => {
+          setOpen(false);
+        }}
+      >
+        {children}
+      </span>
+      <Dialog
+        open={open}
+        mode="popup"
+        className="!max-w-[400px] p-3 text-sm text-v1-content-primary"
+        surface={4}
+        onClose={() => onOpenChange?.(false)}
+        onOpen={() => onOpenChange?.(true)}
+        overlay={false}
+      >
+        {title}
+      </Dialog>
+    </>
   );
 }
 

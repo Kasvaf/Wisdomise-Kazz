@@ -13,7 +13,7 @@ import { createPortal } from 'react-dom';
 import { useDebounce } from 'usehooks-ts';
 import { type Surface, useSurface } from 'utils/useSurface';
 
-export const POPVER_OPENER_CLASS = 'custom-popover';
+export const DIALOG_OPENER_CLASS = 'custom-popover';
 
 const useTransition = (value: boolean, timeout: number) => {
   const shortDebounce = useDebounce(value, 25);
@@ -32,28 +32,21 @@ const useTransition = (value: boolean, timeout: number) => {
   return state;
 };
 
-const usePopupPosition = (
+const useLastHoverPosition = (
   target: RefObject<HTMLDivElement>,
   enabled: boolean,
 ) => {
-  const anchor = useRef<HTMLElement>();
+  const lastHover = useRef<HTMLElement | null>(null);
   const [style, setStyle] = useState<CSSProperties>({});
 
   useEffect(() => {
     const handler = (event: Event) => {
-      const originalTarget = (event.target ||
-        event.currentTarget) as HTMLElement | null;
-      let target = originalTarget;
-      while (target) {
-        if (target.matches?.(`.${POPVER_OPENER_CLASS}`)) break;
-        target = target.parentElement;
-      }
-      anchor.current = target || originalTarget || undefined;
+      lastHover.current = event.target as HTMLElement | null;
     };
 
-    document.addEventListener('pointerdown', handler);
+    document.addEventListener('pointerover', handler);
     return () => {
-      document.removeEventListener('pointerdown', handler);
+      document.removeEventListener('pointerover', handler);
     };
   }, []);
 
@@ -61,8 +54,14 @@ const usePopupPosition = (
     if (!enabled) return;
 
     const computeStyle = () => {
+      let anchor = lastHover.current;
+      while (anchor) {
+        if (anchor.matches?.(`.${DIALOG_OPENER_CLASS}`)) break;
+        anchor = anchor.parentElement;
+      }
+
       const targetRect = target.current?.getBoundingClientRect();
-      const anchorRect = anchor.current?.getBoundingClientRect();
+      const anchorRect = anchor?.getBoundingClientRect();
       if (!targetRect || !anchorRect) return;
 
       const vMargin = 8;
@@ -122,12 +121,12 @@ const usePopupPosition = (
     computeStyle();
     window.addEventListener('resize', computeStyle);
     return () => window.removeEventListener('resize', computeStyle);
-  }, [enabled, target, anchor]);
+  }, [enabled, target]);
 
   return style;
 };
 
-export const Popover: FC<{
+export const Dialog: FC<{
   open?: boolean;
   onClose?: () => void;
   onOpen?: () => void;
@@ -137,11 +136,10 @@ export const Popover: FC<{
   mode?: 'popup' | 'modal' | 'start-drawer' | 'end-drawer' | 'bottomsheet';
   surface?: Surface;
   className?: string;
-  opener?: ReactNode;
-  disabled?: boolean;
+  overlay?: boolean;
 }> = ({
   children,
-  open = false,
+  open: isOpen = false,
   onClose,
   onOpen,
   mode = 'popup',
@@ -149,24 +147,19 @@ export const Popover: FC<{
   className,
   surface = 3,
   footer,
-  opener: openerChildren,
-  disabled,
+  overlay = true,
 }) => {
   const root = useRef<HTMLDivElement>(null);
-  const opener = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
-  const [localOpen, setLocalOpen] = useState(false);
-  const isOpen = openerChildren ? localOpen : open;
   const state = useTransition(isOpen, 250);
 
-  const popupPosition = usePopupPosition(
+  const popupPosition = useLastHoverPosition(
     root,
     (state === true || (isOpen && state === null)) && mode === 'popup',
   );
 
   const toggle = useCallback(
     (newValue?: boolean) => {
-      setLocalOpen(p => (newValue === undefined ? !p : newValue));
       if (newValue === false) {
         onClose?.();
       } else {
@@ -194,101 +187,77 @@ export const Popover: FC<{
     return () => window.removeEventListener('scroll', onScroll);
   }, [mode, isOpen, closable, toggle]);
 
-  useEffect(() => {
-    const el = opener.current;
-    if (el) {
-      const handleClick = (e: Event) => {
-        e.stopPropagation();
-        e.preventDefault();
-        toggle();
-      };
-      el.addEventListener('click', handleClick);
-      return () => {
-        el?.removeEventListener('click', handleClick);
-      };
-    }
-  }, [disabled, toggle]);
-
-  const popover = (
-    <div
-      ref={root}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
-      tabIndex={1}
-      className={clsx(
-        'fixed z-[9999] overflow-auto transition-[transform,opacity] duration-300 ease-in-out',
-        mode === 'bottomsheet' && [
-          'inset-x-0 bottom-0 max-h-[90svh] w-full rounded-t-2xl',
-          state ? 'translate-y-0' : 'translate-y-full',
-        ],
-        mode.includes('drawer') && [
-          'inset-y-0 h-full',
-          state && 'translate-x-0',
-          mode === 'start-drawer' && [
-            'start-0 rounded-e-2xl',
-            !state && '-translate-x-full',
-          ],
-          mode === 'end-drawer' && [
-            'end-0 rounded-s-2xl',
-            !state && 'translate-x-full',
-          ],
-        ],
-        mode === 'modal' && [
-          'left-1/2 top-1/2 h-auto max-h-[90svh] w-auto max-w-[90svw] -translate-x-1/2 -translate-y-1/2 rounded-2xl shadow-2xl',
-          state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
-        ],
-        mode === 'popup' && [
-          'h-auto max-h-[90svh] w-auto max-w-[90svw] rounded-2xl shadow-xl',
-          state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
-        ],
-      )}
-      style={{
-        ...(mode === 'popup' && popupPosition),
-        backgroundColor: colors.current,
-      }}
-    >
-      {mode === 'bottomsheet' && (
-        <div
-          className="sticky left-1/2 top-3 z-50 mb-3 h-[6px] w-full max-w-12 shrink-0 -translate-x-1/2 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
-          onPointerDown={() => toggle(false)}
-        />
-      )}
-      <div className={className}>{children}</div>
-      {footer && (
-        <div className="sticky bottom-0 mt-3 h-auto w-full border-t border-t-white/10 bg-inherit p-3">
-          {footer}
-        </div>
-      )}
-    </div>
-  );
-
-  const overlay = (
-    <div
-      className={clsx(
-        'fixed inset-0 z-[9999] transition-all duration-300',
-        mode === 'popup' ? 'bg-transparent' : 'bg-black/40 backdrop-blur-sm',
-        state ? 'opacity-100' : 'opacity-0',
-      )}
-      onClick={e => {
-        e.stopPropagation();
-        e.preventDefault();
-        toggle(false);
-      }}
-    />
-  );
-
   return (
     <>
-      {openerChildren && (
-        <div className="contents" ref={opener}>
-          {openerChildren}
-        </div>
-      )}
       {state === false
         ? null
         : createPortal(
             <>
-              {overlay}
-              {popover}
+              {overlay && (
+                <div
+                  className={clsx(
+                    'fixed inset-0 z-[9999] transition-all duration-300',
+                    mode === 'popup'
+                      ? 'bg-transparent'
+                      : 'bg-black/40 backdrop-blur-sm',
+                    state ? 'opacity-100' : 'opacity-0',
+                  )}
+                  onClick={e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggle(false);
+                  }}
+                />
+              )}
+              <div
+                ref={root}
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
+                tabIndex={1}
+                className={clsx(
+                  'fixed z-[9999] overflow-auto transition-[transform,opacity] duration-300 ease-in-out',
+                  mode === 'bottomsheet' && [
+                    'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
+                    state ? 'translate-y-0' : 'translate-y-full',
+                  ],
+                  mode.includes('drawer') && [
+                    'inset-y-0 h-full',
+                    state && 'translate-x-0',
+                    mode === 'start-drawer' && [
+                      'start-0 rounded-e-2xl',
+                      !state && '-translate-x-full',
+                    ],
+                    mode === 'end-drawer' && [
+                      'end-0 rounded-s-2xl',
+                      !state && 'translate-x-full',
+                    ],
+                  ],
+                  mode === 'modal' && [
+                    'left-1/2 top-1/2 h-auto max-h-[90svh] w-auto max-w-[90svw] -translate-x-1/2 -translate-y-1/2 rounded-2xl shadow-2xl',
+                    state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
+                  ],
+                  mode === 'popup' && [
+                    'h-auto max-h-[90svh] w-auto max-w-[90svw] rounded-2xl shadow-xl',
+                    state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
+                  ],
+                )}
+                style={{
+                  ...(mode === 'popup' && popupPosition),
+                  backgroundColor: colors.current,
+                }}
+              >
+                {mode === 'bottomsheet' && (
+                  <div
+                    className="sticky left-1/2 top-3 z-50 mb-3 h-[6px] w-full max-w-12 shrink-0 -translate-x-1/2 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
+                    onPointerDown={() => toggle(false)}
+                  />
+                )}
+                <div className={className}>{children}</div>
+                {footer && (
+                  <div className="sticky bottom-0 mt-3 h-auto w-full border-t border-t-white/10 bg-inherit p-3">
+                    {footer}
+                  </div>
+                )}
+              </div>
             </>,
             document.body,
           )}

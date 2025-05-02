@@ -2,8 +2,8 @@ import { clsx } from 'clsx';
 import { useMemo, useRef } from 'react';
 import { useSurface } from 'utils/useSurface';
 import './style.css';
-import useIsMobile from 'utils/useIsMobile';
-import { Popover, POPVER_OPENER_CLASS } from '../Popover';
+import { HoverTooltip } from 'shared/HoverTooltip';
+import { DIALOG_OPENER_CLASS } from '../Dialog';
 import { type TableProps } from './types';
 import { ReactComponent as InfoIcon } from './info.svg';
 import { TableSection } from './TableSection';
@@ -31,8 +31,6 @@ export function Table<RecordType extends object>({
   footer,
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
-
-  const isMobile = useIsMobile();
 
   const rowHeight = useRowHeight(root, 59.5);
 
@@ -83,26 +81,19 @@ export function Table<RecordType extends object>({
                 {th.title}
                 {th.info && (
                   <>
-                    <Popover
-                      mode={isMobile ? 'bottomsheet' : 'popup'}
-                      opener={
-                        <InfoIcon
-                          data-info
-                          className={clsx('cursor-help', POPVER_OPENER_CLASS)}
-                        />
-                      }
-                      className="max-w-96 p-3 text-xs leading-relaxed"
-                      surface={2}
-                    >
-                      {th.info}
-                    </Popover>
+                    <HoverTooltip title={th.info}>
+                      <InfoIcon
+                        data-info
+                        className={clsx('cursor-help', DIALOG_OPENER_CLASS)}
+                      />
+                    </HoverTooltip>
                   </>
                 )}
               </>
             ),
           }))
         : [],
-    [tds, loading, trs.length, sort.index, sort.order, isMobile],
+    [tds, loading, trs.length, sort.index, sort.order],
   );
 
   const chunks = useChunks({
