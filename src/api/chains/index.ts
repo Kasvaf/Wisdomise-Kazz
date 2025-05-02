@@ -3,6 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useDisconnect } from 'wagmi';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
+import { useSymbolsInfo } from 'api/symbol';
 import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
@@ -79,25 +80,20 @@ export type AutoTraderSupportedQuotes =
   | AutoTraderTonSupportedQuotes
   | AutoTraderSolanaSupportedQuotes;
 
-const ensureSolQuote = (
-  quote: AutoTraderSupportedQuotes,
-): AutoTraderSolanaSupportedQuotes | undefined =>
-  quote === 'the-open-network' ? undefined : quote;
-
-const ensureTonQuote = (
-  quote: AutoTraderSupportedQuotes,
-): AutoTraderTonSupportedQuotes | undefined =>
-  quote === 'wrapped-solana' || quote === 'usd-coin' ? undefined : quote;
-
 export const useAccountBalance = (
-  quote: AutoTraderSupportedQuotes,
+  quote?: string,
   network?: 'solana' | 'the-open-network' | null,
 ) => {
   const activeNet = useActiveNetwork();
-  const solResult = useSolanaAccountBalance(ensureSolQuote(quote));
-  const tonResult = useAccountJettonBalance(ensureTonQuote(quote));
-
   const net = network ?? activeNet;
+
+  const solResult = useSolanaAccountBalance(
+    net === 'solana' ? quote : undefined,
+  );
+  const tonResult = useAccountJettonBalance(
+    net === 'the-open-network' ? quote : undefined,
+  );
+
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
   return { data: null, isLoading: false };
@@ -125,11 +121,13 @@ export const useAccountAllQuotesBalance = () => {
   };
 };
 
-export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
+export const useTransferAssetsMutation = (quote?: string) => {
   const net = useActiveNetwork();
-  const transferTonAssets = useTonTransferAssetsMutation(ensureTonQuote(quote));
+  const transferTonAssets = useTonTransferAssetsMutation(
+    net === 'the-open-network' ? quote : undefined,
+  );
   const transferSolanaAssets = useSolanaTransferAssetsMutation(
-    ensureSolQuote(quote),
+    net === 'solana' ? quote : undefined,
   );
 
   if (net === 'solana') return transferSolanaAssets;
@@ -137,4 +135,18 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
   return () => {
     throw new Error('Invalid network');
   };
+};
+
+export const useSupportedQuotesSymbols = () => {
+  const quotes = [
+    'tether',
+    'usd-coin',
+    'wrapped-solana',
+    'the-open-network',
+  ] satisfies AutoTraderSupportedQuotes[];
+  type AssertAllQuotes =
+    AutoTraderSupportedQuotes extends (typeof quotes)[number]
+      ? readonly AutoTraderSupportedQuotes[]
+      : never;
+  return useSymbolsInfo(quotes satisfies AssertAllQuotes);
 };

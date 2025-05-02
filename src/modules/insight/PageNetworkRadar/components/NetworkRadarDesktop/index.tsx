@@ -2,10 +2,8 @@
 import { useMemo } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { type TableColumnType } from 'antd';
 import { bxsCopy, bxSort } from 'boxicons-quasar';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 
@@ -20,6 +18,7 @@ import { isDebugMode } from 'utils/version';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { NCoinAge } from '../NCoinAge';
 import { NCoinTradingVolume } from '../NCoinTradingVolume';
 import { NCoinBuySell } from '../NCoinBuySell';
@@ -30,35 +29,27 @@ import { NCoinRecentCandles } from '../NCoinRecentCandles';
 export function NetworkRadarDesktop({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
   const [copy, copyNotif] = useShare('copy');
-  const [tableProps, tableState] = useTableState<
-    Required<Parameters<typeof useNetworkRadarNCoins>[0]>
-  >('', {
-    page: 1,
-    pageSize: 20,
-    networks: [],
-  });
 
-  const nCoins = useNetworkRadarNCoins(tableState);
+  const nCoins = useNetworkRadarNCoins({});
   useLoadingBadge(nCoins.isFetching);
 
-  const columns = useMemo<Array<TableColumnType<NetworkRadarNCoin>>>(
+  const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
     () => [
       {
         title: '#',
-        render: (_, row) => row._rank,
-        fixed: 'left',
-        className: 'w-14 max-w-24',
+        render: row => row._rank,
+        width: 64,
       },
       {
         title: t('common.name'),
-        fixed: 'left',
-        className: 'w-44 max-w-44',
-        render: (_, row) => <Coin coin={row.base_symbol} />,
+        sticky: 'start',
+        width: 220,
+        render: row => <Coin coin={row.base_symbol} />,
       },
       {
         title: t('common.address'),
-        className: 'w-44 max-w-44',
-        render: (_, row) => (
+        width: 180,
+        render: row => (
           <>
             <div className="flex items-center gap-1">
               {shortenAddress(row.base_contract_address)}
@@ -74,7 +65,8 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: t('common.created'),
-        render: (_, row) => (
+        width: 95,
+        render: row => (
           <NCoinAge
             value={row.creation_datetime}
             imgClassName="size-4 opacity-75"
@@ -85,10 +77,11 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: t('common.liquidity'),
-        render: (_, row) => (
+        width: 185,
+        render: row => (
           <NCoinLiquidity
             value={row}
-            className="w-36 text-xs"
+            className="text-xs"
             imgClassName="size-5"
             type="update"
           />
@@ -96,13 +89,15 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: t('common.initial_liquidity'),
-        render: (_, row) => (
-          <NCoinLiquidity value={row} className="w-36 text-xs" type="initial" />
+        width: 165,
+        render: row => (
+          <NCoinLiquidity value={row} className="text-xs" type="initial" />
         ),
       },
       {
         title: t('common.marketcap'),
-        render: (_, row) => (
+        width: 64,
+        render: row => (
           <ReadableNumber
             value={row.update.base_market_data.market_cap}
             className="w-20 text-xs"
@@ -114,8 +109,10 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         ),
       },
       {
-        title: [t('common.txns.title'), t('common.txns.info')],
-        render: (_, row) => (
+        title: t('common.txns.title'),
+        info: t('common.txns.info'),
+        width: 110,
+        render: row => (
           <NCoinBuySell
             value={{
               buys: row.update.total_num_buys,
@@ -128,7 +125,8 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: t('common.volume'),
-        render: (_, row) => (
+        width: 110,
+        render: row => (
           <NCoinTradingVolume
             value={row}
             imgClassName="size-4"
@@ -138,7 +136,8 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: t('common.validation_insights'),
-        render: (_, row) => (
+        width: 280,
+        render: row => (
           <NCoinSecurity
             value={row}
             className="shrink-0 text-xxs"
@@ -148,11 +147,10 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         ),
       },
       {
-        title: [
-          t('common.recent_candles.title'),
-          t('common.recent_candles.info'),
-        ],
-        render: (_, row) => (
+        title: t('common.recent_candles.title'),
+        info: t('common.recent_candles.info'),
+        width: 210,
+        render: row => (
           <NCoinRecentCandles
             value={row}
             height={50}
@@ -164,7 +162,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       /* TODO: @arash16 Buy/Sell Button in Desktop */
       {
         title: '',
-        colSpan: isDebugMode ? 1 : 0,
+        hidden: !isDebugMode,
         fixed: 'right',
         render: () => (
           <Button
@@ -194,7 +192,6 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       )}
       title={t('page.title')}
       info={t('page.info')}
-      loading={nCoins.isLoading}
       empty={nCoins.data?.length === 0}
     >
       <AccessShield
@@ -209,9 +206,9 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         <Table
           columns={columns}
           dataSource={nCoins.data}
-          rowKey={r => JSON.stringify(r.base_symbol)}
-          tableLayout="fixed"
-          {...tableProps}
+          rowKey={r => r.base_contract_address}
+          scrollable
+          loading={nCoins.isLoading}
         />
       </AccessShield>
       {copyNotif}

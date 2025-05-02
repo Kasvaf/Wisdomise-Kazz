@@ -65,6 +65,7 @@ function GuideBar() {
       className={clsx(
         'flex shrink-0 flex-wrap justify-center gap-x-6 gap-y-2 overflow-auto text-xs font-medium',
         '[&>*]:inline-flex [&>*]:shrink-0 [&>*]:items-center [&>*]:gap-2',
+        'scrollbar-none',
       )}
     >
       <div>
@@ -303,6 +304,7 @@ export function RsiHeatmapChart({
         <div
           className={clsx(
             '!absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-x-auto overflow-y-hidden px-6',
+            'scrollbar-none',
           )}
         >
           {sortedData.slice(0, 40).map(row => (

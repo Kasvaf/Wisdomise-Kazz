@@ -12,26 +12,34 @@ export interface Tournament {
   tooltip_content: string;
   start_time: string;
   end_time: string;
-  prizes: TournamentPrize[];
+  prizes: LeaderboardPrize[];
 }
 
-export interface TournamentPrize {
+export interface LeaderboardPrize {
   start_rank: number;
   end_rank: number;
-  items: TournamentPrizeItem[];
+  items: PrizeItem[];
 }
 
-export interface TournamentPrizeItem {
+export interface PrizeItem {
   symbol_slug: string;
   amount: string;
 }
 
-export interface TournamentParticipant {
+export interface LeaderboardParticipant {
   investor_key: string;
-  name: string;
+  name?: string;
   trading_volume: number;
   rank: number;
+  league_slug?: string;
+  promotion_status?: PromotionStatus;
+  result?: {
+    reward_items: PrizeItem[];
+    next_league_slug: string;
+  };
 }
+
+export type PromotionStatus = 'DEMOTING' | 'PROMOTING' | 'NEUTRAL';
 
 export function useTournaments(status?: GamificationStatus) {
   return useQuery({
@@ -49,7 +57,7 @@ export function useTournaments(status?: GamificationStatus) {
   });
 }
 
-export function useTournament(key: string) {
+export function useTournamentQuery(key: string) {
   return useQuery({
     queryKey: ['tournaments', key],
     queryFn: async () => {
@@ -59,11 +67,11 @@ export function useTournament(key: string) {
   });
 }
 
-export function useTournamentLeaderboard(key: string) {
+export function useTournamentLeaderboardQuery(key: string) {
   return useQuery({
     queryKey: ['tournamentsLeaderboard', key],
     queryFn: async () => {
-      const data = await ofetch<TournamentParticipant[]>(
+      const data = await ofetch<LeaderboardParticipant[]>(
         `trader/tournaments/${key}/leaderboard`,
       );
       return data;
@@ -71,11 +79,11 @@ export function useTournamentLeaderboard(key: string) {
   });
 }
 
-export function useTournamentMe(key: string) {
+export function useTournamentProfileQuery(key: string) {
   return useQuery({
     queryKey: ['tournamentsMe', key],
     queryFn: async () => {
-      const data = await ofetch<TournamentParticipant>(
+      const data = await ofetch<LeaderboardParticipant>(
         `trader/tournaments/${key}/me`,
       );
       return data;

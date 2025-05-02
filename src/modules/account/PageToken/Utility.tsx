@@ -33,7 +33,7 @@
 //     width: 600,
 //   });
 //   const { title, plan, level } = useSubscription();
-//   const { withdraw, isLoading } = useWithdraw();
+//   const { withdraw, isPending, isWaiting } = useWithdraw();
 //
 //   const openBillings = () => {
 //     void openPricingTable({ isTokenUtility: true });

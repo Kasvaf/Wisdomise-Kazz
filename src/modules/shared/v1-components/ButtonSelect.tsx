@@ -19,6 +19,7 @@ export function ButtonSelect<T>({
   value,
   onChange,
   surface = 3,
+  innerScroll = true,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
   variant?: 'default' | 'primary';
@@ -33,6 +34,7 @@ export function ButtonSelect<T>({
   }>;
   value?: T;
   onChange?: (newValue: T) => void;
+  innerScroll?: boolean;
   surface?: Surface;
 }) {
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -55,7 +57,7 @@ export function ButtonSelect<T>({
   );
   useEffect(() => {
     const el = buttonsRef.current;
-    if (!el) return;
+    if (!el || !innerScroll) return;
     const resizeHandler = () => {
       setHasOverflow(
         el
@@ -70,7 +72,7 @@ export function ButtonSelect<T>({
       window.removeEventListener('resize', resizeHandler);
       el.removeEventListener('scroll', resizeHandler);
     };
-  }, []);
+  }, [innerScroll]);
 
   useEffect(() => {
     const el = buttonsRef.current;
@@ -97,7 +99,8 @@ export function ButtonSelect<T>({
   return (
     <div
       className={clsx(
-        'relative max-w-full overflow-hidden',
+        'relative overflow-hidden',
+        innerScroll ? 'max-w-full' : 'w-max min-w-max max-w-max',
         /* Size: height, padding, font-size, border-radius */
         size === 'xs' && 'h-xs rounded-md text-xxs',
         size === 'sm' && 'h-sm rounded-lg text-xxs',
@@ -112,7 +115,12 @@ export function ButtonSelect<T>({
       }}
     >
       <div
-        className="flex h-full w-full flex-nowrap items-center gap-0 overflow-hidden whitespace-nowrap text-v1-content-primary mobile:overflow-auto"
+        className={clsx(
+          'flex h-full flex-nowrap items-center gap-0  whitespace-nowrap text-v1-content-primary ',
+          innerScroll
+            ? ['scrollbar-none', 'w-full overflow-auto']
+            : 'w-max min-w-max shrink-0',
+        )}
         ref={buttonsRef}
       >
         {options
@@ -143,26 +151,28 @@ export function ButtonSelect<T>({
             </button>
           ))}
       </div>
-      {hasOverflow.map((x, i) => (
-        <div
-          className={clsx(
-            'group absolute top-0 flex h-full w-10 cursor-pointer items-center',
-            '!bg-gradient-to-r',
-            i === 0
-              ? 'left-0 justify-start from-[--current-color] to-transparent'
-              : 'right-0 justify-end from-transparent to-[--current-color]',
-            !x && 'hidden',
-          )}
-          onClick={scroll(i === 0 ? 'left' : 'right')}
-          key={i}
-        >
-          <Icon
-            name={i === 0 ? bxChevronLeft : bxChevronRight}
-            className="text-v1-content-primary opacity-60 group-hover:opacity-100"
-            size={20}
-          />
-        </div>
-      ))}
+      {innerScroll
+        ? hasOverflow.map((x, i) => (
+            <div
+              className={clsx(
+                'group absolute top-0 flex h-full w-10 cursor-pointer items-center',
+                '!bg-gradient-to-r',
+                i === 0
+                  ? 'left-0 justify-start from-[--current-color] to-transparent'
+                  : 'right-0 justify-end from-transparent to-[--current-color]',
+                !x && 'hidden',
+              )}
+              onClick={scroll(i === 0 ? 'left' : 'right')}
+              key={i}
+            >
+              <Icon
+                name={i === 0 ? bxChevronLeft : bxChevronRight}
+                className="text-v1-content-primary opacity-60 group-hover:opacity-100"
+                size={20}
+              />
+            </div>
+          ))
+        : null}
     </div>
   );
 }

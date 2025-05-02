@@ -44,25 +44,28 @@ const PositionDetail: React.FC<{
 
   return (
     <div
-      className={clsx('rounded-3xl bg-v1-surface-l2 p-4 text-xs', className)}
+      className={clsx(
+        'id-position-item rounded-3xl bg-v1-surface-l2 p-4 text-xs',
+        className,
+      )}
       key={position.key}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <span className="text-white/30">#{position.id}</span>
+          {!!position.mode && position.mode !== 'buy_and_sell' && (
+            <span className="rounded-full bg-white/10 px-2">Swap</span>
+          )}
+
           <NavLink to={`/coin/${position.base_slug}`}>
             {position.pair_name}
           </NavLink>
-          {position.network_slug && ( // TODO check won't be necessary once backend is DONE
-            <>
-              <span className="text-white/30">on</span>
-              <NetworkIcon
-                network={position.network_slug}
-                withTitle
-                className="text-white/50"
-              />
-            </>
-          )}
+          <span className="text-white/30">on</span>
+          <NetworkIcon
+            network={position.network_slug}
+            withTitle
+            className="text-white/50"
+          />
         </div>
         <div className="flex items-center gap-3">
           <CancelButton position={position} />
@@ -158,7 +161,7 @@ const PositionDetail: React.FC<{
               </div>
             ))}
 
-        {position.pnl != null && (
+        {position.pnl != null && position.mode === 'buy_and_sell' && (
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1 text-v1-content-secondary">
               P / L
@@ -182,13 +185,42 @@ const PositionDetail: React.FC<{
         )}
 
         {position.status === 'CLOSED' && !!position.final_quote_amount && (
-          <div className="flex items-center justify-between">
-            <span>Withdrawn Amount</span>
-            <span className="flex items-center">
-              {roundSensible(position.final_quote_amount)} {position.quote_name}
-              <AssetIcon slug={position.quote_slug} className="ml-1" />
-            </span>
-          </div>
+          <>
+            <div className="flex items-center justify-between">
+              <span>Withdrawn Amount</span>
+
+              {position.mode === 'buy_and_hold' ? (
+                <span className="flex items-center">
+                  {roundSensible(position.current_assets?.[0]?.amount)}{' '}
+                  {position.current_assets?.[0]?.asset_name}
+                  <AssetIcon
+                    slug={position.current_assets?.[0]?.asset_slug}
+                    className="ml-1"
+                  />
+                </span>
+              ) : (
+                <span className="flex items-center">
+                  {roundSensible(position.final_quote_amount)}{' '}
+                  {position.quote_name}
+                  <AssetIcon slug={position.quote_slug} className="ml-1" />
+                </span>
+              )}
+            </div>
+            {position.mode !== 'buy_and_sell' &&
+              initialDeposit != null &&
+              !!position.current_assets?.[0]?.amount && (
+                <div className="flex items-center justify-between">
+                  <span>Swap Price</span>
+                  <span className="flex items-center">
+                    {roundSensible(
+                      position.mode === 'buy_and_hold'
+                        ? initialDeposit / +position.current_assets[0].amount
+                        : +position.current_assets[0].amount / initialDeposit,
+                    )}
+                  </span>
+                </div>
+              )}
+          </>
         )}
 
         {position.status !== 'CANCELED' && (

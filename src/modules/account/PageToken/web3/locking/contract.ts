@@ -9,13 +9,6 @@ const lockingContractDefaultConfig = {
   abi: LOCKING_ABI,
 } as const;
 
-// export function useWriteLockWithPermit() {
-//   return useContractWrite({
-//     ...lockingContractDefaultConfig,
-//     functionName: 'lockWithPermit',
-//   });
-// }
-
 export function useReadLockedBalance() {
   const { address } = useAccount();
   return useReadContract({
@@ -28,22 +21,36 @@ export function useReadLockedBalance() {
   });
 }
 
-// export function useReadUnlockedInfo() {
-//   const { address } = useAccount();
-//   return useContractRead({
-//     ...lockingContractDefaultConfig,
-//     functionName: 'getUserUnLockedInfo',
-//     args: [address ?? zeroAddress],
-//     enabled: !!address,
-//   });
-// }
-//
-// export function useWriteUnlock() {
-//   return useContractWrite({
-//     ...lockingContractDefaultConfig,
-//     functionName: 'unlock',
-//   });
-// }
+export function useReadUnlockedInfo() {
+  const { address } = useAccount();
+  return useReadContract({
+    ...lockingContractDefaultConfig,
+    functionName: 'getUserUnLockedInfo',
+    args: [address ?? zeroAddress],
+    query: {
+      enabled: !!address,
+    },
+  });
+}
+
+export function useWriteUnlock() {
+  const mutation = useWriteContract();
+  const { resolver, isWaiting } = useWaitResolver(mutation.data);
+
+  const writeAndWait = () => {
+    mutation.writeContract({
+      ...lockingContractDefaultConfig,
+      functionName: 'unlock',
+    });
+    return resolver();
+  };
+
+  return {
+    ...mutation,
+    writeAndWait,
+    isWaiting,
+  };
+}
 
 export function useWriteWithdraw() {
   const mutation = useWriteContract();
@@ -54,7 +61,6 @@ export function useWriteWithdraw() {
       ...lockingContractDefaultConfig,
       functionName: 'withdraw',
     });
-
     return resolver();
   };
 
@@ -75,7 +81,6 @@ export function useWriteLock() {
       functionName: 'lock',
       args: [amount],
     });
-
     return resolver();
   };
 

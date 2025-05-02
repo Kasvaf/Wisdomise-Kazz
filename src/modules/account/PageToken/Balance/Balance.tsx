@@ -6,17 +6,17 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
-import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
+import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 import { ReactComponent as WSDMIcon } from '../icons/wsdm-token.svg';
 
 export default function Balance() {
   const { t } = useTranslation('wisdomise-token');
-  const { data: wsdmBalance, refetch, isLoading } = useWsdmBalance();
+  const { data: wsdmBalance, refetch, isLoading } = useWSDMBalance();
   const [isSpinning, setIsSpinning] = useState(false);
 
   return (
-    <Card className="relative flex flex-col items-start justify-between gap-8">
+    <Card className="relative flex flex-col items-start justify-between gap-8  !bg-v1-surface-l2">
       <WSDMIcon className="absolute right-0 top-0" />
       <div>
         <h2 className="mb-2 text-2xl font-medium">{t('balance.title')}</h2>

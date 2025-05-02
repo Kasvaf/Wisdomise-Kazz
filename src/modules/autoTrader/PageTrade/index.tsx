@@ -53,6 +53,7 @@ export default function PageTrade() {
           quote={quote}
           setQuote={setQuote}
           positionKey={positionKey}
+          loadingClassName="bg-v1-surface-l1"
         />
       </ActiveNetworkProvider>
     </PageWrapper>

@@ -378,6 +378,21 @@ module.exports = {
         },
         ['responsive', 'hover'],
       );
+
+      addUtilities({
+        '.scrollbar-none': {
+          'scrollbarWidth': 'none',
+          '-webkit-scrollbar-width': 'none',
+        },
+        '.scrollbar-thin': {
+          'scrollbarWidth': 'thin',
+          '-webkit-scrollbar-width': 'thin',
+        },
+        '.scrollbar-auto': {
+          'scrollbarWidth': 'auto',
+          '-webkit-scrollbar-width': 'auto',
+        },
+      });
     },
     animationDelay,
     twElements,

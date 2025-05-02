@@ -1,9 +1,8 @@
-import { type ColumnType } from 'antd/es/table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type Alert } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import Table from 'shared/Table';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { AlertType } from 'modules/alert/components/AlertType';
 import { AlertTarget } from 'modules/alert/components/AlertTarget';
 import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
@@ -15,11 +14,12 @@ import { AlertFrequency } from '../components/AlertFrequency';
 export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
 
-  const columns = useMemo<Array<ColumnType<Alert>>>(
+  const columns = useMemo<Array<TableColumn<Alert>>>(
     () => [
       {
         title: t('tables.creation-date'),
-        render: (_, row) => (
+        width: 80,
+        render: row => (
           <ReadableDate
             value={row.created_at}
             emptyText="---"
@@ -29,32 +29,31 @@ export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
       },
       {
         title: t('tables.type'),
-        render: (_, row) => (
-          <AlertType value={row} className="whitespace-nowrap" />
-        ),
+        width: 250,
+        render: row => <AlertType value={row} className="whitespace-nowrap" />,
       },
       {
         title: t('tables.description'),
-        className: '!max-w-72',
-        render: (_, row) => <AlertTarget value={row} />,
+        width: 320,
+        render: row => <AlertTarget value={row} />,
       },
       {
         title: t('tables.delivery-methods'),
-        render: (_, row) => <AlertDeliveryMethods value={row} />,
+        render: row => <AlertDeliveryMethods value={row} />,
       },
       {
         title: t('tables.frequency'),
-        render: (_, row) => (
+        render: row => (
           <AlertFrequency value={row} className="whitespace-nowrap" />
         ),
       },
       {
         title: t('tables.actions'),
-        render: (_, row) => <AlertActions value={row} />,
+        render: row => <AlertActions value={row} />,
       },
       {
         title: t('tables.status'),
-        render: (_, row) => <AlertStateChanger value={row} />,
+        render: row => <AlertStateChanger value={row} />,
       },
     ],
     [t],
@@ -71,8 +70,7 @@ export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
         columns={columns}
         dataSource={alerts}
         rowKey={row => row.key ?? row.data_source}
-        pagination={false}
-        rowClassName="[&_td]:!py-6"
+        scrollable
       />
     </OverviewWidget>
   );

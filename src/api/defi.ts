@@ -104,6 +104,5 @@ export function useLockingStateQuery() {
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/lock-state?${params.toString()}`,
       );
     },
-    enabled: false,
   });
 }

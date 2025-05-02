@@ -49,7 +49,7 @@ const PartOpen: React.FC<{
   return (
     <div>
       <div className="mb-2 flex justify-between">
-        <h1 className="flex items-center gap-1">
+        <h1 className="flex items-center gap-1 text-sm">
           {t('signal-form.open-orders.title')}{' '}
           <InfoButton text={t('info.safety-open')} />
         </h1>

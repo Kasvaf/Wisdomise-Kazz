@@ -1,26 +1,24 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
-import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { RadarFilter } from 'modules/insight/RadarFilter';
+import { usePageState } from 'shared/usePageState';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 
 export const TechnicalRadarCoinsTable: FC<{
   onClick?: (coin: TechnicalRadarCoin) => void;
 }> = ({ onClick }) => {
-  const [, tableState, setTableState] = useTableState<
+  const [tableState, setTableState] = usePageState<
     Required<Parameters<typeof useTechnicalRadarCoins>[0]>
   >('overviewTable', {
-    page: 1,
-    pageSize: 10,
     sortBy: 'rank',
     sortOrder: 'ascending',
     query: '',
@@ -31,7 +29,7 @@ export const TechnicalRadarCoinsTable: FC<{
   const coins = useTechnicalRadarCoins(tableState);
   useLoadingBadge(coins.isFetching);
 
-  const columns = useMemo<Array<MobileTableColumn<TechnicalRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<TechnicalRadarCoin>>>(
     () => [
       {
         key: 'rank',
@@ -72,7 +70,7 @@ export const TechnicalRadarCoinsTable: FC<{
       },
       {
         key: 'labels',
-        className: 'max-w-24 min-w-16',
+        align: 'end',
         render: row => (
           <div className="flex flex-col items-end justify-center gap-2">
             <CoinLabels
@@ -107,7 +105,7 @@ export const TechnicalRadarCoinsTable: FC<{
         surface={1}
       />
       <AccessShield
-        mode="mobile_table"
+        mode="table"
         sizes={{
           guest: true,
           initial: true,
@@ -115,10 +113,10 @@ export const TechnicalRadarCoinsTable: FC<{
           vip: false,
         }}
       >
-        <MobileTable
+        <Table
           columns={columns}
           dataSource={coins.data ?? []}
-          rowKey={r => JSON.stringify(r.symbol)}
+          rowKey={r => r.symbol.slug}
           loading={coins.isLoading}
           surface={2}
           onClick={r => onClick?.(r)}

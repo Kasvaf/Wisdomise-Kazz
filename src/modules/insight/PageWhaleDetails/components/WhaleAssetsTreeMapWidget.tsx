@@ -4,17 +4,18 @@ import { type TreemapConfig } from '@ant-design/plots/es/components/treemap';
 import { Treemap } from '@ant-design/plots';
 import { useTranslation } from 'react-i18next';
 import { useWhaleDetails } from 'api';
-import { OverviewWidget } from 'shared/OverviewWidget';
 import { formatNumber } from 'utils/numbers';
 
 export function WhaleAssetsTreeMapWidget({
   className,
   holderAddress,
   networkName,
+  hr,
 }: {
   className?: string;
   holderAddress: string;
   networkName: string;
+  hr?: boolean;
 }) {
   const { t } = useTranslation('whale');
   const whale = useWhaleDetails({
@@ -167,16 +168,22 @@ export function WhaleAssetsTreeMapWidget({
     };
   }, [whale, t]);
 
+  if (whale.isLoading || !whale.data?.holder_address) return null;
+
   return (
-    <OverviewWidget
-      className={clsx('min-h-[496px] mobile:min-h-[482px]', className)}
-      loading={whale.isLoading}
-      empty={!whale.data?.holder_address}
-      title={t('whale_assets.title')}
-    >
-      <div className="overflow-hidden rounded-lg" id="whale-treemap">
-        <Treemap {...config} />
+    <>
+      <div className={clsx(className)}>
+        <h3 className="mb-4 text-sm font-semibold">
+          {t('whale_assets.title')}
+        </h3>
+        <div
+          className="h-[350px] overflow-hidden rounded-lg"
+          id="whale-treemap"
+        >
+          <Treemap {...config} />
+        </div>
       </div>
-    </OverviewWidget>
+      {hr && <hr className="border-white/10" />}
+    </>
   );
 }

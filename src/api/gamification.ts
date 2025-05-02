@@ -1,9 +1,17 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import type { PageResponse } from 'api/types/page';
-import { INVESTMENT_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
+import {
+  ACCOUNT_PANEL_ORIGIN,
+  INVESTMENT_ORIGIN,
+  TEMPLE_ORIGIN,
+} from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { isProduction } from 'utils/version';
+import {
+  type LeaderboardPrize,
+  type LeaderboardParticipant,
+} from 'api/tournament';
 
 export interface Friend {
   telegram_id: number;
@@ -12,7 +20,7 @@ export interface Friend {
   name: string;
 }
 
-export const useFriends = () =>
+export const useGameFriendsQuery = () =>
   useQuery({
     queryKey: ['friends'],
     queryFn: async () => {
@@ -151,7 +159,7 @@ interface GamificationProfile {
   }>;
 }
 
-export const useGamificationProfile = () =>
+export const useGamificationProfileQuery = () =>
   useQuery({
     queryKey: ['gamificationProfile'],
     queryFn: async () => {
@@ -169,7 +177,7 @@ export interface GamificationActionBody {
   attributes?: Record<string, string>;
 }
 
-export const useGamificationAction = () =>
+export const useGamificationActionMutation = () =>
   useMutation({
     mutationFn: async (body: GamificationActionBody) => {
       const data = await ofetch(`${TEMPLE_ORIGIN}/api/v1/gamification/action`, {
@@ -184,7 +192,7 @@ const AFTER_TRADE_PERIOD = (isProduction ? 24 * 60 : 1) * 60 * 1000;
 const STREAK_END_PERIOD = (isProduction ? 24 * 60 : 15) * 60 * 1000;
 
 export const useGamification = () => {
-  const { data } = useGamificationProfile();
+  const { data } = useGamificationProfileQuery();
   const [rewardClaimed, setRewardClaimed] = useState(false);
 
   const activeDay = +(
@@ -219,23 +227,125 @@ export const useGamification = () => {
 };
 
 export const useGamificationRewards = () => {
-  const { data } = useGamificationProfile();
+  const { data } = useGamificationProfileQuery();
 
-  const rewardsMap = {
-    daily: 'tether_daily',
-    tradeReferral: 'tether_trade-referral',
-    subReferral: 'tether_sub-referral',
-  };
-
-  const findMissionReward = (key: keyof typeof rewardsMap) => {
+  const findMissionReward = (rewardName: string) => {
     return (
-      data?.rewards.find(r => r.name === rewardsMap[key])?.statistical?.sum ?? 0
+      data?.rewards.find(r => r.name === rewardName)?.statistical?.sum ?? 0
     );
   };
 
   return {
-    daily: findMissionReward('daily'),
-    tradeReferral: findMissionReward('tradeReferral'),
-    subReferral: findMissionReward('subReferral'),
+    daily: findMissionReward('tether_daily'),
+    tradeReferral: findMissionReward('tether_trade-referral'),
+    subReferral: findMissionReward('tether_sub-referral'),
+    league: findMissionReward('tether_league'),
+    total: findMissionReward('tether'),
+    claimed: findMissionReward('tether_claimed'),
   };
+};
+
+interface League {
+  start_time: string;
+  end_time: string;
+  details: LeagueDetail[];
+}
+
+export interface LeagueDetail {
+  name: 'Summit League';
+  slug: 'summit-league' | 'pioneer-league' | 'horizon-league';
+  level: number;
+  prizes: LeaderboardPrize[];
+}
+
+export const useLeaguesQuery = () => {
+  return useQuery({
+    queryKey: ['leagues'],
+    queryFn: async () => {
+      return await ofetch<League>(`${TEMPLE_ORIGIN}/api/v1/trader/leagues`, {
+        method: 'get',
+      });
+    },
+  });
+};
+
+export const useLeagueProfileQuery = () => {
+  return useQuery({
+    queryKey: ['leagueProfile'],
+    queryFn: async () => {
+      return await ofetch<LeaderboardParticipant>(
+        `${TEMPLE_ORIGIN}/api/v1/trader/leagues/me`,
+        { method: 'get' },
+      );
+    },
+  });
+};
+
+export const useLeagueLeaderboardQuery = (leagueSlug?: string) => {
+  return useQuery({
+    queryKey: ['leagueLeaderboard', leagueSlug],
+    queryFn: async () => {
+      return await ofetch<LeaderboardParticipant[]>(
+        `${TEMPLE_ORIGIN}/api/v1/trader/leagues/${
+          leagueSlug ?? ''
+        }/leaderboard`,
+        { method: 'get' },
+      );
+    },
+    enabled: !!leagueSlug,
+  });
+};
+
+export const useLeagueClaimMutation = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      return await ofetch(`${TEMPLE_ORIGIN}/api/v1/trader/leagues/claim`, {
+        method: 'post',
+      });
+    },
+    onSuccess: () => {
+      void client.invalidateQueries({
+        queryKey: ['leagueProfile'],
+      });
+      void client.invalidateQueries({
+        queryKey: ['leagueLeaderboard'],
+      });
+    },
+  });
+};
+
+interface RewardHistoryItem {
+  address: string;
+  amount_usd: number;
+  status: 'pending' | 'confirmed' | 'rejected';
+  transaction_hash?: string;
+}
+
+export const useRewardsHistoryQuery = () =>
+  useQuery({
+    queryKey: ['rewardsHistory'],
+    queryFn: async () => {
+      return await ofetch<RewardHistoryItem[]>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`,
+      );
+    },
+    staleTime: Number.POSITIVE_INFINITY,
+  });
+
+interface ClaimRewardBody {
+  solana_wallet_address: string;
+}
+
+export const useWithdrawRewardMutation = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async (body: ClaimRewardBody) => {
+      return await ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`, {
+        body,
+        method: 'post',
+      });
+    },
+    onSuccess: () => client.invalidateQueries({ queryKey: ['rewardsHistory'] }),
+  });
 };

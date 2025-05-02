@@ -150,6 +150,7 @@ export type PositionStatus =
 export interface Position {
   id: number;
   key: string;
+  mode?: 'buy_and_sell' | 'buy_and_hold' | 'sell_and_hold';
   status: PositionStatus;
   deposit_status: 'PENDING' | 'PAID' | 'EXPIRED' | 'CANCELED';
   withdraw_status?: 'SENT' | 'PAID';
@@ -264,10 +265,13 @@ export function useTraderPositionsQuery({
 }
 
 export interface CreatePositionRequest {
+  mode?: 'buy_and_sell' | 'buy_and_hold' | 'sell_and_hold';
   signal: Signal;
   withdraw_address: string;
-  quote_slug: string;
-  quote_amount: string;
+  quote_slug?: string;
+  quote_amount?: string;
+  base_slug?: string;
+  base_amount?: string;
   network: SupportedNetworks;
 }
 

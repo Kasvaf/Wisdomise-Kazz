@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect, type ReactNode } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { roundSensible } from 'utils/numbers';
 import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
@@ -9,47 +9,12 @@ import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Spin from 'shared/Spin';
+import InfoLine from 'modules/autoTrader/components/InfoLine';
+import MessageBox from 'modules/autoTrader/components/MessageBox';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { ReactComponent as ProIcon } from 'assets/Pro.svg';
 import { isMiniApp } from 'utils/version';
 import { type SignalFormState } from './useSignalFormStates';
-
-const InfoLine: React.FC<
-  React.PropsWithChildren<{
-    label: string | ReactNode;
-    className?: string;
-  }>
-> = ({ label, className, children }) => {
-  return (
-    <div className={clsx('flex justify-between', className)}>
-      <div className="font-normal text-v1-content-secondary">{label}</div>
-      <div className="flex flex-col gap-1">{children}</div>
-    </div>
-  );
-};
-
-const MessageBox: React.FC<
-  React.PropsWithChildren<{
-    variant: 'error' | 'warning';
-    title?: string | ReactNode;
-    className?: string;
-  }>
-> = ({ variant, title, children, className }) => {
-  return (
-    <div
-      className={clsx(
-        'rounded-lg border p-2 text-sm',
-        variant === 'error'
-          ? 'border-v1-border-negative bg-v1-background-negative/5'
-          : 'border-v1-border-notice bg-v1-background-notice/5',
-        className,
-      )}
-    >
-      {title && <div className="text-base font-medium">{title}</div>}
-      <div className="mt-1 text-sm">{children}</div>
-    </div>
-  );
-};
 
 const PriceVol: React.FC<{
   amountRatio: string;
@@ -171,7 +136,7 @@ const ModalApproval: React.FC<{
               {Number(data?.trade_fee) * 100}% of transactions + network gas fee
             </InfoLine>
 
-            {!isLoading && !isMiniApp && Number(data?.trade_fee) && (
+            {!isLoading && !isMiniApp && Number(data?.trade_fee) > 0.6 && (
               <NavLink
                 to="/account/billing"
                 className="mt-2 flex items-center gap-2 text-xs"

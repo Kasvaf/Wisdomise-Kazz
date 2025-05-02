@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, type RouteObject } from 'react-router-dom';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Container from '../Container';
 
 const PageAccount = React.lazy(() => import('modules/account/PageAccount'));
@@ -11,6 +12,7 @@ const PageExchangeAccount = React.lazy(
   () => import('modules/account/PageExchangeAccount'),
 );
 const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
+const PageToken = React.lazy(() => import('modules/account/PageToken'));
 const PageRewards = React.lazy(() => import('modules/account/PageRewards'));
 const ChangeStripeCardInfoPage = React.lazy(
   () =>
@@ -48,7 +50,6 @@ const useAccountRoutes = () => {
           element: <PageReferral />,
           handle: { crumb: t('menu.referral.title') },
         },
-
         {
           path: 'billing',
           handle: { crumb: t('menu.billing.title') },
@@ -65,8 +66,17 @@ const useAccountRoutes = () => {
           ],
         },
         {
+          path: 'token',
+          element: <PageToken />,
+          handle: { crumb: t('menu.token.title') },
+        },
+        {
           path: 'rewards',
-          element: <PageRewards />,
+          element: (
+            <ActiveNetworkProvider network="solana" setOnLayout>
+              <PageRewards />
+            </ActiveNetworkProvider>
+          ),
           handle: { crumb: t('menu.rewards.title') },
         },
       ],

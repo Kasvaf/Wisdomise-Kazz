@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
@@ -15,6 +14,7 @@ import {
 } from 'api/trader';
 import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
 import { useActiveNetwork } from 'modules/base/active-network';
+import useIsMobile from 'utils/useIsMobile';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';
@@ -27,6 +27,7 @@ interface Props {
 
 const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
   const { t } = useTranslation('builder');
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const network = useActiveNetwork();
 
@@ -43,6 +44,8 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     getStopLosses,
     getOpenOrders,
     reset,
+    confirming: [, setConfirming],
+    firing: [isFiring, setIsFiring],
   } = data;
 
   const { data: assetPrice } = useLastPriceQuery({
@@ -67,7 +70,6 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     noTitle: t('common:actions.no'),
   });
 
-  const [isFiring, setIsFiring] = useState(false);
   const [ModalApproval, showModalApproval] = useModalApproval();
   const transferAssetsHandler = useTransferAssetsMutation(quote);
   const fireHandler = async () => {
@@ -94,18 +96,33 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     } as const;
 
     if (!(await showModalApproval(data, createData))) return;
-
     try {
+      setIsFiring(true);
       const res = await mutateAsync(createData);
 
       try {
-        setIsFiring(true);
-        await transferAssetsHandler({
+        const awaitConfirm = await transferAssetsHandler({
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
           amount,
         });
-        navigate(`/trader/positions?slug=${baseSlug}`);
+
+        setConfirming(true);
+        void awaitConfirm()
+          .then(res => {
+            if (res) {
+              notification.success({
+                message: 'Position created successfully',
+              });
+            }
+            return res;
+          })
+          .finally(() => {
+            setConfirming(false);
+            if (isMobile) {
+              navigate(`/trader/positions?slug=${baseSlug}`);
+            }
+          });
       } catch (error) {
         if (error instanceof TonConnectError) {
           if (error instanceof UserRejectsError) {
@@ -119,11 +136,11 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
           network,
           positionKey: res.position_key,
         });
-      } finally {
-        setIsFiring(false);
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
+    } finally {
+      setIsFiring(false);
     }
   };
 

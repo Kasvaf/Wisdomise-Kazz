@@ -98,7 +98,9 @@ export default function TokenPaymentModalContent({
               <p className="text-lg mobile:text-sm">
                 <Trans i18nKey="token-modal.token-name" ns="billing" />
                 <br />
-                <span className="text-white/50">1 Month</span>
+                <span className="text-white/50">
+                  1 {plan.periodicity.toLowerCase()}
+                </span>
               </p>
             </div>
 

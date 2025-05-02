@@ -9,7 +9,7 @@ import Card from 'shared/Card';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useSubmitTokenPayment } from 'api';
 import { useLockWithApprove } from 'modules/account/PageToken/web3/locking/useLocking';
-import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
+import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import { useLockingRequirementQuery, useLockingStateQuery } from 'api/defi';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
@@ -40,7 +40,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
     data: wsdmBalance,
     refetch: updateBalance,
     isLoading: balanceIsLoading,
-  } = useWsdmBalance();
+  } = useWSDMBalance();
   const { data: generalLockingRequirement } = useLockingRequirementQuery(
     plan.price,
   );
@@ -114,6 +114,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           </div>
           <div className="text-sm opacity-50">
             <Trans i18nKey="token-modal.token-name" ns="billing" />
+            <p className="mt-1 text-xs">Polygon Network</p>
           </div>
         </div>
         <div className="h-16 w-px border-r border-white/50"></div>

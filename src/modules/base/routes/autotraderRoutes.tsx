@@ -8,16 +8,17 @@ const PageGameReward = React.lazy(
   () => import('modules/autoTrader/PageGameRewards'),
 );
 
-const PageQuests = React.lazy(() => import('modules/autoTrader/PageQuests'));
+const PageQuests = React.lazy(() => import('modules/quest/PageQuests'));
 
 const PageTournamentDetail = React.lazy(
-  () =>
-    import('../../autoTrader/PageQuests/PageTournaments/PageTournamentDetail'),
+  () => import('modules/quest/PageTournaments/PageTournamentDetail'),
 );
 
 const PageTournaments = React.lazy(
-  () => import('modules/autoTrader/PageQuests/PageTournaments'),
+  () => import('modules/quest/PageTournaments'),
 );
+
+const PageLeague = React.lazy(() => import('modules/quest/PageLeague'));
 
 const PagePositions = React.lazy(
   () => import('modules/autoTrader/PagePositions'),
@@ -59,7 +60,7 @@ const useAutoTraderRoutes = () => {
             {
               path: '',
               element: <PageQuests />,
-              handle: { crumb: 'Quests' },
+              handle: { crumb: 'Earn & Win' },
             },
             {
               path: 'tournaments',
@@ -75,6 +76,10 @@ const useAutoTraderRoutes = () => {
                   handle: { crumb: 'Tournaments' },
                 },
               ],
+            },
+            {
+              path: 'league',
+              children: [{ path: '', element: <PageLeague /> }],
             },
           ],
         },

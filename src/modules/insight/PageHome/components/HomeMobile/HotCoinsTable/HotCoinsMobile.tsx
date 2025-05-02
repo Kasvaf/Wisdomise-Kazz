@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
 import { NetworkSelect } from 'shared/NetworkSelect';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
@@ -43,11 +43,10 @@ export const HotCoinsMobile = () => {
     selectedRow?.social_radar_insight?.signals_analysis?.sparkline?.prices ??
     selectedRow?.technical_radar_insight?.sparkline?.prices;
 
-  const columns = useMemo<Array<MobileTableColumn<CoinRadarCoin>>>(
+  const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => (
           <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
@@ -100,7 +99,7 @@ export const HotCoinsMobile = () => {
       },
       {
         key: 'labels',
-        className: 'max-w-24 min-w-16',
+        align: 'end',
         render: row => (
           <div className="flex flex-col items-end justify-center gap-2">
             <CoinLabels
@@ -142,11 +141,12 @@ export const HotCoinsMobile = () => {
           surface={2}
         />
       </div>
-      <AccessShield mode="mobile_table" sizes={homeSubscriptionsConfig}>
-        <MobileTable
+      <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
+        <Table
           rowClassName="tour-item-row"
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}
+          chunkSize={10}
           loading={coins.isLoading}
           rowKey={r => r.rank}
           surface={2}
@@ -154,6 +154,7 @@ export const HotCoinsMobile = () => {
             setSelectedRow(r);
             setModal(true);
           }}
+          scrollable={false}
         />
       </AccessShield>
 

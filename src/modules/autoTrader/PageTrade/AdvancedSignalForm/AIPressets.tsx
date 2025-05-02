@@ -8,6 +8,7 @@ import { DrawerModal } from 'shared/DrawerModal';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import usePageTour from 'shared/usePageTour';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
@@ -43,7 +44,11 @@ const AIPresets: React.FC<{
 }> = ({ data, baseSlug, quoteSlug, noManual }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activePreset, setActivePreset] = useState(3);
-  const { data: presets, isLoading } = useAIPresets(baseSlug + '/' + quoteSlug);
+  const net = useActiveNetwork();
+  const { data: presets, isLoading } = useAIPresets(
+    baseSlug + '/' + quoteSlug,
+    net,
+  );
 
   const {
     isUpdate: [isUpdate],
