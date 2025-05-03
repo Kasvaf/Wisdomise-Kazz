@@ -353,8 +353,16 @@ export function RadarFilter({
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        className="w-[500px] p-4 mobile:w-auto"
-        mode={isMobile ? 'bottomsheet' : 'modal'}
+        className="w-[500px] mobile:w-auto"
+        contentClassName="p-3"
+        mode={isMobile ? 'drawer' : 'modal'}
+        drawerConfig={{
+          position: 'bottom',
+          closeButton: true,
+        }}
+        modalConfig={{
+          closeButton: true,
+        }}
         surface={2}
         footer={
           <div className="flex items-center gap-2">

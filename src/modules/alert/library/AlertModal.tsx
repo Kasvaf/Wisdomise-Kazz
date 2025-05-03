@@ -16,8 +16,13 @@ export function AlertModal({
     <Dialog
       open={open}
       onClose={onClose}
-      mode={isMobile ? 'bottomsheet' : 'end-drawer'}
-      className="w-full max-w-lg p-6 mobile:max-w-full"
+      mode="drawer"
+      drawerConfig={{
+        position: isMobile ? 'bottom' : 'end',
+        closeButton: isMobile,
+      }}
+      className="w-[400px] mobile:w-full"
+      contentClassName="mobile:p-3 p-6"
       surface={4}
     >
       {children}

@@ -154,7 +154,11 @@ export const CoinPreDetailModal: FC<
   return (
     <Dialog
       open={open}
-      mode="bottomsheet"
+      mode="drawer"
+      drawerConfig={{
+        position: 'bottom',
+        closeButton: true,
+      }}
       onClose={onClose}
       className="bg-v1-surface-l4 p-3"
       surface={4}

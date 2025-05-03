@@ -36,12 +36,15 @@ export function HoverTooltip({
       <Dialog
         open={open}
         mode="popup"
-        className="!max-w-[400px] p-3 text-sm text-v1-content-primary"
+        className="!max-w-[400px]"
+        contentClassName="p-3 text-sm text-v1-content-primary"
         surface={4}
         onClose={() => onOpenChange?.(false)}
         onOpen={() => onOpenChange?.(true)}
+        popupConfig={{
+          position: 'pointer',
+        }}
         overlay={false}
-        calculatePopupPositonBy="pointer"
       >
         {title}
       </Dialog>

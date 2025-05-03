@@ -15,7 +15,6 @@ export function ClickableTooltip({
   title,
   children,
   className,
-  tooltipClassName,
   disabled,
   onOpenChange,
   chevron,
@@ -23,7 +22,6 @@ export function ClickableTooltip({
   title?: ReactNode;
   children?: ReactNode;
   className?: string;
-  tooltipClassName?: string;
   tooltipPlacement?: ComponentProps<typeof AntTooltip>['placement']; // DEPRICATED
   drawerPlacement?: ComponentProps<typeof AntDrawer>['placement']; // DEPRICATED
   disabled?: boolean;
@@ -66,11 +64,16 @@ export function ClickableTooltip({
         )}
       </span>
       <Dialog
-        className={clsx(
-          'w-max min-w-[150px] max-w-[410px] p-3 mobile:max-w-full',
-          tooltipClassName,
-        )}
-        mode={isMobile ? 'bottomsheet' : 'popup'}
+        className="min-w-[150px] !max-w-[410px] mobile:!max-w-full"
+        contentClassName="p-3"
+        mode={isMobile ? 'drawer' : 'popup'}
+        popupConfig={{
+          position: 'target',
+        }}
+        drawerConfig={{
+          position: 'bottom',
+          closeButton: true,
+        }}
         open={isOpen}
         onClose={() => setIsOpen(false)}
         surface={4}
