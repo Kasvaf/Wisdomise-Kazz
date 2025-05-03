@@ -128,9 +128,9 @@ export default function LeagueResultModalContent({
                 <hr className="mb-3 mt-1 border border-v1-border-primary/20" />
                 <div className="text-xs">
                   {profile.promotion_status === 'PROMOTING'
-                    ? 'Promote'
-                    : 'Demote'}{' '}
-                  to Next League
+                    ? 'Promoted'
+                    : 'Demoted'}{' '}
+                  to {profile.league?.name}
                 </div>
               </div>
             )}
