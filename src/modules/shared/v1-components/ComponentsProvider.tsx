@@ -76,13 +76,11 @@ export const ComponentsProvider: FC<{
       addOverlay: element => {
         if (!overlays.current.includes(element) && element !== document.body) {
           overlays.current = [...overlays.current, element];
-          console.log('addOverlay', element);
         }
       },
       removeOverlay: element => {
         if (element !== document.body) {
           overlays.current = overlays.current.filter(x => x !== element);
-          console.log('removeOverlay', element, overlays.current);
         }
       },
       getLastOverlay: () => overlays.current[overlays.current.length - 1],
