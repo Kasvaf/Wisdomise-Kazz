@@ -45,9 +45,11 @@ export function ClickableTooltip({
           className,
         )}
         onClick={e => {
-          e.stopPropagation();
-          e.preventDefault();
-          setIsOpen(true);
+          if (!disabled) {
+            e.stopPropagation();
+            e.preventDefault();
+            setIsOpen(true);
+          }
         }}
       >
         {children}{' '}
