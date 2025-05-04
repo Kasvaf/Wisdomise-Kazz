@@ -56,7 +56,11 @@ const useAccountRoutes = () => {
           children: [
             {
               path: '',
-              element: <PageBilling />,
+              element: (
+                <ActiveNetworkProvider network="polygon" setOnLayout>
+                  <PageBilling />
+                </ActiveNetworkProvider>
+              ),
             },
             {
               path: 'change-stripe-card-info',

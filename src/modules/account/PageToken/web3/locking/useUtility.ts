@@ -4,8 +4,14 @@ import {
   useReadUnlockedInfo,
 } from 'modules/account/PageToken/web3/locking/contract';
 import { addComma } from 'utils/numbers';
-import { type UtilityStatus } from 'modules/account/PageToken/Utility';
 import { useSubscription } from 'api';
+
+export type UtilityStatus =
+  | 'already_active'
+  | 'pending_lock'
+  | 'locked'
+  | 'pending_unlock'
+  | 'pending_withdraw';
 
 export function useUtility() {
   const subscription = useSubscription();
@@ -25,7 +31,7 @@ export function useUtility() {
         }
       } else {
         if (lockedBalance === 0n) {
-          if (subscription.group === 'free' || subscription.group === 'guest') {
+          if (subscription.level === 0) {
             setUtilityStatus('pending_lock');
           } else {
             setUtilityStatus('already_active');

@@ -3,6 +3,7 @@ import { zeroAddress } from 'viem';
 import { LOCKING_ABI } from 'modules/account/PageToken/web3/locking/abi';
 import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
 import { useWaitResolver } from 'modules/account/PageToken/web3/shared';
+import { useAccountQuery } from 'api';
 
 const lockingContractDefaultConfig = {
   address: LOCKING_CONTRACT_ADDRESS,
@@ -10,10 +11,19 @@ const lockingContractDefaultConfig = {
 } as const;
 
 export function useReadLockedBalance() {
-  const { address } = useAccount();
+  const { data } = useAccountQuery();
   return useReadContract({
     ...lockingContractDefaultConfig,
     functionName: 'balanceOf',
+    args: [data?.wallet_address ?? zeroAddress],
+  });
+}
+
+export function useReadLockedUsers() {
+  const { address } = useAccount();
+  return useReadContract({
+    ...lockingContractDefaultConfig,
+    functionName: 'getLockedUsers',
     args: [address ?? zeroAddress],
     query: {
       enabled: !!address,
@@ -22,14 +32,11 @@ export function useReadLockedBalance() {
 }
 
 export function useReadUnlockedInfo() {
-  const { address } = useAccount();
+  const { data } = useAccountQuery();
   return useReadContract({
     ...lockingContractDefaultConfig,
     functionName: 'getUserUnLockedInfo',
-    args: [address ?? zeroAddress],
-    query: {
-      enabled: !!address,
-    },
+    args: [data?.wallet_address ?? zeroAddress],
   });
 }
 

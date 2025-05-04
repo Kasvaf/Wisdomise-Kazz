@@ -6,8 +6,8 @@ import Card from 'shared/Card';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useLockingRequirementQuery } from 'api/defi';
-import { useVipAccessFlow } from 'modules/account/PageBilling/useVipAccessFlow';
 import { Button } from 'shared/v1-components/Button';
+import { useVipAccessFlow } from 'modules/account/PageBilling/useVipAccessFlow';
 import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 import { ReactComponent as Done } from '../../images/done.svg';
 import { ReactComponent as ClockIcon } from './clock.svg';
@@ -34,7 +34,7 @@ export default function TokenPaymentModalContent({
   const price =
     generalLockingRequirement?.requirement_locking_amount.toLocaleString();
 
-  const { currentStep } = useVipAccessFlow({ planPrice: plan.price });
+  const { currentStep } = useVipAccessFlow();
 
   useEffect(() => {
     void refetch();

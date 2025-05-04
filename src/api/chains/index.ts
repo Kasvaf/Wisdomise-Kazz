@@ -4,6 +4,7 @@ import { useDisconnect } from 'wagmi';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
 import { useSymbolsInfo } from 'api/symbol';
+import { type SupportedNetworks } from 'api';
 import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
@@ -82,7 +83,7 @@ export type AutoTraderSupportedQuotes =
 
 export const useAccountBalance = (
   quote?: string,
-  network?: 'solana' | 'the-open-network' | null,
+  network?: SupportedNetworks | null,
 ) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;

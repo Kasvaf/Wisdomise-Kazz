@@ -28,6 +28,7 @@
     "@reactour/tour": "^3.7.0",
     "@reown/appkit": "^1.7.3",
     "@reown/appkit-adapter-wagmi": "^1.7.3",
+    "@reown/appkit-wallet-button": "^1.7.3",
     "@segment/analytics-next": "^1.59.0",
     "@sentry/react": "^7.45.0",
     "@sentry/tracing": "^7.45.0",

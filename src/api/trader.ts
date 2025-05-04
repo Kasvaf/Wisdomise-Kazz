@@ -15,6 +15,7 @@ import { type Coin } from './types/shared';
 export const NETWORK_MAIN_EXCHANGE = {
   'the-open-network': 'STONFI',
   'solana': 'RAYDIUM',
+  'polygon': 'UNKOWN',
 } as const;
 
 export type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;

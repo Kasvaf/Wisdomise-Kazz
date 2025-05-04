@@ -1,19 +1,13 @@
-import { useCallback } from 'react';
-import {
-  useAccountQuery,
-  useInvoicesQuery,
-  usePlansQuery,
-  useSubscription,
-} from 'api';
+import { useAccountQuery, usePlansQuery, useSubscription } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { DebugPin } from 'shared/DebugPin';
-import useModal from 'shared/useModal';
-import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
 import { FeaturesTable } from 'modules/account/PageBilling/FeaturesTable';
 import { MAIN_LANDING } from 'config/constants';
+import { useReadUnlockedInfo } from 'modules/account/PageToken/web3/locking/contract';
+import { useVipModal } from 'modules/account/PageBilling/useVipModal';
 import bag from './images/bag.png';
 import starlight from './images/starlight.png';
 import bg from './images/bg.png';
@@ -21,28 +15,24 @@ import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function PageBilling() {
   const plans = usePlansQuery();
-  const invoices = useInvoicesQuery();
-  const subscription = useSubscription();
+  const { level, isLoading: subIsLoading } = useSubscription();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   const { data: account } = useAccountQuery();
+  const { data, isPending } = useReadUnlockedInfo();
+  const { tokenPaymentModal, openVipModal } = useVipModal();
 
-  const isLoading =
-    (account?.info && invoices.isLoading) ||
-    plans.isLoading ||
-    subscription.isLoading;
+  const showDetails =
+    ((data?.unlockAmount ?? 0n) > 0n || level !== 0) && account?.info; // or revenue
 
-  const [tokenPaymentModal, openTokenPaymentModal] = useModal(
-    TokenPaymentModalContent,
-    { fullscreen: true, destroyOnClose: true },
-  );
+  const isLoading = subIsLoading || isPending;
 
-  const onLockClick = useCallback(async () => {
+  const onLockClick = async () => {
     if (!plans.data?.results[0]) return;
     const isLoggedIn = await ensureAuthenticated();
     if (isLoggedIn) {
-      void openTokenPaymentModal({ plan: plans.data?.results[0] });
+      openVipModal();
     }
-  }, [ensureAuthenticated, openTokenPaymentModal, plans.data?.results]);
+  };
 
   return (
     <PageWrapper
@@ -52,9 +42,9 @@ export default function PageBilling() {
       mountWhileLoading
       title={null}
     >
-      {subscription.group === 'free' ||
-      subscription.group === 'initial' ||
-      !account?.info ? (
+      {showDetails ? (
+        <SubscriptionDetail />
+      ) : (
         <div className="relative flex flex-col items-center">
           <img src={starlight} className="absolute" alt="" />
           <img
@@ -117,8 +107,6 @@ export default function PageBilling() {
             <FeaturesTable className="mb-10" />
           </div>
         </div>
-      ) : (
-        <SubscriptionDetail />
       )}
     </PageWrapper>
   );

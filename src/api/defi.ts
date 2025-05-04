@@ -52,7 +52,7 @@ export const useNonceVerificationMutation = () => {
 };
 
 export function useLockingRequirementQuery(
-  amountInUSD: number,
+  amountInUSD?: number,
   address?: `0x${string}`,
 ) {
   const { data } = useAccountQuery();

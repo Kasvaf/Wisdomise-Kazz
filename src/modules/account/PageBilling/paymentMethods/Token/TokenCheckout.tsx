@@ -150,22 +150,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           </div>
         )}
       </div>
-      {(lockedBalance ?? 0n) > 0 && (
-        <div>
-          Congratulation!
-          <br />
-          You now earn your share of 50% of Wisdomise&apos;s revenue
-          {!canSubscribe && (
-            <span>
-              <br />
-              increase your stake up to 1,000$ to has access to all over product
-              <br />
-              (Stake {addComma(stakeRemaining)} More $WSDM to Access Wise club)
-            </span>
-          )}
-        </div>
-      )}
-      <div className="max-w-[18rem]">
+      <div className="max-w-72">
         {canSubscribe ? (
           <Button
             loading={paymentIsPending || lockStateIsPending}
