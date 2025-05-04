@@ -43,66 +43,76 @@ export const usePopupPosition = (
   const context = useComponentsContext();
   if (!context) throw new Error('use Dialog inside ComponentsProvider');
   const [style, setStyle] = useState<CSSProperties>({});
+
+  const computeStyle = useCallback(() => {
+    const popupRect = target.current?.getBoundingClientRect();
+    const pointerPosition = context.getPointerPosition();
+
+    const anchorRect = context.getLastClickRect(`.${DIALOG_OPENER_CLASS}`);
+
+    const margin = 8;
+    const style: CSSProperties = {};
+
+    if (!popupRect) return style;
+
+    const preferredTop =
+      (calculateBy === 'target'
+        ? anchorRect?.top ?? pointerPosition.top
+        : pointerPosition.top) +
+      (calculateBy === 'target' ? anchorRect?.height ?? 0 : 0) +
+      margin;
+    const preferedBottom =
+      window.innerHeight -
+      (calculateBy === 'target'
+        ? anchorRect?.top ?? pointerPosition.top
+        : pointerPosition.top) +
+      margin;
+
+    if (
+      preferedBottom - (popupRect.height ?? 0) > 0 &&
+      (anchorRect?.top ?? 0) > window.innerHeight / 2
+    ) {
+      style.bottom = preferedBottom;
+    } else {
+      style.top = preferredTop;
+    }
+
+    // Horizontal centering
+    let left =
+      (calculateBy === 'target'
+        ? anchorRect?.left ?? pointerPosition.left
+        : pointerPosition.left) +
+      (calculateBy === 'target' ? (anchorRect?.width ?? 0) / 2 : 0) -
+      popupRect.width / 2;
+
+    // Adjust if it overflows
+    if (left < margin) {
+      left = margin + 16;
+    } else if (left + popupRect.width + margin > window.innerWidth) {
+      left = window.innerWidth - popupRect.width - margin - 16;
+    }
+
+    style.left = left;
+
+    setStyle(style);
+  }, [calculateBy, context, target]);
+
   useEffect(() => {
     if (!enabled) return;
-
-    const computeStyle = () => {
-      const popupRect = target.current?.getBoundingClientRect();
-      const pointerPosition = context.getPointerPosition();
-
-      const anchorRect = context.getLastClickRect(`.${DIALOG_OPENER_CLASS}`);
-
-      const margin = 8;
-      const style: CSSProperties = {};
-
-      if (!popupRect) return style;
-
-      const preferredTop =
-        (calculateBy === 'target'
-          ? anchorRect?.top ?? pointerPosition.top
-          : pointerPosition.top) +
-        (calculateBy === 'target' ? anchorRect?.height ?? 0 : 0) +
-        margin;
-      const preferedBottom =
-        window.innerHeight -
-        (calculateBy === 'target'
-          ? anchorRect?.top ?? pointerPosition.top
-          : pointerPosition.top) +
-        margin;
-
-      if (
-        preferedBottom - (popupRect.height ?? 0) > 0 &&
-        (anchorRect?.top ?? 0) > window.innerHeight / 2
-      ) {
-        style.bottom = preferedBottom;
-      } else {
-        style.top = preferredTop;
-      }
-
-      // Horizontal centering
-      let left =
-        (calculateBy === 'target'
-          ? anchorRect?.left ?? pointerPosition.left
-          : pointerPosition.left) +
-        (calculateBy === 'target' ? (anchorRect?.width ?? 0) / 2 : 0) -
-        popupRect.width / 2;
-
-      // Adjust if it overflows
-      if (left < margin) {
-        left = margin + 16;
-      } else if (left + popupRect.width + margin > window.innerWidth) {
-        left = window.innerWidth - popupRect.width - margin - 16;
-      }
-
-      style.left = left;
-
-      setStyle(style);
+    let timeout = setTimeout(() => null);
+    const handleRecompute = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => computeStyle(), 50);
     };
 
     computeStyle();
-    window.addEventListener('resize', computeStyle);
-    return () => window.removeEventListener('resize', computeStyle);
-  }, [calculateBy, context, enabled, target]);
+    window.addEventListener('resize', handleRecompute);
+    window.addEventListener('scroll', handleRecompute, { passive: true });
+    return () => {
+      window.removeEventListener('resize', handleRecompute);
+      window.removeEventListener('scroll', handleRecompute);
+    };
+  }, [computeStyle, enabled]);
 
   return style;
 };
@@ -136,7 +146,7 @@ export const Dialog: FC<{
   onClose,
   onOpen,
   mode = 'popup',
-  closable = true,
+  // closable = true,
   className,
   contentClassName,
 
@@ -172,24 +182,6 @@ export const Dialog: FC<{
     },
     [onClose, onOpen],
   );
-
-  useEffect(() => {
-    if (mode !== 'popup' || !isOpen || !closable) return;
-
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          toggle?.(false);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [mode, isOpen, closable, toggle]);
 
   useEffect(() => {
     if (isOpen) {
