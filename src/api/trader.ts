@@ -85,7 +85,9 @@ export const useSupportedNetworks = (base?: string, quote?: string) => {
     () =>
       supportedPairs
         ?.find(x => !quote || x.quote.slug === quote)
-        ?.network_slugs.map(x => x.toLowerCase() as SupportedNetworks),
+        ?.network_slugs.map(
+          x => x.toLowerCase() as Exclude<SupportedNetworks, 'polygon'>,
+        ),
     [quote, supportedPairs],
   );
 };
