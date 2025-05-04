@@ -13,23 +13,26 @@ interface Position {
   left: number;
 }
 
-type Rect = Position & {
-  width: number;
-  height: number;
-};
-
-interface ComponentsProvicerContext {
+export interface ComponentsProvicerContext {
   getPointerPosition: () => Position;
-  getLastClickRect: (selector?: string) => Rect | null;
+  getLastClickElement: (selector?: string) => HTMLElement | null;
+  addOverlay: (element: HTMLElement) => void;
+  removeOverlay: (element: HTMLElement) => void;
+  getLastOverlay: () => HTMLElement;
 }
 
 const context = createContext<ComponentsProvicerContext | null>(null);
 
-export const useComponentsContext = () => useContext(context);
+export const useComponentsContext = () => {
+  const value = useContext(context);
+  if (!value) throw new Error('ComponentsProvider is missing');
+  return value;
+};
 
 export const ComponentsProvider: FC<{
   children?: ReactNode;
 }> = ({ children }) => {
+  const overlays = useRef<HTMLElement[]>([document.body]);
   const lastClick = useRef<HTMLElement | null>(null);
   const pointerPosition = useRef<Position>({
     top: window.innerHeight / 2,
@@ -60,7 +63,7 @@ export const ComponentsProvider: FC<{
   const provide = useMemo<ComponentsProvicerContext>(
     () => ({
       getPointerPosition: () => pointerPosition.current,
-      getLastClickRect: selector => {
+      getLastClickElement: selector => {
         let anchor = lastClick.current;
         if (selector) {
           while (anchor) {
@@ -68,8 +71,21 @@ export const ComponentsProvider: FC<{
             anchor = anchor.parentElement;
           }
         }
-        return anchor?.getBoundingClientRect() ?? null;
+        return anchor ?? null;
       },
+      addOverlay: element => {
+        if (!overlays.current.includes(element) && element !== document.body) {
+          overlays.current = [...overlays.current, element];
+          console.log('addOverlay', element);
+        }
+      },
+      removeOverlay: element => {
+        if (element !== document.body) {
+          overlays.current = overlays.current.filter(x => x !== element);
+          console.log('removeOverlay', element, overlays.current);
+        }
+      },
+      getLastOverlay: () => overlays.current[overlays.current.length - 1],
     }),
     [],
   );

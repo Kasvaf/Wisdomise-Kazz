@@ -252,24 +252,8 @@ export function Select<V, M extends boolean = false>({
           searchRef.current?.focus();
         }
       }, 100);
-      let blurTimeout = setTimeout(() => false);
-      const blurHandler = () => {
-        clearTimeout(blurTimeout);
-        blurTimeout = setTimeout(() => {
-          if (
-            !contentRef.current?.contains(document.activeElement) &&
-            !titleRef.current?.contains(document.activeElement) &&
-            !searchRef.current?.contains(document.activeElement)
-          ) {
-            setIsOpen(false);
-          }
-        }, 100);
-      };
-      window.addEventListener('focusout', blurHandler);
       return () => {
-        window.removeEventListener('focusout', blurHandler);
         clearTimeout(focusTimeout);
-        clearTimeout(blurTimeout);
       };
     }
   }, [isOpen, isMobile, onSearch]);

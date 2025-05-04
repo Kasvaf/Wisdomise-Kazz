@@ -14,7 +14,10 @@ import { useDebounce } from 'usehooks-ts';
 import { bxX } from 'boxicons-quasar';
 import { type Surface, useSurface } from 'utils/useSurface';
 import Icon from 'shared/Icon';
-import { useComponentsContext } from './ComponentsProvider';
+import {
+  type ComponentsProvicerContext,
+  useComponentsContext,
+} from './ComponentsProvider';
 
 export const DIALOG_OPENER_CLASS = 'custom-popover';
 
@@ -41,14 +44,22 @@ export const usePopupPosition = (
   calculateBy?: 'target' | 'pointer',
 ) => {
   const context = useComponentsContext();
-  if (!context) throw new Error('use Dialog inside ComponentsProvider');
+
+  const anchor =
+    useRef<ReturnType<ComponentsProvicerContext['getLastClickElement']>>(null);
+
   const [style, setStyle] = useState<CSSProperties>({});
+
+  useEffect(() => {
+    if (enabled) {
+      anchor.current = context.getLastClickElement(`.${DIALOG_OPENER_CLASS}`);
+    }
+  }, [context, enabled]);
 
   const computeStyle = useCallback(() => {
     const popupRect = target.current?.getBoundingClientRect();
     const pointerPosition = context.getPointerPosition();
-
-    const anchorRect = context.getLastClickRect(`.${DIALOG_OPENER_CLASS}`);
+    const anchorRect = anchor.current?.getBoundingClientRect();
 
     const margin = 8;
     const style: CSSProperties = {};
@@ -220,7 +231,7 @@ export const Dialog: FC<{
                 // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
                 tabIndex={1}
                 className={clsx(
-                  'fixed z-[9999] overflow-auto bg-[--current-color] transition-[transform,opacity] duration-300 ease-in-out scrollbar-thin',
+                  'fixed z-[9999] overflow-auto bg-[--current-color] transition-[transform,opacity] duration-100 ease-in-out scrollbar-thin mobile:duration-300',
                   mode === 'drawer' && [
                     drawerConfig?.position === 'bottom' && [
                       'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
@@ -241,7 +252,7 @@ export const Dialog: FC<{
                   ],
                   mode === 'popup' && [
                     'max-h-[90svh] max-w-[90svw] rounded-xl shadow-xl',
-                    state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
+                    state ? 'opacity-100' : 'opacity-0 ',
                   ],
                   className,
                 )}
