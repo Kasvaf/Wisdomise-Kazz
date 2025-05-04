@@ -7,12 +7,14 @@ import { icons } from './icons';
 export function CoinLabel({
   className,
   value,
-  popup = true,
+  title,
+  clickable = true,
   size,
 }: {
   className?: string;
   value: string;
-  popup?: boolean | ReactNode;
+  clickable?: boolean;
+  title?: ReactNode;
   size: 'xs' | 'sm' | 'md';
 }) {
   const { t } = useTranslation('coin-radar');
@@ -143,7 +145,7 @@ export function CoinLabel({
   return (
     <ClickableTooltip
       title={
-        typeof popup === 'boolean' || popup === undefined ? (
+        title || (
           <div className="flex flex-col gap-2">
             <p
               className={clsx(
@@ -160,12 +162,10 @@ export function CoinLabel({
               </p>
             )}
           </div>
-        ) : (
-          popup
         )
       }
       chevron={false}
-      disabled={!popup}
+      disabled={!clickable}
       className={clsx(
         'rounded-full text-center text-xxs',
         size === 'xs' &&
