@@ -92,10 +92,11 @@ export const CoinTitleWidget: FC<{
                     <>
                       <ContractAddress
                         value={
-                          matchedNetwork.symbol_network_type === 'TOKEN'
+                          matchedNetwork.symbol_network_type === 'COIN'
                             ? true
                             : matchedNetwork.contract_address
                         }
+                        fallbackAsNativeCoin={false}
                       />
                       <span className="size-[2px] rounded-full bg-white" />
                     </>

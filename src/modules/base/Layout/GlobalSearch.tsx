@@ -78,12 +78,10 @@ export const GlobalSearch: FC<
                   />
                 </div>
                 <div className="flex items-center gap-1">
-                  {row.contract_address && (
-                    <ContractAddress
-                      value={row.contract_address}
-                      allowCopy={false}
-                    />
-                  )}
+                  <ContractAddress
+                    value={row.contract_address ?? true}
+                    allowCopy={false}
+                  />
 
                   {/* Socials */}
                   <CoinCommunityLinks

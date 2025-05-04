@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from './Icon';
 import { useShare } from './useShare';
@@ -9,7 +10,9 @@ export const ContractAddress: FC<{
   className?: string;
   value?: string | true;
   allowCopy?: boolean;
-}> = ({ className, value, allowCopy = true }) => {
+  fallbackAsNativeCoin?: boolean;
+}> = ({ className, value, allowCopy = true, fallbackAsNativeCoin = true }) => {
+  const { t } = useTranslation('coin-radar');
   const [copy, copyNotif] = useShare('copy');
 
   return (
@@ -29,9 +32,9 @@ export const ContractAddress: FC<{
           )}
           {allowCopy && copyNotif}
         </div>
-      ) : value === true || value === '' ? (
+      ) : value === true || (fallbackAsNativeCoin && value === '') ? (
         <p className={clsx('text-xs text-v1-content-secondary', className)}>
-          {'Native Coin'}
+          {t('common.native_coin')}
         </p>
       ) : null}
     </>
