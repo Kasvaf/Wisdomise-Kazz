@@ -74,7 +74,6 @@ export const GlobalSearch: FC<
                     coin={row.symbol}
                     security={row.symbol_security ? [row.symbol_security] : []}
                     size="xs"
-                    clickable={false}
                   />
                 </div>
                 <div className="flex items-center gap-1 text-xs">
