@@ -76,12 +76,7 @@ export const CoinTitleWidget: FC<{
                   <CoinLabels
                     categories={coin.data?.symbol.categories}
                     networks={isNCoin ? [] : coin.data?.networks}
-                    labels={
-                      [
-                        isNCoin && 'new_born',
-                        ...(coin.data?.symbol_labels ?? []),
-                      ].filter(x => !!x) as string[]
-                    }
+                    labels={coin.data?.symbol_labels?.filter(x => !!x)}
                     coin={symbol}
                     security={
                       isNCoin
