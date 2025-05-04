@@ -34,7 +34,7 @@ export default function PageTrade() {
       <CoinSelect
         className="mb-4 w-full [&_.ant-select-selector]:!bg-v1-surface-l2 [&_.ant-select-selector]:!py-1"
         filterTokens={x => x !== 'tether'}
-        priceExchange="auto"
+        showPrice
         value={slug}
         tradableCoinsOnly
         onChange={selectedSlug =>

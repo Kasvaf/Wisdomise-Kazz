@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useCoins, useCoinDetails, useLastPriceQuery } from 'api';
-import type { Coin as CoinType, PricesExchange } from 'api/types/shared';
+import type { Coin as CoinType } from 'api/types/shared';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
@@ -14,7 +14,7 @@ import Icon from 'shared/Icon';
 export const CoinSelect: FC<
   SelectProps<string> & {
     filterTokens?: (item: string) => boolean;
-    priceExchange?: PricesExchange | 'auto';
+    showPrice?: boolean;
     emptyOption?: string;
     mini?: boolean;
     tradableCoinsOnly?: boolean;
@@ -24,7 +24,7 @@ export const CoinSelect: FC<
   className,
   disabled,
   filterTokens,
-  priceExchange,
+  showPrice,
   emptyOption,
   mini = true,
   tradableCoinsOnly,
@@ -37,7 +37,6 @@ export const CoinSelect: FC<
   const coin = useCoinDetails({ slug: value ?? undefined });
   const { data: lastPrice } = useLastPriceQuery({
     slug: value == null ? undefined : value,
-    exchange: priceExchange === 'auto' ? undefined : priceExchange,
   });
 
   const coins = useMemo<CoinType[]>(() => {
@@ -99,7 +98,7 @@ export const CoinSelect: FC<
         ) : undefined
       }
       suffixIcon={
-        priceExchange ? (
+        showPrice ? (
           <div className="flex items-center gap-2">
             {lastPrice && coin.data?.data?.price_change_percentage_24h && (
               <div className="flex flex-col items-end gap-1">
