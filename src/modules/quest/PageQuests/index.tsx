@@ -5,14 +5,23 @@ import { PageTitle } from 'shared/PageTitle';
 import Referral from 'modules/quest/PageQuests/Referral';
 import League from 'modules/quest/PageQuests/League';
 import DailyTrade from 'modules/quest/PageQuests/DailyTrade';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useIsMobile from 'utils/useIsMobile';
 import Tournaments from './Tournament';
 
 export default function PageQuests() {
   const { isLoading } = useTournaments();
+  const isMobile = useIsMobile();
   const hasFlag = useHasFlag();
 
   return (
-    <PageWrapper footer={null} hasBack title="Earn & Win" loading={isLoading}>
+    <PageWrapper
+      footer={null}
+      hasBack
+      title="Earn & Win"
+      loading={isLoading}
+      extension={!isMobile && <CoinExtensionsGroup />}
+    >
       <PageTitle
         className="py-5"
         title="Earn & Win"

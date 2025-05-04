@@ -7,6 +7,7 @@ import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useActiveWallet } from 'api/chains';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import useTradeDrawer from '../PageTrade/useTradeDrawer';
 import PositionsList from './PositionsList';
@@ -24,7 +25,7 @@ const PagePositions = () => {
   const wallet = useActiveWallet();
 
   return (
-    <PageWrapper hasBack>
+    <PageWrapper hasBack extension={!isMobile && <CoinExtensionsGroup />}>
       <div className="mb-4 flex flex-row-reverse justify-between gap-4 mobile:flex-col">
         <ButtonSelect
           options={[

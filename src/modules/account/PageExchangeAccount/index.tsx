@@ -2,13 +2,20 @@ import { useTranslation } from 'react-i18next';
 import YouTube from 'react-youtube';
 import PageWrapper from 'modules/base/PageWrapper';
 import Card from 'shared/Card';
+import useIsMobile from 'utils/useIsMobile';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import CardWisdomiseAccount from './CardWisdomiseAccount';
 import CardExchangeAccounts from './CardExchangeAccounts';
 
 const PageExchangeAccount = () => {
+  const isMobile = useIsMobile();
   const { t } = useTranslation('external-accounts');
   return (
-    <PageWrapper hasBack title={t('base:menu.account-manager.title')}>
+    <PageWrapper
+      hasBack
+      title={t('base:menu.account-manager.title')}
+      extension={!isMobile && <CoinExtensionsGroup />}
+    >
       <CardWisdomiseAccount />
       <CardExchangeAccounts className="mt-6" />
 

@@ -12,6 +12,8 @@ import PageWrapper from 'modules/base/PageWrapper';
 import Button from 'shared/Button';
 import { Markdown } from 'shared/Markdown';
 import TextBox from 'shared/TextBox';
+import useIsMobile from 'utils/useIsMobile';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import {
   DiscordIcon,
   EditIcon,
@@ -105,6 +107,7 @@ const useInfoRows = (): Array<{
 
 export default function PageProfile() {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const account = useAccountQuery();
   const profile = useCommunityProfileQuery();
   const profileOverviewForm = useForm<CommunityProfile>();
@@ -123,6 +126,7 @@ export default function PageProfile() {
       hasBack
       title={t('accounts:page-profile.title')}
       loading={profile.isLoading}
+      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <ProfileHeader
         className="mb-8"

@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import PageWrapper from 'modules/base/PageWrapper';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { CoinDetailsMeta } from './components/CoinDetailsMeta';
 import { CoinDetailsDesktop } from './components/CoinDetailsDesktop';
 import { CoinDetailsMobile } from './components/CoinDetailsMobile';
@@ -11,7 +12,11 @@ export default function PageCoinDetails() {
   const isMobile = useIsMobile();
 
   return (
-    <PageWrapper hasBack mainClassName={isMobile ? '' : '!py-0'}>
+    <PageWrapper
+      hasBack
+      extension={<CoinExtensionsGroup />}
+      mainClassName={isMobile ? '' : '!py-0'}
+    >
       <CoinDetailsMeta slug={slug} />
       {isMobile ? (
         <CoinDetailsMobile slug={slug} />
