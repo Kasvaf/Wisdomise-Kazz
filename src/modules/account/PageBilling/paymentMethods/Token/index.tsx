@@ -99,7 +99,7 @@ export default function TokenPaymentModalContent({
                 <Trans i18nKey="token-modal.token-name" ns="billing" />
                 <br />
                 <span className="text-white/50">
-                  1 {plan.periodicity.toLowerCase()}
+                  1 {plan.periodicity === 'YEARLY' ? 'Year' : 'Month'}
                 </span>
               </p>
             </div>

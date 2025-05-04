@@ -15,14 +15,15 @@ import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function PageBilling() {
   const plans = usePlansQuery();
-  const { level, isLoading: subIsLoading } = useSubscription();
+  const { isLoading: subIsLoading, group } = useSubscription();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   const { data: account } = useAccountQuery();
   const { data, isPending } = useReadUnlockedInfo();
   const { tokenPaymentModal, openVipModal } = useVipModal();
 
   const showDetails =
-    ((data?.unlockAmount ?? 0n) > 0n || level !== 0) && account?.info; // or revenue
+    (data?.unlockAmount ?? 0n) > 0n ||
+    (group !== 'free' && group !== 'initial' && account?.info);
 
   const isLoading = subIsLoading || isPending;
 

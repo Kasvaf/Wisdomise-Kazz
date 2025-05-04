@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { bxRightArrowAlt } from 'boxicons-quasar';
+import { bxRightArrowAlt, bxsPlusSquare } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import {
@@ -16,6 +16,7 @@ import { Button } from 'shared/v1-components/Button';
 import { DebugPin } from 'shared/DebugPin';
 import Utility from 'modules/account/PageToken/Utility';
 import CurrentPlan from 'modules/account/PageBilling/SubscriptionDetail/OverviewTab/CurrentPlan';
+import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWalletConnected';
 import wiseClub from './wise-club.png';
 import gradient from './gradient.png';
 import { ReactComponent as Bag } from './bag.svg';
@@ -30,6 +31,7 @@ export default function SubscriptionDetail() {
   const { data: lockState } = useLockingStateQuery();
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useInstantCancelMutation();
+  const ensureWalletConnected = useEnsureWalletConnected();
 
   const { data } = useAccountQuery();
   const firstDayNextMonth = dayjs().add(1, 'month').startOf('month');
@@ -43,6 +45,12 @@ export default function SubscriptionDetail() {
         message: 'Subscription cancelled successfully.',
       });
     });
+  };
+
+  const stakeMore = () => {
+    if (ensureWalletConnected()) {
+      return null;
+    }
   };
 
   return (
@@ -180,11 +188,12 @@ export default function SubscriptionDetail() {
                   Increase Your Stake to Earn More Rewards and Maximize Your
                   Share in Wisdomise Revenue.
                 </p>
-                <Button variant="wsdm" className="w-64">
+                <Button variant="wsdm" className="w-64" onClick={stakeMore}>
                   <DebugPin
                     title="/account/billing?payment_method=lock"
                     color="orange"
                   />
+                  <Icon name={bxsPlusSquare} />
                   Stake More
                 </Button>
               </div>

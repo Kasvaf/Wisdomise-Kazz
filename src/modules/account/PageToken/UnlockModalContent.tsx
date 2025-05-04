@@ -70,7 +70,11 @@ export default function UnlockModalContent({
           variant="negative"
           onClick={() => unlock()}
         >
-          Unlock & Exit Wise Club
+          {isPending
+            ? 'Waiting for unlock signature'
+            : isWaiting
+            ? 'Unlock transaction is confirming'
+            : 'Unlock & Exit Wise Club'}
         </Button>
       </div>
     </div>
