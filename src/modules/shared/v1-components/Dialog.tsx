@@ -63,16 +63,20 @@ export const usePopupPosition = (
           : pointerPosition.top) +
         (calculateBy === 'target' ? anchorRect?.height ?? 0 : 0) +
         margin;
+      const preferedBottom =
+        window.innerHeight -
+        (calculateBy === 'target'
+          ? anchorRect?.top ?? pointerPosition.top
+          : pointerPosition.top) +
+        margin;
 
-      if (preferredTop + popupRect.height <= window.innerHeight) {
-        style.top = preferredTop;
+      if (
+        preferedBottom - (popupRect.height ?? 0) > 0 &&
+        (anchorRect?.top ?? 0) > window.innerHeight / 2
+      ) {
+        style.bottom = preferedBottom;
       } else {
-        style.bottom =
-          window.innerHeight -
-          (calculateBy === 'target'
-            ? anchorRect?.top ?? pointerPosition.top
-            : pointerPosition.top) +
-          margin;
+        style.top = preferredTop;
       }
 
       // Horizontal centering
