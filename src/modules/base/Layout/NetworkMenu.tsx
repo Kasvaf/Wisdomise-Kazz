@@ -1,6 +1,7 @@
 import { type ComponentProps, type FC } from 'react';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { isMiniApp } from 'utils/version';
 
 const DEFAULT_NETWORK = 'solana';
 
@@ -12,7 +13,7 @@ export const NetworkMenu: FC<
 > = props => {
   const [network, setNetwork] = useGlobalNetwork();
 
-  return (
+  return isMiniApp ? null : (
     <NetworkSelect
       {...props}
       allowClear={false}
