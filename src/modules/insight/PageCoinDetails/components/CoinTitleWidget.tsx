@@ -97,6 +97,7 @@ export const CoinTitleWidget: FC<{
                             : matchedNetwork.contract_address
                         }
                         fallbackAsNativeCoin={false}
+                        className="text-xs text-v1-content-secondary"
                       />
                       <span className="size-[2px] rounded-full bg-white" />
                     </>

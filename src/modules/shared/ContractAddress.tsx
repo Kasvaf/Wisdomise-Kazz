@@ -18,12 +18,7 @@ export const ContractAddress: FC<{
   return (
     <>
       {typeof value === 'string' && value.length > 0 ? (
-        <div
-          className={clsx(
-            'flex items-center gap-1 text-xs text-v1-content-secondary',
-            className,
-          )}
-        >
+        <div className={clsx('flex items-center gap-1', className)}>
           {shortenAddress(value)}
           {allowCopy && (
             <button onClick={() => copy(value)} className="cursor-copy">
@@ -33,9 +28,7 @@ export const ContractAddress: FC<{
           {allowCopy && copyNotif}
         </div>
       ) : value === true || (fallbackAsNativeCoin && value === '') ? (
-        <p className={clsx('text-xs text-v1-content-secondary', className)}>
-          {t('common.native_coin')}
-        </p>
+        <p className={className}>{t('common.native_coin')}</p>
       ) : null}
     </>
   );

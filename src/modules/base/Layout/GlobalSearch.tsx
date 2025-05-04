@@ -77,10 +77,11 @@ export const GlobalSearch: FC<
                     clickable={false}
                   />
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 text-xs">
                   <ContractAddress
                     value={row.contract_address ?? true}
                     allowCopy={false}
+                    className="text-v1-content-secondary"
                   />
 
                   {/* Socials */}

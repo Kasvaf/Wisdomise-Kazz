@@ -1,11 +1,8 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { bxCopy } from 'boxicons-quasar';
 import { type CoinNetwork } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import { useShare } from 'shared/useShare';
-import { shortenAddress } from 'utils/shortenAddress';
-import Icon from 'shared/Icon';
+import { ContractAddress } from 'shared/ContractAddress';
 
 export function CoinNetworksLabel({
   className,
@@ -19,7 +16,6 @@ export function CoinNetworksLabel({
   clickable?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
-  const [copy, content] = useShare('copy');
 
   if (!value || value.length === 0) return null;
 
@@ -28,7 +24,7 @@ export function CoinNetworksLabel({
       <ClickableTooltip
         title={
           <div className="max-h-[300px] min-w-48 space-y-2 mobile:max-h-max">
-            <h4 className="sticky top-0 border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 text-base font-medium">
+            <h4 className="border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 text-base font-medium">
               {t('common.chains')}:
             </h4>
             {(value ?? []).map(network => (
@@ -43,24 +39,18 @@ export function CoinNetworksLabel({
                 <div className="grow">
                   <p className="text-sm">{network.network.name}</p>
                   <div className="flex w-full items-center justify-start gap-1 text-xxs text-v1-content-secondary">
-                    {network.symbol_network_type === 'COIN' &&
-                      t('common.native_coin')}
-                    {network.symbol_network_type === 'TOKEN' && (
-                      <>
-                        {network.contract_address ? (
-                          <>
-                            {shortenAddress(network.contract_address)}
-                            <Icon
-                              name={bxCopy}
-                              size={14}
-                              className="cursor-pointer"
-                              onClick={() => copy(network.contract_address)}
-                            />
-                          </>
-                        ) : (
-                          <>{t('common:not-available')}</>
-                        )}
-                      </>
+                    {network.symbol_network_type === 'TOKEN' &&
+                    !network.contract_address ? (
+                      <>{t('common:not-available')}</>
+                    ) : (
+                      <ContractAddress
+                        allowCopy
+                        value={
+                          network.symbol_network_type === 'COIN'
+                            ? true
+                            : network.contract_address
+                        }
+                      />
                     )}
                   </div>
                 </div>
@@ -91,7 +81,6 @@ export function CoinNetworksLabel({
           </span>
         )}
       </ClickableTooltip>
-      {content}
     </>
   );
 }
