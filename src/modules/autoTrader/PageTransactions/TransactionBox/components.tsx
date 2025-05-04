@@ -88,7 +88,7 @@ export const GasFee: React.FC<{
   );
 };
 
-const SCANNERS: Record<SupportedNetworks, string> = {
+const SCANNERS: Record<Exclude<SupportedNetworks, 'polygon'>, string> = {
   'the-open-network': 'TonViewer',
   'solana': 'SolScan',
 };
@@ -110,7 +110,7 @@ export const TonViewer: React.FC<{
         <Icon name={bxGlobe} className="mr-2" size={16} />
         View
         {network in SCANNERS
-          ? ' on ' + SCANNERS[network as SupportedNetworks]
+          ? ' on ' + SCANNERS[network as Exclude<SupportedNetworks, 'polygon'>]
           : ''}
       </Button>
     </div>

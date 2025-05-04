@@ -1,7 +1,12 @@
 import dayjs from 'dayjs';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
-import { useAccountQuery, useSubscription } from 'api';
+import { notification } from 'antd';
+import {
+  useAccountQuery,
+  useInstantCancelMutation,
+  useSubscription,
+} from 'api';
 import { PageTitle } from 'shared/PageTitle';
 import { useLockingStateQuery } from 'api/defi';
 import { addComma } from 'utils/numbers';
@@ -24,12 +29,21 @@ export default function SubscriptionDetail() {
   const { plan, currentPeriodEnd, level } = useSubscription();
   const { data: lockState } = useLockingStateQuery();
   const navigate = useNavigate();
+  const { mutateAsync, isPending } = useInstantCancelMutation();
 
   const { data } = useAccountQuery();
   const firstDayNextMonth = dayjs().add(1, 'month').startOf('month');
 
   const subItem = data?.subscription_item;
   const paymentMethod = subItem?.payment_method;
+
+  const cancel = () => {
+    void mutateAsync().then(() => {
+      return notification.success({
+        message: 'Subscription cancelled successfully.',
+      });
+    });
+  };
 
   return (
     <div>
@@ -214,7 +228,12 @@ export default function SubscriptionDetail() {
                 <li>Enjoy Premium Tools, Lower Fees, and Revenue Share!</li>
               </ul>
 
-              <Button variant="pro" className="mt-6 w-full">
+              <Button
+                variant="pro"
+                className="mt-6 w-full"
+                onClick={cancel}
+                loading={isPending}
+              >
                 Cancel & Updgrade to Wise Club
                 <Icon name={bxRightArrowAlt} />
               </Button>
