@@ -8,7 +8,8 @@ import { useShare } from './useShare';
 export const ContractAddress: FC<{
   className?: string;
   value?: string | true;
-}> = ({ className, value }) => {
+  allowCopy?: boolean;
+}> = ({ className, value, allowCopy = true }) => {
   const [copy, copyNotif] = useShare('copy');
 
   return (
@@ -21,17 +22,12 @@ export const ContractAddress: FC<{
           )}
         >
           {shortenAddress(value)}
-          <button
-            onClick={e => {
-              e.stopPropagation();
-              e.preventDefault();
-              void copy(value);
-            }}
-            className="cursor-copy"
-          >
-            <Icon name={bxsCopy} size={12} />
-          </button>
-          {copyNotif}
+          {allowCopy && (
+            <button onClick={() => copy(value)} className="cursor-copy">
+              <Icon name={bxsCopy} size={12} />
+            </button>
+          )}
+          {allowCopy && copyNotif}
         </div>
       ) : value === true || value === '' ? (
         <p className={clsx('text-xs text-v1-content-secondary', className)}>

@@ -74,11 +74,15 @@ export const GlobalSearch: FC<
                     coin={row.symbol}
                     security={row.symbol_security ? [row.symbol_security] : []}
                     size="xs"
+                    clickable={false}
                   />
                 </div>
                 <div className="flex items-center gap-1">
                   {row.contract_address && (
-                    <ContractAddress value={row.contract_address} />
+                    <ContractAddress
+                      value={row.contract_address}
+                      allowCopy={false}
+                    />
                   )}
 
                   {/* Socials */}
