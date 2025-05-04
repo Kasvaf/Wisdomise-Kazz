@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { useState } from 'react';
-import { Modal } from 'antd';
 import Icon from './Icon';
+import { Dialog } from './v1-components/Dialog';
 
 interface Props {
   title?: string;
@@ -20,16 +20,17 @@ const InfoButton: React.FC<Props> = ({ title, text, size = 24, className }) => {
         e.stopPropagation();
       }}
     >
-      <Modal
-        centered
+      <Dialog
         footer={false}
-        closeIcon={null}
         open={isOpen}
-        onCancel={() => setIsOpen(false)}
+        onClose={() => setIsOpen(false)}
+        mode="modal"
+        contentClassName="p-4 max-w-sm pe-8"
+        surface={2}
       >
         {title && <div className="mb-4">{title}</div>}
         <div className="flex items-center text-white/70">{text}</div>
-      </Modal>
+      </Dialog>
       <Icon
         name={bxInfoCircle}
         className={clsx(

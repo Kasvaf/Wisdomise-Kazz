@@ -157,7 +157,7 @@ export const Dialog: FC<{
   onClose,
   onOpen,
   mode = 'popup',
-  // closable = true,
+  closable = true,
   className,
   contentClassName,
 
@@ -222,7 +222,9 @@ export const Dialog: FC<{
                   onClick={e => {
                     e.stopPropagation();
                     e.preventDefault();
-                    toggle(false);
+                    if (closable) {
+                      toggle(false);
+                    }
                   }}
                 />
               )}
@@ -264,7 +266,7 @@ export const Dialog: FC<{
                   e.stopPropagation();
                 }}
               >
-                <div className="sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-[--current-color] bg-gradient-to-b p-3 empty:hidden">
+                <div className="sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-[--current-color] bg-gradient-to-b empty:hidden">
                   {mode === 'drawer' &&
                     drawerConfig?.closeButton !== false &&
                     drawerConfig?.position === 'bottom' && (
@@ -283,14 +285,14 @@ export const Dialog: FC<{
                       drawerConfig?.closeButton !== false)) && (
                     <button
                       className={clsx(
-                        'absolute end-3 top-3 z-50 size-5 opacity-60 hover:opacity-100 active:opacity-100',
+                        'absolute end-3 top-3 z-50 flex size-5 items-center justify-center rounded-full opacity-60 backdrop-blur backdrop-brightness-75 hover:opacity-100 active:opacity-100',
                       )}
                       onClick={() => toggle(false)}
                     >
                       <Icon name={bxX} size={20} />
                     </button>
                   )}
-                  {header && header}
+                  {header && <div className="w-full p-3">{header}</div>}
                 </div>
                 <div className={contentClassName}>{children}</div>
                 {footer && (

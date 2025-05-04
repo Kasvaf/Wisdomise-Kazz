@@ -2,7 +2,6 @@
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxDotsHorizontal } from 'boxicons-quasar';
-import { Modal } from 'antd';
 import { clsx } from 'clsx';
 import { type WhaleRadarSentiment as WhaleRadarSentimentType } from 'api';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
@@ -14,6 +13,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { CoinWhalesWidget } from '../WhaleRadarDesktop/CoinWhalesWidget';
 import { WhaleCoinBuySellInfo } from '../WhaleCoinBuySellInfo';
 import WhaleIcon from './whale.png';
@@ -50,14 +50,15 @@ export const WhaleRadarSentiment: FC<{
             className="inline-flex size-3 items-center justify-center rounded-full border"
           />
         </button>
-        <Modal
-          centered
+        <Dialog
+          mode="modal"
           closable
           footer={false}
           open={desktopModal}
-          onCancel={() => setDesktopModal(false)}
-          width={1366}
-          className="[&_.ant-modal-content]:!p-2"
+          onClose={() => setDesktopModal(false)}
+          contentClassName="p-3"
+          className="w-[1366px]"
+          surface={2}
         >
           {coin?.slug && (
             <>
@@ -65,7 +66,7 @@ export const WhaleRadarSentiment: FC<{
               <CoinWhalesWidget coin={coin} type="holding" />
             </>
           )}
-        </Modal>
+        </Dialog>
       </>
     );
   }

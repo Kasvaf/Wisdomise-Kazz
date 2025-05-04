@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { Modal } from 'antd';
 import { t } from 'i18next';
 import useIsMobile from 'utils/useIsMobile';
 import { type Coin } from 'api/types/shared';
+import { Dialog } from 'shared/v1-components/Dialog';
 import InsightPageWrapper from '../InsightPageWrapper';
 import { WhaleAssetsTreeMapWidget } from './components/WhaleAssetsTreeMapWidget';
 import { WhaleNetflowChartWidget } from './components/WhaleNetflowChartWidget';
@@ -72,15 +72,14 @@ export default function PageWhaleDetails() {
         />
       </div>
 
-      <Modal
-        centered
+      <Dialog
         open={selectedCoinTrx !== undefined}
-        onCancel={() => setSelectedCoinTrx(undefined)}
-        destroyOnClose
-        footer={false}
+        onClose={() => setSelectedCoinTrx(undefined)}
         closable
-        className="[&_.ant-modal-header]:mb-6 [&_.ant-modal-title]:text-start"
-        width={isMobile ? '90%' : '80%'}
+        className="w-[90%]"
+        mode="modal"
+        surface={2}
+        contentClassName="p-4"
       >
         <WhaleTransactionsHistoryWidget
           holderAddress={holderAddress}
@@ -93,7 +92,7 @@ export default function PageWhaleDetails() {
           }
           surface={3}
         />
-      </Modal>
+      </Dialog>
     </InsightPageWrapper>
   );
 }
