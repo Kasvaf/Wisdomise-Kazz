@@ -21,7 +21,14 @@ export const ContractAddress: FC<{
           )}
         >
           {shortenAddress(value)}
-          <button onClick={() => copy(value)} className="cursor-copy">
+          <button
+            onClick={e => {
+              e.stopPropagation();
+              e.preventDefault();
+              void copy(value);
+            }}
+            className="cursor-copy"
+          >
             <Icon name={bxsCopy} size={12} />
           </button>
           {copyNotif}
