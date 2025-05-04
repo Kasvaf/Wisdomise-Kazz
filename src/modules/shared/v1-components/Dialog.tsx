@@ -161,12 +161,8 @@ export const Dialog: FC<{
   const toggle = useCallback(
     (newValue?: boolean) => {
       if (newValue === false) {
-        if (lastFocus.current) {
-          lastFocus.current?.focus?.();
-        }
         onClose?.();
       } else {
-        lastFocus.current = document.activeElement as HTMLElement | null;
         onOpen?.();
       }
     },
@@ -191,6 +187,16 @@ export const Dialog: FC<{
     return () => window.removeEventListener('scroll', onScroll);
   }, [mode, isOpen, closable, toggle]);
 
+  useEffect(() => {
+    if (isOpen) {
+      lastFocus.current = document.activeElement as HTMLElement | null;
+    } else if (lastFocus.current) {
+      lastFocus.current?.focus?.({
+        preventScroll: true,
+      });
+    }
+  }, [isOpen]);
+
   return (
     <>
       {state === false
@@ -208,6 +214,7 @@ export const Dialog: FC<{
                   )}
                   onClick={e => {
                     e.stopPropagation();
+                    e.preventDefault();
                     toggle(false);
                   }}
                 />
@@ -245,6 +252,9 @@ export const Dialog: FC<{
                 style={{
                   ...(mode === 'popup' && popupPosition),
                   ['--current-color' as never]: colors.current,
+                }}
+                onClick={e => {
+                  e.stopPropagation();
                 }}
               >
                 <div className="sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-[--current-color] bg-gradient-to-b p-3 empty:hidden">

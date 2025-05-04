@@ -263,7 +263,7 @@ export function Select<V, M extends boolean = false>({
           ) {
             setIsOpen(false);
           }
-        }, 1000);
+        }, 100);
       };
       window.addEventListener('focusout', blurHandler);
       return () => {

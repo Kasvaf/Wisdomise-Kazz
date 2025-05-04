@@ -41,14 +41,13 @@ export function ClickableTooltip({
         className={clsx(
           'group relative inline-flex select-none items-center gap-1',
           disabled !== true && 'cursor-help',
-          isOpen && 'pointer-events-none',
           DIALOG_OPENER_CLASS,
           className,
         )}
         onClick={e => {
           e.stopPropagation();
           e.preventDefault();
-          setIsOpen(p => !p);
+          setIsOpen(true);
         }}
       >
         {children}{' '}
