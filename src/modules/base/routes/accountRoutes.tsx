@@ -21,8 +21,6 @@ const ChangeStripeCardInfoPage = React.lazy(
 );
 const PageAlerts = React.lazy(() => import('modules/alert/PageAlerts'));
 
-const Web3Wrapper = React.lazy(() => import('modules/account/Web3Provider'));
-
 const useAccountRoutes = () => {
   const { t } = useTranslation('base');
 
@@ -76,46 +74,49 @@ const useAccountRoutes = () => {
             },
           } satisfies RouteHandle,
         },
+
         {
-          path: '',
-          element: <Web3Wrapper />,
+          path: 'billing',
+          handle: {
+            crumb: {
+              text: t('menu.billing.title'),
+              href: '/account/billing',
+            },
+          } satisfies RouteHandle,
           children: [
             {
-              path: 'billing',
-              handle: {
-                crumb: {
-                  text: t('menu.billing.title'),
-                  href: '/account/billing',
-                },
-              } satisfies RouteHandle,
-              children: [
-                {
-                  path: '',
-                  element: <PageBilling />,
-                },
-                {
-                  path: 'change-stripe-card-info',
-                  element: <ChangeStripeCardInfoPage />,
-                  handle: {
-                    crumb: {
-                      text: 'Stripe',
-                      href: '/account/change-stripe-card-info',
-                    },
-                  } satisfies RouteHandle,
-                },
-              ],
+              path: '',
+              element: (
+                <ActiveNetworkProvider network="polygon" setOnLayout>
+                  <PageBilling />
+                </ActiveNetworkProvider>
+              ),
             },
             {
-              path: 'token',
-              element: <PageToken />,
+              path: 'change-stripe-card-info',
+              element: <ChangeStripeCardInfoPage />,
               handle: {
                 crumb: {
-                  text: t('menu.token.title'),
-                  href: '/account/token',
+                  text: 'Stripe',
+                  href: '/account/change-stripe-card-info',
                 },
               } satisfies RouteHandle,
             },
           ],
+        },
+        {
+          path: 'token',
+          element: (
+            <ActiveNetworkProvider network="polygon" setOnLayout>
+              <PageToken />
+            </ActiveNetworkProvider>
+          ),
+          handle: {
+            crumb: {
+              text: t('menu.token.title'),
+              href: '/account/token',
+            },
+          } satisfies RouteHandle,
         },
         {
           path: 'rewards',

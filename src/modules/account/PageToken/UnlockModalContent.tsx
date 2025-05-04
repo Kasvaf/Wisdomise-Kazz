@@ -1,10 +1,11 @@
 import { notification } from 'antd';
-import { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import Button from 'shared/Button';
-import { useUnlock } from 'modules/account/PageToken/web3/locking/useUnlock';
+import { useTranslation } from 'react-i18next';
 import { useInstantCancelMutation } from 'api';
-import { unwrapErrorMessage } from 'utils/error';
+import {
+  useReadLockedUsers,
+  useWriteUnlock,
+} from 'modules/account/PageToken/web3/locking/contract';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
 import { useUtility } from './web3/locking/useUtility';
 
@@ -15,82 +16,76 @@ export default function UnlockModalContent({
 }) {
   const { t } = useTranslation('wisdomise-token');
   const { lockedBalance, refetchUnlockedInfo } = useUtility();
-  const { unlock, isLoading, trxReceipt } = useUnlock();
+  const { writeAndWait, isWaiting, isPending } = useWriteUnlock();
   const { mutateAsync: cancelSub, isPending: isCanceling } =
     useInstantCancelMutation();
+  const { data } = useReadLockedUsers();
 
-  useEffect(() => {
-    if (trxReceipt) {
-      if (trxReceipt.status === 'success') {
-        notification.success({
-          message: 'Your WSDM Tokens are unlocked successfully',
-        });
-        void refetchUnlockedInfo();
-        void cancelSub()
-          .then(() => onResolve())
-          .catch(error => {
-            notification.error({ message: unwrapErrorMessage(error) });
-          });
-      } else {
-        notification.error({ message: 'Transaction reverted' });
-      }
-    }
-  }, [cancelSub, onResolve, refetchUnlockedInfo, trxReceipt]);
+  const cooldown = data?.configId
+    ? data.configId === 1n
+      ? '7 Days'
+      : '1 Month'
+    : 'Loading';
+
+  const unlock = async () => {
+    await writeAndWait();
+    notification.success({
+      message:
+        'Your WSDM Tokens are unlocked successfully. wait for unlock period then you can withdraw your tokens here',
+    });
+    await cancelSub();
+    await refetchUnlockedInfo();
+    onResolve();
+  };
 
   return (
-    <div className="mt-10 flex flex-col items-center text-center md:px-8">
-      <div className="mb-6 flex h-28 w-28 items-center justify-between rounded-full bg-black/20">
+    <div className="flex flex-col items-center text-center md:px-8">
+      <div className="mb-6 flex size-28 items-center justify-between rounded-full bg-black/20">
         <UnlockIcon />
       </div>
       <h1 className="mb-3 text-2xl font-medium">
         {t('utility.unlock-modal.title')}
       </h1>
       <p className="text-sm text-white/60">
-        <Trans
-          i18nKey="wisdomise-token:utility.unlock-modal.description"
-          ns="wisdomise-token"
-        >
-          By unlocking your WSDM tokens, you are opting out of our subscription
-          services. <br />
-          <span className="text-white">
-            Withdrawals are available in 7 days.
-          </span>
-        </Trans>
+        By unlocking your WSDM tokens, you are opting out of our subscription
+        services.
       </p>
-      <div className="my-8 flex w-full items-center justify-between gap-y-8 rounded-2xl bg-black/30 p-10 text-start max-md:flex-wrap">
+      <div className="my-8 grid w-full grid-cols-2 gap-x-16 rounded-xl bg-v1-surface-l3 p-5 text-start max-md:flex-wrap">
         <div>
-          <h2 className="mb-3 text-sm text-white/60">
+          <h2 className="mb-2 text-xs text-v1-content-secondary">
             {t('utility.unlock-modal.withdraw-available')}
           </h2>
-          <div className="text-xl font-semibold">
-            {t('utility.unlock-modal.days')}
-          </div>
+          <div className="text-xl font-semibold">{cooldown}</div>
+          <p className="mt-2 text-xs text-v1-inverse-overlay-70">Cooldown</p>
         </div>
         <div>
-          <h2 className="mb-3 text-sm text-white/60">
+          <h2 className="mb-2 text-xs text-v1-content-secondary">
             {t('utility.unlock-modal.amount')}
           </h2>
           <div className="flex items-end gap-2">
             <span className="text-xl font-semibold">{lockedBalance}</span>{' '}
-            <span className="font-light">WSDM</span>
           </div>
+          <p className="mt-2 text-xs text-v1-inverse-overlay-70">WSDM</p>
         </div>
       </div>
-      <p className="mb-6 text-sm text-red-400">
+      <p className="mb-6 text-sm text-v1-content-negative">
         {t('utility.unlock-modal.downgrade-warn')}
       </p>
       <div className="mb-4 flex w-full gap-4 max-md:flex-col">
-        <Button className="grow" variant="secondary" onClick={onResolve}>
+        <Button className="grow" variant="outline" onClick={onResolve}>
           {t('utility.unlock-modal.not-now')}
         </Button>
         <Button
           className="grow"
-          loading={isLoading || isCanceling}
-          disabled={isLoading}
-          variant="secondary-red"
+          loading={isPending || isWaiting || isCanceling}
+          variant="negative"
           onClick={() => unlock()}
         >
-          {t('utility.unlock-modal.cancel-sub')}
+          {isPending
+            ? 'Waiting for unlock signature'
+            : isWaiting
+            ? 'Unlock transaction is confirming'
+            : 'Unlock & Exit Wise Club'}
         </Button>
       </div>
     </div>

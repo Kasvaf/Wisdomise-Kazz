@@ -1,9 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { useAccountQuery, useSubscription } from 'api';
-import useModal from 'shared/useModal';
 import { type PaymentMethod } from 'api/types/subscription';
-import PricingTable from '../../PricingTable';
 import InfoBadge from './InfoBadge';
 import PendingInvoice from './PendingInvoice';
 
@@ -11,10 +9,6 @@ export default function CurrentPlan() {
   const { data } = useAccountQuery();
   const { t } = useTranslation('billing');
   const { currentPeriodEnd, plan, status } = useSubscription();
-  const [PricingTableMod] = useModal(PricingTable, {
-    width: 1200,
-    className: '[&_.ant-modal-content]:p-4',
-  });
 
   const subItem = data?.subscription_item;
   const isAutoRenewEnabled = !subItem?.cancel_at_period_end;
@@ -44,29 +38,28 @@ export default function CurrentPlan() {
           {/*   </button> */}
           {/* )} */}
         </div>
-        {paymentMethod === 'TOKEN' ? (
-          <div>
-            You will have access to Wise club until you have more than $1000
-            staked
-          </div>
-        ) : (
-          <div>
-            {status !== 'trialing' && (
-              <div>
-                {isAutoRenewEnabled
-                  ? t('subscription-details.overview.current-plan.renew')
-                  : t('subscription-details.overview.current-plan.expire')}
-                <InfoBadge
-                  value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
-                  value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
-                />
-              </div>
-            )}
-          </div>
-        )}
+
+        <div>
+          {status !== 'trialing' && (
+            <div>
+              {isAutoRenewEnabled
+                ? t('subscription-details.overview.current-plan.renew')
+                : t('subscription-details.overview.current-plan.expire')}
+              <InfoBadge
+                value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
+                value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
+              />
+            </div>
+          )}
+        </div>
+        <div>
+          Your payment method is
+          {paymentMethod && (
+            <InfoBadge value1={paymentMethodText[paymentMethod]} />
+          )}
+        </div>
         <PendingInvoice />
       </section>
-      {PricingTableMod}
     </div>
   );
 }

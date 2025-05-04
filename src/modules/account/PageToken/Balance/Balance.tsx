@@ -6,13 +6,13 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
-import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
+import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 import { ReactComponent as WSDMIcon } from '../icons/wsdm-token.svg';
 
 export default function Balance() {
   const { t } = useTranslation('wisdomise-token');
-  const { data: wsdmBalance, refetch, isLoading } = useWsdmBalance();
+  const { data: wsdmBalance, refetch, isLoading } = useWSDMBalance();
   const [isSpinning, setIsSpinning] = useState(false);
 
   return (

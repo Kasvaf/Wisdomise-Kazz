@@ -9,7 +9,9 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
+import { WagmiProvider } from 'wagmi';
 import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
+import { config } from 'config/wagmi';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
 
@@ -68,9 +70,11 @@ const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       <SolanaWalletProvider>
-        <LayoutActiveNetworkProvider>
-          <WalletEvents>{children}</WalletEvents>
-        </LayoutActiveNetworkProvider>
+        <WagmiProvider config={config}>
+          <LayoutActiveNetworkProvider>
+            <WalletEvents>{children}</WalletEvents>
+          </LayoutActiveNetworkProvider>
+        </WagmiProvider>
       </SolanaWalletProvider>
     </TonConnectUIProvider>
   );

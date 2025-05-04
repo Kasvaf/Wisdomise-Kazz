@@ -52,7 +52,7 @@ export const useNonceVerificationMutation = () => {
 };
 
 export function useLockingRequirementQuery(
-  amountInUSD: number,
+  amountInUSD?: number,
   address?: `0x${string}`,
 ) {
   const { data } = useAccountQuery();
@@ -94,16 +94,10 @@ export function useLockingStateQuery() {
   return useQuery({
     queryKey: ['getLockingState'],
     queryFn: async () => {
-      // const network = (
-      //   isProduction ? 'POLYGON' : 'ETHEREUM'
-      // ) satisfies LockingStateResponse['locked_network'];
-      const params = new URLSearchParams();
-      // if (network) params.set('network', '');
-
       return await ofetch<LockingStateResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/lock-state?${params.toString()}`,
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/lock-state`,
       );
     },
-    enabled: false,
+    refetchInterval: 60 * 1000,
   });
 }
