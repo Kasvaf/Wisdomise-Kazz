@@ -262,6 +262,7 @@ export interface CoinDetails {
     symbol_security: NetworkSecurity;
   }>;
   community_data?: CoinCommunityData;
+  symbol_pools?: Pool[] | null;
 }
 
 export interface Pool {
