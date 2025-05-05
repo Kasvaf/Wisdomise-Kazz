@@ -100,7 +100,7 @@ export interface WhaleCoin {
   total_transfer_volume?: number | null;
   total_holding_volume?: number | null;
   total_recent_trading_pnl?: number | null;
-  market_data: {
+  market_data?: null | {
     current_price?: number | null;
     price_change_24h?: number | null;
     price_change_percentage_24h?: number | null;
@@ -267,7 +267,7 @@ export interface WhaleRadarCoin extends WhaleRadarSentiment {
     network_name: string;
   }>;
   networks: CoinNetwork[];
-  data: MiniMarketData;
+  data?: null | MiniMarketData;
   symbol_security?: null | {
     data: NetworkSecurity[];
   };
@@ -322,12 +322,12 @@ export const useWhaleRadarCoins = (config: {
           const sorter = createSorter(config.sortOrder);
           if (config.sortBy === 'price_change')
             return sorter(
-              a.data.price_change_percentage_24h,
-              b.data.price_change_percentage_24h,
+              a.data?.price_change_percentage_24h ?? 0,
+              b.data?.price_change_percentage_24h ?? 0,
             );
 
           if (config.sortBy === 'market_cap')
-            return sorter(a.data.market_cap, b.data.market_cap);
+            return sorter(a.data?.market_cap ?? 0, b.data?.market_cap ?? 0);
 
           if (config.sortBy === 'buy')
             return sorter(a.total_buy_volume, b.total_buy_volume);

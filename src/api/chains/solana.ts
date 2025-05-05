@@ -110,7 +110,7 @@ export const useSolanaAccountBalance = (slug?: string) => {
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {
   const { connection } = useConnection();
-  const { publicKey, signTransaction } = useWallet();
+  const { publicKey, signTransaction, sendTransaction, wallet } = useWallet();
   const queryClient = useQueryClient();
   const { data: { contract, decimals } = {} } = useContractInfo(slug);
 
@@ -199,10 +199,17 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
       transaction.feePayer = publicKey;
 
       // Sign and send transaction
-      const signedTransaction = await signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(
-        signedTransaction.serialize(),
-      );
+      const signature = await (async function () {
+        if (wallet?.adapter.name === 'Trust') {
+          return await sendTransaction(transaction, connection);
+        } else {
+          const signedTransaction = await signTransaction(transaction);
+          return await connection.sendRawTransaction(
+            signedTransaction.serialize(),
+          );
+        }
+      })();
+
       void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
 
       return async () => {

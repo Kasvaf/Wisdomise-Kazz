@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { roundSensible } from 'utils/numbers';
-import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
+import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
-import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Spin from 'shared/Spin';
@@ -26,14 +24,11 @@ const ModalApproval: React.FC<{
   onResolve?: (fired?: boolean) => void;
 }> = ({ formState, createData, onResolve }) => {
   const { from, to, isMarketPrice } = formState;
-  const targetReady = from.priceByOther !== undefined;
-  const marketToAmount = +from.amount * Number(from.priceByOther);
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
   const { data: nativeBalance } = useAccountNativeBalance();
-  const { mutate, data, isPending: isLoading } = usePreparePositionMutation();
-  useEffect(() => mutate(createData), [createData, mutate]);
+  const { data, isLoading } = usePreparePositionQuery(createData);
 
   const nativeAmount =
     Number(data?.gas_fee) +
@@ -54,16 +49,8 @@ const ModalApproval: React.FC<{
         </InfoLine>
 
         <InfoLine
-          label={
-            <div className="flex items-center gap-1">
-              <span>Gas Fee (Reserved)</span>
-              <InfoButton
-                size={16}
-                title="Gas Fee (Reserved)"
-                text="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
-              />
-            </div>
-          }
+          label="Gas Fee (Reserved)"
+          info="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
           className="text-sm"
         >
           {isLoading ? (
@@ -78,11 +65,27 @@ const ModalApproval: React.FC<{
         <div className="my-2 border border-white/5" />
 
         {to.coinInfo && <Coin nonLink coin={to.coinInfo} />}
-        <InfoLine label="Estimated Amount (Receive)">
+
+        {isMarketPrice && (
+          <InfoLine
+            label="Minimum Received"
+            info="The guaranteed minimum you'll receive after slippage and fees."
+          >
+            <div className="font-medium">
+              {data?.min_ask ? roundSensible(data.min_ask) : <Spin />}{' '}
+              {to?.coinInfo?.abbreviation}
+            </div>
+          </InfoLine>
+        )}
+
+        <InfoLine
+          label="Estimated Amount"
+          info="It shows the expected return based on current market prices."
+        >
           <div className="font-medium">
             {isMarketPrice ? (
-              targetReady ? (
-                roundSensible(marketToAmount)
+              data?.ask_amount ? (
+                roundSensible(data.ask_amount)
               ) : (
                 <Spin />
               )
@@ -93,6 +96,11 @@ const ModalApproval: React.FC<{
           </div>
         </InfoLine>
 
+        <div className="text-xs font-light text-v1-content-notice/70">
+          <strong>Note:</strong> Actual execution prices may vary due to market
+          conditions and slippage.
+        </div>
+
         <div className="my-2 border border-white/5" />
 
         {data?.trade_fee && (
@@ -101,7 +109,7 @@ const ModalApproval: React.FC<{
               {Number(data?.trade_fee) * 100}% of transactions + network gas fee
             </InfoLine>
 
-            {!isLoading && !isMiniApp && Number(data?.trade_fee) && (
+            {!isLoading && !isMiniApp && Number(data?.trade_fee) > 0.6 && (
               <NavLink
                 to="/account/billing"
                 className="mt-2 flex items-center gap-2 text-xs"

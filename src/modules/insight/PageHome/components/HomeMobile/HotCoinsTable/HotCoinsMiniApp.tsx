@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 import { useTraderCoins } from 'api';
-import { isMiniApp } from 'utils/version';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
@@ -14,7 +13,7 @@ export const HotCoinsMiniApp = () => {
     page: 1,
     pageSize: 500,
     filter: undefined,
-    networkName: isMiniApp ? 'ton' : undefined,
+    networkName: 'ton',
     days: 7,
   });
 
@@ -48,11 +47,11 @@ export const HotCoinsMiniApp = () => {
 
               <div className="flex flex-col items-end">
                 <ReadableNumber
-                  value={coin.market_data.current_price}
+                  value={coin.market_data?.current_price}
                   label="$"
                 />
                 <DirectionalNumber
-                  value={coin.market_data.price_change_percentage_24h}
+                  value={coin.market_data?.price_change_percentage_24h}
                   showSign
                   className="text-[0.89em]"
                   showIcon={false}

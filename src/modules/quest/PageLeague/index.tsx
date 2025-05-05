@@ -1,7 +1,7 @@
-import { Carousel } from 'antd';
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import {
@@ -19,15 +19,15 @@ import {
   CountdownBar,
   LeaderboardPrizes,
 } from 'modules/quest/PageTournaments/TournamentCard';
-import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import LeagueResultModalContent from 'modules/quest/PageLeague/LeagueResultModalContent';
 import useModal from 'shared/useModal';
 import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
 import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDetail/Leaderboard/champion.svg';
 import prize from './images/prize.png';
-// eslint-disable-next-line import/max-dependencies
 import cup from './images/cup.png';
+// eslint-disable-next-line import/no-unassigned-import,import/max-dependencies
+import 'swiper/css/navigation';
 
 export default function PageLeague() {
   const { profile, league, isLoading } = useLeague();
@@ -44,7 +44,7 @@ export default function PageLeague() {
   const [leagueResultModal, openLeagueResultModal] = useModal(
     LeagueResultModalContent,
     {
-      closable: true,
+      closable: false,
       maskClosable: false,
       mobileDrawer: true,
       className:
@@ -82,37 +82,28 @@ export default function PageLeague() {
       <PageTitle
         className="pt-8"
         title="Compete, Rise, and Conquer!"
-        description="Compete Weekly, Earn Points, and Climb the Ranks. Top 10 Advance and Win Prizes. Stay Competitive and Aim for the Top!"
+        description="Compete Weekly, Earn Points, and Climb the Ranks. Stay Competitive and Aim for the Top!"
       />
 
-      <div className="my-8 h-48">
+      <div className="mx-auto my-8 h-48">
         {selectedLeagueIndex === undefined ? null : (
-          <Carousel
+          <Swiper
             initialSlide={selectedLeagueIndex}
-            swipeToSlide
-            infinite={false}
-            dots={false}
-            draggable
-            centerMode
-            arrows={true}
-            nextArrow={
-              <div>
-                <Icon name={bxChevronRight} />
-              </div>
-            }
-            prevArrow={
-              <div>
-                <Icon name={bxChevronLeft} />
-              </div>
-            }
-            centerPadding={isMobile ? '27%' : '42%'}
-            beforeChange={current => setSelectedLeagueIndex(current)}
-            className="[&_.slick-arrow]:z-10 [&_.slick-arrow]:!text-white [&_.slick-next]:right-[40%] [&_.slick-next]:mobile:right-1/4 [&_.slick-prev]:left-[40%] [&_.slick-prev]:mobile:left-1/4"
+            navigation
+            slidesPerView={isMobile ? 2 : 4}
+            spaceBetween={15}
+            centeredSlides
+            modules={[Navigation]}
+            onActiveIndexChange={s => setSelectedLeagueIndex(s.activeIndex)}
+            className={clsx(
+              '[&_.swiper-button-next]:!mr-[35vw] [&_.swiper-button-next]:scale-50 [&_.swiper-button-next]:!text-v1-content-primary [&_.swiper-button-next]:mobile:!mr-[15vw]',
+              '[&_.swiper-button-prev]:!ml-[35vw] [&_.swiper-button-prev]:scale-50 [&_.swiper-button-prev]:!text-v1-content-primary [&_.swiper-button-prev]:mobile:!ml-[15vw]',
+            )}
           >
             {league.details?.map((item, index) => {
               const isActive = selectedLeagueIndex === index;
               return (
-                <div key={item.slug}>
+                <SwiperSlide key={item.slug}>
                   <div className="relative mx-auto flex flex-col items-center">
                     {profile.league_slug === item.slug && (
                       <Badge
@@ -142,10 +133,10 @@ export default function PageLeague() {
                       {item.name}
                     </h2>
                   </div>
-                </div>
+                </SwiperSlide>
               );
             })}
-          </Carousel>
+          </Swiper>
         )}
       </div>
       <div className="grid grid-cols-2 items-start gap-x-4 gap-y-8 mobile:grid-cols-1">
@@ -161,7 +152,10 @@ export default function PageLeague() {
           {me && me.league_slug === selectedLeague?.slug && (
             <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
               <h2 className="mb-2">My Status</h2>
-              <LeaderboardItem participant={me} />
+              <LeaderboardItem
+                participant={me}
+                isTopLevel={selectedLeague?.level === 2}
+              />
             </div>
           )}
         </div>

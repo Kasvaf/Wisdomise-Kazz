@@ -278,13 +278,15 @@ export interface CreatePositionRequest {
   network: SupportedNetworks;
 }
 
-export const usePreparePositionMutation = () => {
-  const { mutateAsync } = useCreateTraderInstanceMutation();
-  return useMutation({
-    mutationFn: async ({ network, ...body }: CreatePositionRequest) => {
-      await mutateAsync({ network });
+export const usePreparePositionQuery = (req: CreatePositionRequest) => {
+  return useQuery({
+    queryKey: ['traderPrepare', JSON.stringify(req)],
+    queryFn: async () => {
+      const { network, ...body } = req;
       const data = await ofetch<{
         gas_fee: string;
+        min_ask: string;
+        ask_amount: string;
         price_impact?: string;
         exchange_fee: string;
         trade_fee: string;
@@ -297,6 +299,8 @@ export const usePreparePositionMutation = () => {
       });
       return data;
     },
+    staleTime: 50,
+    refetchInterval: 7000,
   });
 };
 
