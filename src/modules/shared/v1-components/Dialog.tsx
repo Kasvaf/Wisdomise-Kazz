@@ -131,6 +131,7 @@ export const usePopupPosition = (
 export const Dialog: FC<{
   open?: boolean;
   onClose?: () => void;
+  onCancel?: () => void;
   onOpen?: () => void;
   closable?: boolean;
   children?: ReactNode;
@@ -155,8 +156,9 @@ export const Dialog: FC<{
   children,
   open: isOpen = false,
   onClose,
+  onCancel,
   onOpen,
-  mode = 'popup',
+  mode = 'modal',
   closable = true,
   className,
   contentClassName,
@@ -223,6 +225,7 @@ export const Dialog: FC<{
                     e.stopPropagation();
                     e.preventDefault();
                     if (closable) {
+                      onCancel?.();
                       toggle(false);
                     }
                   }}
@@ -275,6 +278,7 @@ export const Dialog: FC<{
                         onClick={e => {
                           e.preventDefault();
                           e.stopPropagation();
+                          onCancel?.();
                           toggle(false);
                         }}
                       />
@@ -287,7 +291,10 @@ export const Dialog: FC<{
                       className={clsx(
                         'absolute end-3 top-3 z-50 flex size-5 items-center justify-center rounded-full opacity-60 backdrop-blur backdrop-brightness-75 hover:opacity-100 active:opacity-100',
                       )}
-                      onClick={() => toggle(false)}
+                      onClick={() => {
+                        onCancel?.();
+                        toggle(false);
+                      }}
                     >
                       <Icon name={bxX} size={20} />
                     </button>
