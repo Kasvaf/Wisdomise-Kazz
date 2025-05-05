@@ -66,7 +66,6 @@ stripe:
     order-summary: Order Summary
     total: Total
 subscription-details:
-  title: Subscription details
   invoices:
     amount: Price
     issue-date: Issue Date
@@ -104,9 +103,6 @@ success-modal:
   title: Thanks for subscribing
   subtitle: You can continue your journey
   btn-details: Subscription Details
-tabs:
-  invoices: Invoices
-  overview: Overview
 token-modal:
   title: Wisdomise
   confirmed:

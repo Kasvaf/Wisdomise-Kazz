@@ -1,25 +1,10 @@
 title: <0>Wisdomise Token</0><1>WSDM</1>
 airdrop:
-  title: Airdrop
-  description: >-
-    Airdrop Tokens are distributed to eligible participants who took part in our
-    campaigns. More info available on our socials.
-  calculation: Calculation
-  check: Check Eligibility
-  claim: Claim
   countdown:
     days: days
     hours: hours
     minutes: minutes
     seconds: seconds
-  eligibility:
-    claim: Claim Now
-    eligible: Congrats! You are <1>eligible</1> to receive $WSDM airdrop in this phase!
-    not-eligible: >-
-      Oops! You are <1>not eligible</1> to receive $WSDM airdrop in this phase!
-      Try your chance in the next phases!
-    share: Share With Community
-  now: Now
 balance:
   title: WSDM Token
   subtitle: Balance
@@ -49,34 +34,9 @@ migration:
     to WSDM Tokens (1:1 ratio) here.
   migrate: Migrate Now
 utility:
-  subtitle: Utility Activation
-  description: Utilities your WSDM Tokens to get access to the Wisdomise Platform
-  activate: Activate
-  activate-sub: Activate Subscription
-  already-active: You already have an active subscription.
-  amount: Amount
-  current-sub: Your Current Subscription Plan
-  loading: Loading
-  lock-description: Lock your $WSDM tokens to gain access to our products.
-  lock-tokens: Lock Tokens
-  lock-tooltip: >-
-    You already have an active subscription, you either need wait until it ends
-    to utilize your tokens to get access.
-  lock-wsdm: Lock WSDM
-  locked: Locked
-  pending-unlock: Pending for Unlock
-  pending-withdrawal: Pending for Withdrawal
-  ready: Ready
-  remaining-time: 'Remaining Time:'
-  unlock: Unlock
   unlock-modal:
     title: Unlock WSDM tokens
-    description: >-
-      By unlocking your WSDM tokens, you are opting out of our subscription
-      services. <1></1><2>Withdrawals are available in 7 days.</2>
     amount: Amount
-    cancel-sub: Cancel Subscription
-    days: 7 Days
     downgrade-warn: 'Warning: your current subscription will be downgraded to free plan.'
     not-now: Not Now
     withdraw-available: Withdraw available in
