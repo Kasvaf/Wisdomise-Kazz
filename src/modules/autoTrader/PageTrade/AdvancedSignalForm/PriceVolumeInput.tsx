@@ -36,7 +36,7 @@ const InternalInput: React.FC<{
       value={value}
       onChange={resize}
       className={clsx(
-        '-mr-32 max-w-[calc(40%+128px)] bg-transparent pr-32 outline-none',
+        '-mr-32 max-w-[calc(40%+168px)] bg-transparent pr-32 outline-none',
         readonly && 'text-white/50',
         className,
       )}
