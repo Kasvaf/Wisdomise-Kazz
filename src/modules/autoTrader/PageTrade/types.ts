@@ -1,6 +1,6 @@
 export interface TraderInputs {
-  slug: string;
   positionKey?: string;
+  slug: string;
   quote: string;
   setQuote: (newVal: string) => void;
 }

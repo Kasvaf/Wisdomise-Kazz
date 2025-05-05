@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
 import { useActiveWallet } from 'api/chains';
 import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
-import { type SwapState } from '../QuickSwap/useSwapState';
-import useActionHandlers from '../QuickSwap/useActionHandlers';
+import { type SwapState } from './useSwapState';
+import useActionHandlers from './useActionHandlers';
 
 const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   state,

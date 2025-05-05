@@ -1,54 +1,57 @@
 import { useEffect, useState } from 'react';
+import useIsMobile from 'utils/useIsMobile';
 import Trader from '../PageTrade/Trader';
-import useSwapState from '../QuickSwap/useSwapState';
+import { type TraderInputs } from '../PageTrade/types';
 import { ModeSelector, type TraderModes } from './ModeSelector';
+import useSwapState from './useSwapState';
 import BuyForm from './BuyForm';
 import SellForm from './SellForm';
 
-const BuySellTrader = ({
-  slug,
-  setQuote,
-  loadingClassName,
-}: {
-  slug: string;
-  quote: string;
-  setQuote: (newVal: string) => void;
-  loadingClassName?: string;
-}) => {
-  const [mode, setMode] = useState<TraderModes>('buy');
-  const state = useSwapState();
+const BuySellForms: React.FC<
+  TraderInputs & { mode: 'buy' | 'sell' }
+> = inputs => {
+  const { mode, slug } = inputs;
+  const swapState = useSwapState(inputs);
 
-  const { setDir, setIsMarketPrice, setBase, quote } = state;
+  const { setDir, setIsMarketPrice, setBase } = swapState;
   useEffect(() => {
     setBase(slug);
   }, [setBase, slug]);
 
   useEffect(() => {
-    setQuote(quote);
-  }, [quote, setQuote]);
-
-  useEffect(() => {
-    if (mode !== 'auto') {
-      setDir(mode);
-      setIsMarketPrice(true);
-    }
+    setDir(mode);
+    setIsMarketPrice(true);
   }, [mode, setDir, setIsMarketPrice]);
 
   return (
-    <div className="[&_.id-input]:bg-v1-surface-l2">
-      <ModeSelector mode={mode} setMode={setMode} className="mb-4" />
+    <>
+      {mode === 'buy' && <BuyForm state={swapState} />}
+      {mode === 'sell' && <SellForm state={swapState} />}
+    </>
+  );
+};
 
-      {mode === 'auto' && (
-        <Trader
-          quote={quote}
-          setQuote={setQuote}
-          slug={slug}
-          loadingClassName={loadingClassName}
-        />
+const BuySellTrader: React.FC<
+  TraderInputs & {
+    loadingClassName?: string;
+  }
+> = inputs => {
+  const isMobile = useIsMobile();
+
+  const { positionKey } = inputs;
+  const [mode, setMode] = useState<TraderModes>(positionKey ? 'auto' : 'buy');
+
+  return (
+    <div className="[&_.id-input]:bg-v1-surface-l2">
+      {!positionKey && (
+        <ModeSelector mode={mode} setMode={setMode} className="mb-4" />
       )}
 
-      {mode === 'buy' && <BuyForm state={state} />}
-      {mode === 'sell' && <SellForm state={state} />}
+      {mode === 'auto' ? (
+        <Trader isMinimal={isMobile} {...inputs} />
+      ) : (
+        <BuySellForms mode={mode} {...inputs} />
+      )}
     </div>
   );
 };

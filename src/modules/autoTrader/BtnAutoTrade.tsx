@@ -5,8 +5,7 @@ import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import useTradeDrawer from './PageTrade/useTradeDrawer';
-import useQuickTradeDrawer from './PageTrade/QuickTradeDrawer/useQuickTradeDrawer';
+import useTraderDrawer from './BuySellTrader/useTraderDrawer';
 
 export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   slug,
@@ -17,8 +16,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const isSupported = !!supportedPairs?.length;
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-  const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
-  const [QuickTradeDrawer, openQuickTradeDrawer] = useQuickTradeDrawer();
+  const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   const wallet = useActiveWallet();
 
@@ -30,10 +28,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const open = async () => {
     if (!(await ensureAuthenticated())) return;
     if (!wallet.connected && !(await wallet.connect())) return;
-
-    isMobile
-      ? openQuickTradeDrawer({ slug: normSlug ?? '' })
-      : openTradeDrawer({ slug: normSlug ?? '' });
+    openTraderDrawer({ slug: normSlug ?? '' });
   };
 
   return (
@@ -48,12 +43,11 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       <div>
         {isLoggedIn && isSupported && !isLoading && (
           <ActiveNetworkProvider base={normSlug} setOnLayout>
-            {TradeDrawer}
-            {QuickTradeDrawer}
+            {TraderDrawer}
           </ActiveNetworkProvider>
         )}
 
-        <div>Auto Trade</div>
+        <div>Buy & Sell</div>
         {!isSupported && !isLoading && (
           <div className="text-xxs">Not Supported</div>
         )}

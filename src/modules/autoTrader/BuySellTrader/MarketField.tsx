@@ -2,7 +2,7 @@ import { roundSensible } from 'utils/numbers';
 import { Toggle } from 'shared/Toggle';
 import Spin from 'shared/Spin';
 import AmountInputBox from 'shared/AmountInputBox';
-import { type SwapState } from '../QuickSwap/useSwapState';
+import { type SwapState } from './useSwapState';
 
 const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
   const { to, from, isMarketPrice, setIsMarketPrice } = state;

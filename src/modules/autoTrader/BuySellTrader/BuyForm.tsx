@@ -5,8 +5,8 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import { ReactComponent as WalletIcon } from 'modules/base/wallet/wallet-icon.svg';
 import { Button } from 'shared/v1-components/Button';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
-import { type SwapState } from '../QuickSwap/useSwapState';
 import useSensibleSteps from '../PageTrade/AdvancedSignalForm/useSensibleSteps';
+import { type SwapState } from './useSwapState';
 import MarketField from './MarketField';
 import BtnBuySell from './BtnBuySell';
 

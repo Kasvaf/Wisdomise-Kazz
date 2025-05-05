@@ -5,13 +5,23 @@ import Spinner from 'shared/Spinner';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
 import { type TraderInputs } from './types';
+import useSyncFormState from './AdvancedSignalForm/useSyncFormState';
 
-export default function Trader(
-  inputs: TraderInputs & { loadingClassName?: string },
-) {
-  const { slug, positionKey, loadingClassName } = inputs;
+const Trader: React.FC<
+  TraderInputs & {
+    isMinimal?: boolean;
+    loadingClassName?: string;
+  }
+> = inputs => {
+  const { isMinimal, slug, positionKey, loadingClassName } = inputs;
   const position = useTraderPositionQuery({ positionKey });
   const formState = useSignalFormStates(inputs);
+  useSyncFormState({
+    formState,
+    baseSlug: slug,
+    activePosition: position.data,
+  });
+
   const {
     confirming: [confirming],
     firing: [firing],
@@ -26,6 +36,7 @@ export default function Trader(
       ) : (
         (!positionKey || !!position.data) && (
           <AdvancedSignalForm
+            isMinimal={isMinimal}
             baseSlug={slug}
             activePosition={position.data}
             className="max-w-full basis-1/3"
@@ -50,4 +61,6 @@ export default function Trader(
       )}
     </div>
   );
-}
+};
+
+export default Trader;

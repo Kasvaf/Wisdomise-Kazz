@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  useLastPriceQuery,
-  useSupportedNetworks,
-  useSupportedPairs,
-} from 'api';
+import { useLastPriceQuery, useSupportedNetworks } from 'api';
 import { useAccountBalance } from 'api/chains';
-import { useSymbolInfo, useSymbolsInfo } from 'api/symbol';
+import { useSymbolInfo } from 'api/symbol';
+import { type TraderInputs } from '../PageTrade/types';
 
-const useSwapState = () => {
+const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [base, setBase] = useState<string>();
-  const [quote, setQuote] = useState('tether');
   const [dir, setDir] = useState<'buy' | 'sell'>('buy');
   const [quoteAmount, setQuoteAmount] = useState('0');
   const [baseAmount, setBaseAmount] = useState('0');
@@ -19,15 +15,6 @@ const useSwapState = () => {
   const { data: quoteInfo } = useSymbolInfo(quote);
   const networks = useSupportedNetworks(base, quote);
   const selectedNet = networks?.[0] ?? 'solana';
-
-  const { data: pairs } = useSupportedPairs(base);
-  const firstQuote = pairs?.[0]?.quote?.slug;
-  useEffect(() => {
-    if (firstQuote) {
-      setQuote(firstQuote);
-    }
-  }, [firstQuote]);
-  const supportedQuotes = useSymbolsInfo(pairs?.map(x => x.quote.slug));
 
   const { data: quoteBalance, isLoading: quoteLoading } = useAccountBalance(
     quote,
@@ -61,7 +48,6 @@ const useSwapState = () => {
     coin: quote,
     coinInfo: quoteInfo,
     setCoin: setQuote,
-    useCoinList: useCallback(() => supportedQuotes, [supportedQuotes]),
 
     amount: quoteAmount,
     setAmount: setQuoteAmount,
