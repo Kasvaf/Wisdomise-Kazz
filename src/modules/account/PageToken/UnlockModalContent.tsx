@@ -1,7 +1,10 @@
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useInstantCancelMutation } from 'api';
-import { useWriteUnlock } from 'modules/account/PageToken/web3/locking/contract';
+import {
+  useReadLockedUsers,
+  useWriteUnlock,
+} from 'modules/account/PageToken/web3/locking/contract';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
 import { useUtility } from './web3/locking/useUtility';
@@ -16,6 +19,13 @@ export default function UnlockModalContent({
   const { writeAndWait, isWaiting, isPending } = useWriteUnlock();
   const { mutateAsync: cancelSub, isPending: isCanceling } =
     useInstantCancelMutation();
+  const { data } = useReadLockedUsers();
+
+  const cooldown = data?.configId
+    ? data.configId === 1n
+      ? '7 Days'
+      : '1 Month'
+    : 'Loading';
 
   const unlock = async () => {
     await writeAndWait();
@@ -45,7 +55,7 @@ export default function UnlockModalContent({
           <h2 className="mb-2 text-xs text-v1-content-secondary">
             {t('utility.unlock-modal.withdraw-available')}
           </h2>
-          <div className="text-xl font-semibold">1 Month</div>
+          <div className="text-xl font-semibold">{cooldown}</div>
         </div>
         <div>
           <h2 className="mb-2 text-xs text-v1-content-secondary">
