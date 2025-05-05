@@ -85,7 +85,7 @@ const PriceVolumeInput: React.FC<{
   const disPrc = !!appliedAt || disabledPrice;
 
   return (
-    <div className={clsx('w-full', className)}>
+    <div className={clsx('w-full min-w-0', className)}>
       {label && <label className="mb-2 ml-2 block">{label}</label>}
       <div className="flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2">
         <Tooltip
