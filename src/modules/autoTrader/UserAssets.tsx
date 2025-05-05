@@ -1,14 +1,23 @@
 import { clsx } from 'clsx';
 import React from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { type UserAssetPair, useUserAssets } from 'api';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
 import Spin from 'shared/Spin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useUserAssets } from 'api';
+import { useUserWalletAssets } from 'api/chains';
+import { isMiniApp } from 'utils/version';
 
-const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
+interface AssetData {
+  slug: string;
+  amount: number;
+  network?: string;
+  usd_equity?: number;
+}
+
+const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
   const { slug: activeCoinSlug } = useParams<{ slug: string }>();
 
@@ -34,9 +43,11 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
 
           <div>
             <div className="text-xs font-medium">{baseInfo?.abbreviation}</div>
-            <div className="text-xxs font-normal text-v1-content-secondary">
-              ${roundSensible(asset.usd_equity / asset.amount)}
-            </div>
+            {asset.usd_equity != null && (
+              <div className="text-xxs font-normal text-v1-content-secondary">
+                ${roundSensible(asset.usd_equity / asset.amount)}
+              </div>
+            )}
           </div>
         </div>
       ) : baseLoading ? (
@@ -46,9 +57,11 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
       )}
       <div className="text-end">
         <div className="text-xs font-medium">{roundSensible(asset.amount)}</div>
-        <div className="text-xxs font-normal text-v1-content-secondary">
-          ${roundSensible(asset.usd_equity)}
-        </div>
+        {asset.usd_equity != null && (
+          <div className="text-xxs font-normal text-v1-content-secondary">
+            ${roundSensible(asset.usd_equity)}
+          </div>
+        )}
       </div>
     </NavLink>
   );
@@ -60,21 +73,17 @@ interface Props {
   containerClassName?: string;
 }
 
-const UserAssetsInternal: React.FC<Props> = ({
-  noTotal,
-  className,
-  containerClassName,
-}) => {
-  const { data: assets, isLoading } = useUserAssets();
-
-  const totalAssets = assets?.reduce((a, b) => a + b.usd_equity, 0);
-  if (isLoading || !assets?.length) return null;
-
+const UserAssetsInternal: React.FC<
+  Props & { title: string; data?: AssetData[] | null }
+> = ({ title, data, className, containerClassName }) => {
+  if (!data?.length) return null;
+  const totalAssets = data?.reduce((a, b) => a + (b.usd_equity ?? 0), 0);
   return (
     <div className={className}>
-      {!noTotal && (
-        <div className="mb-4 flex justify-center text-2xl font-semibold">
-          <ReadableNumber value={totalAssets} label="$" />
+      {(totalAssets > 0 || title) && (
+        <div className="mb-2 flex justify-center gap-2 text-sm">
+          {title ? title + (totalAssets > 0 ? ': ' : '') : ' '}
+          {totalAssets > 0 && <ReadableNumber value={totalAssets} label="$" />}
         </div>
       )}
 
@@ -84,7 +93,7 @@ const UserAssetsInternal: React.FC<Props> = ({
           containerClassName,
         )}
       >
-        {assets?.map((asset, ind, arr) => (
+        {data?.map((asset, ind, arr) => (
           <React.Fragment key={asset.slug}>
             <UserAsset asset={asset} />
 
@@ -100,6 +109,31 @@ const UserAssetsInternal: React.FC<Props> = ({
 
 export default function UserAssets(props: Props) {
   const isLoggedIn = useIsLoggedIn();
-  if (!isLoggedIn) return null;
-  return <UserAssetsInternal {...props} />;
+
+  const { data: tradingAssets, isLoading: loadingTraderAssets } =
+    useUserAssets();
+  const { data: walletAssets, isLoading: loadingWalletAssets } =
+    useUserWalletAssets(isMiniApp ? 'the-open-network' : 'solana');
+
+  if (
+    !isLoggedIn ||
+    (loadingTraderAssets && loadingWalletAssets) ||
+    (!tradingAssets?.length && !walletAssets?.length)
+  )
+    return null;
+
+  return (
+    <div className="flex flex-col gap-2">
+      <UserAssetsInternal
+        title="Trading Assets"
+        data={tradingAssets}
+        {...props}
+      />
+      <UserAssetsInternal
+        title="Wallet Assets"
+        data={walletAssets}
+        {...props}
+      />
+    </div>
+  );
 }

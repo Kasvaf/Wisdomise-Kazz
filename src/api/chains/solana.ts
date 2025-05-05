@@ -13,7 +13,7 @@ import { useCallback } from 'react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { useSymbolInfo } from 'api/symbol';
-import { usePromiseOfEffect } from './utils';
+import { queryContractSlugs, usePromiseOfEffect } from './utils';
 
 export type AutoTraderSolanaSupportedQuotes =
   | 'tether'
@@ -105,6 +105,64 @@ export const useSolanaAccountBalance = (slug?: string) => {
     refetchInterval: 10_000,
     staleTime: 500,
     enabled: !!contract,
+  });
+};
+
+export const useSolanaUserAssets = () => {
+  const { connection } = useConnection();
+  const { publicKey } = useWallet();
+
+  return useQuery({
+    queryKey: ['solana-user-assets', publicKey?.toString()],
+    queryFn: async () => {
+      if (!publicKey) return [];
+
+      try {
+        const [solBalance, tokenAccounts] = await Promise.all([
+          // native SOL balance
+          connection.getBalance(publicKey),
+
+          // all token accounts owned by the user
+          connection.getParsedTokenAccountsByOwner(publicKey, {
+            programId: TOKEN_PROGRAM_ID,
+          }),
+        ]);
+        // Map token accounts to a more usable format
+        const assets = tokenAccounts.value
+          .map(account => {
+            const { mint, tokenAmount } = account.account.data.parsed.info;
+            return {
+              address: mint,
+              amount: +fromBigMoney(tokenAmount.amount, tokenAmount.decimals),
+            };
+          })
+          .filter(token => Number(token.amount) > 0);
+
+        const slugOf = await queryContractSlugs(assets.map(x => x.address));
+        const assetBalances = assets.map(x => ({
+          network: 'solana',
+          slug: slugOf[x.address],
+          amount: x.amount,
+        }));
+
+        // Add native SOL to the list
+        if (solBalance > 9) {
+          assetBalances.unshift({
+            network: 'solana',
+            slug: 'solana',
+            amount: +fromBigMoney(solBalance, 9),
+          });
+        }
+
+        return assetBalances.filter(x => x.slug);
+      } catch (error) {
+        console.error('Error fetching token accounts:', error);
+        throw new Error('Failed to fetch user assets');
+      }
+    },
+    refetchInterval: 30_000, // Refresh every 30 seconds
+    staleTime: 5000,
+    enabled: !!publicKey,
   });
 };
 

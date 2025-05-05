@@ -8,12 +8,14 @@ import {
   useAwaitSolanaWalletConnection,
   useSolanaAccountBalance,
   useSolanaTransferAssetsMutation,
+  useSolanaUserAssets,
 } from './solana';
 import {
   type AutoTraderTonSupportedQuotes,
   useAccountJettonBalance,
   useAwaitTonWalletConnection,
   useTonTransferAssetsMutation,
+  useTonUserAssets,
 } from './ton';
 
 export const useDisconnectAll = () => {
@@ -91,6 +93,20 @@ export const useAccountBalance = (
   const tonResult = useAccountJettonBalance(
     net === 'the-open-network' ? quote : undefined,
   );
+
+  if (net === 'solana') return solResult;
+  if (net === 'the-open-network') return tonResult;
+  return { data: null, isLoading: false };
+};
+
+export const useUserWalletAssets = (
+  network?: 'solana' | 'the-open-network' | null,
+) => {
+  const activeNet = useActiveNetwork();
+  const net = network ?? activeNet;
+
+  const solResult = useSolanaUserAssets();
+  const tonResult = useTonUserAssets();
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;

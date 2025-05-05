@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { ofetch } from 'config/ofetch';
 
 export function usePromiseOfEffect({
   action,
@@ -34,3 +35,26 @@ export function usePromiseOfEffect({
 
   return awaitConnection;
 }
+
+const cachedMappings: Record<string, string> = {};
+export const queryContractSlugs = async (assets: string[]) => {
+  const newKeys = assets.filter(x => !cachedMappings[x]).join(',');
+  if (newKeys) {
+    const mappings = await ofetch<
+      Array<{
+        slug: string;
+        source_id: string;
+      }>
+    >('/delphi/market/symbol-mappings/', {
+      query: {
+        source: 'solana',
+        source_ids: newKeys,
+      },
+    });
+    const newMappings = Object.fromEntries(
+      mappings.map(x => [x.source_id, x.slug]),
+    );
+    Object.assign(cachedMappings, newMappings);
+  }
+  return cachedMappings;
+};
