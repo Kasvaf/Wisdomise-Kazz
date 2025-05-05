@@ -20,15 +20,8 @@ const QuickSwapForm: React.FC<{
   state: SwapState;
   className?: string;
 }> = ({ state }) => {
-  const {
-    selectedNet,
-    dir,
-    from,
-    to,
-    swapFromTo,
-    isMarketPrice,
-    setIsMarketPrice,
-  } = state;
+  const { selectedNet, from, to, swapFromTo, isMarketPrice, setIsMarketPrice } =
+    state;
   const selectedNetAbr = NET_ABR[selectedNet];
   const { ModalApproval, firePosition, isEnabled, isSubmitting } =
     useActionHandlers(state);
@@ -186,10 +179,7 @@ const QuickSwapForm: React.FC<{
                 )}
                 onChange={newVal =>
                   to.setAmount(
-                    roundSensible(
-                      (((dir === 'buy' ? -1 : 1) * +newVal) / 100 + 1) *
-                        marketToAmount,
-                    ),
+                    roundSensible((+newVal / 100 + 1) * marketToAmount),
                   )
                 }
               />

@@ -34,7 +34,7 @@ const TraderButtons = () => {
         variant="ghost"
         className={clsx(
           isMobile ? '!px-4' : '!px-2',
-          pathname.startsWith('/trader/quests') && '!text-v1-content-notice',
+          '!text-v1-content-notice',
         )}
         surface={isMobile ? 2 : 3}
       >

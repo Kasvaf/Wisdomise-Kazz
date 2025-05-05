@@ -90,6 +90,8 @@ const PartTpSl: React.FC<{
             <div className="flex items-center">
               <div className="mr-1">{ind + 1}.</div>
               <PriceVolumeInput
+                basePrice={assetPrice}
+                dirPrice={type === 'TP' ? '+' : '-'}
                 price={String(item.priceExact)}
                 onPriceChange={val =>
                   setItems(

@@ -46,7 +46,9 @@ export default function Leaderboard({
             participants[index].promotion_status !==
               participants[index - 1].promotion_status
           }
-          hasReward={p.rank <= (rewardedUsersMinRank ?? 0)}
+          hasReward={
+            !!p.trading_volume && p.rank <= (rewardedUsersMinRank ?? 0)
+          }
           isTopLevel={isTopLevel}
         />
       ))}
@@ -54,6 +56,7 @@ export default function Leaderboard({
         <LeaderboardItem
           className="fixed bottom-4 end-0 start-0 mx-24 ml-[calc(var(--side-menu-width)+6rem)] hidden border border-v1-border-primary/40 mobile:mx-12 mobile:block"
           participant={me}
+          isTopLevel={isTopLevel}
         />
       )}
     </div>
