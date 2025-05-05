@@ -44,7 +44,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const { data: generalLockingRequirement } = useLockingRequirementQuery(
     plan.price,
   );
-  const { refetch: lockStateRefetch, isLoading: lockStateIsPending } =
+  const { refetch: lockStateRefetch, isFetching: lockStateIsFetching } =
     useLockingStateQuery();
   const { disconnect } = useDisconnect();
 
@@ -153,7 +153,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
       <div className="max-w-72">
         {canSubscribe ? (
           <Button
-            loading={paymentIsPending || lockStateIsPending}
+            loading={paymentIsPending || lockStateIsFetching}
             onClick={activate}
             className="mb-6 w-full"
           >

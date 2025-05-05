@@ -27,7 +27,7 @@ import flash from './flash.png';
 import gradient2 from './gradient-2.png';
 
 export default function SubscriptionDetail() {
-  const { plan, currentPeriodEnd, level } = useSubscription();
+  const { plan, currentPeriodEnd, level, group } = useSubscription();
   const { data: lockState } = useLockingStateQuery();
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useInstantCancelMutation();
@@ -65,48 +65,59 @@ export default function SubscriptionDetail() {
             <div className="rounded-xl bg-v1-surface-l2 p-5">
               <h2 className="mb-5 font-medium">Stake Info</h2>
               <div className="grid grid-cols-2 gap-y-16 rounded-xl border border-v1-inverse-overlay-10 px-5 py-4 mobile:grid-cols-1">
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-xl font-semibold">
-                    {plan?.name}{' '}
-                    {level > 0 && (
-                      <img
-                        src={wiseClub}
-                        alt="wise-club"
-                        className="ml-1 inline h-5"
-                      />
-                    )}
-                  </h3>
-                  <p className="text-xs text-v1-inverse-overlay-50">
-                    {plan?.periodicity.toLowerCase()}
-                  </p>
-                  <p className="text-xs font-medium text-v1-inverse-overlay-70">
-                    Subscription Plan
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="gap-2 text-xl font-semibold">
-                    {dayjs(currentPeriodEnd ?? 0).fromNow(true)}{' '}
-                    <span className="text-sm font-normal">Left</span>
-                  </h3>
-                  <p className="text-xs text-v1-inverse-overlay-50">
-                    {dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
-                  </p>
-                  <p className="text-xs font-medium text-v1-inverse-overlay-70">
-                    Expires On
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="gap-2 text-xl font-semibold">
-                    {addComma(lockState?.locked_wsdm_balance)}{' '}
-                    <span className="text-sm font-normal">WSDM</span>
-                  </h3>
-                  <p className="text-xs text-v1-inverse-overlay-50">
-                    ${lockState?.locked_wsdm_balance_usd}
-                  </p>
-                  <p className="text-xs font-medium text-v1-inverse-overlay-70">
-                    Current Staked Amount
-                  </p>
-                </div>
+                {group === 'free' ? (
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-xl font-semibold">Free</h3>
+                    <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                      Subscription Plan
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-xl font-semibold">
+                        {plan?.name}{' '}
+                        {level > 0 && (
+                          <img
+                            src={wiseClub}
+                            alt="wise-club"
+                            className="ml-1 inline h-5"
+                          />
+                        )}
+                      </h3>
+                      <p className="text-xs text-v1-inverse-overlay-50">
+                        {plan?.periodicity.toLowerCase()}
+                      </p>
+                      <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                        Subscription Plan
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="gap-2 text-xl font-semibold">
+                        {dayjs(currentPeriodEnd ?? 0).fromNow(true)}{' '}
+                        <span className="text-sm font-normal">Left</span>
+                      </h3>
+                      <p className="text-xs text-v1-inverse-overlay-50">
+                        {dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
+                      </p>
+                      <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                        Expires On
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="gap-2 text-xl font-semibold">
+                        {addComma(lockState?.locked_wsdm_balance)}{' '}
+                        <span className="text-sm font-normal">WSDM</span>
+                      </h3>
+                      <p className="text-xs text-v1-inverse-overlay-50">
+                        ${lockState?.locked_wsdm_balance_usd}
+                      </p>
+                      <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                        Current Staked Amount
+                      </p>
+                    </div>
+                  </>
+                )}
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-semibold">$0</h3>
                   <p className="text-xs text-v1-inverse-overlay-50">
@@ -168,7 +179,7 @@ export default function SubscriptionDetail() {
               <Referral />
             </div>
           </div>
-          {level > 0 && (
+          {group !== 'free' && (
             <div className="relative mt-3 overflow-hidden rounded-xl bg-v1-surface-l2 p-5">
               <img
                 src={flash}

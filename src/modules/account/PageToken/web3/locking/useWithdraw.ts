@@ -1,18 +1,22 @@
 import { notification } from 'antd';
 import { useWriteWithdraw } from 'modules/account/PageToken/web3/locking/contract';
+import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWalletConnected';
 import { useUtility } from './useUtility';
 
 export function useWithdraw() {
   const { refetchUnlockedInfo, refetchLockedInfo } = useUtility();
   const { writeAndWait, isPending, isWaiting } = useWriteWithdraw();
+  const ensureWalletConnected = useEnsureWalletConnected();
 
   const withdraw = async () => {
-    await writeAndWait();
-    notification.success({
-      message: 'You claimed your tokens successfully.',
-    });
-    void refetchUnlockedInfo();
-    void refetchLockedInfo();
+    if (ensureWalletConnected()) {
+      await writeAndWait();
+      notification.success({
+        message: 'You claimed your tokens successfully.',
+      });
+      void refetchUnlockedInfo();
+      void refetchLockedInfo();
+    }
   };
 
   return {

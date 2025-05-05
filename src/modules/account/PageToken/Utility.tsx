@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import useModal from 'shared/useModal';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
@@ -10,7 +9,6 @@ import { useVipModal } from 'modules/account/PageBilling/useVipModal';
 import { useUtility } from './web3/locking/useUtility';
 
 export default function Utility() {
-  const { t } = useTranslation('wisdomise-token');
   const { unlockedBalance, withdrawTimestamp, utilityStatus } = useUtility();
 
   const [unlockModal, openUnlockModal] = useModal(UnlockModalContent, {
@@ -72,7 +70,7 @@ export default function Utility() {
           </div>
         </div>
       ) : utilityStatus === 'pending_withdraw' ? (
-        <div className="flex items-end justify-between">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="flex flex-col gap-2">
             <h3 className="gap-2 text-xl font-semibold">Ready to Withdraw</h3>
             <p className="text-xs text-v1-inverse-overlay-50">
@@ -88,7 +86,11 @@ export default function Utility() {
             loading={isPending || isWaiting}
             onClick={() => withdraw()}
           >
-            {t('utility.withdraw')}
+            {isPending
+              ? 'Waiting for withdraw signature'
+              : isWaiting
+              ? 'Withdraw transaction is confirming'
+              : 'Withdraw'}
           </Button>
         </div>
       ) : null}
