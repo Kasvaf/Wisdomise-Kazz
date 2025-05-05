@@ -170,19 +170,35 @@ export const Dialog: FC<{
 
   overlay = true,
 
-  popupConfig,
-  modalConfig,
-  drawerConfig,
+  popupConfig: userPopupConfig,
+  modalConfig: userModalConfig,
+  drawerConfig: userDrawerConfig,
 }) => {
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
   const state = useTransition(isOpen, 250);
   const lastFocus = useRef<HTMLElement | null>(null);
 
+  const drawerConfig: Required<NonNullable<typeof userDrawerConfig>> = {
+    closeButton: true,
+    position: 'bottom',
+    ...userDrawerConfig,
+  };
+
+  const modalConfig: Required<NonNullable<typeof userModalConfig>> = {
+    closeButton: true,
+    ...userDrawerConfig,
+  };
+
+  const popupConfig: Required<NonNullable<typeof userPopupConfig>> = {
+    position: 'pointer',
+    ...userPopupConfig,
+  };
+
   const popupPosition = usePopupPosition(
     root,
     (state === true || (isOpen && state === null)) && mode === 'popup',
-    popupConfig?.position ?? 'target',
+    popupConfig.position,
   );
 
   const toggle = useCallback(
@@ -238,15 +254,15 @@ export const Dialog: FC<{
                 className={clsx(
                   'fixed z-[9999] overflow-auto bg-[--current-color] transition-[transform,opacity] duration-100 ease-in-out scrollbar-thin mobile:duration-300',
                   mode === 'drawer' && [
-                    drawerConfig?.position === 'bottom' && [
+                    drawerConfig.position === 'bottom' && [
                       'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
                       state ? 'translate-y-0' : 'translate-y-full',
                     ],
-                    drawerConfig?.position === 'start' && [
+                    drawerConfig.position === 'start' && [
                       'inset-y-0 start-0 h-full max-w-[40vw] rounded-e-2xl',
                       state ? 'translate-x-0' : '-translate-x-full',
                     ],
-                    drawerConfig?.position === 'end' && [
+                    drawerConfig.position === 'end' && [
                       'inset-y-0 end-0 h-full max-w-[40vw] rounded-s-2xl',
                       state ? 'translate-x-0' : 'translate-x-full',
                     ],
@@ -271,10 +287,10 @@ export const Dialog: FC<{
               >
                 <div className="sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-[--current-color] bg-gradient-to-b empty:hidden">
                   {mode === 'drawer' &&
-                    drawerConfig?.closeButton !== false &&
-                    drawerConfig?.position === 'bottom' && (
+                    drawerConfig.closeButton &&
+                    drawerConfig.position === 'bottom' && (
                       <div
-                        className="h-[6px] w-full max-w-12 shrink-0 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
+                        className="mt-3 h-[6px] w-full max-w-12 shrink-0 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
                         onClick={e => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -283,10 +299,10 @@ export const Dialog: FC<{
                         }}
                       />
                     )}
-                  {((mode === 'modal' && modalConfig?.closeButton !== false) ||
+                  {((mode === 'modal' && modalConfig.closeButton) ||
                     (mode === 'drawer' &&
-                      drawerConfig?.position !== 'bottom' &&
-                      drawerConfig?.closeButton !== false)) && (
+                      drawerConfig.position !== 'bottom' &&
+                      drawerConfig.closeButton)) && (
                     <button
                       className={clsx(
                         'absolute end-3 top-3 z-50 flex size-5 items-center justify-center rounded-full opacity-60 backdrop-blur backdrop-brightness-75 hover:opacity-100 active:opacity-100',
