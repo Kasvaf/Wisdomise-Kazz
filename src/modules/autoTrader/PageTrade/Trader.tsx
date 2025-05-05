@@ -1,11 +1,10 @@
-import { clsx } from 'clsx';
-import { Spin } from 'antd';
 import { useTraderPositionQuery } from 'api';
 import Spinner from 'shared/Spinner';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
 import { type TraderInputs } from './types';
 import useSyncFormState from './AdvancedSignalForm/useSyncFormState';
+import FiringHolder from './FiringHolder';
 
 const Trader: React.FC<
   TraderInputs & {
@@ -28,7 +27,7 @@ const Trader: React.FC<
   } = formState;
 
   return (
-    <div className="relative">
+    <div>
       {positionKey && position.isLoading ? (
         <div className="my-8 flex justify-center">
           <Spinner />
@@ -46,18 +45,7 @@ const Trader: React.FC<
       )}
 
       {(confirming || firing) && (
-        <div
-          className={clsx(
-            'flex items-center justify-center gap-2 text-sm',
-            'absolute inset-0 rounded-sm',
-            loadingClassName,
-          )}
-        >
-          <Spin size="small" />
-          {firing
-            ? 'Creating the trading plan...'
-            : 'Confirming transaction on network...'}
-        </div>
+        <FiringHolder className={loadingClassName} firing={firing} />
       )}
     </div>
   );

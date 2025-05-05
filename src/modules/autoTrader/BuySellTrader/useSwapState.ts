@@ -10,6 +10,8 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [quoteAmount, setQuoteAmount] = useState('0');
   const [baseAmount, setBaseAmount] = useState('0');
   const [isMarketPrice, setIsMarketPrice] = useState(true);
+  const confirming = useState(false);
+  const firing = useState(false);
 
   const { data: baseInfo } = useSymbolInfo(base);
   const { data: quoteInfo } = useSymbolInfo(quote);
@@ -96,6 +98,8 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
 
     quoteAmount,
     baseAmount,
+    confirming,
+    firing,
 
     dir,
     setDir,

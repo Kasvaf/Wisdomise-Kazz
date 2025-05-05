@@ -12,7 +12,7 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
 
   return (
     <>
-      <div className="space-y-4 [&_.id-line]:hidden">
+      <div className="relative space-y-4 [&_.id-line]:hidden">
         {isLoading ? (
           <div className="m-3 flex justify-center">
             <Spinner />
@@ -23,7 +23,7 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
               quote={quote}
               setQuote={setQuote}
               slug={slug}
-              loadingClassName="bg-v1-surface-l2"
+              loadingClassName="bg-v1-surface-l1"
             />
           </ActiveNetworkProvider>
         ) : (

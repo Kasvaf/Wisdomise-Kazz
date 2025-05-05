@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
@@ -27,6 +26,8 @@ const useActionHandlers = (state: SwapState) => {
     dir,
 
     isMarketPrice,
+    firing: [firing, setFiring],
+    confirming: [, setConfirming],
   } = state;
   const { address } = useActiveWallet();
   const navigate = useNavigate();
@@ -34,7 +35,6 @@ const useActionHandlers = (state: SwapState) => {
   const { mutateAsync: cancelAsync } = useTraderCancelPositionMutation();
   const { mutateAsync, isPending: isSubmitting } =
     useTraderFirePositionMutation();
-  const [isFiring, setIsFiring] = useState(false);
 
   const transferAssetsHandler = useTransferAssetsMutation(from.coin);
 
@@ -102,15 +102,28 @@ const useActionHandlers = (state: SwapState) => {
     if (!(await showModalApproval(state, createData))) return;
 
     try {
+      setFiring(true);
       const res = await mutateAsync(createData);
 
       try {
-        setIsFiring(true);
-        await transferAssetsHandler({
+        const awaitConfirm = await transferAssetsHandler({
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
           amount: from.amount,
         });
+
+        setConfirming(true);
+        void awaitConfirm()
+          .then(res => {
+            if (res) {
+              notification.success({
+                message: 'Position created successfully',
+              });
+            }
+            return res;
+          })
+          .finally(() => setConfirming(false));
+
         navigate(`/trader/positions?slug=${base}`);
       } catch (error) {
         if (error instanceof TonConnectError) {
@@ -126,7 +139,7 @@ const useActionHandlers = (state: SwapState) => {
           positionKey: res.position_key,
         });
       } finally {
-        setIsFiring(false);
+        setFiring(false);
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -135,7 +148,7 @@ const useActionHandlers = (state: SwapState) => {
 
   return {
     isEnabled: !!network && !!base && !!quote && Number(from.amount) > 0,
-    isSubmitting: isFiring || isSubmitting,
+    isSubmitting: firing || isSubmitting,
     firePosition,
     ModalApproval,
   };
