@@ -160,7 +160,8 @@ export const CoinPreDetailModal: FC<
         closeButton: true,
       }}
       onClose={onClose}
-      className="bg-v1-surface-l4 p-3"
+      className="bg-v1-surface-l4"
+      contentClassName="p-3"
       surface={4}
       footer={
         coin && (
