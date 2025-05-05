@@ -47,11 +47,11 @@ export const HotCoinsMiniApp = () => {
 
               <div className="flex flex-col items-end">
                 <ReadableNumber
-                  value={coin.market_data.current_price}
+                  value={coin.market_data?.current_price}
                   label="$"
                 />
                 <DirectionalNumber
-                  value={coin.market_data.price_change_percentage_24h}
+                  value={coin.market_data?.price_change_percentage_24h}
                   showSign
                   className="text-[0.89em]"
                   showIcon={false}

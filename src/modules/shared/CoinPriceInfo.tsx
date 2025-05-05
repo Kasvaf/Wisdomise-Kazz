@@ -10,7 +10,7 @@ export function CoinPriceInfo({
 }: {
   className?: string;
   linesClassName?: string;
-  marketData: Pick<
+  marketData?: null | Pick<
     MiniMarketData,
     'current_price' | 'price_change_percentage_24h' | 'low_24h' | 'high_24h'
   >;
@@ -19,12 +19,12 @@ export function CoinPriceInfo({
     <span className={clsx('inline-flex flex-col', className)}>
       <div className={clsx('flex items-center gap-2 text-xs', linesClassName)}>
         <ReadableNumber
-          value={marketData.current_price}
+          value={marketData?.current_price}
           label="$"
           className="text-sm"
         />
         <DirectionalNumber
-          value={marketData.price_change_percentage_24h}
+          value={marketData?.price_change_percentage_24h}
           showSign
           showIcon={false}
           suffix="(24H)"
@@ -39,12 +39,12 @@ export function CoinPriceInfo({
       >
         <DirectionalNumber
           direction="down"
-          value={marketData.low_24h}
+          value={marketData?.low_24h}
           label="$"
         />
         <DirectionalNumber
           direction="up"
-          value={marketData.high_24h}
+          value={marketData?.high_24h}
           label="$"
         />
       </div>
