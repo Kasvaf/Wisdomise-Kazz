@@ -9,7 +9,7 @@ const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
   const { address, name } = useActiveWallet();
   const net = useActiveNetwork();
   const [done, setDone] = useState(false);
-  const quotesBalance = useAccountAllQuotesBalance();
+  const { isLoading, ...quotesBalance } = useAccountAllQuotesBalance();
   const [walletConnectedFirstTime, setWalletConnected] = useLocalStorage(
     'wallet-connected-first-time',
     false,
@@ -20,16 +20,7 @@ const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
   }, [address, net]);
 
   useEffect(() => {
-    if (
-      address &&
-      net &&
-      quotesBalance.tonBalance !== undefined &&
-      quotesBalance.tetherBalance !== undefined &&
-      quotesBalance.usdCoinBalance !== undefined &&
-      quotesBalance.solBalance !== undefined &&
-      name &&
-      !done
-    ) {
+    if (address && net && quotesBalance && name && !done && !isLoading) {
       track('wallet_connected', {
         network: net,
         wallet_name: name,
@@ -53,6 +44,7 @@ const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
     walletConnectedFirstTime,
     quotesBalance,
     done,
+    isLoading,
   ]);
 
   return <>{children}</>;

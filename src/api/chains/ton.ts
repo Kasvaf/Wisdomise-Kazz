@@ -77,11 +77,11 @@ const useJettonWalletAddress = (slug?: string) => {
 
 export const useAccountJettonBalance = (slug?: string) => {
   const address = useTonAddress();
-  const { data: { walletAddress, decimals } = {} } =
+  const { data: { walletAddress, decimals } = {}, isLoading: jettonIsLoading } =
     useJettonWalletAddress(slug);
   const addr = slug === 'the-open-network' ? address : walletAddress;
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ['accountJettonBalance', slug, addr],
     queryFn: async () => {
       if (!addr || !slug || !decimals) return null;
@@ -108,6 +108,10 @@ export const useAccountJettonBalance = (slug?: string) => {
     staleTime: 500,
     enabled: !!decimals,
   });
+  return {
+    ...query,
+    isLoading: query.isLoading || jettonIsLoading,
+  };
 };
 
 export const useTonTransferAssetsMutation = (slug?: string) => {
