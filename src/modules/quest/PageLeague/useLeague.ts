@@ -1,17 +1,22 @@
 import { useCallback, useMemo } from 'react';
-import {
-  type LeagueDetail,
-  useLeagueProfileQuery,
-  useLeaguesQuery,
-} from 'api/gamification';
+import { useLeagueProfileQuery, useLeaguesQuery } from 'api/gamification';
 import summit from './images/summit.png';
 import pioneer from './images/pioneer.png';
 import horizon from './images/horizon.png';
 
-const LEAGUE_ASSETS: Record<LeagueDetail['slug'], any> = {
-  'summit-league': { image: summit },
-  'pioneer-league': { image: pioneer },
-  'horizon-league': { image: horizon },
+const LEAGUE_ASSETS = {
+  'summit-league': {
+    image: summit,
+    description: '+ 3 randomly chosen winners who each receive $100.',
+  },
+  'pioneer-league': {
+    image: pioneer,
+    description: '+ 3 randomly chosen winners who each receive $50.',
+  },
+  'horizon-league': {
+    image: horizon,
+    description: '+ 3 randomly chosen winners who each receive $20.',
+  },
 };
 
 export default function useLeague() {
@@ -23,7 +28,7 @@ export default function useLeague() {
     () =>
       league?.details.map(d => ({
         ...d,
-        image: LEAGUE_ASSETS[d.slug].image,
+        ...LEAGUE_ASSETS[d.slug],
       })),
     [league?.details],
   );
