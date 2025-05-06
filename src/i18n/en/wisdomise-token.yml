@@ -40,7 +40,6 @@ utility:
     downgrade-warn: 'Warning: your current subscription will be downgraded to free plan.'
     not-now: Not Now
     withdraw-available: Withdraw available in
-  withdraw: Withdraw
 vesting:
   title: Vesting
   description: 'Private Token Rounds Are Shown Here:'
