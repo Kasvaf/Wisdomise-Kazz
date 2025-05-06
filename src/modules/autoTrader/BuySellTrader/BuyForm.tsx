@@ -9,33 +9,42 @@ import BtnBuySell from './BtnBuySell';
 
 const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    quoteFields: { balance: quoteBalance, amount, setAmount, balanceLoading },
-    quote,
-    setQuote,
-    base,
+    quote: {
+      slug: quoteSlug,
+      setSlug: setQuote,
+      balance,
+      amount,
+      setAmount,
+      balanceLoading,
+    },
+    base: { slug: baseSlug },
   } = state;
 
-  const steps = useSensibleSteps(quoteBalance);
+  const steps = useSensibleSteps(balance);
 
   return (
     <div>
       <AmountInputBox
-        max={quoteBalance || 0}
+        max={balance || 0}
         value={amount}
         onChange={setAmount}
         noSuffixPad
         suffix={
-          base &&
-          quote && (
-            <QuoteSelector baseSlug={base} value={quote} onChange={setQuote} />
+          baseSlug &&
+          quoteSlug && (
+            <QuoteSelector
+              baseSlug={baseSlug}
+              value={quoteSlug}
+              onChange={setQuote}
+            />
           )
         }
-        label={<AmountBalanceLabel slug={quote} setAmount={setAmount} />}
+        label={<AmountBalanceLabel slug={quoteSlug} setAmount={setAmount} />}
         className="mb-2"
-        disabled={balanceLoading || !quoteBalance}
+        disabled={balanceLoading || !balance}
       />
 
-      {Boolean(quoteBalance) && (
+      {Boolean(balance) && (
         <div className="mb-3 flex gap-1.5">
           {steps.map(({ label, value }) => (
             <Button

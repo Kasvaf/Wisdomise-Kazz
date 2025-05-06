@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLastPriceQuery, useSupportedNetworks } from 'api';
 import { useAccountBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
@@ -45,11 +45,11 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   });
 
   const quoteFields = {
+    slug: quote,
+    setSlug: setQuote,
     balance: quoteBalance,
     balanceLoading: quoteLoading,
-    coin: quote,
     coinInfo: quoteInfo,
-    setCoin: setQuote,
 
     amount: quoteAmount,
     setAmount: setQuoteAmount,
@@ -59,12 +59,11 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   };
 
   const baseFields = {
+    slug: base,
+    setSlug: setBase,
     balance: baseBalance,
     balanceLoading: baseLoading,
-    coin: base,
     coinInfo: baseInfo,
-    setCoin: undefined,
-    useCoinList: undefined,
 
     amount: baseAmount,
     setAmount: setBaseAmount,
@@ -87,29 +86,21 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
 
   return {
     selectedNet,
-    base,
-    setBase,
-    quote,
-    setQuote,
-    from,
-    to,
-    quoteFields,
-    baseFields,
 
-    quoteAmount,
-    baseAmount,
-    confirming,
-    firing,
+    base: baseFields,
+    quote: quoteFields,
 
     dir,
     setDir,
-    swapFromTo: useCallback(() => {
-      setDir(dir => (dir === 'buy' ? 'sell' : 'buy'));
-      setIsMarketPrice(true);
-    }, []),
 
     isMarketPrice,
     setIsMarketPrice,
+
+    from,
+    to,
+
+    confirming,
+    firing,
   };
 };
 

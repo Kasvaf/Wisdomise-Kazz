@@ -15,9 +15,9 @@ const BuySellForms: React.FC<
   const swapState = useSwapState(inputs);
 
   const {
+    base: { setSlug: setBase },
     setDir,
     setIsMarketPrice,
-    setBase,
     firing: [firing],
     confirming: [confirming],
   } = swapState;

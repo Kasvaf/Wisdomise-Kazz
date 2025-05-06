@@ -9,22 +9,25 @@ import BtnBuySell from './BtnBuySell';
 
 const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    baseFields: {
+    base: {
+      slug: baseSlug,
       balance: baseBalance,
-      amount,
-      setAmount,
       balanceLoading,
+      amount: baseAmount,
+      setAmount: setBaseAmount,
       priceByOther,
     },
     isMarketPrice,
-    quoteFields,
-    quote,
-    setQuote,
-    base,
+    quote: {
+      slug: quoteSlug,
+      setSlug: setQuote,
+      amount: quoteAmount,
+      setAmount: setQuoteAmount,
+    },
   } = state;
 
   const targetReady = priceByOther !== undefined;
-  const marketToAmount = +amount * Number(priceByOther);
+  const marketToAmount = +baseAmount * Number(priceByOther);
 
   const steps =
     baseBalance &&
@@ -37,10 +40,10 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
     <div>
       <AmountInputBox
         max={baseBalance || 0}
-        value={amount}
-        onChange={setAmount}
+        value={baseAmount}
+        onChange={setBaseAmount}
         noSuffixPad
-        label={<AmountBalanceLabel slug={base} setAmount={setAmount} />}
+        label={<AmountBalanceLabel slug={baseSlug} setAmount={setBaseAmount} />}
         className="mb-2"
         disabled={balanceLoading || !baseBalance}
       />
@@ -51,9 +54,9 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
             <Button
               key={value}
               size="xs"
-              variant={value === amount ? 'primary' : 'ghost'}
+              variant={value === baseAmount ? 'primary' : 'ghost'}
               className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
-              onClick={() => setAmount(value)}
+              onClick={() => setBaseAmount(value)}
               surface={2}
             >
               {label}
@@ -69,13 +72,17 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
             ? targetReady
               ? roundSensible(marketToAmount)
               : '...'
-            : quoteFields.amount
+            : quoteAmount
         }
-        onChange={quoteFields.setAmount}
+        onChange={setQuoteAmount}
         suffix={
-          base &&
-          quote && (
-            <QuoteSelector baseSlug={base} value={quote} onChange={setQuote} />
+          baseSlug &&
+          quoteSlug && (
+            <QuoteSelector
+              baseSlug={baseSlug}
+              value={quoteSlug}
+              onChange={setQuote}
+            />
           )
         }
         className="mb-3"
