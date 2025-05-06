@@ -19,6 +19,7 @@ function unparam(
 }
 
 const defaultFlags = [
+  '/quick-swap',
   '/coin-radar',
   '/coin-radar/overview',
   '/coin-radar/social-radar?side-suggestion',

@@ -1,5 +1,5 @@
 import { AnalyticsBrowser, type UserTraits } from '@segment/analytics-next';
-import { isLocal, isProduction } from 'utils/version';
+import { isDebugMode, isLocal, isProduction } from 'utils/version';
 
 export const analytics = new AnalyticsBrowser();
 
@@ -25,6 +25,7 @@ export const appendTraits = async (traits: UserTraits) => {
 export const trackClick =
   (place: string, rest: Record<string, any> = {}) =>
   () => {
+    isDebugMode && console.log('click_on', place, rest);
     void analytics.track('click_on', { place, location: 'dashboard', ...rest });
   };
 
@@ -37,6 +38,7 @@ export const track = (
     | 'stake_completed',
   payload: Record<string, string | number | undefined | null> = {},
 ) => {
+  isDebugMode && console.log(eventName, payload);
   void analytics.track(eventName, {
     location: 'dashboard',
     ...payload,

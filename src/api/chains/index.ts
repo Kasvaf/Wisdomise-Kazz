@@ -97,7 +97,7 @@ export const useAccountBalance = (
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
-  return { data: null, isLoading: false };
+  return { data: null, isLoading: !net };
 };
 
 export const useAccountNativeBalance = () => {
@@ -109,16 +109,29 @@ export const useAccountNativeBalance = () => {
 
 export const useAccountAllQuotesBalance = () => {
   const net = useActiveNetwork();
-  const { data: tonBalance } = useAccountBalance('the-open-network', net);
-  const { data: tetherBalance } = useAccountBalance('tether', net);
-  const { data: usdCoinBalance } = useAccountBalance('usd-coin', net);
-  const { data: solBalance } = useAccountBalance('wrapped-solana', net);
+  const { data: tonBalance, isLoading: l1 } = useAccountBalance(
+    'the-open-network',
+    net,
+  );
+  const { data: tetherBalance, isLoading: l2 } = useAccountBalance(
+    'tether',
+    net,
+  );
+  const { data: usdCoinBalance, isLoading: l3 } = useAccountBalance(
+    'usd-coin',
+    net,
+  );
+  const { data: solBalance, isLoading: l4 } = useAccountBalance(
+    'wrapped-solana',
+    net,
+  );
 
   return {
     tonBalance,
     tetherBalance,
     usdCoinBalance,
     solBalance,
+    isLoading: l1 || l2 || l3 || l4,
   };
 };
 

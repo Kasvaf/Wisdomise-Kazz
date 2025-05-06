@@ -65,9 +65,10 @@ const useContractInfo = (slug?: string) => {
 export const useSolanaAccountBalance = (slug?: string) => {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
-  const { data: { contract } = {} } = useContractInfo(slug);
+  const { data: { contract } = {}, isLoading: contractIsLoading } =
+    useContractInfo(slug);
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ['sol-balance', slug, publicKey?.toString()],
     queryFn: async () => {
       if (!publicKey || !slug || !contract) return null;
@@ -106,6 +107,11 @@ export const useSolanaAccountBalance = (slug?: string) => {
     staleTime: 500,
     enabled: !!contract,
   });
+
+  return {
+    ...query,
+    isLoading: query.isLoading || contractIsLoading,
+  };
 };
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {
