@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
+import { useHasFlag } from 'api';
 import Trader from '../PageTrade/Trader';
 import { type TraderInputs } from '../PageTrade/types';
 import FiringHolder from '../PageTrade/FiringHolder';
@@ -48,14 +49,20 @@ const BuySellTrader: React.FC<
     loadingClassName?: string;
   }
 > = inputs => {
-  const isMobile = useIsMobile();
-
   const { positionKey } = inputs;
   const [mode, setMode] = useState<TraderModes>(positionKey ? 'auto' : 'buy');
 
+  const enabledFlag = useHasFlag()('/quick-swap');
+  useEffect(() => {
+    if (!enabledFlag) {
+      setMode('auto');
+    }
+  }, [enabledFlag]);
+
+  const isMobile = useIsMobile();
   return (
     <div className="[&_.id-input]:bg-v1-surface-l2">
-      {!positionKey && (
+      {!positionKey && enabledFlag && (
         <ModeSelector mode={mode} setMode={setMode} className="mb-4" />
       )}
 

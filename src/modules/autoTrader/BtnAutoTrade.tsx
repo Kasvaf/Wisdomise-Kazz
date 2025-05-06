@@ -47,7 +47,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
           </ActiveNetworkProvider>
         )}
 
-        <div>Buy & Sell</div>
+        <div>{hasFlag('/quick-swap') ? 'Buy & Sell' : 'Auto Trade'}</div>
         {!isSupported && !isLoading && (
           <div className="text-xxs">Not Supported</div>
         )}
