@@ -7,8 +7,8 @@ import { type SwapState } from './useSwapState';
 const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
     dir,
-    base,
-    quote,
+    from,
+    to,
     isMarketPrice,
     setIsMarketPrice,
     percentage,
@@ -19,14 +19,14 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
     <div className="rounded-lg bg-v1-surface-l2 p-3 text-xs">
       <div className="flex items-center justify-between">
         <div className="text-v1-content-secondary">
-          {base.priceByOther ? (
+          {from.priceByOther ? (
             <>
-              1 {base.coinInfo?.abbreviation} ≈{' '}
+              1 {from.coinInfo?.abbreviation} ≈{' '}
               {roundSensible(
-                +base.priceByOther *
+                +from.priceByOther *
                   (1 + ((dir === 'buy' ? -1 : 1) * +percentage) / 100),
               )}{' '}
-              {quote.coinInfo?.abbreviation}
+              {to.coinInfo?.abbreviation}
             </>
           ) : (
             <Spin />
@@ -37,10 +37,7 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
           Market Price
           <Toggle
             checked={isMarketPrice}
-            onChange={v => {
-              setIsMarketPrice(v);
-              setPercentage(v ? '0' : '10');
-            }}
+            onChange={setIsMarketPrice}
             variant="brand"
           />
         </div>
