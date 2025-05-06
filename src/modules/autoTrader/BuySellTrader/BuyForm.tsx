@@ -1,33 +1,19 @@
-import { clsx } from 'clsx';
-import { Spin } from 'antd';
 import AmountInputBox from 'shared/AmountInputBox';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { ReactComponent as WalletIcon } from 'modules/base/wallet/wallet-icon.svg';
 import { Button } from 'shared/v1-components/Button';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import useSensibleSteps from '../PageTrade/AdvancedSignalForm/useSensibleSteps';
+import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
 import MarketField from './MarketField';
 import BtnBuySell from './BtnBuySell';
 
 const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    quoteFields: {
-      balance: quoteBalance,
-      amount,
-      setAmount,
-      balanceLoading,
-      coinInfo: quoteInfo,
-    },
+    quoteFields: { balance: quoteBalance, amount, setAmount, balanceLoading },
     quote,
     setQuote,
     base,
   } = state;
-
-  const net = useActiveNetwork();
-  const isNativeQuote =
-    (net === 'the-open-network' && quote === 'the-open-network') ||
-    (net === 'solana' && quote === 'wrapped-solana');
 
   const steps = useSensibleSteps(quoteBalance);
 
@@ -44,41 +30,7 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
             <QuoteSelector baseSlug={base} value={quote} onChange={setQuote} />
           )
         }
-        label={
-          <div className="flex items-center justify-between text-xs">
-            <span>Amount</span>
-            {balanceLoading ? (
-              <div className="flex items-center text-v1-content-secondary">
-                <Spin />
-                Reading Balance
-              </div>
-            ) : (
-              quoteBalance != null && (
-                <div
-                  className={clsx(
-                    'flex items-center gap-1',
-                    !isNativeQuote &&
-                      'cursor-pointer text-white/40 hover:text-white',
-                  )}
-                  onClick={() =>
-                    !isNativeQuote && setAmount(String(quoteBalance))
-                  }
-                >
-                  {quoteBalance ? (
-                    <>
-                      <span className="flex items-center">
-                        <WalletIcon className="mr-1" /> {String(quoteBalance)}{' '}
-                        {quoteInfo?.abbreviation}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-v1-content-negative">No Balance</span>
-                  )}
-                </div>
-              )
-            )}
-          </div>
-        }
+        label={<AmountBalanceLabel slug={quote} setAmount={setAmount} />}
         className="mb-2"
         disabled={balanceLoading || !quoteBalance}
       />

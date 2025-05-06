@@ -1,18 +1,12 @@
 /* eslint-disable import/max-dependencies */
-import { clsx } from 'clsx';
-import { bxPlusCircle } from 'boxicons-quasar';
-import { useSymbolInfo } from 'api/symbol';
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
-import Icon from 'shared/Icon';
-import Spin from 'shared/Spin';
 import { Button } from 'shared/v1-components/Button';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { ReactComponent as WalletIcon } from 'modules/base/wallet/wallet-icon.svg';
 import { type SignalFormState } from './useSignalFormStates';
+import AmountBalanceLabel from './AmountBalanceLabel';
+import useSensibleSteps from './useSensibleSteps';
 import QuoteSelector from './QuoteSelector';
 import AIPresets from './AIPressets';
-import useSensibleSteps from './useSensibleSteps';
 
 const PartIntro: React.FC<{
   data: SignalFormState;
@@ -25,12 +19,6 @@ const PartIntro: React.FC<{
     quote: [quote, setQuote],
   } = data;
 
-  const { data: quoteInfo } = useSymbolInfo(quote);
-  const net = useActiveNetwork();
-  const isNativeQuote =
-    (net === 'the-open-network' && quote === 'the-open-network') ||
-    (net === 'solana' && quote === 'wrapped-solana');
-
   const { data: quoteBalance, isLoading: balanceLoading } =
     useAccountBalance(quote);
 
@@ -40,45 +28,11 @@ const PartIntro: React.FC<{
     <div>
       <AmountInputBox
         label={
-          <div className="flex items-center justify-between text-xs">
-            <span>Amount</span>
-            {balanceLoading ? (
-              <div className="flex items-center text-v1-content-secondary">
-                <Spin />
-                Reading Balance
-              </div>
-            ) : (
-              quoteBalance != null && (
-                <div
-                  className={clsx(
-                    'flex items-center gap-1',
-                    !isUpdate &&
-                      !isNativeQuote &&
-                      'cursor-pointer text-white/40 hover:text-white',
-                  )}
-                  onClick={() =>
-                    !isUpdate &&
-                    !isNativeQuote &&
-                    setAmount(String(quoteBalance))
-                  }
-                >
-                  {quoteBalance ? (
-                    <>
-                      <span className="flex items-center">
-                        <WalletIcon className="mr-1" /> {String(quoteBalance)}{' '}
-                        {quoteInfo?.abbreviation}
-                      </span>
-                      {!isUpdate && !isNativeQuote && (
-                        <Icon name={bxPlusCircle} size={16} />
-                      )}
-                    </>
-                  ) : (
-                    <span className="text-v1-content-negative">No Balance</span>
-                  )}
-                </div>
-              )
-            )}
-          </div>
+          <AmountBalanceLabel
+            slug={quote}
+            setAmount={setAmount}
+            disabled={isUpdate}
+          />
         }
         max={quoteBalance || 0}
         value={amount}
