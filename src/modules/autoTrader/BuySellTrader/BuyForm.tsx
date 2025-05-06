@@ -14,9 +14,9 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
       setSlug: setQuote,
       balance,
       amount,
-      setAmount,
       balanceLoading,
     },
+    setAmount,
     base: { slug: baseSlug },
   } = state;
 

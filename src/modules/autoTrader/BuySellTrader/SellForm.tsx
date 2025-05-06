@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
 import AmountInputBox from 'shared/AmountInputBox';
 import { Button } from 'shared/v1-components/Button';
@@ -14,16 +15,12 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
       balance: baseBalance,
       balanceLoading,
       amount: baseAmount,
-      setAmount: setBaseAmount,
       priceByOther,
     },
     isMarketPrice,
-    quote: {
-      slug: quoteSlug,
-      setSlug: setQuote,
-      amount: quoteAmount,
-      setAmount: setQuoteAmount,
-    },
+    quote: { slug: quoteSlug, setSlug: setQuote, amount: quoteAmount },
+    setAmount,
+    setPercentage,
   } = state;
 
   const targetReady = priceByOther !== undefined;
@@ -36,14 +33,19 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
       value: roundSensible(p * baseBalance),
     }));
 
+  const [tempTarget, setTempTarget] = useState('');
+  useEffect(() => {
+    setTempTarget(quoteAmount);
+  }, [quoteAmount]);
+
   return (
     <div>
       <AmountInputBox
         max={baseBalance || 0}
         value={baseAmount}
-        onChange={setBaseAmount}
+        onChange={setAmount}
         noSuffixPad
-        label={<AmountBalanceLabel slug={baseSlug} setAmount={setBaseAmount} />}
+        label={<AmountBalanceLabel slug={baseSlug} setAmount={setAmount} />}
         className="mb-2"
         disabled={balanceLoading || !baseBalance}
       />
@@ -56,7 +58,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
               size="xs"
               variant={value === baseAmount ? 'primary' : 'ghost'}
               className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
-              onClick={() => setBaseAmount(value)}
+              onClick={() => setAmount(value)}
               surface={2}
             >
               {label}
@@ -72,9 +74,16 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
             ? targetReady
               ? roundSensible(marketToAmount)
               : '...'
-            : quoteAmount
+            : tempTarget
         }
-        onChange={setQuoteAmount}
+        onChange={setTempTarget}
+        onBlur={() =>
+          setPercentage(
+            +tempTarget < marketToAmount
+              ? '0'
+              : roundSensible((+tempTarget / marketToAmount - 1) * 100),
+          )
+        }
         suffix={
           baseSlug &&
           quoteSlug && (

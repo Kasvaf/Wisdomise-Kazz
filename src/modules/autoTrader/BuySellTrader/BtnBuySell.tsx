@@ -25,7 +25,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
           variant="primary"
           onClick={firePosition}
           loading={isSubmitting}
-          disabled={!isEnabled}
+          disabled={!isEnabled || !balance}
           className={className}
         >
           {!balanceLoading && balance != null && !balance ? (

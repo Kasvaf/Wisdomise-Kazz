@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLastPriceQuery, useSupportedNetworks } from 'api';
 import { useAccountBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
+import { roundSensible } from 'utils/numbers';
 import { type TraderInputs } from '../PageTrade/types';
 
 const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [base, setBase] = useState<string>();
   const [dir, setDir] = useState<'buy' | 'sell'>('buy');
-  const [quoteAmount, setQuoteAmount] = useState('0');
-  const [baseAmount, setBaseAmount] = useState('0');
+  const [amount, setAmount] = useState('0');
   const [isMarketPrice, setIsMarketPrice] = useState(true);
+  const [percentage, setPercentage] = useState('0');
   const confirming = useState(false);
   const firing = useState(false);
 
@@ -51,11 +52,10 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     balanceLoading: quoteLoading,
     coinInfo: quoteInfo,
 
-    amount: quoteAmount,
-    setAmount: setQuoteAmount,
     price: quotePrice,
     priceByOther:
       basePriceByQuote === undefined ? undefined : 1 / basePriceByQuote,
+    amount,
   };
 
   const baseFields = {
@@ -65,30 +65,27 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     balanceLoading: baseLoading,
     coinInfo: baseInfo,
 
-    amount: baseAmount,
-    setAmount: setBaseAmount,
     price: basePrice,
     priceByOther: basePriceByQuote,
+    amount,
   };
 
   const from = dir === 'buy' ? quoteFields : baseFields;
   const to = dir === 'buy' ? baseFields : quoteFields;
 
-  // make sure amount is always less than balance
-  const fb = from.balance;
-  const fa = +from.amount;
-  const setFa = from.setAmount;
-  useEffect(() => {
-    if (fb != null && fa > fb) {
-      setFa(String(fb));
-    }
-  }, [fa, fb, setFa]);
+  to.amount = roundSensible(
+    (+amount * Number(from.priceByOther) * (100 + Number(percentage))) / 100,
+  );
 
   return {
     selectedNet,
 
     base: baseFields,
     quote: quoteFields,
+    setAmount,
+
+    percentage,
+    setPercentage,
 
     dir,
     setDir,
