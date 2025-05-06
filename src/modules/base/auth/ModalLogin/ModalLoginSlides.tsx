@@ -56,7 +56,6 @@ export const ModalLoginSlides: FC<{
       )}
       allowTouchMove
       loop
-      navigation
       slidesPerView={1}
       pagination={{
         enabled: true,
