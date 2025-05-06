@@ -3,7 +3,7 @@ import { Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useSupportedPairs } from 'api';
-import { useAccountBalance, type AutoTraderSupportedQuotes } from 'api/chains';
+import { useAccountBalance } from 'api/chains';
 import Icon from 'shared/Icon';
 const { Option } = Select;
 
@@ -14,7 +14,7 @@ const BalanceHandler: React.FC<{
   onBalance: (balance: number) => void;
 }> = ({ quote, networks, onBalance }) => {
   const { data, isLoading } = useAccountBalance(
-    quote as AutoTraderSupportedQuotes,
+    quote,
     networks.includes('solana')
       ? 'solana'
       : networks.includes('the-open-network')
@@ -34,8 +34,8 @@ const BalanceHandler: React.FC<{
 
 const QuoteSelector: React.FC<{
   baseSlug: string;
-  value: AutoTraderSupportedQuotes;
-  onChange?: (newValue: AutoTraderSupportedQuotes) => any;
+  value: string;
+  onChange?: (newValue: string) => any;
   disabled?: boolean;
 }> = ({ baseSlug, value, onChange, disabled }) => {
   const { data } = useSupportedPairs(baseSlug);
@@ -70,7 +70,7 @@ const QuoteSelector: React.FC<{
                 (!bestQuoteBalance || !isDollar(value) || isDollar(quote.slug))
               ) {
                 setBestQuoteBalance(b);
-                onChange?.(quote.slug as AutoTraderSupportedQuotes);
+                onChange?.(quote.slug);
               }
             }}
           />
