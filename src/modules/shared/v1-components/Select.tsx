@@ -380,7 +380,8 @@ export function Select<V, M extends boolean = false>({
         onClose={() => setIsOpen(false)}
         surface={dialogSurface}
         className={clsx(
-          '!max-h-96 mobile:!max-h-[90svh] mobile:!min-h-[40svh]',
+          '!max-h-96 mobile:!max-h-[90svh]',
+          showSearch && 'mobile:!min-h-[90svh]',
           dialogClassName,
         )}
         header={
