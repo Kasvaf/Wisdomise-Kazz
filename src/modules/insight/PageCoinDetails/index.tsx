@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import PageWrapper from 'modules/base/PageWrapper';
-import { GlobalSearchBar } from 'shared/GlobalSearchBar';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { CoinDetailsMeta } from './components/CoinDetailsMeta';
 import { CoinDetailsDesktop } from './components/CoinDetailsDesktop';
 import { CoinDetailsMobile } from './components/CoinDetailsMobile';
@@ -14,13 +14,7 @@ export default function PageCoinDetails() {
   return (
     <PageWrapper
       hasBack
-      extension={
-        <GlobalSearchBar
-          size="xs"
-          selectorSurface={isMobile ? 2 : 3}
-          buttonSurface={isMobile ? 1 : 2}
-        />
-      }
+      extension={<CoinExtensionsGroup />}
       mainClassName={isMobile ? '' : '!py-0'}
     >
       <CoinDetailsMeta slug={slug} />

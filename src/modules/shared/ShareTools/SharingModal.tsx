@@ -1,5 +1,5 @@
 import { type ReactNode, type RefObject } from 'react';
-import { Modal } from 'antd';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { ReferralShareLinks } from './ReferralShareLinks';
 
 export default function SharingModal({
@@ -16,23 +16,19 @@ export default function SharingModal({
   screenshotTarget: RefObject<HTMLElement>;
 }) {
   return (
-    <Modal
-      centered
+    <Dialog
       open={open}
-      onCancel={onClose}
-      maskClosable={true}
-      footer={false}
-      rootClassName="[&_.ant-modal-content]:!bg-transparent [&_.ant-modal-content]:!px-0"
-      className="[&>.ant-drawer-wrapper-body]:!bg-transparent"
-    >
-      <div className="mb-40 overflow-auto pt-8">{children}</div>
-
-      <div className="fixed bottom-4 rounded-2xl bg-v1-surface-l2 px-3 py-5 mobile:inset-x-4 md:w-[520px]">
+      onClose={onClose}
+      mode="modal"
+      className="w-max !bg-transparent"
+      footer={
         <ReferralShareLinks
           screenshotTarget={screenshotTarget}
           fileName={fileName}
         />
-      </div>
-    </Modal>
+      }
+    >
+      {children}
+    </Dialog>
   );
 }

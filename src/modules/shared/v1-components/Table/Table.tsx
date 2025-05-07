@@ -3,6 +3,7 @@ import { useMemo, useRef } from 'react';
 import { useSurface } from 'utils/useSurface';
 import './style.css';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { DIALOG_OPENER_CLASS } from '../Dialog';
 import { type TableProps } from './types';
 import { ReactComponent as InfoIcon } from './info.svg';
 import { TableSection } from './TableSection';
@@ -79,9 +80,14 @@ export function Table<RecordType extends object>({
                 )}
                 {th.title}
                 {th.info && (
-                  <HoverTooltip title={th.info}>
-                    <InfoIcon data-info />
-                  </HoverTooltip>
+                  <>
+                    <HoverTooltip title={th.info}>
+                      <InfoIcon
+                        data-info
+                        className={clsx('cursor-help', DIALOG_OPENER_CLASS)}
+                      />
+                    </HoverTooltip>
+                  </>
                 )}
               </>
             ),

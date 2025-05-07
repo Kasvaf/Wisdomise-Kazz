@@ -11,8 +11,6 @@ import { ConfirmationBadgesInfo } from 'modules/insight/PageTechnicalRadar/compo
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
-import { NetworkSelect } from 'shared/NetworkSelect';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { EmptySentiment } from '../EmptySentiment';
@@ -24,14 +22,8 @@ import { ReactComponent as Logo } from './logo.svg';
 export function CoinRadarTable({ className }: { className?: string }) {
   const hasFlag = useHasFlag();
   const { t } = useTranslation('insight');
-  const [network, setNetwork] = useSearchParamAsState<string>(
-    'network',
-    hasFlag('/trader/positions?mobile') ? 'solana' : '',
-  );
 
-  const coins = useCoinRadarCoins({
-    networks: network ? [network] : [],
-  });
+  const coins = useCoinRadarCoins({});
   useLoadingBadge(coins.isFetching);
   const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [
@@ -121,20 +113,6 @@ export function CoinRadarTable({ className }: { className?: string }) {
         <>
           <Logo className="size-6 shrink-0" />
           {t('base:menu.coin-radar.full-title')}
-        </>
-      }
-      headerActions={
-        <>
-          <NetworkSelect
-            className="max-w-56 grow"
-            value={network || undefined}
-            filter="coin-radar"
-            multiple={false}
-            allowClear
-            size="md"
-            onChange={p => setNetwork(p ?? '')}
-            tooltipPlacement="bottomRight"
-          />
         </>
       }
       className="min-h-[500px]"

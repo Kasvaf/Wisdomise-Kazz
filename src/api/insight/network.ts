@@ -1,7 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { type Network, type Coin, type CoinDetails } from 'api/types/shared';
+import {
+  type Network,
+  type Coin,
+  type CoinCommunityData,
+} from 'api/types/shared';
 import { resolvePageResponseToArray } from 'api/utils';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { matcher } from './utils';
 
 export interface NetworkRadarNCoin {
@@ -31,7 +36,7 @@ export interface NetworkRadarNCoin {
       status: string;
     };
   };
-  base_community_data: CoinDetails['community_data'];
+  base_community_data: CoinCommunityData;
   update: {
     total_num_buys: number;
     total_num_sells: number;
@@ -65,8 +70,9 @@ export interface NetworkRadarNCoin {
   rugged?: boolean;
 }
 
-export const useNetworkRadarNCoins = (config: { networks?: string[] }) =>
-  useQuery({
+export const useNetworkRadarNCoins = (config: { networks?: string[] }) => {
+  const [defaultNetwork] = useGlobalNetwork();
+  return useQuery({
     queryKey: ['network-radar-pools'],
     queryFn: () =>
       resolvePageResponseToArray<NetworkRadarNCoin>(
@@ -80,7 +86,12 @@ export const useNetworkRadarNCoins = (config: { networks?: string[] }) =>
     select: data =>
       data
         .filter(row => {
-          if (!matcher(config.networks).array([row.network.slug])) return false;
+          if (
+            !matcher([defaultNetwork, ...(config.networks ?? [])]).array([
+              row.network.slug,
+            ])
+          )
+            return false;
           return true;
         })
         .map((row, i) => ({ ...row, _rank: i + 1 })),
@@ -90,3 +101,4 @@ export const useNetworkRadarNCoins = (config: { networks?: string[] }) =>
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });
+};

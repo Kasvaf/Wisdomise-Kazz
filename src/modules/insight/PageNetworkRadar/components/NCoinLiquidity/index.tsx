@@ -67,7 +67,7 @@ export const NCoinLiquidity: FC<{
           )}
         >
           {value?.quote_symbol && (
-            <CoinLogo coin={value?.quote_symbol} className="size-5" />
+            <CoinLogo value={value?.quote_symbol} className="size-5" />
           )}
           <ReadableNumber
             value={

@@ -10,10 +10,13 @@ import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
 import Leaderboard, {
   LeaderboardItem,
 } from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
+import useIsMobile from 'utils/useIsMobile';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 
 export default function PageTournamentDetail() {
   const { id } = useParams<{ id: string }>();
   if (!id) throw new Error('unexpected');
+  const isMobile = useIsMobile();
 
   const { data: tournament, isLoading } = useTournamentQuery(id);
   const { data: me } = useTournamentProfileQuery(id);
@@ -26,6 +29,7 @@ export default function PageTournamentDetail() {
       hasBack
       title={tournament?.name}
       loading={isLoading}
+      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <div className="grid grid-cols-2 items-start gap-4 pb-10 mobile:grid-cols-1">
         <div>

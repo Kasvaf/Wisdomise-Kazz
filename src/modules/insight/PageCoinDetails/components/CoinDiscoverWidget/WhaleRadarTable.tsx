@@ -9,11 +9,9 @@ import { WhaleRadarSentiment } from 'modules/insight/PageWhaleRadar/components/W
 
 export const WhaleRadarTable: FC<{
   onClick: (coin: WhaleRadarCoin) => void;
-  networks: string[];
-}> = ({ onClick, networks }) => {
+}> = ({ onClick }) => {
   const coins = useWhaleRadarCoins({
     days: 7,
-    networks,
   });
 
   const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(

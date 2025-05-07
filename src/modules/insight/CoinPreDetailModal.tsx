@@ -16,7 +16,6 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
 import { CoinLabels } from 'shared/CoinLabels';
-import { DrawerModal } from 'shared/DrawerModal';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -29,6 +28,7 @@ import {
 import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { Dialog } from 'shared/v1-components/Dialog';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;
@@ -151,11 +151,17 @@ export const CoinPreDetailModal: FC<
   const { t } = useTranslation('insight');
 
   return (
-    <DrawerModal
+    <Dialog
       open={open}
+      mode="drawer"
+      drawerConfig={{
+        position: 'bottom',
+        closeButton: true,
+      }}
       onClose={onClose}
-      closeIcon={null}
-      className="[&_.ant-drawer-header]:hidden"
+      className="bg-v1-surface-l4"
+      contentClassName="p-3"
+      surface={4}
       footer={
         coin && (
           <div className="flex flex-col items-stretch gap-4">
@@ -190,6 +196,6 @@ export const CoinPreDetailModal: FC<
           {children}
         </CoinPreDetailsContent>
       )}
-    </DrawerModal>
+    </Dialog>
   );
 };

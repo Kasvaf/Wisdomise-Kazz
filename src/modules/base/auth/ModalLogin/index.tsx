@@ -4,8 +4,7 @@ import { useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
-import { Modal as AntModal } from 'antd';
-import { bxArrowBack, bxX } from 'boxicons-quasar';
+import { bxArrowBack } from 'boxicons-quasar';
 import { v4 } from 'uuid';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -21,6 +20,7 @@ import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import Icon from 'shared/Icon';
 import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { Button } from 'shared/v1-components/Button';
+import { Dialog } from 'shared/v1-components/Dialog';
 import TelegramLogin from './TelegramLogin';
 import { useModalLoginTexts } from './useModalLoginTexts';
 import { ReactComponent as Logo } from './logo.svg';
@@ -324,21 +324,20 @@ export const useModalLogin = () => {
 
   const content = (
     <>
-      <AntModal
-        centered
+      <Dialog
         open={open}
-        onCancel={handleClose}
-        destroyOnClose
+        onClose={handleClose}
         footer={false}
-        closable
-        maskClosable={!forceLogin}
-        closeIcon={forceLogin ? <></> : <Icon name={bxX} size={16} />}
-        width={950}
-        zIndex={2_147_483_647} // 1 unit higher than cookie-bot banner
-        className="max-h-full max-w-full mobile:h-full mobile:w-full [&_.ant-modal-body]:size-full [&_.ant-modal-content]:!bg-v1-surface-l1 [&_.ant-modal-content]:p-0 mobile:[&_.ant-modal-content]:h-full mobile:[&_.ant-modal-content]:w-full [&_.ant-modal-content]:mobile:!rounded-none"
+        closable={!forceLogin}
+        modalConfig={{
+          closeButton: !forceLogin,
+        }}
+        mode="modal"
+        surface={1}
+        className="z-[2_147_483_647] w-[950px] mobile:h-full mobile:max-h-full mobile:w-full mobile:max-w-full" // z-index: 1 unit higher than cookie-bot banner
       >
         <LoginModalContent onResolve={handleResolve} />
-      </AntModal>
+      </Dialog>
     </>
   );
 

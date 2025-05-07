@@ -13,6 +13,8 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { isProduction } from 'utils/version';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useHasFlag } from 'api';
+import useIsMobile from 'utils/useIsMobile';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
 import gradient from './images/gradient.png';
@@ -23,6 +25,7 @@ import refFeeSrc from './images/ref-fee.png';
 import leagueSrc from './images/league.png';
 
 export default function PageRewards() {
+  const isMobile = useIsMobile();
   const { subReferral, tradeReferral, daily, total, claimed, league } =
     useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
@@ -62,7 +65,7 @@ export default function PageRewards() {
   };
 
   return (
-    <PageWrapper hasBack>
+    <PageWrapper hasBack extension={!isMobile && <CoinExtensionsGroup />}>
       <PageTitle
         className="py-5"
         title="Rewards"

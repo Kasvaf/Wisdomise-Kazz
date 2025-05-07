@@ -183,7 +183,7 @@ module.exports = {
     'tailwindcss/no-custom-classname': [
       'error',
       {
-        whitelist: ['id-.*'],
+        whitelist: ['id-.*', '.custom-*'],
       },
     ],
     'prettier/prettier': [

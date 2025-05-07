@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
 import { isDebugMode } from 'utils/version';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { resolvePageResponseToArray } from '../utils';
 import {
   type NetworkSecurity,
@@ -87,6 +88,7 @@ export type IndicatorHeatmap<I extends Indicator> = I extends 'rsi'
       related_at: string;
       divergence_type: -1 | 1 | null;
       data?: null | MiniMarketData;
+      networks?: null | CoinNetwork[];
     }
   : never;
 
@@ -95,6 +97,7 @@ export type IndicatorHeatmapResolution = '15m' | '30m' | '1h' | '4h' | '1d';
 export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
   indicator: I;
   resolution: IndicatorHeatmapResolution;
+  networks?: string[];
 }) =>
   useQuery({
     queryKey: ['indicator-heatmap', filters.indicator, filters.resolution],
@@ -109,6 +112,17 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
           },
         },
       ),
+    select: data => {
+      return data.filter(row => {
+        if (
+          !matcher(filters.networks).array(
+            row.networks?.map(x => x.network.slug),
+          )
+        )
+          return false;
+        return true;
+      });
+    },
     meta: {
       persist: true,
     },
@@ -204,8 +218,10 @@ export type IndicatorValues = Record<
 export const useIndicatorConfirmations = <I extends Indicator>(filters: {
   indicator: I;
   combination: IndicatorConfirmationCombination[];
-}) =>
-  useQuery({
+  networks?: string[];
+}) => {
+  const [defaultNetwork] = useGlobalNetwork();
+  return useQuery({
     queryKey: [
       'indicator-confirmation',
       filters.indicator,
@@ -231,27 +247,37 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         },
       }),
     select: data => {
-      const results = data.map(row => {
-        // prefix indicaor values and resolutions to match type
-        for (const key of [
-          'bearish_divergence_resolutions',
-          'bullish_divergence_resolutions',
-          'macd_divergence_types',
-          'oversold_resolutions',
-          'overbought_resolutions',
-          'cross_up_resolutions',
-          'cross_down_resolutions',
-          'values',
-        ]) {
-          if (key in row) {
-            const oldKey = key as keyof typeof row;
-            const newKey = `${filters.indicator}_${key}` as keyof typeof row;
+      const results = data
+        .map(row => {
+          // prefix indicaor values and resolutions to match type
+          for (const key of [
+            'bearish_divergence_resolutions',
+            'bullish_divergence_resolutions',
+            'macd_divergence_types',
+            'oversold_resolutions',
+            'overbought_resolutions',
+            'cross_up_resolutions',
+            'cross_down_resolutions',
+            'values',
+          ]) {
+            if (key in row) {
+              const oldKey = key as keyof typeof row;
+              const newKey = `${filters.indicator}_${key}` as keyof typeof row;
 
-            row[newKey] = (row[oldKey] ?? row[newKey]) as never;
+              row[newKey] = (row[oldKey] ?? row[newKey]) as never;
+            }
           }
-        }
-        return row;
-      });
+          return row;
+        })
+        .filter(row => {
+          if (
+            !matcher([defaultNetwork, ...(filters.networks ?? [])]).array(
+              row.networks?.map(x => x.network.slug),
+            )
+          )
+            return false;
+          return true;
+        });
       return {
         ...data,
         results,
@@ -263,6 +289,7 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
+};
 
 export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
   IndicatorConfirmation<'rsi'> & {
@@ -294,8 +321,9 @@ export const useTechnicalRadarCoins = (config: {
   networks?: string[];
   sortOrder?: 'ascending' | 'descending';
   sortBy?: string;
-}) =>
-  useQuery({
+}) => {
+  const [defaultNetwork] = useGlobalNetwork();
+  return useQuery({
     queryKey: ['indicators/technical-radar/top-coins'],
     queryFn: () =>
       resolvePageResponseToArray<TechnicalRadarCoin>(
@@ -314,7 +342,7 @@ export const useTechnicalRadarCoins = (config: {
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher(config.networks).array(
+            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
               row.networks?.map(x => x.network.slug),
             )
           )
@@ -349,6 +377,7 @@ export const useTechnicalRadarCoins = (config: {
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
+};
 
 export interface TechnicalRadarSentiment {
   macd_cross_normalized_score?: number | null;

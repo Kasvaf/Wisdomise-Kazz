@@ -11,11 +11,8 @@ import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/comp
 
 export const CoinRadarTable: FC<{
   onClick: (coin: CoinRadarCoin) => void;
-  networks: string[];
-}> = ({ onClick, networks }) => {
-  const coins = useCoinRadarCoins({
-    networks,
-  });
+}> = ({ onClick }) => {
+  const coins = useCoinRadarCoins({});
 
   const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [

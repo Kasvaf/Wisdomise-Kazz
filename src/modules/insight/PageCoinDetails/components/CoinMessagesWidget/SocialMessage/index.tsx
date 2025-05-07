@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
-import { Drawer, Modal } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type SocialMessage } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import { ReadableDate } from 'shared/ReadableDate';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { SocialLogo } from '../SocialLogo';
 import { SocialMessageImage } from './SocialMessageImage';
 import { SocialMessageContent } from './SocialMessageContent';
@@ -83,35 +83,20 @@ export function SocialMessageSummary({
           </div>
         </div>
       </div>
-      {isMobile ? (
-        <Drawer
-          placement="bottom"
-          open={open}
-          onClose={() => setOpen(false)}
-          destroyOnClose
-          height="auto"
-          className="rounded-t-2xl"
-          title={t('social-messages.post_details')}
-          style={{
-            maxHeight: '90vh',
-          }}
-        >
-          <SocialMessageDetails message={message} />
-        </Drawer>
-      ) : (
-        <Modal
-          centered
-          open={open}
-          onCancel={() => setOpen(false)}
-          destroyOnClose
-          footer={false}
-          closable
-          title={t('social-messages.post_details')}
-          className="[&_.ant-modal-header]:mb-6 [&_.ant-modal-title]:text-start"
-        >
-          <SocialMessageDetails message={message} />
-        </Modal>
-      )}
+      <Dialog
+        mode={isMobile ? 'drawer' : 'modal'}
+        drawerConfig={{
+          position: 'bottom',
+        }}
+        surface={2}
+        open={open}
+        onClose={() => setOpen(false)}
+        closable
+        header={t('social-messages.post_details')}
+        contentClassName="p-3"
+      >
+        <SocialMessageDetails message={message} />
+      </Dialog>
     </>
   );
 }

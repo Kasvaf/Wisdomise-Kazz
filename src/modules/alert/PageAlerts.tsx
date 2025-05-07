@@ -9,6 +9,7 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
 import TextBox from 'shared/TextBox';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { useAlertActions } from './hooks/useAlertActions';
 import { AlertEmptyWidget } from './components/AlertEmptyWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
@@ -79,6 +80,7 @@ export default function AlertsPage() {
       title={t('base:menu.alerts.full-title')}
       className="leading-none mobile:leading-normal"
       loading={alerts.isLoading}
+      extension={<CoinExtensionsGroup />}
     >
       <PageTitle description={t('base:menu.alerts.subtitle')} />
 

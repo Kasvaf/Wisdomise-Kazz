@@ -14,12 +14,15 @@ import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
 import { FeaturesTable } from 'modules/account/PageBilling/FeaturesTable';
 import { MAIN_LANDING } from 'config/constants';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useIsMobile from 'utils/useIsMobile';
 import bag from './images/bag.png';
 import starlight from './images/starlight.png';
 import bg from './images/bg.png';
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function PageBilling() {
+  const isMobile = useIsMobile();
   const plans = usePlansQuery();
   const invoices = useInvoicesQuery();
   const subscription = useSubscription();
@@ -49,6 +52,7 @@ export default function PageBilling() {
       hasBack
       className="h-full"
       loading={isLoading}
+      extension={!isMobile && <CoinExtensionsGroup />}
       mountWhileLoading
       title={null}
     >

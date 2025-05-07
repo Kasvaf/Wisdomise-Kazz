@@ -6,10 +6,10 @@ import {
   useState,
   type MouseEventHandler,
 } from 'react';
-import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import useIsMobile from 'utils/useIsMobile';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { ReactComponent as PlayIcon } from './play.svg';
 
 export const YoutubeVideoButton: FC<{
@@ -43,18 +43,20 @@ export const YoutubeVideoButton: FC<{
       </button>
 
       {open && (
-        <Modal
-          centered
+        <Dialog
           open={open}
           footer={false}
-          width={width + (isMobile ? 0 : 48)}
-          onCancel={() => setOpen(false)}
-          wrapClassName="intro-style"
+          className="w-max"
+          mode="modal"
+          onClose={() => setOpen(false)}
         >
-          <div className="mt-6 mobile:-mx-6 mobile:-mb-6">
+          <div
+            className="mt-6 mobile:-mx-6 mobile:-mb-6"
+            style={{ width: `${width + (isMobile ? 0 : 48)}px` }}
+          >
             <YouTube videoId={videoId} opts={{ width, height }} />
           </div>
-        </Modal>
+        </Dialog>
       )}
     </>
   );

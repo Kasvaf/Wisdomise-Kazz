@@ -7,12 +7,14 @@ import { icons } from './icons';
 export function CoinLabel({
   className,
   value,
-  popup = true,
+  title,
+  clickable = true,
   size,
 }: {
   className?: string;
   value: string;
-  popup?: boolean | ReactNode;
+  clickable?: boolean;
+  title?: ReactNode;
   size: 'xs' | 'sm' | 'md';
 }) {
   const { t } = useTranslation('coin-radar');
@@ -60,6 +62,7 @@ export function CoinLabel({
           'coin_labels.short_term_overbought_risk.title',
         ),
         new_born: t('coin_labels.new_born.title'),
+        coingecko: t('coin_labels.coingecko.title'),
       }[value as never] as string | undefined) ?? value.split('_').join(' ');
 
     const info = {
@@ -99,6 +102,7 @@ export function CoinLabel({
         'coin_labels.short_term_overbought_risk.info',
       ),
       new_born: t('coin_labels.new_born.info'),
+      coingecko: t('coin_labels.coingecko.info'),
     }[value as never] as string | undefined;
 
     const className = (() => {
@@ -126,6 +130,7 @@ export function CoinLabel({
         value === 'new_born'
       )
         return classNames.positive;
+      if (value === 'coingecko') return 'bg-[#ffe866] text-black';
       return classNames.neutral;
     })();
 
@@ -140,11 +145,11 @@ export function CoinLabel({
   return (
     <ClickableTooltip
       title={
-        typeof popup === 'boolean' || popup === undefined ? (
+        title || (
           <div className="flex flex-col gap-2">
             <p
               className={clsx(
-                'inline-flex w-fit items-center gap-2 px-2 py-1',
+                'inline-flex w-fit items-center gap-2 overflow-hidden px-2 py-1',
                 'rounded-full text-sm capitalize [&_img]:size-[20px] [&_svg]:size-[20px]',
                 renderData.className,
               )}
@@ -157,12 +162,10 @@ export function CoinLabel({
               </p>
             )}
           </div>
-        ) : (
-          popup
         )
       }
       chevron={false}
-      disabled={!popup}
+      disabled={!clickable}
       className={clsx(
         'rounded-full text-center text-xxs',
         size === 'xs' &&

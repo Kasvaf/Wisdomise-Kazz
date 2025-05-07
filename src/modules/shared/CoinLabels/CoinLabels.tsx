@@ -74,7 +74,12 @@ export function CoinLabels({
         clickable={clickable}
       />
       {labels.map(label => (
-        <CoinLabel key={label} value={label} size={size} popup={clickable} />
+        <CoinLabel
+          key={label}
+          value={label}
+          size={size}
+          clickable={clickable}
+        />
       ))}
       {!truncate && (
         <CoinCategoryLabel

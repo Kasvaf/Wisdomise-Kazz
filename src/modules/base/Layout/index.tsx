@@ -31,6 +31,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   useHubSpot();
   const isMobile = useIsMobile();
   const Header = isMobile ? MobileHeader : DesktopHeader;
+
   return (
     <div className="relative flex min-h-screen flex-col bg-v1-surface-l1">
       <header className="sticky top-0 z-20 w-full">

@@ -28,9 +28,8 @@ export function CoinSecurityLabel({
     <CoinLabel
       value={securityStatus}
       size={size}
-      popup={
-        clickable ? <CoinSecurityDetails coin={coin} value={value} /> : false
-      }
+      clickable={clickable}
+      title={<CoinSecurityDetails coin={coin} value={value} />}
       className={className}
     />
   );

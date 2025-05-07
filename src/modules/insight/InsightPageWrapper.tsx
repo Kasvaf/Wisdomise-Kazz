@@ -1,23 +1,12 @@
-import useIsMobile from 'utils/useIsMobile';
 import PageWrapper, { type PageWrapperProps } from 'modules/base/PageWrapper';
-import { GlobalSearchBar } from 'shared/GlobalSearchBar';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 
 const InsightPageWrapper: React.FC<PageWrapperProps> = ({
   children,
   ...wrapperProps
 }) => {
-  const isMobile = useIsMobile();
   return (
-    <PageWrapper
-      extension={
-        <GlobalSearchBar
-          size="xs"
-          selectorSurface={isMobile ? 2 : 3}
-          buttonSurface={isMobile ? 1 : 2}
-        />
-      }
-      {...wrapperProps}
-    >
+    <PageWrapper extension={<CoinExtensionsGroup />} {...wrapperProps}>
       {children}
     </PageWrapper>
   );

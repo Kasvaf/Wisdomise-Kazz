@@ -17,6 +17,7 @@ import App from 'modules/base/App';
 import { queryClient, persisterOptions } from 'config/reactQuery';
 import { RouterBaseName } from 'config/constants';
 import { LoadingBadgeProvider } from 'shared/LoadingBadge';
+import { ComponentsProvider } from 'shared/v1-components/ComponentsProvider';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');
@@ -66,13 +67,15 @@ function Root() {
             },
           }}
         >
-          <HelmetProvider context={{}}>
-            <LoadingBadgeProvider>
-              <CustomTourProvider>
-                <App />
-              </CustomTourProvider>
-            </LoadingBadgeProvider>
-          </HelmetProvider>
+          <ComponentsProvider>
+            <HelmetProvider context={{}}>
+              <LoadingBadgeProvider>
+                <CustomTourProvider>
+                  <App />
+                </CustomTourProvider>
+              </LoadingBadgeProvider>
+            </HelmetProvider>
+          </ComponentsProvider>
           {errorNotificationContent}
         </ConfigProvider>
         {/* <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" /> */}

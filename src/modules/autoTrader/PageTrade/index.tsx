@@ -6,6 +6,7 @@ import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import Trader from './Trader';
 
@@ -30,7 +31,11 @@ export default function PageTrade() {
   }, [isMobile, navigate, position.data, slug]);
 
   return (
-    <PageWrapper hasBack className="relative">
+    <PageWrapper
+      hasBack
+      extension={!isMobile && <CoinExtensionsGroup />}
+      className="relative"
+    >
       <CoinSelect
         className="mb-4 w-full [&_.ant-select-selector]:!bg-v1-surface-l2 [&_.ant-select-selector]:!py-1"
         filterTokens={x => x !== 'tether'}
