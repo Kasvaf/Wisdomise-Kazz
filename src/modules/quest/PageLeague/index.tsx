@@ -179,7 +179,7 @@ function Prize({
   endTime,
   rewardedUsersMinRank,
 }: {
-  league: LeagueDetail;
+  league: LeagueDetail & { description: string; image: string };
   startTime: string;
   endTime: string;
   rewardedUsersMinRank?: number;
@@ -210,7 +210,11 @@ function Prize({
         Keep Trading to Stay in the Top {rewardedUsersMinRank}!
       </p>
       <div className="flex w-max rounded-lg bg-white/5 p-1">
-        <LeaderboardPrizes prizes={league?.prizes} hasDetail={true} />
+        <LeaderboardPrizes
+          prizes={league.prizes}
+          hasDetail={true}
+          description={league.description}
+        />
       </div>
       <div className="mt-2 flex w-max items-center gap-1 rounded-lg bg-white/5 p-1">
         {isTopLevel ? (

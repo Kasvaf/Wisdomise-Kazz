@@ -184,9 +184,11 @@ function PrizeCoin({ slug, amount }: { slug: string; amount: number }) {
 export function LeaderboardPrizes({
   prizes,
   hasDetail,
+  description,
 }: {
   prizes: LeaderboardPrize[];
   hasDetail?: boolean;
+  description?: string;
 }) {
   const [open, setOpen] = useState(false);
   const prizeMap: Record<string, number> = {};
@@ -274,6 +276,7 @@ export function LeaderboardPrizes({
               </div>
             </div>
           ))}
+          <p className="mt-3">{description}</p>
         </div>
       </DrawerModal>
     </div>

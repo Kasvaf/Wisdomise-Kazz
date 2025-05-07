@@ -28,7 +28,6 @@ import {
 import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import { BtnQuickSwap } from 'modules/autoTrader/QuickSwap/BtnQuickSwap';
 import { Dialog } from 'shared/v1-components/Dialog';
 
 interface PreDetailModalBaseProps {
@@ -187,18 +186,7 @@ export const CoinPreDetailModal: FC<
                 slug={coin.slug}
               />
             </div>
-            <div className="flex items-center gap-3">
-              <BtnQuickSwap
-                slug={coin.slug}
-                variant="outline"
-                className="!grow basis-1"
-              />
-              <BtnAutoTrade
-                slug={coin.slug}
-                variant="primary"
-                className="!grow basis-1"
-              />
-            </div>
+            <BtnAutoTrade slug={coin.slug} variant="primary" />
           </div>
         )
       }

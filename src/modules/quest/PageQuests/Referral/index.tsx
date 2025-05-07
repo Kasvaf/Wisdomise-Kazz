@@ -11,7 +11,7 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
     <NavLink
       to="/account/referral"
       className={clsx(
-        'relative block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4',
+        'relative block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 md:h-[13rem]',
         'hover:saturate-200',
         className,
       )}
@@ -21,34 +21,40 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
         alt=""
         className="absolute left-0 top-0 h-full w-full"
       />
-      <div className="relative">
-        <h2 className="text-xl font-semibold">Referral</h2>
-        <p className="mb-10 mt-3 max-w-52 text-xs text-v1-content-secondary">
-          Refer Friends and Unlock Rewards.
-        </p>
+      <div className="relative flex h-full flex-col justify-between">
+        <div>
+          <h2 className="text-xl font-semibold">Referral</h2>
+          <p className="mb-10 mt-4 max-w-52 text-xs text-v1-content-secondary mobile:mt-2">
+            Refer Friends and Unlock Rewards.
+          </p>
+        </div>
         <div className="flex items-center justify-around text-center text-xs">
           <div>
             <h3 className="mb-2 text-v1-content-secondary">Referrals</h3>
-            <p>{referralStatus?.referred_users_count}</p>
+            <p className="text-sm">{referralStatus?.referred_users_count}</p>
           </div>
           <div className="h-8 border-r border-v1-border-primary/30"></div>
           <div>
             <h3 className="mb-2 text-v1-content-secondary">
               Trade Fees Earned
             </h3>
-            <p>${referralStatus?.referral_trade_revenue.toFixed(2)}</p>
+            <p className="text-sm">
+              ${referralStatus?.referral_trade_revenue.toFixed(2)}
+            </p>
           </div>
           <div className="h-8 border-r border-v1-border-primary/30"></div>
           <div>
             <h3 className="mb-2 text-v1-content-secondary">Wise Club Earned</h3>
-            <p>${referralStatus?.referral_subscription_revenue.toFixed(2)}</p>
+            <p className="text-sm">
+              ${referralStatus?.referral_subscription_revenue.toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
       <img
         src={leaderboard}
         alt=""
-        className="absolute right-0 top-4 -mb-8 h-32 w-32"
+        className="absolute right-0 top-4 -mb-8 size-48 mobile:size-32"
       />
     </NavLink>
   );

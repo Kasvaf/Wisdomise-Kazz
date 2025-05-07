@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
 import { v4 } from 'uuid';
@@ -21,38 +19,35 @@ const useActionHandlers = (state: SwapState) => {
     quote,
     from,
 
-    quoteAmount,
-    baseAmount,
-
     dir,
 
     isMarketPrice,
+    firing: [firing, setFiring],
+    confirming: [, setConfirming],
   } = state;
   const { address } = useActiveWallet();
-  const navigate = useNavigate();
 
   const { mutateAsync: cancelAsync } = useTraderCancelPositionMutation();
   const { mutateAsync, isPending: isSubmitting } =
     useTraderFirePositionMutation();
-  const [isFiring, setIsFiring] = useState(false);
 
-  const transferAssetsHandler = useTransferAssetsMutation(from.coin);
+  const transferAssetsHandler = useTransferAssetsMutation(from.slug);
 
   const [ModalApproval, showModalApproval] = useModalApproval();
   const firePosition = async () => {
-    if (!base || !quote || !address) return;
+    if (!base.slug || !quote.slug || !address) return;
 
     const createData: CreatePositionRequest = {
       network,
       mode: dir === 'buy' ? 'buy_and_hold' : 'sell_and_hold',
       // one of following:
       ...(dir === 'buy'
-        ? { quote_amount: quoteAmount }
-        : { base_amount: baseAmount }),
+        ? { quote_amount: quote.amount }
+        : { base_amount: base.amount }),
 
       signal: {
         action: 'open',
-        pair_slug: base + '/' + quote,
+        pair_slug: base.slug + '/' + quote.slug,
         leverage: { value: 1 },
         position: {
           type: 'long',
@@ -67,7 +62,9 @@ const useActionHandlers = (state: SwapState) => {
                     // sell order
                     key: v4(),
                     amount_ratio: 1, // always 1
-                    price_exact: isMarketPrice ? 0 : +quoteAmount / +baseAmount, // happens when price >= 123
+                    price_exact: isMarketPrice
+                      ? 0
+                      : +quote.amount / +base.amount, // happens when price >= 123
                   },
                 ]
               : [], // buy = hold -> no take-profit
@@ -102,16 +99,27 @@ const useActionHandlers = (state: SwapState) => {
     if (!(await showModalApproval(state, createData))) return;
 
     try {
+      setFiring(true);
       const res = await mutateAsync(createData);
 
       try {
-        setIsFiring(true);
-        await transferAssetsHandler({
+        const awaitConfirm = await transferAssetsHandler({
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
           amount: from.amount,
         });
-        navigate(`/trader/positions?slug=${base}`);
+
+        setConfirming(true);
+        void awaitConfirm()
+          .then(res => {
+            if (res) {
+              notification.success({
+                message: 'Position created successfully',
+              });
+            }
+            return res;
+          })
+          .finally(() => setConfirming(false));
       } catch (error) {
         if (error instanceof TonConnectError) {
           if (error instanceof UserRejectsError) {
@@ -126,7 +134,7 @@ const useActionHandlers = (state: SwapState) => {
           positionKey: res.position_key,
         });
       } finally {
-        setIsFiring(false);
+        setFiring(false);
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -135,7 +143,7 @@ const useActionHandlers = (state: SwapState) => {
 
   return {
     isEnabled: !!network && !!base && !!quote && Number(from.amount) > 0,
-    isSubmitting: isFiring || isSubmitting,
+    isSubmitting: firing || isSubmitting,
     firePosition,
     ModalApproval,
   };

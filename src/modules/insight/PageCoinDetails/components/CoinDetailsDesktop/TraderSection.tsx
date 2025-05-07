@@ -1,34 +1,29 @@
 import { useSupportedPairs } from 'api';
-import { type AutoTraderSupportedQuotes } from 'api/chains';
-import Trader from 'modules/autoTrader/PageTrade/Trader';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PositionsList from 'modules/autoTrader/PagePositions/PositionsList';
+import BuySellTrader from 'modules/autoTrader/BuySellTrader';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
 const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
   const { data: supportedPairs, isLoading } = useSupportedPairs(slug);
-  const [quote, setQuote] = useSearchParamAsState<AutoTraderSupportedQuotes>(
-    'quote',
-    'tether',
-  );
+  const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
 
   return (
     <>
-      <h3 className="mb-2 text-xxs">Auto Trade</h3>
-      <div className="space-y-4 rounded-md bg-v1-surface-l2 p-3 [&_.id-line]:hidden">
+      <div className="relative space-y-4 [&_.id-line]:hidden">
         {isLoading ? (
           <div className="m-3 flex justify-center">
             <Spinner />
           </div>
         ) : supportedPairs?.length ? (
           <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
-            <Trader
+            <BuySellTrader
               quote={quote}
               setQuote={setQuote}
               slug={slug}
-              loadingClassName="bg-v1-surface-l2"
+              loadingClassName="bg-v1-surface-l1"
             />
           </ActiveNetworkProvider>
         ) : (
