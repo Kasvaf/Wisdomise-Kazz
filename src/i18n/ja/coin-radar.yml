@@ -85,6 +85,9 @@ coin-details:
         name: 信号発信者名
         price: 価格
       title: 最も閲覧されたコイン
+    pools:
+      label: プール
+      title: プール
     price_performance:
       ath: 史上最高
       atl: 史上最低
@@ -164,7 +167,12 @@ coin-details:
       hold: 所有
       sell: 売る
       title: クジラの感情
+    whales:
+      label: クジラ
 coin_labels:
+  coingecko:
+    info: この資産は、広く利用されている暗号通貨データプラットフォームであるCoinGeckoに上場されています。CoinGeckoへの上場は、取引所間で価格、取引量、その他の指標を追跡することで、可視性、市場データ、信頼性の向上に役立ちます。
+    title: CoinGeckoに上場
   hype:
     info: 「Hype」ラベルは、現在ソーシャル メディアのアクティビティが急増しているシンボルを示します。これらのシンボルは、短期間に複数のソーシャル
       メディア
@@ -192,6 +200,9 @@ coin_labels:
     info: 「Monthly Social Beloved」は、過去 1 か月間にソーシャル
       メディアで大きな存在感を示し、多くのユニークなアカウントで言及されたシンボルをマークします。
     title: ソーシャル月間トレンド
+  new_born:
+    info: この資産は最近開始されたばかりであり、初期の市場の関心と流動性が確立されるため、高いボラティリティを経験する可能性があります。
+    title: 新たな資産
   short_term_bearish_overpriced:
     info: この資産は一時的に過大評価されており、短期的には下落圧力に直面する可能性があります。
     title: 短期的には弱気で高値
@@ -289,6 +300,7 @@ common:
   info: 情報
   labels: ラベル
   load_more: さらに読み込む
+  low_liquidity_warn: このトークンは流動性が低いため、慎重に取引してください。
   native_coin: ネイティブコイン
   network: ネットワーク
   networks: ネットワーク
@@ -316,6 +328,9 @@ onboarding:
 pools:
   table:
     address: 住所
+    created_at: 作成場所
+    dex: デックス
+    name: ペア名
     txns: TXNS
     volume: 音量
 screener:
@@ -405,3 +420,7 @@ social-radar:
         時間に資産を売却したウォレットの数と売却された合計金額を表示します。 <br /><br />
         クジラにとって魅力的ではなく、重要な取引がない資産の場合、「未追跡」バッジが表示されます。
       title: クジラの売買
+whales:
+  active: 活発なクジラ
+  holding: クジラを抱く
+  search: クジラを検索...
