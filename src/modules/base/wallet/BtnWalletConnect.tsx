@@ -8,7 +8,6 @@ import useIsMobile from 'utils/useIsMobile';
 import { trackClick } from 'config/segment';
 import { useIsLoggedIn } from '../auth/jwt-store';
 // eslint-disable-next-line import/no-unassigned-import
-import '@reown/appkit/library/react';
 
 const BtnSolanaWalletConnect: React.FC<{ className?: string }> = ({
   className,
@@ -56,6 +55,8 @@ const BtnWalletConnect: React.FC<{ className?: string }> = ({ className }) => {
       ) : net === 'solana' ? (
         <BtnSolanaWalletConnect className={className} />
       ) : net === 'polygon' ? (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         <appkit-button size="sm" balance="hide" />
       ) : null}
     </div>
