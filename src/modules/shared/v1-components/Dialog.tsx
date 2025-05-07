@@ -231,7 +231,7 @@ export const Dialog: FC<{
               {overlay && (
                 <div
                   className={clsx(
-                    'fixed inset-0 z-[9999] transition-all duration-300',
+                    'fixed inset-0 z-[100] transition-all duration-300',
                     mode === 'popup'
                       ? 'bg-transparent'
                       : 'bg-black/40 backdrop-blur-sm',
@@ -252,7 +252,7 @@ export const Dialog: FC<{
                 // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
                 tabIndex={1}
                 className={clsx(
-                  'fixed z-[9999] overflow-auto bg-[--current-color] transition-[transform,opacity] duration-100 ease-in-out scrollbar-thin mobile:duration-300',
+                  'fixed z-[100] overflow-auto bg-[--current-color] transition-[transform,opacity] duration-100 ease-in-out scrollbar-thin mobile:duration-300',
                   mode === 'drawer' && [
                     drawerConfig.position === 'bottom' && [
                       'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
