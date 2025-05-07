@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
+import { clsx } from 'clsx';
 import {
   useClaimReferralBonusBag,
   useFriendsQuery,
@@ -78,7 +79,7 @@ export default function ReferralPage() {
         <div className="col-span-2 flex flex-col-reverse gap-4 mobile:col-span-5 mobile:flex-col">
           <div className="rounded-xl bg-v1-surface-l2 p-4 mobile:bg-transparent mobile:p-0">
             <h2 className="mb-2">{t('page-referral.referral-link')}</h2>
-            <Referral />
+            <Referral className="mobile:p-4" />
           </div>
 
           <div>
@@ -241,11 +242,11 @@ export default function ReferralPage() {
   );
 }
 
-export function Referral() {
+export function Referral({ className }: { className?: string }) {
   const el = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="rounded-xl bg-v1-surface-l2 mobile:p-4">
+    <div className={clsx(className, 'rounded-xl bg-v1-surface-l2')}>
       <div
         ref={el}
         className="relative mb-3 overflow-hidden rounded-xl bg-v1-surface-l2 p-4"

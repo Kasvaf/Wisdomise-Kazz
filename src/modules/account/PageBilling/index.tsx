@@ -41,7 +41,6 @@ export default function PageBilling() {
       className="h-full"
       loading={isLoading}
       mountWhileLoading
-      title={null}
     >
       {showDetails ? (
         <SubscriptionDetail />

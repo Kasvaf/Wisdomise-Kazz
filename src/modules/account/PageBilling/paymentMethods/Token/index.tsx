@@ -109,13 +109,13 @@ export default function TokenPaymentModalContent({
         </div>
         <div className="col-span-12 flex flex-col items-center justify-center lg:col-span-6">
           {done ? (
-            <Card className="flex flex-col items-center gap-6">
+            <Card className="flex w-full flex-col items-center gap-6 lg:w-3/4">
               <Done className="text-green-400 mobile:w-24" />
               <div className="mb-6 text-center">
                 <p className="mb-6 text-2xl font-medium">
                   {t('token-modal.congratulations')}
                 </p>
-                <p className="font-medium text-white/60">
+                <p className="font-medium text-v1-content-secondary">
                   Wise Club Activated!
                 </p>
               </div>

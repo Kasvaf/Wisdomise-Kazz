@@ -50,12 +50,13 @@ export default function UnlockModalContent({
         By unlocking your WSDM tokens, you are opting out of our subscription
         services.
       </p>
-      <div className="my-8 flex w-full items-center justify-between gap-y-8 rounded-xl bg-v1-surface-l3 p-5 text-start max-md:flex-wrap">
+      <div className="my-8 grid w-full grid-cols-2 gap-x-16 rounded-xl bg-v1-surface-l3 p-5 text-start max-md:flex-wrap">
         <div>
           <h2 className="mb-2 text-xs text-v1-content-secondary">
             {t('utility.unlock-modal.withdraw-available')}
           </h2>
           <div className="text-xl font-semibold">{cooldown}</div>
+          <p className="mt-2 text-xs text-v1-inverse-overlay-70">Cooldown</p>
         </div>
         <div>
           <h2 className="mb-2 text-xs text-v1-content-secondary">
@@ -63,8 +64,8 @@ export default function UnlockModalContent({
           </h2>
           <div className="flex items-end gap-2">
             <span className="text-xl font-semibold">{lockedBalance}</span>{' '}
-            <span className="font-light">WSDM</span>
           </div>
+          <p className="mt-2 text-xs text-v1-inverse-overlay-70">WSDM</p>
         </div>
       </div>
       <p className="mb-6 text-sm text-v1-content-negative">

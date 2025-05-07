@@ -5,7 +5,6 @@ import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
 import { Button } from 'shared/v1-components/Button';
 import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWalletConnected';
-import { useVipModal } from 'modules/account/PageBilling/useVipModal';
 import { useUtility } from './web3/locking/useUtility';
 
 export default function Utility() {
@@ -23,14 +22,13 @@ export default function Utility() {
   };
 
   const { withdraw, isPending, isWaiting } = useWithdraw();
-  const { tokenPaymentModal, openVipModal } = useVipModal();
 
   return (
     <div
       className={clsx(
         'relative mt-4 overflow-hidden',
         utilityStatus !== 'locked' &&
-          'rounded-xl border border-v1-inverse-overlay-10 p-5',
+          'rounded-xl border border-v1-inverse-overlay-10 px-5 py-4',
       )}
     >
       {utilityStatus === 'locked' ? (
@@ -52,25 +50,9 @@ export default function Utility() {
           <p className="text-xs font-medium text-v1-inverse-overlay-70">
             Until withdraw
           </p>
-
-          <div className="mt-10">
-            <p className="text-sm">Want to join Wise club again?</p>
-            <p className="mt-2 text-sm text-v1-content-secondary">
-              If you have more WSDM you can join again until your previous
-              staked amount are ready to withdraw
-            </p>
-            <Button
-              variant="wsdm"
-              className="mt-4"
-              size="md"
-              onClick={() => openVipModal()}
-            >
-              Stake & Join Wise Club
-            </Button>
-          </div>
         </div>
       ) : utilityStatus === 'pending_withdraw' ? (
-        <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
           <div className="flex flex-col gap-2">
             <h3 className="gap-2 text-xl font-semibold">Ready to Withdraw</h3>
             <p className="text-xs text-v1-inverse-overlay-50">
@@ -83,6 +65,7 @@ export default function Utility() {
           <Button
             variant="white"
             size="md"
+            className="mt-4"
             loading={isPending || isWaiting}
             onClick={() => withdraw()}
           >
@@ -95,7 +78,6 @@ export default function Utility() {
         </div>
       ) : null}
       {unlockModal}
-      {tokenPaymentModal}
     </div>
   );
 }

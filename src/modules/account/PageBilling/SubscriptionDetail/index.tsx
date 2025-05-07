@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import {
   useAccountQuery,
+  useHasFlag,
   useInstantCancelMutation,
   useSubscription,
 } from 'api';
@@ -32,6 +33,7 @@ export default function SubscriptionDetail() {
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useInstantCancelMutation();
   const ensureWalletConnected = useEnsureWalletConnected();
+  const hasFlag = useHasFlag();
 
   const { data } = useAccountQuery();
   const firstDayNextMonth = dayjs().add(1, 'month').startOf('month');
@@ -61,10 +63,10 @@ export default function SubscriptionDetail() {
       />
       {paymentMethod === 'TOKEN' ? (
         <>
-          <div className="mt-6 grid grid-cols-3 gap-3 mobile:grid-cols-1">
+          <div className="mt-6 flex gap-3 mobile:flex-wrap [&>div]:w-1/3 [&>div]:mobile:w-full">
             <div className="rounded-xl bg-v1-surface-l2 p-5">
               <h2 className="mb-5 font-medium">Stake Info</h2>
-              <div className="grid grid-cols-2 gap-y-16 rounded-xl border border-v1-inverse-overlay-10 px-5 py-4 mobile:grid-cols-1">
+              <div className="grid grid-cols-2 gap-y-16 rounded-xl border border-v1-inverse-overlay-10 px-5 py-4 mobile:grid-cols-1 mobile:gap-y-8">
                 {group === 'free' ? (
                   <div className="flex flex-col gap-2">
                     <h3 className="text-xl font-semibold">Free</h3>
@@ -118,52 +120,56 @@ export default function SubscriptionDetail() {
                     </div>
                   </>
                 )}
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-xl font-semibold">$0</h3>
-                  <p className="text-xs text-v1-inverse-overlay-50">
-                    Reward Distributed in {firstDayNextMonth.format('MMMM D')}
-                  </p>
-                  <p className="text-xs font-medium text-v1-inverse-overlay-70">
-                    Expected Staking Reward
-                  </p>
-                </div>
+                {hasFlag('/account/billing?revenue') && (
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-xl font-semibold">$0</h3>
+                    <p className="text-xs text-v1-inverse-overlay-50">
+                      Reward Distributed in {firstDayNextMonth.format('MMMM D')}
+                    </p>
+                    <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                      Expected Staking Reward
+                    </p>
+                  </div>
+                )}
               </div>
               <Utility />
             </div>
-            <div className="rounded-xl bg-v1-surface-l2 p-5">
-              <h2 className="font-medium">Revenue</h2>
-              <div className="mt-5 rounded-xl border border-v1-inverse-overlay-10 px-5 py-4">
-                <h3 className="mb-2 text-xl font-semibold">$0</h3>
-                <p className="text-xs text-v1-inverse-overlay-50">
-                  Total Income from Wisdomise
-                </p>
-              </div>
-              <div className="relative mt-5 flex overflow-hidden rounded-xl bg-v1-overlay-100">
-                <img src={bg} alt="" className="absolute right-5" />
-                <div className="relative grow p-5">
-                  <div className="mt-5 flex items-center gap-3">
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white/10">
-                      <Bag />
+            {hasFlag('/account/billing?revenue') && (
+              <div className="rounded-xl bg-v1-surface-l2 p-5">
+                <h2 className="font-medium">Revenue</h2>
+                <div className="mt-5 rounded-xl border border-v1-inverse-overlay-10 px-5 py-4">
+                  <h3 className="mb-2 text-xl font-semibold">$0</h3>
+                  <p className="text-xs text-v1-inverse-overlay-50">
+                    Total Income from Wisdomise
+                  </p>
+                </div>
+                <div className="relative mt-5 flex overflow-hidden rounded-xl bg-v1-overlay-100">
+                  <img src={bg} alt="" className="absolute right-5" />
+                  <div className="relative grow p-5">
+                    <div className="mt-5 flex items-center gap-3">
+                      <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white/10">
+                        <Bag />
+                      </div>
+                      <div>
+                        <h3 className="mb-1 text-3xl font-medium">$0</h3>
+                        <p className="bg-pro-gradient bg-clip-text text-xs text-transparent">
+                          Ready to claim
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="mb-1 text-3xl font-medium">$0</h3>
-                      <p className="bg-pro-gradient bg-clip-text text-xs text-transparent">
-                        Ready to claim
-                      </p>
-                    </div>
+                    <Button
+                      variant="pro"
+                      className="mt-12 w-full"
+                      size="md"
+                      disabled={true}
+                    >
+                      <Gift />
+                      Claim Your Rewards
+                    </Button>
                   </div>
-                  <Button
-                    variant="pro"
-                    className="mt-12 w-full"
-                    size="md"
-                    disabled={true}
-                  >
-                    <Gift />
-                    Claim Your Rewards
-                  </Button>
                 </div>
               </div>
-            </div>
+            )}
             <div className="rounded-xl bg-v1-surface-l2 p-5">
               <div className="-mt-3 mb-2 flex items-center justify-between">
                 <h2 className="font-medium">Referral</h2>
@@ -199,13 +205,18 @@ export default function SubscriptionDetail() {
                   Increase Your Stake to Earn More Rewards and Maximize Your
                   Share in Wisdomise Revenue.
                 </p>
-                <Button variant="wsdm" className="w-64" onClick={stakeMore}>
+                <Button
+                  variant="wsdm"
+                  className="w-72"
+                  disabled={true}
+                  onClick={stakeMore}
+                >
                   <DebugPin
                     title="/account/billing?payment_method=lock"
                     color="orange"
                   />
                   <Icon name={bxsPlusSquare} />
-                  Stake More
+                  Stake More (Coming soon...)
                 </Button>
               </div>
             </div>

@@ -101,13 +101,13 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
         <Button
           size="xs"
           variant="outline"
-          disabled={balanceIsLoading}
+          loading={balanceIsLoading}
           onClick={() => updateBalance()}
         >
           {t('token-modal.refresh')}
         </Button>
       </h3>
-      <div className="flex items-center justify-center gap-6">
+      <div className="flex justify-center gap-6">
         <div>
           <div className="mb-5 text-4xl">
             {addComma(generalLockingRequirement?.requirement_locking_amount)}
@@ -117,7 +117,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
             <p className="mt-1 text-xs">Polygon Network</p>
           </div>
         </div>
-        <div className="h-16 w-px border-r border-white/50"></div>
+        <div className="h-16 w-px border-r border-v1-border-secondary"></div>
 
         {(lockedBalance ?? 0n) > 0 ? (
           <div className="text-center">
@@ -150,12 +150,12 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           </div>
         )}
       </div>
-      <div className="max-w-72">
+      <div className="mt-6 w-72 mobile:w-full">
         {canSubscribe ? (
           <Button
             loading={paymentIsPending || lockStateIsFetching}
             onClick={activate}
-            className="mb-6 w-full"
+            className="w-full"
           >
             Activate Wise Club
           </Button>
@@ -168,7 +168,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
               lockingIsWaiting
             }
             onClick={lock}
-            className="mb-6 w-full"
+            className="w-full"
           >
             {approveIsPending
               ? 'Waiting for approval signature...'
