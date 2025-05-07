@@ -3,7 +3,7 @@ import {
   type LeaderboardParticipant,
   type PromotionStatus,
 } from 'api/tournament';
-import { addComma } from 'utils/numbers';
+import { formatNumber } from 'utils/numbers';
 import { ReactComponent as IconUser } from '../user.svg';
 import { ReactComponent as Neutral } from './neutral.svg';
 import { ReactComponent as Money } from './money.svg';
@@ -163,7 +163,13 @@ export function LeaderboardItem({
             {participant.name ?? participant.investor_key}
           </div>
           <div className="ms-auto">
-            ${addComma(Math.round(+participant.trading_volume))}
+            $
+            {formatNumber(participant.trading_volume, {
+              compactInteger: false,
+              seperateByComma: false,
+              decimalLength: 1,
+              minifyDecimalRepeats: false,
+            })}
           </div>
           {participant.promotion_status && (
             <div className="ml-4 mr-2 flex items-center">

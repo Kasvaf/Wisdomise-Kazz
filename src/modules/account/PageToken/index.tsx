@@ -6,14 +6,21 @@ import Migration from 'modules/account/PageToken/Migration';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import Balance from 'modules/account/PageToken/Balance/Balance';
 import Wallet from 'modules/account/PageToken/Wallet';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useIsMobile from 'utils/useIsMobile';
 import ConnectWalletGuard from '../PageBilling/paymentMethods/Token/ConnectWalletGuard';
 
 export default function PageToken() {
   const { t } = useTranslation('wisdomise-token');
+  const isMobile = useIsMobile();
   const { isConnected } = useAccount();
 
   return (
-    <PageWrapper hasBack title={null}>
+    <PageWrapper
+      hasBack
+      title={null}
+      extension={!isMobile && <CoinExtensionsGroup />}
+    >
       <div className="my-10 flex flex-wrap items-center justify-between gap-4 md:gap-6">
         <h1 className="text-center">
           <Trans i18nKey="wisdomise-token:title" ns="wisdomise-token">

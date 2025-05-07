@@ -1,7 +1,7 @@
 import { type ReactNode, useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { type CoinDetails } from 'api/types/shared';
+import { type CoinCommunityData } from 'api/types/shared';
 // https://simpleicons.org
 import { ReactComponent as FacebookIcon } from './facebook.svg';
 import { ReactComponent as RedditIcon } from './reddit.svg';
@@ -29,8 +29,8 @@ function extractTwitterInfo(twitterScreenerName: string): {
   return { type: 'other' };
 }
 
-export const useCommunityData = (
-  value: CoinDetails['community_data'] | null,
+export const useCoinCommunityLinks = (
+  value?: CoinCommunityData['links'] | null,
 ) => {
   const { t } = useTranslation('coin-radar');
   return useMemo(() => {
@@ -42,7 +42,7 @@ export const useCommunityData = (
       label: ReactNode;
       href: string;
     }> = [];
-    if (value?.links?.subreddit_url) {
+    if (value?.subreddit_url) {
       ret = [
         ...ret,
         {
@@ -50,12 +50,12 @@ export const useCommunityData = (
           name: 'reddit',
           icon: <RedditIcon />,
           label: t('coin-details.tabs.coin_links.reddit'),
-          href: value?.links?.subreddit_url,
+          href: value?.subreddit_url,
         },
       ];
     }
-    if (value?.links?.twitter_screen_name) {
-      const twitterInfo = extractTwitterInfo(value.links.twitter_screen_name);
+    if (value?.twitter_screen_name) {
+      const twitterInfo = extractTwitterInfo(value.twitter_screen_name);
       const isPost = twitterInfo.type === 'post' && twitterInfo.value;
       ret = [
         ...ret,
@@ -76,11 +76,11 @@ export const useCommunityData = (
             </>
           ) : null,
           label: t('coin-details.tabs.coin_links.twitter'),
-          href: `https://x.com/${value.links?.twitter_screen_name}`,
+          href: `https://x.com/${value?.twitter_screen_name}`,
         },
       ];
     }
-    if (value?.links?.facebook_username) {
+    if (value?.facebook_username) {
       ret = [
         ...ret,
         {
@@ -88,11 +88,11 @@ export const useCommunityData = (
           name: 'facebook',
           icon: <FacebookIcon />,
           label: t('coin-details.tabs.coin_links.facebook'),
-          href: `https://facebook.com/${value.links?.facebook_username}`,
+          href: `https://facebook.com/${value?.facebook_username}`,
         },
       ];
     }
-    if (value?.links?.telegram_channel_identifier) {
+    if (value?.telegram_channel_identifier) {
       ret = [
         ...ret,
         {
@@ -100,7 +100,7 @@ export const useCommunityData = (
           name: 'telegram',
           icon: <TelegramIcon />,
           label: t('coin-details.tabs.coin_links.telegram'),
-          href: `https://t.me/${value.links?.telegram_channel_identifier}`,
+          href: `https://t.me/${value?.telegram_channel_identifier}`,
         },
       ];
     }

@@ -6,6 +6,8 @@ import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
 import { FeaturesTable } from 'modules/account/PageBilling/FeaturesTable';
 import { MAIN_LANDING } from 'config/constants';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useIsMobile from 'utils/useIsMobile';
 import { useReadUnlockedInfo } from 'modules/account/PageToken/web3/locking/contract';
 import { useVipModal } from 'modules/account/PageBilling/useVipModal';
 import bag from './images/bag.png';
@@ -14,6 +16,7 @@ import bg from './images/bg.png';
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function PageBilling() {
+  const isMobile = useIsMobile();
   const plans = usePlansQuery();
   const { isLoading: subIsLoading, group } = useSubscription();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
@@ -40,6 +43,7 @@ export default function PageBilling() {
       hasBack
       className="h-full"
       loading={isLoading}
+      extension={!isMobile && <CoinExtensionsGroup />}
       mountWhileLoading
     >
       {showDetails ? (

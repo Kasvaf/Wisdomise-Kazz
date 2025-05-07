@@ -25,9 +25,10 @@ export default function DailyProgress({
       <div className="relative flex flex-col items-center justify-center gap-2">
         <Progress
           className="[&>.ant-progress-inner]:bg-transparent"
-          size={countdown ? 60 : 80}
+          size={countdown ? 60 : 90}
           type="circle"
           steps={7}
+          trailColor="rgba(0, 0, 0, 0.3)"
           percent={((currentDay + 1) * 100) / 7}
           showInfo={false}
         />

@@ -21,7 +21,7 @@ export default function LeagueIcon({
         <img
           src={light}
           alt=""
-          className="absolute animate-[spin_5s_linear_infinite] rounded-full mix-blend-exclusion"
+          className="absolute w-40 animate-[spin_5s_linear_infinite] rounded-full mix-blend-exclusion"
         />
       )}
       <img src={leagueDetail?.image} alt="" className="relative h-full" />

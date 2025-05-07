@@ -1,16 +1,19 @@
+import { clsx } from 'clsx';
 import { useCallback, useState } from 'react';
-import { DrawerModal } from 'shared/DrawerModal';
+import { useSymbolInfo } from 'api/symbol';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
+import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
+import useIsMobile from 'utils/useIsMobile';
 import Spinner from 'shared/Spinner';
 import { Coin } from 'shared/Coin';
-import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
-import { useSymbolInfo } from 'api/symbol';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { type TraderInputs } from '../PageTrade/types';
 import BuySellTrader from '.';
 
 type DrawerInputs = Omit<TraderInputs, 'quote' | 'setQuote'>;
 
 export default function useTraderDrawer() {
+  const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState<DrawerInputs>();
   const [quote, setQuote] = useState('tether');
@@ -20,14 +23,16 @@ export default function useTraderDrawer() {
 
   const component = (
     <div onClick={e => e.stopPropagation()}>
-      <DrawerModal
+      <Dialog
         open={open}
         onClose={useCallback(() => setOpen(false), [])}
-        maskClosable={true}
-        closeIcon={null}
-        width={400}
-        destroyOnClose
-        rootClassName="[&_.ant-drawer-body]:-mt-8"
+        mode="drawer"
+        drawerConfig={{
+          position: isMobile ? 'bottom' : 'end',
+          closeButton: isMobile,
+        }}
+        className={clsx(!isMobile && 'w-[400px]')}
+        contentClassName="p-4"
       >
         {inputs && open && (
           <ActiveNetworkProvider base={inputs.slug} quote={quote}>
@@ -52,7 +57,7 @@ export default function useTraderDrawer() {
             )}
           </ActiveNetworkProvider>
         )}
-      </DrawerModal>
+      </Dialog>
     </div>
   );
 

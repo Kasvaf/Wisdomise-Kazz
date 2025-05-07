@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
+import PageLeague from 'modules/quest/PageLeague';
 import Container from '../Container';
 import { ActiveNetworkProvider } from '../active-network';
 
@@ -17,8 +18,6 @@ const PageTournamentDetail = React.lazy(
 const PageTournaments = React.lazy(
   () => import('modules/quest/PageTournaments'),
 );
-
-const PageLeague = React.lazy(() => import('modules/quest/PageLeague'));
 
 const PagePositions = React.lazy(
   () => import('modules/autoTrader/PagePositions'),

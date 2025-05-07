@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { resolvePageResponseToArray } from 'api/utils';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import {
   type CoinNetwork,
   type Coin,
@@ -35,8 +36,9 @@ export interface CoinRadarCoin {
   _highlighted?: boolean;
 }
 
-export const useCoinRadarCoins = (config: { networks?: string[] }) =>
-  useQuery({
+export const useCoinRadarCoins = (config: { networks?: string[] }) => {
+  const [defaultNetwork] = useGlobalNetwork();
+  return useQuery({
     queryKey: ['coin-radar-coins'],
     queryFn: () =>
       resolvePageResponseToArray<CoinRadarCoin>(
@@ -51,7 +53,7 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
       data
         .filter(row => {
           if (
-            !matcher(config.networks).array(
+            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
               row.networks?.map(x => x.network.slug),
             )
           )
@@ -90,3 +92,4 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });
+};

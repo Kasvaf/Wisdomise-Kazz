@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { type FC, type SVGProps, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Modal } from 'antd';
 import {
   type CommunityProfile,
   useCommunityProfileQuery,
@@ -12,6 +11,9 @@ import PageWrapper from 'modules/base/PageWrapper';
 import Button from 'shared/Button';
 import { Markdown } from 'shared/Markdown';
 import TextBox from 'shared/TextBox';
+import useIsMobile from 'utils/useIsMobile';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import { Dialog } from 'shared/v1-components/Dialog';
 import {
   DiscordIcon,
   EditIcon,
@@ -105,6 +107,7 @@ const useInfoRows = (): Array<{
 
 export default function PageProfile() {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const account = useAccountQuery();
   const profile = useCommunityProfileQuery();
   const profileOverviewForm = useForm<CommunityProfile>();
@@ -123,6 +126,7 @@ export default function PageProfile() {
       hasBack
       title={t('accounts:page-profile.title')}
       loading={profile.isLoading}
+      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <ProfileHeader
         className="mb-8"
@@ -206,12 +210,16 @@ export default function PageProfile() {
         </form>
       </div>
 
-      <Modal
-        centered
+      <Dialog
         open={infoModal}
         footer={false}
-        width={768}
-        onCancel={() => {
+        mode={isMobile ? 'drawer' : 'modal'}
+        drawerConfig={{
+          position: 'bottom',
+        }}
+        contentClassName="p-3"
+        surface={2}
+        onClose={() => {
           setInfoModal(false);
         }}
       >
@@ -271,7 +279,7 @@ export default function PageProfile() {
             </Button>
           </div>
         </form>
-      </Modal>
+      </Dialog>
     </PageWrapper>
   );
 }

@@ -16,6 +16,8 @@ import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
 import useModal from 'shared/useModal';
 import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
+import useIsMobile from 'utils/useIsMobile';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import trader from './images/trader.png';
 import { ReactComponent as WiseClub } from './images/wise-club.svg';
 import { ReactComponent as Users } from './images/users.svg';
@@ -30,6 +32,7 @@ import gradient2 from './images/gradient-2.png';
 
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
+  const isMobile = useIsMobile();
   const [RewardModal, openRewardModal] = useRewardModal();
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
@@ -61,6 +64,7 @@ export default function ReferralPage() {
       title={t('base:menu.referral.title')}
       loading={isLoading}
       className="mobile:pt-4"
+      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <h1 className="mb-2">{t('page-referral.title')}</h1>
       <p className="mb-2 text-sm text-v1-content-secondary">

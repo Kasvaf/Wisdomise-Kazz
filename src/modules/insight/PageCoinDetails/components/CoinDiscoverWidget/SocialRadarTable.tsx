@@ -11,11 +11,9 @@ import { AccessShield } from 'shared/AccessShield';
 
 export const SocialRadarTable: FC<{
   onClick: (coin: SocialRadarCoin) => void;
-  networks: string[];
-}> = ({ onClick, networks }) => {
+}> = ({ onClick }) => {
   const coins = useSocialRadarCoins({
     windowHours: 24,
-    networks,
   });
 
   const columns = useMemo<Array<TableColumn<SocialRadarCoin>>>(

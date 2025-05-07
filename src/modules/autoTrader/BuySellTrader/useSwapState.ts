@@ -10,7 +10,7 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [dir, setDir] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState('0');
   const [isMarketPrice, setIsMarketPrice] = useState(true);
-  const [p, setPercentage] = useState('0');
+  const [p, setPercentage] = useState('10');
   const confirming = useState(false);
   const firing = useState(false);
   const percentage = isMarketPrice ? '0' : p;

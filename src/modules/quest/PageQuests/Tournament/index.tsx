@@ -15,18 +15,20 @@ const Tournaments: React.FC<{ className?: string }> = ({ className }) => {
     <NavLink
       to="tournaments"
       className={clsx(
-        'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 pr-0',
+        'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 pr-0 md:h-[13rem]',
         'hover:saturate-200',
         className,
       )}
     >
       <img src={gradient} alt="" className="absolute left-0 w-full" />
-      <div className="relative">
-        <h2 className="text-xl font-semibold">Tournament</h2>
-        <p className="mt-3 max-w-52 text-xs text-v1-content-secondary">
-          Compete in Tournaments and Climb the Leaderboard.
-        </p>
-        <StatusChip className="mt-3">
+      <div className="relative flex h-full flex-col justify-between">
+        <div>
+          <h2 className="text-xl font-semibold">Tournament</h2>
+          <p className="mt-4 text-xs text-v1-content-secondary mobile:mt-2 mobile:max-w-52">
+            Compete in Tournaments and Climb the Leaderboard.
+          </p>
+        </div>
+        <StatusChip className="mt-4">
           <div className="text-xxs text-v1-content-secondary ">
             Live Tournaments
             <span className="ml-3 text-v1-content-primary">
@@ -35,7 +37,11 @@ const Tournaments: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </StatusChip>
       </div>
-      <img src={leaderboard} alt="" className="relative -mb-8 h-32 w-32" />
+      <img
+        src={leaderboard}
+        alt=""
+        className="relative -mb-8 size-48 mobile:size-32"
+      />
     </NavLink>
   );
 };

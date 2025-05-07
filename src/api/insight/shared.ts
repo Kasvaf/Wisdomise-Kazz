@@ -2,6 +2,7 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
 import { isMiniApp } from 'utils/version';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import {
   type Coin,
   type Category,
@@ -10,6 +11,8 @@ import {
   type CoinLabels,
   type CoinDetails,
   type Pool,
+  type NetworkSecurity,
+  type CoinCommunityData,
 } from '../types/shared';
 import { matcher } from './utils';
 import { type NetworkRadarNCoin } from './network';
@@ -109,6 +112,38 @@ export const useCoins = (config: {
         },
       }),
   });
+
+interface DetailedCoin {
+  symbol: Coin;
+  symbol_community_links?: null | CoinCommunityData['links'];
+  contract_address?: null | string;
+  symbol_security?: null | NetworkSecurity;
+  symbol_market_data?: {
+    volume_24h?: null | number;
+    market_cap?: null | number;
+  };
+  is_in_coingecko?: boolean | null;
+  symbol_labels?: string[] | null;
+}
+
+export const useDetailedCoins = (config: {
+  query?: string;
+  network?: string;
+}) => {
+  const [globalNetwork] = useGlobalNetwork();
+  const network = config.network ?? globalNetwork;
+  return useQuery({
+    queryKey: ['coinsV2', config.query, network],
+    staleTime: Number.POSITIVE_INFINITY,
+    queryFn: () =>
+      ofetch<DetailedCoin[]>('delphi/market/symbol-advanced-search/', {
+        query: {
+          q: config.query,
+          network_slug: network,
+        },
+      }),
+  });
+};
 
 export const useCoinLabels = (config: { query?: string }) =>
   useQuery({

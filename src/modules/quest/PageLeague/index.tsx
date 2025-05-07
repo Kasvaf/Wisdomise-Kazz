@@ -22,6 +22,7 @@ import {
 import useIsMobile from 'utils/useIsMobile';
 import LeagueResultModalContent from 'modules/quest/PageLeague/LeagueResultModalContent';
 import useModal from 'shared/useModal';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
 import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDetail/Leaderboard/champion.svg';
 import prize from './images/prize.png';
@@ -78,6 +79,7 @@ export default function PageLeague() {
       footer={null}
       title="League"
       loading={isLoading}
+      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <PageTitle
         className="pt-8"
@@ -177,7 +179,7 @@ function Prize({
   endTime,
   rewardedUsersMinRank,
 }: {
-  league: LeagueDetail;
+  league: LeagueDetail & { description: string; image: string };
   startTime: string;
   endTime: string;
   rewardedUsersMinRank?: number;
@@ -208,7 +210,11 @@ function Prize({
         Keep Trading to Stay in the Top {rewardedUsersMinRank}!
       </p>
       <div className="flex w-max rounded-lg bg-white/5 p-1">
-        <LeaderboardPrizes prizes={league?.prizes} hasDetail={true} />
+        <LeaderboardPrizes
+          prizes={league.prizes}
+          hasDetail={true}
+          description={league.description}
+        />
       </div>
       <div className="mt-2 flex w-max items-center gap-1 rounded-lg bg-white/5 p-1">
         {isTopLevel ? (

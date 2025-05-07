@@ -85,6 +85,9 @@ coin-details:
         name: 名稱
         price: 價格
       title: 最受关注的硬币
+    pools:
+      label: 泳池
+      title: 泳池
     price_performance:
       ath: 历史最高纪录
       atl: 历史最低点
@@ -164,7 +167,13 @@ coin-details:
       hold: 抓住
       sell: 卖
       title: 鲸鱼情绪
+    whales:
+      label: 鲸鱼
 coin_labels:
+  coingecko:
+    info: 该资产已在广泛使用的加密货币数据平台 CoinGecko 上线。在 CoinGecko
+      上线有助于通过追踪各交易所的价格、交易量和其他指标，提供可见性、市场数据和可信度。
+    title: 在 CoinGecko 上市
   hype:
     info: 這個標籤為目前在社交媒體上活躍度激增的幣種。這些幣種在短時間內被多個社交媒體平台上，不同的、大量的獨立帳號提及。此標籤顯示該幣種可能正引發趨勢或熱議，表示公眾的興趣風向或投機性的增加。
     title: 炒作
@@ -189,6 +198,9 @@ coin_labels:
   monthly_social_beloved:
     info: “每月社交宠儿”标记了在社交媒体上具有强大影响力并且在过去一个月内被许多独立账户提及的符号。
     title: 社会月度趋势
+  new_born:
+    info: 该资产最近刚刚推出，在建立初始市场兴趣和流动性时可能会经历较高的波动性。
+    title: 新生资产
   short_term_bearish_overpriced:
     info: 该资产暂时被高估，可能面临短期下行压力。
     title: 短期看跌，價格過高
@@ -285,6 +297,7 @@ common:
   info: 信息
   labels: 标签
   load_more: 加载更多
+  low_liquidity_warn: 该代币流动性较低，请谨慎交易！
   native_coin: 原生币
   network: 網絡
   networks: 网络
@@ -310,6 +323,9 @@ onboarding:
 pools:
   table:
     address: 地址
+    created_at: 创建于
+    dex: 去中心化交易所
+    name: 对名称
     txns: 德州新星
     volume: 交易量
 screener:
@@ -396,3 +412,7 @@ social-radar:
         <b>销售活动：</b> 显示过去一小时内出售该资产的钱包数量以及出售的总金额。 <br /><br />
         对于对鲸鱼没有吸引力且没有重大交易的资产，会显示“未跟踪”标记。
       title: 鲸鱼买入/卖出
+whales:
+  active: 活跃的鲸鱼
+  holding: 抱鲸鱼
+  search: 搜索鲸鱼...

@@ -37,6 +37,7 @@ const CoinChart: React.FC<{ slug: string; height?: number }> = ({
 
   return chart.type === 'gecko_terminal' ? (
     <iframe
+      key={chart.url}
       height={height}
       width="100%"
       id="geckoterminal-embed"
@@ -48,6 +49,7 @@ const CoinChart: React.FC<{ slug: string; height?: number }> = ({
     />
   ) : chart.type === 'trading_view' ? (
     <AdvancedRealTimeChart
+      key={chart.url}
       allow_symbol_change={false}
       symbol={chart.id}
       style="1"

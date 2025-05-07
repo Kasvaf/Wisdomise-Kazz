@@ -2,17 +2,14 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 
 import { clsx } from 'clsx';
-import { bxsCopy } from 'boxicons-quasar';
-import { useCoinPools } from 'api';
+import { useCoinDetails } from 'api';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { type Pool } from 'api/types/shared';
-import { shortenAddress } from 'utils/shortenAddress';
 import { ReadableDate } from 'shared/ReadableDate';
 import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
-import { useShare } from 'shared/useShare';
-import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
+import { ContractAddress } from 'shared/ContractAddress';
 
 export function CoinPoolsWidget({
   slug,
@@ -26,25 +23,15 @@ export function CoinPoolsWidget({
   className?: string;
 }) {
   const { t } = useTranslation('coin-radar');
-  const pools = useCoinPools({ slug, network: 'solana' });
+  const coin = useCoinDetails({ slug });
+  const pools = coin.data?.symbol_pools ?? [];
   const [limit, setLimit] = useState<number | undefined>(6);
-  const [copy, copyNotif] = useShare('copy');
 
   const columns = useMemo<Array<TableColumn<Pool>>>(
     () => [
       {
         title: t('pools.table.address'),
-        render: row => (
-          <div className="flex items-center gap-1 text-xs">
-            {shortenAddress(row.address ?? '')}
-            <Icon
-              name={bxsCopy}
-              size={12}
-              className="cursor-pointer"
-              onClick={() => copy(row.address ?? '')}
-            />
-          </div>
-        ),
+        render: row => row.address && <ContractAddress value={row.address} />,
         sticky: 'start',
       },
       {
@@ -91,10 +78,10 @@ export function CoinPoolsWidget({
         ),
       },
     ],
-    [copy, t],
+    [t],
   );
 
-  if ((pools.data ?? []).length === 0) return null;
+  if (pools.length === 0) return null;
 
   return (
     <>
@@ -109,14 +96,13 @@ export function CoinPoolsWidget({
           {t('coin-details.tabs.pools.title')}
         </h3>
         <Table
-          loading={pools.isLoading}
           columns={columns}
-          dataSource={pools.data?.slice(0, limit)}
+          dataSource={pools?.slice(0, limit)}
           rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
           surface={2}
           scrollable
           footer={
-            (pools.data?.length ?? 0) > 6 &&
+            (pools?.length ?? 0) > 6 &&
             limit && (
               <Button
                 size="xs"
@@ -129,7 +115,6 @@ export function CoinPoolsWidget({
           }
         />
       </div>
-      {copyNotif}
       {hr && <hr className="border-white/10" />}
     </>
   );

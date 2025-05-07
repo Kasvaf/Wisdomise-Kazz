@@ -6,33 +6,52 @@ import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
 import useMenuItems from 'modules/base/Layout/MenuItems/useMenuItems';
+import { useNetworks } from 'api';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
-  coin,
+  value,
   className,
   noCors,
+  network,
 }: {
-  coin: CoinType;
+  value?: CoinType | string | null;
   className?: string;
   noCors?: boolean;
+  network?: string;
 }) {
+  const url = typeof value === 'string' ? value : value?.logo_url;
+
+  const networks = useNetworks({
+    query: network,
+  });
+
+  const networkObj = useMemo(
+    () => networks.data?.find(x => x.slug === network),
+    [networks.data, network],
+  );
+
   return (
-    <div
-      className={clsx(
-        'relative inline-block overflow-hidden rounded-full bg-white bg-cover bg-center bg-no-repeat',
-        className,
+    <div className={clsx('relative inline-block overflow-hidden', className)}>
+      <div
+        className="size-full overflow-hidden rounded-full bg-white bg-cover bg-center bg-no-repeat"
+        style={{
+          ...(url && {
+            backgroundImage: `url("${
+              noCors ? `https://corsproxy.io/?url=${url}` : url
+            }")`,
+          }),
+        }}
+      />
+
+      {networkObj?.icon_url && (
+        <img
+          src={networkObj?.icon_url}
+          alt={network}
+          className="absolute bottom-0 right-0 size-[40%] rounded-full"
+        />
       )}
-      style={{
-        ...(typeof coin.logo_url === 'string' && {
-          backgroundImage: `url("${
-            noCors
-              ? `https://corsproxy.io/?url=${coin.logo_url}`
-              : coin.logo_url
-          }")`,
-        }),
-      }}
-    />
+    </div>
   );
 }
 
@@ -91,7 +110,7 @@ export function Coin({
   const content = (
     <>
       <CoinLogo
-        coin={coin}
+        value={coin}
         className={clsx(
           'shrink-0',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),

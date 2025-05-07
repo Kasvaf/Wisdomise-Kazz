@@ -1,23 +1,20 @@
-import { Drawer as AntDrawer, Tooltip as AntTooltip } from 'antd';
+import { type Drawer as AntDrawer, type Tooltip as AntTooltip } from 'antd';
 import { clsx } from 'clsx';
 import {
+  useEffect,
+  useState,
   type ComponentProps,
   type ReactNode,
-  useEffect,
-  useRef,
-  useState,
 } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
-import { useOnClickOutside, useEventListener } from 'usehooks-ts';
 import useIsMobile from 'utils/useIsMobile';
+import { Dialog, DIALOG_OPENER_CLASS } from './v1-components/Dialog';
 import Icon from './Icon';
 
 export function ClickableTooltip({
   title,
   children,
   className,
-  tooltipPlacement = 'bottom',
-  drawerPlacement = 'bottom',
   disabled,
   onOpenChange,
   chevron,
@@ -25,102 +22,65 @@ export function ClickableTooltip({
   title?: ReactNode;
   children?: ReactNode;
   className?: string;
-  tooltipPlacement?: ComponentProps<typeof AntTooltip>['placement'];
-  drawerPlacement?: ComponentProps<typeof AntDrawer>['placement'];
+  tooltipPlacement?: ComponentProps<typeof AntTooltip>['placement']; // DEPRICATED
+  drawerPlacement?: ComponentProps<typeof AntDrawer>['placement']; // DEPRICATED
   disabled?: boolean;
   onOpenChange?: (v: boolean) => void;
   chevron?: boolean;
 }) {
   const isMobile = useIsMobile();
-  const lastIsOpen = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
-  const rootClassName = clsx(
-    'group relative inline-flex select-none items-center gap-1',
-    disabled !== true && 'cursor-help',
-    isOpen && 'pointer-events-none',
-    className,
-  );
-  const titleClassName = clsx(
-    'max-h-[90svh] overflow-auto text-sm text-v1-content-primary',
-  );
-  const titleRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(titleRef, () => {
-    if (isOpen && !isMobile) {
-      setIsOpen(false);
-    }
-  });
-  useEventListener('click', e => {
-    const el = e.target as HTMLElement;
-    if (el.closest('a')) {
-      setIsOpen(false);
-    }
-  });
 
   useEffect(() => {
-    if (isOpen !== lastIsOpen.current) {
-      onOpenChange?.(isOpen);
-      lastIsOpen.current = isOpen;
-    }
+    onOpenChange?.(isOpen);
   }, [isOpen, onOpenChange]);
-
-  const root = (
-    <span
-      className={rootClassName}
-      onClick={() => {
-        if (disabled !== true) {
-          setIsOpen(p => !p);
-        }
-      }}
-    >
-      {children}
-      {disabled !== true && chevron !== false && (
-        <Icon
-          name={bxChevronDown}
-          className={clsx(
-            'text-inherit opacity-70 transition-all group-hover:opacity-100',
-            isOpen && 'rotate-180 !opacity-100',
-          )}
-          size={16}
-        />
-      )}
-    </span>
-  );
 
   return (
     <>
-      {isMobile ? (
-        <>
-          {root}
-          <AntDrawer
-            closable
-            placement={drawerPlacement}
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-            className="rounded-t-2xl !bg-v1-surface-l4 !p-6 mobile:!p-4 [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-header]:hidden"
-            closeIcon={null}
-            destroyOnClose
-            height="auto"
-          >
-            <div ref={titleRef} className={titleClassName}>
-              {title}
-            </div>
-          </AntDrawer>
-        </>
-      ) : (
-        <AntTooltip
-          title={
-            <div ref={titleRef} className={titleClassName}>
-              {title}
-            </div>
+      <span
+        className={clsx(
+          'group relative inline-flex select-none items-center gap-1',
+          disabled !== true && 'cursor-help',
+          DIALOG_OPENER_CLASS,
+          className,
+        )}
+        onClick={e => {
+          if (!disabled) {
+            e.stopPropagation();
+            e.preventDefault();
+            setIsOpen(true);
           }
-          placement={tooltipPlacement}
-          rootClassName="!max-w-[400px] min-w-[150px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-3 [&_.ant-tooltip-inner]:!text-inherit"
-          open={isOpen}
-          destroyTooltipOnHide
-        >
-          {root}
-        </AntTooltip>
-      )}
+        }}
+      >
+        {children}{' '}
+        {disabled !== true && chevron !== false && (
+          <Icon
+            name={bxChevronDown}
+            className={clsx(
+              'text-inherit opacity-70 transition-all group-hover:opacity-100',
+              isOpen && 'rotate-180 !opacity-100',
+            )}
+            size={16}
+          />
+        )}
+      </span>
+      <Dialog
+        className="min-w-[150px] !max-w-[410px] mobile:!max-w-full"
+        contentClassName="p-3"
+        mode={isMobile ? 'drawer' : 'popup'}
+        popupConfig={{
+          position: 'target',
+        }}
+        drawerConfig={{
+          position: 'bottom',
+          closeButton: true,
+        }}
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        surface={4}
+      >
+        {title}
+      </Dialog>
     </>
   );
 }

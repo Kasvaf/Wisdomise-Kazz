@@ -1,15 +1,13 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
-import { NetworkSelect } from 'shared/NetworkSelect';
+import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinLabels } from 'shared/CoinLabels';
 import { AccessShield } from 'shared/AccessShield';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
@@ -21,15 +19,8 @@ import useHotCoinsTour from './useHotCoinsTour';
 
 export const HotCoinsMobile = () => {
   const { t } = useTranslation('insight');
-  const hasFlag = useHasFlag();
-  const [network, setNetwork] = useSearchParamAsState<string>(
-    'network',
-    hasFlag('/trader/positions?mobile') ? 'solana' : '',
-  );
 
-  const coins = useCoinRadarCoins({
-    networks: network ? [network] : [],
-  });
+  const coins = useCoinRadarCoins({});
   useLoadingBadge(coins.isFetching);
 
   useHotCoinsTour({
@@ -126,21 +117,7 @@ export const HotCoinsMobile = () => {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <h1 className="text-sm">{t('table.mobile_title')}</h1>
-        </div>
-        <NetworkSelect
-          value={network || undefined}
-          allowClear
-          multiple={false}
-          onChange={newNetwork => setNetwork(newNetwork ?? '')}
-          size="sm"
-          valueType="slug"
-          filter="coin-radar"
-          surface={2}
-        />
-      </div>
+      <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           rowClassName="tour-item-row"

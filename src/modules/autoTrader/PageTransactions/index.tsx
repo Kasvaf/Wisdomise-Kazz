@@ -7,11 +7,14 @@ import {
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import PageWrapper from 'modules/base/PageWrapper';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useIsMobile from 'utils/useIsMobile';
 import TransactionBox from './TransactionBox';
 import { ReactComponent as ArrowUp } from './ArrowUp.svg';
 
 export default function PageTransactions() {
   const { slug } = useParams<{ slug: string }>();
+  const isMobile = useIsMobile();
   const [positionKey] = useSearchParamAsState('key');
   if (!slug) throw new Error('unexpected');
 
@@ -27,7 +30,11 @@ export default function PageTransactions() {
   });
 
   return (
-    <PageWrapper hasBack title="Transactions History">
+    <PageWrapper
+      hasBack
+      title="Transactions History"
+      extension={!isMobile && <CoinExtensionsGroup />}
+    >
       <div className="flex flex-col gap-4">
         {transactionsLoading || positionLoading ? (
           <div className="mt-8 flex justify-center">

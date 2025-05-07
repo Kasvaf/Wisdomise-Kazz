@@ -32,7 +32,7 @@ export function CoinLabelSelect<M extends boolean>({
         return (
           <CoinLabel
             value={val}
-            popup={false}
+            clickable={false}
             className={clsx(target === 'value' && '!bg-transparent !px-0')}
             size="md"
           />

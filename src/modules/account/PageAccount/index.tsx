@@ -12,6 +12,8 @@ import { ReadableDuration } from 'shared/ReadableDuration';
 import Badge from 'shared/Badge';
 import { isMiniApp } from 'utils/version';
 import { PageTitle } from 'shared/PageTitle';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useIsMobile from 'utils/useIsMobile';
 import BtnLiveSupport from './BtnLiveSupport';
 import {
   ProfileIcon,
@@ -24,13 +26,18 @@ import {
 } from './icons';
 
 const PageAccount: FC = () => {
+  const isMobile = useIsMobile();
   const { t } = useTranslation('base');
   const subscription = useSubscription();
   const { data: exchanges } = useExchangeAccountsQuery();
   const { data: referral } = useReferralStatusQuery();
 
   return (
-    <PageWrapper hasBack title="My Account">
+    <PageWrapper
+      hasBack
+      title="My Account"
+      extension={!isMobile && <CoinExtensionsGroup />}
+    >
       <PageTitle
         className="mb-10 mobile:hidden"
         icon={UserIcon}
