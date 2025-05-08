@@ -224,7 +224,7 @@ export const Dialog: FC<{
         preventScroll: true,
       });
     }
-  }, [isOpen, mode]);
+  }, [isOpen]);
 
   return (
     <>
