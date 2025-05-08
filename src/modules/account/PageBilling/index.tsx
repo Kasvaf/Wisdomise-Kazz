@@ -13,6 +13,7 @@ import { useVipModal } from 'modules/account/PageBilling/useVipModal';
 import bag from './images/bag.png';
 import starlight from './images/starlight.png';
 import bg from './images/bg.png';
+// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function PageBilling() {

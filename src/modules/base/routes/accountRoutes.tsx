@@ -71,7 +71,11 @@ const useAccountRoutes = () => {
         },
         {
           path: 'token',
-          element: <PageToken />,
+          element: (
+            <ActiveNetworkProvider network="polygon" setOnLayout>
+              <PageToken />
+            </ActiveNetworkProvider>
+          ),
           handle: { crumb: t('menu.token.title') },
         },
         {

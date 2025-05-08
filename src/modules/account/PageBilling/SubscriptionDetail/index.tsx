@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-import { bxRightArrowAlt, bxsPlusSquare } from 'boxicons-quasar';
+import { bxInfoCircle, bxRightArrowAlt, bxsPlusSquare } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
+import { clsx } from 'clsx';
 import {
   useAccountQuery,
   useHasFlag,
@@ -18,6 +19,9 @@ import { DebugPin } from 'shared/DebugPin';
 import Utility from 'modules/account/PageToken/Utility';
 import CurrentPlan from 'modules/account/PageBilling/SubscriptionDetail/OverviewTab/CurrentPlan';
 import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWalletConnected';
+import StakeModalContent from 'modules/account/PageBilling/SubscriptionDetail/StakeModalContent';
+import useModal from 'shared/useModal';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import wiseClub from './wise-club.png';
 import gradient from './gradient.png';
 import { ReactComponent as Bag } from './bag.svg';
@@ -34,6 +38,7 @@ export default function SubscriptionDetail() {
   const { mutateAsync, isPending } = useInstantCancelMutation();
   const ensureWalletConnected = useEnsureWalletConnected();
   const hasFlag = useHasFlag();
+  const [stakeModal, openStakeModal] = useModal(StakeModalContent);
 
   const { data } = useAccountQuery();
   const firstDayNextMonth = dayjs().add(1, 'month').startOf('month');
@@ -51,7 +56,7 @@ export default function SubscriptionDetail() {
 
   const stakeMore = () => {
     if (ensureWalletConnected()) {
-      return null;
+      void openStakeModal({});
     }
   };
 
@@ -107,9 +112,16 @@ export default function SubscriptionDetail() {
                       </p>
                     </div>
                     <div className="flex flex-col gap-2">
-                      <h3 className="gap-2 text-xl font-semibold">
-                        {addComma(lockState?.locked_wsdm_balance)}{' '}
+                      <h3 className="flex items-baseline gap-1 text-xl font-semibold">
+                        {addComma(lockState?.locked_wsdm_balance)}
                         <span className="text-sm font-normal">WSDM</span>
+                        <HoverTooltip title="Updated every minute">
+                          <Icon
+                            size={12}
+                            name={bxInfoCircle}
+                            className={clsx('cursor-help')}
+                          />
+                        </HoverTooltip>
                       </h3>
                       <p className="text-xs text-v1-inverse-overlay-50">
                         ${lockState?.locked_wsdm_balance_usd}
@@ -205,18 +217,13 @@ export default function SubscriptionDetail() {
                   Increase Your Stake to Earn More Rewards and Maximize Your
                   Share in Wisdomise Revenue.
                 </p>
-                <Button
-                  variant="wsdm"
-                  className="w-72"
-                  disabled={true}
-                  onClick={stakeMore}
-                >
+                <Button variant="wsdm" className="w-64" onClick={stakeMore}>
                   <DebugPin
                     title="/account/billing?payment_method=lock"
                     color="orange"
                   />
                   <Icon name={bxsPlusSquare} />
-                  Stake More (Coming soon...)
+                  Stake More
                 </Button>
               </div>
             </div>
@@ -272,6 +279,7 @@ export default function SubscriptionDetail() {
           </div>
         </div>
       )}
+      {stakeModal}
     </div>
   );
 }

@@ -98,5 +98,6 @@ export function useLockingStateQuery() {
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/lock-state`,
       );
     },
+    refetchInterval: 60 * 1000,
   });
 }
