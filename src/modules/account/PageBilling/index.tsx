@@ -79,7 +79,7 @@ export default function PageBilling() {
               Stake & farm the bag{' '}
               <img
                 src={bag}
-                alt="baf"
+                alt="bag"
                 className="inline-block size-8 mobile:size-6"
               />
             </h2>
@@ -109,7 +109,7 @@ export default function PageBilling() {
             </div>
             {tokenPaymentModal}
             {ModalLogin}
-            <FeaturesTable className="mb-10" />
+            <FeaturesTable className="mb-10 max-w-[40rem]" />
           </div>
         </div>
       )}
