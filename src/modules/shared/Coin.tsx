@@ -1,11 +1,16 @@
 import { clsx } from 'clsx';
-import { Link, useLocation } from 'react-router-dom';
+import {
+  createSearchParams,
+  Link,
+  type To,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
 import { useMemo, type ReactNode } from 'react';
 import { useSymbolInfo } from 'api/symbol';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
-import useMenuItems from 'modules/base/Layout/MenuItems/useMenuItems';
 import { useNetworks } from 'api';
 import NetworkIcon from './NetworkIcon';
 
@@ -55,6 +60,23 @@ export function CoinLogo({
   );
 }
 
+export const useCoinUrl = () => {
+  const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+
+  return (coin: CoinType): To => {
+    const newSearchParams = createSearchParams(
+      pathname === '/discovery' ? searchParams : undefined,
+    );
+    newSearchParams.set('detail', 'coin');
+    newSearchParams.set('slug', coin.slug);
+    return {
+      pathname: '/discovery',
+      search: newSearchParams.toString(),
+    };
+  };
+};
+
 export function Coin({
   coin,
   networks,
@@ -95,16 +117,7 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
-
-  const { pathname } = useLocation();
-
-  const { items } = useMenuItems();
-  const href = useMemo(() => {
-    const discoverTab = items.find(tab => pathname.includes(tab.link));
-    return `/coin/${coin.slug}${
-      discoverTab ? `?discoverTab=${discoverTab.name}` : ''
-    }`;
-  }, [items, coin.slug, pathname]);
+  const getCoinUrl = useCoinUrl();
 
   useSymbolInfo('the-open-network');
   const content = (
@@ -185,7 +198,7 @@ export function Coin({
       ) : (
         <Link
           className={clsx(rootClassName, gtmClass('coin_list-item'))}
-          to={href}
+          to={getCoinUrl(coin)}
           title={tooltip}
         >
           {content}

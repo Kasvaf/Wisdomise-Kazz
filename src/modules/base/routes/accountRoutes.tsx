@@ -18,6 +18,7 @@ const ChangeStripeCardInfoPage = React.lazy(
   () =>
     import('modules/account/PageBilling/paymentMethods/Fiat/ChangeCardInfo'),
 );
+const PageAlerts = React.lazy(() => import('modules/alert/PageAlerts'));
 
 const Web3Wrapper = React.lazy(() => import('modules/account/Web3Provider'));
 
@@ -86,6 +87,11 @@ const useAccountRoutes = () => {
             </ActiveNetworkProvider>
           ),
           handle: { crumb: t('menu.rewards.title') },
+        },
+        {
+          path: 'alerts',
+          handle: { crumb: t('menu.alerts.title') },
+          element: <PageAlerts />,
         },
       ],
     },
