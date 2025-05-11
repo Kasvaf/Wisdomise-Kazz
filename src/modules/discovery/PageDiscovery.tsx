@@ -3,7 +3,7 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryParams } from './hooks/useDiscoveryParams';
-import { RadarView } from './components/RadarView';
+import { ListView } from './components/ListView';
 import { DetailView } from './components/DetailView';
 
 export default function PageDiscovery() {
@@ -15,7 +15,7 @@ export default function PageDiscovery() {
       {params.view === 'both' && (
         <div className="flex flex-nowrap justify-between">
           <div className="block w-1/4 min-w-96 max-w-96">
-            <RadarView radar={params.radar} expanded={false} focus={false} />
+            <ListView list={params.list} expanded={false} focus={false} />
           </div>
           <div className={clsx('relative w-full grow')}>
             <DetailView
@@ -28,8 +28,8 @@ export default function PageDiscovery() {
         </div>
       )}
 
-      {params.view === 'radar' && (
-        <RadarView radar={params.radar} expanded={!isMobile} focus={true} />
+      {params.view === 'list' && (
+        <ListView list={params.list} expanded={!isMobile} focus={true} />
       )}
 
       {params.view === 'detail' && (

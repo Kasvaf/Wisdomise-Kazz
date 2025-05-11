@@ -1,28 +1,28 @@
 import { useMemo } from 'react';
 import { usePageState } from 'shared/usePageState';
 import useIsMobile from 'utils/useIsMobile';
-import { AVAILABLE_DETAILS, AVAILABLE_RADARS, AVAILABLE_VIEWS } from '../lib';
+import { AVAILABLE_DETAILS, AVAILABLE_LISTS, AVAILABLE_VIEWS } from '../lib';
 
 export const useDiscoveryParams = () => {
   const isMobile = useIsMobile();
   const [params, setParams] = usePageState<{
     detail: string;
-    radar: string;
+    list: string;
     view: string;
     slug: string;
   }>('', {
     detail: '',
-    radar: '',
+    list: '',
     view: '',
     slug: '',
   });
 
   return useMemo(() => {
-    const radar: (typeof AVAILABLE_RADARS)[number] = AVAILABLE_RADARS.includes(
-      params.radar as never,
+    const list: (typeof AVAILABLE_LISTS)[number] = AVAILABLE_LISTS.includes(
+      params.list as never,
     )
-      ? (params.radar as (typeof AVAILABLE_RADARS)[number])
-      : 'coin';
+      ? (params.list as (typeof AVAILABLE_LISTS)[number])
+      : 'coin-radar';
     const detail: (typeof AVAILABLE_DETAILS)[number] =
       AVAILABLE_DETAILS.includes(params.detail as never)
         ? (params.detail as (typeof AVAILABLE_DETAILS)[number])
@@ -31,14 +31,14 @@ export const useDiscoveryParams = () => {
     const view: (typeof AVAILABLE_VIEWS)[number] = isMobile
       ? slug
         ? 'detail'
-        : 'radar'
+        : 'list'
       : AVAILABLE_VIEWS.includes(params.view as never)
       ? (params.view as (typeof AVAILABLE_VIEWS)[number])
       : 'both';
 
     return [
       {
-        radar,
+        list,
         detail,
         slug,
         view,
@@ -48,7 +48,7 @@ export const useDiscoveryParams = () => {
   }, [
     isMobile,
     params.detail,
-    params.radar,
+    params.list,
     params.slug,
     params.view,
     setParams,
