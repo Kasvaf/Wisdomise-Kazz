@@ -1,17 +1,18 @@
 import { useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import { AVAILABLE_DETAILS, AVAILABLE_LISTS, AVAILABLE_VIEWS } from '../lib';
 
 export const useDiscoveryParams = () => {
   const isMobile = useIsMobile();
   const [searchParams] = useSearchParams();
+  const { list: requestedList } = useParams<{ list: string }>();
 
   return useMemo(() => {
     const list: (typeof AVAILABLE_LISTS)[number] = AVAILABLE_LISTS.includes(
-      searchParams.get('list') as never,
+      requestedList as never,
     )
-      ? (searchParams.get('list') as (typeof AVAILABLE_LISTS)[number])
+      ? (requestedList as (typeof AVAILABLE_LISTS)[number])
       : 'coin-radar';
     const detail: (typeof AVAILABLE_DETAILS)[number] =
       AVAILABLE_DETAILS.includes(searchParams.get('detail') as never)
@@ -31,6 +32,7 @@ export const useDiscoveryParams = () => {
       detail,
       slug,
       view,
+      requestedList,
     };
-  }, [isMobile, searchParams]);
+  }, [requestedList, searchParams, isMobile]);
 };

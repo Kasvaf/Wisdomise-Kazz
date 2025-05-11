@@ -9,7 +9,6 @@ import { DetailView } from './components/DetailView';
 export default function PageDiscovery() {
   const params = useDiscoveryParams();
   const isMobile = useIsMobile();
-  // const navigateToList = useNavigateToList();
 
   return (
     <PageWrapper
@@ -20,7 +19,7 @@ export default function PageDiscovery() {
         <ListView
           className={clsx(params.view === 'both' && 'w-96 min-w-96 max-w-96')}
           list={params.list}
-          expanded={params.view === 'list' && isMobile}
+          expanded={params.view === 'list' && !isMobile}
           focus={params.view === 'list'}
         />
 

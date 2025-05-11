@@ -5,7 +5,7 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom';
-import { type MENU_ITEMS } from './useMenuItems';
+import { type AVAILABLE_LISTS } from 'modules/discovery/lib';
 
 export const useNavigateToMenuItem = () => {
   const { pathname } = useLocation();
@@ -13,13 +13,12 @@ export const useNavigateToMenuItem = () => {
   const navigate = useNavigate();
 
   return useCallback(
-    (list: (typeof MENU_ITEMS)[number]) => {
+    (list: (typeof AVAILABLE_LISTS)[number]) => {
       const newSearchParams = createSearchParams(
-        pathname === '/discovery' ? searchParams : undefined,
+        pathname.startsWith('/discovery') ? searchParams : undefined,
       );
-      newSearchParams.set('list', list);
       navigate({
-        pathname: '/discovery',
+        pathname: `/discovery/${list}`,
         search: newSearchParams.toString(),
       });
     },

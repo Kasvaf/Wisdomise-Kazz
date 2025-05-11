@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { type FC } from 'react';
 import { useHasFlag } from 'api';
 import { DebugPin } from 'shared/DebugPin';
@@ -11,8 +11,6 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const hasFlag = useHasFlag();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
   const navigateToMenuItem = useNavigateToMenuItem();
-  const { pathname } = useLocation();
-  const [searchParams] = useSearchParams();
 
   return (
     <>
@@ -29,9 +27,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
             key={item.link}
             className={clsx(
               'group flex w-full flex-col items-center justify-center py-3 text-xxs',
-              pathname === '/discovery' &&
-                searchParams.get('list') === item.key &&
-                'font-bold text-v1-content-brand',
+              '[&.active]:font-bold [&.active]:text-v1-content-brand',
               'hover:text-v1-content-link-hover',
             )}
             onClick={e => {

@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { type FC } from 'react';
 import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import useIsMobile from 'utils/useIsMobile';
@@ -17,8 +17,6 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
   const isMobile = useIsMobile();
   const navigateToMenuItem = useNavigateToMenuItem();
-  const { pathname } = useLocation();
-  const [searchParams] = useSearchParams();
 
   return (
     <>
@@ -33,8 +31,8 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
       <div
         className={clsx(
           'flex w-full items-stretch justify-between text-white',
-          TOUR_CLASS,
           'h-16 bg-v1-surface-l2',
+          TOUR_CLASS,
           className,
         )}
       >
@@ -48,9 +46,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
             }}
             className={clsx(
               'group flex flex-1 flex-col items-center justify-center',
-              pathname === '/discovery' &&
-                searchParams.get('list') === item.key &&
-                'font-bold text-v1-content-brand',
+              '[&.active]:font-bold [&.active]:text-v1-content-brand',
               'hover:text-v1-content-link-hover',
             )}
           >
