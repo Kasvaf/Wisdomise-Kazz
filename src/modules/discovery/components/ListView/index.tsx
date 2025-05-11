@@ -11,9 +11,10 @@ export const ListView: FC<{
   list: (typeof AVAILABLE_LISTS)[number];
   expanded?: boolean;
   focus?: boolean;
-}> = ({ list, ...rest }) => {
+  className?: string;
+}> = ({ list, className, ...rest }) => {
   return (
-    <>
+    <div className={className}>
       {list === 'social-radar' ? (
         <SocialRadar {...rest} />
       ) : list === 'whale-radar' ? (
@@ -27,6 +28,6 @@ export const ListView: FC<{
       ) : list === 'portfolio' ? (
         <Portfolio {...rest} />
       ) : null}
-    </>
+    </div>
   );
 };

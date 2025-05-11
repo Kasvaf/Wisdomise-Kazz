@@ -1,65 +1,71 @@
-import { type ReactElement } from 'react';
+import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as IconHome } from './icons/home.svg';
-import { ReactComponent as IconSocial } from './icons/social.svg';
-import { ReactComponent as IconTechnical } from './icons/technical.svg';
-import { ReactComponent as IconWhale } from './icons/whale.svg';
-import { ReactComponent as IconTrench } from './icons/trench.svg';
+import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
+import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
+import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
+import { ReactComponent as TechnicalRadarIcon } from './icons/technical.svg';
+import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
+import { ReactComponent as NetworkRadarIcon } from './icons/trench.svg';
 
+export const MENU_ITEMS = [
+  'portfolio',
+  'coin-radar',
+  'network-radar',
+  'social-radar',
+  'technical-radar',
+  'whale-radar',
+] as const;
 interface MenuItem {
-  text: string | ReactElement;
+  key: (typeof MENU_ITEMS)[number];
+  icon: FC<{ className?: string }>;
+  text: string;
   link: string;
   hide?: boolean;
-  badge?: 'beta' | 'new';
-  onClick?: () => void;
 }
 
-export interface RootMenuItem extends MenuItem {
-  name: string;
-  icon: JSX.Element;
-  children?: MenuItem[];
-}
-
-const useMenuItems = () => {
+export const useMenuItems = () => {
   const { t } = useTranslation('base');
-  const items: RootMenuItem[] = [
-    {
-      name: 'coin-radar',
-      icon: <IconHome />,
-      text: (
-        <div className="flex items-center gap-0.5">
-          {t('menu.home.titleM')}
-          <span className="mt-0.5 font-semibold">+</span>
-        </div>
-      ),
-      link: '/coin-radar/overview',
-    },
-    {
-      name: 'network-radar',
-      icon: <IconTrench />,
-      text: t('menu.trench.title'),
-      link: '/coin-radar/network-radar',
-    },
-    {
-      name: 'social-radar',
-      icon: <IconSocial />,
-      text: t('menu.social.title'),
-      link: '/coin-radar/social-radar',
-    },
-    {
-      name: 'technical-radar',
-      icon: <IconTechnical />,
-      text: t('menu.technical.title'),
-      link: '/coin-radar/technical-radar',
-    },
-    {
-      name: 'whale-radar',
-      icon: <IconWhale />,
-      text: t('menu.whale.title'),
-      link: '/coin-radar/whale-radar',
-    },
-  ];
-  return { items };
-};
 
-export default useMenuItems;
+  return useMemo<MenuItem[]>(
+    () => [
+      {
+        key: 'portfolio',
+        icon: PortfolioIcon,
+        text: t('menu.portfolio.title'),
+        link: '/discovery?list=portfolio',
+        hide: true,
+      },
+      {
+        key: 'coin-radar',
+        icon: CoinRadarIcon,
+        text: t('menu.home.title'),
+        link: '/discovery?list=coin-radar',
+      },
+      {
+        key: 'network-radar',
+        icon: NetworkRadarIcon,
+        text: t('menu.trench.title'),
+        link: '/discovery?list=network-radar',
+      },
+      {
+        key: 'social-radar',
+        icon: SocialRadarIcon,
+        text: t('menu.social.title'),
+        link: '/discovery?list=social-radar',
+      },
+      {
+        key: 'technical-radar',
+        icon: TechnicalRadarIcon,
+        text: t('menu.technical.title'),
+        link: '/discovery?list=technical-radar',
+      },
+      {
+        key: 'whale-radar',
+        icon: WhaleRadarIcon,
+        text: t('menu.whale.title'),
+        link: '/discovery?list=whale-radar',
+      },
+    ],
+    [t],
+  );
+};

@@ -8,9 +8,10 @@ export const DetailView: FC<{
   slug?: string;
   expanded?: boolean;
   focus?: boolean;
-}> = ({ detail, slug, focus, expanded }) => {
+  className?: string;
+}> = ({ detail, slug, focus, expanded, className }) => {
   return (
-    <>
+    <div className={className}>
       {slug ? (
         detail === 'whale' ? (
           <WhaleDetail expanded={expanded} focus={focus} slug={slug} />
@@ -20,6 +21,6 @@ export const DetailView: FC<{
       ) : (
         'Empty'
       )}
-    </>
+    </div>
   );
 };

@@ -38,9 +38,10 @@ menu:
     subtitle: Collect your earned rewards in Wiseboy and enjoy the benefits!
   home:
     title: Radar+
-    titleM: Radar
   hot-coins:
     title: Social Radar
+  portfolio:
+    title: Portfolio
   profile:
     title: My Profile
     subtitle: Manage your socials, profile picture, personal info, and bio

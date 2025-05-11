@@ -5,9 +5,11 @@ import useIsMobile from 'utils/useIsMobile';
 import { useHubSpot } from 'config/hubSpot';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import ScrollToTop from './ScrollToTop';
-import BottomNavBar from './BottomNavBar';
 import MobileHeader from './MobileHeader';
 import DesktopHeader from './DesktopHeader';
+import DefaultSidebar from './DefaultSidebar';
+import DefaultFooter from './DefaultFooter';
+import RouteDetails from './RouteDetails';
 
 export interface LayoutProps {
   hasBack?: boolean;
@@ -16,6 +18,7 @@ export interface LayoutProps {
   extension?: null | false | ReactElement;
   header?: false | null | ReactElement;
   footer?: false | null | ReactElement;
+  sidebar?: false | null | ReactElement;
   mainClassName?: string;
 }
 
@@ -25,6 +28,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   extension,
   header,
   footer,
+  sidebar,
   mainClassName,
   children,
 }) => {
@@ -42,12 +46,21 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
             )}
       </header>
 
-      <main className={clsx('grow p-3 mobile:ml-0', mainClassName)}>
-        <AuthorizedContent>{children}</AuthorizedContent>
-      </main>
+      <div className="flex grow items-stretch justify-start">
+        <aside className="sticky left-0 top-12 z-50 h-[calc(100svh-3rem)] empty:hidden">
+          {sidebar === null || isMobile ? null : sidebar || <DefaultSidebar />}
+        </aside>
 
-      <footer className="sticky bottom-0 z-50 w-full">
-        {footer === null || !isMobile ? null : footer || <BottomNavBar />}
+        <div className="flex grow flex-col">
+          {!isMobile && <RouteDetails hasBack={hasBack} />}
+          <main className={clsx('grow p-3 mobile:ml-0', mainClassName)}>
+            <AuthorizedContent>{children}</AuthorizedContent>
+          </main>
+        </div>
+      </div>
+
+      <footer className="sticky bottom-0 z-50 w-full empty:hidden">
+        {footer === null || !isMobile ? null : footer || <DefaultFooter />}
       </footer>
 
       <ScrollToTop />
