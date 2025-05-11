@@ -1,4 +1,4 @@
-import { cookieStorage, createStorage } from 'wagmi';
+import { cookieStorage, createStorage, http } from 'wagmi';
 import { polygon, sepolia } from 'wagmi/chains';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { createAppKit } from '@reown/appkit';
@@ -15,6 +15,18 @@ export const adapter = new WagmiAdapter({
   }),
   projectId,
   networks: [defaultChain],
+  transports: {
+    [polygon.id]: http(polygon.rpcUrls.default.http[0]),
+    [sepolia.id]: http(sepolia.rpcUrls.default.http[0]),
+  },
+  customRpcUrls: {
+    [`eip155:${polygon.id}`]: [{ url: polygon.rpcUrls.default.http[0] }],
+    [`eip155:${sepolia.id}`]: [
+      {
+        url: sepolia.rpcUrls.default.http[0],
+      },
+    ],
+  },
 });
 
 const metadata = {
