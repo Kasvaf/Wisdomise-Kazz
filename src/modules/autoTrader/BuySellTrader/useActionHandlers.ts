@@ -104,6 +104,7 @@ const useActionHandlers = (state: SwapState) => {
 
       try {
         const awaitConfirm = await transferAssetsHandler({
+          positionKey: res.position_key,
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
           amount: from.amount,
