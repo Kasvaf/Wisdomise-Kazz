@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type AVAILABLE_LISTS } from 'modules/discovery/lib';
+import { type AVAILABLE_LISTS } from 'modules/app/lib';
 import { SocialRadar } from './SocialRadar';
 import { WhaleRadar } from './WhaleRadar';
 import { TechnicalRadar } from './TechnicalRadar';

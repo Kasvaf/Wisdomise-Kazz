@@ -59,7 +59,7 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
           </MenuItem>
         )}
 
-        <MenuItem to="/coin-radar/alerts">
+        <MenuItem to="/account/alerts">
           <BoxedIcon icon={IconAlerts} />
           Alerts
         </MenuItem>

@@ -1,17 +1,12 @@
 import { clsx } from 'clsx';
-import {
-  createSearchParams,
-  Link,
-  type To,
-  useLocation,
-  useSearchParams,
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMemo, type ReactNode } from 'react';
 import { useSymbolInfo } from 'api/symbol';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
 import { useNetworks } from 'api';
+import { useAppRouteMeta } from 'modules/app/lib';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
@@ -60,23 +55,6 @@ export function CoinLogo({
   );
 }
 
-export const useCoinUrl = () => {
-  const { pathname } = useLocation();
-  const [searchParams] = useSearchParams();
-
-  return (coin: CoinType): To => {
-    const newSearchParams = createSearchParams(
-      pathname === '/discovery' ? searchParams : undefined,
-    );
-    newSearchParams.set('detail', 'coin');
-    newSearchParams.set('slug', coin.slug);
-    return {
-      pathname: '/discovery',
-      search: newSearchParams.toString(),
-    };
-  };
-};
-
 export function Coin({
   coin,
   networks,
@@ -117,7 +95,7 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
-  const getCoinUrl = useCoinUrl();
+  const { getUrl } = useAppRouteMeta();
 
   useSymbolInfo('the-open-network');
   const content = (
@@ -198,7 +176,10 @@ export function Coin({
       ) : (
         <Link
           className={clsx(rootClassName, gtmClass('coin_list-item'))}
-          to={getCoinUrl(coin)}
+          to={getUrl({
+            detail: 'coin',
+            slug: coin.slug,
+          })}
           title={tooltip}
         >
           {content}

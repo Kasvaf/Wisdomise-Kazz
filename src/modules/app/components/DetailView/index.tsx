@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type AVAILABLE_DETAILS } from 'modules/discovery/lib';
+import { type AVAILABLE_DETAILS } from 'modules/app/lib';
 import { WhaleDetail } from './WhaleDetail';
 import { CoinDetail } from './CoinDetail';
 

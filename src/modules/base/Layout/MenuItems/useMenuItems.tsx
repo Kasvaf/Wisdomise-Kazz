@@ -1,6 +1,5 @@
 import { type FC, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { type AVAILABLE_LISTS } from 'modules/discovery/lib';
+import { type AppRouteMeta } from 'modules/app/lib';
 import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
 import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
 import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
@@ -8,56 +7,72 @@ import { ReactComponent as TechnicalRadarIcon } from './icons/technical.svg';
 import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
 import { ReactComponent as NetworkRadarIcon } from './icons/trench.svg';
 interface MenuItem {
-  key: (typeof AVAILABLE_LISTS)[number];
+  link: string;
+  meta: Partial<AppRouteMeta>;
   icon: FC<{ className?: string }>;
   text: string;
-  link: string;
+  crumb: string;
   hide?: boolean;
 }
 
 export const useMenuItems = () => {
-  const { t } = useTranslation('base');
-
   return useMemo<MenuItem[]>(
     () => [
       {
-        key: 'portfolio',
+        link: '/app?list=portfolio',
+        meta: {
+          list: 'portfolio',
+        },
         icon: PortfolioIcon,
-        text: t('menu.portfolio.title'),
-        link: '/discovery/portfolio',
-        hide: true,
+        text: 'Portfolio',
+        crumb: 'Portfolio',
       },
       {
-        key: 'coin-radar',
+        link: '/app?list=coin-radar',
+        meta: {
+          list: 'coin-radar',
+        },
         icon: CoinRadarIcon,
-        text: t('menu.home.title'),
-        link: '/discovery/coin-radar',
+        text: 'Radar+',
+        crumb: 'Radar+',
       },
       {
-        key: 'network-radar',
+        link: '/app?list=network-radar',
+        meta: {
+          list: 'network-radar',
+        },
         icon: NetworkRadarIcon,
-        text: t('menu.trench.title'),
-        link: '/discovery/network-radar',
+        text: 'Trench',
+        crumb: 'Trench',
       },
       {
-        key: 'social-radar',
+        link: '/app?list=social-radar',
+        meta: {
+          list: 'social-radar',
+        },
         icon: SocialRadarIcon,
-        text: t('menu.social.title'),
-        link: '/discovery/social-radar',
+        text: 'Social',
+        crumb: 'Social Radar',
       },
       {
-        key: 'technical-radar',
+        link: '/app?list=technical-radar',
+        meta: {
+          list: 'technical-radar',
+        },
         icon: TechnicalRadarIcon,
-        text: t('menu.technical.title'),
-        link: '/discovery/technical-radar',
+        text: 'Technical',
+        crumb: 'Technical Radar',
       },
       {
-        key: 'whale-radar',
+        link: '/app?list=whale-radar',
+        meta: {
+          list: 'whale-radar',
+        },
         icon: WhaleRadarIcon,
-        text: t('menu.whale.title'),
-        link: '/discovery/whale-radar',
+        text: 'Whale',
+        crumb: 'Whale Radar',
       },
     ],
-    [t],
+    [],
   );
 };

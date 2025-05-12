@@ -46,7 +46,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
             )}
       </header>
 
-      <div className="flex grow items-stretch justify-start">
+      <div className="flex max-w-full grow items-stretch justify-start overflow-x-hidden">
         <aside className="sticky left-0 top-12 z-50 h-[calc(100svh-3rem)] empty:hidden">
           {sidebar === null || isMobile ? null : sidebar || <DefaultSidebar />}
         </aside>

@@ -4,9 +4,8 @@ import { type FC } from 'react';
 import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import useIsMobile from 'utils/useIsMobile';
 import { useHasFlag } from 'api';
-import { DebugPin } from 'shared/DebugPin';
+import { useAppRouteMeta } from 'modules/app/lib';
 import { useMenuItems } from './MenuItems/useMenuItems';
-import { useNavigateToMenuItem } from './MenuItems/useNavigateToMenuItem';
 
 const TOUR_CLASS = 'tour-item-bottom-navbar';
 
@@ -16,7 +15,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
   const hasFlag = useHasFlag();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
   const isMobile = useIsMobile();
-  const navigateToMenuItem = useNavigateToMenuItem();
+  const { isMatched, getUrl } = useAppRouteMeta();
 
   return (
     <>
@@ -38,19 +37,14 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
       >
         {items.map(item => (
           <NavLink
-            to={item.link}
+            to={getUrl(item.meta)}
             key={item.link}
-            onClick={e => {
-              e.preventDefault();
-              navigateToMenuItem(item.key);
-            }}
             className={clsx(
               'group flex flex-1 flex-col items-center justify-center',
-              '[&.active]:font-bold [&.active]:text-v1-content-brand',
+              isMatched(item.meta) && 'font-bold text-v1-content-brand',
               'hover:text-v1-content-link-hover',
             )}
           >
-            <DebugPin title={item.link} color="orange" />
             <item.icon className="size-7" />
             <div className="mt-1 text-xs font-normal">{item.text}</div>
           </NavLink>

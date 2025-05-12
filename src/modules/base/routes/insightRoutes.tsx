@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { shortenAddress } from 'utils/shortenAddress';
 import PageHome from 'modules/insight/PageHome';
 import PageSocialRadar from 'modules/insight/PageSocialRadar';
 import PageTechnicalRadar from 'modules/insight/PageTechnicalRadar';
@@ -19,39 +18,29 @@ const PageWhaleDetails = React.lazy(
   () => import('modules/insight/PageWhaleDetails'),
 );
 
-const PageAlerts = React.lazy(() => import('modules/alert/PageAlerts'));
-
 const useInsightRoutes = () => {
   const { t } = useTranslation('base');
   return [
     {
       path: 'coin-radar/onboarding',
-      handle: { crumb: t('menu.ai-indicators.title') },
       element: <PageOnboarding />,
     },
     {
       element: <Container />,
       path: 'coin-radar',
-      handle: {
-        crumb: t('menu.coin-radar.title'),
-        alt: '/coin-radar/overview',
-      },
       children: [
         { path: '', element: <PageRedirect /> },
         {
           path: 'overview',
-          handle: { crumb: t('menu.home.title') },
           element: <PageHome />,
         },
         {
           path: 'social-radar',
-          handle: { crumb: t('menu.hot-coins.title') },
           element: <PageSocialRadar />,
         },
         {
           path: 'technical-radar',
           element: <PageTechnicalRadar />,
-          handle: { crumb: t('menu.ai-indicators.title') },
         },
         {
           path: 'network-radar',
@@ -69,24 +58,14 @@ const useInsightRoutes = () => {
             {
               path: ':network/:address',
               element: <PageWhaleDetails />,
-              handle: {
-                crumb: (p: Params<string>) =>
-                  `${p.network ?? ''}-${shortenAddress(p.address)}`,
-              },
             },
           ],
-        },
-        {
-          path: 'alerts',
-          handle: { crumb: t('menu.alerts.title') },
-          element: <PageAlerts />,
         },
       ],
     },
     {
       path: 'coin',
       element: <Container />,
-      handle: { crumb: t('menu.coin.title'), href: '/coin-radar' },
       children: [
         {
           path: ':slug',

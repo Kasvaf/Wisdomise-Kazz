@@ -4,6 +4,7 @@ import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
 import PageLeague from 'modules/quest/PageLeague';
 import Container from '../Container';
 import { ActiveNetworkProvider } from '../active-network';
+import { type RouteHandle } from './types';
 
 const PageGameReward = React.lazy(
   () => import('modules/autoTrader/PageGameRewards'),
@@ -36,7 +37,12 @@ const useAutoTraderRoutes = () => {
     {
       element: <Container />,
       path: 'trader',
-      handle: { crumb: 'Auto Trader', alt: '/trader/positions' },
+      handle: {
+        crumb: {
+          text: 'Auto Trader',
+          href: '/trader/positions',
+        },
+      } satisfies RouteHandle,
       children: [
         {
           path: '',
@@ -51,7 +57,12 @@ const useAutoTraderRoutes = () => {
               </GameAuthGuard>
             </ActiveNetworkProvider>
           ),
-          handle: { crumb: 'Claim Reward' },
+          handle: {
+            crumb: {
+              text: 'Claim Reward',
+              href: '/trader/claim-reward',
+            },
+          } satisfies RouteHandle,
         },
         {
           path: 'quests',
@@ -59,7 +70,12 @@ const useAutoTraderRoutes = () => {
             {
               path: '',
               element: <PageQuests />,
-              handle: { crumb: 'Earn & Win' },
+              handle: {
+                crumb: {
+                  text: 'Earn & Win',
+                  href: '/trader/quests',
+                },
+              } satisfies RouteHandle,
             },
             {
               path: 'tournaments',
@@ -67,12 +83,22 @@ const useAutoTraderRoutes = () => {
                 {
                   path: '',
                   element: <PageTournaments />,
-                  handle: { crumb: 'Tournaments' },
+                  handle: {
+                    crumb: {
+                      text: 'Tournaments',
+                      href: '/trader/tournaments',
+                    },
+                  } satisfies RouteHandle,
                 },
                 {
                   path: ':id',
                   element: <PageTournamentDetail />,
-                  handle: { crumb: 'Tournaments' },
+                  handle: {
+                    crumb: p => ({
+                      text: 'Tournaments',
+                      href: `/trader/tournaments/${p.id as string}`,
+                    }),
+                  } satisfies RouteHandle,
                 },
               ],
             },
@@ -85,7 +111,12 @@ const useAutoTraderRoutes = () => {
         {
           path: 'positions',
           element: <PagePositions />,
-          handle: { crumb: 'Positions' },
+          handle: {
+            crumb: {
+              text: 'Positions',
+              href: '/trader/positions',
+            },
+          } satisfies RouteHandle,
         },
         {
           path: 'bot',
@@ -93,12 +124,22 @@ const useAutoTraderRoutes = () => {
             {
               path: ':slug',
               element: <PageTrade />,
-              handle: { crumb: 'Trade' },
+              handle: {
+                crumb: p => ({
+                  text: 'Trade',
+                  href: `/trader/bot/${p.slug as string}`,
+                }),
+              } satisfies RouteHandle,
             },
             {
               path: ':slug/transactions',
               element: <PageTransactions />,
-              handle: { crumb: 'Transactions' },
+              handle: {
+                crumb: p => ({
+                  text: 'Transactions',
+                  href: `/trader/bot/${p.slug as string}/transactions`,
+                }),
+              } satisfies RouteHandle,
             },
           ],
         },
