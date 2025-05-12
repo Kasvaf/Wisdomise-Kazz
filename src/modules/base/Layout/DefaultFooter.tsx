@@ -29,7 +29,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
 
       <div
         className={clsx(
-          'flex w-full items-stretch justify-between text-white',
+          'flex w-full items-stretch justify-between gap-2 text-white',
           'h-16 bg-v1-surface-l2',
           TOUR_CLASS,
           className,

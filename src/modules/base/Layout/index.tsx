@@ -66,7 +66,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       <div className="flex items-start justify-start">
         {/* Sidebar - only for desktop */}
         {!isMobile && sidebar !== null && (
-          <aside className="sticky start-0 top-[--desktop-header-height] z-20 h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] overflow-auto border-r border-t border-white/10 bg-v1-surface-l2 scrollbar-none">
+          <aside className="sticky start-0 top-[--desktop-header-height] z-20 h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] shrink-0 overflow-auto border-r border-t border-white/10 bg-v1-surface-l2 scrollbar-none">
             {sidebar || <DefaultSidebar />}
           </aside>
         )}
@@ -84,7 +84,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
       {/* Sticky footer - only for mobile */}
       {isMobile && footer !== null && (
-        <footer className="sticky bottom-0 z-20 w-full empty:hidden">
+        <footer className="sticky bottom-0 z-20 w-full overflow-auto scrollbar-none empty:hidden">
           {footer || <DefaultFooter />}
         </footer>
       )}
