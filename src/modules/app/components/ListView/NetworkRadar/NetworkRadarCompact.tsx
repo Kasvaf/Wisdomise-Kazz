@@ -1,5 +1,5 @@
 /* eslint-disable import/max-dependencies */
-import { useMemo, useState } from 'react';
+import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
@@ -9,20 +9,22 @@ import {
   useNetworkRadarNCoins,
 } from 'api/insight/network';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { NCoinAge } from '../NCoinAge';
-import { NCoinBuySell } from '../NCoinBuySell';
-import { NCoinTradingVolume } from '../NCoinTradingVolume';
-import { NCoinLiquidity } from '../NCoinLiquidity';
-import { NCoinSecurity } from '../NCoinSecurity';
-import { NCoinPreDetailModal } from '../NCoinPreDetailModal';
+import { useCoinPreDetailModal } from '../CoinPreDetailModal';
+import { NCoinAge } from './NCoinAge';
+import { NCoinBuySell } from './NCoinBuySell';
+import { NCoinTradingVolume } from './NCoinTradingVolume';
+import { NCoinLiquidity } from './NCoinLiquidity';
+import { NCoinSecurity } from './NCoinSecurity';
+import { NCoinPreDetailModal } from './NCoinPreDetailModal';
 
-export const NetworkRadarMobile = () => {
+export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const { t } = useTranslation('network-radar');
 
-  const [selectedRow, setSelectedRow] = useState<null | NetworkRadarNCoin>(
-    null,
-  );
-  const [modal, setModal] = useState(false);
+  const [openModal, { closeModal, isModalOpen, selectedRow }] =
+    useCoinPreDetailModal<NetworkRadarNCoin>({
+      directNavigate: !focus,
+      slug: r => r.base_symbol.slug,
+    });
 
   const nCoins = useNetworkRadarNCoins({});
   useLoadingBadge(nCoins.isFetching);
@@ -105,9 +107,11 @@ export const NetworkRadarMobile = () => {
 
   return (
     <>
-      <div className="mb-2 flex items-center justify-between">
-        <h1 className="text-sm">{t('page.title')}</h1>
-      </div>
+      {focus && (
+        <div className="mb-2 flex items-center justify-between">
+          <h1 className="text-sm">{t('page.title')}</h1>
+        </div>
+      )}
       <AccessShield
         mode="table"
         sizes={{
@@ -124,16 +128,13 @@ export const NetworkRadarMobile = () => {
           loading={nCoins.isLoading}
           surface={2}
           scrollable={false}
-          onClick={r => {
-            setSelectedRow(r);
-            setModal(true);
-          }}
+          onClick={r => openModal(r)}
         />
       </AccessShield>
       <NCoinPreDetailModal
         value={selectedRow}
-        open={modal}
-        onClose={() => setModal(false)}
+        open={isModalOpen}
+        onClose={() => closeModal()}
       />
     </>
   );

@@ -7,7 +7,7 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { type Pool } from 'api/types/shared';
 import { ReadableDate } from 'shared/ReadableDate';
-import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
+import { NCoinBuySell } from 'modules/app/components/ListView/NetworkRadar/NCoinBuySell';
 import { Button } from 'shared/v1-components/Button';
 import { ContractAddress } from 'shared/ContractAddress';
 

@@ -19,14 +19,14 @@ import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { NCoinAge } from '../NCoinAge';
-import { NCoinTradingVolume } from '../NCoinTradingVolume';
-import { NCoinBuySell } from '../NCoinBuySell';
-import { NCoinLiquidity } from '../NCoinLiquidity';
-import { NCoinSecurity } from '../NCoinSecurity';
-import { NCoinRecentCandles } from '../NCoinRecentCandles';
+import { NCoinAge } from './NCoinAge';
+import { NCoinTradingVolume } from './NCoinTradingVolume';
+import { NCoinBuySell } from './NCoinBuySell';
+import { NCoinLiquidity } from './NCoinLiquidity';
+import { NCoinSecurity } from './NCoinSecurity';
+import { NCoinRecentCandles } from './NCoinRecentCandles';
 
-export function NetworkRadarDesktop({ className }: { className?: string }) {
+export function NetworkRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
   const [copy, copyNotif] = useShare('copy');
 

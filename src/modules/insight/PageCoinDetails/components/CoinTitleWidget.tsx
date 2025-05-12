@@ -2,8 +2,8 @@
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
-import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
+import { NCoinAge } from 'modules/app/components/ListView/NetworkRadar/NCoinAge';
+import { NCoinBuySell } from 'modules/app/components/ListView/NetworkRadar/NCoinBuySell';
 import { useCoinDetails, useNCoinDetails } from 'api';
 import { CoinLogo } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

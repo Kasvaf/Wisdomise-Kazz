@@ -1,8 +1,8 @@
 import { type ReactNode, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { NCoinSecurity } from 'modules/insight/PageNetworkRadar/components/NCoinSecurity';
-import { NCoinLiquidity } from 'modules/insight/PageNetworkRadar/components/NCoinLiquidity';
+import { NCoinSecurity } from 'modules/app/components/ListView/NetworkRadar/NCoinSecurity';
+import { NCoinLiquidity } from 'modules/app/components/ListView/NetworkRadar/NCoinLiquidity';
 import { useNCoinDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 

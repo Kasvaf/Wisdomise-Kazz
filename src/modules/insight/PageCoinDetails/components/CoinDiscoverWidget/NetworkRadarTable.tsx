@@ -1,7 +1,7 @@
 import { useMemo, type FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
-import { NCoinSecurity } from 'modules/insight/PageNetworkRadar/components/NCoinSecurity';
+import { NCoinAge } from 'modules/app/components/ListView/NetworkRadar/NCoinAge';
+import { NCoinSecurity } from 'modules/app/components/ListView/NetworkRadar/NCoinSecurity';
 import {
   type NetworkRadarNCoin,
   useNetworkRadarNCoins,
