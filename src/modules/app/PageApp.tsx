@@ -19,9 +19,10 @@ export default function PageDiscovery() {
         {params.view !== 'detail' && (
           <ListView
             className={clsx(
+              'max-w-full p-3',
               params.view === 'list'
                 ? 'w-full'
-                : 'h-[calc(100svh-4.75rem)] w-96 min-w-96 max-w-96 bg-v1-surface-l3',
+                : 'sticky top-0 h-[calc(100svh-4.75rem)] w-96 min-w-96 max-w-96 overflow-auto bg-v1-surface-l1 scrollbar-none mobile:block mobile:h-auto',
             )}
             list={params.list}
             expanded={params.view === 'list' && !isMobile}

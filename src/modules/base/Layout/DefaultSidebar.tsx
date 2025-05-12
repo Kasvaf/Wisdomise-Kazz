@@ -15,8 +15,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
     <>
       <div
         className={clsx(
-          'flex h-full flex-col items-center justify-start text-white',
-          'w-[68px] bg-v1-surface-l2',
+          'flex h-full w-full flex-col items-center justify-start text-v1-content-primary',
           className,
         )}
       >
@@ -25,13 +24,13 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
             to={getUrl(item.meta)}
             key={item.link}
             className={clsx(
-              'group flex w-full flex-col items-center justify-center py-3 text-xxs',
+              'group flex w-full flex-col items-center justify-center py-3',
               isMatched(item.meta) && 'font-bold text-v1-content-brand',
               'hover:text-v1-content-link-hover',
             )}
           >
             <item.icon className="size-7" />
-            <div className="mt-1 text-xs font-normal">{item.text}</div>
+            <div className="mt-1 text-xxs font-normal">{item.text}</div>
           </NavLink>
         ))}
       </div>

@@ -15,8 +15,8 @@ const DesktopHeader: React.FC<{
   className?: string;
 }> = ({ extension, className }) => {
   return (
-    <div className={clsx('bg-v1-background-primary', className)}>
-      <div className="flex h-12 items-center gap-3 bg-v1-surface-l2 px-3">
+    <div className={clsx('h-full bg-v1-background-primary', className)}>
+      <div className="flex h-full items-center gap-3 bg-v1-surface-l2 px-3">
         <div className="relative flex shrink-0 grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap tablet:gap-3">
           <NavLink to="/coin-radar/overview" className="pe-4 tablet:pe-3">
             <Logo />

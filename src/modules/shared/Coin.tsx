@@ -95,7 +95,7 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
-  const { getUrl } = useAppRouteMeta();
+  const { getUrl, params } = useAppRouteMeta();
 
   useSymbolInfo('the-open-network');
   const content = (
@@ -179,6 +179,12 @@ export function Coin({
           to={getUrl({
             detail: 'coin',
             slug: coin.slug,
+            view:
+              params.view === 'list'
+                ? isMobile
+                  ? 'detail'
+                  : 'both'
+                : params.view,
           })}
           title={tooltip}
         >

@@ -13,7 +13,7 @@ const RouteDetails: FC<{
   return (
     <div
       className={clsx(
-        'relative flex flex-nowrap items-center gap-3 overflow-visible px-3',
+        'flex flex-nowrap items-center gap-3 overflow-visible bg-v1-surface-l1 px-3',
         'whitespace-nowrap border-y border-white/10',
         'h-7 text-xs empty:hidden',
         className,
