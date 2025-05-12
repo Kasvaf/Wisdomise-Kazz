@@ -2,7 +2,7 @@ import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSocialRadarSources } from 'api';
 import { Select } from 'shared/v1-components/Select';
-import { SocialLogo } from 'modules/insight/PageCoinDetails/components/CoinMessagesWidget/SocialLogo';
+import { SocialLogo } from '../../DetailView/CoinDetail/CoinMessagesWidget/SocialLogo';
 
 export const SocialRadarSourceSelect: FC<{
   value?: string[];

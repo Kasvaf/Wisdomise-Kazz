@@ -16,7 +16,6 @@ import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
-import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
 import { CoinLabels } from 'shared/CoinLabels';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
@@ -27,12 +26,13 @@ import {
   type MiniMarketData,
   type NetworkSecurity,
 } from 'api/types/shared';
-import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
-import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { usePromise } from 'utils/usePromise';
 import { useAppRouteMeta } from 'modules/app/lib';
+import { PriceAlertButton } from '../DetailView/CoinDetail/PriceAlertButton';
+import TechnicalRadarSharingModal from './TechnicalRadar/TechnicalRadarSharingModal';
+import SocialRadarSharingModal from './SocialRadar/SocialRadarSharingModal';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;

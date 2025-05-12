@@ -7,15 +7,17 @@ import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
-import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
-import { RadarFilter } from 'modules/insight/RadarFilter';
 import { usePageState } from 'shared/usePageState';
-import { useCoinPreDetailModal } from '../CoinPreDetailModal';
+import {
+  CoinPreDetailModal,
+  useCoinPreDetailModal,
+} from '../CoinPreDetailModal';
+import { RadarFilter } from '../RadarFilter';
 import { SocialRadarSentiment } from './SocialRadarSentiment';
+import SocialRadarSharingModal from './SocialRadarSharingModal';
 
 export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [tableState, setTableState] = usePageState<

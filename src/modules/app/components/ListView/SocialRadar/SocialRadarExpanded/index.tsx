@@ -22,15 +22,15 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
-import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import { RadarFilter } from 'modules/insight/RadarFilter';
+import { RadarFilter } from 'modules/app/components/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
+import SocialRadarSharingModal from '../SocialRadarSharingModal';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Realtime } from './realtime.svg';
 

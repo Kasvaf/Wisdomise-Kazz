@@ -9,7 +9,7 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
-import { RadarFilter } from 'modules/insight/RadarFilter';
+import { RadarFilter } from 'modules/app/components/ListView/RadarFilter';
 import { usePageState } from 'shared/usePageState';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 

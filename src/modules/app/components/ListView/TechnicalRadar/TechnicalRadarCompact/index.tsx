@@ -1,16 +1,18 @@
 /* eslint-disable import/max-dependencies */
 import { type FC } from 'react';
-import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { type TechnicalRadarCoin } from 'api';
-import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 import {
   type TechnicalRadarView,
   TechnicalRadarViewSelect,
 } from '../TechnicalRadarViewSelect';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
-import { useCoinPreDetailModal } from '../../CoinPreDetailModal';
+import {
+  CoinPreDetailModal,
+  useCoinPreDetailModal,
+} from '../../CoinPreDetailModal';
+import TechnicalRadarSharingModal from '../TechnicalRadarSharingModal';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 import { TechnicalRadarCoinsCharts } from './TechnicalRadarCoinsCharts';
 

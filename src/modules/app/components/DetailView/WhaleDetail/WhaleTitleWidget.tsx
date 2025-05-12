@@ -1,5 +1,5 @@
 import { useWhaleDetails } from 'api';
-import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
+import { Wallet } from './Wallet';
 
 export const WhaleTitleWidget = ({
   holderAddress,

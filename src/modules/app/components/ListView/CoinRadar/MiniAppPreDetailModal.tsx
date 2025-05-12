@@ -9,9 +9,9 @@ import { DrawerModal } from 'shared/DrawerModal';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
-import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
 import { CoinLabels } from 'shared/CoinLabels';
 import Spinner from 'shared/Spinner';
+import { PriceAlertButton } from '../../DetailView/CoinDetail/PriceAlertButton';
 
 const MiniAppPreDetailModal: React.FC<{
   slug?: string;

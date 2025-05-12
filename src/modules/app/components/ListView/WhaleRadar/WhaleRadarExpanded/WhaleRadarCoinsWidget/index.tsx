@@ -11,7 +11,7 @@ import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { RadarFilter } from 'modules/insight/RadarFilter';
+import { RadarFilter } from 'modules/app/components/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';

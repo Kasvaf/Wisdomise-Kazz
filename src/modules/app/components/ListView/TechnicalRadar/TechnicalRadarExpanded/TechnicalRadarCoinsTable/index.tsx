@@ -9,17 +9,17 @@ import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
-import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { TableRank } from 'shared/TableRank';
-import { RadarFilter } from 'modules/insight/RadarFilter';
+import { RadarFilter } from 'modules/app/components/ListView/RadarFilter';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
+import TechnicalRadarSharingModal from '../../TechnicalRadarSharingModal';
 import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalRadarCoinsTable: FC = () => {

@@ -8,14 +8,16 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinLabels } from 'shared/CoinLabels';
 import { AccessShield } from 'shared/AccessShield';
-import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
-import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import UserAssets from 'modules/autoTrader/UserAssets';
-import { useCoinPreDetailModal } from '../CoinPreDetailModal';
+import {
+  CoinPreDetailModal,
+  useCoinPreDetailModal,
+} from '../CoinPreDetailModal';
+import { TechnicalRadarSentiment } from '../TechnicalRadar/TechnicalRadarSentiment';
+import { SocialRadarSentiment } from '../SocialRadar/SocialRadarSentiment';
 import { homeSubscriptionsConfig } from './constants';
 import useHotCoinsTour from './useHotCoinsTour';
 

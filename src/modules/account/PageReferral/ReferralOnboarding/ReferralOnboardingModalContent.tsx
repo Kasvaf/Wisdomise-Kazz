@@ -1,6 +1,6 @@
 import { type ComponentProps, useCallback, useMemo, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { OnboardingView } from 'modules/insight/PageOnboarding/components/OnboardingView';
+import { OnboardingView } from 'modules/account/PageOnboarding/components/OnboardingView';
 import WelcomeStep from 'modules/account/PageReferral/ReferralOnboarding/WelcomeStep';
 import HowStep from 'modules/account/PageReferral/ReferralOnboarding/HowStep';
 

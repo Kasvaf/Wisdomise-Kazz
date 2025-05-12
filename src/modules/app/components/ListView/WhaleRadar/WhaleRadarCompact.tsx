@@ -7,13 +7,15 @@ import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { RadarFilter } from 'modules/insight/RadarFilter';
+import { RadarFilter } from 'modules/app/components/ListView/RadarFilter';
 import { usePageState } from 'shared/usePageState';
 import { TableRank } from 'shared/TableRank';
-import { useCoinPreDetailModal } from '../CoinPreDetailModal';
+import {
+  CoinPreDetailModal,
+  useCoinPreDetailModal,
+} from '../CoinPreDetailModal';
 import { WhaleRadarSentiment } from './WhaleRadarSentiment';
 
 export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {

@@ -6,9 +6,9 @@ import {
   useTechnicalRadarSentiment,
   useWhaleRadarSentiment,
 } from 'api';
-import { WhaleRadarSentiment } from 'modules/insight/PageWhaleRadar/components/WhaleRadarSentiment';
-import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
-import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
+import { SocialRadarSentiment } from '../../ListView/SocialRadar/SocialRadarSentiment';
+import { TechnicalRadarSentiment } from '../../ListView/TechnicalRadar/TechnicalRadarSentiment';
+import { WhaleRadarSentiment } from '../../ListView/WhaleRadar/WhaleRadarSentiment';
 
 export const CoinSentimentsWidget: FC<{
   slug: string;

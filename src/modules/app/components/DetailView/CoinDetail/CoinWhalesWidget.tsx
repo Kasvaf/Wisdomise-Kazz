@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react';
 
 import { clsx } from 'clsx';
 import { bxSearch } from 'boxicons-quasar';
-import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
 import { type CoinWhale, useCoinWhales } from 'api';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -14,6 +13,7 @@ import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
+import { Wallet } from '../WhaleDetail/Wallet';
 
 function CoinWhalesWidgetWithType({
   type,

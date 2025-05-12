@@ -3,7 +3,6 @@ import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type CoinWhale, useCoinWhales } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { Network } from 'shared/Network';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -12,6 +11,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import { type Coin as CoinType } from 'api/types/shared';
 import { AccessShield } from 'shared/AccessShield';
+import { Wallet } from 'modules/app/components/DetailView/WhaleDetail/Wallet';
 
 export const CoinWhalesWidget: FC<{
   id?: string;

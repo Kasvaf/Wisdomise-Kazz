@@ -4,7 +4,6 @@ import { clsx } from 'clsx';
 
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useHasFlag, useWhaleRadarWhales, type WhaleShort } from 'api';
-import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
 import { Network } from 'shared/Network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coins } from 'shared/Coins';
@@ -15,6 +14,7 @@ import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
+import { Wallet } from 'modules/app/components/DetailView/WhaleDetail/Wallet';
 
 export function WhaleRadarWhalesWidget({
   className,
