@@ -5,6 +5,7 @@ import useIsMobile from 'utils/useIsMobile';
 import { ListView } from './components/ListView';
 import { DetailView } from './components/DetailView';
 import { useAppRouteMeta } from './lib';
+import { ListExpander } from './components/ListExpander';
 
 export default function PageDiscovery() {
   const { params } = useAppRouteMeta(true);
@@ -15,6 +16,8 @@ export default function PageDiscovery() {
       extension={<CoinExtensionsGroup />}
       mainClassName="!p-0 h-full"
     >
+      <ListExpander />
+
       <div className="flex justify-between">
         {params.view !== 'detail' && (
           <ListView

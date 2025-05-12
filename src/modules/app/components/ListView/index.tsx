@@ -14,7 +14,7 @@ export const ListView: FC<{
   className?: string;
 }> = ({ list, className, ...rest }) => {
   return (
-    <div className={className}>
+    <div id="app-list" className={className}>
       {list === 'social-radar' ? (
         <SocialRadar {...rest} />
       ) : list === 'whale-radar' ? (
