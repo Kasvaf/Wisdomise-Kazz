@@ -17,7 +17,7 @@ import { usePageState } from 'shared/usePageState';
 import { useCoinPreDetailModal } from '../CoinPreDetailModal';
 import { SocialRadarSentiment } from './SocialRadarSentiment';
 
-export const SocialRadarCompact: FC<{ focus?: boolean }> = () => {
+export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [tableState, setTableState] = usePageState<
     Required<Parameters<typeof useSocialRadarCoins>[0]>
   >('social-radar', {
