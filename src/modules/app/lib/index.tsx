@@ -40,7 +40,7 @@ export const useAppRouteMeta = (normalizeRoute?: boolean) => {
         throw new Error('unexpected');
       }
       const newSearchParams = createSearchParams(
-        pathname.startsWith('/app') ? searchParams : undefined,
+        pathname === '/' ? searchParams : undefined,
       );
       for (const [key, value] of Object.entries(meta)) {
         if (value) {
@@ -50,7 +50,7 @@ export const useAppRouteMeta = (normalizeRoute?: boolean) => {
         }
       }
       return {
-        pathname: '/app',
+        pathname: '/',
         search: newSearchParams.toString(),
       };
     },
@@ -99,7 +99,7 @@ export const useAppRouteMeta = (normalizeRoute?: boolean) => {
       ? requestedDetail && slug
         ? 'detail'
         : 'list'
-      : requestedView || 'both';
+      : requestedView || (slug ? 'both' : 'list');
 
     const detail: (typeof AVAILABLE_DETAILS)[number] = slug
       ? requestedDetail ?? 'coin'

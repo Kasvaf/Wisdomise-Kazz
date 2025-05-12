@@ -8,6 +8,7 @@ import { useMenuItems } from './MenuItems/useMenuItems';
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const MenuItems = useMenuItems();
   const hasFlag = useHasFlag();
+  const { params } = useAppRouteMeta();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
   const { isMatched, getUrl } = useAppRouteMeta();
 
@@ -21,7 +22,10 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
       >
         {items.map(item => (
           <NavLink
-            to={getUrl(item.meta)}
+            to={getUrl({
+              ...item.meta,
+              view: params.view === 'list' ? 'list' : 'both',
+            })}
             key={item.link}
             className={clsx(
               'group flex w-full flex-col items-center justify-center py-3',

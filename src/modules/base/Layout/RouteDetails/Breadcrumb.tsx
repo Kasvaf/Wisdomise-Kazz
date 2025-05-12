@@ -30,9 +30,9 @@ const Breadcrumb: React.FC<{
     <>
       {items.map((item, index, self) =>
         index === self.length - 1 ? (
-          <span key={item.href}>{item.text}</span>
+          <span key={`${index}${item.href}`}>{item.text}</span>
         ) : (
-          <Fragment key={item.href}>
+          <Fragment key={`${index}${item.href}`}>
             <Link to={item.href}>{item.text}</Link>
             <span className="text-white/10">/</span>
           </Fragment>

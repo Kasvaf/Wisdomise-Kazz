@@ -10,7 +10,7 @@ const useAppRoutes = () => {
   const { t } = useTranslation('base');
   return [
     {
-      path: 'app',
+      path: '',
       element: <Container />,
       children: [
         {
@@ -32,32 +32,32 @@ const useAppRoutes = () => {
                   ? [
                       {
                         text: t('menu.whale.title'),
-                        href: '/app?list=whale-radar',
+                        href: '/?list=whale-radar',
                       },
                       {
                         text: readableSlug,
-                        href: `/app?detail=whale&slug=${slug}`,
+                        href: `/?detail=whale&slug=${slug}`,
                       },
                     ]
                   : [
                       {
                         text: t('menu.coin.title'),
-                        href: '/app?list=coin-radar',
+                        href: '/?list=coin-radar',
                       },
                       {
                         text: readableSlug,
-                        href: `/app?detail=coin&slug=${slug}`,
+                        href: `/?detail=coin&slug=${slug}`,
                       },
                     ];
               }
               return [
                 {
                   text: t('menu.home.title'),
-                  href: '/app?list=coin-radar',
+                  href: '/?list=coin-radar',
                 },
                 {
                   text: matchedListTitle,
-                  href: `/app?list=${matchedList}`,
+                  href: `/?list=${matchedList}`,
                 },
               ];
             },
