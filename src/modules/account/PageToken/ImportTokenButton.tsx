@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useWatchAsset } from 'wagmi';
 import {
   WSDM_CONTRACT_ADDRESS,
   TWSDM_CONTRACT_ADDRESS,
@@ -54,19 +55,19 @@ export default function ImportTokenButton({
   className,
 }: ImportTokenButtonProps) {
   const { t } = useTranslation('wisdomise-token');
+  const { watchAsset } = useWatchAsset();
   const token = TOKENS.find(token => token.symbol === tokenSymbol);
+  if (!token) {
+    throw new Error('unexpected token symbol');
+  }
 
   const importToken = async () => {
-    await (window.ethereum as unknown as Ethereum)?.request({
-      method: 'wallet_watchAsset',
-      params: {
-        type: 'ERC20',
-        options: {
-          address: token?.address,
-          symbol: tokenSymbol,
-          decimals: 6,
-          image: token?.image ?? undefined,
-        },
+    watchAsset({
+      type: 'ERC20',
+      options: {
+        address: token.address,
+        symbol: tokenSymbol,
+        decimals: 6,
       },
     });
   };

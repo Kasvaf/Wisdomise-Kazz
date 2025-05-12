@@ -41,6 +41,7 @@ export const appKitModal = createAppKit({
   projectId,
   networks: [defaultChain],
   defaultNetwork: defaultChain,
+  enableNetworkSwitch: false,
   metadata,
   themeVariables: {
     '--w3m-z-index': 10_000,
