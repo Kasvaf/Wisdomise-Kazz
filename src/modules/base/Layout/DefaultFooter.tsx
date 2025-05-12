@@ -37,7 +37,11 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
       >
         {items.map(item => (
           <NavLink
-            to={getUrl(item.meta)}
+            to={getUrl({
+              ...item.meta,
+              view: 'list',
+              slug: undefined,
+            })}
             key={item.link}
             className={clsx(
               'group flex flex-1 flex-col items-center justify-center',
