@@ -41,6 +41,7 @@ export function RadarFilter({
   onChange,
   value,
   surface,
+  mini,
 }: {
   className?: string;
   onReset?: () => void;
@@ -49,9 +50,11 @@ export function RadarFilter({
   surface: Surface;
   // TODO radar type could be different from filter type
   radar: NonNullable<Parameters<typeof useNetworks>['0']>['filter'];
+  mini?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const isMobile = useIsMobile();
+  const isMini = typeof mini === 'boolean' ? mini : isMobile;
   const [open, setOpen] = useState(false);
   const [localState, setLocalState] = useState(value);
 
@@ -127,27 +130,22 @@ export function RadarFilter({
   }, [value]);
 
   return (
-    <div
-      className={clsx(
-        'flex w-full gap-4 mobile:block mobile:space-y-4',
-        className,
-      )}
-    >
-      <div className="min-w-64 max-w-max mobile:w-full">
+    <div className={clsx('flex w-full gap-4', isMini && 'flex-col', className)}>
+      <div className={clsx('min-w-64 max-w-max', isMini && 'w-full')}>
         <p className="mb-1 text-xs">{t('common:filtered-by')}</p>
         <div className="flex items-start gap-2">
           <Button
             variant={isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
-            size={isMobile ? 'sm' : 'md'}
-            className={isMobile ? 'w-sm' : 'w-md'}
+            size={isMini ? 'sm' : 'md'}
+            className={isMini ? 'w-sm' : 'w-md'}
             onClick={() => setOpen(true)}
-            surface={isMobile ? ((surface + 1) as never) : surface}
+            surface={isMini ? ((surface + 1) as never) : surface}
           >
             <Icon name={bxSliderAlt} size={16} />
           </Button>
           <Button
             variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
-            size={isMobile ? 'sm' : 'md'}
+            size={isMini ? 'sm' : 'md'}
             onClick={() =>
               onChange?.({
                 categories: [],
@@ -161,7 +159,7 @@ export function RadarFilter({
                 query: '',
               })
             }
-            surface={isMobile ? ((surface + 1) as never) : surface}
+            surface={isMini ? ((surface + 1) as never) : surface}
           >
             <Icon name={bxGridAlt} size={16} />
             {t('common:all')}
@@ -188,16 +186,16 @@ export function RadarFilter({
                   ?.filters,
               })
             }
-            size={isMobile ? 'sm' : 'md'}
+            size={isMini ? 'sm' : 'md'}
             variant="primary"
             surface={surface}
           />
         </div>
       </div>
-      <div className="w-1/2 min-w-48 max-w-max mobile:w-full">
+      <div className={clsx('w-1/2 min-w-48 max-w-max', isMini && 'w-full')}>
         <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
         <ButtonSelect
-          size={isMobile ? 'sm' : 'md'}
+          size={isMini ? 'sm' : 'md'}
           value={JSON.stringify({
             sortBy: localState.sortBy ?? 'rank',
             sortOrder: localState.sortOrder ?? 'ascending',
@@ -353,9 +351,9 @@ export function RadarFilter({
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        className="w-[500px] mobile:w-auto"
+        className={clsx('w-[500px]', isMini && 'w-auto')}
         contentClassName="p-3"
-        mode={isMobile ? 'drawer' : 'modal'}
+        mode={isMini ? 'drawer' : 'modal'}
         drawerConfig={{
           position: 'bottom',
           closeButton: true,
@@ -394,8 +392,10 @@ export function RadarFilter({
       >
         <p className="text-xl font-semibold">{t('common:filters')}</p>
         <div className="mt-8 space-y-4">
-          <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block basis-1/3 mobile:basis-full">
+          <div
+            className={clsx('flex items-center gap-2', isMini && 'flex-wrap')}
+          >
+            <p className={clsx('block basis-1/3', isMini && 'basis-full')}>
               {t('common:trend_label')}
             </p>
             <CoinLabelSelect
@@ -409,8 +409,10 @@ export function RadarFilter({
               type="trend_labels"
             />
           </div>
-          <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block basis-1/3 mobile:basis-full">
+          <div
+            className={clsx('flex items-center gap-2', isMini && 'flex-wrap')}
+          >
+            <p className={clsx('block basis-1/3', isMini && 'basis-full')}>
               {t('common:security_label')}
             </p>
             <CoinLabelSelect
@@ -427,8 +429,15 @@ export function RadarFilter({
               type="security_labels"
             />
           </div>
-          <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block shrink-0 basis-1/3 mobile:basis-full">
+          <div
+            className={clsx('flex items-center gap-2', isMini && 'flex-wrap')}
+          >
+            <p
+              className={clsx(
+                'block shrink-0 basis-1/3',
+                isMini && 'basis-full',
+              )}
+            >
               {t('common:category')}
             </p>
             <CategorySelect
@@ -448,8 +457,18 @@ export function RadarFilter({
           </div>
           {radar === 'social-radar-24-hours' && (
             <>
-              <div className="flex items-center gap-2 mobile:flex-wrap">
-                <p className="block shrink-0 basis-1/3 mobile:basis-full">
+              <div
+                className={clsx(
+                  'flex items-center gap-2',
+                  isMini && 'flex-wrap',
+                )}
+              >
+                <p
+                  className={clsx(
+                    'block shrink-0 basis-1/3',
+                    isMini && 'basis-full',
+                  )}
+                >
                   {t('common:exchange')}
                 </p>
                 <ExchangeSelect
@@ -463,8 +482,18 @@ export function RadarFilter({
                   }
                 />
               </div>
-              <div className="flex items-center gap-2 mobile:flex-wrap">
-                <p className="block shrink-0 basis-1/3 mobile:basis-full">
+              <div
+                className={clsx(
+                  'flex items-center gap-2',
+                  isMini && 'flex-wrap',
+                )}
+              >
+                <p
+                  className={clsx(
+                    'block shrink-0 basis-1/3',
+                    isMini && 'basis-full',
+                  )}
+                >
                   {t('common:source')}
                 </p>
                 <SocialRadarSourceSelect
