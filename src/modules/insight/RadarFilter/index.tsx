@@ -351,9 +351,9 @@ export function RadarFilter({
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        className={clsx('w-[500px]', isMini && 'w-auto')}
+        className={clsx('w-[500px]', isMobile && 'w-auto')}
         contentClassName="p-3"
-        mode={isMini ? 'drawer' : 'modal'}
+        mode={isMobile ? 'drawer' : 'modal'}
         drawerConfig={{
           position: 'bottom',
           closeButton: true,

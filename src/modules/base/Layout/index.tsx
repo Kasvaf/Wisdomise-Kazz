@@ -38,11 +38,12 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
   return (
     <div
-      className="relative flex min-h-screen flex-col bg-v1-surface-l1"
+      className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l1"
       style={{
         ['--desktop-sidebar-width' as never]:
           !isMobile && sidebar !== null ? '4.25rem' : 0,
         ['--desktop-header-height' as never]: isMobile ? 0 : '3rem',
+        ['--route-details-height' as never]: isMobile ? 0 : '1.75rem',
       }}
     >
       {/* Sticky Header */}
@@ -54,30 +55,31 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
             )}
       </header>
 
-      {/* Main content wrapper with sidebar and main area */}
-      <div className="flex grow overflow-hidden">
+      {/* Route details - only for desktop */}
+      {!isMobile && (
+        <RouteDetails
+          hasBack={hasBack}
+          className="fixed end-0 start-[--desktop-sidebar-width] top-[--desktop-header-height] z-20 w-auto"
+        />
+      )}
+
+      <div className="flex items-start justify-start">
         {/* Sidebar - only for desktop */}
         {!isMobile && sidebar !== null && (
-          <aside className="fixed top-[--desktop-header-height] z-20 h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] overflow-auto border-r border-t border-white/10 bg-v1-surface-l2 scrollbar-none">
+          <aside className="sticky start-0 top-[--desktop-header-height] z-20 h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] overflow-auto border-r border-t border-white/10 bg-v1-surface-l2 scrollbar-none">
             {sidebar || <DefaultSidebar />}
           </aside>
         )}
 
-        {/* Content area */}
-        <div className="ms-[--desktop-sidebar-width] flex max-w-full grow flex-col overflow-hidden">
-          {/* Route details - only for desktop */}
-          {!isMobile && (
-            <RouteDetails
-              hasBack={hasBack}
-              className="fixed top-[--desktop-header-height] z-20 w-full"
-            />
+        {/* Main content */}
+        <main
+          className={clsx(
+            'mt-[--route-details-height] w-[calc(100vw-var(--desktop-sidebar-width))] max-w-full grow p-3',
+            mainClassName,
           )}
-
-          {/* Main dynamic content */}
-          <main className={clsx('mt-7 grow overflow-auto p-3', mainClassName)}>
-            <AuthorizedContent>{children}</AuthorizedContent>
-          </main>
-        </div>
+        >
+          <AuthorizedContent>{children}</AuthorizedContent>
+        </main>
       </div>
 
       {/* Sticky footer - only for mobile */}

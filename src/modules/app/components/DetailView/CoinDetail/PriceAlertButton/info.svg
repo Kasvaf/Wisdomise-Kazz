@@ -1,0 +1,15 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="chart-modern-square 1" clip-path="url(#clip0_10254_32496)">
+<g id="Group">
+<path id="Vector" d="M26.6667 5H13.3333C8.73096 5 5 8.73096 5 13.3333V26.6667C5 31.269 8.73096 35 13.3333 35H26.6667C31.269 35 35 31.269 35 26.6667V13.3333C35 8.73096 31.269 5 26.6667 5Z" stroke="white" stroke-opacity="0.96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M16.4474 19.4297L12.5 24.1665" stroke="white" stroke-opacity="0.96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M21.9737 22.4648L16.4474 19.4297" stroke="white" stroke-opacity="0.96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M27.5 15.8335L21.9736 22.4651" stroke="white" stroke-opacity="0.96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_10254_32496">
+<rect width="40" height="40" fill="white"/>
+</clipPath>
+</defs>
+</svg>

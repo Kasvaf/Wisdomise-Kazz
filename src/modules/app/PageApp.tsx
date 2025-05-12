@@ -15,14 +15,14 @@ export default function PageDiscovery() {
       extension={<CoinExtensionsGroup />}
       mainClassName="!p-0 h-full"
     >
-      <div className="flex flex-nowrap justify-between">
+      <div className="flex justify-between">
         {params.view !== 'detail' && (
           <ListView
             className={clsx(
               'max-w-full p-3',
               params.view === 'list'
                 ? 'w-full'
-                : 'sticky top-0 h-[calc(100svh-4.75rem)] w-96 min-w-96 max-w-96 overflow-auto border-r border-white/10 bg-v1-surface-l1 scrollbar-none mobile:block mobile:h-auto',
+                : 'fixed top-[4.75rem] z-20 h-[calc(100svh-4.75rem)] w-96 min-w-96 max-w-96 overflow-auto border-r border-white/10 bg-v1-surface-l1 scrollbar-none mobile:block mobile:h-auto',
             )}
             list={params.list}
             expanded={params.view === 'list' && !isMobile}
@@ -32,7 +32,10 @@ export default function PageDiscovery() {
 
         {params.view !== 'list' && (
           <DetailView
-            className="grow overflow-x-hidden mobile:max-w-full"
+            className={clsx(
+              'min-w-0 shrink grow p-3',
+              params.view === 'both' && 'ms-96',
+            )}
             detail={params.detail}
             expanded={!isMobile}
             focus={true}
