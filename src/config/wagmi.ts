@@ -47,6 +47,12 @@ export const appKitModal = createAppKit({
     '--w3m-z-index': 10_000,
   },
   features: {
+    send: false,
+    pay: false,
+    receive: false,
+    history: false,
+    onramp: false,
+    swaps: false,
     socials: false,
     email: false,
   },
