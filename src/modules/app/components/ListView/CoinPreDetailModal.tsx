@@ -153,6 +153,7 @@ export const CoinPreDetailModal: FC<
   }
 > = ({ open, onClose, children, coin, ...props }) => {
   const { t } = useTranslation('insight');
+  const { getUrl } = useAppRouteMeta();
 
   return (
     <Dialog
@@ -170,7 +171,13 @@ export const CoinPreDetailModal: FC<
         coin && (
           <div className="flex flex-col items-stretch gap-4">
             <div className="flex gap-3">
-              <NavLink to={`/coin/${coin.slug}`} className="block basis-1/2">
+              <NavLink
+                to={getUrl({
+                  detail: 'coin',
+                  slug: coin.slug,
+                })}
+                className="block basis-1/2"
+              >
                 <Button
                   variant="outline"
                   surface={2}
