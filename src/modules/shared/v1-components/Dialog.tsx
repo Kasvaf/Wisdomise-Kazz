@@ -13,6 +13,7 @@ import { createPortal } from 'react-dom';
 import { useDebounce } from 'usehooks-ts';
 import { bxX } from 'boxicons-quasar';
 import { type Surface, useSurface } from 'utils/useSurface';
+import useBodyScroll from 'utils/useBodyScroll';
 import Icon from 'shared/Icon';
 import {
   type ComponentsProvicerContext,
@@ -215,16 +216,20 @@ export const Dialog: FC<{
   useEffect(() => {
     if (isOpen) {
       lastFocus.current = document.activeElement as HTMLElement | null;
-      // if (mode !== 'popup') { // TODO: think of multiple dialogs over each other or route change when dialog is open
-      //   disableBodyScroll(document.body);
-      // }
     } else if (lastFocus.current) {
-      // enableBodyScroll(document.body);
       lastFocus.current?.focus?.({
         preventScroll: true,
       });
     }
-  }, [isOpen]);
+  }, [isOpen, mode]);
+
+  const bodyScroll = useBodyScroll();
+  useEffect(() => {
+    if (mode !== 'popup') {
+      bodyScroll[isOpen ? 'disable' : 'enable']();
+      return () => bodyScroll.enable();
+    }
+  }, [bodyScroll, isOpen, mode]);
 
   return (
     <>

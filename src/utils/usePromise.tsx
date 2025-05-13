@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 
 export function usePromise<M = unknown, T = unknown>() {
   const [isRunning, setIsRunning] = useState(false);
-  const [meta, setMeta] = useState<M | null>(null);
+  const [params, setParams] = useState<M | null>(null);
   const [result, setResult] = useState<T>();
   const [error, setError] = useState<unknown>();
   const resolve = useRef<(value: T) => void>(() => {
@@ -12,8 +12,8 @@ export function usePromise<M = unknown, T = unknown>() {
     throw new Error('unexpected');
   });
 
-  const call = useCallback((newMeta?: M): Promise<T> => {
-    setMeta(newMeta ?? null);
+  const run = useCallback((newParams: M): Promise<T> => {
+    setParams(newParams);
     setIsRunning(true);
     setError(undefined);
     return new Promise<T>((_resolve, _reject) => {
@@ -34,18 +34,15 @@ export function usePromise<M = unknown, T = unknown>() {
   }, []);
 
   return useMemo(
-    () =>
-      [
-        call,
-        {
-          isRunning,
-          result,
-          error,
-          resolve: resolve.current,
-          reject: reject.current,
-          meta,
-        },
-      ] as const,
-    [call, error, isRunning, meta, result],
+    () => ({
+      run,
+      isRunning,
+      result,
+      error,
+      resolve: resolve.current,
+      reject: reject.current,
+      params,
+    }),
+    [run, error, isRunning, params, result],
   );
 }

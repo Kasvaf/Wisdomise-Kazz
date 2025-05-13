@@ -264,6 +264,40 @@ export function useTraderPositionsQuery({
   });
 }
 
+export function usePendingPositionInCache() {
+  const queryClient = useQueryClient();
+  return ({ slug, positionKey }: { slug: string; positionKey: string }) => {
+    let resolve: (val: boolean) => void;
+    const p = new Promise<boolean>(_resolve => {
+      resolve = _resolve;
+    });
+
+    const timer = setInterval(() => {
+      const cached = queryClient.getQueriesData<PositionsResponse>({
+        queryKey: ['traderPositions', slug, true],
+        exact: false,
+      });
+
+      for (const [, data] of cached) {
+        const result = data?.positions.find(x => x.key === positionKey);
+        if (
+          result &&
+          (result?.status === 'CANCELED' ||
+            result?.deposit_status !== 'PENDING')
+        ) {
+          resolve(true);
+          clearInterval(timer);
+          return;
+        }
+      }
+    }, 500);
+
+    return Object.assign(p, {
+      stop: () => clearInterval(timer),
+    });
+  };
+}
+
 export interface CreatePositionRequest {
   mode?: 'buy_and_sell' | 'buy_and_hold' | 'sell_and_hold';
   signal: Signal;

@@ -13,6 +13,7 @@ import { useUserStorage } from 'api/userStorage';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { gtag } from 'config/gtag';
 import { useSymbolInfo } from 'api/symbol';
+import { usePendingPositionInCache } from 'api/trader';
 import { usePromiseOfEffect } from './utils';
 
 const tonClient = new TonClient({
@@ -119,14 +120,17 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
   const [tonConnectUI] = useTonConnectUI();
   const { data: { decimals, walletAddress } = {} } =
     useJettonWalletAddress(slug);
+  const awaitPositionInCache = usePendingPositionInCache();
   const { save } = useUserStorage('last-parsed-deposit-address');
   const queryClient = useQueryClient();
 
   return async ({
+    positionKey,
     recipientAddress,
     amount,
     gasFee,
   }: {
+    positionKey: string;
     recipientAddress: string;
     amount: string;
     gasFee: string;
@@ -182,8 +186,17 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
     void queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
     gtag('event', 'trade');
 
-    return () =>
-      new Promise<boolean>(resolve => setTimeout(() => resolve(true), 7000));
+    return () => {
+      const cacheWaiter = awaitPositionInCache({
+        slug,
+        positionKey,
+      });
+
+      return Promise.race([
+        cacheWaiter,
+        new Promise<boolean>(resolve => setTimeout(() => resolve(true), 7000)),
+      ]).finally(cacheWaiter.stop);
+    };
   };
 };
 
