@@ -97,18 +97,18 @@ export const ListExpander: FC = () => {
       ref={ref}
       style={style}
     >
-      {params.view === 'detail' ||
-        (params.view === 'both' && LISTS_CONFIG[params.list].expandable && (
-          <Button
-            fab
-            variant="white"
-            size="2xs"
-            className="rounded-full"
-            onClick={handleExpandClick}
-          >
-            <Icon name={bxChevronRight} />
-          </Button>
-        ))}
+      {(params.view === 'detail' ||
+        (params.view === 'both' && LISTS_CONFIG[params.list].expandable)) && (
+        <Button
+          fab
+          variant="white"
+          size="2xs"
+          className="rounded-full"
+          onClick={handleExpandClick}
+        >
+          <Icon name={bxChevronRight} />
+        </Button>
+      )}
       {params.view !== 'detail' && (
         <Button
           fab
