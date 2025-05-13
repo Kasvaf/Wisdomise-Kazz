@@ -12,7 +12,7 @@ import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
 import { isMiniApp } from 'utils/version';
-import { useAppRouteMeta } from 'modules/app/lib';
+import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
 import PositionSharingModal from '../../PositionsList/PositionSharingModal';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';

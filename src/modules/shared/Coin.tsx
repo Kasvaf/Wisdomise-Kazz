@@ -6,7 +6,7 @@ import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
 import { useNetworks } from 'api';
-import { useAppRouteMeta } from 'modules/app/lib';
+import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({

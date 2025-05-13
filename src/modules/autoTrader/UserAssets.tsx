@@ -7,7 +7,7 @@ import { useSymbolInfo } from 'api/symbol';
 import Spin from 'shared/Spin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { useAppRouteMeta } from 'modules/app/lib';
+import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
 
 const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
   const { getUrl } = useAppRouteMeta();

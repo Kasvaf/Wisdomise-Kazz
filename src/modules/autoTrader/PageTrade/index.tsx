@@ -7,7 +7,7 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
-import { useAppRouteMeta } from 'modules/app/lib';
+import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import Trader from './Trader';
 

@@ -2,10 +2,10 @@ import { clsx } from 'clsx';
 import PageWrapper from 'modules/base/PageWrapper';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
-import { ListView } from './components/ListView';
-import { DetailView } from './components/DetailView';
-import { useAppRouteMeta } from './lib';
-import { ListExpander } from './components/ListExpander';
+import { ListView } from './ListView';
+import { DetailView } from './DetailView';
+import { useAppRouteMeta } from './useAppRouteMeta';
+import { ListExpander } from './ListExpander';
 
 export default function PageDiscovery() {
   const { params } = useAppRouteMeta(true);

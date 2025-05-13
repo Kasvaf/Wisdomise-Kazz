@@ -12,7 +12,7 @@ import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { useAppRouteMeta } from 'modules/app/lib';
+import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
 
 export const GlobalSearch: FC<
   Omit<

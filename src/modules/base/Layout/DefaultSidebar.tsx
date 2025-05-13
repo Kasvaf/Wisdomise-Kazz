@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { type FC } from 'react';
 import { useHasFlag } from 'api';
-import { useAppRouteMeta } from 'modules/app/lib';
+import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {

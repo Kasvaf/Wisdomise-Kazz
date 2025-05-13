@@ -4,7 +4,7 @@ import { type FC } from 'react';
 import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import useIsMobile from 'utils/useIsMobile';
 import { useHasFlag } from 'api';
-import { useAppRouteMeta } from 'modules/app/lib';
+import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const TOUR_CLASS = 'tour-item-bottom-navbar';
