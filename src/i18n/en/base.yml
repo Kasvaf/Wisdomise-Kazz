@@ -49,11 +49,7 @@ menu:
   token:
     title: WSDM Token
     subtitle: Migrate your tWSDM, withdraw your investments
-  trench:
-    title: Trench
   whale:
-    title: Whale
-  whales:
     title: Whale
 new: New
 user:
