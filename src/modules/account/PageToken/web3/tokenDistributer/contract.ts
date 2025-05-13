@@ -1,4 +1,4 @@
-import { useAccount, useContractRead, useContractWrite } from 'wagmi';
+import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 import { zeroAddress } from 'viem';
 import { TOKEN_DISTRIBUTOR_ABI } from 'modules/account/PageToken/web3/tokenDistributer/abi';
 import {
@@ -8,6 +8,7 @@ import {
   PUBLIC_ROUND_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   STRATEGIC_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
 } from 'modules/account/PageToken/constants';
+import { useWaitResolver } from 'modules/account/PageToken/web3/shared';
 
 export type Bucket = 'angel' | 'strategic' | 'kol' | 'institutional' | 'public';
 
@@ -21,30 +22,48 @@ const bucketTokenDistributorAddressMap: Record<Bucket, `0x${string}`> = {
 
 export function useReadAccountShares(bucket: Bucket) {
   const { address } = useAccount();
-  return useContractRead({
+  return useReadContract({
     address: bucketTokenDistributorAddressMap[bucket],
     abi: TOKEN_DISTRIBUTOR_ABI,
     functionName: 'getAccountShares',
     args: [address ?? zeroAddress],
+    query: {
+      enabled: !!address,
+    },
   });
 }
 
 export function useReadReleasable(bucket: Bucket) {
   const { address } = useAccount();
-  return useContractRead({
+  return useReadContract({
     address: bucketTokenDistributorAddressMap[bucket],
     abi: TOKEN_DISTRIBUTOR_ABI,
     functionName: 'releasable',
     args: [address ?? zeroAddress],
+    query: {
+      enabled: !!address,
+    },
   });
 }
 
 export function useWriteRelease(bucket: Bucket) {
+  const mutation = useWriteContract();
+  const { resolver, isWaiting } = useWaitResolver(mutation.data);
   const { address } = useAccount();
-  return useContractWrite({
-    address: bucketTokenDistributorAddressMap[bucket],
-    abi: TOKEN_DISTRIBUTOR_ABI,
-    functionName: 'release',
-    args: [address ?? zeroAddress],
-  });
+
+  const writeAndWait = () => {
+    mutation.writeContract({
+      address: bucketTokenDistributorAddressMap[bucket],
+      abi: TOKEN_DISTRIBUTOR_ABI,
+      functionName: 'release',
+      args: [address ?? zeroAddress],
+    });
+    return resolver();
+  };
+
+  return {
+    ...mutation,
+    writeAndWait,
+    isWaiting,
+  };
 }

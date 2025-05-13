@@ -1,14 +1,6 @@
-import { useCallback } from 'react';
-import {
-  useAccountQuery,
-  useInvoicesQuery,
-  usePlansQuery,
-  useSubscription,
-} from 'api';
+import { useAccountQuery, usePlansQuery, useSubscription } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { DebugPin } from 'shared/DebugPin';
-import useModal from 'shared/useModal';
-import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
@@ -16,36 +8,36 @@ import { FeaturesTable } from 'modules/account/PageBilling/FeaturesTable';
 import { MAIN_LANDING } from 'config/constants';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
+import { useReadUnlockedInfo } from 'modules/account/PageToken/web3/locking/contract';
+import { useVipModal } from 'modules/account/PageBilling/useVipModal';
 import bag from './images/bag.png';
 import starlight from './images/starlight.png';
 import bg from './images/bg.png';
+// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function PageBilling() {
   const isMobile = useIsMobile();
   const plans = usePlansQuery();
-  const invoices = useInvoicesQuery();
-  const subscription = useSubscription();
+  const { isLoading: subIsLoading, group } = useSubscription();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   const { data: account } = useAccountQuery();
+  const { data, isPending } = useReadUnlockedInfo();
+  const { tokenPaymentModal, openVipModal } = useVipModal();
 
-  const isLoading =
-    (account?.info && invoices.isLoading) ||
-    plans.isLoading ||
-    subscription.isLoading;
+  const showDetails =
+    (data?.unlockAmount ?? 0n) > 0n ||
+    (group !== 'free' && group !== 'initial' && account?.info);
 
-  const [tokenPaymentModal, openTokenPaymentModal] = useModal(
-    TokenPaymentModalContent,
-    { fullscreen: true, destroyOnClose: true },
-  );
+  const isLoading = subIsLoading || isPending;
 
-  const onLockClick = useCallback(async () => {
+  const onLockClick = async () => {
     if (!plans.data?.results[0]) return;
     const isLoggedIn = await ensureAuthenticated();
     if (isLoggedIn) {
-      void openTokenPaymentModal({ plan: plans.data?.results[0] });
+      openVipModal();
     }
-  }, [ensureAuthenticated, openTokenPaymentModal, plans.data?.results]);
+  };
 
   return (
     <PageWrapper
@@ -54,11 +46,10 @@ export default function PageBilling() {
       loading={isLoading}
       extension={!isMobile && <CoinExtensionsGroup />}
       mountWhileLoading
-      title={null}
     >
-      {subscription.group === 'free' ||
-      subscription.group === 'initial' ||
-      !account?.info ? (
+      {showDetails ? (
+        <SubscriptionDetail />
+      ) : (
         <div className="relative flex flex-col items-center">
           <img src={starlight} className="absolute" alt="" />
           <img
@@ -88,7 +79,7 @@ export default function PageBilling() {
               Stake & farm the bag{' '}
               <img
                 src={bag}
-                alt="baf"
+                alt="bag"
                 className="inline-block size-8 mobile:size-6"
               />
             </h2>
@@ -118,11 +109,9 @@ export default function PageBilling() {
             </div>
             {tokenPaymentModal}
             {ModalLogin}
-            <FeaturesTable className="mb-10" />
+            <FeaturesTable className="mb-10 max-w-[40rem]" />
           </div>
         </div>
-      ) : (
-        <SubscriptionDetail />
       )}
     </PageWrapper>
   );

@@ -1,16 +1,21 @@
 import { useAccount } from 'wagmi';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { useAccountQuery } from 'api';
+import { useAccountQuery, usePlansQuery } from 'api';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
 import { useLockingRequirementQuery } from 'api/defi';
 
-export const useVipAccessFlow = ({ planPrice }: { planPrice: number }) => {
+export const useVipAccessFlow = () => {
   const isLoggedIn = useIsLoggedIn();
   const { isConnected, address } = useAccount();
   const { data: account } = useAccountQuery();
   const { data: lockedBalance } = useReadLockedBalance();
-  const { data: generalLockingRequirement } =
-    useLockingRequirementQuery(planPrice);
+
+  const plans = usePlansQuery();
+  const plan = plans.data?.results[0];
+
+  const { data: generalLockingRequirement } = useLockingRequirementQuery(
+    plan?.price,
+  );
 
   const canSubscribe =
     generalLockingRequirement && lockedBalance

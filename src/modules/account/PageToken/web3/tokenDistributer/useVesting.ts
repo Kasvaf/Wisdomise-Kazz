@@ -1,5 +1,3 @@
-import { useWaitForTransaction } from 'wagmi';
-import { useEffect } from 'react';
 import { notification } from 'antd';
 import {
   type Bucket,
@@ -7,7 +5,7 @@ import {
   useReadReleasable,
   useWriteRelease,
 } from 'modules/account/PageToken/web3/tokenDistributer/contract';
-import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
+import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import {
   angelReleasePercentage,
   angelReleaseTimestamps,
@@ -161,42 +159,34 @@ export function useVesting() {
 }
 
 function useBucketVesting(bucket: Bucket) {
-  const { refetch: refetchWsdmBalance } = useWsdmBalance();
+  const { refetch: refetchWsdmBalance } = useWSDMBalance();
 
   const { data: totalAmount, refetch: refetchTotalAmount } =
     useReadAccountShares(bucket);
   const { data: claimable, refetch: refetchAngelClaimable } =
     useReadReleasable(bucket);
-  const {
-    write: claimShare,
-    isLoading,
-    data: claimResult,
-  } = useWriteRelease(bucket);
-  const { data: claimTrxReceipt, isLoading: isWaiting } = useWaitForTransaction(
-    {
-      hash: claimResult?.hash,
-    },
-  );
+  const { writeAndWait, isWaiting, isPending } = useWriteRelease(bucket);
+
+  const release = () => {
+    void writeAndWait().then(() => {
+      notification.success({ message: 'Claim was successful' });
+      void refetchAngelClaimable();
+      void refetchWsdmBalance();
+      return null;
+    });
+  };
 
   const refetch = () => {
     void refetchTotalAmount();
     void refetchAngelClaimable();
   };
 
-  useEffect(() => {
-    if (claimTrxReceipt?.status === 'success') {
-      notification.success({ message: 'Claim was successful' });
-      void refetchAngelClaimable();
-      void refetchWsdmBalance();
-    }
-  }, [claimTrxReceipt, refetchAngelClaimable, refetchWsdmBalance]);
-
   return {
     totalAmount,
     claimable,
     refetch,
-    claimShare,
-    isLoading: isLoading || isWaiting,
+    claimShare: release,
+    isLoading: isPending || isWaiting,
   };
 }
 

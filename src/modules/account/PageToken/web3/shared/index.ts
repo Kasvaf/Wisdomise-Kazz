@@ -1,98 +1,107 @@
 import { notification } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
-import { zeroAddress } from 'viem';
+import { useEffect, useRef } from 'react';
+import { erc20Abi, zeroAddress } from 'viem';
 import {
-  erc20ABI,
   useAccount,
-  useContractRead,
-  useContractWrite,
-  useBalance,
-  useWaitForTransaction,
+  useReadContract,
+  useWriteContract,
+  useWaitForTransactionReceipt,
 } from 'wagmi';
 
-export function useAllowance(address: `0x${string}`, spender: `0x${string}`) {
-  const { address: owner } = useAccount();
-  return useContractRead({
-    abi: erc20ABI,
-    address,
-    functionName: 'allowance',
-    args: [owner ?? zeroAddress, spender],
-    enabled: !!address,
-  });
-}
-
-export function useApprove(address: `0x${string}`) {
-  return useContractWrite({
-    abi: erc20ABI,
-    address,
-    functionName: 'approve',
-  });
-}
-
-export function useIncreaseAllowance(
-  address: `0x${string}`,
+export function useReadAllowance(
+  contract: `0x${string}`,
   spender: `0x${string}`,
 ) {
-  const { address: owner } = useAccount();
-  const { data: balance } = useBalance({
-    address: owner,
-    token: address,
+  const { address } = useAccount();
+
+  return useReadContract({
+    abi: erc20Abi,
+    address: contract,
+    functionName: 'allowance',
+    args: [address ?? zeroAddress, spender],
+    query: {
+      enabled: !!contract && !!address,
+    },
   });
-  const [a, setA] = useState(0n);
-  const { data: allowance, refetch: refetchAllowance } = useAllowance(
-    address,
-    spender,
-  );
-  const {
-    write: approve,
-    isLoading: approveIsLoading,
-    data: approveResult,
-  } = useApprove(address);
-  const [isAllowed, setIsAllowed] = useState<{ emit: true }>();
+}
 
-  const { data: approveTrxReceipt, isLoading: approveTrxIsLoading } =
-    useWaitForTransaction({ hash: approveResult?.hash });
+export function useWriteApprove(
+  contract: `0x${string}`,
+  spender: `0x${string}`,
+) {
+  const mutation = useWriteContract();
+  const { resolver, isWaiting } = useWaitResolver(mutation.data);
 
-  const checkAllowance = (amount: bigint = balance?.value ?? 0n) => {
-    setA(amount);
-    if (allowance && allowanceIsHigherThanBalance(allowance, amount)) {
-      setIsAllowed({ emit: true });
-    } else {
-      approve({
-        args: [spender, amount],
-      });
-    }
+  const writeAndWait = (amount: bigint) => {
+    mutation.writeContract({
+      abi: erc20Abi,
+      address: contract,
+      functionName: 'approve',
+      args: [spender, amount],
+    });
+
+    return resolver();
   };
 
-  const allowanceIsHigherThanBalance = useCallback(
-    (allow: bigint, amount: bigint) => {
-      return (allow ?? 0n) >= amount;
-    },
-    [],
-  );
+  return {
+    ...mutation,
+    writeAndWait,
+    isWaiting,
+  };
+}
 
-  useEffect(() => {
-    if (approveTrxReceipt?.status === 'success') {
-      void refetchAllowance().then(({ data }) => {
-        if (data && allowanceIsHigherThanBalance(data, a)) {
-          setIsAllowed({ emit: true });
-        } else {
-          notification.error({
-            message: 'Allowance cap is less than your balance.',
-          });
-        }
-        return null;
-      });
-    } else if (approveTrxReceipt?.status === 'reverted') {
-      notification.error({
-        message: 'Approve transaction reverted.',
-      });
-    }
-  }, [approveTrxReceipt, allowanceIsHigherThanBalance, refetchAllowance, a]);
+export function useEnsureAllowance(
+  token: `0x${string}`,
+  spender: `0x${string}`,
+) {
+  const { data: allowance, refetch } = useReadAllowance(token, spender);
+  const {
+    writeAndWait: approve,
+    isPending,
+    isWaiting,
+  } = useWriteApprove(token, spender);
+
+  const ensureAllowance = async (amount: bigint) => {
+    return allowance && allowance >= amount
+      ? true
+      : await approve(amount).then(async () => {
+          const { data: newAllowance } = await refetch();
+          if (newAllowance && newAllowance >= amount) {
+            return true;
+          } else {
+            notification.error({
+              message: 'Allowance cap is less than your balance.',
+            });
+            return false;
+          }
+        });
+  };
 
   return {
-    checkAllowance,
-    isAllowed,
-    isLoading: approveIsLoading || approveTrxIsLoading,
+    ensureAllowance,
+    isPending,
+    isWaiting,
+  };
+}
+
+export function useWaitResolver(hash?: `0x${string}`) {
+  const resolverRef = useRef<VoidFunction | null>(null);
+  const { isLoading: isWaiting, data: receipt } = useWaitForTransactionReceipt({
+    hash,
+  });
+
+  useEffect(() => {
+    if (receipt?.status === 'success') {
+      resolverRef.current?.();
+      resolverRef.current = null;
+    }
+  }, [receipt]);
+
+  return {
+    resolver: () =>
+      new Promise<void>(resolve => {
+        resolverRef.current = resolve;
+      }),
+    isWaiting,
   };
 }

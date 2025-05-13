@@ -193,7 +193,6 @@ export default function DailyTrade({ className }: { className?: string }) {
             Trade Now
             <Arrow className="ml-2" />
           </Button>
-          <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l4/80 to-75%"></div>
         </div>
       </DrawerModal>
       {RewardModal}

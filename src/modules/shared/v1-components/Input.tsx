@@ -12,6 +12,8 @@ export function Input<T extends 'number' | 'string'>({
   value,
   onChange,
   type,
+  min,
+  max,
   disabled,
   readOnly,
   loading,
@@ -25,7 +27,8 @@ export function Input<T extends 'number' | 'string'>({
   size?: 'xs' | 'sm' | 'md' | 'xl';
 
   type?: T;
-
+  min?: number;
+  max?: number;
   value?: T extends 'number' ? number : string;
   onChange?: (
     newValue: T extends 'number' ? number | undefined : string,
@@ -82,6 +85,8 @@ export function Input<T extends 'number' | 'string'>({
       <input
         className="block w-full grow border-0 bg-transparent text-inherit outline-none"
         value={value}
+        max={max}
+        min={min}
         onChange={handleChange}
         disabled={disabled}
         readOnly={readOnly}

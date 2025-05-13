@@ -3,10 +3,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useCountdown } from 'usehooks-ts';
 import { Steps } from 'antd';
 import Card from 'shared/Card';
-import Button from 'shared/Button';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useLockingRequirementQuery } from 'api/defi';
+import { Button } from 'shared/v1-components/Button';
 import { useVipAccessFlow } from 'modules/account/PageBilling/useVipAccessFlow';
 import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 import { ReactComponent as Done } from '../../images/done.svg';
@@ -34,7 +34,7 @@ export default function TokenPaymentModalContent({
   const price =
     generalLockingRequirement?.requirement_locking_amount.toLocaleString();
 
-  const { currentStep } = useVipAccessFlow({ planPrice: plan.price });
+  const { currentStep } = useVipAccessFlow();
 
   useEffect(() => {
     void refetch();
@@ -98,7 +98,9 @@ export default function TokenPaymentModalContent({
               <p className="text-lg mobile:text-sm">
                 <Trans i18nKey="token-modal.token-name" ns="billing" />
                 <br />
-                <span className="text-white/50">1 Month</span>
+                <span className="text-white/50">
+                  1 {plan.periodicity === 'YEARLY' ? 'Year' : 'Month'}
+                </span>
               </p>
             </div>
 
@@ -107,29 +109,21 @@ export default function TokenPaymentModalContent({
         </div>
         <div className="col-span-12 flex flex-col items-center justify-center lg:col-span-6">
           {done ? (
-            <Card className="flex flex-col items-center gap-6">
+            <Card className="flex w-full flex-col items-center gap-6 lg:w-3/4">
               <Done className="text-green-400 mobile:w-24" />
               <div className="mb-6 text-center">
                 <p className="mb-6 text-2xl font-medium">
                   {t('token-modal.congratulations')}
                 </p>
-                <p className="font-medium text-white/60">
+                <p className="font-medium text-v1-content-secondary">
                   Wise Club Activated!
                 </p>
               </div>
 
-              <Button
-                onClick={onDoneClick}
-                variant="primary-purple"
-                className="w-full"
-              >
+              <Button onClick={onDoneClick} className="w-full">
                 {t('token-modal.done')}
               </Button>
-              <ImportTokenButton
-                className="w-full"
-                tokenSymbol="lcWSDM"
-                variant="secondary"
-              />
+              <ImportTokenButton className="w-full" tokenSymbol="lcWSDM" />
             </Card>
           ) : (
             <ConnectWalletGuard

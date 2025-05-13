@@ -1,19 +1,17 @@
 /* eslint-disable import/max-dependencies */
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { notification } from 'antd';
 import { useDisconnect } from 'wagmi';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useSubmitTokenPayment } from 'api';
-import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
-import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
+import { useLockWithApprove } from 'modules/account/PageToken/web3/locking/useLocking';
+import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import { useLockingRequirementQuery, useLockingStateQuery } from 'api/defi';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
-import useModal from 'shared/useModal';
-import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymentMethods/Token/TransactionConfirmedModalContent';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 import { unwrapErrorMessage } from 'utils/error';
 import { Button } from 'shared/v1-components/Button';
@@ -26,35 +24,29 @@ interface Props {
   setDone: (state: boolean) => void;
 }
 
-export default function TokenCheckout({
-  plan,
-  setDone,
-  invoiceKey,
-  countdown,
-}: Props) {
+export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const { t } = useTranslation('billing');
-  const { mutateAsync } = useSubmitTokenPayment();
-  const { data: lockedBalance, refetch } = useReadLockedBalance();
-  const { startLocking, isLoading, isLocking, lockTrxReceipt } = useLocking();
+  const { mutateAsync, isPending: paymentIsPending } = useSubmitTokenPayment();
+  const { data: lockedBalance, refetch: readLockedBalance } =
+    useReadLockedBalance();
+  const {
+    lockWithApprove,
+    approveIsPending,
+    approveIsWaiting,
+    lockingIsPending,
+    lockingIsWaiting,
+  } = useLockWithApprove();
   const {
     data: wsdmBalance,
     refetch: updateBalance,
     isLoading: balanceIsLoading,
-  } = useWsdmBalance();
+  } = useWSDMBalance();
   const { data: generalLockingRequirement } = useLockingRequirementQuery(
     plan.price,
   );
-  const { refetch: lockStateRefetch } = useLockingStateQuery();
-  const [Modal, showModal] = useModal(TransactionConfirmedModalContent, {
-    width: 800,
-    closable: false,
-    maskClosable: false,
-  });
+  const { refetch: lockStateRefetch, isFetching: lockStateIsFetching } =
+    useLockingStateQuery();
   const { disconnect } = useDisconnect();
-
-  useEffect(() => {
-    void showModal({});
-  }, [showModal]);
 
   const canStake =
     Number(wsdmBalance?.value ?? 0) / 10 ** (wsdmBalance?.decimals ?? 1) >
@@ -73,7 +65,9 @@ export default function TokenCheckout({
   };
 
   const lock = () => {
-    void startLocking(stakeRemaining, countdown);
+    void lockWithApprove(BigInt(stakeRemaining * 10 ** 6)).then(() =>
+      readLockedBalance(),
+    );
   };
 
   const submitTokenPayment = useCallback(async () => {
@@ -92,12 +86,6 @@ export default function TokenCheckout({
       );
   }, [invoiceKey, lockStateRefetch, mutateAsync, plan.key, setDone]);
 
-  useEffect(() => {
-    if (lockTrxReceipt?.status === 'success') {
-      void refetch();
-    }
-  }, [lockTrxReceipt, refetch, submitTokenPayment]);
-
   return (
     <Card className="flex flex-col items-center gap-6 text-center">
       <h3 className="flex w-full items-center justify-between gap-2 text-xl">
@@ -113,13 +101,13 @@ export default function TokenCheckout({
         <Button
           size="xs"
           variant="outline"
-          disabled={balanceIsLoading}
+          loading={balanceIsLoading}
           onClick={() => updateBalance()}
         >
           {t('token-modal.refresh')}
         </Button>
       </h3>
-      <div className="flex items-center justify-center gap-6">
+      <div className="flex justify-center gap-6">
         <div>
           <div className="mb-5 text-4xl">
             {addComma(generalLockingRequirement?.requirement_locking_amount)}
@@ -129,7 +117,7 @@ export default function TokenCheckout({
             <p className="mt-1 text-xs">Polygon Network</p>
           </div>
         </div>
-        <div className="h-16 w-px border-r border-white/50"></div>
+        <div className="h-16 w-px border-r border-v1-border-secondary"></div>
 
         {(lockedBalance ?? 0n) > 0 ? (
           <div className="text-center">
@@ -162,45 +150,40 @@ export default function TokenCheckout({
           </div>
         )}
       </div>
-      {(lockedBalance ?? 0n) > 0 && (
-        <div>
-          Congratulation!
-          <br />
-          You now earn your share of 50% of Wisdomise&apos;s revenue
-          {!canSubscribe && (
-            <span>
-              <br />
-              increase your stake up to 1,000$ to has access to all over product
-              <br />
-              (Stake {addComma(stakeRemaining)} More $WSDM to Access Wise club)
-            </span>
-          )}
-        </div>
-      )}
-      <div className="max-w-[18rem]">
+      <div className="mt-6 w-72 mobile:w-full">
         {canSubscribe ? (
           <Button
-            disabled={isLoading}
-            loading={isLoading}
+            loading={paymentIsPending || lockStateIsFetching}
             onClick={activate}
-            className="mb-6 w-full"
+            className="w-full"
           >
             Activate Wise Club
           </Button>
         ) : canStake ? (
           <Button
-            disabled={isLoading}
-            loading={isLoading}
+            loading={
+              approveIsPending ||
+              approveIsWaiting ||
+              lockingIsPending ||
+              lockingIsWaiting
+            }
             onClick={lock}
-            className="mb-6 w-full"
+            className="w-full"
           >
-            Stake Now
+            {approveIsPending
+              ? 'Waiting for approval signature...'
+              : approveIsWaiting
+              ? 'Approval transaction is confirming...'
+              : lockingIsPending
+              ? 'Waiting for staking signature...'
+              : lockingIsWaiting
+              ? 'Staking transaction is confirming...'
+              : 'Stake Now'}
           </Button>
         ) : (
           <BuyWSDM className="w-full" />
         )}
       </div>
-      {isLocking && Modal}
     </Card>
   );
 }
