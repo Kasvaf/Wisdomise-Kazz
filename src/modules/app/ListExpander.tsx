@@ -11,6 +11,7 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { useAppRouteMeta } from './useAppRouteMeta';
+import { LISTS_CONFIG } from './constants';
 
 export const ListExpander: FC = () => {
   const isMobile = useIsMobile();
@@ -96,17 +97,18 @@ export const ListExpander: FC = () => {
       ref={ref}
       style={style}
     >
-      {params.view !== 'list' && (
-        <Button
-          fab
-          variant="white"
-          size="2xs"
-          className="rounded-full"
-          onClick={handleExpandClick}
-        >
-          <Icon name={bxChevronRight} />
-        </Button>
-      )}
+      {params.view === 'detail' ||
+        (params.view === 'both' && LISTS_CONFIG[params.list].expandable && (
+          <Button
+            fab
+            variant="white"
+            size="2xs"
+            className="rounded-full"
+            onClick={handleExpandClick}
+          >
+            <Icon name={bxChevronRight} />
+          </Button>
+        ))}
       {params.view !== 'detail' && (
         <Button
           fab
