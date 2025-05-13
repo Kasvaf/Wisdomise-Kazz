@@ -41,7 +41,7 @@ export default function Vesting() {
                   </div>
                   <div>
                     <span>
-                      {addComma((bucket.totalAmount ?? 0n) / 10n ** 6n)}
+                      {addComma(BigInt(bucket.totalAmount ?? 0n) / 10n ** 6n)}
                     </span>{' '}
                     <span className="text-white/40">WSDM</span>
                   </div>
