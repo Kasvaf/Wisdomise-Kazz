@@ -2,15 +2,15 @@ import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { type FC } from 'react';
 import { useHasFlag } from 'api';
-import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const MenuItems = useMenuItems();
   const hasFlag = useHasFlag();
-  const { params } = useAppRouteMeta();
+  const { params } = useDiscoveryRouteMeta();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
-  const { isMatched, getUrl } = useAppRouteMeta();
+  const { isMatched, getUrl } = useDiscoveryRouteMeta();
 
   return (
     <>

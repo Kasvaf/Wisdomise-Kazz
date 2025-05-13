@@ -12,7 +12,7 @@ import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
 import { isMiniApp } from 'utils/version';
-import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import PositionSharingModal from '../../PositionsList/PositionSharingModal';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
@@ -39,7 +39,7 @@ const PositionDetail: React.FC<{
   className?: string;
 }> = ({ position, className }) => {
   const [openShare, setOpenShare] = useState(false);
-  const { getUrl } = useAppRouteMeta();
+  const { getUrl } = useDiscoveryRouteMeta();
   const initialDeposit = initialQuoteDeposit(position);
   const isOpen = ['OPENING', 'OPEN', 'CLOSING'].includes(position.status);
 

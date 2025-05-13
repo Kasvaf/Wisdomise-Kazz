@@ -2,7 +2,7 @@ import { type RouteObject } from 'react-router-dom';
 import useAutoTraderRoutes from 'modules/base/routes/autotraderRoutes';
 import useEmbeddedRoutes from 'modules/base/routes/embeddedRoutes';
 import Boundary from './Boundary';
-import useAppRoutes from './appRoutes';
+import useDiscoveryRoutes from './discoveryRoutes';
 import useAccountRoutes from './accountRoutes';
 
 const useRoutes = () => {
@@ -11,7 +11,7 @@ const useRoutes = () => {
       element: <Boundary />,
       children: [
         ...useAccountRoutes(),
-        ...useAppRoutes(),
+        ...useDiscoveryRoutes(),
         ...useEmbeddedRoutes(),
         ...useAutoTraderRoutes(),
       ],

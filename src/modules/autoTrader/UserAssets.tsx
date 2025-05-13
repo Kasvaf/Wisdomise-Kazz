@@ -7,10 +7,10 @@ import { useSymbolInfo } from 'api/symbol';
 import Spin from 'shared/Spin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 
 const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
-  const { getUrl } = useAppRouteMeta();
+  const { getUrl } = useDiscoveryRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
   const { slug: activeCoinSlug } = useParams<{ slug: string }>();
 

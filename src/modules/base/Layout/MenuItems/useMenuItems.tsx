@@ -1,5 +1,5 @@
 import { type FC, useMemo } from 'react';
-import { type AppRouteMeta } from 'modules/app/useAppRouteMeta';
+import { type AppRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
 import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
 import { ReactComponent as SocialRadarIcon } from './icons/social.svg';

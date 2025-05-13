@@ -69,16 +69,7 @@ export function ReadyStep({
       <NavigateButtons
         nextText="Get Started"
         prevText="Previous"
-        onNext={() =>
-          // onNext?.(
-          //   tab === 'social-radar'
-          //     ? '/coin-radar/social-radar'
-          //     : tab === 'technical-radar'
-          //     ? '/coin-radar/technical-radar'
-          //     : '/coin-radar/whale-radar',
-          // )
-          onNext?.('/')
-        }
+        onNext={() => onNext?.('/')}
         onPrev={onPrev}
       />
     </>

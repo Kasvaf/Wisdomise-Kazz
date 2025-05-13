@@ -23,7 +23,7 @@ export default function PageOnboarding() {
   const done = useCallback(
     async (url?: string) => {
       await save(JSON.stringify(data));
-      navigate(url ?? '/coin-radar/overview');
+      navigate(url ?? '/discovery');
     },
     [data, navigate, save],
   );

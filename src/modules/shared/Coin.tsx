@@ -6,7 +6,7 @@ import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
 import { useNetworks } from 'api';
-import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
@@ -95,7 +95,7 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
-  const { getUrl, params } = useAppRouteMeta();
+  const { getUrl, params } = useDiscoveryRouteMeta();
 
   useSymbolInfo('the-open-network');
   const content = (

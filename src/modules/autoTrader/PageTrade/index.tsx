@@ -7,14 +7,14 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
-import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import Trader from './Trader';
 
 export default function PageTrade() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const { getUrl } = useAppRouteMeta();
+  const { getUrl } = useDiscoveryRouteMeta();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');

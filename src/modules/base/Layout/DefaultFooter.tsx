@@ -4,7 +4,7 @@ import { type FC } from 'react';
 import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import useIsMobile from 'utils/useIsMobile';
 import { useHasFlag } from 'api';
-import { useAppRouteMeta } from 'modules/app/useAppRouteMeta';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const TOUR_CLASS = 'tour-item-bottom-navbar';
@@ -15,7 +15,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
   const hasFlag = useHasFlag();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
   const isMobile = useIsMobile();
-  const { isMatched, getUrl } = useAppRouteMeta();
+  const { isMatched, getUrl } = useDiscoveryRouteMeta();
 
   return (
     <>
