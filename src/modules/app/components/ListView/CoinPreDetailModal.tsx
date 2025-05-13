@@ -220,7 +220,7 @@ export function useCoinPreDetailModal<T>({
 }) {
   const { getUrl } = useAppRouteMeta();
   const navigate = useNavigate();
-  const [openModal, rest] = usePromise<T, boolean>();
+  const { run: openModal, ...rest } = usePromise<T, boolean>();
 
   const action = useCallback(
     (r: T) => {
@@ -244,7 +244,7 @@ export function useCoinPreDetailModal<T>({
         {
           isModalOpen: rest.isRunning,
           closeModal: () => rest.resolve(true),
-          selectedRow: rest.meta,
+          selectedRow: rest.params,
         },
       ] as const,
     [action, rest],
