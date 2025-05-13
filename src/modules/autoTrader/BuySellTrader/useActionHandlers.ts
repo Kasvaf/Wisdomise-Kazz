@@ -6,7 +6,11 @@ import {
   useTraderFirePositionMutation,
   type CreatePositionRequest,
 } from 'api';
-import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
+import {
+  useActiveWallet,
+  useMarketSwap,
+  useTransferAssetsMutation,
+} from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
@@ -32,10 +36,27 @@ const useActionHandlers = (state: SwapState) => {
     useTraderFirePositionMutation();
 
   const transferAssetsHandler = useTransferAssetsMutation(from.slug);
+  const marketSwapHandler = useMarketSwap();
 
   const [ModalApproval, showModalApproval] = useModalApproval();
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
+
+    if (network === 'solana' && isMarketPrice) {
+      setFiring(true);
+      try {
+        await marketSwapHandler({
+          pairSlug: base.slug + '/' + quote.slug,
+          side: dir === 'buy' ? 'LONG' : 'SHORT',
+          amount: from.amount,
+        });
+      } catch (error) {
+        notification.error({ message: unwrapErrorMessage(error) });
+      } finally {
+        setFiring(false);
+      }
+      return;
+    }
 
     const createData: CreatePositionRequest = {
       network,

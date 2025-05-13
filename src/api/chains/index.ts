@@ -9,6 +9,7 @@ import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
   useSolanaAccountBalance,
+  useSolanaMarketSwap,
   useSolanaTransferAssetsMutation,
 } from './solana';
 import {
@@ -146,6 +147,17 @@ export const useTransferAssetsMutation = (quote?: string) => {
 
   if (net === 'solana') return transferSolanaAssets;
   if (net === 'the-open-network') return transferTonAssets;
+  return () => {
+    throw new Error('Invalid network');
+  };
+};
+
+export const useMarketSwap = () => {
+  const net = useActiveNetwork();
+  const solanaMarketSwap = useSolanaMarketSwap();
+
+  if (net === 'solana') return solanaMarketSwap;
+
   return () => {
     throw new Error('Invalid network');
   };
