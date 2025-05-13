@@ -63,7 +63,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         />
       )}
 
-      <div className="flex items-start justify-start">
+      <div className="flex grow items-start justify-start">
         {/* Sidebar - only for desktop */}
         {!isMobile && sidebar !== null && (
           <aside
@@ -87,7 +87,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
       {/* Sticky footer - only for mobile */}
       {isMobile && footer !== null && (
-        <footer className="sticky bottom-0 z-20 w-full overflow-auto scrollbar-none empty:hidden">
+        <footer className="sticky inset-y-0 z-50 w-full overflow-auto scrollbar-none empty:hidden">
           {footer || <DefaultFooter />}
         </footer>
       )}
