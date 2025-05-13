@@ -1,8 +1,8 @@
 import { useSubscription } from 'api';
 import usePageTour from 'shared/usePageTour';
-import bullIcon from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment/bullish.png';
-import happyIcon from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment/happy.png';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import bullIcon from '../TechnicalRadar/TechnicalRadarSentiment/bullish.png';
+import happyIcon from '../SocialRadar/SocialRadarSentiment/happy.png';
 import { homeSubscriptionsConfig } from './constants';
 
 export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
