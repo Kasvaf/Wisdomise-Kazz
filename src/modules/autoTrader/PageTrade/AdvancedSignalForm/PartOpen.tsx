@@ -87,7 +87,7 @@ const PartOpen: React.FC<{
                 <div className="mr-1">{ind + 1}.</div>
                 <PriceVolumeInput
                   basePrice={assetPrice}
-                  dirPrice="+"
+                  dirPrice="-"
                   price={
                     item.isMarket && !item.applied
                       ? assetPrice === undefined

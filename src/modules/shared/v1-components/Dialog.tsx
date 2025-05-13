@@ -11,9 +11,9 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { useDebounce } from 'usehooks-ts';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { bxX } from 'boxicons-quasar';
 import { type Surface, useSurface } from 'utils/useSurface';
+import useBodyScroll from 'utils/useBodyScroll';
 import Icon from 'shared/Icon';
 import {
   type ComponentsProvicerContext,
@@ -216,16 +216,20 @@ export const Dialog: FC<{
   useEffect(() => {
     if (isOpen) {
       lastFocus.current = document.activeElement as HTMLElement | null;
-      if (mode !== 'popup') {
-        disableBodyScroll(document.body);
-      }
     } else if (lastFocus.current) {
-      enableBodyScroll(document.body);
       lastFocus.current?.focus?.({
         preventScroll: true,
       });
     }
   }, [isOpen, mode]);
+
+  const bodyScroll = useBodyScroll();
+  useEffect(() => {
+    if (mode !== 'popup') {
+      bodyScroll[isOpen ? 'disable' : 'enable']();
+      return () => bodyScroll.enable();
+    }
+  }, [bodyScroll, isOpen, mode]);
 
   return (
     <>

@@ -12,6 +12,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { fromBigMoney, toBigMoney } from 'utils/money';
+import { usePendingPositionInCache } from 'api/trader';
 import { useSymbolInfo } from 'api/symbol';
 import { usePromiseOfEffect } from './utils';
 
@@ -116,15 +117,18 @@ export const useSolanaAccountBalance = (slug?: string) => {
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {
   const { connection } = useConnection();
-  const { publicKey, signTransaction, sendTransaction, wallet } = useWallet();
+  const { publicKey, signTransaction } = useWallet();
   const queryClient = useQueryClient();
   const { data: { contract, decimals } = {} } = useContractInfo(slug);
+  const awaitPositionInCache = usePendingPositionInCache();
 
   return async ({
+    positionKey,
     recipientAddress,
     amount,
     gasFee,
   }: {
+    positionKey: string;
     recipientAddress: string;
     amount: string;
     gasFee: string;
@@ -205,27 +209,31 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
       transaction.feePayer = publicKey;
 
       // Sign and send transaction
-      const signature = await (async function () {
-        if (wallet?.adapter.name === 'Trust') {
-          return await sendTransaction(transaction, connection);
-        } else {
-          const signedTransaction = await signTransaction(transaction);
-          return await connection.sendRawTransaction(
-            signedTransaction.serialize(),
-          );
-        }
-      })();
+      const signedTransaction = await signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(
+        signedTransaction.serialize(),
+      );
 
       void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
 
-      return async () => {
-        // Wait for confirmation
-        const r = await connection.confirmTransaction({
-          signature,
-          blockhash: latestBlockhash.blockhash,
-          lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      return () => {
+        const cacheWaiter = awaitPositionInCache({
+          slug,
+          positionKey,
         });
-        return r.value.err == null;
+
+        // Wait for confirmation
+        const networkConfirmation = connection
+          .confirmTransaction({
+            signature,
+            blockhash: latestBlockhash.blockhash,
+            lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+          })
+          .then(x => x.value.err !== null);
+
+        return Promise.race([cacheWaiter, networkConfirmation]).finally(
+          cacheWaiter.stop,
+        );
       };
     } catch (error) {
       console.error('Error sending transaction:', error);
