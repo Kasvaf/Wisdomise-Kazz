@@ -230,7 +230,7 @@ export default function SubscriptionDetail() {
           )}
         </>
       ) : (
-        <div className="mt-6 flex justify-between">
+        <div className="mt-6 flex justify-between gap-4 mobile:flex-col">
           <CurrentPlan />
           <div className="relative overflow-hidden rounded-xl bg-[#090C10] p-12">
             <img src={gradient2} alt="" className="absolute left-0 top-0" />
