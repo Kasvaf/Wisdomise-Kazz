@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   createSearchParams,
   type To,
   useLocation,
-  useNavigate,
   useSearchParams,
 } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
@@ -20,11 +19,10 @@ export interface AppRouteMeta {
   slug?: string;
 }
 
-export const useAppRouteMeta = (normalizeRoute?: boolean) => {
+export const useAppRouteMeta = () => {
   const isMobile = useIsMobile();
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
-  const navigate = useNavigate();
 
   const getUrl = useCallback(
     (meta: Partial<AppRouteMeta>): To => {
@@ -88,7 +86,7 @@ export const useAppRouteMeta = (normalizeRoute?: boolean) => {
       requestedList ?? 'coin-radar';
 
     const view: (typeof AVAILABLE_VIEWS)[number] = isMobile
-      ? requestedDetail && slug
+      ? requestedDetail && slug && requestedView !== 'list'
         ? 'detail'
         : 'list'
       : requestedView || (slug ? 'both' : 'list');
@@ -104,29 +102,6 @@ export const useAppRouteMeta = (normalizeRoute?: boolean) => {
       view,
     };
   }, [searchParams, isMobile]);
-
-  useEffect(() => {
-    if (!normalizeRoute) return;
-    if (
-      JSON.stringify({
-        list: searchParams.get('list'),
-        detail: searchParams.get('detail'),
-        view: searchParams.get('view'),
-        slug: searchParams.get('slug'),
-      }) !==
-      JSON.stringify({
-        list: params.list,
-        detail: params.detail,
-        view: params.view,
-        slug: params.slug,
-      })
-    ) {
-      navigate(getUrl(params), {
-        preventScrollReset: true,
-        replace: true,
-      });
-    }
-  }, [searchParams, normalizeRoute, params, navigate, getUrl]);
 
   return useMemo(
     () => ({ params, getUrl, isMatched }),

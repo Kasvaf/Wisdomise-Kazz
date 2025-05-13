@@ -8,7 +8,7 @@ import { useAppRouteMeta } from './useAppRouteMeta';
 import { ListExpander } from './ListExpander';
 
 export default function PageDiscovery() {
-  const { params } = useAppRouteMeta(true);
+  const { params } = useAppRouteMeta();
   const isMobile = useIsMobile();
 
   return (
