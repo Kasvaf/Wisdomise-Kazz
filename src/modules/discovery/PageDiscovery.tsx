@@ -28,7 +28,7 @@ export default function PageDiscovery() {
                 : [
                     'sticky top-[4.60rem] z-30 h-[calc(100svh-4.60rem)] w-96 min-w-96 max-w-96 overflow-auto p-3',
                     'border-r border-white/10 bg-v1-surface-l1 scrollbar-none',
-                    'mobile:block tablet:fixed tablet:bg-v1-surface-l1/60 tablet:backdrop-blur-sm',
+                    'mobile:block tablet:fixed tablet:bg-v1-surface-l1/60 tablet:backdrop-blur-lg',
                   ],
             )}
             list={params.list}

@@ -24,7 +24,14 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
           <NavLink
             to={getUrl({
               ...item.meta,
-              view: params.view === 'list' ? 'list' : 'both',
+              view:
+                params.view === 'list'
+                  ? 'list'
+                  : params.view === 'detail'
+                  ? 'both'
+                  : params.list === item.meta.list
+                  ? 'detail'
+                  : 'both',
             })}
             key={item.link}
             className={clsx(
