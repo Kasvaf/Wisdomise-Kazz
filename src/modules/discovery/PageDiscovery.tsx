@@ -16,16 +16,18 @@ export default function PageDiscovery() {
       extension={<CoinExtensionsGroup />}
       mainClassName="!p-0 h-full"
     >
-      <ListExpander />
-
-      <div className="flex justify-between">
+      <div className="flex justify-start">
         {params.view !== 'detail' && (
           <ListView
             className={clsx(
               'max-w-full p-3',
               params.view === 'list'
                 ? 'w-full'
-                : 'fixed top-[4.75rem] z-20 h-[calc(100svh-4.75rem)] w-96 min-w-96 max-w-96 overflow-auto border-r border-white/10 bg-v1-surface-l1 scrollbar-none mobile:block mobile:h-auto',
+                : [
+                    'sticky top-[4.60rem] z-30 h-[calc(100svh-4.60rem)] w-96 min-w-96 max-w-96 overflow-auto',
+                    'border-r border-white/10 bg-v1-surface-l1 scrollbar-none',
+                    'mobile:block tablet:fixed tablet:bg-v1-surface-l1/60 tablet:backdrop-blur-sm',
+                  ],
             )}
             list={params.list}
             expanded={params.view === 'list' && !isMobile}
@@ -36,8 +38,8 @@ export default function PageDiscovery() {
         {params.view !== 'list' && (
           <DetailView
             className={clsx(
-              'min-w-0 shrink grow p-3',
-              params.view === 'both' && 'ms-96',
+              'min-w-0 shrink grow',
+              // params.view === 'both' && 'ms-96',
             )}
             detail={params.detail}
             expanded={!isMobile}
@@ -46,6 +48,7 @@ export default function PageDiscovery() {
           />
         )}
       </div>
+      <ListExpander />
     </PageWrapper>
   );
 }

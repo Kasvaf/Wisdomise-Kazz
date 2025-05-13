@@ -21,9 +21,9 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <div className="flex flex-nowrap justify-between">
+    <div className="flex w-full min-w-0 max-w-full flex-nowrap justify-between">
       {/* Validate */}
-      <div className="relative w-full min-w-[300px] max-w-full grow border-r border-white/10 pe-3">
+      <div className="relative w-full min-w-0 shrink grow border-r border-white/10 p-3">
         <NCoinRisksBanner slug={slug} />
         {/* Sentiment Widgets */}
         <CoinSentimentsWidget slug={slug} className="pb-3" hr />
@@ -62,16 +62,12 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Trade + Additional */}
-      <div className="relative w-1/3 min-w-[22rem] max-w-96 ps-3">
-        <div className="sticky top-[88px] max-h-[calc(100vh-88px)] overflow-y-auto scrollbar-none">
-          <div className="space-y-3">
-            <TraderSection slug={slug} />
-            <hr className="border-white/10" />
+      <div className="sticky top-[4.75rem] z-20 h-[calc(100svh-4.75rem)] w-96 min-w-[360px] shrink space-y-3 overflow-y-auto p-3 scrollbar-none">
+        <TraderSection slug={slug} />
+        <hr className="border-white/10" />
 
-            <CoinStatsWidget slug={slug} />
-            <NCoinStatsWidget slug={slug} />
-          </div>
-        </div>
+        <CoinStatsWidget slug={slug} />
+        <NCoinStatsWidget slug={slug} />
       </div>
     </div>
   );

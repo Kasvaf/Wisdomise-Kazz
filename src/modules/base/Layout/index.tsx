@@ -47,7 +47,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       }}
     >
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 h-[--desktop-header-height] w-full mobile:h-auto">
+      <header className="sticky top-0 z-20 h-[--desktop-header-height] w-full max-w-full overflow-hidden mobile:h-auto">
         {header === null
           ? null
           : header || (
@@ -77,7 +77,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         {/* Main content */}
         <main
           className={clsx(
-            'mt-[--route-details-height] w-[calc(100vw-var(--desktop-sidebar-width))] max-w-full grow p-3',
+            'mt-[--route-details-height] w-[calc(100%-var(--desktop-sidebar-width))] max-w-[calc(100%-var(--desktop-sidebar-width))] grow p-3',
             mainClassName,
           )}
         >
