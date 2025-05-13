@@ -11,6 +11,7 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { CoinLabels } from 'shared/CoinLabels';
 import Spinner from 'shared/Spinner';
+import { useAppRouteMeta } from 'modules/app/lib';
 import { PriceAlertButton } from '../../DetailView/CoinDetail/PriceAlertButton';
 
 const MiniAppPreDetailModal: React.FC<{
@@ -21,7 +22,7 @@ const MiniAppPreDetailModal: React.FC<{
   const hasFlag = useHasFlag();
   const [slug, setSlug] = useState(slugArg);
   const isOpen = !!slug && !!slugArg;
-
+  const { getUrl } = useAppRouteMeta();
   useEffect(() => {
     if (slugArg) {
       setSlug(slugArg);
@@ -106,7 +107,13 @@ const MiniAppPreDetailModal: React.FC<{
 
               <div className="flex flex-col items-stretch gap-4">
                 <div className="flex gap-3">
-                  <NavLink to={`/coin/${slug}`} className="block basis-1/2">
+                  <NavLink
+                    to={getUrl({
+                      detail: 'coin',
+                      slug,
+                    })}
+                    className="block basis-1/2"
+                  >
                     <Button
                       variant="outline"
                       surface={2}

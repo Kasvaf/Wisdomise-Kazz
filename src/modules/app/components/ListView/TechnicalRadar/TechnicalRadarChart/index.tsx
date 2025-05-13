@@ -19,6 +19,7 @@ import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useAppRouteMeta } from 'modules/app/lib';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -30,6 +31,7 @@ export const TechnicalRadarChart: FC<{
   const { t } = useTranslation('market-pulse');
   const isMobile = useIsMobile();
   const el = useRef<HTMLDivElement>(null);
+  const { getUrl } = useAppRouteMeta();
   const { capture } = useScreenshot(el, {
     backgroundColor: '#1D1E23', // v1-surface-l3
     fileName: `${type}-${Date.now()}`,
@@ -321,7 +323,10 @@ export const TechnicalRadarChart: FC<{
                 }, 10);
               } else {
                 navigate(
-                  `/coin/${parsedData.data[e.dataIndex].raw.symbol.slug ?? ''}`,
+                  getUrl({
+                    detail: 'coin',
+                    slug: parsedData.data[e.dataIndex].raw.symbol.slug,
+                  }),
                 );
               }
             }

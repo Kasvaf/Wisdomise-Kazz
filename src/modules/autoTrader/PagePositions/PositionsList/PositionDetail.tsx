@@ -12,6 +12,7 @@ import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
 import { isMiniApp } from 'utils/version';
+import { useAppRouteMeta } from 'modules/app/lib';
 import PositionSharingModal from '../../PositionsList/PositionSharingModal';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
@@ -38,7 +39,7 @@ const PositionDetail: React.FC<{
   className?: string;
 }> = ({ position, className }) => {
   const [openShare, setOpenShare] = useState(false);
-
+  const { getUrl } = useAppRouteMeta();
   const initialDeposit = initialQuoteDeposit(position);
   const isOpen = ['OPENING', 'OPEN', 'CLOSING'].includes(position.status);
 
@@ -57,7 +58,12 @@ const PositionDetail: React.FC<{
             <span className="rounded-full bg-white/10 px-2">Swap</span>
           )}
 
-          <NavLink to={`/coin/${position.base_slug}`}>
+          <NavLink
+            to={getUrl({
+              detail: 'coin',
+              slug: position.base_slug,
+            })}
+          >
             {position.pair_name}
           </NavLink>
           <span className="text-white/30">on</span>

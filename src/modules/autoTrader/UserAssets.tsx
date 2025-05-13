@@ -7,8 +7,10 @@ import { useSymbolInfo } from 'api/symbol';
 import Spin from 'shared/Spin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useAppRouteMeta } from 'modules/app/lib';
 
 const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
+  const { getUrl } = useAppRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
   const { slug: activeCoinSlug } = useParams<{ slug: string }>();
 
@@ -19,7 +21,10 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
         activeCoinSlug === asset.slug &&
           '!bg-v1-surface-l5 contrast-125 saturate-150',
       )}
-      to={`/coin/${asset.slug}`}
+      to={getUrl({
+        detail: 'coin',
+        slug: asset.slug,
+      })}
     >
       {baseInfo ? (
         <div className="flex items-center">
