@@ -54,8 +54,8 @@ export default function SubscriptionDetail() {
     });
   };
 
-  const stakeMore = () => {
-    if (ensureWalletConnected()) {
+  const stakeMore = async () => {
+    if (await ensureWalletConnected()) {
       void openStakeModal({});
     }
   };
