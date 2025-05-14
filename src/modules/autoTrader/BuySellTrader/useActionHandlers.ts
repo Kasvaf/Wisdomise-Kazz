@@ -45,11 +45,21 @@ const useActionHandlers = (state: SwapState) => {
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
-        await marketSwapHandler({
+        const swapData = {
           pairSlug: base.slug + '/' + quote.slug,
           side: dir === 'buy' ? 'LONG' : 'SHORT',
           amount: from.amount,
-        });
+        } as const;
+
+        if (
+          !(await showModalApproval(state, undefined, {
+            ...swapData,
+            network: 'solana',
+          }))
+        )
+          return;
+
+        await marketSwapHandler(swapData);
       } catch (error) {
         notification.error({ message: unwrapErrorMessage(error) });
       } finally {

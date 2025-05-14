@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { roundSensible } from 'utils/numbers';
 import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
+import { type SwapRequest, useMarketSwapSimulate } from 'api/chains/simulate';
 import { useAccountNativeBalance } from 'api/chains';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
@@ -20,18 +21,22 @@ const MIN_GAS = {
 
 const ModalApproval: React.FC<{
   formState: SwapState;
-  createData: CreatePositionRequest;
+  createData?: CreatePositionRequest;
+  swapData?: SwapRequest;
   onResolve?: (fired?: boolean) => void;
-}> = ({ formState, createData, onResolve }) => {
+}> = ({ formState, createData, swapData, onResolve }) => {
   const { from, to, isMarketPrice } = formState;
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
   const { data: nativeBalance } = useAccountNativeBalance();
-  const { data, isLoading } = usePreparePositionQuery(createData);
+  const { data: d1, isLoading: l1 } = usePreparePositionQuery(createData);
+  const { data: d2, isLoading: l2 } = useMarketSwapSimulate(swapData);
+  const data = createData ? d1 : d2;
+  const isLoading = createData ? l1 : l2;
 
   const nativeAmount =
-    Number(data?.gas_fee) +
+    (data && 'gas_fee' in data ? Number(data?.gas_fee) : 0) +
     (from.coinInfo?.abbreviation === gasAbbr ? +from.amount : 0);
 
   const remainingGas = Number(nativeBalance) - nativeAmount;
@@ -48,19 +53,22 @@ const ModalApproval: React.FC<{
           </div>
         </InfoLine>
 
-        <InfoLine
-          label="Gas Fee (Reserved)"
-          info="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
-          className="text-sm"
-        >
-          {isLoading ? (
-            <Spin />
-          ) : data?.gas_fee ? (
-            String(data.gas_fee) + ' ' + gasAbbr
-          ) : (
-            ''
-          )}
-        </InfoLine>
+        {data && 'gas_fee' in data && (
+          // direct swap doesn't require gas reserve
+          <InfoLine
+            label="Gas Fee (Reserved)"
+            info="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
+            className="text-sm"
+          >
+            {isLoading ? (
+              <Spin />
+            ) : data?.gas_fee ? (
+              String(data.gas_fee) + ' ' + gasAbbr
+            ) : (
+              ''
+            )}
+          </InfoLine>
+        )}
 
         <div className="my-2 border border-white/5" />
 
@@ -180,7 +188,10 @@ export default function useModalApproval() {
   });
   return [
     Modal,
-    (formState: SwapState, createData: CreatePositionRequest) =>
-      showModal({ formState, createData }),
+    (
+      formState: SwapState,
+      createData?: CreatePositionRequest,
+      swapData?: SwapRequest,
+    ) => showModal({ formState, createData, swapData }),
   ] as const;
 }
