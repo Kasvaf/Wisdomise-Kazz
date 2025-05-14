@@ -325,6 +325,18 @@ export const useSolanaMarketSwap = () => {
       method: 'patch',
       body: { transaction_hash: signature },
     });
+
+    return () => {
+      // Wait for confirmation
+      const networkConfirmation = connection
+        .confirmTransaction({
+          signature,
+          blockhash: latestBlockhash.blockhash,
+          lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+        })
+        .then(x => x.value.err !== null);
+      return networkConfirmation;
+    };
   };
 };
 
