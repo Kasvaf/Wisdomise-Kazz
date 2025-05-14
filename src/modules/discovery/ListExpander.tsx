@@ -37,14 +37,12 @@ export const ListExpander: FC = () => {
         position: 'fixed',
       });
     } else if (params.view === 'both') {
-      // Both buttons on top-right edge of #app-list
       setStyle({
         top: (sidebarRect?.top ?? 74) + 32,
         left: (appListRect?.left ?? 68) + (appListRect?.width ?? 384) - 12,
         position: 'fixed',
       });
     } else if (params.slug) {
-      // Only collapse button at top-right of screen
       setStyle({
         top: (sidebarRect?.top ?? 74) + 32,
         right: 6,
