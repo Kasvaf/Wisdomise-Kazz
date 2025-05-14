@@ -35,8 +35,9 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
             })}
             key={item.link}
             className={clsx(
-              'group flex w-full flex-col items-center justify-center py-3',
-              isMatched(item.meta) && 'font-bold text-v1-content-brand',
+              'group flex w-full flex-col items-center justify-center py-3 transition-all',
+              isMatched(item.meta) &&
+                'bg-v1-surface-l1/50 font-bold text-v1-content-brand',
               'hover:text-v1-content-link-hover',
             )}
           >

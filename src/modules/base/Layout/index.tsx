@@ -68,7 +68,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         {!isMobile && sidebar !== null && (
           <aside
             id="sidebar"
-            className="sticky start-0 top-[--desktop-header-height] z-20 h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] shrink-0 overflow-auto border-r border-t border-white/10 bg-v1-surface-l2 scrollbar-none"
+            className="sticky start-0 top-[--desktop-header-height] z-20 h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] shrink-0 overflow-auto border-t border-white/5 bg-v1-surface-l2 scrollbar-none"
           >
             {sidebar || <DefaultSidebar />}
           </aside>
