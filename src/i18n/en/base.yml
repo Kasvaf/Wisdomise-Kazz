@@ -31,16 +31,12 @@ menu:
   coin:
     title: Coin
   coin-radar:
-    title: Coin Radar
     full-title: Top Trending Coins from Socials, Confirmed by Technical Analysis
   game-rewards:
     title: Claim Wiseboy Rewards
     subtitle: Collect your earned rewards in Wiseboy and enjoy the benefits!
   home:
-    title: Radar+
-    titleM: Radar
-  hot-coins:
-    title: Social Radar
+    title: Home
   profile:
     title: My Profile
     subtitle: Manage your socials, profile picture, personal info, and bio
@@ -50,19 +46,11 @@ menu:
   rewards:
     title: Rewards
     subtitle: Collect your earned rewards and enjoy the benefits!
-  social:
-    title: Social
-  technical:
-    title: Technical
   token:
     title: WSDM Token
     subtitle: Migrate your tWSDM, withdraw your investments
-  trench:
-    title: Trench
   whale:
     title: Whale
-  whales:
-    title: Whale Radar
 new: New
 user:
   sign-in: Sign In

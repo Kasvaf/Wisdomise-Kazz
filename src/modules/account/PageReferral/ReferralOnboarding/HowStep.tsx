@@ -1,5 +1,5 @@
 import logo from 'assets/logo.png';
-import { NavigateButtons } from 'modules/insight/PageOnboarding/components/NavigateButtons';
+import { NavigateButtons } from 'modules/account/PageOnboarding/components/NavigateButtons';
 import qrCode from './images/qr-code.png';
 import num1 from './images/1.png';
 import num2 from './images/2.png';

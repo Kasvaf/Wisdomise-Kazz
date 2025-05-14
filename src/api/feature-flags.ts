@@ -20,13 +20,12 @@ function unparam(
 
 const defaultFlags = [
   '/quick-swap',
-  '/coin-radar',
-  '/coin-radar/overview',
-  '/coin-radar/social-radar?side-suggestion',
-  '/coin-radar/social-radar',
-  '/coin-radar/technical-radar',
-  '/coin-radar/alerts?price',
-  '/coin-radar/alerts?coinradar',
+  '/discovery',
+  '/discovery?list=coin-radar',
+  '/discovery?list=social-radar',
+  '/discovery?list=technical-radar',
+  '/coin-radar/alerts',
+  '/coin-radar/alerts?price_alert',
   '/menu',
 ];
 

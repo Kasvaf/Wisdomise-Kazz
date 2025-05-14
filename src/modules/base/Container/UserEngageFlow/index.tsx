@@ -11,7 +11,7 @@ const useSemiForceLoginModal = () => {
   return <SemiForceLoginModal open={!isLoggedIn} />;
 };
 
-// const ONBOARDING_URL = '/coin-radar/onboarding';
+// const ONBOARDING_URL = '/onboarding';
 const useNavigateToOnboarding = () => {
   const navigate = useNavigate();
   const { group } = useSubscription();
