@@ -36,7 +36,7 @@ const InternalInput: React.FC<{
       value={value}
       onChange={resize}
       className={clsx(
-        '-mr-32 max-w-[calc(40%+128px)] bg-transparent pr-32 outline-none',
+        '-mr-32 max-w-[calc(40%+168px)] bg-transparent pr-32 outline-none',
         readonly && 'text-white/50',
         className,
       )}
@@ -85,7 +85,7 @@ const PriceVolumeInput: React.FC<{
   const disPrc = !!appliedAt || disabledPrice;
 
   return (
-    <div className={clsx('w-full', className)}>
+    <div className={clsx('w-full min-w-0', className)}>
       {label && <label className="mb-2 ml-2 block">{label}</label>}
       <div className="flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2">
         <Tooltip

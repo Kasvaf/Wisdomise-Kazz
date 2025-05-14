@@ -1,6 +1,7 @@
-import { useContractWrite } from 'wagmi';
+import { useWriteContract } from 'wagmi';
 import { MIGRATION_ABI } from 'modules/account/PageToken/web3/migration/abi';
 import { TOKEN_MIGRATION_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
+import { useWaitResolver } from 'modules/account/PageToken/web3/shared';
 
 const migrationContractDefaultConfig = {
   address: TOKEN_MIGRATION_CONTRACT_ADDRESS,
@@ -8,8 +9,20 @@ const migrationContractDefaultConfig = {
 } as const;
 
 export function useWriteMigrate() {
-  return useContractWrite({
-    ...migrationContractDefaultConfig,
-    functionName: 'migrate',
-  });
+  const mutation = useWriteContract();
+  const { resolver, isWaiting } = useWaitResolver(mutation.data);
+
+  const writeAndWait = () => {
+    mutation.writeContract({
+      ...migrationContractDefaultConfig,
+      functionName: 'migrate',
+    });
+    return resolver();
+  };
+
+  return {
+    ...mutation,
+    writeAndWait,
+    isWaiting,
+  };
 }

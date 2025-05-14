@@ -21,8 +21,8 @@ export function CoinCategoryLabel({
   return (
     <ClickableTooltip
       title={
-        <div className="min-w-48 space-y-2">
-          <h4 className="sticky top-0 border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 text-base font-medium">
+        <div className="max-h-[300px] min-w-48 space-y-2 mobile:max-h-max">
+          <h4 className="border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 text-base font-medium">
             {t('common.categories')}:
           </h4>
           {value.map(cat => (

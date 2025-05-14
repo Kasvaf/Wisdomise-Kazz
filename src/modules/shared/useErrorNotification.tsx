@@ -2,6 +2,7 @@ import useNotification from 'antd/es/notification/useNotification';
 import { FetchError } from 'ofetch';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { BaseError } from 'viem';
 
 export const useErrorNotification = () => {
   const [notif, notifContent] = useNotification();
@@ -46,6 +47,11 @@ export const useErrorNotification = () => {
               ),
             };
           }
+        } else if (error instanceof BaseError) {
+          returnValue = {
+            message: error.name,
+            description: error.message.split('.')[0],
+          };
         }
         return returnValue;
       })();

@@ -1,11 +1,10 @@
 import { type SiweMessage } from 'siwe';
-import { useAccount, useNetwork, useSignMessage } from 'wagmi';
+import { useAccount, useSignMessage } from 'wagmi';
 import { type NonceVerificationBody } from 'api/defi';
 
 export default function useSignInWithEthereum() {
-  const { address } = useAccount();
-  const { chain } = useNetwork();
-  const { signMessageAsync, isLoading } = useSignMessage();
+  const { address, chain } = useAccount();
+  const { signMessageAsync, isPending } = useSignMessage();
 
   function createMessage(address: string, statement: string, nonce: string) {
     const messageParams: Partial<SiweMessage> = {
@@ -41,7 +40,7 @@ export default function useSignInWithEthereum() {
     };
   }
 
-  return { signInWithEthereum, isLoading };
+  return { signInWithEthereum, isPending };
 }
 
 function toMessage(message: Partial<SiweMessage>): string {

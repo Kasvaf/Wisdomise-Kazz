@@ -3,21 +3,24 @@ import { useAccount } from 'wagmi';
 import PageWrapper from 'modules/base/PageWrapper';
 import Vesting from 'modules/account/PageToken/Vesting';
 import Migration from 'modules/account/PageToken/Migration';
-import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdm/contract';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
-import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import Balance from 'modules/account/PageToken/Balance/Balance';
 import Wallet from 'modules/account/PageToken/Wallet';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useIsMobile from 'utils/useIsMobile';
 import ConnectWalletGuard from '../PageBilling/paymentMethods/Token/ConnectWalletGuard';
 
 export default function PageToken() {
   const { t } = useTranslation('wisdomise-token');
-  const { data: twsdmBalance } = useTwsdmBalance();
+  const isMobile = useIsMobile();
   const { isConnected } = useAccount();
-  const { hasShareInBucket } = useVesting();
 
   return (
-    <PageWrapper hasBack title={null}>
+    <PageWrapper
+      hasBack
+      title={null}
+      extension={!isMobile && <CoinExtensionsGroup />}
+    >
       <div className="my-10 flex flex-wrap items-center justify-between gap-4 md:gap-6">
         <h1 className="text-center">
           <Trans i18nKey="wisdomise-token:title" ns="wisdomise-token">
@@ -28,11 +31,7 @@ export default function PageToken() {
           </Trans>
         </h1>
         {isConnected && (
-          <ImportTokenButton
-            tokenSymbol="WSDM"
-            variant="primary-purple"
-            className="max-md:w-full"
-          />
+          <ImportTokenButton tokenSymbol="WSDM" className="max-md:w-full" />
         )}
       </div>
       <ConnectWalletGuard
@@ -41,8 +40,8 @@ export default function PageToken() {
           'wisdomise-token:connect-wallet.wisdomise-token.description',
         )}
       >
-        {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
-        {hasShareInBucket ? <Vesting /> : null}
+        <Migration />
+        <Vesting />
         {/* <Airdrop /> */}
         {/* <h1 className="my-8 flex flex-wrap items-center justify-between gap-4 text-xl text-white/20"> */}
         {/*   <div className="flex items-center gap-2"> */}

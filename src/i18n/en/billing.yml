@@ -8,7 +8,7 @@ change-pay-method:
 common:
   remains: Remains
 crypto-modal:
-  title: Wisdomise AG
+  title: Wisdomise
   subtitle: Subscribe to {{plan}}
   btn-confirm: Confirm
   btn-done: Done
@@ -66,7 +66,6 @@ stripe:
     order-summary: Order Summary
     total: Total
 subscription-details:
-  title: Subscription details
   invoices:
     amount: Price
     issue-date: Issue Date
@@ -104,11 +103,8 @@ success-modal:
   title: Thanks for subscribing
   subtitle: You can continue your journey
   btn-details: Subscription Details
-tabs:
-  invoices: Invoices
-  overview: Overview
 token-modal:
-  title: Wisdomise AG
+  title: Wisdomise
   confirmed:
     title: Do not refresh or close your browser
     description: >-

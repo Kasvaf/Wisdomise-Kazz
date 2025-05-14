@@ -7,15 +7,12 @@ import PageSocialRadar from 'modules/insight/PageSocialRadar';
 import PageTechnicalRadar from 'modules/insight/PageTechnicalRadar';
 import PageNetworkRadar from 'modules/insight/PageNetworkRadar';
 import PageWhaleRadar from 'modules/insight/PageWhaleRadar';
+import PageCoinDetails from 'modules/insight/PageCoinDetails';
 import PageRedirect from '../PageRedirect';
 import Container from '../Container';
 
 const PageOnboarding = React.lazy(
   () => import('modules/insight/PageOnboarding'),
-);
-
-const PageCoinDetails = React.lazy(
-  () => import('modules/insight/PageCoinDetails'),
 );
 
 const PageWhaleDetails = React.lazy(

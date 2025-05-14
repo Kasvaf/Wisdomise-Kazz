@@ -5,7 +5,7 @@ const PageSocialRadar = React.lazy(
   () => import('modules/embedded/PageSocialRadar'),
 );
 
-const PagePricing = React.lazy(() => import('modules/embedded/PagePricing'));
+const PageFeatures = React.lazy(() => import('modules/embedded/PageFeatures'));
 
 const useEmbeddedRoutes = () => {
   return [
@@ -13,7 +13,7 @@ const useEmbeddedRoutes = () => {
       path: 'embedded',
       children: [
         { path: 'social-radar', element: <PageSocialRadar /> },
-        { path: 'pricing', element: <PagePricing /> },
+        { path: 'features', element: <PageFeatures /> },
       ],
     },
   ] satisfies RouteObject[];

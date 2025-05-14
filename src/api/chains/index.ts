@@ -1,8 +1,10 @@
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { useDisconnect } from 'wagmi';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
 import { useSymbolsInfo } from 'api/symbol';
+import { type SupportedNetworks } from 'api';
 import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
@@ -21,10 +23,11 @@ import {
 export const useDisconnectAll = () => {
   const { disconnect: solDisconnect } = useWallet();
   const [{ disconnect: tonDisconnect }] = useTonConnectUI();
+  const { disconnectAsync } = useDisconnect();
 
   return async () => {
     try {
-      await Promise.all([solDisconnect(), tonDisconnect()]);
+      await Promise.all([disconnectAsync(), solDisconnect(), tonDisconnect()]);
     } catch {
     } finally {
       for (const key of Object.keys(localStorage)) {
@@ -82,7 +85,7 @@ export type AutoTraderSupportedQuotes =
 
 export const useAccountBalance = (
   quote?: string,
-  network?: 'solana' | 'the-open-network' | null,
+  network?: SupportedNetworks | null,
 ) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
@@ -96,7 +99,7 @@ export const useAccountBalance = (
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
-  return { data: null, isLoading: false };
+  return { data: null, isLoading: !net };
 };
 
 export const useUserWalletAssets = (
@@ -122,16 +125,29 @@ export const useAccountNativeBalance = () => {
 
 export const useAccountAllQuotesBalance = () => {
   const net = useActiveNetwork();
-  const { data: tonBalance } = useAccountBalance('the-open-network', net);
-  const { data: tetherBalance } = useAccountBalance('tether', net);
-  const { data: usdCoinBalance } = useAccountBalance('usd-coin', net);
-  const { data: solBalance } = useAccountBalance('wrapped-solana', net);
+  const { data: tonBalance, isLoading: l1 } = useAccountBalance(
+    'the-open-network',
+    net,
+  );
+  const { data: tetherBalance, isLoading: l2 } = useAccountBalance(
+    'tether',
+    net,
+  );
+  const { data: usdCoinBalance, isLoading: l3 } = useAccountBalance(
+    'usd-coin',
+    net,
+  );
+  const { data: solBalance, isLoading: l4 } = useAccountBalance(
+    'wrapped-solana',
+    net,
+  );
 
   return {
     tonBalance,
     tetherBalance,
     usdCoinBalance,
     solBalance,
+    isLoading: l1 || l2 || l3 || l4,
   };
 };
 

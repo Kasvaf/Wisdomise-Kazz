@@ -7,8 +7,9 @@ import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useActiveWallet } from 'api/chains';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
-import useTradeDrawer from '../PageTrade/useTradeDrawer';
+import useTraderDrawer from '../BuySellTrader/useTraderDrawer';
 import PositionsList from './PositionsList';
 
 const PagePositions = () => {
@@ -20,11 +21,11 @@ const PagePositions = () => {
   const [slug, setSlug] = useSearchParamAsState('slug');
 
   useEnsureIsSupportedPair({ slug, nextPage: '/trader/positions' });
-  const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
+  const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const wallet = useActiveWallet();
 
   return (
-    <PageWrapper hasBack>
+    <PageWrapper hasBack extension={!isMobile && <CoinExtensionsGroup />}>
       <div className="mb-4 flex flex-row-reverse justify-between gap-4 mobile:flex-col">
         <ButtonSelect
           options={[
@@ -63,14 +64,14 @@ const PagePositions = () => {
           )}
         >
           <ActiveNetworkProvider base={slug} setOnLayout>
-            {TradeDrawer}
+            {TraderDrawer}
           </ActiveNetworkProvider>
           <Button
             variant="brand"
             className={clsx('block', isMobile ? 'w-full' : 'w-80')}
             onClick={async () => {
               if (wallet.connected || (await wallet.connect())) {
-                openTradeDrawer({ slug });
+                openTraderDrawer({ slug });
               }
             }}
           >

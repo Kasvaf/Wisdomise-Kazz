@@ -1,33 +1,47 @@
-import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Button from 'shared/Button';
-import Card from 'shared/Card';
 import { useMigration } from 'modules/account/PageToken/web3/migration/useMigration';
-import { ReactComponent as MigrateIcon } from './icons/migrate.svg';
-import { ReactComponent as InfoIcon } from './icons/info.svg';
+import { Button } from 'shared/v1-components/Button';
+import { useTWSDMBalance } from 'modules/account/PageToken/web3/twsdm/contract';
 
 export default function Migration() {
   const { t } = useTranslation('wisdomise-token');
-  const { handleMigration, isLoading } = useMigration();
+  const { data: tWSDMBalance } = useTWSDMBalance();
 
-  return (
-    <Card className="relative mt-4 flex items-center justify-between !bg-v1-surface-l2 max-md:flex-wrap">
-      <MigrateIcon className="absolute right-0 top-0" />
-      <h2 className="flex items-center gap-2 text-2xl font-medium">
-        {t('migration.title')}
-        <Tooltip title={t('migration.description')}>
-          <InfoIcon className="mb-4" />
-        </Tooltip>
-      </h2>
+  const {
+    migrate,
+    approveIsPending,
+    approveIsWaiting,
+    migrationIsPending,
+    migrationIsWaiting,
+  } = useMigration();
+
+  return (tWSDMBalance?.value ?? 0n) > 0n ? (
+    <div className="relative mt-4 rounded-xl !bg-v1-surface-l2 p-6 max-md:flex-wrap">
+      <h2 className="mb-3 text-2xl font-semibold">{t('migration.title')}</h2>
+      <p className="mb-6 text-sm text-v1-content-secondary">
+        {t('migration.description')}
+      </p>
       <Button
         className="relative max-md:mt-6 max-md:w-full md:me-28"
-        variant="secondary"
-        onClick={handleMigration}
-        loading={isLoading}
-        disabled={isLoading}
+        onClick={migrate}
+        disabled={!tWSDMBalance?.value}
+        loading={
+          approveIsPending ||
+          approveIsWaiting ||
+          migrationIsPending ||
+          migrationIsWaiting
+        }
       >
-        {t('migration.migrate')}
+        {approveIsPending
+          ? 'Waiting for approval signature...'
+          : approveIsWaiting
+          ? 'Approval transaction is confirming...'
+          : migrationIsPending
+          ? 'Waiting for migration signature...'
+          : migrationIsWaiting
+          ? 'Migration transaction is confirming...'
+          : t('migration.migrate')}
       </Button>
-    </Card>
-  );
+    </div>
+  ) : null;
 }

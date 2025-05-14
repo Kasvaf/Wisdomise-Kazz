@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { bxChevronRight } from 'boxicons-quasar';
 import DailyProgress from 'modules/quest/PageQuests/DailyTrade/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
 import {
@@ -14,10 +15,12 @@ import { StatusChip } from 'modules/quest/PageQuests/StatusChip';
 import { Button } from 'shared/v1-components/Button';
 import video from 'modules/quest/PageQuests/DailyTrade/images/video.webm';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
+import Icon from 'shared/Icon';
 import box from './images/box.png';
-import { ReactComponent as Bg } from './images/bg.svg';
+import bg from './images/bg.png';
 import { ReactComponent as Stars } from './images/stars.svg';
 import { ReactComponent as Arrow } from './images/arrow.svg';
+// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Lock } from './images/lock.svg';
 
 export default function DailyTrade({ className }: { className?: string }) {
@@ -63,17 +66,19 @@ export default function DailyTrade({ className }: { className?: string }) {
       <div
         onClick={() => setOpen(true)}
         className={clsx(
-          'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4',
+          'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 md:h-[13rem]',
           'cursor-pointer hover:saturate-200',
           className,
         )}
       >
-        <Bg className="absolute top-0 h-full" />
-        <div className="relative">
-          <h2 className="text-xl font-semibold">Daily Trade</h2>
-          <p className="mt-3 max-w-40 text-xs text-v1-content-secondary">
-            Complete Trades Daily and Earn Rewards.
-          </p>
+        <img src={bg} className="absolute right-0 top-0 h-full" alt="" />
+        <div className="relative flex h-full flex-col justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">Daily Trade</h2>
+            <p className="mt-4 text-xs text-v1-content-secondary mobile:mt-2 mobile:max-w-48">
+              Complete Trades Daily and Earn Rewards.
+            </p>
+          </div>
 
           {!completedToday && (
             <button
@@ -83,7 +88,7 @@ export default function DailyTrade({ className }: { className?: string }) {
               )}
             >
               {completedAll ? 'Claim Your Reward' : "Start Today's Trade"}
-              <Arrow className="ml-2" />
+              <Icon name={bxChevronRight} />
             </button>
           )}
           {currentDay > -1 && !completedToday && !completedAll && (
@@ -97,9 +102,9 @@ export default function DailyTrade({ className }: { className?: string }) {
             </StatusChip>
           )}
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center md:mr-2">
           <video
-            className="absolute ml-px mt-1 h-52 w-52 object-cover opacity-40 mix-blend-multiply"
+            className="absolute ml-px mt-1 size-60 object-cover opacity-30 mix-blend-multiply"
             autoPlay
             playsInline
             loop
@@ -162,7 +167,6 @@ export default function DailyTrade({ className }: { className?: string }) {
                 <hr className="my-3 border-v1-border-disabled" />
                 <div className="relative mb-4 flex flex-col items-center overflow-hidden rounded-2xl bg-v1-surface-l2 p-3">
                   <h2>Special Reward</h2>
-                  <Bg className="absolute top-0 h-full" />
                   <Stars className="absolute" />
                   <img src={box} className="my-4 h-16 w-16" alt="box" />
                   <Button
@@ -189,7 +193,6 @@ export default function DailyTrade({ className }: { className?: string }) {
             Trade Now
             <Arrow className="ml-2" />
           </Button>
-          <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l4/80 to-75%"></div>
         </div>
       </DrawerModal>
       {RewardModal}

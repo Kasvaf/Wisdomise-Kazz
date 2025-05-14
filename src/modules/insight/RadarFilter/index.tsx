@@ -1,7 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
-import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { bxGridAlt, bxSliderAlt } from 'boxicons-quasar';
 import { CategorySelect } from 'shared/CategorySelect';
@@ -9,7 +8,6 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
-import { NetworkSelect } from 'shared/NetworkSelect';
 import { ExchangeSelect } from 'shared/ExchangeSelect';
 import {
   type useNetworks,
@@ -20,6 +18,7 @@ import {
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import { type Surface } from 'utils/useSurface';
 import useIsMobile from 'utils/useIsMobile';
+import { Dialog } from 'shared/v1-components/Dialog';
 import {
   socialPresetFilters,
   technicalPresetFilters,
@@ -73,7 +72,6 @@ export function RadarFilter({
             return (
               areEqual(x.filters.categories ?? [], value.categories ?? []) &&
               areEqual(x.filters.exchanges ?? [], value.exchanges ?? []) &&
-              areEqual(x.filters.networks ?? [], value.networks ?? []) &&
               areEqual(x.filters.sources ?? [], value.sources ?? []) &&
               areEqual(
                 x.filters.securityLabels ?? [],
@@ -86,7 +84,6 @@ export function RadarFilter({
         ? whalePresetFilters.find(x => {
             return (
               areEqual(x.filters.categories ?? [], value.categories ?? []) &&
-              areEqual(x.filters.networks ?? [], value.networks ?? []) &&
               areEqual(
                 x.filters.securityLabels ?? [],
                 value.securityLabels ?? [],
@@ -106,7 +103,6 @@ export function RadarFilter({
   const isFiltersApplied = useMemo(
     () =>
       value.categories?.length ||
-      value.networks?.length ||
       value.securityLabels?.length ||
       value.trendLabels?.length ||
       (radar === 'social-radar-24-hours'
@@ -119,7 +115,6 @@ export function RadarFilter({
       value.categories?.length,
       value.exchanges?.length,
       value.excludeNativeCoins,
-      value.networks?.length,
       value.profitableOnly,
       value.securityLabels?.length,
       value.sources?.length,
@@ -355,13 +350,47 @@ export function RadarFilter({
           surface={surface}
         />
       </div>
-      <Modal
+      <Dialog
         open={open}
-        onCancel={() => setOpen(false)}
-        centered
-        className="max-w-[500px] mobile:max-w-[360px]"
-        destroyOnClose
-        footer={false}
+        onClose={() => setOpen(false)}
+        className="w-[500px] mobile:w-auto"
+        contentClassName="p-3"
+        mode={isMobile ? 'drawer' : 'modal'}
+        drawerConfig={{
+          position: 'bottom',
+          closeButton: true,
+        }}
+        modalConfig={{
+          closeButton: true,
+        }}
+        surface={2}
+        footer={
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="lg"
+              block
+              onClick={() => {
+                setOpen(false);
+              }}
+              className="shrink-0 grow"
+            >
+              {t('common:actions.cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              size="lg"
+              block
+              onClick={() => {
+                onChange?.(localState);
+                setOpen(false);
+              }}
+              className="shrink-0 grow"
+            >
+              {t('common:apply_filters')}
+            </Button>
+          </div>
+        }
       >
         <p className="text-xl font-semibold">{t('common:filters')}</p>
         <div className="mt-8 space-y-4">
@@ -417,25 +446,6 @@ export function RadarFilter({
               }
             />
           </div>
-          <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common:network')}
-            </p>
-            <NetworkSelect
-              className="grow"
-              value={localState.networks}
-              multiple
-              filter={
-                radar === 'social-radar-24-hours' || radar === 'technical-radar'
-                  ? radar
-                  : undefined
-              }
-              allowClear
-              onChange={networks =>
-                setLocalState(p => ({ ...p, networks: networks ?? [] }))
-              }
-            />
-          </div>
           {radar === 'social-radar-24-hours' && (
             <>
               <div className="flex items-center gap-2 mobile:flex-wrap">
@@ -481,32 +491,7 @@ export function RadarFilter({
             </div>
           )}
         </div>
-        <div className="mt-20 flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="lg"
-            block
-            onClick={() => {
-              setOpen(false);
-            }}
-            className="shrink-0 grow"
-          >
-            {t('common:actions.cancel')}
-          </Button>
-          <Button
-            variant="primary"
-            size="lg"
-            block
-            onClick={() => {
-              onChange?.(localState);
-              setOpen(false);
-            }}
-            className="shrink-0 grow"
-          >
-            {t('common:apply_filters')}
-          </Button>
-        </div>
-      </Modal>
+      </Dialog>
     </div>
   );
 }

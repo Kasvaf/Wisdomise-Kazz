@@ -152,6 +152,58 @@ export interface CoinExchange {
   };
 }
 
+export interface CoinCommunityData {
+  preview_listing?: boolean | null;
+  public_notice?: string | null;
+  additional_notices?: null | string[];
+  description?: string | null;
+  links?: {
+    chat_url?: string[] | null;
+    homepage?: string[] | null;
+    repos_url?: null | {
+      github?: string[] | null;
+      bitbucket?: string[] | null;
+    };
+    whitepaper?: string | null;
+    subreddit_url?: string | null;
+    blockchain_site?: string[] | null;
+    announcement_url?: string | null;
+    facebook_username?: string | null;
+    official_forum_url?: string[] | null;
+    twitter_screen_name?: string | null;
+    telegram_channel_identifier?: string | null;
+    bitcointalk_thread_identifier?: string | null;
+  };
+  country_origin?: string | null;
+  sentiment_votes_up_percentage?: number | null;
+  sentiment_votes_down_percentage?: number | null;
+  watchlist_portfolio_users?: number | null;
+  community_data?: {
+    facebook_likes?: number | null;
+    twitter_followers?: number | null;
+    reddit_subscribers?: number | null;
+    reddit_average_posts_48h?: number | null;
+    reddit_accounts_active_48h?: number | null;
+    reddit_average_comments_48h?: number | null;
+    telegram_channel_user_count?: number | null;
+  };
+  developer_data?: {
+    forks?: number | null;
+    stars?: number | null;
+    subscribers?: number | null;
+    total_issues?: number | null;
+    closed_issues?: number | null;
+    commit_count_4_weeks?: number | null;
+    pull_requests_merged?: number | null;
+    pull_request_contributors?: number | null;
+    code_additions_deletions_4_weeks: {
+      additions?: number | null;
+      deletions?: number | null;
+    };
+    last_4_weeks_commit_activity_series: [];
+  };
+}
+
 export interface CoinDetails {
   symbol: Coin;
   related_at: string | null;
@@ -209,57 +261,8 @@ export interface CoinDetails {
   security_data?: null | Array<{
     symbol_security: NetworkSecurity;
   }>;
-  community_data?: {
-    preview_listing?: boolean | null;
-    public_notice?: string | null;
-    additional_notices?: null | string[];
-    description?: string | null;
-    links?: {
-      chat_url?: string[] | null;
-      homepage?: string[] | null;
-      repos_url?: null | {
-        github?: string[] | null;
-        bitbucket?: string[] | null;
-      };
-      whitepaper?: string | null;
-      subreddit_url?: string | null;
-      blockchain_site?: string[] | null;
-      announcement_url?: string | null;
-      facebook_username?: string | null;
-      official_forum_url?: string[] | null;
-      twitter_screen_name?: string | null;
-      telegram_channel_identifier?: string | null;
-      bitcointalk_thread_identifier?: string | null;
-    };
-    country_origin?: string | null;
-    sentiment_votes_up_percentage?: number | null;
-    sentiment_votes_down_percentage?: number | null;
-    watchlist_portfolio_users?: number | null;
-    community_data?: {
-      facebook_likes?: number | null;
-      twitter_followers?: number | null;
-      reddit_subscribers?: number | null;
-      reddit_average_posts_48h?: number | null;
-      reddit_accounts_active_48h?: number | null;
-      reddit_average_comments_48h?: number | null;
-      telegram_channel_user_count?: number | null;
-    };
-    developer_data?: {
-      forks?: number | null;
-      stars?: number | null;
-      subscribers?: number | null;
-      total_issues?: number | null;
-      closed_issues?: number | null;
-      commit_count_4_weeks?: number | null;
-      pull_requests_merged?: number | null;
-      pull_request_contributors?: number | null;
-      code_additions_deletions_4_weeks: {
-        additions?: number | null;
-        deletions?: number | null;
-      };
-      last_4_weeks_commit_activity_series: [];
-    };
-  };
+  community_data?: CoinCommunityData;
+  symbol_pools?: Pool[] | null;
 }
 
 export interface Pool {

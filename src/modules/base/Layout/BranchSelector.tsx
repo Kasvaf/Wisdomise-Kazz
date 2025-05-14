@@ -32,7 +32,6 @@ const BranchSelector = () => {
       className="text-v1-content-primary mobile:w-xl"
       chevron={false}
       size="xl"
-      tooltipPlacement="bottomRight"
       value={value}
       loading={branches.isLoading}
       onChange={gotoBranch}

@@ -66,7 +66,7 @@ export function CoinSelect({
         return (
           <div className="flex items-center gap-2">
             <CoinLogo
-              coin={currentCoin}
+              value={currentCoin}
               className={clsx(
                 size === 'xs' || size === 'sm' ? 'size-5' : 'size-7',
               )}

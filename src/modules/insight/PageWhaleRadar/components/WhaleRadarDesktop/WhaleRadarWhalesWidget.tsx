@@ -11,7 +11,6 @@ import { Coins } from 'shared/Coins';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
 import { DebugPin } from 'shared/DebugPin';
-import { NetworkSelect } from 'shared/NetworkSelect';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
@@ -217,20 +216,6 @@ export function WhaleRadarWhalesWidget({
                 placeholder={t('top_whales.search')}
                 className="w-64 mobile:grow"
                 size="md"
-              />
-              <NetworkSelect
-                value={tableState.networkNames}
-                valueType="name"
-                filter="whale-radar"
-                multiple
-                allowClear
-                size="md"
-                onChange={networkNames => {
-                  setTableState({
-                    networkNames,
-                  });
-                }}
-                tooltipPlacement="bottomRight"
               />
             </div>
           )}

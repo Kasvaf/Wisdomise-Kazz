@@ -1,7 +1,7 @@
 import { Progress } from 'antd';
 import { clsx } from 'clsx';
 import { useGamification } from 'api/gamification';
-import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
+import Countdown from 'modules/quest/PageQuests/DailyTrade/Countdown';
 import { ReactComponent as CheckIcon } from './images/check.svg';
 import light from './images/light.png';
 
@@ -25,16 +25,17 @@ export default function DailyProgress({
       <div className="relative flex flex-col items-center justify-center gap-2">
         <Progress
           className="[&>.ant-progress-inner]:bg-transparent"
-          size={countdown ? 60 : 80}
+          size={countdown ? 60 : 90}
           type="circle"
           steps={7}
+          trailColor="rgba(0, 0, 0, 0.3)"
           percent={((currentDay + 1) * 100) / 7}
           showInfo={false}
         />
         {completedAll && (
           <img
             src={light}
-            className="absolute h-full w-full rounded-full p-2 opacity-10"
+            className="absolute size-full rounded-full p-2 opacity-10"
             alt=""
           />
         )}

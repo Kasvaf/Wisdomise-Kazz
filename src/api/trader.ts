@@ -16,6 +16,7 @@ import { type Coin } from './types/shared';
 export const NETWORK_MAIN_EXCHANGE = {
   'the-open-network': 'STONFI',
   'solana': 'RAYDIUM',
+  'polygon': 'UNKOWN',
 } as const;
 
 export type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;
@@ -88,7 +89,9 @@ export const useSupportedNetworks = (base?: string, quote?: string) => {
     () =>
       supportedPairs
         ?.find(x => !quote || x.quote.slug === quote)
-        ?.network_slugs.map(x => x.toLowerCase() as SupportedNetworks),
+        ?.network_slugs.map(
+          x => x.toLowerCase() as Exclude<SupportedNetworks, 'polygon'>,
+        ),
     [quote, supportedPairs],
   );
 };
@@ -266,6 +269,40 @@ export function useTraderPositionsQuery({
     staleTime: 10,
     refetchInterval: isOpen ? 7000 : 20_000,
   });
+}
+
+export function usePendingPositionInCache() {
+  const queryClient = useQueryClient();
+  return ({ slug, positionKey }: { slug: string; positionKey: string }) => {
+    let resolve: (val: boolean) => void;
+    const p = new Promise<boolean>(_resolve => {
+      resolve = _resolve;
+    });
+
+    const timer = setInterval(() => {
+      const cached = queryClient.getQueriesData<PositionsResponse>({
+        queryKey: ['traderPositions', slug, true],
+        exact: false,
+      });
+
+      for (const [, data] of cached) {
+        const result = data?.positions.find(x => x.key === positionKey);
+        if (
+          result &&
+          (result?.status === 'CANCELED' ||
+            result?.deposit_status !== 'PENDING')
+        ) {
+          resolve(true);
+          clearInterval(timer);
+          return;
+        }
+      }
+    }, 500);
+
+    return Object.assign(p, {
+      stop: () => clearInterval(timer),
+    });
+  };
 }
 
 export interface CreatePositionRequest {
