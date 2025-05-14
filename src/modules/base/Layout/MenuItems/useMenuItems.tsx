@@ -1,5 +1,5 @@
 import { type FC, useMemo } from 'react';
-import { type AppRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type DiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
 import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
 import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
@@ -8,7 +8,7 @@ import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
 import { ReactComponent as NetworkRadarIcon } from './icons/trench.svg';
 interface MenuItem {
   link: string;
-  meta: Partial<AppRouteMeta>;
+  meta: Partial<DiscoveryRouteMeta>;
   icon: FC<{ className?: string }>;
   text: string;
   crumb: string;
