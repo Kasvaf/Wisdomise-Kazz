@@ -26,8 +26,8 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       <div className="relative w-full min-w-0 shrink grow border-r border-white/10 p-3">
         <NCoinRisksBanner slug={slug} />
         {/* Sentiment Widgets */}
-        <CoinSentimentsWidget slug={slug} className="pb-3" hr />
-        <NCoinSentimentWidget slug={slug} className="pb-3" hr />
+        <CoinSentimentsWidget slug={slug} className="py-3" hr />
+        <NCoinSentimentWidget slug={slug} className="py-3" hr />
         <CoinTitleWidget
           slug={slug}
           className="sticky top-[74px] z-20 py-3 bg-v1-surface-l-current"
