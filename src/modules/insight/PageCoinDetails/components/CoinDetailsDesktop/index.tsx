@@ -20,7 +20,7 @@ import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import TraderSection from './TraderSection';
 
 const sideClasses = clsx(
-  'sticky top-[76px] max-h-[calc(100vh-76px)] overflow-y-auto scrollbar-none',
+  'id-scrollable sticky top-[76px] max-h-[calc(100vh-76px)] overflow-y-auto scrollbar-none',
 );
 
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
@@ -36,9 +36,8 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
           sideClasses,
         )}
       >
-        <div className="contents [&:not(:has(.id-assets))]:hidden">
-          <h3 className="my-2 text-xxs">Your Portfolio</h3>
-          <div className="shrink-0 space-y-4 overflow-hidden rounded-md">
+        <div className="id-container [&:not(:has(.id-assets))]:hidden">
+          <div className="shrink-0 space-y-4 overflow-hidden rounded-md pt-2 [&_.id-title]:text-xs">
             <UserAssets
               noTotal
               className="id-assets"

@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
+import { bxChevronUp } from 'boxicons-quasar';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useUserWalletAssets } from 'api/chains';
@@ -85,7 +85,7 @@ const UserAssetsInternal: React.FC<
   return (
     <div className={className}>
       {(totalAssets > 0 || title) && (
-        <div className="mb-2 flex justify-center gap-2 text-sm">
+        <div className="id-title mb-1 flex justify-center gap-2 text-sm">
           {title ? title + (totalAssets > 0 ? ': ' : '') : ' '}
           {totalAssets > 0 && <ReadableNumber value={totalAssets} label="$" />}
         </div>
@@ -93,7 +93,7 @@ const UserAssetsInternal: React.FC<
 
       <div
         className={clsx(
-          'flex flex-col rounded-xl bg-v1-surface-l2',
+          'flex flex-col overflow-hidden rounded-xl bg-v1-surface-l2',
           containerClassName,
         )}
       >
@@ -114,19 +114,19 @@ const UserAssetsInternal: React.FC<
 export default function UserAssets(props: Props) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-
-  const [expanded, setExpanded] = useState(false);
-  const [expandable, setExpandable] = useState(false);
   const [el, setEl] = useState<HTMLDivElement | null>();
-  useEffect(
-    () => setExpandable(!isMobile && Number(el?.scrollHeight) > 162),
-    [el, isMobile],
-  );
 
   const { data: tradingAssets, isLoading: loadingTraderAssets } =
     useUserAssets();
   const { data: walletAssets, isLoading: loadingWalletAssets } =
     useUserWalletAssets(isMiniApp ? 'the-open-network' : 'solana');
+
+  const handleScroll = () => {
+    el?.closest('.id-scrollable')?.scrollTo({
+      behavior: 'smooth',
+      top: Number(el?.closest('.id-container')?.getBoundingClientRect().height),
+    });
+  };
 
   if (
     !isLoggedIn ||
@@ -136,14 +136,8 @@ export default function UserAssets(props: Props) {
     return null;
 
   return (
-    <div>
-      <div
-        ref={setEl}
-        className={clsx(
-          'flex flex-col gap-2',
-          expandable && !expanded && 'max-h-[160px] overflow-hidden',
-        )}
-      >
+    <div ref={setEl}>
+      <div className="flex flex-col gap-2">
         <UserAssetsInternal
           title="Trading Assets"
           data={tradingAssets}
@@ -158,16 +152,16 @@ export default function UserAssets(props: Props) {
         )}
       </div>
 
-      {expandable && (
-        <div className="mt-1 flex justify-center bg-v1-surface-l1">
+      {!isMobile && (
+        <div className="my-1 flex justify-center bg-v1-surface-l1">
           <Button
             size="xs"
             variant="ghost"
-            className="mx-auto block"
+            className="mx-auto block !h-2xs"
             surface={1}
-            onClick={() => setExpanded(x => !x)}
+            onClick={handleScroll}
           >
-            <Icon size={25} name={expanded ? bxChevronUp : bxChevronDown} />
+            <Icon size={25} name={bxChevronUp} />
           </Button>
         </div>
       )}
