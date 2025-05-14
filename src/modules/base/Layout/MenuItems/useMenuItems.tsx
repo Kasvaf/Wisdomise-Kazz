@@ -19,7 +19,7 @@ export const useMenuItems = () => {
   return useMemo<MenuItem[]>(
     () => [
       {
-        link: '/?list=portfolio',
+        link: '/discovery?list=portfolio',
         meta: {
           list: 'portfolio',
         },
@@ -28,7 +28,7 @@ export const useMenuItems = () => {
         crumb: 'Portfolio',
       },
       {
-        link: '/?list=coin-radar',
+        link: '/discovery?list=coin-radar',
         meta: {
           list: 'coin-radar',
         },
@@ -37,7 +37,7 @@ export const useMenuItems = () => {
         crumb: 'Radar+',
       },
       {
-        link: '/?list=network-radar',
+        link: '/discovery?list=network-radar',
         meta: {
           list: 'network-radar',
         },
@@ -46,7 +46,7 @@ export const useMenuItems = () => {
         crumb: 'Trench',
       },
       {
-        link: '/?list=social-radar',
+        link: '/discovery?list=social-radar',
         meta: {
           list: 'social-radar',
         },
@@ -55,7 +55,7 @@ export const useMenuItems = () => {
         crumb: 'Social Radar',
       },
       {
-        link: '/?list=technical-radar',
+        link: '/discovery?list=technical-radar',
         meta: {
           list: 'technical-radar',
         },
@@ -64,7 +64,7 @@ export const useMenuItems = () => {
         crumb: 'Technical Radar',
       },
       {
-        link: '/?list=whale-radar',
+        link: '/discovery?list=whale-radar',
         meta: {
           list: 'whale-radar',
         },
