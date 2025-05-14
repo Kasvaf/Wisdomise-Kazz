@@ -8,6 +8,7 @@ const REDIRECT_MAP: Record<string, string> = {
   '/coin-radar/technical-radar': '/discovery?list=technical-radar',
   '/coin-radar/whale-radar': '/discovery?list=whale-radar',
   '/coin-radar/network-radar': '/discovery?list=network-radar',
+  '/coin-radar/alerts': '/account/alerts',
   '/coin/{slug}': '/discovery?detail=coin&slug={slug}',
   '/coin-radar/whale-radar/{nework}/{address}':
     '/discovery?detail=whale&slug={nework}/{address}',
