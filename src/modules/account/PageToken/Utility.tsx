@@ -15,8 +15,8 @@ export default function Utility() {
   });
   const ensureWalletConnected = useEnsureWalletConnected();
 
-  const unlock = () => {
-    if (ensureWalletConnected()) {
+  const unlock = async () => {
+    if (await ensureWalletConnected()) {
       void openUnlockModal({});
     }
   };

@@ -19,9 +19,9 @@ export const AlertButton: FC<
 
   return (
     <>
-      {hasFlag('/coin-radar/alerts') && (
+      {hasFlag('/account/alerts') && (
         <Button {...props} variant="outline" onClick={() => openAlert()} fab>
-          <DebugPin title="/coin-radar/alerts" color="orange" />
+          <DebugPin title="/account/alerts" color="orange" />
           <Icon name={bxBell} />
           {isUsedAlertBefore && (
             <div className="absolute right-0 top-0 size-[6px] rounded-full bg-v1-background-brand" />

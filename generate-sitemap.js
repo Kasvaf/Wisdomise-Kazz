@@ -41,10 +41,11 @@ const start = async () => {
   console.log('[3/6] Write dashboard static urls...');
   [
     { url: '/', changefreq: 'weekly' },
-    { url: '/coin-radar/overview', changefreq: 'always' },
-    { url: '/coin-radar/social-radar', changefreq: 'always' },
-    { url: '/coin-radar/technical-radar', changefreq: 'always' },
-    { url: '/coin-radar/whale-radar', changefreq: 'always' },
+    { url: '/discovery?list=coin-radar', changefreq: 'always' },
+    { url: '/discovery?list=social-radar', changefreq: 'always' },
+    { url: '/discovery?list=technical-radar', changefreq: 'always' },
+    { url: '/discovery?list=whale-radar', changefreq: 'always' },
+    { url: '/discovery?list=network-radar', changefreq: 'always' },
   ].forEach(item => sms.write(item));
 
   console.log('[4/6] Fetch all supported tokens...');
@@ -57,7 +58,10 @@ const start = async () => {
 
   console.log('[5/6] Write tokens urls...');
   slugs.forEach(slug =>
-    sms.write({ url: `/coin/${slug}`, changefreq: 'always' }),
+    sms.write({
+      url: `/discovery?detail=coin&slug=${slug}`,
+      changefreq: 'always',
+    }),
   );
 
   console.log('[6/6] Close sitemap write stream...');

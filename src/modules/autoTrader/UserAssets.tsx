@@ -1,18 +1,17 @@
 import { clsx } from 'clsx';
-import React, { useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
-import { bxChevronUp } from 'boxicons-quasar';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useUserWalletAssets } from 'api/chains';
 import { roundSensible } from 'utils/numbers';
 import { isMiniApp } from 'utils/version';
 import useIsMobile from 'utils/useIsMobile';
-import { Button } from 'shared/v1-components/Button';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import Spin from 'shared/Spin';
-import Icon from 'shared/Icon';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 
 interface AssetData {
   slug: string;
@@ -22,8 +21,9 @@ interface AssetData {
 }
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
+  const { getUrl } = useDiscoveryRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
-  const { slug: activeCoinSlug } = useParams<{ slug: string }>();
+  const [activeCoinSlug] = useSearchParamAsState('slug');
 
   return (
     <NavLink
@@ -32,7 +32,10 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
         activeCoinSlug === asset.slug &&
           '!bg-v1-surface-l5 contrast-125 saturate-150',
       )}
-      to={`/coin/${asset.slug}`}
+      to={getUrl({
+        detail: 'coin',
+        slug: asset.slug,
+      })}
     >
       {baseInfo ? (
         <div className="flex items-center">
@@ -114,19 +117,11 @@ const UserAssetsInternal: React.FC<
 export default function UserAssets(props: Props) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-  const [el, setEl] = useState<HTMLDivElement | null>();
 
   const { data: tradingAssets, isLoading: loadingTraderAssets } =
     useUserAssets();
   const { data: walletAssets, isLoading: loadingWalletAssets } =
     useUserWalletAssets(isMiniApp ? 'the-open-network' : 'solana');
-
-  const handleScroll = () => {
-    el?.closest('.id-scrollable')?.scrollTo({
-      behavior: 'smooth',
-      top: Number(el?.closest('.id-container')?.getBoundingClientRect().height),
-    });
-  };
 
   if (
     !isLoggedIn ||
@@ -136,7 +131,7 @@ export default function UserAssets(props: Props) {
     return null;
 
   return (
-    <div ref={setEl}>
+    <div>
       <div className="flex flex-col gap-2">
         <UserAssetsInternal
           title="Trading Assets"
@@ -151,20 +146,6 @@ export default function UserAssets(props: Props) {
           />
         )}
       </div>
-
-      {!isMobile && (
-        <div className="my-1 flex justify-center bg-v1-surface-l1">
-          <Button
-            size="xs"
-            variant="ghost"
-            className="mx-auto block !h-2xs"
-            surface={1}
-            onClick={handleScroll}
-          >
-            <Icon size={25} name={bxChevronUp} />
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

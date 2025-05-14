@@ -12,6 +12,7 @@ import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 
 export const GlobalSearch: FC<
   Omit<
@@ -34,6 +35,7 @@ export const GlobalSearch: FC<
   const [network] = useGlobalNetwork();
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
+  const { getUrl } = useDiscoveryRouteMeta();
 
   const coins = useDetailedCoins({
     query: debouncedQuery,
@@ -46,7 +48,13 @@ export const GlobalSearch: FC<
       value={undefined}
       multiple={false}
       onChange={slug => {
-        if (slug) navigate(`/coin/${slug}`);
+        if (slug)
+          navigate(
+            getUrl({
+              detail: 'coin',
+              slug,
+            }),
+          );
       }}
       options={coins.data?.map(x => x.symbol.slug)}
       dialogClassName="w-[520px] mobile:w-auto"

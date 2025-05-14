@@ -9,7 +9,7 @@ export function useWithdraw() {
   const ensureWalletConnected = useEnsureWalletConnected();
 
   const withdraw = async () => {
-    if (ensureWalletConnected()) {
+    if (await ensureWalletConnected()) {
       await writeAndWait();
       notification.success({
         message: 'You claimed your tokens successfully.',
