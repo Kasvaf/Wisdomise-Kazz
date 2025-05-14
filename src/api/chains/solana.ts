@@ -249,7 +249,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
 };
 
 interface SwapResponse {
-  trace_id: string;
+  key: string;
   instructions: Instruction[];
 }
 
@@ -282,20 +282,19 @@ export const useSolanaMarketSwap = () => {
   }) => {
     if (!signTransaction || !publicKey) throw new Error('Wallet not connected');
 
-    const [{ trace_id: tid, instructions }, latestBlockhash] =
-      await Promise.all([
-        ofetch<SwapResponse>('/trader/swap', {
-          method: 'post',
-          body: {
-            pair_slug: pairSlug,
-            side,
-            amount,
-            network_slug: 'solana',
-            wallet_address: publicKey.toString(),
-          },
-        }),
-        connection.getLatestBlockhash(),
-      ]);
+    const [{ key, instructions }, latestBlockhash] = await Promise.all([
+      ofetch<SwapResponse>('/trader/swap', {
+        method: 'post',
+        body: {
+          pair_slug: pairSlug,
+          side,
+          amount,
+          network_slug: 'solana',
+          wallet_address: publicKey.toString(),
+        },
+      }),
+      connection.getLatestBlockhash(),
+    ]);
 
     const transaction = new Transaction();
     transaction.recentBlockhash = latestBlockhash.blockhash;
@@ -321,7 +320,7 @@ export const useSolanaMarketSwap = () => {
 
     void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
 
-    await ofetch<SwapResponse>('/trader/swap/' + tid, {
+    await ofetch<SwapResponse>('/trader/swap/' + key, {
       method: 'patch',
       body: { transaction_hash: signature },
     });
