@@ -1,14 +1,18 @@
 import { clsx } from 'clsx';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { roundSensible } from 'utils/numbers';
+import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
+import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
-import Spin from 'shared/Spin';
+import { useUserWalletAssets } from 'api/chains';
+import { roundSensible } from 'utils/numbers';
+import { isMiniApp } from 'utils/version';
+import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { useUserAssets } from 'api';
-import { useUserWalletAssets } from 'api/chains';
-import { isMiniApp } from 'utils/version';
+import Spin from 'shared/Spin';
+import Icon from 'shared/Icon';
 
 interface AssetData {
   slug: string;
@@ -108,7 +112,16 @@ const UserAssetsInternal: React.FC<
 };
 
 export default function UserAssets(props: Props) {
+  const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
+
+  const [expanded, setExpanded] = useState(false);
+  const [expandable, setExpandable] = useState(false);
+  const [el, setEl] = useState<HTMLDivElement | null>();
+  useEffect(
+    () => setExpandable(!isMobile && Number(el?.scrollHeight) > 162),
+    [el, isMobile],
+  );
 
   const { data: tradingAssets, isLoading: loadingTraderAssets } =
     useUserAssets();
@@ -123,17 +136,41 @@ export default function UserAssets(props: Props) {
     return null;
 
   return (
-    <div className="flex flex-col gap-2">
-      <UserAssetsInternal
-        title="Trading Assets"
-        data={tradingAssets}
-        {...props}
-      />
-      <UserAssetsInternal
-        title="Wallet Assets"
-        data={walletAssets}
-        {...props}
-      />
+    <div>
+      <div
+        ref={setEl}
+        className={clsx(
+          'flex flex-col gap-2',
+          expandable && !expanded && 'max-h-[160px] overflow-hidden',
+        )}
+      >
+        <UserAssetsInternal
+          title="Trading Assets"
+          data={tradingAssets}
+          {...props}
+        />
+        {!isMobile && (
+          <UserAssetsInternal
+            title="Wallet Assets"
+            data={walletAssets}
+            {...props}
+          />
+        )}
+      </div>
+
+      {expandable && (
+        <div className="mt-1 flex justify-center bg-v1-surface-l1">
+          <Button
+            size="xs"
+            variant="ghost"
+            className="mx-auto block"
+            surface={1}
+            onClick={() => setExpanded(x => !x)}
+          >
+            <Icon size={25} name={expanded ? bxChevronUp : bxChevronDown} />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
