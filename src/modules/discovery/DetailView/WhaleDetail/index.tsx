@@ -25,8 +25,8 @@ export const WhaleDetail: FC<{
 
   return (
     <>
-      <div className="flex max-w-full flex-nowrap justify-between gap-3 overflow-hidden border-b border-b-white/10 p-3 mobile:flex-col">
-        <div className="relative flex w-1/3 flex-col gap-3 p-3 ps-0 mobile:w-full">
+      <div className="flex max-w-full flex-nowrap justify-between gap-3 overflow-hidden border-b border-b-white/10 pb-3 mobile:flex-col">
+        <div className="relative flex w-1/3 flex-col gap-3 pe-3 ps-0 mobile:w-full">
           <WhaleTitleWidget
             holderAddress={holderAddress}
             networkName={networkName}
@@ -37,7 +37,7 @@ export const WhaleDetail: FC<{
             networkName={networkName}
           />
         </div>
-        <div className="relative w-auto grow space-y-3 border-l border-white/10 p-3 pe-0  mobile:w-full">
+        <div className="relative w-auto grow space-y-3 border-l border-white/10 pe-0 ps-3  mobile:w-full">
           <WhaleAssetsTreeMapWidget
             holderAddress={holderAddress}
             networkName={networkName}
@@ -49,7 +49,7 @@ export const WhaleDetail: FC<{
           />
         </div>
       </div>
-      <div className="space-y-3 p-3">
+      <div className="space-y-3 py-3">
         <WhaleCoinsWidget
           holderAddress={holderAddress}
           networkName={networkName}

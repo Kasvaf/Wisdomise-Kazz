@@ -39,10 +39,7 @@ export default function PageDiscovery() {
 
         {params.view !== 'list' && (
           <DetailView
-            className={clsx(
-              'min-w-0 shrink grow',
-              // params.view === 'both' && 'ms-96',
-            )}
+            className={clsx('min-w-0 shrink grow p-3')}
             detail={params.detail}
             expanded={!isMobile}
             focus={true}

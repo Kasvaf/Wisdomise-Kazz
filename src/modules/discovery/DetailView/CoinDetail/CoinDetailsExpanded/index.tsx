@@ -23,7 +23,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   return (
     <div className="flex w-full min-w-0 max-w-full flex-nowrap justify-between">
       {/* Validate */}
-      <div className="relative w-full min-w-0 shrink grow border-r border-white/10 p-3">
+      <div className="relative w-full min-w-0 shrink grow border-r border-white/10 pe-3">
         <NCoinRisksBanner slug={slug} />
         {/* Sentiment Widgets */}
         <CoinSentimentsWidget slug={slug} className="py-3" hr />
@@ -62,7 +62,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Trade + Additional */}
-      <div className="sticky top-[4.75rem] z-20 h-[calc(100svh-4.75rem)] w-96 min-w-[360px] shrink space-y-3 overflow-y-auto p-3 scrollbar-none">
+      <div className="sticky top-[4.75rem] z-20 h-[calc(100svh-4.75rem)] w-96 min-w-[360px] shrink space-y-3 overflow-y-auto ps-3 scrollbar-none">
         <TraderSection slug={slug} />
         <hr className="border-white/10" />
 
