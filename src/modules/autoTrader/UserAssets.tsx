@@ -21,7 +21,8 @@ interface AssetData {
 }
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
-  const { getUrl } = useDiscoveryRouteMeta();
+  const isMobile = useIsMobile();
+  const { getUrl, params } = useDiscoveryRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
   const [activeCoinSlug] = useSearchParamAsState('slug');
 
@@ -35,6 +36,8 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
       to={getUrl({
         detail: 'coin',
         slug: asset.slug,
+        view:
+          params.view === 'list' ? (isMobile ? 'detail' : 'both') : params.view,
       })}
     >
       {baseInfo ? (
