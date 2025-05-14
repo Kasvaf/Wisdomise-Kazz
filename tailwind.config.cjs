@@ -283,7 +283,7 @@ module.exports = {
       'max-md': { max: '750px' },
       'max-sm': { max: '640px' },
       'max-xs': { max: '420px' },
-      'tablet': { min: '751px', max: '1440px' },
+      'tablet': { min: '751px', max: '1439px' },
       'xs': '420px',
       ...defaultTheme.screens,
     },
