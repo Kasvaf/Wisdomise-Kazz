@@ -6,6 +6,7 @@ export interface AlertFormStepProps {
   loading?: boolean;
   onSubmit: () => void;
   onDelete?: () => void;
+  onClose?: () => void;
   className: string;
 }
 
