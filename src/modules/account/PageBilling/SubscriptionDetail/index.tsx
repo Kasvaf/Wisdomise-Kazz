@@ -22,6 +22,7 @@ import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWal
 import StakeModalContent from 'modules/account/PageBilling/SubscriptionDetail/StakeModalContent';
 import useModal from 'shared/useModal';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import useConfirm from 'shared/useConfirm';
 import wiseClub from './wise-club.png';
 import gradient from './gradient.png';
 import { ReactComponent as Bag } from './bag.svg';
@@ -37,6 +38,14 @@ export default function SubscriptionDetail() {
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useInstantCancelMutation();
   const ensureWalletConnected = useEnsureWalletConnected();
+  const [confirmModal, confirm] = useConfirm({
+    title: 'Canceling Subscription',
+    icon: null,
+    message:
+      'Your current subscription will be canceled if you proceed. Would you like to continue?',
+    yesTitle: 'Continue',
+    noTitle: 'Not now',
+  });
   const hasFlag = useHasFlag();
   const [stakeModal, openStakeModal] = useModal(StakeModalContent);
 
@@ -46,12 +55,14 @@ export default function SubscriptionDetail() {
   const subItem = data?.subscription_item;
   const paymentMethod = subItem?.payment_method;
 
-  const cancel = () => {
-    void mutateAsync().then(() => {
-      return notification.success({
-        message: 'Subscription cancelled successfully.',
+  const cancel = async () => {
+    if (await confirm()) {
+      void mutateAsync().then(() => {
+        return notification.success({
+          message: 'Subscription cancelled successfully.',
+        });
       });
-    });
+    }
   };
 
   const stakeMore = async () => {
@@ -232,7 +243,7 @@ export default function SubscriptionDetail() {
       ) : (
         <div className="mt-6 flex justify-between gap-4 mobile:flex-col">
           <CurrentPlan />
-          <div className="relative overflow-hidden rounded-xl bg-[#090C10] p-12">
+          <div className="relative overflow-hidden rounded-xl bg-[#090C10] p-12 mobile:p-6">
             <img src={gradient2} alt="" className="absolute left-0 top-0" />
             <div className="relative">
               <img src={wiseClub} alt="wise-club" className="h-6" />
@@ -280,6 +291,7 @@ export default function SubscriptionDetail() {
         </div>
       )}
       {stakeModal}
+      {confirmModal}
     </div>
   );
 }
