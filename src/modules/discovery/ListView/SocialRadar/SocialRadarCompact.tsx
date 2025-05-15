@@ -32,7 +32,6 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     securityLabels: [] as string[],
     exchanges: [] as string[],
     sources: [] as string[],
-    windowHours: 24,
   });
 
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
@@ -115,7 +114,7 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       <RadarFilter
         radar="social-radar-24-hours"
         value={tableState}
-        onChange={newState => setTableState(newState)}
+        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
         className="mb-4 w-full"
         surface={1}
         mini

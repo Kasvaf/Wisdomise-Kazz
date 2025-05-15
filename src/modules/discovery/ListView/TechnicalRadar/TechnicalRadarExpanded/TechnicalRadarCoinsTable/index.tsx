@@ -108,7 +108,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
       <RadarFilter
         radar="technical-radar"
         value={tableState}
-        onChange={newState => setTableState(newState)}
+        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
         className="mb-4 w-full"
         surface={3}
       />
