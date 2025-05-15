@@ -14,43 +14,51 @@ const REDIRECT_MAP: Record<string, string> = {
     '/discovery?detail=whale&slug={nework}/{address}',
 };
 
-const findMatchingRoute = (pathname: string) => {
-  // Remove trailing slash for consistency
+const ALLOWED_SEARCH_PARAMS = ['fl', 'debug', 'ref', 'utm_source', 'campaign'];
+
+const findMatchingRoute = (pathname: string, search: string): string => {
   const normalizedPath = pathname.replace(/\/$/, '');
-
-  // Try exact match first
+  let newTarget = REDIRECT_MAP[''];
   if (REDIRECT_MAP[normalizedPath]) {
-    return REDIRECT_MAP[normalizedPath];
-  }
+    newTarget = REDIRECT_MAP[normalizedPath];
+  } else {
+    for (const [pattern, target] of Object.entries(REDIRECT_MAP)) {
+      if (pattern.includes('{')) {
+        const regex = new RegExp(
+          '^' + pattern.replaceAll(/{.*?}/g, '([^/]+)') + '$',
+        );
+        const match = normalizedPath.match(regex);
 
-  // Try pattern matching
-  for (const [pattern, target] of Object.entries(REDIRECT_MAP)) {
-    if (pattern.includes('{')) {
-      const regex = new RegExp(
-        '^' + pattern.replaceAll(/{.*?}/g, '([^/]+)') + '$',
-      );
-      const match = normalizedPath.match(regex);
+        if (match) {
+          const params = pattern.match(/{(.*?)}/g) || [];
+          let result = target;
 
-      if (match) {
-        const params = pattern.match(/{(.*?)}/g) || [];
-        let result = target;
+          for (const [index, param] of params.entries()) {
+            result = result.replace(param, match[index + 1]);
+          }
 
-        for (const [index, param] of params.entries()) {
-          result = result.replace(param, match[index + 1]);
+          newTarget = result;
+          break;
         }
-
-        return result;
       }
     }
   }
 
-  // Default redirect
-  return REDIRECT_MAP[''];
+  const returnValue = new URL(newTarget, 'https://example.org');
+
+  const currentSearchParams = new URLSearchParams(search);
+  for (const key of ALLOWED_SEARCH_PARAMS) {
+    if (currentSearchParams.has(key)) {
+      returnValue.searchParams.set(key, currentSearchParams.get(key) ?? '');
+    }
+  }
+
+  return `${returnValue.pathname}${returnValue.search}`;
 };
 
 export default function PageRedirect() {
-  const { pathname } = useLocation();
-  const redirectTo = findMatchingRoute(pathname);
+  const { pathname, search } = useLocation();
+  const redirectTo = findMatchingRoute(pathname, search);
 
   return <Navigate replace to={redirectTo} />;
 }
