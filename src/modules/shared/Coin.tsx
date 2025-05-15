@@ -179,12 +179,7 @@ export function Coin({
           to={getUrl({
             detail: 'coin',
             slug: coin.slug,
-            view:
-              params.view === 'list'
-                ? isMobile
-                  ? 'detail'
-                  : 'both'
-                : params.view,
+            view: isMobile || params.view === 'detail' ? 'detail' : 'both',
           })}
           title={tooltip}
         >
