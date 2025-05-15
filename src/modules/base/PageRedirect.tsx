@@ -19,6 +19,8 @@ const ALLOWED_SEARCH_PARAMS = [
   'debug',
   'ref',
   'utm_source',
+  'utm_medium',
+  'utm_campaign',
   'campaign',
   'tgWebAppData',
 ];
