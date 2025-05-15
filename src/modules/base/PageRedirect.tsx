@@ -14,17 +14,6 @@ const REDIRECT_MAP: Record<string, string> = {
     '/discovery?detail=whale&slug={nework}/{address}',
 };
 
-const ALLOWED_SEARCH_PARAMS = [
-  'fl',
-  'debug',
-  'ref',
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  'campaign',
-  'tgWebAppData',
-];
-
 const findMatchingRoute = (pathname: string, search: string): string => {
   const normalizedPath = pathname.replace(/\/$/, '');
   let newTarget = REDIRECT_MAP[''];
@@ -56,9 +45,12 @@ const findMatchingRoute = (pathname: string, search: string): string => {
   const returnValue = new URL(newTarget, 'https://example.org');
 
   const currentSearchParams = new URLSearchParams(search);
-  for (const key of ALLOWED_SEARCH_PARAMS) {
-    if (currentSearchParams.has(key)) {
-      returnValue.searchParams.set(key, currentSearchParams.get(key) ?? '');
+  for (const key of currentSearchParams.keys()) {
+    if (!returnValue.searchParams.has(key)) {
+      const values = currentSearchParams.getAll(key);
+      for (const value of values) {
+        returnValue.searchParams.append(key, value);
+      }
     }
   }
 
