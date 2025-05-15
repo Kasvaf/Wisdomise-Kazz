@@ -14,7 +14,11 @@ const REDIRECT_MAP: Record<string, string> = {
     '/discovery?detail=whale&slug={nework}/{address}',
 };
 
-const findMatchingRoute = (pathname: string, search: string): string => {
+const findMatchingRoute = (
+  pathname: string,
+  search: string,
+  hash: string,
+): string => {
   const normalizedPath = pathname.replace(/\/$/, '');
   let newTarget = REDIRECT_MAP[''];
   if (REDIRECT_MAP[normalizedPath]) {
@@ -54,12 +58,12 @@ const findMatchingRoute = (pathname: string, search: string): string => {
     }
   }
 
-  return `${returnValue.pathname}${returnValue.search}`;
+  return `${returnValue.pathname}${returnValue.search}${hash}`;
 };
 
 export default function PageRedirect() {
-  const { pathname, search } = useLocation();
-  const redirectTo = findMatchingRoute(pathname, search);
+  const { pathname, search, hash } = useLocation();
+  const redirectTo = findMatchingRoute(pathname, search, hash);
 
   return <Navigate replace to={redirectTo} />;
 }
