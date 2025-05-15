@@ -14,7 +14,14 @@ const REDIRECT_MAP: Record<string, string> = {
     '/discovery?detail=whale&slug={nework}/{address}',
 };
 
-const ALLOWED_SEARCH_PARAMS = ['fl', 'debug', 'ref', 'utm_source', 'campaign'];
+const ALLOWED_SEARCH_PARAMS = [
+  'fl',
+  'debug',
+  'ref',
+  'utm_source',
+  'campaign',
+  'tgWebAppData',
+];
 
 const findMatchingRoute = (pathname: string, search: string): string => {
   const normalizedPath = pathname.replace(/\/$/, '');
