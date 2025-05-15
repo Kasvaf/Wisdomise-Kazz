@@ -6,7 +6,11 @@ import {
   useTraderFirePositionMutation,
   type CreatePositionRequest,
 } from 'api';
-import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
+import {
+  useActiveWallet,
+  useMarketSwap,
+  useTransferAssetsMutation,
+} from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
@@ -27,15 +31,55 @@ const useActionHandlers = (state: SwapState) => {
   } = state;
   const { address } = useActiveWallet();
 
+  const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
+    setConfirming(true);
+    void cb()
+      .then(res => {
+        if (res) notification.success({ message });
+        return res;
+      })
+      .finally(() => setConfirming(false));
+  };
+
   const { mutateAsync: cancelAsync } = useTraderCancelPositionMutation();
   const { mutateAsync, isPending: isSubmitting } =
     useTraderFirePositionMutation();
 
   const transferAssetsHandler = useTransferAssetsMutation(from.slug);
+  const marketSwapHandler = useMarketSwap();
 
   const [ModalApproval, showModalApproval] = useModalApproval();
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
+
+    if (network === 'solana' && isMarketPrice) {
+      setFiring(true);
+      try {
+        const swapData = {
+          pairSlug: base.slug + '/' + quote.slug,
+          side: dir === 'buy' ? 'LONG' : 'SHORT',
+          amount: from.amount,
+        } as const;
+
+        if (
+          !(await showModalApproval(state, undefined, {
+            ...swapData,
+            network: 'solana',
+          }))
+        )
+          return;
+
+        awaitConfirm(
+          await marketSwapHandler(swapData),
+          'Swap confirmed on network successfully',
+        );
+      } catch (error) {
+        notification.error({ message: unwrapErrorMessage(error) });
+      } finally {
+        setFiring(false);
+      }
+      return;
+    }
 
     const createData: CreatePositionRequest = {
       network,
@@ -103,24 +147,15 @@ const useActionHandlers = (state: SwapState) => {
       const res = await mutateAsync(createData);
 
       try {
-        const awaitConfirm = await transferAssetsHandler({
-          positionKey: res.position_key,
-          recipientAddress: res.deposit_address,
-          gasFee: res.gas_fee,
-          amount: from.amount,
-        });
-
-        setConfirming(true);
-        void awaitConfirm()
-          .then(res => {
-            if (res) {
-              notification.success({
-                message: 'Position created successfully',
-              });
-            }
-            return res;
-          })
-          .finally(() => setConfirming(false));
+        awaitConfirm(
+          await transferAssetsHandler({
+            positionKey: res.position_key,
+            recipientAddress: res.deposit_address,
+            gasFee: res.gas_fee,
+            amount: from.amount,
+          }),
+          'Position created successfully',
+        );
       } catch (error) {
         if (error instanceof TonConnectError) {
           if (error instanceof UserRejectsError) {

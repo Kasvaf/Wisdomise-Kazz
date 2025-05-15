@@ -316,10 +316,12 @@ export interface CreatePositionRequest {
   network: SupportedNetworks;
 }
 
-export const usePreparePositionQuery = (req: CreatePositionRequest) => {
+export const usePreparePositionQuery = (req?: CreatePositionRequest) => {
   return useQuery({
     queryKey: ['traderPrepare', JSON.stringify(req)],
     queryFn: async () => {
+      if (!req) return null;
+
       const { network, ...body } = req;
       const data = await ofetch<{
         gas_fee: string;
@@ -339,6 +341,7 @@ export const usePreparePositionQuery = (req: CreatePositionRequest) => {
     },
     staleTime: 50,
     refetchInterval: 7000,
+    enabled: !!req,
   });
 };
 
