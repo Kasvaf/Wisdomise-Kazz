@@ -19,7 +19,7 @@ export const matcher = (search: string | string[] | null | undefined) => {
     if (
       source &&
       searchString &&
-      ![source.name, source.abbreviation, source.slug]
+      ![source.name, source.abbreviation]
         .filter(x => !!x)
         .join('-')
         .toLowerCase()

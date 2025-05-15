@@ -132,7 +132,11 @@ export const CoinTitleWidget: FC<{
                       <NCoinAge
                         value={nCoin.data?.creation_datetime}
                         inline
-                        className="text-xs text-v1-background-secondary"
+                        className={clsx(
+                          'text-xs',
+                          nCoin.data._states.isNew &&
+                            'text-v1-background-secondary',
+                        )}
                       />
                     </>
                   )}
@@ -145,11 +149,7 @@ export const CoinTitleWidget: FC<{
                     <p className="text-xs text-v1-content-secondary">
                       {t('common.buy_sell')}
                       {' (24h)'}
-                      {(nCoin.data.update.total_num_buys ?? 0) +
-                        (nCoin.data.update.total_num_sells ?? 0) >
-                      5000
-                        ? ' 🔥'
-                        : ''}
+                      {nCoin.data._states.hasLargeTxns ? ' 🔥' : ''}
                     </p>
                     <NCoinBuySell
                       value={{
@@ -182,9 +182,9 @@ export const CoinTitleWidget: FC<{
                     <span className="text-xs">
                       <span
                         className={clsx(
-                          (nCoin.data.risk_percent ?? 0) < 15
+                          nCoin.data._states.riskLevel === 'low'
                             ? 'text-v1-content-positive'
-                            : (nCoin.data.risk_percent ?? 0) < 50
+                            : nCoin.data._states.riskLevel === 'medium'
                             ? 'text-v1-content-notice'
                             : 'text-v1-content-negative',
                         )}

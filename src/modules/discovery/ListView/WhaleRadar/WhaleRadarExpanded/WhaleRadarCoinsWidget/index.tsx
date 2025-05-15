@@ -127,7 +127,7 @@ export function WhaleRadarCoinsWidget({
             <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
               <SearchInput
                 value={tableState.query}
-                onChange={query => setTableState({ query })}
+                onChange={query => setTableState(p => ({ ...p, query }))}
                 placeholder={t('coin-radar:common.search_coin')}
                 className="w-64 mobile:grow"
                 size="md"
@@ -136,7 +136,7 @@ export function WhaleRadarCoinsWidget({
             <RadarFilter
               radar="whale-radar"
               value={tableState}
-              onChange={newState => setTableState(newState)}
+              onChange={newState => setTableState(p => ({ ...p, ...newState }))}
               className="w-full"
               surface={3}
             />

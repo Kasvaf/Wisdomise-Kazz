@@ -15,7 +15,7 @@ import {
   type CoinCommunityData,
 } from '../types/shared';
 import { matcher } from './utils';
-import { type NetworkRadarNCoin } from './network';
+import { calculateNCoinStates, type NetworkRadarNCoin } from './network';
 
 export const useNetworks = (config: {
   filter?:
@@ -233,6 +233,13 @@ export const useNCoinDetails = ({
         return resp[0];
       });
     },
+    select: x =>
+      x
+        ? {
+            ...x,
+            _states: calculateNCoinStates(x),
+          }
+        : null,
     refetchOnMount: true,
     refetchInterval: 30 * 1000,
   });

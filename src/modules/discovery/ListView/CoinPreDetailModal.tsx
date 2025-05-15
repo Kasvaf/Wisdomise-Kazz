@@ -30,6 +30,7 @@ import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { usePromise } from 'utils/usePromise';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import useIsMobile from 'utils/useIsMobile';
 import { PriceAlertButton } from '../DetailView/CoinDetail/PriceAlertButton';
 import TechnicalRadarSharingModal from './TechnicalRadar/TechnicalRadarSharingModal';
 import SocialRadarSharingModal from './SocialRadar/SocialRadarSharingModal';
@@ -218,7 +219,8 @@ export function useCoinPreDetailModal<T>({
   directNavigate?: boolean;
   slug?: (r: T) => string;
 }) {
-  const { getUrl } = useDiscoveryRouteMeta();
+  const { getUrl, params } = useDiscoveryRouteMeta();
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { run: openModal, ...rest } = usePromise<T, boolean>();
 
@@ -226,6 +228,7 @@ export function useCoinPreDetailModal<T>({
     (r: T) => {
       if (directNavigate && slug) {
         const href = getUrl({
+          view: isMobile || params.view === 'detail' ? 'detail' : 'both',
           detail: 'coin',
           slug: slug?.(r),
         });
@@ -234,7 +237,7 @@ export function useCoinPreDetailModal<T>({
       }
       return openModal(r);
     },
-    [directNavigate, getUrl, navigate, openModal, slug],
+    [directNavigate, getUrl, isMobile, navigate, openModal, params.view, slug],
   );
 
   return useMemo(

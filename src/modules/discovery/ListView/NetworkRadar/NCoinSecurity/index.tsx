@@ -24,54 +24,44 @@ export const NCoinSecurity: FC<{
     }> = [];
 
     // Mintable
-    const mintAuth = value?.base_symbol_security.mintable.status === '0';
     ret = [
       ...ret,
       {
         key: 'mint_auth',
-        value: mintAuth,
+        value: !value?._states.mintable,
         icon: MintIcon,
         title: <Trans i18nKey="security.mint_auth" ns="network-radar" />,
       },
     ];
 
     // Freezable
-    const freezAuth = value?.base_symbol_security.freezable.status === '0';
     ret = [
       ...ret,
       {
         key: 'freeze_auth',
-        value: freezAuth,
+        value: !value?._states.freezable,
         icon: FreezeIcon,
         title: <Trans i18nKey="security.freeze_auth" ns="network-radar" />,
       },
     ];
 
     // Lp Is Burned
-    const lpIsBurned = value?.base_symbol_security.lp_is_burned.status === '1';
     ret = [
       ...ret,
       {
         key: 'lp_is_burned',
-        value: lpIsBurned,
+        value: !!value?._states.burnt,
         icon: FireIcon,
         title: <Trans i18nKey="security.lp_burned" ns="network-radar" />,
       },
     ];
 
     // Top 10 Holders
-    const topHoldersBalance =
-      value?.base_symbol_security.holders.reduce((p, c) => {
-        const balance = Number.isNaN(+c.balance) ? 0 : +c.balance;
-        return p + balance;
-      }, 0) ?? 0;
-    const totalSupply = value?.update.base_market_data.total_supply ?? 0;
-    const topHoldersAuth = topHoldersBalance <= (totalSupply / 100) * 20;
     ret = [
       ...ret,
       {
         key: 'top_holders_auth',
-        value: topHoldersAuth,
+        value: !!value?._states.safeTopHolders,
         icon: UserIcon,
         title: <Trans i18nKey="security.top_holders" ns="network-radar" />,
       },

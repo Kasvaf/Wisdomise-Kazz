@@ -1,121 +1,47 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useMemo,
+} from 'react';
+import useSearchParamAsState from './useSearchParamAsState';
 
-const toParam = (prefix: string, param: string) =>
-  [prefix, param].filter(x => !!x).join('-');
+function encode(obj: unknown) {
+  return encodeURIComponent(
+    btoa(
+      JSON.stringify(obj, (_, value) =>
+        value && typeof value === 'object' && !Array.isArray(value)
+          ? Object.keys(value)
+              .sort()
+              .reduce<any>((acc, key) => {
+                acc[key] = value[key];
+                return acc;
+              }, {})
+          : value,
+      ),
+    ),
+  );
+}
 
-const TABLE_STATE_ARRAY_SPLITTER = '&&';
+function decode<T = unknown>(str: string): T {
+  return JSON.parse(atob(decodeURIComponent(str))) as T;
+}
 
-export const usePageState = <
-  T extends Record<string, string | number | boolean | string[]>,
->(
-  queryPrefix: string,
+export const usePageState = <T extends object>(
+  prefix: string,
   initialState: T,
 ) => {
-  const initialStateRef = useRef(initialState);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [localState, setLocalState] = useState(initialStateRef.current);
-  const urlState = useMemo(() => {
-    const returnValue = {
-      ...(initialStateRef.current as Record<string, any>),
-    };
-    for (const [paramKeyRaw, initialParamValue] of Object.entries(
-      initialStateRef.current,
-    )) {
-      const searchParamValue = searchParams.get(
-        toParam(queryPrefix, paramKeyRaw),
-      );
-      if (typeof searchParamValue !== 'string') continue;
-      if (typeof initialParamValue === 'boolean')
-        returnValue[paramKeyRaw] = searchParamValue !== 'false';
-      else if (
-        typeof initialParamValue === 'number' &&
-        !Number.isNaN(Number(searchParamValue)) &&
-        searchParamValue.trim() !== ''
-      )
-        returnValue[paramKeyRaw] = Number(searchParamValue);
-      else if (Array.isArray(initialParamValue))
-        returnValue[paramKeyRaw] = searchParamValue.split(
-          TABLE_STATE_ARRAY_SPLITTER,
-        );
-      else returnValue[paramKeyRaw] = searchParamValue;
-    }
-    return returnValue as typeof initialState;
-  }, [queryPrefix, searchParams]);
+  const [state, setState] = useSearchParamAsState(prefix, encode(initialState));
 
-  // Read url (Just once)
-  const isUrlFetched = useRef(false);
-  useEffect(() => {
-    if (isUrlFetched.current) return;
-    setLocalState(urlState);
-    isUrlFetched.current = true;
-  }, [urlState]);
+  const value = useMemo(() => decode<T>(state), [state]);
 
-  // Set url with delay
-  const setUrlTimeout = useRef<null | ReturnType<typeof setTimeout>>(null);
-  useEffect(() => {
-    const clearUrlTimeout = () => {
-      if (setUrlTimeout.current !== null) {
-        clearTimeout(setUrlTimeout.current);
-      }
-    };
-    clearUrlTimeout();
-    setUrlTimeout.current = setTimeout(() => {
-      setSearchParams(
-        currentSearchParams => {
-          let newSearchParams = Object.fromEntries(
-            currentSearchParams.entries(),
-          );
-          let isModified = false;
-          for (const [paramKeyRaw, paramValue] of Object.entries(localState)) {
-            if (paramKeyRaw === 'total') continue;
-            const paramKey = toParam(queryPrefix, paramKeyRaw);
-            const { [paramKey]: prevValue, ...rest } = newSearchParams;
-            const isSame =
-              Array.isArray(paramValue) &&
-              Array.isArray(initialStateRef.current[paramKeyRaw])
-                ? JSON.stringify([...paramValue].sort()) ===
-                  JSON.stringify(
-                    [...initialStateRef.current[paramKeyRaw]].sort(),
-                  )
-                : initialStateRef.current[paramKeyRaw] === paramValue;
-            const isEmpty =
-              paramValue === undefined ||
-              (Array.isArray(paramValue) && paramValue.length === 0);
-            newSearchParams =
-              isSame || isEmpty
-                ? rest
-                : {
-                    ...rest,
-                    [paramKey]: Array.isArray(paramValue)
-                      ? paramValue.join(TABLE_STATE_ARRAY_SPLITTER)
-                      : paramValue.toString(),
-                  };
-            const newValue = newSearchParams[paramKey];
-            if (prevValue !== newValue) isModified = true;
-          }
-          if (!isModified) return currentSearchParams;
-          return newSearchParams;
-        },
-        {
-          replace: true,
-        },
-      );
-    }, 150);
-    return () => clearUrlTimeout();
-  }, [localState, queryPrefix, setSearchParams]);
-
-  const state = localState;
-  const setState = useCallback(
-    (newValue: Partial<typeof initialState> | undefined) => {
-      setLocalState(p =>
-        newValue === undefined
-          ? initialStateRef.current
-          : { ...p, ...newValue },
-      );
+  const setValue = useCallback<Dispatch<SetStateAction<T>>>(
+    x => {
+      const newValue = typeof x === 'function' ? x(value) : x;
+      setState(encode(newValue));
     },
-    [],
+    [setState, value],
   );
 
-  return useMemo(() => [state, setState] as const, [setState, state]);
+  return useMemo(() => [value, setValue] as const, [value, setValue]);
 };

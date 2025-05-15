@@ -48,11 +48,9 @@ export function SocialRadarExpanded() {
     securityLabels: [] as string[],
     exchanges: [] as string[],
     sources: [] as string[],
-    windowHours: 24,
   });
 
   const coins = useSocialRadarCoins(tableState);
-  const topCoins = useSocialRadarCoins({ windowHours: tableState.windowHours });
   useLoadingBadge(coins.isFetching);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();
@@ -160,11 +158,10 @@ export function SocialRadarExpanded() {
           </div>
         )
       }
-      empty={topCoins.data?.length === 0}
       headerActions={
         <SearchInput
           value={tableState.query}
-          onChange={query => setTableState({ query })}
+          onChange={query => setTableState(p => ({ ...p, query }))}
           placeholder={t('common.search_coin')}
           size="md"
         />
@@ -173,7 +170,7 @@ export function SocialRadarExpanded() {
       <RadarFilter
         radar="social-radar-24-hours"
         value={tableState}
-        onChange={newState => setTableState(newState)}
+        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
         className="mb-4 w-full"
         surface={3}
       />

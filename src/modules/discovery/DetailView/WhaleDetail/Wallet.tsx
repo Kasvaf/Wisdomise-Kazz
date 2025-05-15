@@ -57,12 +57,7 @@ export const Wallet: FC<{
           to={getUrl({
             detail: 'whale',
             slug: `${wallet.network}/${wallet.address}`,
-            view:
-              params.view === 'list'
-                ? isMobile
-                  ? 'detail'
-                  : 'both'
-                : params.view,
+            view: isMobile || params.view === 'detail' ? 'detail' : 'both',
           })}
         >
           <img

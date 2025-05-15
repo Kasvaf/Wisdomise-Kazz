@@ -32,7 +32,7 @@ export function WhaleTransactionsHistoryWidget({
   const { t } = useTranslation('whale');
 
   const [tableState] = usePageState<Parameters<typeof useWhaleTransactions>[0]>(
-    'transactions',
+    'whale-transactions',
     {
       holderAddress,
       networkName,
