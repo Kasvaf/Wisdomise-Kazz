@@ -47,7 +47,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       }}
     >
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 h-[--desktop-header-height] w-full max-w-full overflow-hidden mobile:h-auto">
+      <header className="sticky top-0 z-30 h-[--desktop-header-height] w-full max-w-full mobile:h-auto">
         {header === null
           ? null
           : header || (

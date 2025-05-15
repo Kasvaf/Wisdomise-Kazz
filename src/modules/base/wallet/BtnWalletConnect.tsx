@@ -50,7 +50,7 @@ const BtnWalletConnect: React.FC<{ className?: string }> = ({ className }) => {
     <div onClick={onClick}>
       {net === 'the-open-network' ? (
         <TonConnectButton
-          className={clsx(className, !isMobile && 'h-[32px]')}
+          className={clsx(className, !isMobile && 'h-[38px]')}
         />
       ) : net === 'solana' ? (
         <BtnSolanaWalletConnect className={className} />
