@@ -154,7 +154,8 @@ export const CoinPreDetailModal: FC<
   }
 > = ({ open, onClose, children, coin, ...props }) => {
   const { t } = useTranslation('insight');
-  const { getUrl } = useDiscoveryRouteMeta();
+  const isMobile = useIsMobile();
+  const { getUrl, params } = useDiscoveryRouteMeta();
 
   return (
     <Dialog
@@ -176,6 +177,8 @@ export const CoinPreDetailModal: FC<
                 to={getUrl({
                   detail: 'coin',
                   slug: coin.slug,
+                  view:
+                    isMobile || params.view === 'detail' ? 'detail' : 'both',
                 })}
                 className="block basis-1/2"
               >
