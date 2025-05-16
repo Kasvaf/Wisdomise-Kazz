@@ -50,12 +50,21 @@ export function Input<T extends 'number' | 'string'>({
   const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     e => {
       if (type === 'number') {
-        onChange?.((+e.target.value || undefined) as never);
+        let newValue = +e.target.value || undefined;
+        if (typeof newValue === 'number') {
+          if (typeof min === 'number') {
+            newValue = newValue < min ? min : newValue;
+          }
+          if (typeof max === 'number') {
+            newValue = newValue > max ? max : newValue;
+          }
+        }
+        onChange?.(newValue as never);
       } else {
         onChange?.((e.target.value ?? '') as never);
       }
     },
-    [onChange, type],
+    [max, min, onChange, type],
   );
   return (
     <div
@@ -84,7 +93,7 @@ export function Input<T extends 'number' | 'string'>({
       {prefixIcon}
       <input
         className="block w-full grow border-0 bg-transparent text-inherit outline-none"
-        value={value}
+        value={value === undefined ? '' : value}
         max={max}
         min={min}
         onChange={handleChange}
