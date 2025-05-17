@@ -417,16 +417,16 @@ export const NETWORK_RADAR_PRESETS: Array<
       hasWebsite: true,
     }, // NAITODO Ask
   },
-  {
-    label: '🔥 Dev Hold',
-    filters: {
-      query: 'sol',
-    }, // NAITODO Ask
-  },
-  {
-    label: '🔥 Dev Sold All',
-    filters: {
-      query: 'dev',
-    }, // NAITODO Ask
-  },
+  // {
+  //   label: '🔥 Dev Hold',
+  //   filters: {
+  //     query: 'sol',
+  //   },
+  // },
+  // {
+  //   label: '🔥 Dev Sold All',
+  //   filters: {
+  //     query: 'dev',
+  //   },
+  // },
 ];
