@@ -9,6 +9,7 @@ import {
   useNetworkRadarNCoins,
 } from 'api/insight/network';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { usePageState } from 'shared/usePageState';
 import { useCoinPreDetailModal } from '../CoinPreDetailModal';
 import { NCoinAge } from './NCoinAge';
 import { NCoinBuySell } from './NCoinBuySell';
@@ -16,6 +17,7 @@ import { NCoinTradingVolume } from './NCoinTradingVolume';
 import { NCoinLiquidity } from './NCoinLiquidity';
 import { NCoinSecurity } from './NCoinSecurity';
 import { NCoinPreDetailModal } from './NCoinPreDetailModal';
+import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const { t } = useTranslation('network-radar');
@@ -26,7 +28,11 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       slug: r => r.base_symbol.slug,
     });
 
-  const nCoins = useNetworkRadarNCoins({});
+  const [pageState, setPageState] = usePageState<
+    Parameters<typeof useNetworkRadarNCoins>[0]
+  >('network-radar', {});
+
+  const nCoins = useNetworkRadarNCoins(pageState);
   useLoadingBadge(nCoins.isFetching);
 
   const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
@@ -112,6 +118,13 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           <h1 className="text-sm">{t('page.title')}</h1>
         </div>
       )}
+      <NetworkRadarFilters
+        value={pageState}
+        onChange={newPageState => setPageState(newPageState)}
+        className="mb-4 w-full"
+        surface={1}
+        mini
+      />
       <AccessShield
         mode="table"
         sizes={{

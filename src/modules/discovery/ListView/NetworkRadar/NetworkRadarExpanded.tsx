@@ -19,18 +19,24 @@ import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { usePageState } from 'shared/usePageState';
 import { NCoinAge } from './NCoinAge';
 import { NCoinTradingVolume } from './NCoinTradingVolume';
 import { NCoinBuySell } from './NCoinBuySell';
 import { NCoinLiquidity } from './NCoinLiquidity';
 import { NCoinSecurity } from './NCoinSecurity';
 import { NCoinRecentCandles } from './NCoinRecentCandles';
+import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export function NetworkRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
   const [copy, copyNotif] = useShare('copy');
 
-  const nCoins = useNetworkRadarNCoins({});
+  const [pageState, setPageState] = usePageState<
+    Parameters<typeof useNetworkRadarNCoins>[0]
+  >('network-radar', {});
+
+  const nCoins = useNetworkRadarNCoins(pageState);
   useLoadingBadge(nCoins.isFetching);
 
   const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
@@ -192,8 +198,12 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       )}
       title={t('page.title')}
       info={t('page.info')}
-      empty={nCoins.data?.length === 0}
     >
+      <NetworkRadarFilters
+        value={pageState}
+        onChange={newPageState => setPageState(newPageState)}
+        className="mb-4 w-full"
+      />
       <AccessShield
         mode="table"
         sizes={{

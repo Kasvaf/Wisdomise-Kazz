@@ -281,7 +281,6 @@ export interface WhaleRadarCoin extends WhaleRadarSentiment {
 }
 
 export const useWhaleRadarCoins = (config: {
-  days: number;
   sortBy?: string;
   sortOrder?: 'ascending' | 'descending';
   query?: string;
@@ -295,11 +294,11 @@ export const useWhaleRadarCoins = (config: {
   const [defaultNetwork] = useGlobalNetwork();
 
   return useQuery({
-    queryKey: ['whale-radar-coins', config.days],
+    queryKey: ['whale-radar-coins'],
     queryFn: () =>
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {
-          days: config.days,
+          days: 7,
           page_size: 500,
         },
         meta: { auth: false },

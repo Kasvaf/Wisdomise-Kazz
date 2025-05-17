@@ -9,7 +9,6 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { usePageState } from 'shared/usePageState';
 import { TableRank } from 'shared/TableRank';
 import {
@@ -17,24 +16,17 @@ import {
   useCoinPreDetailModal,
 } from '../CoinPreDetailModal';
 import { WhaleRadarSentiment } from './WhaleRadarSentiment';
+import { WhaleRadarFilters } from './WhaleRadarFilters';
 
 export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
-  const [tableState, setTableState] = usePageState<
-    Required<Parameters<typeof useWhaleRadarCoins>[0]>
+  const [pageState, setPageState] = usePageState<
+    Parameters<typeof useWhaleRadarCoins>[0]
   >('whale-radar-coins', {
     sortBy: 'rank',
     sortOrder: 'ascending',
-    query: '',
-    categories: [] as string[],
-    networks: [] as string[],
-    trendLabels: [] as string[],
-    securityLabels: [] as string[],
-    days: 7,
-    excludeNativeCoins: false,
-    profitableOnly: false,
   });
 
-  const coins = useWhaleRadarCoins(tableState);
+  const coins = useWhaleRadarCoins(pageState);
   useLoadingBadge(coins.isFetching);
 
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
@@ -108,10 +100,9 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
 
   return (
     <>
-      <RadarFilter
-        radar="whale-radar"
-        value={tableState}
-        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
+      <WhaleRadarFilters
+        value={pageState}
+        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
         surface={1}
         mini

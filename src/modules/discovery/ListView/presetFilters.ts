@@ -3,24 +3,15 @@ import {
   type useTechnicalRadarCoins,
   type useWhaleRadarCoins,
 } from 'api/insight';
+import { type useNetworkRadarNCoins } from 'api/insight/network';
 
-interface PresetFilter<FilterType> {
+export interface PresetFilter<FilterType> {
   label: string;
-  slug: string;
   filters: FilterType;
 }
 
-const profitablePreset = {
-  label: '🔥 Profitable Coins',
-  slug: 'profitable',
-  filters: {
-    profitableOnly: true,
-  },
-};
-
 const memesPreset = {
   label: '🔥 Memes',
-  slug: 'meme',
   filters: {
     categories: [
       'meme-token',
@@ -51,7 +42,6 @@ const memesPreset = {
 
 const aiPreset = {
   label: '🔥 AI',
-  slug: 'ai',
   filters: {
     categories: [
       'artificial-intelligence',
@@ -68,7 +58,6 @@ const aiPreset = {
 
 const defiPreset = {
   label: '🔥 DeFi',
-  slug: 'defi',
   filters: {
     categories: [
       'decentralized-finance-defi',
@@ -89,7 +78,6 @@ const defiPreset = {
 
 const rwaPreset = {
   label: '🔥 RWA',
-  slug: 'rwa',
   filters: {
     categories: [
       'real-world-assets-rwa',
@@ -104,7 +92,6 @@ const rwaPreset = {
 
 const gamingPreset = {
   label: '🔥 Gaming',
-  slug: 'gaming',
   filters: {
     categories: [
       'gaming',
@@ -129,7 +116,6 @@ const gamingPreset = {
 
 const depinPreset = {
   label: '🔥 DePIN',
-  slug: 'depin',
   filters: {
     categories: ['depin'],
   },
@@ -137,7 +123,6 @@ const depinPreset = {
 
 const binanceHodlerPreset = {
   label: '🔥 Binance HODLer Airdrops',
-  slug: 'binance',
   filters: {
     categories: [
       'binance-hodler-airdrops',
@@ -151,7 +136,6 @@ const binanceHodlerPreset = {
 
 const layer1Preset = {
   label: '🔥 Layer 1',
-  slug: 'layer-1',
   filters: {
     categories: [
       'layer-1',
@@ -167,7 +151,6 @@ const layer1Preset = {
 
 const layer2Preset = {
   label: '🔥 Layer 2',
-  slug: 'layer-2',
   filters: {
     categories: [
       'layer-2',
@@ -192,13 +175,12 @@ const layer2Preset = {
 
 const dotPreset = {
   label: '🔥 DOT',
-  slug: 'dot',
   filters: {
     categories: ['dot-ecosystem', 'layer-0-l0'],
   },
 };
 
-export const socialPresetFilters: Array<
+export const SOCIAL_RADAR_PRESETS: Array<
   PresetFilter<Partial<Parameters<typeof useSocialRadarCoins>[0]>>
 > = [
   memesPreset,
@@ -213,7 +195,54 @@ export const socialPresetFilters: Array<
   dotPreset,
 ];
 
-export const technicalPresetFilters: Array<
+export const SOCIAL_RADAR_SORTS: Array<
+  PresetFilter<Partial<Parameters<typeof useSocialRadarCoins>[0]>>
+> = [
+  {
+    label: 'Wise Rank™',
+    filters: {
+      sortBy: 'rank',
+      sortOrder: 'ascending',
+    },
+  },
+  {
+    label: 'Newest',
+    filters: {
+      sortBy: 'call_time',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Oldest',
+    filters: {
+      sortBy: 'call_time',
+      sortOrder: 'ascending',
+    },
+  },
+  {
+    label: 'Highest Gainers',
+    filters: {
+      sortBy: 'price_change',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Highest Losers',
+    filters: {
+      sortBy: 'price_change',
+      sortOrder: 'ascending',
+    },
+  },
+  {
+    label: 'Market Cap',
+    filters: {
+      sortBy: 'market_cap',
+      sortOrder: 'ascending',
+    },
+  },
+];
+
+export const TECHNICAL_RADAR_PRESETS: Array<
   PresetFilter<Partial<Parameters<typeof useTechnicalRadarCoins>[0]>>
 > = [
   memesPreset,
@@ -228,6 +257,176 @@ export const technicalPresetFilters: Array<
   dotPreset,
 ];
 
-export const whalePresetFilters: Array<
+export const TECHNICAL_RADAR_SORTS: Array<
+  PresetFilter<Partial<Parameters<typeof useTechnicalRadarCoins>[0]>>
+> = [
+  {
+    label: 'Wise Rank™',
+    filters: {
+      sortBy: 'rank',
+      sortOrder: 'ascending',
+    },
+  },
+  {
+    label: 'Highest Gainers',
+    filters: {
+      sortBy: 'price_change',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Highest Losers',
+    filters: {
+      sortBy: 'price_change',
+      sortOrder: 'ascending',
+    },
+  },
+  {
+    label: 'Market Cap',
+    filters: {
+      sortBy: 'market_cap',
+      sortOrder: 'descending',
+    },
+  },
+];
+
+export const WHALE_RADAR_PRESETS: Array<
   PresetFilter<Partial<Parameters<typeof useWhaleRadarCoins>[0]>>
-> = [profitablePreset, memesPreset, aiPreset, rwaPreset, gamingPreset];
+> = [
+  {
+    label: '🔥 Profitable Coins',
+    filters: {
+      profitableOnly: true,
+    },
+  },
+  memesPreset,
+  aiPreset,
+  rwaPreset,
+  gamingPreset,
+];
+
+export const WHALE_RADAR_SORTS: Array<
+  PresetFilter<Partial<Parameters<typeof useWhaleRadarCoins>[0]>>
+> = [
+  {
+    label: 'Index',
+    filters: {
+      sortBy: 'rank',
+      sortOrder: 'ascending',
+    },
+  },
+  {
+    label: 'Most Bought',
+    filters: {
+      sortBy: 'buy',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Most Sold',
+    filters: {
+      sortBy: 'sell',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Highest Transfer Vol',
+    filters: {
+      sortBy: 'transfer',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Highest Wallet No',
+    filters: {
+      sortBy: 'wallet_count',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Highest Gainers',
+    filters: {
+      sortBy: 'price_change',
+      sortOrder: 'descending',
+    },
+  },
+  {
+    label: 'Highest Losers',
+    filters: {
+      sortBy: 'price_change',
+      sortOrder: 'ascending',
+    },
+  },
+  {
+    label: 'Market Cap',
+    filters: {
+      sortBy: 'market_cap',
+      sortOrder: 'descending',
+    },
+  },
+];
+
+export const NETWORK_RADAR_PRESETS: Array<
+  PresetFilter<Partial<Parameters<typeof useNetworkRadarNCoins>[0]>>
+> = [
+  {
+    label: '🔥 Under 1H',
+    filters: {
+      maxAgeMinutes: 59,
+    },
+  },
+  {
+    label: '🔥 Safe Haven',
+    filters: {
+      safeTopHolder: true, // NAITODO Ask
+    },
+  },
+  {
+    label: '🔥 Trending',
+    filters: {
+      burnt: true,
+    }, // NAITODO Ask
+  },
+  {
+    label: '🔥 Buzzing',
+    filters: {
+      maxAgeMinutes: 1,
+    }, // NAITODO Ask
+  },
+  {
+    label: '🔥 Liquid Gold',
+    filters: {
+      minAgeMinutes: 1,
+    }, // NAITODO Ask
+  },
+  {
+    label: '🔥 Active Market',
+    filters: {
+      hasTelegram: true,
+    }, // NAITODO Ask
+  },
+  {
+    label: '🔥 Fully Verified',
+    filters: {
+      noMint: true,
+    }, // NAITODO Ask
+  },
+  {
+    label: '🔥 Buzzing',
+    filters: {
+      hasWebsite: true,
+    }, // NAITODO Ask
+  },
+  {
+    label: '🔥 Dev Hold',
+    filters: {
+      query: 'sol',
+    }, // NAITODO Ask
+  },
+  {
+    label: '🔥 Dev Sold All',
+    filters: {
+      query: 'dev',
+    }, // NAITODO Ask
+  },
+];
