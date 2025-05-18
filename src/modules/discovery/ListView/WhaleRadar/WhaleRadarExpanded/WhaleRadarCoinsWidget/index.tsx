@@ -14,7 +14,7 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
-import { Badge } from 'shared/v1-components/Badge';
+import { RealtimeBadge } from 'modules/discovery/ListView/RealtimeBadge';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
@@ -115,11 +115,9 @@ export function WhaleRadarCoinsWidget({
         <>
           <WhaleRadarIcon className="size-6" />
           {t('top_coins.title')}
-          <Badge variant="positive" ticking>
-            {'Realtime'}
-          </Badge>
         </>
       }
+      titleSuffix={<RealtimeBadge />}
       empty={coins.data?.length === 0}
       headerClassName="flex-wrap"
       headerActions={

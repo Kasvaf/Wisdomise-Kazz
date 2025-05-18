@@ -4,8 +4,6 @@ import { useRadarsMetrics, useTechnicalRadarCoins } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { Badge } from 'shared/v1-components/Badge';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 import {
   type TechnicalRadarView,
@@ -14,6 +12,7 @@ import {
 import { ReactComponent as TechnicalRadarIcon } from '../technical-radar.svg';
 import { ConfirmationWidget } from '../ConfirmationWidget';
 import { RsiHeatmapWidget } from '../RsiHeatmapWidget';
+import { WinRateBadge } from '../../WinRateBadge';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 
 export function TechnicalRadarExpanded() {
@@ -38,25 +37,7 @@ export function TechnicalRadarExpanded() {
           </>
         }
         titleSuffix={
-          typeof technicalRadarMetrics?.max_average_win_rate === 'number' && (
-            <a
-              href="https://wisdomise.gitbook.io/auto-trade-guidance"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Badge variant="wsdm">
-                <span className="opacity-70">{'Winrate:'}</span>
-                <ReadableNumber
-                  value={technicalRadarMetrics.max_average_win_rate * 100}
-                  format={{
-                    decimalLength: 1,
-                  }}
-                  popup="never"
-                  label="%"
-                />
-              </Badge>
-            </a>
-          )
+          <WinRateBadge value={technicalRadarMetrics?.max_average_win_rate} />
         }
         info={
           <p className="[&_b]:text-v1-content-primary [&_b]:underline">

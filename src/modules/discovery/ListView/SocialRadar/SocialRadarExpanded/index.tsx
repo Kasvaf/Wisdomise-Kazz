@@ -27,11 +27,11 @@ import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { Badge } from 'shared/v1-components/Badge';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarSharingModal from '../SocialRadarSharingModal';
+import { RealtimeBadge } from '../../RealtimeBadge';
+import { WinRateBadge } from '../../WinRateBadge';
 import { ReactComponent as Logo } from './logo.svg';
 
 export function SocialRadarExpanded() {
@@ -138,22 +138,8 @@ export function SocialRadarExpanded() {
       titleSuffix={
         !isEmbeddedView && (
           <>
-            <Badge variant="positive" ticking>
-              {'Realtime'}
-            </Badge>
-            {typeof socialRadarMetrics?.max_average_win_rate === 'number' && (
-              <Badge variant="wsdm">
-                <span className="opacity-70">{'Winrate:'}</span>
-                <ReadableNumber
-                  value={socialRadarMetrics.max_average_win_rate * 100}
-                  format={{
-                    decimalLength: 1,
-                  }}
-                  popup="never"
-                  label="%"
-                />
-              </Badge>
-            )}
+            <RealtimeBadge />
+            <WinRateBadge value={socialRadarMetrics?.max_average_win_rate} />
           </>
         )
       }

@@ -5,13 +5,15 @@ export const Badge: FC<{
   variant?: 'wsdm' | 'positive';
   ticking?: boolean;
   children?: ReactNode;
-}> = ({ children, variant = 'positive', ticking }) => {
+  className?: string;
+}> = ({ children, variant = 'positive', ticking, className }) => {
   return (
     <div
       className={clsx(
         'h-2xs rounded-full p-px text-xxs font-normal tracking-wider',
         variant === 'positive' && 'bg-v1-content-positive',
         variant === 'wsdm' && 'bg-wsdm-gradient',
+        className,
       )}
     >
       <div
