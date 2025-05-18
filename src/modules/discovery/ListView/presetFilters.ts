@@ -372,50 +372,52 @@ export const NETWORK_RADAR_PRESETS: Array<
   {
     label: '🔥 Under 1H',
     filters: {
-      maxAgeMinutes: 59,
+      maxAgeMinutes: 60,
     },
   },
   {
     label: '🔥 Safe Haven',
     filters: {
-      safeTopHolder: true, // NAITODO Ask
+      noMint: true,
+      noFreeze: true,
+      safeTopHolder: true,
+      maxRiskPercent: 55,
     },
   },
   {
     label: '🔥 Trending',
     filters: {
-      burnt: true,
-    }, // NAITODO Ask
+      minTransactions: 55_000,
+    },
   },
   {
     label: '🔥 Buzzing',
     filters: {
-      maxAgeMinutes: 1,
-    }, // NAITODO Ask
+      hasTwitterPost: true,
+    },
   },
   {
     label: '🔥 Liquid Gold',
     filters: {
-      minAgeMinutes: 1,
-    }, // NAITODO Ask
+      minLiquidity: 250_000,
+    },
   },
   {
     label: '🔥 Active Market',
     filters: {
-      hasTelegram: true,
-    }, // NAITODO Ask
+      minVolume: 300_000,
+      minVolumeToMaketCapRatio: 1.2,
+    },
   },
   {
     label: '🔥 Fully Verified',
     filters: {
+      maxRiskPercent: 45,
       noMint: true,
-    }, // NAITODO Ask
-  },
-  {
-    label: '🔥 Buzzing',
-    filters: {
-      hasWebsite: true,
-    }, // NAITODO Ask
+      noFreeze: true,
+      burnt: true,
+      safeTopHolder: true,
+    },
   },
   // {
   //   label: '🔥 Dev Hold',
