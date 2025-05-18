@@ -13,6 +13,7 @@ import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { SearchInput } from 'shared/SearchInput';
 import {
   type SocialRadarCoin,
+  useRadarsMetrics,
   useSocialRadarCoins,
   useSocialRadarInfo,
 } from 'api';
@@ -26,11 +27,12 @@ import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { Badge } from 'shared/v1-components/Badge';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarSharingModal from '../SocialRadarSharingModal';
 import { ReactComponent as Logo } from './logo.svg';
-import { ReactComponent as Realtime } from './realtime.svg';
 
 export function SocialRadarExpanded() {
   const marketInfo = useSocialRadarInfo();
@@ -51,6 +53,8 @@ export function SocialRadarExpanded() {
   });
 
   const coins = useSocialRadarCoins(tableState);
+  const metrics = useRadarsMetrics();
+  const socialRadarMetrics = metrics.data?.social_radar;
   useLoadingBadge(coins.isFetching);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();
@@ -128,7 +132,20 @@ export function SocialRadarExpanded() {
           <>
             <SocialRadarIcon className="size-6" />
             {t('social-radar.table.title')}
-            <Realtime />
+            <Badge variant="positive" ticking>
+              {'Realtime'}
+            </Badge>
+            <Badge variant="wsdm">
+              <span className="opacity-70">{'Winrate:'}</span>
+              <ReadableNumber
+                value={(socialRadarMetrics?.max_average_win_rate ?? 0) * 100}
+                format={{
+                  decimalLength: 1,
+                }}
+                popup="never"
+                label="%"
+              />
+            </Badge>
           </>
         )
       }

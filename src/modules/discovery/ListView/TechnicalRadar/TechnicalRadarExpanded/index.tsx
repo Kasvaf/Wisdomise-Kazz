@@ -1,9 +1,11 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useTechnicalRadarCoins } from 'api';
+import { useRadarsMetrics, useTechnicalRadarCoins } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { Badge } from 'shared/v1-components/Badge';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 import {
   type TechnicalRadarView,
@@ -21,6 +23,8 @@ export function TechnicalRadarExpanded() {
     'chart',
   );
   const technicalTopCoins = useTechnicalRadarCoins({});
+  const metrics = useRadarsMetrics();
+  const technicalRadarMetrics = metrics.data?.technical_radar;
   useLoadingBadge(technicalTopCoins.isFetching);
 
   return (
@@ -31,6 +35,17 @@ export function TechnicalRadarExpanded() {
           <>
             <TechnicalRadarIcon className="size-6" />
             {t('base:menu.ai-indicators.title')}
+            <Badge variant="wsdm">
+              <span className="opacity-70">{'Winrate:'}</span>
+              <ReadableNumber
+                value={(technicalRadarMetrics?.max_average_win_rate ?? 0) * 100}
+                format={{
+                  decimalLength: 1,
+                }}
+                popup="never"
+                label="%"
+              />
+            </Badge>
           </>
         }
         subtitle={

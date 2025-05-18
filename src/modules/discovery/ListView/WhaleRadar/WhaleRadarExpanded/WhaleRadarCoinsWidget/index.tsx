@@ -1,7 +1,7 @@
+/* eslint-disable import/max-dependencies */
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { Coin } from 'shared/Coin';
@@ -14,11 +14,10 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
+import { Badge } from 'shared/v1-components/Badge';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
-// eslint-disable-next-line import/max-dependencies
-import { ReactComponent as Realtime } from './realtime.svg';
 
 export function WhaleRadarCoinsWidget({
   className,
@@ -116,7 +115,9 @@ export function WhaleRadarCoinsWidget({
         <>
           <WhaleRadarIcon className="size-6" />
           {t('top_coins.title')}
-          <Realtime />
+          <Badge variant="positive" ticking>
+            {'Realtime'}
+          </Badge>
         </>
       }
       empty={coins.data?.length === 0}

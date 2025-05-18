@@ -266,3 +266,21 @@ export const useCoinPools = ({
     refetchOnMount: true,
     refetchInterval: 5 * 60 * 1000,
   });
+
+export type RadarsMetcis = Record<
+  'social_radar' | 'technical_radar',
+  {
+    time_horizon: string;
+    event_type: unknown;
+    max_average_win_rate?: number | null;
+  }
+>;
+
+export const useRadarsMetrics = () =>
+  useQuery({
+    queryKey: ['radars-metrics'],
+    queryFn: () =>
+      ofetch<RadarsMetcis>('delphi/intelligence/coin-radar/metrics/'),
+    refetchOnMount: true,
+    refetchInterval: 30 * 60 * 1000,
+  });
