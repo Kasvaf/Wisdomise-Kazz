@@ -35,8 +35,15 @@ export function TechnicalRadarExpanded() {
           <>
             <TechnicalRadarIcon className="size-6" />
             {t('base:menu.ai-indicators.title')}
-            {typeof technicalRadarMetrics?.max_average_win_rate ===
-              'number' && (
+          </>
+        }
+        titleSuffix={
+          typeof technicalRadarMetrics?.max_average_win_rate === 'number' && (
+            <a
+              href="https://wisdomise.gitbook.io/auto-trade-guidance"
+              target="_blank"
+              rel="noreferrer"
+            >
               <Badge variant="wsdm">
                 <span className="opacity-70">{'Winrate:'}</span>
                 <ReadableNumber
@@ -48,11 +55,11 @@ export function TechnicalRadarExpanded() {
                   label="%"
                 />
               </Badge>
-            )}
-          </>
+            </a>
+          )
         }
-        subtitle={
-          <p className="max-w-xl [&_b]:font-medium [&_b]:text-v1-content-primary">
+        info={
+          <p className="[&_b]:text-v1-content-primary [&_b]:underline">
             <Trans ns="base" i18nKey="menu.ai-indicators.subtitle" />
           </p>
         }

@@ -24,6 +24,7 @@ const gapClassName = clsx('gap-5 2xl:gap-6');
 export function OverviewWidget({
   id,
   title,
+  titleSuffix,
   subtitle,
   info,
   badge,
@@ -43,6 +44,7 @@ export function OverviewWidget({
 }: {
   id?: string;
   title?: ReactNode;
+  titleSuffix?: ReactNode;
   subtitle?: ReactNode;
   info?: ReactNode;
   badge?: 'beta' | 'new' | 'pro';
@@ -111,11 +113,12 @@ export function OverviewWidget({
         >
           {(title || info || subtitle) && (
             <div>
-              {(title || info) && (
+              {(title || info || titleSuffix) && (
                 <div className="flex items-center gap-2 text-base font-medium">
                   {title}
                   {badgeIcon}
                   {infoIcon}
+                  {titleSuffix}
                 </div>
               )}
               {subtitle && (

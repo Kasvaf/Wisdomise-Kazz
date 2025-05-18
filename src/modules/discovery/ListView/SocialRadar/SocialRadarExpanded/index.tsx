@@ -128,10 +128,16 @@ export function SocialRadarExpanded() {
         'min-h-[670px] shrink-0 xl:min-h-[631px] 2xl:min-h-[640px]',
       )}
       title={
-        isEmbeddedView ? undefined : (
+        !isEmbeddedView && (
           <>
             <SocialRadarIcon className="size-6" />
             {t('social-radar.table.title')}
+          </>
+        )
+      }
+      titleSuffix={
+        !isEmbeddedView && (
+          <>
             <Badge variant="positive" ticking>
               {'Realtime'}
             </Badge>
@@ -151,31 +157,21 @@ export function SocialRadarExpanded() {
           </>
         )
       }
-      subtitle={
-        isEmbeddedView ? undefined : (
-          <div
-            className={clsx(
-              'w-[450px] mobile:hidden [&_b]:font-normal [&_b]:text-v1-content-primary',
-              marketInfo.isLoading && '[&_b]:animate-pulse',
-            )}
-          >
-            <Trans
-              ns="coin-radar"
-              i18nKey="coin-radar:social-radar.table.description"
-              values={{
-                posts: formatNumber(
-                  marketInfo.data?.analyzed_messages ?? 4000,
-                  {
-                    compactInteger: true,
-                    decimalLength: 0,
-                    seperateByComma: true,
-                    minifyDecimalRepeats: false,
-                  },
-                ),
-              }}
-            />
-          </div>
-        )
+      info={
+        <p className="[&_b]:text-v1-content-primary [&_b]:underline">
+          <Trans
+            ns="coin-radar"
+            i18nKey="coin-radar:social-radar.table.description"
+            values={{
+              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
+                compactInteger: true,
+                decimalLength: 0,
+                seperateByComma: true,
+                minifyDecimalRepeats: false,
+              }),
+            }}
+          />
+        </p>
       }
       headerActions={
         <SearchInput
