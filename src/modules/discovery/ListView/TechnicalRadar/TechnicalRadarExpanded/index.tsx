@@ -35,17 +35,20 @@ export function TechnicalRadarExpanded() {
           <>
             <TechnicalRadarIcon className="size-6" />
             {t('base:menu.ai-indicators.title')}
-            <Badge variant="wsdm">
-              <span className="opacity-70">{'Winrate:'}</span>
-              <ReadableNumber
-                value={(technicalRadarMetrics?.max_average_win_rate ?? 0) * 100}
-                format={{
-                  decimalLength: 1,
-                }}
-                popup="never"
-                label="%"
-              />
-            </Badge>
+            {typeof technicalRadarMetrics?.max_average_win_rate ===
+              'number' && (
+              <Badge variant="wsdm">
+                <span className="opacity-70">{'Winrate:'}</span>
+                <ReadableNumber
+                  value={technicalRadarMetrics.max_average_win_rate * 100}
+                  format={{
+                    decimalLength: 1,
+                  }}
+                  popup="never"
+                  label="%"
+                />
+              </Badge>
+            )}
           </>
         }
         subtitle={

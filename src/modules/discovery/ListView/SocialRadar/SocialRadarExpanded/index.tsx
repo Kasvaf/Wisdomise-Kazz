@@ -135,17 +135,19 @@ export function SocialRadarExpanded() {
             <Badge variant="positive" ticking>
               {'Realtime'}
             </Badge>
-            <Badge variant="wsdm">
-              <span className="opacity-70">{'Winrate:'}</span>
-              <ReadableNumber
-                value={(socialRadarMetrics?.max_average_win_rate ?? 0) * 100}
-                format={{
-                  decimalLength: 1,
-                }}
-                popup="never"
-                label="%"
-              />
-            </Badge>
+            {typeof socialRadarMetrics?.max_average_win_rate === 'number' && (
+              <Badge variant="wsdm">
+                <span className="opacity-70">{'Winrate:'}</span>
+                <ReadableNumber
+                  value={socialRadarMetrics.max_average_win_rate * 100}
+                  format={{
+                    decimalLength: 1,
+                  }}
+                  popup="never"
+                  label="%"
+                />
+              </Badge>
+            )}
           </>
         )
       }
