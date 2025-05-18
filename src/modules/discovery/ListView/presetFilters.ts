@@ -375,15 +375,15 @@ export const NETWORK_RADAR_PRESETS: Array<
       maxAgeMinutes: 60,
     },
   },
-  {
-    label: '🔥 Safe Haven',
-    filters: {
-      noMint: true,
-      noFreeze: true,
-      safeTopHolder: true,
-      maxRiskPercent: 55,
-    },
-  },
+  // {
+  //   label: '🔥 Safe Haven',
+  //   filters: {
+  //     noMint: true,
+  //     noFreeze: true,
+  //     safeTopHolder: true,
+  //     maxRiskPercent: 55,
+  //   },
+  // },
   {
     label: '🔥 Trending',
     filters: {
