@@ -21,15 +21,17 @@ export default function PageBilling() {
   const plans = usePlansQuery();
   const { isLoading: subIsLoading, group } = useSubscription();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
-  const { data: account } = useAccountQuery();
+  const { data: account, isLoading: accountIsLoading } = useAccountQuery();
   const { data, isPending } = useReadUnlockedInfo();
   const { tokenPaymentModal, openVipModal } = useVipModal();
 
   const showDetails =
-    (data?.unlockAmount ?? 0n) > 0n ||
-    (group !== 'free' && group !== 'initial' && account?.info);
+    ((data?.unlockAmount ?? 0n) > 0n ||
+      (group !== 'free' && group !== 'initial')) &&
+    account?.info &&
+    group !== 'guest';
 
-  const isLoading = subIsLoading || isPending;
+  const isLoading = subIsLoading || isPending || accountIsLoading;
 
   const onLockClick = async () => {
     if (!plans.data?.results[0]) return;
