@@ -72,5 +72,21 @@ export const appKit = createAppKit({
     socials: false,
     email: false,
     analytics: false,
+    legalCheckbox: false,
   },
 });
+
+// remove bottom footer with copyright
+class EmptyElement extends HTMLElement {
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: 'open' });
+    const style = document.createElement('style');
+    style.textContent = `
+    :host {
+      padding-top: 0 !important;
+    }`;
+    shadow.append(style);
+  }
+}
+customElements.define('wui-ux-by-reown', EmptyElement);
