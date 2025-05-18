@@ -12,7 +12,6 @@ import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
 import { useMutationObserver } from 'utils/useMutationObserver';
-import VipBanner from 'shared/AccessShield/VipBanner';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
@@ -62,15 +61,15 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
         Math.max(minHeight, root.current.offsetHeight),
       ];
       root.current.setAttribute('size', size.toString());
-      // root.current.style.overflow = size === true ? 'hidden' : '';
-      // root.current.style.maxHeight = size === true ? '100%' : '';
+      root.current.style.overflow = size === true ? 'hidden' : '';
+      root.current.style.maxHeight = size === true ? '100%' : '';
       root.current.style.position = 'relative';
-      // shield.current.style.maxHeight = `${mh}px`;
+      shield.current.style.maxHeight = `${mh}px`;
       shield.current.style.top = `${top}px`;
       shield.current.style.left = '0px';
       shield.current.style.width = '100%';
-      // shield.current.style.height = `${h}px`;
-      // shield.current.style.overflow = 'hidden';
+      shield.current.style.height = `${h}px`;
+      shield.current.style.overflow = 'hidden';
       shield.current.style.position = 'absolute';
       shield.current.style.margin = '0';
       shield.current.style.display = '';
@@ -135,44 +134,41 @@ export function AccessShield({
             )}
             ref={shield}
           >
-            {group === 'guest' ? (
-              <>
-                <Logo
-                  className={clsx('size-12 shrink', height < 130 && 'hidden')}
-                />
+            <Logo
+              className={clsx('size-12 shrink', height < 130 && 'hidden')}
+            />
 
-                <p
-                  className={clsx(
-                    'shrink text-center text-xs capitalize text-v1-content-primary',
-                    height < 100 && 'hidden',
-                  )}
-                >
-                  {group === 'guest'
-                    ? t('pro-locker.login.message')
-                    : 'Join Wise Club for exclusive insights to elevate your crypto game!'}
+            <p
+              className={clsx(
+                'shrink text-center text-xs capitalize text-v1-content-primary',
+                height < 100 && 'hidden',
+              )}
+            >
+              {group === 'guest'
+                ? t('pro-locker.login.message')
+                : 'Join Wise Club for exclusive insights to elevate your crypto game!'}
+            </p>
+
+            <HoverTooltip
+              title={
+                <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
+                  {JSON.stringify([{ group, nextGroup }, sizes], null, 2)}
                 </p>
-                <HoverTooltip
-                  title={
-                    <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
-                      {JSON.stringify([{ group, nextGroup }, sizes], null, 2)}
-                    </p>
-                  }
-                  disabled={!isDebugMode}
-                >
-                  <Button
-                    onClick={() => ensureGroup(nextGroup ?? 'vip')}
-                    variant="pro"
-                    size="sm"
-                    className="shrink-0"
-                  >
-                    <Sparkle />
-                    {t('pro-locker.login.button')}
-                  </Button>
-                </HoverTooltip>
-              </>
-            ) : (
-              <VipBanner />
-            )}
+              }
+              disabled={!isDebugMode}
+            >
+              <Button
+                onClick={() => ensureGroup(nextGroup ?? 'vip')}
+                variant="pro"
+                size="sm"
+                className="shrink-0"
+              >
+                <Sparkle />
+                {group === 'guest'
+                  ? t('pro-locker.login.button')
+                  : 'Join Wise Club'}
+              </Button>
+            </HoverTooltip>
             {loginModal}
           </div>
         )}
