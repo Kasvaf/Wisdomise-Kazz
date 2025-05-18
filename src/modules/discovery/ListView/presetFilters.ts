@@ -391,7 +391,7 @@ export const NETWORK_RADAR_PRESETS: Array<
     },
   },
   {
-    label: '🔥 Buzzing',
+    label: '🔥 Narrative',
     filters: {
       hasTwitterPost: true,
     },
