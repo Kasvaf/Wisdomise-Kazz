@@ -15,7 +15,7 @@ const Tournaments = () => {
       title="Tournaments"
       extension={!isMobile && <CoinExtensionsGroup />}
     >
-      <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
+      <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1">
         {(tournaments || [])?.map(t => (
           <Link
             className="block snap-center hover:saturate-200"
