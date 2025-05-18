@@ -410,7 +410,7 @@ export const NETWORK_RADAR_PRESETS: Array<
     },
   },
   {
-    label: '🔥 Fully Verified',
+    label: '🔥 Verified',
     filters: {
       maxRiskPercent: 45,
       noMint: true,
