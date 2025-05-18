@@ -223,6 +223,7 @@ common:
   chain: Chain
   chains: Chains
   native_coin: Native Coin
+  multiple_chain: Multiple Chain
   search_coin: Search Coin...
 pools:
   table:

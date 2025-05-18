@@ -35,6 +35,10 @@ export const GlobalSearch: FC<
   const { t } = useTranslation('common');
   const isMobile = useIsMobile();
   const [network] = useGlobalNetwork();
+  const networkName = network
+    ?.split('-')
+    .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
+    .join(' ');
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
   const { getUrl, params } = useDiscoveryRouteMeta();
@@ -84,13 +88,15 @@ export const GlobalSearch: FC<
                     labels={[...(row?.symbol_labels ?? [])].filter(x => !!x)}
                     coin={row.symbol}
                     security={row.symbol_security ? [row.symbol_security] : []}
+                    networks={row.network_bindings}
                     size="xs"
                   />
                 </div>
                 <div className="flex items-center gap-1 text-xs">
+                  {/* Contract Address */}
                   <ContractAddress
-                    value={row.contract_address ?? true}
-                    allowCopy={false}
+                    value={row.network_bindings}
+                    allowCopy
                     className="text-v1-content-secondary"
                   />
 
@@ -130,10 +136,9 @@ export const GlobalSearch: FC<
           </div>
         );
       }}
-      searchPlaceholder={`Search in ${network
-        .split('-')
-        .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
-        .join(' ')} Network`}
+      searchPlaceholder={`Search in ${
+        networkName ? `${networkName} Network` : 'All Networks'
+      }`}
       chevron={false}
       showSearch
       loading={coins.isLoading}
