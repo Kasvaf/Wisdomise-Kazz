@@ -4,11 +4,10 @@ import {
   TrustWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { createAppKit } from '@reown/appkit/react';
-import { solana } from '@reown/appkit/networks';
+import { polygon, sepolia, solana } from '@reown/appkit/networks';
 import { SolanaAdapter } from '@reown/appkit-adapter-solana/react';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { cookieStorage, createStorage, http } from 'wagmi';
-import { polygon, sepolia } from 'wagmi/chains';
 import { isProduction } from 'utils/version';
 
 // 1. Get projectId from https://cloud.reown.com
