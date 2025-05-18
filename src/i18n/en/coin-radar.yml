@@ -222,8 +222,8 @@ common:
   category: Category
   chain: Chain
   chains: Chains
-  native_coin: Native Coin
   multiple_chain: Multiple Chain
+  native_coin: Native Coin
   search_coin: Search Coin...
 pools:
   table:
