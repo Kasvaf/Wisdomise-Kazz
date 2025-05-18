@@ -8,6 +8,7 @@ import {
 } from 'api/builder';
 import { ofetch } from 'config/ofetch';
 import { uniqueBy } from 'utils/uniqueBy';
+import { useJwtEmail } from 'modules/base/auth/jwt-store';
 import { type WhaleCoin, type WhaleCoinsFilter } from './insight/whale';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
@@ -28,9 +29,12 @@ export interface UserAssetPair {
 }
 
 export const useUserAssets = () => {
+  const email = useJwtEmail();
   return useQuery({
-    queryKey: ['user-assets'],
+    queryKey: ['user-assets', email],
     queryFn: async () => {
+      if (!email) return [];
+
       const data = await ofetch<{
         symbols: Array<{
           slug: string;
@@ -312,10 +316,12 @@ export interface CreatePositionRequest {
   network: SupportedNetworks;
 }
 
-export const usePreparePositionQuery = (req: CreatePositionRequest) => {
+export const usePreparePositionQuery = (req?: CreatePositionRequest) => {
   return useQuery({
     queryKey: ['traderPrepare', JSON.stringify(req)],
     queryFn: async () => {
+      if (!req) return null;
+
       const { network, ...body } = req;
       const data = await ofetch<{
         gas_fee: string;
@@ -335,6 +341,7 @@ export const usePreparePositionQuery = (req: CreatePositionRequest) => {
     },
     staleTime: 50,
     refetchInterval: 7000,
+    enabled: !!req,
   });
 };
 

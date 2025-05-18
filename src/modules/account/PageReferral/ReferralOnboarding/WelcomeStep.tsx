@@ -1,5 +1,5 @@
 import logo from 'assets/logo.png';
-import { NavigateButtons } from 'modules/insight/PageOnboarding/components/NavigateButtons';
+import { NavigateButtons } from 'modules/account/PageOnboarding/components/NavigateButtons';
 import users from './images/users.png';
 import handshake from './images/handshake.png';
 

@@ -34,7 +34,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         title: (
           <>
             <DebugPin
-              title="/coin-radar/alerts?coin_radar_screener"
+              title="/account/alerts?coin_radar_screener"
               color="orange"
             />
             {t('types.coin_radar_screener.title')}
@@ -44,7 +44,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         subtitle: t('types.coin_radar_screener.subtitle'),
         icon: ScreenerIcon,
         value: 'coin_radar',
-        disabled: () => !hasFlag('/coin-radar/alerts?coin_radar_screener'),
+        disabled: () => !hasFlag('/account/alerts?coin_radar_screener'),
         steps: [
           {
             component: StepOne,
@@ -88,7 +88,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         title: (
           <>
             <DebugPin
-              title="/coin-radar/alerts?social_radar_screener"
+              title="/account/alerts?social_radar_screener"
               color="orange"
             />
             {t('types.social_radar_screener.title')}
@@ -98,7 +98,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         subtitle: t('types.social_radar_screener.subtitle'),
         icon: ScreenerIcon,
         value: 'social_radar',
-        disabled: () => !hasFlag('/coin-radar/alerts?social_radar_screener'),
+        disabled: () => !hasFlag('/account/alerts?social_radar_screener'),
         steps: [
           {
             component: StepOne,
@@ -142,7 +142,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         title: (
           <>
             <DebugPin
-              title="/coin-radar/alerts?technical_radar_screener"
+              title="/account/alerts?technical_radar_screener"
               color="orange"
             />
             {t('types.technical_radar_screener.title')}
@@ -152,7 +152,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         subtitle: t('types.technical_radar_screener.subtitle'),
         icon: ScreenerIcon,
         value: 'technical_radar',
-        disabled: () => !hasFlag('/coin-radar/alerts?technical_radar_screener'),
+        disabled: () => !hasFlag('/account/alerts?technical_radar_screener'),
         steps: [
           {
             component: StepOne,

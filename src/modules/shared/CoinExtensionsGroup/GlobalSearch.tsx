@@ -12,6 +12,8 @@ import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import useIsMobile from 'utils/useIsMobile';
 
 export const GlobalSearch: FC<
   Omit<
@@ -31,9 +33,11 @@ export const GlobalSearch: FC<
   >
 > = props => {
   const { t } = useTranslation('common');
+  const isMobile = useIsMobile();
   const [network] = useGlobalNetwork();
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
+  const { getUrl, params } = useDiscoveryRouteMeta();
 
   const coins = useDetailedCoins({
     query: debouncedQuery,
@@ -46,7 +50,14 @@ export const GlobalSearch: FC<
       value={undefined}
       multiple={false}
       onChange={slug => {
-        if (slug) navigate(`/coin/${slug}`);
+        if (slug)
+          navigate(
+            getUrl({
+              detail: 'coin',
+              slug,
+              view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+            }),
+          );
       }}
       options={coins.data?.map(x => x.symbol.slug)}
       dialogClassName="w-[520px] mobile:w-auto"

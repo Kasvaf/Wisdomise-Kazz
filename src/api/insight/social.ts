@@ -107,7 +107,6 @@ export interface SocialRadarCoin extends SocialRadarSentiment {
 }
 
 export const useSocialRadarCoins = (config: {
-  windowHours: number;
   sortBy?: string;
   sortOrder?: 'ascending' | 'descending';
   query?: string;
@@ -120,11 +119,11 @@ export const useSocialRadarCoins = (config: {
 }) => {
   const [defaultNetwork] = useGlobalNetwork();
   return useQuery({
-    queryKey: ['social-radar-coins', config.windowHours],
+    queryKey: ['social-radar-coins'],
     queryFn: () =>
       ofetch<SocialRadarCoin[]>('delphi/social-radar/coins-social-signal/', {
         query: {
-          window_hours: config.windowHours,
+          window_hours: 24,
         },
       }).then(x => x ?? []),
     select: data =>

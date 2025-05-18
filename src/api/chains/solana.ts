@@ -1,5 +1,10 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
+import {
+  PublicKey,
+  SystemProgram,
+  Transaction,
+  TransactionInstruction,
+} from '@solana/web3.js';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountIdempotentInstruction,
@@ -14,7 +19,8 @@ import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { usePendingPositionInCache } from 'api/trader';
 import { useSymbolInfo } from 'api/symbol';
-import { usePromiseOfEffect } from './utils';
+import { ofetch } from 'config/ofetch';
+import { queryContractSlugs, usePromiseOfEffect } from './utils';
 
 export type AutoTraderSolanaSupportedQuotes =
   | 'tether'
@@ -113,6 +119,64 @@ export const useSolanaAccountBalance = (slug?: string) => {
     ...query,
     isLoading: query.isLoading || contractIsLoading,
   };
+};
+
+export const useSolanaUserAssets = () => {
+  const { connection } = useConnection();
+  const { publicKey } = useWallet();
+
+  return useQuery({
+    queryKey: ['solana-user-assets', publicKey?.toString()],
+    queryFn: async () => {
+      if (!publicKey) return [];
+
+      try {
+        const [solBalance, tokenAccounts] = await Promise.all([
+          // native SOL balance
+          connection.getBalance(publicKey),
+
+          // all token accounts owned by the user
+          connection.getParsedTokenAccountsByOwner(publicKey, {
+            programId: TOKEN_PROGRAM_ID,
+          }),
+        ]);
+        // Map token accounts to a more usable format
+        const assets = tokenAccounts.value
+          .map(account => {
+            const { mint, tokenAmount } = account.account.data.parsed.info;
+            return {
+              address: mint,
+              amount: +fromBigMoney(tokenAmount.amount, tokenAmount.decimals),
+            };
+          })
+          .filter(token => Number(token.amount) > 0);
+
+        const slugOf = await queryContractSlugs(assets.map(x => x.address));
+        const assetBalances = assets.map(x => ({
+          network: 'solana',
+          slug: slugOf[x.address],
+          amount: x.amount,
+        }));
+
+        // Add native SOL to the list
+        if (solBalance > 9) {
+          assetBalances.unshift({
+            network: 'solana',
+            slug: 'solana',
+            amount: +fromBigMoney(solBalance, 9),
+          });
+        }
+
+        return assetBalances.filter(x => x.slug);
+      } catch (error) {
+        console.error('Error fetching token accounts:', error);
+        throw new Error('Failed to fetch user assets');
+      }
+    },
+    refetchInterval: 30_000, // Refresh every 30 seconds
+    staleTime: 5000,
+    enabled: !!publicKey,
+  });
 };
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {
@@ -239,6 +303,97 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
       console.error('Error sending transaction:', error);
       throw error;
     }
+  };
+};
+
+interface SwapResponse {
+  key: string;
+  instructions: Instruction[];
+}
+
+interface Instruction {
+  programId: string;
+  accounts: Account[];
+  data: number[];
+}
+
+interface Account {
+  pubkey: string;
+  is_signer: boolean;
+  is_writable: boolean;
+}
+
+// gas-fee: 0.005
+export const useSolanaMarketSwap = () => {
+  const { connection } = useConnection();
+  const { publicKey, signTransaction } = useWallet();
+  const queryClient = useQueryClient();
+
+  return async ({
+    pairSlug,
+    side,
+    amount,
+  }: {
+    pairSlug: string;
+    side: 'LONG' | 'SHORT';
+    amount: string;
+  }) => {
+    if (!signTransaction || !publicKey) throw new Error('Wallet not connected');
+
+    const [{ key, instructions }, latestBlockhash] = await Promise.all([
+      ofetch<SwapResponse>('/trader/swap', {
+        method: 'post',
+        body: {
+          pair_slug: pairSlug,
+          side,
+          amount,
+          network_slug: 'solana',
+          wallet_address: publicKey.toString(),
+        },
+      }),
+      connection.getLatestBlockhash(),
+    ]);
+
+    const transaction = new Transaction();
+    transaction.recentBlockhash = latestBlockhash.blockhash;
+    transaction.feePayer = publicKey;
+
+    for (const inst of instructions) {
+      const instruction = new TransactionInstruction({
+        programId: new PublicKey(inst.programId),
+        data: Buffer.from(inst.data),
+        keys: inst.accounts.map(acc => ({
+          pubkey: new PublicKey(acc.pubkey),
+          isSigner: acc.is_signer,
+          isWritable: acc.is_writable,
+        })),
+      });
+      transaction.add(instruction);
+    }
+
+    const signedTransaction = await signTransaction(transaction);
+    const signature = await connection.sendRawTransaction(
+      signedTransaction.serialize(),
+    );
+
+    void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+
+    await ofetch<SwapResponse>('/trader/swap/' + key, {
+      method: 'patch',
+      body: { transaction_hash: signature },
+    });
+
+    return () => {
+      // Wait for confirmation
+      const networkConfirmation = connection
+        .confirmTransaction({
+          signature,
+          blockhash: latestBlockhash.blockhash,
+          lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+        })
+        .then(x => x.value.err !== null);
+      return networkConfirmation;
+    };
   };
 };
 

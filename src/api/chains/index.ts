@@ -9,13 +9,16 @@ import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
   useSolanaAccountBalance,
+  useSolanaMarketSwap,
   useSolanaTransferAssetsMutation,
+  useSolanaUserAssets,
 } from './solana';
 import {
   type AutoTraderTonSupportedQuotes,
   useAccountJettonBalance,
   useAwaitTonWalletConnection,
   useTonTransferAssetsMutation,
+  useTonUserAssets,
 } from './ton';
 
 export const useDisconnectAll = () => {
@@ -100,6 +103,20 @@ export const useAccountBalance = (
   return { data: null, isLoading: !net };
 };
 
+export const useUserWalletAssets = (
+  network?: 'solana' | 'the-open-network' | null,
+) => {
+  const activeNet = useActiveNetwork();
+  const net = network ?? activeNet;
+
+  const solResult = useSolanaUserAssets();
+  const tonResult = useTonUserAssets();
+
+  if (net === 'solana') return solResult;
+  if (net === 'the-open-network') return tonResult;
+  return { data: null, isLoading: false };
+};
+
 export const useAccountNativeBalance = () => {
   const net = useActiveNetwork();
   return useAccountBalance(
@@ -146,6 +163,17 @@ export const useTransferAssetsMutation = (quote?: string) => {
 
   if (net === 'solana') return transferSolanaAssets;
   if (net === 'the-open-network') return transferTonAssets;
+  return () => {
+    throw new Error('Invalid network');
+  };
+};
+
+export const useMarketSwap = () => {
+  const net = useActiveNetwork();
+  const solanaMarketSwap = useSolanaMarketSwap();
+
+  if (net === 'solana') return solanaMarketSwap;
+
   return () => {
     throw new Error('Invalid network');
   };

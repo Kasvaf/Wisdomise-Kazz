@@ -188,7 +188,7 @@ export const Dialog: FC<{
 
   const modalConfig: Required<NonNullable<typeof userModalConfig>> = {
     closeButton: true,
-    ...userDrawerConfig,
+    ...userModalConfig,
   };
 
   const popupConfig: Required<NonNullable<typeof userPopupConfig>> = {

@@ -3,7 +3,7 @@ import useAutoTraderRoutes from 'modules/base/routes/autotraderRoutes';
 import useEmbeddedRoutes from 'modules/base/routes/embeddedRoutes';
 import PageRedirect from '../PageRedirect';
 import Boundary from './Boundary';
-import useInsightRoutes from './insightRoutes';
+import useDiscoveryRoutes from './discoveryRoutes';
 import useAccountRoutes from './accountRoutes';
 
 const useRoutes = () => {
@@ -12,10 +12,13 @@ const useRoutes = () => {
       element: <Boundary />,
       children: [
         ...useAccountRoutes(),
-        ...useInsightRoutes(),
+        ...useDiscoveryRoutes(),
         ...useEmbeddedRoutes(),
         ...useAutoTraderRoutes(),
-        { path: '*', element: <PageRedirect /> },
+        {
+          path: '*',
+          element: <PageRedirect />,
+        },
       ],
     },
   ] satisfies RouteObject[];

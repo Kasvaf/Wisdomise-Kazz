@@ -15,14 +15,14 @@ export const usePriceAlert = (): AlertForm => {
   return {
     title: (
       <>
-        <DebugPin title="/coin-radar/alerts?price_alert" color="orange" />
+        <DebugPin title="/account/alerts?price_alert" color="orange" />
         {t('types.price.title')}
       </>
     ),
     subtitle: t('types.price.subtitle'),
     icon: PriceIcon,
     value: 'price',
-    disabled: () => !hasFlag('/coin-radar/alerts?price_alert'),
+    disabled: () => !hasFlag('/account/alerts?price_alert'),
     steps: [
       {
         crumb: t('types.price.step-1.crumb'),

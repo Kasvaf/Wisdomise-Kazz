@@ -14,7 +14,7 @@ import { fromBigMoney, toBigMoney } from 'utils/money';
 import { gtag } from 'config/gtag';
 import { useSymbolInfo } from 'api/symbol';
 import { usePendingPositionInCache } from 'api/trader';
-import { usePromiseOfEffect } from './utils';
+import { queryContractSlugs, usePromiseOfEffect } from './utils';
 
 const tonClient = new TonClient({
   endpoint: `${String(import.meta.env.VITE_TONCENTER_BASE_URL)}/api/v2/jsonRPC`,
@@ -26,7 +26,7 @@ export const WSDM_CONTRACT_ADDRESS = String(
 
 export type AutoTraderTonSupportedQuotes = 'tether' | 'the-open-network';
 
-const TON_API = 'https://tonapi.io/v2/jettons';
+const TON_API = 'https://tonapi.io/v2';
 
 const useJettonWalletAddress = (slug?: string) => {
   const address = useTonAddress();
@@ -52,7 +52,7 @@ const useJettonWalletAddress = (slug?: string) => {
         const [decimals, walletAddress] = await Promise.all([
           netInfo.decimals
             ? Promise.resolve(netInfo.decimals)
-            : ofetch(`${TON_API}/${netInfo.contract_address}`).then(
+            : ofetch(`${TON_API}/jettons/${netInfo.contract_address}`).then(
                 data => data.metadata.decimals,
               ),
 
@@ -113,6 +113,60 @@ export const useAccountJettonBalance = (slug?: string) => {
     ...query,
     isLoading: query.isLoading || jettonIsLoading,
   };
+};
+
+export const useTonUserAssets = () => {
+  const userAddress = useTonAddress();
+
+  return useQuery({
+    queryKey: ['user-ton-assets', userAddress],
+    queryFn: async () => {
+      if (!userAddress) return [];
+
+      try {
+        const [tonBalance, jettonsResponse] = await Promise.all([
+          // Get native TON balance
+          tonClient.getBalance(Address.parse(userAddress)),
+
+          // Get all Jetton balances
+          ofetch(`${TON_API}/accounts/${userAddress}/jettons`),
+        ]);
+
+        const assets = (jettonsResponse.balances as any[])
+          .map((jetton: any) => ({
+            address: jetton.jetton.address,
+            amount: +fromBigMoney(
+              BigInt(jetton.balance),
+              jetton.jetton.decimals,
+            ),
+          }))
+          .filter(x => +x.amount > 0);
+
+        const slugOf = await queryContractSlugs(assets.map(x => x.address));
+        const assetBalances = assets.map(x => ({
+          network: 'the-open-network',
+          slug: slugOf[x.address],
+          amount: x.amount,
+        }));
+
+        // Add native SOL to the list
+        if (tonBalance > 0) {
+          assetBalances.unshift({
+            network: 'the-open-network',
+            slug: 'the-open-network',
+            amount: +fromBigMoney(tonBalance, 9),
+          });
+        }
+
+        return assetBalances.filter(x => x.slug);
+      } catch (error) {
+        console.error('Error fetching user TON assets:', error);
+        throw error;
+      }
+    },
+    refetchInterval: 30_000,
+    enabled: !!userAddress,
+  });
 };
 
 export const useTonTransferAssetsMutation = (slug?: string) => {
