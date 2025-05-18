@@ -55,7 +55,7 @@ const useContractInfo = (slug?: string) => {
       };
     },
     staleTime: Number.POSITIVE_INFINITY,
-    enabled: !!slug && !!netInfo?.decimals,
+    enabled: !!slug && !!netInfo,
   });
 };
 
