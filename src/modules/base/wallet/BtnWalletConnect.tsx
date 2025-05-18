@@ -1,37 +1,63 @@
 import { clsx } from 'clsx';
+import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react';
 import { TonConnectButton } from '@tonconnect/ui-react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { polygon, solana } from '@reown/appkit/networks';
 import { useActiveNetwork } from 'modules/base/active-network';
-import '@solana/wallet-adapter-react-ui/styles.css';
-import useIsMobile from 'utils/useIsMobile';
 import { trackClick } from 'config/segment';
+import useIsMobile from 'utils/useIsMobile';
+import { Button, type ButtonProps } from 'shared/v1-components/Button';
+import { appKit } from 'config/appKit';
 import { useIsLoggedIn } from '../auth/jwt-store';
-// eslint-disable-next-line import/no-unassigned-import
 
-const BtnSolanaWalletConnect: React.FC<{ className?: string }> = ({
-  className,
-}) => {
+const useAppKitButtonConnectHandler = (network: 'solana' | 'polygon') => {
+  const appKitAccount = useAppKitAccount();
+  const addr = appKitAccount.address?.toString() || '';
+  const { caipNetwork, switchNetwork } = useAppKitNetwork();
+
+  const suitableChainNamespace = network === 'solana' ? 'solana' : 'eip155';
+  const isValidChain = caipNetwork?.chainNamespace === suitableChainNamespace;
+
+  const handleConnect = async () => {
+    if (appKitAccount.isConnected && !isValidChain) {
+      switchNetwork(network === 'solana' ? solana : polygon);
+    } else {
+      await appKit.open({
+        view: appKitAccount.isConnected ? undefined : 'Connect',
+        namespace: network === 'solana' ? 'solana' : 'eip155',
+      });
+    }
+  };
+
+  const label = appKitAccount.isConnected
+    ? isValidChain
+      ? addr.substring(0, 4) + '...' + addr.substr(-4)
+      : 'Switch Network'
+    : 'Connect Wallet';
+
+  return {
+    handleConnect,
+    label,
+  };
+};
+
+const BtnAppKitWalletConnect: React.FC<
+  {
+    network: 'solana' | 'polygon';
+  } & ButtonProps
+> = ({ network, ...buttonProps }) => {
+  const appKitAccount = useAppKitAccount();
   const isMobile = useIsMobile();
-  const solanaWallet = useWallet();
-  const addr = solanaWallet.publicKey?.toString() || '';
+  const { handleConnect, label } = useAppKitButtonConnectHandler(network);
+
   return (
-    <WalletMultiButton
-      style={{
-        borderRadius: 20,
-        height: isMobile ? 40 : 32,
-        fontSize: 14,
-        lineHeight: 'normal',
-        ...(solanaWallet.connected
-          ? { background: '#121214', paddingLeft: 16 }
-          : { background: '#00a3ff' }),
-      }}
-      className={className}
+    <Button
+      size={isMobile ? 'md' : 'xs'}
+      variant={appKitAccount.isConnected ? 'outline' : 'primary'}
+      onClick={handleConnect}
+      {...buttonProps}
     >
-      {solanaWallet.connected
-        ? addr.substring(0, 4) + '...' + addr.substr(-4)
-        : 'Connect Wallet'}
-    </WalletMultiButton>
+      {label}
+    </Button>
   );
 };
 
@@ -52,12 +78,8 @@ const BtnWalletConnect: React.FC<{ className?: string }> = ({ className }) => {
         <TonConnectButton
           className={clsx(className, !isMobile && 'h-[38px]')}
         />
-      ) : net === 'solana' ? (
-        <BtnSolanaWalletConnect className={className} />
-      ) : net === 'polygon' ? (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        <appkit-button size="sm" balance="hide" />
+      ) : net === 'solana' || net === 'polygon' ? (
+        <BtnAppKitWalletConnect className={className} network={net} />
       ) : null}
     </div>
   ) : null;

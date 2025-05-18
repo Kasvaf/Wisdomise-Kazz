@@ -1,5 +1,5 @@
 import { useTour, type StepType } from '@reactour/tour';
-import { useLocalStorage } from '@solana/wallet-adapter-react';
+import { useLocalStorage } from 'usehooks-ts';
 import { useEffect } from 'react';
 
 const usePageTour = ({

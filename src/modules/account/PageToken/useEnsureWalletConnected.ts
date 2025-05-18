@@ -1,7 +1,7 @@
 import { useAccount, useSwitchChain } from 'wagmi';
 import { notification } from 'antd';
 import { useAccountQuery } from 'api';
-import { defaultChain } from 'config/wagmi';
+import { polygonChain } from 'config/appKit';
 
 export function useEnsureWalletConnected() {
   const { address, chain } = useAccount();
@@ -18,7 +18,7 @@ export function useEnsureWalletConnected() {
           notification.error({ message: 'Wrong wallet address is connected' });
           resolve(false);
         } else {
-          const suitableChainId = defaultChain.id;
+          const suitableChainId = polygonChain.id;
           if (chain?.id === suitableChainId) {
             resolve(true);
           } else {

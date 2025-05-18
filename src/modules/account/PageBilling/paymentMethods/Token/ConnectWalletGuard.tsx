@@ -6,7 +6,7 @@ import Card from 'shared/Card';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { shortenAddress } from 'utils/shortenAddress';
-import { appKitModal, defaultChain } from 'config/wagmi';
+import { appKit, polygonChain } from 'config/appKit';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
@@ -49,7 +49,7 @@ export default function ConnectWalletGuard({
   };
 
   useEffect(() => {
-    const suitableChainId = defaultChain.id;
+    const suitableChainId = polygonChain.id;
     if (chain?.id !== suitableChainId) {
       switchChain?.({ chainId: suitableChainId });
     }
@@ -112,7 +112,11 @@ export default function ConnectWalletGuard({
             <h2 className="mb-8 text-lg font-semibold">{title}</h2>
             <p className="text-gray-400">{description}</p>
           </div>
-          <Button onClick={() => appKitModal.open()}>
+          <Button
+            onClick={() =>
+              appKit.open({ view: 'Connect', namespace: 'eip155' })
+            }
+          >
             {t('connect-wallet.connect')}
           </Button>
         </Card>

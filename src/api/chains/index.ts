@@ -1,6 +1,10 @@
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useDisconnect } from 'wagmi';
+import {
+  useAppKitAccount,
+  useAppKitNetwork,
+  useDisconnect,
+  useWalletInfo,
+} from '@reown/appkit/react';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
 import { useSymbolsInfo } from 'api/symbol';
@@ -22,17 +26,16 @@ import {
 } from './ton';
 
 export const useDisconnectAll = () => {
-  const { disconnect: solDisconnect } = useWallet();
   const [{ disconnect: tonDisconnect }] = useTonConnectUI();
-  const { disconnectAsync } = useDisconnect();
+  const { disconnect } = useDisconnect();
 
   return async () => {
     try {
-      await Promise.all([disconnectAsync(), solDisconnect(), tonDisconnect()]);
+      await Promise.all([disconnect(), tonDisconnect()]);
     } catch {
     } finally {
       for (const key of Object.keys(localStorage)) {
-        if (/^(wallet|ton)/.test(key)) {
+        if (/^(wallet|ton|@appkit|binance|ethereum)/.test(key)) {
           localStorage.removeItem(key);
         }
       }
@@ -42,9 +45,18 @@ export const useDisconnectAll = () => {
 
 export const useActiveWallet = () => {
   const net = useActiveNetwork();
+
   const tonAddress = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
-  const solanaWallet = useWallet();
+
+  const { address: appKitAddress, isConnected: isAppKitConnected } =
+    useAppKitAccount();
+  const appKitWalletInfo = useWalletInfo();
+  const { caipNetwork } = useAppKitNetwork();
+  const chainNameSpace = caipNetwork?.chainNamespace;
+  const isValidChain =
+    chainNameSpace === (net === 'solana' ? 'solana' : 'eip155');
+
   const awaitSolanaWalletConnect = useAwaitSolanaWalletConnection();
   const awaitTonWalletConnect = useAwaitTonWalletConnection();
 
@@ -53,20 +65,21 @@ export const useActiveWallet = () => {
       net === 'the-open-network'
         ? tonAddress
         : net === 'solana'
-        ? solanaWallet.publicKey?.toString()
+        ? appKitAddress
         : undefined,
     name:
       net === 'the-open-network'
         ? tonConnectUI.wallet?.device.appName
         : net === 'solana'
-        ? solanaWallet.wallet?.adapter.name
+        ? appKitWalletInfo.walletInfo?.name
         : undefined,
     connected:
       net === 'the-open-network'
         ? tonConnectUI.connected
         : net === 'solana'
-        ? solanaWallet.connected
+        ? isAppKitConnected && isValidChain
         : false,
+
     connect: () => {
       trackClick('wallet_connect', { network: net })();
       if (net === 'the-open-network') {

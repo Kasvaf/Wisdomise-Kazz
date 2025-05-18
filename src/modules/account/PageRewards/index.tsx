@@ -1,6 +1,7 @@
+/* eslint-disable import/max-dependencies */
 import { notification } from 'antd';
-import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
+import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
   useWithdrawRewardMutation,
@@ -21,7 +22,6 @@ import gradient from './images/gradient.png';
 import dailySrc from './images/daily.png';
 import refSubSrc from './images/ref-sub.png';
 import refFeeSrc from './images/ref-fee.png';
-// eslint-disable-next-line import/max-dependencies
 import leagueSrc from './images/league.png';
 
 export default function PageRewards() {
@@ -31,7 +31,8 @@ export default function PageRewards() {
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
-  const { publicKey } = useWallet();
+  const { address: userWalletAddress } = useAppKitAccount();
+  const { caipNetwork } = useAppKitNetwork();
 
   const disableWithdraw = history?.[0]?.status === 'pending';
   const unclaimed = total - claimed;
@@ -47,21 +48,19 @@ export default function PageRewards() {
   };
 
   const withdraw = () => {
-    if (!publicKey) {
+    if (!userWalletAddress || caipNetwork?.chainNamespace !== 'solana') {
       notification.error({
-        message: 'Please connect your wallet address',
+        message: 'Please connect your solana wallet.',
       });
       return;
     }
-    void mutateAsync({ solana_wallet_address: publicKey.toString() }).then(
-      () => {
-        notification.success({
-          message:
-            'Withdrawal registered! You will get your tokens within few days.',
-        });
-        return null;
-      },
-    );
+    void mutateAsync({ solana_wallet_address: userWalletAddress }).then(() => {
+      notification.success({
+        message:
+          'Withdrawal registered! You will get your tokens within few days.',
+      });
+      return null;
+    });
   };
 
   return (

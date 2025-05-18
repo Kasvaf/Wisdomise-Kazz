@@ -1,4 +1,3 @@
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
   PublicKey,
   SystemProgram,
@@ -13,9 +12,20 @@ import {
   getAssociatedTokenAddressSync,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
+import {
+  type Provider,
+  useAppKitConnection,
+} from '@reown/appkit-adapter-solana/react';
+import {
+  useAppKit,
+  useAppKitAccount,
+  useAppKitNetwork,
+  useAppKitProvider,
+  useAppKitState,
+} from '@reown/appkit/react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { solana } from '@reown/appkit/networks';
 import { useCallback } from 'react';
-import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { usePendingPositionInCache } from 'api/trader';
 import { useSymbolInfo } from 'api/symbol';
@@ -28,7 +38,6 @@ export type AutoTraderSolanaSupportedQuotes =
   | 'wrapped-solana';
 
 const useContractInfo = (slug?: string) => {
-  const { connection } = useConnection();
   const { data } = useSymbolInfo(slug);
   const netInfo = data?.networks.find(x => x.network.slug === 'solana');
   return useQuery({
@@ -40,45 +49,27 @@ const useContractInfo = (slug?: string) => {
           decimals: 9,
         };
       }
-      if (!netInfo) return;
-      if (netInfo.decimals) {
-        return {
-          contract: netInfo.contract_address,
-          decimals: netInfo.decimals,
-        };
-      }
-
-      const mintPublicKey = new PublicKey(netInfo.contract_address);
-      const accountInfo = await connection.getParsedAccountInfo(mintPublicKey);
-      const data = accountInfo.value?.data;
-      if (
-        data &&
-        // use type assertion for parsed account data
-        typeof data === 'object' &&
-        'parsed' in data &&
-        data.program === 'spl-token'
-      ) {
-        return {
-          contract: netInfo.contract_address,
-          decimals: data.parsed.info.decimals,
-        };
-      }
+      return {
+        contract: netInfo?.contract_address,
+        decimals: netInfo?.decimals,
+      };
     },
     staleTime: Number.POSITIVE_INFINITY,
-    enabled: !!slug && !!netInfo,
+    enabled: !!slug && !!netInfo?.decimals,
   });
 };
 
 export const useSolanaAccountBalance = (slug?: string) => {
-  const { connection } = useConnection();
-  const { publicKey } = useWallet();
+  const { connection } = useAppKitConnection();
+  const { address } = useAppKitAccount();
   const { data: { contract } = {}, isLoading: contractIsLoading } =
     useContractInfo(slug);
 
   const query = useQuery({
-    queryKey: ['sol-balance', slug, publicKey?.toString()],
+    queryKey: ['sol-balance', slug, address],
     queryFn: async () => {
-      if (!publicKey || !slug || !contract) return null;
+      if (!address || !slug || !contract || !connection) return null;
+      const publicKey = new PublicKey(address);
 
       try {
         if (slug === 'wrapped-solana') {
@@ -122,13 +113,14 @@ export const useSolanaAccountBalance = (slug?: string) => {
 };
 
 export const useSolanaUserAssets = () => {
-  const { connection } = useConnection();
-  const { publicKey } = useWallet();
+  const { connection } = useAppKitConnection();
+  const { address } = useAppKitAccount();
 
   return useQuery({
-    queryKey: ['solana-user-assets', publicKey?.toString()],
+    queryKey: ['solana-user-assets', address],
     queryFn: async () => {
-      if (!publicKey) return [];
+      if (!address || !connection) return [];
+      const publicKey = new PublicKey(address);
 
       try {
         const [solBalance, tokenAccounts] = await Promise.all([
@@ -175,13 +167,14 @@ export const useSolanaUserAssets = () => {
     },
     refetchInterval: 30_000, // Refresh every 30 seconds
     staleTime: 5000,
-    enabled: !!publicKey,
+    enabled: !!address,
   });
 };
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {
-  const { connection } = useConnection();
-  const { publicKey, signTransaction } = useWallet();
+  const { walletProvider } = useAppKitProvider<Provider>('solana');
+  const { connection } = useAppKitConnection();
+  const { address } = useAppKitAccount();
   const queryClient = useQueryClient();
   const { data: { contract, decimals } = {} } = useContractInfo(slug);
   const awaitPositionInCache = usePendingPositionInCache();
@@ -197,8 +190,10 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
     amount: string;
     gasFee: string;
   }) => {
-    if (!signTransaction || !publicKey || !slug || !contract)
+    if (!connection || !address || !slug || !contract || !decimals)
       throw new Error('Wallet not connected');
+
+    const publicKey = new PublicKey(address);
     const tokenMint = new PublicKey(contract);
     const transaction = new Transaction();
 
@@ -273,10 +268,8 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
       transaction.feePayer = publicKey;
 
       // Sign and send transaction
-      const signedTransaction = await signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(
-        signedTransaction.serialize(),
-      );
+      const signature =
+        await walletProvider.signAndSendTransaction(transaction);
 
       void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
 
@@ -325,8 +318,9 @@ interface Account {
 
 // gas-fee: 0.005
 export const useSolanaMarketSwap = () => {
-  const { connection } = useConnection();
-  const { publicKey, signTransaction } = useWallet();
+  const { walletProvider } = useAppKitProvider<Provider>('solana');
+  const { connection } = useAppKitConnection();
+  const { address } = useAppKitAccount();
   const queryClient = useQueryClient();
 
   return async ({
@@ -338,7 +332,8 @@ export const useSolanaMarketSwap = () => {
     side: 'LONG' | 'SHORT';
     amount: string;
   }) => {
-    if (!signTransaction || !publicKey) throw new Error('Wallet not connected');
+    if (!connection || !address) throw new Error('Wallet not connected');
+    const publicKey = new PublicKey(address);
 
     const [{ key, instructions }, latestBlockhash] = await Promise.all([
       ofetch<SwapResponse>('/trader/swap', {
@@ -371,11 +366,7 @@ export const useSolanaMarketSwap = () => {
       transaction.add(instruction);
     }
 
-    const signedTransaction = await signTransaction(transaction);
-    const signature = await connection.sendRawTransaction(
-      signedTransaction.serialize(),
-    );
-
+    const signature = await walletProvider.signAndSendTransaction(transaction);
     void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
 
     await ofetch<SwapResponse>('/trader/swap/' + key, {
@@ -398,11 +389,26 @@ export const useSolanaMarketSwap = () => {
 };
 
 export function useAwaitSolanaWalletConnection() {
-  const { connected } = useWallet();
-  const solanaModal = useWalletModal();
+  const { isConnected } = useAppKitAccount();
+  const { open } = useAppKit();
+  const { open: isOpen } = useAppKitState();
+  const { caipNetwork, switchNetwork } = useAppKitNetwork();
+  const isValidChain = caipNetwork?.chainNamespace === 'solana';
+
   return usePromiseOfEffect({
-    action: useCallback(() => solanaModal.setVisible(true), [solanaModal]),
-    done: connected || !solanaModal.visible,
-    result: connected,
+    action: useCallback(async () => {
+      if (isConnected && !isValidChain) {
+        switchNetwork(solana);
+      }
+
+      if (!isConnected) {
+        await open({
+          view: 'Connect',
+          namespace: 'solana',
+        });
+      }
+    }, [isConnected, isValidChain, open, switchNetwork]),
+    done: isConnected || !isOpen,
+    result: isConnected && isValidChain,
   });
 }
