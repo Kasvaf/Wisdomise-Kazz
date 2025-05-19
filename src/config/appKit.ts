@@ -28,9 +28,6 @@ const metadata = {
 
 const solanaWeb3JsAdapter = new SolanaAdapter({
   wallets: [
-    new TrustWalletAdapter(),
-    new PhantomWalletAdapter(),
-    new SolflareWalletAdapter(),
     new SolanaMobileWalletAdapter({
       addressSelector: createDefaultAddressSelector(),
       appIdentity: {
@@ -42,6 +39,9 @@ const solanaWeb3JsAdapter = new SolanaAdapter({
       chain: solana.caipNetworkId,
       onWalletNotFound: createDefaultWalletNotFoundHandler(),
     }),
+    new TrustWalletAdapter(),
+    new PhantomWalletAdapter(),
+    new SolflareWalletAdapter(),
   ],
 });
 
@@ -79,15 +79,9 @@ export const appKit = createAppKit({
     '--w3m-border-radius-master': '2px',
   },
 
-  experimental_preferUniversalLinks: true,
+  experimental_preferUniversalLinks: false,
   enableWalletConnect: true,
-  featuredWalletIds: [
-    '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0', // trust-wallet
-    'c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96', // meta-mask
-    'a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393', // phantom
-    '59968c4e5ef18efe3a287cb1206c41fd46d69589def8fd5c4990be92401fabcb', // oisy
-    '1ca0bdd4747578705b1939af023d120677c64fe6ca76add81fda36e350605e79', // solflare
-  ],
+  enableWalletGuide: true,
 
   features: {
     send: false,
