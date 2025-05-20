@@ -28,4 +28,7 @@ export const useAIPresets = (pairSlug: string, net?: string) =>
     staleTime: Number.POSITIVE_INFINITY,
     refetchInterval: 30 * 1000,
     refetchIntervalInBackground: true,
+    meta: {
+      persist: false,
+    },
   });

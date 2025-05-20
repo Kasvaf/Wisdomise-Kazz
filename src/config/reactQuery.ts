@@ -38,9 +38,9 @@ export const persisterOptions: OmitKeyof<
   }),
   dehydrateOptions: {
     shouldDehydrateQuery: query =>
-      !!query.meta &&
-      'persist' in query.meta &&
-      query.meta.persist === true &&
+      (!query.meta ||
+        !('persist' in query.meta) ||
+        query.meta.persist !== false) &&
       !query.state.error,
     shouldDehydrateMutation: () => false,
     shouldRedactErrors: () => false,

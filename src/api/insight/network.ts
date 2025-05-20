@@ -270,9 +270,6 @@ export const useNetworkRadarNCoins = (config: {
           return true;
         })
         .map((row, i) => ({ ...row, _rank: i + 1 })),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });

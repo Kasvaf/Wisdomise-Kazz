@@ -79,7 +79,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
       });
       return uniqueBy(data.results, x => x.id);
     },
-    staleTime: Number.MAX_VALUE,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 };
 
@@ -342,6 +342,9 @@ export const usePreparePositionQuery = (req?: CreatePositionRequest) => {
     staleTime: 50,
     refetchInterval: 7000,
     enabled: !!req,
+    meta: {
+      persist: false,
+    },
   });
 };
 

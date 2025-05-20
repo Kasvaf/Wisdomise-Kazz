@@ -123,9 +123,6 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
         return true;
       });
     },
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -283,9 +280,6 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         results,
       };
     },
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -370,9 +364,6 @@ export const useTechnicalRadarCoins = (config: {
           }
           return row;
         });
-    },
-    meta: {
-      persist: true,
     },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,

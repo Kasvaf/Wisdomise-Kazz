@@ -86,9 +86,6 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
           }
           return row;
         }),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });

@@ -87,9 +87,6 @@ export const useWhaleRadarWhales = (config: {
           return false;
         return true;
       }),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -347,9 +344,6 @@ export const useWhaleRadarCoins = (config: {
             return sorter(a.wallet_count, b.wallet_count);
           return sorter(a.rank, b.rank);
         }),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
