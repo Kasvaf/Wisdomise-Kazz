@@ -303,7 +303,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
             blockhash: latestBlockhash.blockhash,
             lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
           })
-          .then(x => x.value.err !== null);
+          .then(x => x.value.err == null);
 
         return Promise.race([cacheWaiter, networkConfirmation]).finally(
           cacheWaiter.stop,
@@ -401,7 +401,7 @@ export const useSolanaMarketSwap = () => {
           blockhash: latestBlockhash.blockhash,
           lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
         })
-        .then(x => x.value.err !== null);
+        .then(x => x.value.err == null);
   };
 };
 
