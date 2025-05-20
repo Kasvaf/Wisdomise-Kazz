@@ -148,7 +148,7 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
   const { data, ...rest } = useLastCandleQuery(params);
   return {
     ...rest,
-    data: data?.candle.close,
+    data: data?.candle?.close,
   };
 };
 

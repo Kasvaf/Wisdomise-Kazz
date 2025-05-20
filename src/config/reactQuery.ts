@@ -45,5 +45,6 @@ export const persisterOptions: OmitKeyof<
     shouldDehydrateMutation: () => false,
     shouldRedactErrors: () => false,
   },
-  maxAge: Number.POSITIVE_INFINITY,
+  // cache for up to 3 days
+  maxAge: 1000 * 60 * 60 * 24 * 3,
 };
