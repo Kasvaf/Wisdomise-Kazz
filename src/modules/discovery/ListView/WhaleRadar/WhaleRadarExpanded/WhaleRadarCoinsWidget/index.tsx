@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
@@ -11,13 +12,12 @@ import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
-// eslint-disable-next-line import/max-dependencies
+import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 import { ReactComponent as Realtime } from './realtime.svg';
 
 export function WhaleRadarCoinsWidget({
@@ -28,21 +28,13 @@ export function WhaleRadarCoinsWidget({
   headerActions?: ReactNode;
 }) {
   const { t } = useTranslation('whale');
-  const [tableState, setTableState] = usePageState<
+  const [pageState, setPageState] = usePageState<
     Parameters<typeof useWhaleRadarCoins>[0]
   >('whale-radar-coins', {
     sortBy: 'rank',
     sortOrder: 'ascending',
-    days: 7,
-    categories: [],
-    excludeNativeCoins: false,
-    profitableOnly: false,
-    networks: [],
-    query: '',
-    securityLabels: [],
-    trendLabels: [],
   });
-  const coins = useWhaleRadarCoins(tableState);
+  const coins = useWhaleRadarCoins(pageState);
   useLoadingBadge(coins.isFetching);
 
   const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
@@ -76,8 +68,7 @@ export function WhaleRadarCoinsWidget({
         render: row => <CoinMarketCap marketData={row.data} />,
       },
       {
-        title: t('top_coins.buy_volume.title'),
-        info: t('top_coins.buy_volume.info'),
+        title: t('top_coins.price'),
         width: 240,
         render: row => <CoinPriceInfo marketData={row.data} />,
       },
@@ -126,24 +117,25 @@ export function WhaleRadarCoinsWidget({
           <>
             <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
               <SearchInput
-                value={tableState.query}
-                onChange={query => setTableState(p => ({ ...p, query }))}
+                value={pageState.query}
+                onChange={query => setPageState(p => ({ ...p, query }))}
                 placeholder={t('coin-radar:common.search_coin')}
                 className="w-64 mobile:grow"
                 size="md"
               />
             </div>
-            <RadarFilter
-              radar="whale-radar"
-              value={tableState}
-              onChange={newState => setTableState(p => ({ ...p, ...newState }))}
-              className="w-full"
-              surface={3}
-            />
           </>
         )
       }
     >
+      <WhaleRadarFilters
+        value={pageState}
+        onChange={newState =>
+          setPageState({ query: pageState.query, ...newState })
+        }
+        className="mb-4 w-full"
+        surface={3}
+      />
       <AccessShield
         mode="table"
         sizes={{

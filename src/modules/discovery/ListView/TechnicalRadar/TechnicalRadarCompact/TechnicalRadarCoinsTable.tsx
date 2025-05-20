@@ -10,24 +10,21 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { usePageState } from 'shared/usePageState';
-import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
+import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
 
 export const TechnicalRadarCoinsTable: FC<{
   onClick?: (coin: TechnicalRadarCoin) => void;
 }> = ({ onClick }) => {
-  const [tableState, setTableState] = usePageState<
-    Required<Parameters<typeof useTechnicalRadarCoins>[0]>
-  >('technical-radar', {
+  const [pageState, setPageState] = usePageState<
+    Parameters<typeof useTechnicalRadarCoins>[0]
+  >('social-radar', {
     sortBy: 'rank',
     sortOrder: 'ascending',
-    query: '',
-    categories: [] as string[],
-    networks: [] as string[],
   });
 
-  const coins = useTechnicalRadarCoins(tableState);
+  const coins = useTechnicalRadarCoins(pageState);
   useLoadingBadge(coins.isFetching);
 
   const columns = useMemo<Array<TableColumn<TechnicalRadarCoin>>>(
@@ -101,11 +98,10 @@ export const TechnicalRadarCoinsTable: FC<{
   } = useDiscoveryRouteMeta();
   return (
     <>
-      <RadarFilter
-        radar="technical-radar"
-        value={tableState}
-        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
-        className="mb-2 w-full"
+      <TechnicalRadarFilters
+        value={pageState}
+        onChange={newPageState => setPageState(newPageState)}
+        className="mb-4 w-full"
         surface={1}
         mini
       />

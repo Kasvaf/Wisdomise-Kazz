@@ -241,13 +241,6 @@ social-messages:
   read_more: Read More
   subscribers: '{{size}} Subscribers'
 social-radar:
-  sorts:
-    market_cap: Market Cap
-    negative_price_changes: Highest Losers
-    newest: Newest
-    oldest: Oldest
-    positive_price_changes: Highest Gainers
-    rank: Wise Rank™
   table:
     name: Name
     title: Social Radar

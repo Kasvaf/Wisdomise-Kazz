@@ -39,7 +39,7 @@ export const SearchInput: FC<
         />
       ) : (
         <Button
-          variant="ghost"
+          variant={props.value ? 'primary' : 'ghost'}
           surface={surface}
           size={size}
           onClick={() => setExpanded(true)}
