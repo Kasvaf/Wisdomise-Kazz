@@ -11,6 +11,7 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { usePageState } from 'shared/usePageState';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
@@ -109,6 +110,9 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
   return (
     <>
       <RadarFilter
@@ -136,6 +140,7 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={2}
           onClick={r => openModal(r)}
           scrollable={false}
+          isActive={r => r.symbol.slug === activeSlug}
         />
       </AccessShield>
       <CoinPreDetailModal

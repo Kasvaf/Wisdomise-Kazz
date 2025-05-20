@@ -9,8 +9,9 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
-import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { usePageState } from 'shared/usePageState';
+import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 
 export const TechnicalRadarCoinsTable: FC<{
@@ -95,6 +96,9 @@ export const TechnicalRadarCoinsTable: FC<{
     [],
   );
 
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
   return (
     <>
       <RadarFilter
@@ -121,6 +125,7 @@ export const TechnicalRadarCoinsTable: FC<{
           loading={coins.isLoading}
           surface={2}
           onClick={r => onClick?.(r)}
+          isActive={r => r.symbol.slug === activeSlug}
         />
       </AccessShield>
     </>

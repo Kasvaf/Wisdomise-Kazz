@@ -30,7 +30,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
     baseBalance &&
     [0.25, 0.5, 0.75, 1].map(p => ({
       label: `${p * 100}%`,
-      value: roundSensible(p * baseBalance),
+      value: p === 1 ? String(baseBalance) : roundSensible(p * baseBalance),
     }));
 
   const [tempTarget, setTempTarget] = useState('');

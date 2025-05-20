@@ -71,7 +71,7 @@ const useActionHandlers = (state: SwapState) => {
 
         awaitConfirm(
           await marketSwapHandler(swapData),
-          'Swap confirmed on network successfully',
+          'Swap completed successfully',
         );
       } catch (error) {
         notification.error({ message: unwrapErrorMessage(error) });

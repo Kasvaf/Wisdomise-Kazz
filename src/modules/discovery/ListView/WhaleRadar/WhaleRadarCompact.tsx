@@ -9,6 +9,7 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { usePageState } from 'shared/usePageState';
 import { TableRank } from 'shared/TableRank';
@@ -106,6 +107,9 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
   return (
     <>
       <RadarFilter
@@ -133,6 +137,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={2}
           onClick={r => openModal(r)}
           scrollable={false}
+          isActive={r => r.symbol.slug === activeSlug}
         />
       </AccessShield>
       <CoinPreDetailModal
