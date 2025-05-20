@@ -1,14 +1,3 @@
-import {
-  PhantomWalletAdapter,
-  SolflareWalletAdapter,
-  TrustWalletAdapter,
-} from '@solana/wallet-adapter-wallets';
-import {
-  createDefaultAddressSelector,
-  createDefaultAuthorizationResultCache,
-  createDefaultWalletNotFoundHandler,
-  SolanaMobileWalletAdapter,
-} from '@solana-mobile/wallet-adapter-mobile';
 import { createAppKit } from '@reown/appkit/react';
 import { polygon, sepolia, solana } from '@reown/appkit/networks';
 import { SolanaAdapter } from '@reown/appkit-adapter-solana/react';
@@ -26,43 +15,20 @@ const metadata = {
   icons: ['http://wisdomise.com/icon.svg'],
 };
 
-const solanaWeb3JsAdapter = new SolanaAdapter({
-  wallets: [
-    new SolanaMobileWalletAdapter({
-      addressSelector: createDefaultAddressSelector(),
-      appIdentity: {
-        name: metadata.name,
-        icon: metadata.icons[0],
-        uri: metadata.url,
-      },
-      authorizationResultCache: createDefaultAuthorizationResultCache(),
-      chain: solana.caipNetworkId,
-      onWalletNotFound: createDefaultWalletNotFoundHandler(),
-    }),
-    new TrustWalletAdapter(),
-    new PhantomWalletAdapter(),
-    new SolflareWalletAdapter(),
-  ],
-});
+const solanaWeb3JsAdapter = new SolanaAdapter();
 
-export const polygonChain = isProduction ? polygon : sepolia;
+export const tokenChain = isProduction ? polygon : sepolia;
 const wagmiPolygonAdapter = new WagmiAdapter({
   storage: createStorage({
     storage: cookieStorage,
   }),
   projectId,
-  networks: [polygonChain],
+  networks: [tokenChain],
   transports: {
-    [polygon.id]: http(polygon.rpcUrls.default.http[0]),
-    [sepolia.id]: http(sepolia.rpcUrls.default.http[0]),
+    [tokenChain.id]: http(tokenChain.rpcUrls.default.http[0]),
   },
   customRpcUrls: {
-    [`eip155:${polygon.id}`]: [{ url: polygon.rpcUrls.default.http[0] }],
-    [`eip155:${sepolia.id}`]: [
-      {
-        url: sepolia.rpcUrls.default.http[0],
-      },
-    ],
+    [`eip155:${tokenChain.id}`]: [{ url: tokenChain.rpcUrls.default.http[0] }],
   },
 });
 export const wagmiConfig = wagmiPolygonAdapter.wagmiConfig;
@@ -72,7 +38,7 @@ export const appKit = createAppKit({
   projectId,
   metadata,
   adapters: [solanaWeb3JsAdapter, wagmiPolygonAdapter],
-  networks: [solana, polygonChain],
+  networks: [solana, tokenChain],
   defaultNetwork: solana,
   themeVariables: {
     '--w3m-z-index': 1001,

@@ -57,26 +57,28 @@ export const useActiveWallet = () => {
   const isValidChain =
     chainNameSpace === (net === 'solana' ? 'solana' : 'eip155');
 
-  const awaitSolanaWalletConnect = useAwaitSolanaWalletConnection();
+  const awaitSolanaWalletConnect = useAwaitSolanaWalletConnection(
+    net === 'the-open-network' ? undefined : net,
+  );
   const awaitTonWalletConnect = useAwaitTonWalletConnection();
 
   return {
     address:
       net === 'the-open-network'
         ? tonAddress
-        : net === 'solana'
+        : net === 'solana' || net === 'polygon'
         ? appKitAddress
         : undefined,
     name:
       net === 'the-open-network'
         ? tonConnectUI.wallet?.device.appName
-        : net === 'solana'
+        : net === 'solana' || net === 'polygon'
         ? appKitWalletInfo.walletInfo?.name
         : undefined,
     connected:
       net === 'the-open-network'
         ? tonConnectUI.connected
-        : net === 'solana'
+        : net === 'solana' || net === 'polygon'
         ? isAppKitConnected && isValidChain
         : false,
 
@@ -85,7 +87,7 @@ export const useActiveWallet = () => {
       if (net === 'the-open-network') {
         return awaitTonWalletConnect();
       }
-      if (net === 'solana') {
+      if (net === 'solana' || net === 'polygon') {
         return awaitSolanaWalletConnect();
       }
       return Promise.resolve();

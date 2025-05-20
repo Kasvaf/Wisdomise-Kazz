@@ -396,12 +396,15 @@ export const useSolanaMarketSwap = () => {
   };
 };
 
-export function useAwaitSolanaWalletConnection() {
+export function useAwaitSolanaWalletConnection(
+  net: 'solana' | 'polygon' = 'solana',
+) {
   const { isConnected } = useAppKitAccount();
   const { open } = useAppKit();
   const { open: isOpen } = useAppKitState();
   const { caipNetwork, switchNetwork } = useAppKitNetwork();
-  const isValidChain = caipNetwork?.chainNamespace === 'solana';
+  const chain = net === 'solana' ? 'solana' : 'eip155';
+  const isValidChain = caipNetwork?.chainNamespace === chain;
 
   return usePromiseOfEffect({
     action: useCallback(async () => {
@@ -412,10 +415,10 @@ export function useAwaitSolanaWalletConnection() {
       if (!isConnected) {
         await open({
           view: 'Connect',
-          namespace: 'solana',
+          namespace: chain,
         });
       }
-    }, [isConnected, isValidChain, open, switchNetwork]),
+    }, [chain, isConnected, isValidChain, open, switchNetwork]),
     done: isConnected || !isOpen,
     result: isConnected && isValidChain,
   });

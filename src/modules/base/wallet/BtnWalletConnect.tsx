@@ -1,12 +1,12 @@
 import { clsx } from 'clsx';
 import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react';
 import { TonConnectButton } from '@tonconnect/ui-react';
-import { polygon, solana } from '@reown/appkit/networks';
+import { solana } from '@reown/appkit/networks';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
 import useIsMobile from 'utils/useIsMobile';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
-import { appKit } from 'config/appKit';
+import { appKit, tokenChain } from 'config/appKit';
 import { useIsLoggedIn } from '../auth/jwt-store';
 
 const useAppKitButtonConnectHandler = (network: 'solana' | 'polygon') => {
@@ -19,7 +19,7 @@ const useAppKitButtonConnectHandler = (network: 'solana' | 'polygon') => {
 
   const handleConnect = async () => {
     if (appKitAccount.isConnected && !isValidChain) {
-      switchNetwork(network === 'solana' ? solana : polygon);
+      switchNetwork(network === 'solana' ? solana : tokenChain);
     } else {
       await appKit.open({
         view: appKitAccount.isConnected ? undefined : 'Connect',
@@ -40,7 +40,7 @@ const useAppKitButtonConnectHandler = (network: 'solana' | 'polygon') => {
   };
 };
 
-const BtnAppKitWalletConnect: React.FC<
+export const BtnAppKitWalletConnect: React.FC<
   {
     network: 'solana' | 'polygon';
   } & ButtonProps

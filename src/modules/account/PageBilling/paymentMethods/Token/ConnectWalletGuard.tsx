@@ -1,4 +1,4 @@
-import { useAccount, useDisconnect, useSwitchChain } from 'wagmi';
+import { useDisconnect } from 'wagmi';
 import { type ReactNode, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -6,8 +6,9 @@ import Card from 'shared/Card';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { shortenAddress } from 'utils/shortenAddress';
-import { appKit, polygonChain } from 'config/appKit';
 import { Button } from 'shared/v1-components/Button';
+import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnWalletConnect';
+import { useActiveWallet } from 'api/chains';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
 import useSignInWithEthereum from './useSiwe';
@@ -27,8 +28,8 @@ export default function ConnectWalletGuard({
 }: Props) {
   const { disconnect } = useDisconnect();
   const { data: account } = useAccountQuery();
-  const { switchChain } = useSwitchChain();
-  const { isConnected, address, chain } = useAccount();
+  // const { isConnected, address, chain } = useAccount();
+  const wallet = useActiveWallet();
   const { t } = useTranslation('wisdomise-token');
   const [showNonce, setShowNonce] = useState(false);
   const [showError, setShowError] = useState(true);
@@ -49,20 +50,13 @@ export default function ConnectWalletGuard({
   };
 
   useEffect(() => {
-    const suitableChainId = polygonChain.id;
-    if (chain?.id !== suitableChainId) {
-      switchChain?.({ chainId: suitableChainId });
-    }
-  }, [chain, switchChain]);
-
-  useEffect(() => {
     setShowWrapperContent(false);
     setShowConnectWallet(false);
     setShowNonce(false);
     setShowError(false);
-    if (isConnected && account) {
+    if (wallet.connected && account) {
       if (account.wallet_address) {
-        if (account.wallet_address === address) {
+        if (account.wallet_address === wallet.address) {
           setShowWrapperContent(true);
         } else {
           setShowError(true);
@@ -76,7 +70,7 @@ export default function ConnectWalletGuard({
       setShowNonce(false);
       setShowError(false);
     }
-  }, [account, address, isConnected, refetch]);
+  }, [account, refetch, wallet.address, wallet.connected]);
 
   return (
     <div className={clsx(className, 'text-white')}>
@@ -94,7 +88,7 @@ export default function ConnectWalletGuard({
             <span className="text-v1-content-secondary">
               {t('connect-wallet.current-wallet')}:{' '}
             </span>
-            {shortenAddress(address)}
+            {shortenAddress(wallet.address)}
           </p>
           <Button
             className="mt-3"
@@ -112,13 +106,11 @@ export default function ConnectWalletGuard({
             <h2 className="mb-8 text-lg font-semibold">{title}</h2>
             <p className="text-gray-400">{description}</p>
           </div>
-          <Button
-            onClick={() =>
-              appKit.open({ view: 'Connect', namespace: 'eip155' })
-            }
-          >
-            {t('connect-wallet.connect')}
-          </Button>
+          <BtnAppKitWalletConnect
+            network="polygon"
+            size="xl"
+            variant="primary"
+          />
         </Card>
       )}
       {showNonce && (
