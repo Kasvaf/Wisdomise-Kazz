@@ -15,7 +15,7 @@ const FiringHolder: React.FC<{ className?: string; firing?: boolean }> = ({
     >
       <Spin size="small" />
       {firing
-        ? 'Sending your request...'
+        ? 'Processing your request...'
         : 'Confirming transaction on network...'}
     </div>
   );

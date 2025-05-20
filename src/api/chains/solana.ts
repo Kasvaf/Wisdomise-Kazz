@@ -9,8 +9,8 @@ import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountIdempotentInstruction,
   createTransferInstruction,
-  getAssociatedTokenAddress,
   getAssociatedTokenAddressSync,
+  TOKEN_2022_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -86,16 +86,19 @@ export const useSolanaAccountBalance = (slug?: string) => {
             fromBigMoney(await connection.getBalance(publicKey), 9),
           );
         } else {
-          // Get the associated token address
-          const tokenAddress = await getAssociatedTokenAddress(
-            new PublicKey(contract),
-            publicKey,
-            false,
-            TOKEN_PROGRAM_ID,
-          );
+          const mint = new PublicKey(contract);
+          const accountInfo = await connection.getAccountInfo(mint);
+          if (!accountInfo) return 0;
 
           // Get the token account info
-          const balance = await connection.getTokenAccountBalance(tokenAddress);
+          const balance = await connection.getTokenAccountBalance(
+            getAssociatedTokenAddressSync(
+              mint,
+              publicKey,
+              false,
+              accountInfo.owner,
+            ),
+          );
 
           // Return the balance as a number
           return Number(
@@ -131,17 +134,23 @@ export const useSolanaUserAssets = () => {
       if (!publicKey) return [];
 
       try {
-        const [solBalance, tokenAccounts] = await Promise.all([
-          // native SOL balance
-          connection.getBalance(publicKey),
+        const [solBalance, tokenAccounts, token2022Accounts] =
+          await Promise.all([
+            // native SOL balance
+            connection.getBalance(publicKey),
 
-          // all token accounts owned by the user
-          connection.getParsedTokenAccountsByOwner(publicKey, {
-            programId: TOKEN_PROGRAM_ID,
-          }),
-        ]);
+            // all token accounts owned by the user
+            connection.getParsedTokenAccountsByOwner(publicKey, {
+              programId: TOKEN_PROGRAM_ID,
+            }),
+
+            connection.getParsedTokenAccountsByOwner(publicKey, {
+              programId: TOKEN_2022_PROGRAM_ID,
+            }),
+          ]);
+
         // Map token accounts to a more usable format
-        const assets = tokenAccounts.value
+        const assets = [...tokenAccounts.value, ...token2022Accounts.value]
           .map(account => {
             const { mint, tokenAmount } = account.account.data.parsed.info;
             return {
@@ -212,14 +221,15 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         }),
       );
     } else {
-      // SPL Token transfer
+      const accountInfo = await connection.getAccountInfo(tokenMint);
+      if (!accountInfo) throw new Error('unknown token');
 
       // get user's Associated Token Account
       const userATA = getAssociatedTokenAddressSync(
         tokenMint,
         publicKey,
         false,
-        TOKEN_PROGRAM_ID,
+        accountInfo.owner,
         ASSOCIATED_TOKEN_PROGRAM_ID,
       );
 
@@ -228,7 +238,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         tokenMint,
         new PublicKey(recipientAddress),
         false,
-        TOKEN_PROGRAM_ID,
+        accountInfo.owner,
         ASSOCIATED_TOKEN_PROGRAM_ID,
       );
 
@@ -239,7 +249,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
           recipientATA, // ata
           new PublicKey(recipientAddress), // owner
           tokenMint, // mint
-          TOKEN_PROGRAM_ID,
+          accountInfo.owner,
           ASSOCIATED_TOKEN_PROGRAM_ID,
         ),
       );
@@ -252,7 +262,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
           publicKey,
           toBigMoney(amount, decimals),
           [],
-          TOKEN_PROGRAM_ID,
+          accountInfo.owner,
         ),
       );
     }
@@ -377,23 +387,21 @@ export const useSolanaMarketSwap = () => {
     );
 
     void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+    void queryClient.invalidateQueries({ queryKey: ['solana-user-assets'] });
 
     await ofetch<SwapResponse>('/trader/swap/' + key, {
       method: 'patch',
       body: { transaction_hash: signature },
     });
 
-    return () => {
-      // Wait for confirmation
-      const networkConfirmation = connection
+    return () =>
+      connection
         .confirmTransaction({
           signature,
           blockhash: latestBlockhash.blockhash,
           lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
         })
         .then(x => x.value.err !== null);
-      return networkConfirmation;
-    };
   };
 };
 
