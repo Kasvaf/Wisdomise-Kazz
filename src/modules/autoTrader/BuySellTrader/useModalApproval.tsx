@@ -25,7 +25,7 @@ const ModalApproval: React.FC<{
   swapData?: SwapRequest;
   onResolve?: (fired?: boolean) => void;
 }> = ({ formState, createData, swapData, onResolve }) => {
-  const { from, to, isMarketPrice } = formState;
+  const { from, to, dir, isMarketPrice } = formState;
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
@@ -174,7 +174,7 @@ const ModalApproval: React.FC<{
           }
           loading={isLoading}
         >
-          Fire Position
+          {dir === 'buy' ? 'Buy' : 'Sell'}
         </Button>
       </div>
     </div>
