@@ -1,9 +1,12 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
+  type AddressLookupTableAccount,
   PublicKey,
   SystemProgram,
   Transaction,
   TransactionInstruction,
+  TransactionMessage,
+  VersionedTransaction,
 } from '@solana/web3.js';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -319,6 +322,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
 interface SwapResponse {
   key: string;
   instructions: Instruction[];
+  lookup_table_address?: string[];
 }
 
 interface Instruction {
@@ -350,7 +354,10 @@ export const useSolanaMarketSwap = () => {
   }) => {
     if (!signTransaction || !publicKey) throw new Error('Wallet not connected');
 
-    const [{ key, instructions }, latestBlockhash] = await Promise.all([
+    const [
+      { key, instructions, lookup_table_address: lookupTableAddresses },
+      latestBlockhash,
+    ] = await Promise.all([
       ofetch<SwapResponse>('/trader/swap', {
         method: 'post',
         body: {
@@ -364,22 +371,36 @@ export const useSolanaMarketSwap = () => {
       connection.getLatestBlockhash(),
     ]);
 
-    const transaction = new Transaction();
-    transaction.recentBlockhash = latestBlockhash.blockhash;
-    transaction.feePayer = publicKey;
+    // Fetch the address lookup tables if provided
+    const lookupTableAccounts = (
+      await Promise.all(
+        (lookupTableAddresses || []).map(
+          async address =>
+            (await connection.getAddressLookupTable(new PublicKey(address)))
+              .value || null,
+        ),
+      )
+    ).filter((table): table is AddressLookupTableAccount => table != null);
 
-    for (const inst of instructions) {
-      const instruction = new TransactionInstruction({
-        programId: new PublicKey(inst.programId),
-        data: Buffer.from(inst.data),
-        keys: inst.accounts.map(acc => ({
-          pubkey: new PublicKey(acc.pubkey),
-          isSigner: acc.is_signer,
-          isWritable: acc.is_writable,
-        })),
-      });
-      transaction.add(instruction);
-    }
+    // Create a versioned transaction
+    const transaction = new VersionedTransaction(
+      new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: latestBlockhash.blockhash,
+        instructions: instructions.map(
+          inst =>
+            new TransactionInstruction({
+              programId: new PublicKey(inst.programId),
+              data: Buffer.from(inst.data),
+              keys: inst.accounts.map(acc => ({
+                pubkey: new PublicKey(acc.pubkey),
+                isSigner: acc.is_signer,
+                isWritable: acc.is_writable,
+              })),
+            }),
+        ),
+      }).compileToV0Message(lookupTableAccounts),
+    );
 
     const signedTransaction = await signTransaction(transaction);
     const signature = await connection.sendRawTransaction(
