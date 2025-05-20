@@ -117,7 +117,7 @@ export const useSocialRadarCoins = (config: {
   securityLabels?: string[];
   trendLabels?: string[];
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['social-radar-coins'],
     queryFn: () =>
@@ -134,9 +134,10 @@ export const useSocialRadarCoins = (config: {
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            ) ||
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug)) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
             !matcher(config.exchanges).array(row.exchanges_name) ||
             !matcher(config.sources).array(row.sources) ||

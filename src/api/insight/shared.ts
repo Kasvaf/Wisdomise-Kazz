@@ -13,6 +13,7 @@ import {
   type Pool,
   type NetworkSecurity,
   type CoinCommunityData,
+  type CoinNetwork,
 } from '../types/shared';
 import { matcher } from './utils';
 import { calculateNCoinStates, type NetworkRadarNCoin } from './network';
@@ -124,6 +125,7 @@ interface DetailedCoin {
   };
   is_in_coingecko?: boolean | null;
   symbol_labels?: string[] | null;
+  network_bindings?: CoinNetwork[];
 }
 
 export const useDetailedCoins = (config: {

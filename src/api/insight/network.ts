@@ -157,7 +157,7 @@ export const useNetworkRadarNCoins = (config: {
   hasTwitterPost?: boolean;
   hasAtleastOneSocial?: boolean;
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['network-radar-pools'],
     queryFn: () =>
@@ -181,9 +181,10 @@ export const useNetworkRadarNCoins = (config: {
             !matcher(config.query).coin(row.base_symbol) ||
             (config.excludeQuery &&
               matcher(config.excludeQuery).coin(row.base_symbol)) ||
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array([
-              row.network.slug,
-            ])
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array([row.network.slug])
           )
             return false;
 

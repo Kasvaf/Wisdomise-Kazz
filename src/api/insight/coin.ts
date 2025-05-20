@@ -37,7 +37,7 @@ export interface CoinRadarCoin {
 }
 
 export const useCoinRadarCoins = (config: { networks?: string[] }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['coin-radar-coins'],
     queryFn: () =>
@@ -53,9 +53,10 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
       data
         .filter(row => {
           if (
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            )
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug))
           )
             return false;
 
