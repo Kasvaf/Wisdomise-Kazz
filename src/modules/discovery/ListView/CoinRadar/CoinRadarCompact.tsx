@@ -11,6 +11,7 @@ import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import UserAssets from 'modules/autoTrader/UserAssets';
 import {
   CoinPreDetailModal,
@@ -122,6 +123,9 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
   return (
     <>
       {focus && <UserAssets className="mb-4" />}
@@ -137,6 +141,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={2}
           onClick={r => openModal(r)}
           scrollable={false}
+          isActive={r => r.symbol.slug === activeSlug}
         />
       </AccessShield>
 

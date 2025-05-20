@@ -9,6 +9,7 @@ import {
   useNetworkRadarNCoins,
 } from 'api/insight/network';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useCoinPreDetailModal } from '../CoinPreDetailModal';
 import { NCoinAge } from './NCoinAge';
 import { NCoinBuySell } from './NCoinBuySell';
@@ -105,6 +106,9 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
   return (
     <>
       {focus && (
@@ -129,6 +133,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={2}
           scrollable={false}
           onClick={r => openModal(r)}
+          isActive={r => r.base_symbol.slug === activeSlug}
         />
       </AccessShield>
       <NCoinPreDetailModal
