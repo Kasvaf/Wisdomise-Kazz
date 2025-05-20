@@ -48,3 +48,5 @@ export const persisterOptions: OmitKeyof<
   // cache for up to 3 days
   maxAge: 1000 * 60 * 60 * 24 * 3,
 };
+
+export const clearPersistCache = () => cacheStorage.clear();

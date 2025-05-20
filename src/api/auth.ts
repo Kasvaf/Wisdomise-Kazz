@@ -7,6 +7,7 @@ import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
 import { isLocal } from 'utils/version';
+import { clearPersistCache } from 'config/reactQuery';
 import { useUserStorage } from './userStorage';
 import { useDisconnectAll } from './chains';
 
@@ -242,6 +243,7 @@ export function useLogoutMutation() {
       delJwtToken();
       await Promise.all([
         disconnectChains(),
+        clearPersistCache(),
         queryClient.invalidateQueries({}),
       ]);
       location.reload();
