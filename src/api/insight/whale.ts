@@ -61,7 +61,7 @@ export const useWhaleRadarWhales = (config: {
   networkNames?: string[]; // TODO ask to convert this to network slug
   query?: string;
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['whale-radar-whales'],
     queryFn: async () => {
@@ -79,7 +79,7 @@ export const useWhaleRadarWhales = (config: {
       data.filter(row => {
         if (
           !matcher([
-            defaultNetwork,
+            ...(globalNetwork ? [globalNetwork] : []),
             ...(config?.networkNames?.map(x => x.toLowerCase()) ?? []),
           ]).array([row.network_name.toLowerCase()]) ||
           !matcher(config?.query).string(row.holder_address)
@@ -281,7 +281,6 @@ export interface WhaleRadarCoin extends WhaleRadarSentiment {
 }
 
 export const useWhaleRadarCoins = (config: {
-  days: number;
   sortBy?: string;
   sortOrder?: 'ascending' | 'descending';
   query?: string;
@@ -292,14 +291,14 @@ export const useWhaleRadarCoins = (config: {
   profitableOnly?: boolean;
   excludeNativeCoins?: boolean;
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
 
   return useQuery({
-    queryKey: ['whale-radar-coins', config.days],
+    queryKey: ['whale-radar-coins'],
     queryFn: () =>
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {
-          days: config.days,
+          days: 7,
           page_size: 500,
         },
         meta: { auth: false },
@@ -312,9 +311,10 @@ export const useWhaleRadarCoins = (config: {
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
-              row.networks.map(x => x.network.slug),
-            ) ||
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array(row.networks.map(x => x.network.slug)) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
             !matcher(config.securityLabels).security(
               row.symbol_security?.data,

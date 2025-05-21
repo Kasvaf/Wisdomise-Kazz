@@ -13,7 +13,6 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { ContractAddress } from 'shared/ContractAddress';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { type CoinNetwork } from 'api/types/shared';
 import { PriceAlertButton } from './PriceAlertButton';
 
@@ -25,7 +24,6 @@ export const CoinTitleWidget: FC<{
   const { t } = useTranslation('network-radar');
   const coin = useCoinDetails({ slug });
   const nCoin = useNCoinDetails({ slug });
-  const [globalNetwork] = useGlobalNetwork();
   const isLoading =
     coin.isLoading || nCoin.isLoading || coin.isPending || nCoin.isPending;
   const isNCoin = !!nCoin.data?.base_symbol;
@@ -47,8 +45,6 @@ export const CoinTitleWidget: FC<{
     }
     return ret;
   }, [nCoin.data, coin.data]);
-
-  const matchedNetwork = networks.find(x => x.network.slug === globalNetwork);
 
   useLoadingBadge(isLoading);
 
@@ -88,20 +84,13 @@ export const CoinTitleWidget: FC<{
                   />
                 </div>
                 <div className="flex items-center gap-1">
-                  {matchedNetwork && (
-                    <>
-                      <ContractAddress
-                        value={
-                          matchedNetwork.symbol_network_type === 'COIN'
-                            ? true
-                            : matchedNetwork.contract_address
-                        }
-                        fallbackAsNativeCoin={false}
-                        className="text-xs text-v1-content-secondary"
-                      />
-                      <span className="size-[2px] rounded-full bg-white" />
-                    </>
-                  )}
+                  <>
+                    <ContractAddress
+                      value={networks}
+                      className="text-xs text-v1-content-secondary"
+                    />
+                    <span className="size-[2px] rounded-full bg-white" />
+                  </>
 
                   {/* Socials */}
                   <CoinCommunityLinks

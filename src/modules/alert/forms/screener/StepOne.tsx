@@ -23,7 +23,7 @@ export function StepOne({
 }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
   const setDefaultValue = useRef(true);
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
 
   const {
     value: [value, setValue],
@@ -73,9 +73,9 @@ export function StepOne({
   useEffect(() => {
     if (!value.key && setDefaultValue.current) {
       setDefaultValue.current = false;
-      setForm('networks', [defaultNetwork] as never);
+      setForm('networks', (globalNetwork ? [globalNetwork] : []) as never);
     }
-  }, [value, setForm, defaultNetwork]);
+  }, [value, setForm, globalNetwork]);
 
   return (
     <form

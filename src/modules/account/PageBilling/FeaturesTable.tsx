@@ -19,7 +19,7 @@ export function FeaturesTable({ className }: { className?: string }) {
     },
     { feature: 'Whale Radar', free: <Check />, vip: <ProCheck /> },
     {
-      feature: 'Radar +',
+      feature: 'Bluechips',
       free: <Check />,
       vip: <ProCheck />,
     },
