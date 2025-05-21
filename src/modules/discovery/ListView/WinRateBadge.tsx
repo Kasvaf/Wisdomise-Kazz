@@ -1,5 +1,7 @@
+import { bxChevronRight } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC } from 'react';
+import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Badge } from 'shared/v1-components/Badge';
 
@@ -24,6 +26,7 @@ export const WinRateBadge: FC<{
           popup="never"
           label="%"
         />
+        <Icon name={bxChevronRight} size={16} className="-me-1" />
       </Badge>
     </a>
   ) : null;
