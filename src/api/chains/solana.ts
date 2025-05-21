@@ -291,8 +291,6 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         signedTransaction.serialize(),
       );
 
-      void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
-
       return () => {
         const cacheWaiter = awaitPositionInCache({
           slug,
@@ -305,8 +303,12 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
             signature,
             blockhash: latestBlockhash.blockhash,
             lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+            abortSignal: timeoutSignal(),
           })
-          .then(x => x.value.err == null);
+          .then(x => x.value.err == null)
+          .finally(() => {
+            void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+          });
 
         return Promise.race([cacheWaiter, networkConfirmation]).finally(
           cacheWaiter.stop,
@@ -407,9 +409,6 @@ export const useSolanaMarketSwap = () => {
       signedTransaction.serialize(),
     );
 
-    void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
-    void queryClient.invalidateQueries({ queryKey: ['solana-user-assets'] });
-
     await ofetch<SwapResponse>('/trader/swap/' + key, {
       method: 'patch',
       body: { transaction_hash: signature },
@@ -421,9 +420,22 @@ export const useSolanaMarketSwap = () => {
           signature,
           blockhash: latestBlockhash.blockhash,
           lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+          abortSignal: timeoutSignal(),
         })
-        .then(x => x.value.err == null);
+        .then(x => x.value && x.value.err == null)
+        .finally(() => {
+          void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+          void queryClient.invalidateQueries({
+            queryKey: ['solana-user-assets'],
+          });
+        });
   };
+};
+
+const timeoutSignal = (timeout = 7000) => {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), timeout);
+  return abortController.signal;
 };
 
 export function useAwaitSolanaWalletConnection() {
