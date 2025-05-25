@@ -337,6 +337,11 @@ export const useTechnicalRadarCoins = (config: {
       ),
     select: data => {
       return data
+        .map(row => ({
+          ...row,
+          _highlighted:
+            (row.score ?? 0) > MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE,
+        }))
         .filter(row => {
           if (
             !matcher(config.query).coin(row.symbol) ||
@@ -362,15 +367,6 @@ export const useTechnicalRadarCoins = (config: {
           if (config.sortBy === 'market_cap')
             return sorter(a.data?.market_cap, b.data?.market_cap);
           return sorter(a.rank, b.rank);
-        })
-        .map(row => {
-          if ((row.score ?? 0) > MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE) {
-            return {
-              ...row,
-              _highlighted: true,
-            };
-          }
-          return row;
         });
     },
     meta: {

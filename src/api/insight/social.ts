@@ -128,6 +128,11 @@ export const useSocialRadarCoins = (config: {
       }).then(x => x ?? []),
     select: data =>
       data
+        .map(row => ({
+          ...row,
+          _highlighted:
+            (row.wise_score ?? 0) > MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
+        }))
         .filter(row => {
           if (
             !matcher(config.query).coin(row.symbol) ||
@@ -162,15 +167,6 @@ export const useSocialRadarCoins = (config: {
               a.symbol_market_data.market_cap,
             );
           return sorter(a.rank, b.rank);
-        })
-        .map(row => {
-          if ((row.wise_score ?? 0) > MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE) {
-            return {
-              ...row,
-              _highlighted: true,
-            };
-          }
-          return row;
         }),
     meta: {
       persist: true,
