@@ -76,6 +76,16 @@ export const useMenuItems = () => {
         text: 'Whale',
         crumb: 'Whale Radar',
       },
+      {
+        link: '/discovery?list=positions',
+        meta: {
+          list: 'positions',
+        },
+        icon: PortfolioIcon,
+        text: 'Positions',
+        crumb: 'Positions',
+        hide: isMobile,
+      },
     ],
     [isMobile],
   );
