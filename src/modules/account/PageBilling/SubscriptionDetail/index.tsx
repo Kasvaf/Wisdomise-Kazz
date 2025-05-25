@@ -11,7 +11,7 @@ import {
 } from 'api';
 import { PageTitle } from 'shared/PageTitle';
 import { useLockingStateQuery } from 'api/defi';
-import { addComma } from 'utils/numbers';
+import { addComma, formatNumber } from 'utils/numbers';
 import { Referral } from 'modules/account/PageReferral';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
@@ -23,6 +23,7 @@ import StakeModalContent from 'modules/account/PageBilling/SubscriptionDetail/St
 import useModal from 'shared/useModal';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import useConfirm from 'shared/useConfirm';
+import { useRevenueQuery } from 'api/revenue';
 import wiseClub from './wise-club.png';
 import gradient from './gradient.png';
 import { ReactComponent as Bag } from './bag.svg';
@@ -35,6 +36,7 @@ import gradient2 from './gradient-2.png';
 export default function SubscriptionDetail() {
   const { plan, currentPeriodEnd, level, group } = useSubscription();
   const { data: lockState } = useLockingStateQuery();
+  const { data: revenue } = useRevenueQuery();
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useInstantCancelMutation();
   const ensureWalletConnected = useEnsureWalletConnected();
@@ -50,7 +52,6 @@ export default function SubscriptionDetail() {
   const [stakeModal, openStakeModal] = useModal(StakeModalContent);
 
   const { data } = useAccountQuery();
-  const firstDayNextMonth = dayjs().add(1, 'month').startOf('month');
 
   const subItem = data?.subscription_item;
   const paymentMethod = subItem?.payment_method;
@@ -143,17 +144,29 @@ export default function SubscriptionDetail() {
                     </div>
                   </>
                 )}
-                {hasFlag('/account/billing?revenue') && (
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-xl font-semibold">$0</h3>
-                    <p className="text-xs text-v1-inverse-overlay-50">
-                      Reward Distributed in {firstDayNextMonth.format('MMMM D')}
-                    </p>
-                    <p className="text-xs font-medium text-v1-inverse-overlay-70">
-                      Expected Staking Reward
-                    </p>
-                  </div>
-                )}
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-xl font-semibold">
+                    $
+                    {formatNumber(revenue?.net_revenue ?? 0, {
+                      compactInteger: false,
+                      seperateByComma: false,
+                      decimalLength: 2,
+                      minifyDecimalRepeats: false,
+                    })}
+                  </h3>
+                  <p className="text-xs text-v1-inverse-overlay-50">
+                    Net Revenue
+                  </p>
+                  <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                    {formatNumber(revenue?.trading_volume ?? 0, {
+                      compactInteger: true,
+                      seperateByComma: false,
+                      decimalLength: 2,
+                      minifyDecimalRepeats: false,
+                    })}{' '}
+                    Trading Volume
+                  </p>
+                </div>
               </div>
               <Utility />
             </div>
