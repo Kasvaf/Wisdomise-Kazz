@@ -28,14 +28,13 @@ export const CoinTitleWidget: FC<{
     coin.isLoading || nCoin.isLoading || coin.isPending || nCoin.isPending;
   const isNCoin = !!nCoin.data?.base_symbol;
   const symbol = nCoin.data?.base_symbol || coin.data?.symbol;
-
   const networks = useMemo<CoinNetwork[]>(() => {
     const ret: CoinNetwork[] = [];
     if (nCoin.data?.base_contract_address && nCoin.data.network) {
       return [
         {
           contract_address: nCoin.data.base_contract_address,
-          symbol_network_type: 'COIN',
+          symbol_network_type: 'TOKEN',
           network: nCoin.data.network,
         },
       ];
@@ -88,6 +87,7 @@ export const CoinTitleWidget: FC<{
                     <ContractAddress
                       value={networks}
                       className="text-xs text-v1-content-secondary"
+                      allowCopy
                     />
                     <span className="size-[2px] rounded-full bg-white" />
                   </>
