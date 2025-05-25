@@ -76,6 +76,16 @@ export const useMenuItems = () => {
         crumb: 'Portfolio',
         hide: isMobile,
       },
+      {
+        link: '/discovery?list=positions',
+        meta: {
+          list: 'positions',
+        },
+        icon: PortfolioIcon,
+        text: 'Positions',
+        crumb: 'Positions',
+        hide: isMobile,
+      },
     ],
     [isMobile],
   );
