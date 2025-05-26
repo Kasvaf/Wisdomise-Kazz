@@ -9,12 +9,14 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { EmptySentiment } from '../EmptySentiment';
 import { homeSubscriptionsConfig } from '../constants';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
 import { ConfirmationBadgesInfo } from '../../TechnicalRadar/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadar/TechnicalRadarSentiment';
 import { WinRateBadge } from '../../WinRateBadge';
+import useHotCoinsTour from '../useHotCoinsTour';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
@@ -44,6 +46,12 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         sticky: 'start',
         render: row => <Coin coin={row.symbol} />,
         width: 220,
+      },
+      {
+        title: t('coin-radar:social-radar.table.market_cap.title'),
+        info: t('coin-radar:social-radar.table.market_cap.info'),
+        width: 140,
+        render: row => <CoinMarketCap marketData={row.market_data} />,
       },
       {
         key: 'social_radar_sentiment',
@@ -106,6 +114,9 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
     [t],
   );
 
+  useHotCoinsTour({
+    enabled: !coins.isLoading,
+  });
   return (
     <OverviewWidget
       title={
@@ -121,6 +132,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
     >
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
+          rowClassName="id-tour-row"
           columns={columns}
           dataSource={coins.data?.slice(0, 10)}
           chunkSize={10}

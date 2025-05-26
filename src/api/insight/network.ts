@@ -171,8 +171,9 @@ export const useNetworkRadarNCoins = (config: {
       ),
     select: data =>
       data
-        .map(row => ({
+        .map((row, i) => ({
           ...row,
+          _rank: i + 1,
           _states: calculateNCoinStates(row),
         }))
         .filter(row => {
@@ -282,8 +283,7 @@ export const useNetworkRadarNCoins = (config: {
             return false;
 
           return true;
-        })
-        .map((row, i) => ({ ...row, _rank: i + 1 })),
+        }),
     meta: {
       persist: true,
     },

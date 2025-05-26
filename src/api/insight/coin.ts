@@ -51,6 +51,14 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
       ),
     select: data =>
       data
+        .map(row => ({
+          ...row,
+          _highlighted:
+            (row.social_radar_insight?.wise_score ?? 0) >
+              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE ||
+            (row.technical_radar_insight?.wise_score ?? 0) >
+              MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE,
+        }))
         .filter(row => {
           if (
             !matcher([
@@ -72,20 +80,6 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
           }
 
           return true;
-        })
-        .map(row => {
-          if (
-            (row.social_radar_insight?.wise_score ?? 0) >
-              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE ||
-            (row.technical_radar_insight?.wise_score ?? 0) >
-              MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE
-          ) {
-            return {
-              ...row,
-              _highlighted: true,
-            };
-          }
-          return row;
         }),
     meta: {
       persist: true,

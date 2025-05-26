@@ -7,7 +7,7 @@ import { useHasFlag } from 'api';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
-const TOUR_CLASS = 'tour-item-bottom-navbar';
+const TOUR_CLASS = 'id-tour-bottom-navbar';
 
 const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
   const showLoadingBadge = useLoadingBadge();

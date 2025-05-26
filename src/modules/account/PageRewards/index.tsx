@@ -15,6 +15,7 @@ import { shortenAddress } from 'utils/shortenAddress';
 import { useHasFlag } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import logo from 'assets/logo.svg';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
 import gradient from './images/gradient.png';
@@ -26,8 +27,15 @@ import leagueSrc from './images/league.png';
 
 export default function PageRewards() {
   const isMobile = useIsMobile();
-  const { subReferral, tradeReferral, daily, total, claimed, league } =
-    useGamificationRewards();
+  const {
+    subReferral,
+    tradeReferral,
+    daily,
+    total,
+    claimed,
+    league,
+    tournament,
+  } = useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
@@ -128,6 +136,9 @@ export default function PageRewards() {
           />
           {hasFlag('/trader/quests/league') && (
             <RewardItem title="League" image={leagueSrc} amount={league} />
+          )}
+          {hasFlag('/trader/quests/tournaments') && (
+            <RewardItem title="Tournaments" image={logo} amount={tournament} />
           )}
         </div>
       )}

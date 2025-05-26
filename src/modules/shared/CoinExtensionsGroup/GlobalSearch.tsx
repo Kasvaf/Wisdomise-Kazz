@@ -95,7 +95,22 @@ export const GlobalSearch: FC<
                 <div className="flex items-center gap-1 text-xs">
                   {/* Contract Address */}
                   <ContractAddress
-                    value={row.network_bindings}
+                    value={
+                      row.network_bindings ??
+                      (network
+                        ? {
+                            contract_address: row.contract_address ?? '',
+                            symbol_network_type: row.contract_address
+                              ? 'TOKEN'
+                              : 'COIN',
+                            network: {
+                              name: networkName ?? network,
+                              slug: network,
+                              icon_url: '',
+                            },
+                          }
+                        : undefined)
+                    }
                     allowCopy
                     className="text-v1-content-secondary"
                   />

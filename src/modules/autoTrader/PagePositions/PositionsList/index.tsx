@@ -2,6 +2,7 @@ import { Pagination } from 'antd';
 import Spinner from 'shared/Spinner';
 import { useTraderPositionsQuery } from 'api';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import usePageTour from 'shared/usePageTour';
 import NoPosition from './NoPosition';
 import PositionDetail from './PositionDetail';
 
@@ -22,6 +23,30 @@ const PositionsList: React.FC<{
     page: +page,
   });
   const positionsRes = positions?.positions ?? [];
+
+  const someSharable = positionsRes.some(
+    ({ status }) => status === 'CLOSED' || status === 'OPEN',
+  );
+  usePageTour({
+    key: 'share-position',
+    enabled: someSharable,
+    steps: [
+      {
+        selector: '.id-tour-share',
+        content: (
+          <>
+            <div className="mb-2 font-semibold">
+              Share your trade card to earn more.
+            </div>
+            <div>
+              Show your performance and get referrals through your unique link
+              and QR code.
+            </div>
+          </>
+        ),
+      },
+    ],
+  });
 
   return isLoading ? (
     <>
