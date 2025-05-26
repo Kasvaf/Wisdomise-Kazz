@@ -52,6 +52,7 @@ const useActionHandlers = (state: SwapState) => {
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
 
+    // direct swap
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
@@ -169,11 +170,11 @@ const useActionHandlers = (state: SwapState) => {
           network,
           positionKey: res.position_key,
         });
-      } finally {
-        setFiring(false);
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
+    } finally {
+      setFiring(false);
     }
   };
 

@@ -61,7 +61,7 @@ const PageAccount: FC = () => {
             icon={SubscriptionIcon}
             onClick={trackClick('subscription_menu')}
             badge={
-              subscription.level !== 0 && (
+              subscription.group !== 'free' && (
                 <Badge
                   color={subscription.remaining ? 'white' : 'red'}
                   label={

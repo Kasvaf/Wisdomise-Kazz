@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
+import { TEMPLE_ORIGIN } from 'config/constants';
 
 export type GamificationStatus = 'live' | 'upcoming' | 'finished' | 'active';
 
@@ -31,11 +32,12 @@ export interface LeaderboardParticipant {
   name?: string;
   trading_volume: number;
   rank: number;
-  league_slug?: string;
-  promotion_status?: PromotionStatus;
+  league_slug?: string; // for league
+  promotion_status?: PromotionStatus; // for league
   result?: {
+    is_claimed?: boolean; // for tournament
     reward_items: PrizeItem[];
-    next_league_slug: string;
+    next_league_slug: string; // for league
   };
 }
 
@@ -90,3 +92,21 @@ export function useTournamentProfileQuery(key: string) {
     },
   });
 }
+
+export const useTournamentClaimMutation = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async (key: string) => {
+      return await ofetch(
+        `${TEMPLE_ORIGIN}/api/v1/trader/tournaments/${key}/claim`,
+        {
+          method: 'post',
+        },
+      );
+    },
+    onSuccess: () =>
+      client.invalidateQueries({
+        queryKey: ['tournamentsMe'],
+      }),
+  });
+};
