@@ -2,6 +2,7 @@
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
 import { Button } from 'shared/v1-components/Button';
+import { useCoinDetails } from 'api';
 import { type SignalFormState } from './useSignalFormStates';
 import AmountBalanceLabel from './AmountBalanceLabel';
 import useSensibleSteps from './useSensibleSteps';
@@ -23,6 +24,8 @@ const PartIntro: React.FC<{
     useAccountBalance(quote);
 
   const steps = useSensibleSteps(quoteBalance);
+  const coin = useCoinDetails({ slug: baseSlug });
+  const isNewBorn = coin?.data?.symbol_labels?.includes('new_born');
 
   return (
     <div>
@@ -66,12 +69,14 @@ const PartIntro: React.FC<{
         </div>
       )}
 
-      <AIPresets
-        data={data}
-        baseSlug={baseSlug}
-        quoteSlug={quote}
-        noManual={noManualPreset}
-      />
+      {!isNewBorn && (
+        <AIPresets
+          data={data}
+          baseSlug={baseSlug}
+          quoteSlug={quote}
+          noManual={noManualPreset}
+        />
+      )}
     </div>
   );
 };

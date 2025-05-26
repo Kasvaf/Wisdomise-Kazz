@@ -117,7 +117,7 @@ export const useSocialRadarCoins = (config: {
   securityLabels?: string[];
   trendLabels?: string[];
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['social-radar-coins'],
     queryFn: () =>
@@ -128,15 +128,21 @@ export const useSocialRadarCoins = (config: {
       }).then(x => x ?? []),
     select: data =>
       data
+        .map(row => ({
+          ...row,
+          _highlighted:
+            (row.wise_score ?? 0) > MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
+        }))
         .filter(row => {
           if (
             !matcher(config.query).coin(row.symbol) ||
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            ) ||
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug)) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
             !matcher(config.exchanges).array(row.exchanges_name) ||
             !matcher(config.sources).array(row.sources) ||
@@ -161,15 +167,6 @@ export const useSocialRadarCoins = (config: {
               a.symbol_market_data.market_cap,
             );
           return sorter(a.rank, b.rank);
-        })
-        .map(row => {
-          if ((row.wise_score ?? 0) > MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE) {
-            return {
-              ...row,
-              _highlighted: true,
-            };
-          }
-          return row;
         }),
     meta: {
       persist: true,

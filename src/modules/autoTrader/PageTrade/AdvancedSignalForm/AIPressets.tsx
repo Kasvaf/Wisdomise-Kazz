@@ -62,7 +62,7 @@ const AIPresets: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [safetyOpens, takeProfits, stopLosses]);
 
-  const tourSelector = 'tour-item-ai-preset';
+  const tourSelector = 'id-tour-ai-preset';
   usePageTour({
     key: 'ai-preset-tour',
     enabled: !isUpdate && !isLoading && !!presets?.length,

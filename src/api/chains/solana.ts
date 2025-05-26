@@ -1,8 +1,11 @@
 import {
+  type AddressLookupTableAccount,
   PublicKey,
   SystemProgram,
   Transaction,
   TransactionInstruction,
+  TransactionMessage,
+  VersionedTransaction,
 } from '@solana/web3.js';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -281,8 +284,6 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
       const signature =
         await walletProvider.signAndSendTransaction(transaction);
 
-      void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
-
       return () => {
         const cacheWaiter = awaitPositionInCache({
           slug,
@@ -295,8 +296,12 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
             signature,
             blockhash: latestBlockhash.blockhash,
             lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+            abortSignal: timeoutSignal(),
           })
-          .then(x => x.value.err == null);
+          .then(x => x.value.err == null)
+          .finally(() => {
+            void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+          });
 
         return Promise.race([cacheWaiter, networkConfirmation]).finally(
           cacheWaiter.stop,
@@ -312,6 +317,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
 interface SwapResponse {
   key: string;
   instructions: Instruction[];
+  lookup_table_address?: string[];
 }
 
 interface Instruction {
@@ -345,7 +351,10 @@ export const useSolanaMarketSwap = () => {
     if (!connection || !address) throw new Error('Wallet not connected');
     const publicKey = new PublicKey(address);
 
-    const [{ key, instructions }, latestBlockhash] = await Promise.all([
+    const [
+      { key, instructions, lookup_table_address: lookupTableAddresses },
+      latestBlockhash,
+    ] = await Promise.all([
       ofetch<SwapResponse>('/trader/swap', {
         method: 'post',
         body: {
@@ -359,26 +368,38 @@ export const useSolanaMarketSwap = () => {
       connection.getLatestBlockhash(),
     ]);
 
-    const transaction = new Transaction();
-    transaction.recentBlockhash = latestBlockhash.blockhash;
-    transaction.feePayer = publicKey;
+    // Fetch the address lookup tables if provided
+    const lookupTableAccounts = (
+      await Promise.all(
+        (lookupTableAddresses || []).map(
+          async address =>
+            (await connection.getAddressLookupTable(new PublicKey(address)))
+              .value || null,
+        ),
+      )
+    ).filter((table): table is AddressLookupTableAccount => table != null);
 
-    for (const inst of instructions) {
-      const instruction = new TransactionInstruction({
-        programId: new PublicKey(inst.programId),
-        data: Buffer.from(inst.data),
-        keys: inst.accounts.map(acc => ({
-          pubkey: new PublicKey(acc.pubkey),
-          isSigner: acc.is_signer,
-          isWritable: acc.is_writable,
-        })),
-      });
-      transaction.add(instruction);
-    }
+    // Create a versioned transaction
+    const transaction = new VersionedTransaction(
+      new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: latestBlockhash.blockhash,
+        instructions: instructions.map(
+          inst =>
+            new TransactionInstruction({
+              programId: new PublicKey(inst.programId),
+              data: Buffer.from(inst.data),
+              keys: inst.accounts.map(acc => ({
+                pubkey: new PublicKey(acc.pubkey),
+                isSigner: acc.is_signer,
+                isWritable: acc.is_writable,
+              })),
+            }),
+        ),
+      }).compileToV0Message(lookupTableAccounts),
+    );
 
     const signature = await walletProvider.signAndSendTransaction(transaction);
-    void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
-    void queryClient.invalidateQueries({ queryKey: ['solana-user-assets'] });
 
     await ofetch<SwapResponse>('/trader/swap/' + key, {
       method: 'patch',
@@ -391,9 +412,22 @@ export const useSolanaMarketSwap = () => {
           signature,
           blockhash: latestBlockhash.blockhash,
           lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+          abortSignal: timeoutSignal(),
         })
-        .then(x => x.value.err == null);
+        .then(x => x.value && x.value.err == null)
+        .finally(() => {
+          void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+          void queryClient.invalidateQueries({
+            queryKey: ['solana-user-assets'],
+          });
+        });
   };
+};
+
+const timeoutSignal = (timeout = 7000) => {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), timeout);
+  return abortController.signal;
 };
 
 export function useAwaitSolanaWalletConnection(

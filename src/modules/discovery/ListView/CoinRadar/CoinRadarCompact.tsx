@@ -13,6 +13,7 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import UserAssets from 'modules/autoTrader/UserAssets';
+import useIsMobile from 'utils/useIsMobile';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
@@ -28,8 +29,9 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const coins = useCoinRadarCoins({});
   useLoadingBadge(coins.isFetching);
 
+  const isMobile = useIsMobile();
   useHotCoinsTour({
-    enabled: !coins.isLoading,
+    enabled: !coins.isLoading && isMobile,
   });
 
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
@@ -78,7 +80,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       },
       {
         key: 'sentiment',
-        className: 'tour-item-sentiment',
+        className: 'id-tour-sentiment',
         render: row => (
           <div className="flex items-center gap-4">
             {row.social_radar_insight && (
@@ -132,7 +134,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
-          rowClassName="tour-item-row"
+          rowClassName="id-tour-row"
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}
           chunkSize={10}

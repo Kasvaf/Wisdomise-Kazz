@@ -242,8 +242,8 @@ export function useTraderPositionQuery({
 export function useTraderPositionsQuery({
   slug,
   isOpen,
-  pageSize,
-  page,
+  pageSize = 30,
+  page = 1,
   network,
 }: {
   slug?: string;

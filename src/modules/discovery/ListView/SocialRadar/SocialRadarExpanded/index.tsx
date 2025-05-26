@@ -13,6 +13,7 @@ import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { SearchInput } from 'shared/SearchInput';
 import {
   type SocialRadarCoin,
+  useRadarsMetrics,
   useSocialRadarCoins,
   useSocialRadarInfo,
 } from 'api';
@@ -23,34 +24,30 @@ import { TableRank } from 'shared/TableRank';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarSharingModal from '../SocialRadarSharingModal';
+import { SocialRadarFilters } from '../SocialRadarFilters';
+import { RealtimeBadge } from '../../RealtimeBadge';
+import { WinRateBadge } from '../../WinRateBadge';
 import { ReactComponent as Logo } from './logo.svg';
-import { ReactComponent as Realtime } from './realtime.svg';
 
 export function SocialRadarExpanded() {
   const marketInfo = useSocialRadarInfo();
   const { isEmbeddedView } = useEmbedView();
   const { t } = useTranslation('coin-radar');
-  const [tableState, setTableState] = usePageState<
-    Required<Parameters<typeof useSocialRadarCoins>[0]>
+  const [pageState, setPageState] = usePageState<
+    Parameters<typeof useSocialRadarCoins>[0]
   >('social-radar', {
     sortBy: 'rank',
     sortOrder: 'ascending',
-    query: '',
-    categories: [] as string[],
-    networks: [] as string[],
-    trendLabels: [] as string[],
-    securityLabels: [] as string[],
-    exchanges: [] as string[],
-    sources: [] as string[],
   });
 
-  const coins = useSocialRadarCoins(tableState);
+  const coins = useSocialRadarCoins(pageState);
+  const metrics = useRadarsMetrics();
+  const socialRadarMetrics = metrics.data?.social_radar;
   useLoadingBadge(coins.isFetching);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();
@@ -124,55 +121,52 @@ export function SocialRadarExpanded() {
         'min-h-[670px] shrink-0 xl:min-h-[631px] 2xl:min-h-[640px]',
       )}
       title={
-        isEmbeddedView ? undefined : (
+        !isEmbeddedView && (
           <>
             <SocialRadarIcon className="size-6" />
             {t('social-radar.table.title')}
-            <Realtime />
           </>
         )
       }
-      subtitle={
-        isEmbeddedView ? undefined : (
-          <div
-            className={clsx(
-              'w-[450px] mobile:hidden [&_b]:font-normal [&_b]:text-v1-content-primary',
-              marketInfo.isLoading && '[&_b]:animate-pulse',
-            )}
-          >
-            <Trans
-              ns="coin-radar"
-              i18nKey="coin-radar:social-radar.table.description"
-              values={{
-                posts: formatNumber(
-                  marketInfo.data?.analyzed_messages ?? 4000,
-                  {
-                    compactInteger: true,
-                    decimalLength: 0,
-                    seperateByComma: true,
-                    minifyDecimalRepeats: false,
-                  },
-                ),
-              }}
-            />
-          </div>
+      titleSuffix={
+        !isEmbeddedView && (
+          <>
+            <RealtimeBadge />
+            <WinRateBadge value={socialRadarMetrics?.max_average_win_rate} />
+          </>
         )
+      }
+      info={
+        <p className="[&_b]:text-v1-content-primary [&_b]:underline">
+          <Trans
+            ns="coin-radar"
+            i18nKey="coin-radar:social-radar.table.description"
+            values={{
+              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
+                compactInteger: true,
+                decimalLength: 0,
+                seperateByComma: true,
+                minifyDecimalRepeats: false,
+              }),
+            }}
+          />
+        </p>
       }
       headerActions={
         <SearchInput
-          value={tableState.query}
-          onChange={query => setTableState(p => ({ ...p, query }))}
+          value={pageState.query}
+          onChange={query => setPageState(p => ({ ...p, query }))}
           placeholder={t('common.search_coin')}
           size="md"
         />
       }
     >
-      <RadarFilter
-        radar="social-radar-24-hours"
-        value={tableState}
-        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
+      <SocialRadarFilters
+        value={pageState}
+        onChange={newPageState =>
+          setPageState({ query: pageState.query, ...newPageState })
+        }
         className="mb-4 w-full"
-        surface={3}
       />
       <AccessShield
         mode="table"

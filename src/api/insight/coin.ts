@@ -37,7 +37,7 @@ export interface CoinRadarCoin {
 }
 
 export const useCoinRadarCoins = (config: { networks?: string[] }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['coin-radar-coins'],
     queryFn: () =>
@@ -51,11 +51,20 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
       ),
     select: data =>
       data
+        .map(row => ({
+          ...row,
+          _highlighted:
+            (row.social_radar_insight?.wise_score ?? 0) >
+              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE ||
+            (row.technical_radar_insight?.wise_score ?? 0) >
+              MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE,
+        }))
         .filter(row => {
           if (
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            )
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug))
           )
             return false;
 
@@ -71,20 +80,6 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
           }
 
           return true;
-        })
-        .map(row => {
-          if (
-            (row.social_radar_insight?.wise_score ?? 0) >
-              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE ||
-            (row.technical_radar_insight?.wise_score ?? 0) >
-              MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE
-          ) {
-            return {
-              ...row,
-              _highlighted: true,
-            };
-          }
-          return row;
         }),
     meta: {
       persist: true,

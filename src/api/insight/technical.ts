@@ -220,7 +220,7 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
   combination: IndicatorConfirmationCombination[];
   networks?: string[];
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: [
       'indicator-confirmation',
@@ -271,9 +271,10 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         })
         .filter(row => {
           if (
-            !matcher([defaultNetwork, ...(filters.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            )
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(filters.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug))
           )
             return false;
           return true;
@@ -322,7 +323,7 @@ export const useTechnicalRadarCoins = (config: {
   sortOrder?: 'ascending' | 'descending';
   sortBy?: string;
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['indicators/technical-radar/top-coins'],
     queryFn: () =>
@@ -336,15 +337,21 @@ export const useTechnicalRadarCoins = (config: {
       ),
     select: data => {
       return data
+        .map(row => ({
+          ...row,
+          _highlighted:
+            (row.score ?? 0) > MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE,
+        }))
         .filter(row => {
           if (
             !matcher(config.query).coin(row.symbol) ||
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            )
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug))
           )
             return false;
           return true;
@@ -360,15 +367,6 @@ export const useTechnicalRadarCoins = (config: {
           if (config.sortBy === 'market_cap')
             return sorter(a.data?.market_cap, b.data?.market_cap);
           return sorter(a.rank, b.rank);
-        })
-        .map(row => {
-          if ((row.score ?? 0) > MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE) {
-            return {
-              ...row,
-              _highlighted: true,
-            };
-          }
-          return row;
         });
     },
     meta: {
