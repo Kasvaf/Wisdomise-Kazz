@@ -18,7 +18,7 @@ import useModal from 'shared/useModal';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { useRevenueQuery } from 'api/revenue';
 import CancelBanner from 'modules/account/PageBilling/SubscriptionDetail/CancelBanner';
-import wiseClub from './wise-club.png';
+import VipBadge from 'shared/AccessShield/VipBanner/VipBadge';
 import gradient from './gradient.png';
 import { ReactComponent as Bag } from './bag.svg';
 import { ReactComponent as Gift } from './gift.svg';
@@ -27,7 +27,7 @@ import bg from './bg.png';
 import flash from './flash.png';
 
 export default function SubscriptionDetail() {
-  const { plan, currentPeriodEnd, level, group } = useSubscription();
+  const { plan, currentPeriodEnd, group } = useSubscription();
   const { data: lockState } = useLockingStateQuery();
   const { data: revenue } = useRevenueQuery();
   const navigate = useNavigate();
@@ -68,15 +68,8 @@ export default function SubscriptionDetail() {
                 ) : (
                   <>
                     <div className="flex flex-col gap-2">
-                      <h3 className="text-xl font-semibold">
-                        {plan?.name}{' '}
-                        {level > 0 && (
-                          <img
-                            src={wiseClub}
-                            alt="wise-club"
-                            className="ml-1 inline h-5"
-                          />
-                        )}
+                      <h3 className="flex items-center gap-1 text-xl font-semibold">
+                        {plan?.name} <VipBadge className="h-5" />
                       </h3>
                       <p className="text-xs text-v1-inverse-overlay-50">
                         {plan?.periodicity.toLowerCase()}

@@ -23,7 +23,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
   return {
     title: (
       <p>
-        {t('types.screener.title')} <VipBadge className="ml-1 !h-4" />
+        {t('types.screener.title')} <VipBadge hideOnVip className="ml-1 !h-4" />
       </p>
     ),
     subtitle: t('types.screener.subtitle'),
@@ -38,7 +38,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
               color="orange"
             />
             {t('types.coin_radar_screener.title')}
-            <VipBadge className="ml-2" mode="mini" />
+            <VipBadge hideOnVip className="ml-2" mode="mini" />
           </>
         ),
         subtitle: t('types.coin_radar_screener.subtitle'),
@@ -92,7 +92,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
               color="orange"
             />
             {t('types.social_radar_screener.title')}
-            <VipBadge className="ml-2" mode="mini" />
+            <VipBadge hideOnVip className="ml-2" mode="mini" />
           </>
         ),
         subtitle: t('types.social_radar_screener.subtitle'),
@@ -146,7 +146,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
               color="orange"
             />
             {t('types.technical_radar_screener.title')}
-            <VipBadge className="ml-2" mode="mini" />
+            <VipBadge hideOnVip className="ml-2" mode="mini" />
           </>
         ),
         subtitle: t('types.technical_radar_screener.subtitle'),
