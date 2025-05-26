@@ -7,6 +7,7 @@ import {
 } from 'api/types/shared';
 import { resolvePageResponseToArray } from 'api/utils';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { extractTwitterInfo } from 'shared/CoinCommunityLinks/useCoinCommunityLinks';
 import { matcher } from './utils';
 
 export const calculateNCoinStates = (value: NetworkRadarNCoin) => {
@@ -127,6 +128,7 @@ export const useNetworkRadarNCoins = (config: {
   // devHasNotSoldYet?: boolean;
   // devSoldAll?: boolean;
   noMint?: boolean;
+  noFreeze?: boolean;
   safeTopHolder?: boolean;
   minRiskPercent?: number;
   maxRiskPercent?: number;
@@ -147,13 +149,15 @@ export const useNetworkRadarNCoins = (config: {
   maxNumSells?: number;
   minLiquidityChangePercent?: number;
   maxLiquidityChangePercent?: number;
+  minVolumeToMaketCapRatio?: number;
   /* socials */
   hasTwitter?: boolean;
   hasWebsite?: boolean;
   hasTelegram?: boolean;
+  hasTwitterPost?: boolean;
   hasAtleastOneSocial?: boolean;
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['network-radar-pools'],
     queryFn: () =>
@@ -177,9 +181,10 @@ export const useNetworkRadarNCoins = (config: {
             !matcher(config.query).coin(row.base_symbol) ||
             (config.excludeQuery &&
               matcher(config.excludeQuery).coin(row.base_symbol)) ||
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array([
-              row.network.slug,
-            ])
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array([row.network.slug])
           )
             return false;
 
@@ -188,6 +193,7 @@ export const useNetworkRadarNCoins = (config: {
           if (
             (config.burnt && !row._states.burnt) ||
             (config.noMint && row._states.mintable) ||
+            (config.noFreeze && row._states.freezable) ||
             (config.safeTopHolder && !row._states.safeTopHolders) ||
             (typeof config.minRiskPercent === 'number' &&
               riskPercent < config.minRiskPercent) ||
@@ -239,7 +245,9 @@ export const useNetworkRadarNCoins = (config: {
             (typeof config.minLiquidityChangePercent === 'number' &&
               liquidityChangePercent < config.minLiquidityChangePercent) ||
             (typeof config.maxLiquidityChangePercent === 'number' &&
-              liquidityChangePercent > config.maxLiquidityChangePercent)
+              liquidityChangePercent > config.maxLiquidityChangePercent) ||
+            (typeof config.minVolumeToMaketCapRatio === 'number' &&
+              volume > marketCap * config.minVolumeToMaketCapRatio)
           )
             return false;
 
@@ -252,10 +260,16 @@ export const useNetworkRadarNCoins = (config: {
           const hasFacebook =
             !!row.base_community_data.links?.facebook_username;
           const hasReddit = !!row.base_community_data.links?.subreddit_url;
+          const hasTwitterPost = hasTwitter
+            ? extractTwitterInfo(
+                row.base_community_data.links?.twitter_screen_name ?? '',
+              ).type === 'post'
+            : false;
           if (
             (config.hasTwitter && !hasTwitter) ||
             (config.hasTelegram && !hasTelegram) ||
             (config.hasWebsite && !hasWebsite) ||
+            (config.hasTwitterPost && !hasTwitterPost) ||
             (config.hasAtleastOneSocial &&
               ![
                 hasTwitter,

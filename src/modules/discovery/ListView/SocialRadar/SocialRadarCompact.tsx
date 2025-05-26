@@ -11,27 +11,21 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { usePageState } from 'shared/usePageState';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
 } from '../CoinPreDetailModal';
-import { RadarFilter } from '../RadarFilter';
 import { SocialRadarSentiment } from './SocialRadarSentiment';
 import SocialRadarSharingModal from './SocialRadarSharingModal';
+import { SocialRadarFilters } from './SocialRadarFilters';
 
 export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
-  const [tableState, setTableState] = usePageState<
-    Required<Parameters<typeof useSocialRadarCoins>[0]>
+  const [pageState, setPageState] = usePageState<
+    Parameters<typeof useSocialRadarCoins>[0]
   >('social-radar', {
     sortBy: 'rank',
     sortOrder: 'ascending',
-    query: '',
-    categories: [] as string[],
-    networks: [] as string[],
-    trendLabels: [] as string[],
-    securityLabels: [] as string[],
-    exchanges: [] as string[],
-    sources: [] as string[],
   });
 
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
@@ -40,7 +34,7 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       slug: r => r.symbol.slug,
     });
 
-  const coins = useSocialRadarCoins(tableState);
+  const coins = useSocialRadarCoins(pageState);
 
   useLoadingBadge(coins.isFetching);
 
@@ -109,12 +103,14 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
   return (
     <>
-      <RadarFilter
-        radar="social-radar-24-hours"
-        value={tableState}
-        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
+      <SocialRadarFilters
+        value={pageState}
+        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
         surface={1}
         mini
@@ -136,6 +132,7 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={2}
           onClick={r => openModal(r)}
           scrollable={false}
+          isActive={r => r.symbol.slug === activeSlug}
         />
       </AccessShield>
       <CoinPreDetailModal

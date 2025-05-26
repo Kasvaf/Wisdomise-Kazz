@@ -238,6 +238,7 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
 
     await tonConnectUI.sendTransaction(transaction);
     void queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
+    void queryClient.invalidateQueries({ queryKey: ['user-ton-assets'] });
     gtag('event', 'trade');
 
     return () => {

@@ -17,7 +17,7 @@ const useSensibleSteps = (balance?: number | null) => {
   return useMemo(() => {
     if (!balance) return [];
     return [0.1, 0.25, 0.5, 0.75, 1].map(p => {
-      const value = String(rounder(p * balance));
+      const value = String(p === 1 ? balance : rounder(p * balance));
       return {
         value,
         label: p === 1 ? 'MAX' : String(value),

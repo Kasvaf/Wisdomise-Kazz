@@ -89,8 +89,8 @@ export default function SocialRadarSharingModal({
               />
             </div>
             <div className="w-1/2 rounded-xl bg-white/5 px-3 py-2 text-xs">
-              <p className="mb-1 text-v1-content-secondary">Timestamp</p>
-              <p>{dayjs(new Date()).format('D MMMM YYYY h:mm A')}</p>
+              <p className="mb-1 text-v1-content-secondary">Timestamp (UTC)</p>
+              <p>{dayjs(new Date()).utc().format('D MMMM YYYY h:mm A')}</p>
             </div>
           </div>
           {coin?.signals_analysis && (

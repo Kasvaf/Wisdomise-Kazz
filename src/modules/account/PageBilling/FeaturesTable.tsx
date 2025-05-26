@@ -19,8 +19,13 @@ export function FeaturesTable({ className }: { className?: string }) {
     },
     { feature: 'Whale Radar', free: <Check />, vip: <ProCheck /> },
     {
-      feature: 'Radar +',
+      feature: 'Bluechips',
       free: <Check />,
+      vip: <ProCheck />,
+    },
+    {
+      feature: 'Revenue Share *',
+      free: <div className="ml-3">-</div>,
       vip: <ProCheck />,
     },
     {
@@ -38,7 +43,7 @@ export function FeaturesTable({ className }: { className?: string }) {
       free: <div className="ml-3">-</div>,
       vip: <ProCheck />,
     },
-  ] as const;
+  ];
 
   const columns = useMemo<Array<ColumnType<any>>>(
     () => [
@@ -88,6 +93,11 @@ export function FeaturesTable({ className }: { className?: string }) {
         className="absolute right-[15%] top-[10%] w-[40%] mobile:right-10"
         alt=""
       />
+      <p className="mt-2 text-xs">
+        * The revenue share system distributes 50% of net revenue among stakers,
+        based on how long you were staking during the month and your stake
+        amount.
+      </p>
     </div>
   );
 }

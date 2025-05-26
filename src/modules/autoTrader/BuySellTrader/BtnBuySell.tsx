@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
 import { useActiveWallet } from 'api/chains';
 import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
@@ -9,9 +8,9 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   state,
   className,
 }) => {
-  const { t } = useTranslation('builder');
   const wallet = useActiveWallet();
   const {
+    dir,
     from: { balanceLoading, balance },
   } = state;
 
@@ -33,8 +32,10 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
               <WarnIcon className="mr-2" />
               <span className="text-white/70">Insufficient Balance</span>
             </>
+          ) : dir === 'buy' ? (
+            'Buy'
           ) : (
-            t('signal-form.btn-fire-signal')
+            'Sell'
           )}
         </Button>
       ) : (

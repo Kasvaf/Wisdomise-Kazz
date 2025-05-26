@@ -220,7 +220,7 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
   combination: IndicatorConfirmationCombination[];
   networks?: string[];
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: [
       'indicator-confirmation',
@@ -271,9 +271,10 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         })
         .filter(row => {
           if (
-            !matcher([defaultNetwork, ...(filters.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            )
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(filters.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug))
           )
             return false;
           return true;
@@ -322,7 +323,7 @@ export const useTechnicalRadarCoins = (config: {
   sortOrder?: 'ascending' | 'descending';
   sortBy?: string;
 }) => {
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
   return useQuery({
     queryKey: ['indicators/technical-radar/top-coins'],
     queryFn: () =>
@@ -342,9 +343,10 @@ export const useTechnicalRadarCoins = (config: {
             !matcher(config.categories).array(
               row.symbol.categories?.map(x => x.slug),
             ) ||
-            !matcher([defaultNetwork, ...(config.networks ?? [])]).array(
-              row.networks?.map(x => x.network.slug),
-            )
+            !matcher([
+              ...(globalNetwork ? [globalNetwork] : []),
+              ...(config.networks ?? []),
+            ]).array(row.networks?.map(x => x.network.slug))
           )
             return false;
           return true;

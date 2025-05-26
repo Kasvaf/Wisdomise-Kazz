@@ -37,8 +37,8 @@ export const useMenuItems = () => {
           list: 'coin-radar',
         },
         icon: CoinRadarIcon,
-        text: 'Radar+',
-        crumb: 'Radar+',
+        text: 'Bluechips',
+        crumb: 'Bluechips',
       },
       {
         link: '/discovery?list=network-radar',

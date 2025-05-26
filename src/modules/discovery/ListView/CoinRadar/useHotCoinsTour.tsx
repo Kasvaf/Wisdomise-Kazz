@@ -23,7 +23,7 @@ export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
         content: (
           <>
             <div>
-              <img src={happyIcon} className="inline h-4" /> = Social Sentiment
+              <img src={happyIcon} className="inline h-4" /> = Social Mindshare
             </div>
             <div>
               <img src={bullIcon} className="inline h-4 px-0.5" /> = Technical

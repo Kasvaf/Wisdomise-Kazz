@@ -15,6 +15,7 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface } from 'utils/useSurface';
+import { type PresetFilter } from './presetFilters';
 
 function areEqual<T = Array<string | number> | string | number | boolean>(
   first: T | undefined,
@@ -39,33 +40,26 @@ function areEqual<T = Array<string | number> | string | number | boolean>(
 export function Filters<T extends object>({
   presets,
   sorts,
+  excludeKeys,
   value,
   onChange,
   dialog,
   mini,
   className,
-  surface,
+  surface = 3,
 }: {
-  presets?: Array<{
-    value: Partial<T>;
-    label: ReactNode;
-  }>;
-  sorts?: Array<{
-    value: Partial<T>;
-    label: ReactNode;
-  }>;
+  presets?: Array<PresetFilter<T>>;
+  sorts?: Array<PresetFilter<T>>;
+  excludeKeys?: Array<keyof T>;
   value: Partial<T>;
-  onChange?: (
-    newValue: Partial<T>,
-    initiatedBy: 'presets' | 'sorts' | 'manual',
-  ) => void;
+  onChange?: (newValue: Partial<T>) => void;
   dialog?: (
     value: Partial<T>,
     setValue: Dispatch<SetStateAction<Partial<T>>>,
   ) => ReactNode;
   className?: string;
   mini?: boolean;
-  surface: Surface;
+  surface?: Surface;
 }) {
   const { t } = useTranslation('coin-radar');
   const isMobile = useIsMobile();
@@ -73,23 +67,59 @@ export function Filters<T extends object>({
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState(value);
 
+  const sortKeys = useMemo(() => {
+    return [
+      ...new Set(sorts?.map(x => Object.keys(x.filters)).flat()),
+    ] as Array<keyof T>;
+  }, [sorts]);
+
   const selectedPreset = useMemo(() => {
     return (
       value &&
-      presets?.find(({ value: presetValue }) => {
-        return Object.entries(presetValue).every(([fieldKey, fieldValue]) =>
-          areEqual(fieldValue, value[fieldKey as keyof typeof value]),
+      presets?.find(({ filters: presetFilters }) => {
+        return (
+          Object.entries(presetFilters).every(([fieldKey, fieldValue]) =>
+            areEqual(fieldValue, value[fieldKey as keyof typeof value]),
+          ) &&
+          areEqual(
+            Object.keys(value).filter(
+              k =>
+                !sortKeys.includes(k as never) &&
+                !excludeKeys?.includes(k as never),
+            ),
+            Object.keys(presetFilters).sort(),
+          )
         );
       })
     );
-  }, [presets, value]);
+  }, [excludeKeys, presets, sortKeys, value]);
+
+  const selectedSort = useMemo(() => {
+    return (
+      value &&
+      sorts?.find(({ filters: sortFilters }) => {
+        return (
+          Object.entries(sortFilters).every(([fieldKey, fieldValue]) =>
+            areEqual(fieldValue, value[fieldKey as keyof typeof value]),
+          ) &&
+          areEqual(
+            Object.keys(value).filter(k => sortKeys.includes(k as never)),
+            Object.keys(sortFilters).sort(),
+          )
+        );
+      })
+    );
+  }, [sortKeys, sorts, value]);
 
   const isFiltersApplied = useMemo(
     () =>
       Object.entries(value ?? {}).some(
-        ([, fieldValue]) => fieldValue !== undefined,
+        ([fieldKey, fieldValue]) =>
+          !sortKeys.includes(fieldKey as never) &&
+          !excludeKeys?.includes(fieldKey as never) &&
+          fieldValue !== undefined,
       ),
-    [value],
+    [excludeKeys, sortKeys, value],
   );
 
   useEffect(() => {
@@ -117,7 +147,17 @@ export function Filters<T extends object>({
           <Button
             variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
             size={isMini ? 'sm' : 'md'}
-            onClick={() => onChange?.({}, 'presets')}
+            onClick={() => {
+              onChange?.(
+                Object.fromEntries(
+                  Object.entries(localValue).filter(
+                    ([k]) =>
+                      sortKeys.includes(k as never) ||
+                      excludeKeys?.includes(k as never),
+                  ),
+                ) as Partial<T>,
+              );
+            }}
             surface={isMini ? ((surface + 1) as never) : surface}
           >
             <Icon name={bxGridAlt} size={16} />
@@ -125,14 +165,24 @@ export function Filters<T extends object>({
           </Button>
           {(presets?.length ?? 0) > 0 && (
             <ButtonSelect
-              options={presets ?? []}
+              options={(presets ?? []).map(preset => ({
+                label: preset.label,
+                value: preset.filters,
+              }))}
               value={
                 isFiltersApplied && !selectedPreset
                   ? undefined
-                  : selectedPreset?.value
+                  : selectedPreset?.filters
               }
               onChange={newPresetFilter =>
-                onChange?.(newPresetFilter, 'presets')
+                onChange?.({
+                  ...(Object.fromEntries(
+                    Object.entries(localValue).filter(([k]) =>
+                      sortKeys.includes(k as never),
+                    ),
+                  ) as Partial<T>),
+                  ...newPresetFilter,
+                })
               }
               size={isMini ? 'sm' : 'md'}
               variant="primary"
@@ -145,15 +195,23 @@ export function Filters<T extends object>({
         <div className={clsx('w-1/2 min-w-48 max-w-max', isMini && 'w-full')}>
           <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
           <ButtonSelect
-            options={sorts ?? []}
-            value={
-              isFiltersApplied && !selectedPreset
-                ? undefined
-                : selectedPreset?.value
+            options={(sorts ?? []).map(sort => ({
+              label: sort.label,
+              value: sort.filters,
+            }))}
+            value={selectedSort?.filters}
+            onChange={newSortFilter =>
+              onChange?.({
+                ...(Object.fromEntries(
+                  Object.entries(localValue).filter(
+                    ([k]) => !sortKeys.includes(k as never),
+                  ),
+                ) as Partial<T>),
+                ...newSortFilter,
+              })
             }
-            onChange={newSortFilter => onChange?.(newSortFilter, 'sorts')}
             size={isMini ? 'sm' : 'md'}
-            variant="primary"
+            variant="default"
             surface={surface}
           />
         </div>
@@ -162,8 +220,7 @@ export function Filters<T extends object>({
         <Dialog
           open={open}
           onClose={() => setOpen(false)}
-          className={clsx('w-[500px]', isMobile && 'w-auto')}
-          contentClassName="p-3"
+          contentClassName="p-4 w-[500px] mobile:w-auto"
           mode={isMobile ? 'drawer' : 'modal'}
           drawerConfig={{
             position: 'bottom',
@@ -173,7 +230,7 @@ export function Filters<T extends object>({
             closeButton: true,
           }}
           surface={2}
-          header={t('common:filters')}
+          header={<h2 className="p-2 text-lg">{t('common:filters')}</h2>}
           footer={
             <div className="flex items-center gap-2">
               <Button
@@ -181,18 +238,27 @@ export function Filters<T extends object>({
                 size="lg"
                 block
                 onClick={() => {
+                  onChange?.(
+                    Object.fromEntries(
+                      Object.entries(localValue).filter(
+                        ([k]) =>
+                          sortKeys.includes(k as never) ||
+                          excludeKeys?.includes(k as never),
+                      ),
+                    ) as Partial<T>,
+                  );
                   setOpen(false);
                 }}
                 className="shrink-0 grow"
               >
-                {t('common:actions.cancel')}
+                {t('common:reset_filters')}
               </Button>
               <Button
                 variant="primary"
                 size="lg"
                 block
                 onClick={() => {
-                  onChange?.(localValue, 'manual');
+                  onChange?.(localValue);
                   setOpen(false);
                 }}
                 className="shrink-0 grow"
@@ -202,7 +268,9 @@ export function Filters<T extends object>({
             </div>
           }
         >
-          {dialog?.(localValue, setLocalValue)}
+          <div className="flex flex-col gap-6">
+            {dialog?.(localValue, setLocalValue)}
+          </div>
         </Dialog>
       )}
     </div>

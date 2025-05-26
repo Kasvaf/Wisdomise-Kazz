@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
+import { type CoinRadarCoin, useCoinRadarCoins, useRadarsMetrics } from 'api';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { OverviewWidget } from 'shared/OverviewWidget';
@@ -14,6 +14,7 @@ import { homeSubscriptionsConfig } from '../constants';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
 import { ConfirmationBadgesInfo } from '../../TechnicalRadar/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadar/TechnicalRadarSentiment';
+import { WinRateBadge } from '../../WinRateBadge';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
@@ -22,6 +23,11 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('insight');
 
   const coins = useCoinRadarCoins({});
+  const metrics = useRadarsMetrics();
+  const metricNumber =
+    ((metrics.data?.social_radar.max_average_win_rate ?? 0) +
+      (metrics.data?.technical_radar.max_average_win_rate ?? 0)) /
+    2;
   useLoadingBadge(coins.isFetching);
   const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [
@@ -107,6 +113,9 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
           <Logo className="size-6 shrink-0" />
           {t('base:menu.coin-radar.full-title')}
         </>
+      }
+      titleSuffix={
+        <WinRateBadge value={metricNumber === 0 ? null : metricNumber} />
       }
       className="min-h-[500px]"
     >

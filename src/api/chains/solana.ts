@@ -1,16 +1,19 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
+  type AddressLookupTableAccount,
   PublicKey,
   SystemProgram,
   Transaction,
   TransactionInstruction,
+  TransactionMessage,
+  VersionedTransaction,
 } from '@solana/web3.js';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountIdempotentInstruction,
   createTransferInstruction,
-  getAssociatedTokenAddress,
   getAssociatedTokenAddressSync,
+  TOKEN_2022_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -86,16 +89,19 @@ export const useSolanaAccountBalance = (slug?: string) => {
             fromBigMoney(await connection.getBalance(publicKey), 9),
           );
         } else {
-          // Get the associated token address
-          const tokenAddress = await getAssociatedTokenAddress(
-            new PublicKey(contract),
-            publicKey,
-            false,
-            TOKEN_PROGRAM_ID,
-          );
+          const mint = new PublicKey(contract);
+          const accountInfo = await connection.getAccountInfo(mint);
+          if (!accountInfo) return 0;
 
           // Get the token account info
-          const balance = await connection.getTokenAccountBalance(tokenAddress);
+          const balance = await connection.getTokenAccountBalance(
+            getAssociatedTokenAddressSync(
+              mint,
+              publicKey,
+              false,
+              accountInfo.owner,
+            ),
+          );
 
           // Return the balance as a number
           return Number(
@@ -131,17 +137,23 @@ export const useSolanaUserAssets = () => {
       if (!publicKey) return [];
 
       try {
-        const [solBalance, tokenAccounts] = await Promise.all([
-          // native SOL balance
-          connection.getBalance(publicKey),
+        const [solBalance, tokenAccounts, token2022Accounts] =
+          await Promise.all([
+            // native SOL balance
+            connection.getBalance(publicKey),
 
-          // all token accounts owned by the user
-          connection.getParsedTokenAccountsByOwner(publicKey, {
-            programId: TOKEN_PROGRAM_ID,
-          }),
-        ]);
+            // all token accounts owned by the user
+            connection.getParsedTokenAccountsByOwner(publicKey, {
+              programId: TOKEN_PROGRAM_ID,
+            }),
+
+            connection.getParsedTokenAccountsByOwner(publicKey, {
+              programId: TOKEN_2022_PROGRAM_ID,
+            }),
+          ]);
+
         // Map token accounts to a more usable format
-        const assets = tokenAccounts.value
+        const assets = [...tokenAccounts.value, ...token2022Accounts.value]
           .map(account => {
             const { mint, tokenAmount } = account.account.data.parsed.info;
             return {
@@ -212,14 +224,15 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         }),
       );
     } else {
-      // SPL Token transfer
+      const accountInfo = await connection.getAccountInfo(tokenMint);
+      if (!accountInfo) throw new Error('unknown token');
 
       // get user's Associated Token Account
       const userATA = getAssociatedTokenAddressSync(
         tokenMint,
         publicKey,
         false,
-        TOKEN_PROGRAM_ID,
+        accountInfo.owner,
         ASSOCIATED_TOKEN_PROGRAM_ID,
       );
 
@@ -228,7 +241,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         tokenMint,
         new PublicKey(recipientAddress),
         false,
-        TOKEN_PROGRAM_ID,
+        accountInfo.owner,
         ASSOCIATED_TOKEN_PROGRAM_ID,
       );
 
@@ -239,7 +252,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
           recipientATA, // ata
           new PublicKey(recipientAddress), // owner
           tokenMint, // mint
-          TOKEN_PROGRAM_ID,
+          accountInfo.owner,
           ASSOCIATED_TOKEN_PROGRAM_ID,
         ),
       );
@@ -252,7 +265,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
           publicKey,
           toBigMoney(amount, decimals),
           [],
-          TOKEN_PROGRAM_ID,
+          accountInfo.owner,
         ),
       );
     }
@@ -278,8 +291,6 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         signedTransaction.serialize(),
       );
 
-      void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
-
       return () => {
         const cacheWaiter = awaitPositionInCache({
           slug,
@@ -292,8 +303,12 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
             signature,
             blockhash: latestBlockhash.blockhash,
             lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+            abortSignal: timeoutSignal(),
           })
-          .then(x => x.value.err !== null);
+          .then(x => x.value.err == null)
+          .finally(() => {
+            void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+          });
 
         return Promise.race([cacheWaiter, networkConfirmation]).finally(
           cacheWaiter.stop,
@@ -309,6 +324,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
 interface SwapResponse {
   key: string;
   instructions: Instruction[];
+  lookup_table_address?: string[];
 }
 
 interface Instruction {
@@ -340,7 +356,10 @@ export const useSolanaMarketSwap = () => {
   }) => {
     if (!signTransaction || !publicKey) throw new Error('Wallet not connected');
 
-    const [{ key, instructions }, latestBlockhash] = await Promise.all([
+    const [
+      { key, instructions, lookup_table_address: lookupTableAddresses },
+      latestBlockhash,
+    ] = await Promise.all([
       ofetch<SwapResponse>('/trader/swap', {
         method: 'post',
         body: {
@@ -354,47 +373,69 @@ export const useSolanaMarketSwap = () => {
       connection.getLatestBlockhash(),
     ]);
 
-    const transaction = new Transaction();
-    transaction.recentBlockhash = latestBlockhash.blockhash;
-    transaction.feePayer = publicKey;
+    // Fetch the address lookup tables if provided
+    const lookupTableAccounts = (
+      await Promise.all(
+        (lookupTableAddresses || []).map(
+          async address =>
+            (await connection.getAddressLookupTable(new PublicKey(address)))
+              .value || null,
+        ),
+      )
+    ).filter((table): table is AddressLookupTableAccount => table != null);
 
-    for (const inst of instructions) {
-      const instruction = new TransactionInstruction({
-        programId: new PublicKey(inst.programId),
-        data: Buffer.from(inst.data),
-        keys: inst.accounts.map(acc => ({
-          pubkey: new PublicKey(acc.pubkey),
-          isSigner: acc.is_signer,
-          isWritable: acc.is_writable,
-        })),
-      });
-      transaction.add(instruction);
-    }
+    // Create a versioned transaction
+    const transaction = new VersionedTransaction(
+      new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: latestBlockhash.blockhash,
+        instructions: instructions.map(
+          inst =>
+            new TransactionInstruction({
+              programId: new PublicKey(inst.programId),
+              data: Buffer.from(inst.data),
+              keys: inst.accounts.map(acc => ({
+                pubkey: new PublicKey(acc.pubkey),
+                isSigner: acc.is_signer,
+                isWritable: acc.is_writable,
+              })),
+            }),
+        ),
+      }).compileToV0Message(lookupTableAccounts),
+    );
 
     const signedTransaction = await signTransaction(transaction);
     const signature = await connection.sendRawTransaction(
       signedTransaction.serialize(),
     );
 
-    void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
-
     await ofetch<SwapResponse>('/trader/swap/' + key, {
       method: 'patch',
       body: { transaction_hash: signature },
     });
 
-    return () => {
-      // Wait for confirmation
-      const networkConfirmation = connection
+    return () =>
+      connection
         .confirmTransaction({
           signature,
           blockhash: latestBlockhash.blockhash,
           lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+          abortSignal: timeoutSignal(),
         })
-        .then(x => x.value.err !== null);
-      return networkConfirmation;
-    };
+        .then(x => x.value && x.value.err == null)
+        .finally(() => {
+          void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
+          void queryClient.invalidateQueries({
+            queryKey: ['solana-user-assets'],
+          });
+        });
   };
+};
+
+const timeoutSignal = (timeout = 7000) => {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), timeout);
+  return abortController.signal;
 };
 
 export function useAwaitSolanaWalletConnection() {

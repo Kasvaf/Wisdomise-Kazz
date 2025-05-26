@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useTechnicalRadarCoins } from 'api';
+import { useRadarsMetrics, useTechnicalRadarCoins } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
@@ -12,6 +12,7 @@ import {
 import { ReactComponent as TechnicalRadarIcon } from '../technical-radar.svg';
 import { ConfirmationWidget } from '../ConfirmationWidget';
 import { RsiHeatmapWidget } from '../RsiHeatmapWidget';
+import { WinRateBadge } from '../../WinRateBadge';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 
 export function TechnicalRadarExpanded() {
@@ -21,6 +22,8 @@ export function TechnicalRadarExpanded() {
     'chart',
   );
   const technicalTopCoins = useTechnicalRadarCoins({});
+  const metrics = useRadarsMetrics();
+  const technicalRadarMetrics = metrics.data?.technical_radar;
   useLoadingBadge(technicalTopCoins.isFetching);
 
   return (
@@ -33,8 +36,11 @@ export function TechnicalRadarExpanded() {
             {t('base:menu.ai-indicators.title')}
           </>
         }
-        subtitle={
-          <p className="max-w-xl [&_b]:font-medium [&_b]:text-v1-content-primary">
+        titleSuffix={
+          <WinRateBadge value={technicalRadarMetrics?.max_average_win_rate} />
+        }
+        info={
+          <p className="[&_b]:text-v1-content-primary [&_b]:underline">
             <Trans ns="base" i18nKey="menu.ai-indicators.subtitle" />
           </p>
         }

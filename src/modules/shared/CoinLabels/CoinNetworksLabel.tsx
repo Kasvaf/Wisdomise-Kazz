@@ -43,14 +43,7 @@ export function CoinNetworksLabel({
                     !network.contract_address ? (
                       <>{t('common:not-available')}</>
                     ) : (
-                      <ContractAddress
-                        allowCopy
-                        value={
-                          network.symbol_network_type === 'COIN'
-                            ? true
-                            : network.contract_address
-                        }
-                      />
+                      <ContractAddress allowCopy value={network} />
                     )}
                   </div>
                 </div>

@@ -33,7 +33,9 @@ export function CoinLabelSelect<M extends boolean>({
           <CoinLabel
             value={val}
             clickable={false}
-            className={clsx(target === 'value' && '!bg-transparent !px-0')}
+            className={clsx(
+              target === 'value' ? '!bg-transparent !px-0' : '!me-3',
+            )}
             size="md"
           />
         );
