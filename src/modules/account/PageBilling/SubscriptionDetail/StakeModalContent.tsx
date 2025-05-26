@@ -1,23 +1,32 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { notification } from 'antd';
+import dayjs from 'dayjs';
 import { Input } from 'shared/v1-components/Input';
 import { Button } from 'shared/v1-components/Button';
 import { useLockWithApprove } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import { addComma, formatNumber } from 'utils/numbers';
 import { useLockingStateQuery } from 'api/defi';
+import { useCandlesQuery } from 'api';
 import { ReactComponent as Polygon } from './polygon.svg';
 import { ReactComponent as Wsdm } from './wsdm.svg';
 import stakeBg from './stake-bg.png';
 
 export default function StakeModalContent() {
-  // const { data: candles } = useCandlesQuery({
-  //   asset: 'WSDMUSDT',
-  //   resolution: '1m',
-  //   startDateTime: new Date(Date.now() - 10_000).toISOString(),
-  //   endDateTime: new Date().toISOString(),
-  //   market: 'SPOT',
-  // });
+  const [now] = useState(Date.now());
+  const params = useMemo(
+    () =>
+      ({
+        pairName: 'WSDMUSDT',
+        resolution: '5m',
+        startDateTime: dayjs(now).subtract(10, 'minute').toISOString(),
+        endDateTime: new Date(now).toISOString(),
+        marketName: 'KUCOIN',
+      }) as const,
+    [now],
+  );
+
+  const { data: candles } = useCandlesQuery(params);
   const { data, refetch } = useWSDMBalance();
   const { data: lockState, refetch: refetchLockState } = useLockingStateQuery();
   const [amount, setAmount] = useState<number>();
@@ -31,6 +40,7 @@ export default function StakeModalContent() {
 
   const balance = Number(data?.value ?? 0n) / 10 ** (data?.decimals ?? 0);
   const invalidAmount = (amount ?? 0) <= 0 || (amount ?? 0) > balance;
+  const wsdmPrice = candles?.[0]?.close ?? 0;
 
   const lock = async () => {
     await lockWithApprove(BigInt((amount ?? 0) * 10 ** 6));
@@ -95,10 +105,10 @@ export default function StakeModalContent() {
           type="number"
           suffixIcon={
             <div className="mr-1 flex items-center gap-2">
-              {/* <span className="shrink-0 text-v1-content-secondary"> */}
-              {/*   ${amount} */}
-              {/* </span> */}
-              {/* <div className="h-6 border-r border-v1-border-secondary"></div> */}
+              <span className="shrink-0 text-v1-content-secondary">
+                ${(amount ?? 0) * wsdmPrice}
+              </span>
+              <div className="h-6 border-r border-v1-border-secondary"></div>
               <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-v1-overlay-10">
                 <Wsdm className="" />
               </div>
