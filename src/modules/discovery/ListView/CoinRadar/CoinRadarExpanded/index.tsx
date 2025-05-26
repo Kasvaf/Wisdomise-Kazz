@@ -16,6 +16,7 @@ import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
 import { ConfirmationBadgesInfo } from '../../TechnicalRadar/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadar/TechnicalRadarSentiment';
 import { WinRateBadge } from '../../WinRateBadge';
+import useHotCoinsTour from '../useHotCoinsTour';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
@@ -113,6 +114,9 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
     [t],
   );
 
+  useHotCoinsTour({
+    enabled: !coins.isLoading,
+  });
   return (
     <OverviewWidget
       title={
@@ -128,6 +132,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
     >
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
+          rowClassName="id-tour-row"
           columns={columns}
           dataSource={coins.data?.slice(0, 10)}
           chunkSize={10}

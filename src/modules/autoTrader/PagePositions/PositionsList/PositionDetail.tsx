@@ -1,8 +1,8 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { bxHistory, bxShareAlt } from 'boxicons-quasar';
+import { bxHistory } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
 import { initialQuoteDeposit, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -11,14 +11,12 @@ import PriceChange from 'shared/PriceChange';
 import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
-import { isMiniApp } from 'utils/version';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import PositionSharingModal from '../../PositionsList/PositionSharingModal';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
-// eslint-disable-next-line import/max-dependencies
 import EditButton from './EditButton';
+import ShareButton from './ShareButton';
 
 const AssetName: React.FC<{ slug: string }> = ({ slug }) => {
   const { data } = useSymbolInfo(slug);
@@ -38,7 +36,6 @@ const PositionDetail: React.FC<{
   position: Position;
   className?: string;
 }> = ({ position, className }) => {
-  const [openShare, setOpenShare] = useState(false);
   const { getUrl } = useDiscoveryRouteMeta();
   const initialDeposit = initialQuoteDeposit(position);
   const isOpen = ['OPENING', 'OPEN', 'CLOSING'].includes(position.status);
@@ -77,18 +74,7 @@ const PositionDetail: React.FC<{
           <CancelButton position={position} />
           <CloseButton position={position} />
           <EditButton position={position} />
-
-          {(position.status === 'CLOSED' || position.status === 'OPEN') &&
-            !isMiniApp && (
-              <Button
-                variant="link"
-                className="ms-auto !p-0 !text-xs text-v1-content-link"
-                onClick={() => setOpenShare(true)}
-              >
-                <Icon name={bxShareAlt} size={16} className="mr-1" />
-                Share
-              </Button>
-            )}
+          <ShareButton position={position} />
         </div>
       </div>
       <hr className="my-4 border-white/10" />
@@ -242,11 +228,6 @@ const PositionDetail: React.FC<{
           </Button>
         )}
       </div>
-      <PositionSharingModal
-        open={openShare}
-        onClose={() => setOpenShare(false)}
-        position={position}
-      />
     </div>
   );
 };
