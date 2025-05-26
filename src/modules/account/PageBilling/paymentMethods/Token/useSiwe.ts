@@ -1,15 +1,17 @@
 import { type SiweMessage } from 'siwe';
 import { useAccount, useSignMessage } from 'wagmi';
+import { getAddress, zeroAddress } from 'viem';
 import { type NonceVerificationBody } from 'api/defi';
 
 export default function useSignInWithEthereum() {
   const { address, chain } = useAccount();
   const { signMessageAsync, isPending } = useSignMessage();
+  const checksumAddress = getAddress(address ?? zeroAddress);
 
-  function createMessage(address: string, statement: string, nonce: string) {
+  function createMessage(statement: string, nonce: string) {
     const messageParams: Partial<SiweMessage> = {
       domain: window.location.host,
-      address,
+      address: checksumAddress,
       statement,
       nonce,
       uri: window.location.origin,
@@ -23,10 +25,10 @@ export default function useSignInWithEthereum() {
   async function signInWithEthereum(
     nonce: string,
   ): Promise<NonceVerificationBody | null> {
-    if (!address || !nonce) return null;
+    if (!checksumAddress || !nonce) return null;
     const statement =
       'Wisdomise wants you to sign in with your Ethereum account';
-    const message = createMessage(address, statement, nonce);
+    const message = createMessage(statement, nonce);
     const preMessage = toMessage(message);
     return {
       message: {
