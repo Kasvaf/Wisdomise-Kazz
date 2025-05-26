@@ -8,9 +8,8 @@ import { useMenuItems } from './MenuItems/useMenuItems';
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const MenuItems = useMenuItems();
   const hasFlag = useHasFlag();
-  const { params } = useDiscoveryRouteMeta();
+  const { params, isMatched, getUrl } = useDiscoveryRouteMeta();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
-  const { isMatched, getUrl } = useDiscoveryRouteMeta();
 
   return (
     <>

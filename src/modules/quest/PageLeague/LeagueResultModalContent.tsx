@@ -73,7 +73,7 @@ export default function LeagueResultModalContent({
             <h2 className="mb-3 text-2xl font-semibold">
               You’re in Neutral Zone!
             </h2>
-            <p className="mb-20 text-v1-content-secondary">
+            <p className="mb-3 text-v1-content-secondary">
               No Rewards This Time, but You&apos;re Still in the Game! Compete
               in the League Again This Week.
             </p>
@@ -90,6 +90,11 @@ export default function LeagueResultModalContent({
             </p>
           </>
         ) : null}
+        <hr className="mt-4 w-full border-v1-inverse-overlay-10" />
+        <div className="my-2 flex w-max items-center gap-3 rounded-xl border border-v1-inverse-overlay-10 bg-v1-inverse-overlay-10 px-3 py-2 text-sm font-semibold backdrop-blur-sm">
+          Your Rank: <div className="text-2xl">{profile.rank}</div>
+        </div>
+        <hr className="w-full border-v1-inverse-overlay-10" />
         {profile.promotion_status === 'PROMOTING' && (
           <p className="mt-6">Rewards</p>
         )}

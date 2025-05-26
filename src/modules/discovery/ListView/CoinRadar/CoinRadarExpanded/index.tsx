@@ -9,6 +9,7 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { EmptySentiment } from '../EmptySentiment';
 import { homeSubscriptionsConfig } from '../constants';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
@@ -44,6 +45,12 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         sticky: 'start',
         render: row => <Coin coin={row.symbol} />,
         width: 220,
+      },
+      {
+        title: t('coin-radar:social-radar.table.market_cap.title'),
+        info: t('coin-radar:social-radar.table.market_cap.info'),
+        width: 140,
+        render: row => <CoinMarketCap marketData={row.market_data} />,
       },
       {
         key: 'social_radar_sentiment',

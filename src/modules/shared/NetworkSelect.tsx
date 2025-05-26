@@ -45,8 +45,8 @@ export function NetworkSelect<M extends boolean>({
         if (!val) {
           return iconOnly && target === 'value' ? (
             <div className="relative flex size-full items-center justify-center">
-              <div className="inline-flex size-6 items-center justify-center rounded-full bg-white/10 font-medium">
-                ?
+              <div className="inline-flex size-6 items-center justify-center rounded-full bg-white/10 text-[11px]">
+                {'All'}
               </div>
             </div>
           ) : (
