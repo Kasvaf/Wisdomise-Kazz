@@ -46,8 +46,8 @@ export const useNonceVerificationMutation = () => {
           method: 'post',
         },
       );
+      await client.invalidateQueries({ queryKey: ['account'] });
     },
-    onSuccess: () => client.invalidateQueries({ queryKey: ['account'] }),
   });
 };
 
