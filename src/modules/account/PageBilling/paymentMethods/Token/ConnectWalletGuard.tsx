@@ -62,7 +62,7 @@ export default function ConnectWalletGuard({
     setShowError(false);
     if (isConnected && account) {
       if (account.wallet_address) {
-        if (account.wallet_address === address) {
+        if (account.wallet_address.toLowerCase() === address?.toLowerCase()) {
           setShowWrapperContent(true);
         } else {
           setShowError(true);
