@@ -19,45 +19,45 @@ export interface Candle {
 }
 
 export const useCandlesQuery = ({
-  asset,
+  pairName,
   resolution,
-  startDateTime,
-  endDateTime,
-  market,
+  startDateTime = new Date(Date.now() - 1_000_000).toISOString(),
+  endDateTime = new Date().toISOString(),
+  marketName,
 }: {
-  asset?: string;
+  pairName?: string;
   resolution?: Resolution;
   startDateTime?: string | Date;
   endDateTime?: string | Date;
-  market?: MarketTypes;
+  marketName?: string;
 }) =>
   useQuery({
     queryKey: [
       'candles',
-      asset,
+      pairName,
       resolution,
       startDateTime,
       endDateTime,
-      market,
+      marketName,
     ],
     queryFn: async () => {
       const data = await ofetch<Candle[]>('/delphi/candles', {
         query: {
-          asset,
+          pair_name: pairName,
           resolution,
           start_datetime: startDateTime,
           end_datetime: endDateTime,
-          market_type: market,
+          market_name: marketName,
         },
       });
       return data;
     },
     enabled: Boolean(
-      asset &&
+      pairName &&
         resolution &&
         startDateTime &&
         endDateTime &&
-        market !== undefined,
+        marketName !== undefined,
     ),
     staleTime: Number.POSITIVE_INFINITY,
   });

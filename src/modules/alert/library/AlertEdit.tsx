@@ -134,6 +134,7 @@ export function AlertEdit({
                   });
               }
             }}
+            onClose={onClose}
           />
         </div>
       )}

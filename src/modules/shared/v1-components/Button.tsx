@@ -23,6 +23,7 @@ export interface ButtonProps {
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   surface?: Surface;
+  type?: 'button' | 'submit';
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -36,6 +37,7 @@ export const Button: FC<ButtonProps> = ({
   block,
   onClick,
   surface = 3,
+  type,
 }) => {
   const colors = useSurface(surface);
   return (
@@ -94,6 +96,7 @@ export const Button: FC<ButtonProps> = ({
       )}
       disabled={disabled || loading}
       onClick={onClick}
+      type={type}
     >
       {children}
     </button>

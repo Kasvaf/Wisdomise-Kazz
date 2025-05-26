@@ -1,17 +1,11 @@
 import dayjs from 'dayjs';
 import { bxInfoCircle, bxRightArrowAlt, bxsPlusSquare } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
-import { notification } from 'antd';
 import { clsx } from 'clsx';
-import {
-  useAccountQuery,
-  useHasFlag,
-  useInstantCancelMutation,
-  useSubscription,
-} from 'api';
+import { useAccountQuery, useHasFlag, useSubscription } from 'api';
 import { PageTitle } from 'shared/PageTitle';
 import { useLockingStateQuery } from 'api/defi';
-import { addComma } from 'utils/numbers';
+import { addComma, formatNumber } from 'utils/numbers';
 import { Referral } from 'modules/account/PageReferral';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
@@ -22,48 +16,29 @@ import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWal
 import StakeModalContent from 'modules/account/PageBilling/SubscriptionDetail/StakeModalContent';
 import useModal from 'shared/useModal';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import useConfirm from 'shared/useConfirm';
-import wiseClub from './wise-club.png';
+import { useRevenueQuery } from 'api/revenue';
+import CancelBanner from 'modules/account/PageBilling/SubscriptionDetail/CancelBanner';
+import VipBadge from 'shared/AccessShield/VipBanner/VipBadge';
 import gradient from './gradient.png';
 import { ReactComponent as Bag } from './bag.svg';
 import { ReactComponent as Gift } from './gift.svg';
 import bg from './bg.png';
-import flash from './flash.png';
 // eslint-disable-next-line import/max-dependencies
-import gradient2 from './gradient-2.png';
+import flash from './flash.png';
 
 export default function SubscriptionDetail() {
-  const { plan, currentPeriodEnd, level, group } = useSubscription();
+  const { plan, currentPeriodEnd, group } = useSubscription();
   const { data: lockState } = useLockingStateQuery();
+  const { data: revenue } = useRevenueQuery();
   const navigate = useNavigate();
-  const { mutateAsync, isPending } = useInstantCancelMutation();
   const ensureWalletConnected = useEnsureWalletConnected();
-  const [confirmModal, confirm] = useConfirm({
-    title: 'Canceling Subscription',
-    icon: null,
-    message:
-      'Your current subscription will be canceled if you proceed. Would you like to continue?',
-    yesTitle: 'Continue',
-    noTitle: 'Not now',
-  });
   const hasFlag = useHasFlag();
   const [stakeModal, openStakeModal] = useModal(StakeModalContent);
 
   const { data } = useAccountQuery();
-  const firstDayNextMonth = dayjs().add(1, 'month').startOf('month');
 
   const subItem = data?.subscription_item;
   const paymentMethod = subItem?.payment_method;
-
-  const cancel = async () => {
-    if (await confirm()) {
-      void mutateAsync().then(() => {
-        return notification.success({
-          message: 'Subscription cancelled successfully.',
-        });
-      });
-    }
-  };
 
   const stakeMore = async () => {
     if (await ensureWalletConnected()) {
@@ -93,15 +68,8 @@ export default function SubscriptionDetail() {
                 ) : (
                   <>
                     <div className="flex flex-col gap-2">
-                      <h3 className="text-xl font-semibold">
-                        {plan?.name}{' '}
-                        {level > 0 && (
-                          <img
-                            src={wiseClub}
-                            alt="wise-club"
-                            className="ml-1 inline h-5"
-                          />
-                        )}
+                      <h3 className="flex items-center gap-1 text-xl font-semibold">
+                        {plan?.name} <VipBadge className="h-5" />
                       </h3>
                       <p className="text-xs text-v1-inverse-overlay-50">
                         {plan?.periodicity.toLowerCase()}
@@ -135,7 +103,7 @@ export default function SubscriptionDetail() {
                         </HoverTooltip>
                       </h3>
                       <p className="text-xs text-v1-inverse-overlay-50">
-                        ${lockState?.locked_wsdm_balance_usd}
+                        ${lockState?.locked_wsdm_balance_usd.toFixed(2)}
                       </p>
                       <p className="text-xs font-medium text-v1-inverse-overlay-70">
                         Current Staked Amount
@@ -143,17 +111,29 @@ export default function SubscriptionDetail() {
                     </div>
                   </>
                 )}
-                {hasFlag('/account/billing?revenue') && (
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-xl font-semibold">$0</h3>
-                    <p className="text-xs text-v1-inverse-overlay-50">
-                      Reward Distributed in {firstDayNextMonth.format('MMMM D')}
-                    </p>
-                    <p className="text-xs font-medium text-v1-inverse-overlay-70">
-                      Expected Staking Reward
-                    </p>
-                  </div>
-                )}
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-xl font-semibold">
+                    $
+                    {formatNumber(revenue?.net_revenue ?? 0, {
+                      compactInteger: false,
+                      seperateByComma: false,
+                      decimalLength: 2,
+                      minifyDecimalRepeats: false,
+                    })}
+                  </h3>
+                  <p className="text-xs text-v1-inverse-overlay-50">
+                    Net Revenue
+                  </p>
+                  <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                    {formatNumber(revenue?.trading_volume ?? 0, {
+                      compactInteger: true,
+                      seperateByComma: false,
+                      decimalLength: 2,
+                      minifyDecimalRepeats: false,
+                    })}{' '}
+                    Trading Volume
+                  </p>
+                </div>
               </div>
               <Utility />
             </div>
@@ -243,55 +223,10 @@ export default function SubscriptionDetail() {
       ) : (
         <div className="mt-6 flex justify-between gap-4 mobile:flex-col">
           <CurrentPlan />
-          <div className="relative overflow-hidden rounded-xl bg-[#090C10] p-12 mobile:p-6">
-            <img src={gradient2} alt="" className="absolute left-0 top-0" />
-            <div className="relative">
-              <img src={wiseClub} alt="wise-club" className="h-6" />
-              <h2 className="mt-4 text-2xl font-medium">
-                <span className="bg-pro-gradient bg-clip-text text-transparent">
-                  W
-                </span>
-                ise Club is Here!
-              </h2>
-              <h3 className="mt-8 text-xl font-medium">
-                Important Subscription Update
-              </h3>
-              <p className="mt-2 text-xs text-v1-content-secondary">
-                We’ve Upgraded Our Subscription Model to Staking for Better
-                Rewards and Long-Term Benefits.
-              </p>
-
-              <h3 className="mt-8 text-xl font-medium">What’s Changing?</h3>
-              <ul className="ml-4 mt-2 text-sm text-v1-content-secondary [&>li]:list-disc">
-                <li>Old Fiat-Based Subscription Is Discontinued</li>
-                <li>
-                  New Subscription Is Activated Through Staking $1000 $WSDM
-                </li>
-                <li>Earn Passive Revenue While Staying Subscribed</li>
-              </ul>
-
-              <h3 className="mt-8 text-xl font-medium">What You Need to Do</h3>
-              <ul className="ml-4 mt-2 text-sm text-v1-content-secondary [&>li]:list-disc">
-                <li>Cancel Your Current Fiat Subscription</li>
-                <li>Stake $1000 WSDM to Activate Wise Club</li>
-                <li>Enjoy Premium Tools, Lower Fees, and Revenue Share!</li>
-              </ul>
-
-              <Button
-                variant="pro"
-                className="mt-6 w-full"
-                onClick={cancel}
-                loading={isPending}
-              >
-                Cancel & Updgrade to Wise Club
-                <Icon name={bxRightArrowAlt} />
-              </Button>
-            </div>
-          </div>
+          <CancelBanner />
         </div>
       )}
       {stakeModal}
-      {confirmModal}
     </div>
   );
 }

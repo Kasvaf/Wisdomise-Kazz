@@ -11,8 +11,9 @@ import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSel
 import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
 import { isDebugMode } from 'utils/version';
-import { type AlertMessenger } from 'api';
+import { type AlertMessenger, useSubscription } from 'api';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
 export function StepOne({
@@ -20,10 +21,12 @@ export function StepOne({
   loading,
   className,
   onDelete,
+  onClose,
 }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
   const setDefaultValue = useRef(true);
   const [globalNetwork] = useGlobalNetwork();
+  const { group } = useSubscription();
 
   const {
     value: [value, setValue],
@@ -113,24 +116,30 @@ export function StepOne({
           />
         </FormControlWithLabel>
         <div>
-          <Button
-            variant="primary"
-            className={clsx(
-              'mt-6 w-full grow',
-              gtmClass('submit coin-radar-alert'),
-            )}
-            loading={loading}
-            disabled={value.key ? false : (value.messengers ?? []).length === 0}
-            onClick={e => {
-              if (value.key && (value.messengers?.length ?? 0) < 1) {
-                e.preventDefault();
-                onDelete?.();
-              } // else submit the form
-            }}
-          >
-            {t('common.save-alert')}
-            <Icon name={bxBell} className="ms-2" />
-          </Button>
+          {group === 'free' ? (
+            <VipRedirectButton onClick={onClose} label="Upgrade to Set Alert" />
+          ) : (
+            <Button
+              variant="primary"
+              className={clsx(
+                'mt-6 w-full grow',
+                gtmClass('submit coin-radar-alert'),
+              )}
+              loading={loading}
+              disabled={
+                value.key ? false : (value.messengers ?? []).length === 0
+              }
+              onClick={e => {
+                if (value.key && (value.messengers?.length ?? 0) < 1) {
+                  e.preventDefault();
+                  onDelete?.();
+                } // else submit the form
+              }}
+            >
+              {t('common.save-alert')}
+              <Icon name={bxBell} className="ms-2" />
+            </Button>
+          )}
         </div>
       </>
     </form>
