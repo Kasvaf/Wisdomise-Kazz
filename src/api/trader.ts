@@ -59,25 +59,35 @@ export const useUserAssets = () => {
   });
 };
 
+interface PairInfo {
+  id: string;
+  name: string; // pair name
+  base: Coin;
+  quote: Coin;
+  network_slugs: string[];
+}
+
+const cachedPairs: Record<string, PairInfo[]> = {};
+export const getPairsCached = async (baseSlug: string) => {
+  if (!cachedPairs[baseSlug]) {
+    const data = await ofetch<{
+      results: PairInfo[];
+    }>('/delphi/market/pairs/', {
+      query: {
+        base_slug: baseSlug,
+      },
+    });
+    cachedPairs[baseSlug] = uniqueBy(data.results, x => x.id);
+  }
+  return cachedPairs[baseSlug];
+};
+
 export const useSupportedPairs = (baseSlug?: string) => {
   return useQuery({
     queryKey: ['supported-pairs', baseSlug],
     queryFn: async () => {
       if (!baseSlug) return [];
-      const data = await ofetch<{
-        results: Array<{
-          id: string;
-          name: string; // pair name
-          base: Coin;
-          quote: Coin;
-          network_slugs: string[];
-        }>;
-      }>('/delphi/market/pairs/', {
-        query: {
-          base_slug: baseSlug,
-        },
-      });
-      return uniqueBy(data.results, x => x.id);
+      return await getPairsCached(baseSlug);
     },
     staleTime: Number.MAX_VALUE,
   });

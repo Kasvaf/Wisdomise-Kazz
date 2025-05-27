@@ -1,10 +1,12 @@
-import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import { useMemo } from 'react';
-import { useCoinDetails, useNCoinDetails } from 'api';
-import useIsMobile from 'utils/useIsMobile';
+import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
+import { useCoinDetails, useLastCandleQuery, useNCoinDetails } from 'api';
 import { type CoinDetails } from 'api/types/shared';
+import useIsMobile from 'utils/useIsMobile';
+import AdvancedChart from 'shared/AdvancedChart';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 
-const CoinChart: React.FC<{ slug: string; height?: number }> = ({
+const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,
   height,
 }) => {
@@ -69,6 +71,24 @@ const CoinChart: React.FC<{ slug: string; height?: number }> = ({
       hide_legend={isMobile}
     />
   ) : null;
+};
+
+const CoinChart: React.FC<{ slug: string; height?: number }> = ({
+  slug,
+  height,
+}) => {
+  const [quote] = useSearchParamAsState<string>('quote', 'tether');
+  const lastCandle = useLastCandleQuery({ slug, quote });
+  if (lastCandle.isLoading) return null;
+
+  return lastCandle.data?.symbol.pool_address &&
+    /^(solana|ton|the-open-network)$/.test(
+      lastCandle.data?.symbol.network ?? '',
+    ) ? (
+    <AdvancedChart slug={slug} />
+  ) : (
+    <DirtyCoinChart slug={slug} height={height} />
+  );
 };
 
 export default CoinChart;

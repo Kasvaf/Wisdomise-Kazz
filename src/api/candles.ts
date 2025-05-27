@@ -72,7 +72,8 @@ interface LastCandleResponse {
     created_at: string;
     updated_at: string;
     deleted_at: null;
-    pool_address: null;
+    network?: string;
+    pool_address: string | null;
     base: string;
     quote: string;
   };

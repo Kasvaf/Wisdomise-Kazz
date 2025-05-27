@@ -20,7 +20,7 @@ const TerminalChart: React.FC<{
 
   return (
     <AdvancedChart
-      assetName={assetName}
+      slug={assetName}
       widgetRef={setWidget}
       className={className}
     />
