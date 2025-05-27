@@ -14,7 +14,6 @@ connect-wallet:
   billing:
     title: Connect Your Wallet
     description: Connect your wallet to Stake and Join Wise Club.
-  connect: Connect Wallet
   current-wallet: current wallet address
   disconnect: Disconnect
   not-sync: >-
