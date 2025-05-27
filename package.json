@@ -20,6 +20,9 @@
     "locize-cleanup": "i18next && node locize-cleanup.js",
     "generate-sitemap": "node generate-sitemap.js"
   },
+  "engines": {
+    "node": "20"
+  },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
     "@mdxeditor/editor": "^3.4.0",
