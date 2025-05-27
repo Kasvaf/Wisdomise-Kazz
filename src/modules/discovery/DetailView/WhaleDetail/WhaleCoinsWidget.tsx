@@ -53,6 +53,7 @@ export function WhaleCoinsWidget({
       {
         title: t('whale_coins.name'),
         sticky: 'start',
+        width: 220,
         render: row => <Coin coin={row.symbol} imageClassName="size-6" />,
       },
       {
