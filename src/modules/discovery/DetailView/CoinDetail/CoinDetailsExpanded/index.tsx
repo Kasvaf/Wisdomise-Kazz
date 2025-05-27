@@ -23,23 +23,25 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   return (
     <div className="flex w-full min-w-0 max-w-full flex-nowrap justify-between">
       {/* Validate */}
-      <div className="relative w-full min-w-0 shrink grow border-r border-white/10 pe-3">
+      <div className="relative w-full min-w-0 shrink grow border-r border-white/10">
         <NCoinRisksBanner slug={slug} />
         {/* Sentiment Widgets */}
-        <CoinSentimentsWidget slug={slug} className="py-3" hr />
-        <NCoinSentimentWidget slug={slug} className="py-3" hr />
+        <CoinSentimentsWidget slug={slug} className="p-3" hr />
+        <NCoinSentimentWidget slug={slug} className="p-3" hr />
         <CoinTitleWidget
           slug={slug}
-          className="sticky top-[74px] z-20 py-3 bg-v1-surface-l-current"
+          className="sticky top-[76px] z-20 p-3 bg-v1-surface-l-current"
           hr
         />
-        <CoinChart slug={slug} height={420} />
+        <div className="p-3">
+          <CoinChart slug={slug} height={420} />
+        </div>
         <CoinDetailsTabs
           options={tabs}
-          className="sticky top-[144px] z-20 py-3 bg-v1-surface-l-current"
+          className="sticky top-[144px] z-20 p-3 bg-v1-surface-l-current"
           hr
         />
-        <div className="relative space-y-4 py-4" ref={root}>
+        <div className="relative space-y-4 p-4" ref={root}>
           <div className="relative space-y-4">
             <CoinMessagesWidget
               id="coinoverview_trading_view"
@@ -62,7 +64,8 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Trade + Additional */}
-      <div className="sticky top-[4.75rem] z-20 h-[calc(100svh-4.75rem)] w-96 min-w-[360px] shrink space-y-3 overflow-y-auto ps-3 scrollbar-none">
+      <div className="sticky top-[76px] z-20 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink space-y-3 overflow-y-auto px-3 scrollbar-none">
+        <div className="h-0" />
         <TraderSection slug={slug} />
         <hr className="border-white/10" />
 
