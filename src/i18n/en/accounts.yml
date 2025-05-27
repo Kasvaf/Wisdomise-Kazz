@@ -1,6 +1,10 @@
 page-accounts:
-  accounts-connected: Account(s) Connected
-  users-invited: Users Invited
+  accounts_connected_one: '{{count}} Account Connected'
+  accounts_connected_other: '{{count}} Account Connected'
+  accounts_connected_zero: No Account Connected
+  users_invited_one: '{{count}} User Invited'
+  users_invited_other: '{{count}} User Invited'
+  users_invited_zero: No User Invited
 page-profile:
   title: My Profile
   buttons:
