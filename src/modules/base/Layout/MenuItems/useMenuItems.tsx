@@ -40,15 +40,6 @@ export const useMenuItems = () => {
         crumb: 'Trench',
       },
       {
-        link: '/discovery?list=social-radar',
-        meta: {
-          list: 'social-radar',
-        },
-        icon: SocialRadarIcon,
-        text: 'Social',
-        crumb: 'Social Radar',
-      },
-      {
         link: '/discovery?list=whale-radar',
         meta: {
           list: 'whale-radar',
@@ -56,6 +47,15 @@ export const useMenuItems = () => {
         icon: WhaleRadarIcon,
         text: 'Whale',
         crumb: 'Whale Radar',
+      },
+      {
+        link: '/discovery?list=social-radar',
+        meta: {
+          list: 'social-radar',
+        },
+        icon: SocialRadarIcon,
+        text: 'Social',
+        crumb: 'Social Radar',
       },
       {
         link: '/discovery?list=technical-radar',
