@@ -6,16 +6,30 @@ import {
   type IBasicDataFeed,
   type DatafeedConfiguration,
 } from './charting_library/charting_library';
-import getCandlesCached, { durs, type Resolution } from './getCandlesCached';
+import getCandlesCached, { type Resolution } from './getCandlesCached';
 
-const resMap: Record<string, Resolution> = Object.fromEntries(
-  Object.entries(durs).map(([x, y]) => [y / 60, x as Resolution]),
+export const resolutionToSeconds: Record<Resolution, number> = {
+  '1m': 60,
+  '5m': 60 * 5,
+  '15m': 60 * 15,
+  // '30m': 60,
+  '1h': 60 * 60,
+  '4h': 60 * 60 * 4,
+  // '12h': 60 * 60 * 12,
+  '1D': 60 * 60 * 24,
+};
+
+const minutesToResolution: Record<string, Resolution> = Object.fromEntries(
+  Object.entries(resolutionToSeconds).map(([x, y]) => [
+    y / 60,
+    x as Resolution,
+  ]),
 );
 
 const config: DatafeedConfiguration = {
   // Represents the resolutions for bars supported by your datafeed
   // '5m' | '15m' | '30m' | '1h'
-  supported_resolutions: Object.keys(resMap) as ResolutionString[],
+  supported_resolutions: Object.keys(minutesToResolution) as ResolutionString[],
   // The `exchanges` arguments are used for the `searchSymbols` method if a user selects the exchange
   exchanges: [{ value: 'Binance', name: 'Binance', desc: 'Binance' }],
   // The `symbols_types` arguments are used for the `searchSymbols` method if a user selects this symbol type
@@ -49,7 +63,7 @@ const makeDataFeed = ({
           symbol: c.base.name || c.name,
           full_name: c.name,
           description: c.name,
-          exchange: 'Binance',
+          exchange: '',
           type: 'crypto',
           logo_urls: c.base.name
             ? ([cdnCoinIcon(c.base.name.toLowerCase())] as [string])
@@ -76,8 +90,8 @@ const makeDataFeed = ({
         type: 'crypto',
         session: '24x7',
         timezone: 'Etc/UTC',
-        exchange: 'Binance',
-        listed_exchange: 'Binance',
+        exchange: '',
+        listed_exchange: '',
         format: 'volume',
 
         minmov: 1,
@@ -103,31 +117,41 @@ const makeDataFeed = ({
       onResult,
       onError,
     ) => {
-      if (!resMap[resolution]) return onError('Unsupported');
+      const res = minutesToResolution[resolution];
+      if (!res) return onError('Unsupported');
 
       try {
+        const dur = resolutionToSeconds[res];
+        const before = Math.round(periodParams.to / dur) * dur;
+        const limit = before / dur - Math.round(periodParams.from / dur);
+
         const data = await getCandlesCached({
           network,
           pool,
           token,
-          resolution: resMap[resolution],
-          startDateTime: periodParams.from,
-          endDateTime: periodParams.to,
+          resolution: res,
+          before,
+          limit: Math.min(limit, 1000),
         });
 
-        onResult(
-          data
-            .map(c => ({
-              open: c.open,
-              close: c.close,
-              low: c.low,
-              high: c.high,
-              time: +new Date(c.related_at),
-              volume: c.volume,
-            }))
-            .reverse(),
-          { noData: !data?.length },
-        );
+        const bars = data
+          .map(c => ({
+            open: c.open,
+            close: c.close,
+            low: c.low,
+            high: c.high,
+            time: +new Date(c.related_at),
+            volume: c.volume,
+          }))
+          .reverse();
+
+        onResult(bars, {
+          noData: !data?.length,
+          nextTime:
+            limit > 1000 && bars.length > 0
+              ? bars[0].time / 1000 - limit
+              : undefined,
+        });
       } catch (error: any) {
         onError(error.message);
       }
