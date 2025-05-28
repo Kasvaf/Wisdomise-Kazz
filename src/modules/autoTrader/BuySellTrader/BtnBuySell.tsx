@@ -7,6 +7,8 @@ import usePageTour from 'shared/usePageTour';
 import { useActiveNetwork } from 'modules/base/active-network';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type SwapState } from './useSwapState';
 import useActionHandlers from './useActionHandlers';
 
@@ -14,6 +16,9 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   state,
   className,
 }) => {
+  const isLoggedIn = useIsLoggedIn();
+  const [ModalLogin, showModalLogin] = useModalLogin();
+
   const net = useActiveNetwork();
   const wallet = useActiveWallet();
   const {
@@ -92,10 +97,11 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
 
   return (
     <>
+      {ModalLogin}
       {wallet.connected ? (
         <Button
           variant="primary"
-          onClick={firePosition}
+          onClick={isLoggedIn ? firePosition : showModalLogin}
           loading={isSubmitting}
           disabled={!isEnabled || !balance}
           className={className}
