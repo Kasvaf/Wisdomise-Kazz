@@ -5,6 +5,7 @@ import AdvancedSignalForm from './AdvancedSignalForm';
 import { type TraderInputs } from './types';
 import useSyncFormState from './AdvancedSignalForm/useSyncFormState';
 import FiringHolder from './FiringHolder';
+import useSyncChartLines from './AdvancedSignalForm/useSyncChartLines';
 
 const Trader: React.FC<
   TraderInputs & {
@@ -15,6 +16,7 @@ const Trader: React.FC<
   const { isMinimal, slug, positionKey, loadingClassName } = inputs;
   const position = useTraderPositionQuery({ positionKey });
   const formState = useSignalFormStates(inputs);
+  useSyncChartLines({ formState });
   useSyncFormState({
     formState,
     baseSlug: slug,

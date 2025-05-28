@@ -1,12 +1,8 @@
 import { useEffect } from 'react';
-import {
-  type IChartingLibraryWidget,
-  type IChartWidgetApi,
-} from 'shared/AdvancedChart/charting_library/charting_library';
-import {
-  sortTpSlItems,
-  type SignalFormState,
-} from '../AdvancedSignalForm/useSignalFormStates';
+import { useLastPriceQuery } from 'api';
+import { type IChartWidgetApi } from 'shared/AdvancedChart/charting_library/charting_library';
+import { useAdvancedChartWidget } from 'shared/AdvancedChart';
+import { sortTpSlItems, type SignalFormState } from './useSignalFormStates';
 
 function makeLine({
   chart,
@@ -56,22 +52,23 @@ function makeLine({
   return ln;
 }
 
-const useSyncLines = ({
-  widget,
-  formState,
-  marketPrice,
-}: {
-  widget?: IChartingLibraryWidget;
-  formState: SignalFormState;
-  marketPrice?: number;
-}) => {
+const useSyncChartLines = ({ formState }: { formState: SignalFormState }) => {
   const {
+    base,
+    quote: [quote],
     isUpdate: [isUpdate],
     stopLosses: [stopLosses, setStopLosses],
     takeProfits: [takeProfits, setTakeProfits],
     safetyOpens: [safetyOpens, setSafetyOpens],
   } = formState;
 
+  const { data: marketPrice } = useLastPriceQuery({
+    slug: base,
+    quote,
+    convertToUsd: true,
+  });
+
+  const widget = useAdvancedChartWidget();
   useEffect(() => {
     if (!widget) return;
 
@@ -114,7 +111,7 @@ const useSyncLines = ({
         lines.push(
           makeLine({
             chart,
-            title: `SO #${String(ind + 1)} (${String(+so.amountRatio)}%)`,
+            title: `Open #${String(ind + 1)} (${String(+so.amountRatio)}%)`,
             price: Number(+so.priceExact),
             bgColor: color,
             textColor: '#fff',
@@ -211,4 +208,4 @@ const useSyncLines = ({
   ]);
 };
 
-export default useSyncLines;
+export default useSyncChartLines;

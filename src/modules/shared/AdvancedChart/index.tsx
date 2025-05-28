@@ -1,53 +1,41 @@
 import { clsx } from 'clsx';
-import { useDebounce } from 'usehooks-ts';
-import { useEffect, useMemo, useRef } from 'react';
+import {
+  createContext,
+  type Dispatch,
+  type PropsWithChildren,
+  type SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
-import { useLastCandleQuery } from 'api';
-import { useSymbolInfo } from 'api/symbol';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import {
   widget as Widget,
   type IChartingLibraryWidget,
   type ResolutionString,
 } from './charting_library';
 import makeDataFeed from './makeDataFeed';
+import useCoinPoolInfo from './useCoinPoolInfo';
 
-const useCoinPoolInfo = (slug: string) => {
-  const [pageQuote] = useSearchParamAsState<string>('quote', 'tether');
-  const quote = useDebounce(pageQuote, 1000);
-  const lastCandle = useLastCandleQuery({ slug, quote });
-  const info = useSymbolInfo(slug);
+type OptionalChart = IChartingLibraryWidget | undefined;
+const ChartContext = createContext<
+  [OptionalChart, Dispatch<SetStateAction<OptionalChart>>] | undefined
+>(undefined);
 
-  const net = info.data?.networks.find(
-    x => x.network.slug === lastCandle.data?.symbol.network,
+export const ChartWidgetProvider: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
+  const chartState = useState<OptionalChart>();
+  return (
+    <ChartContext.Provider value={chartState}>{children}</ChartContext.Provider>
   );
+};
 
-  return useMemo(
-    () => ({
-      isLoading: lastCandle.isLoading || info.isLoading,
-      data:
-        net && info.data?.name && lastCandle.data?.symbol.pool_address
-          ? {
-              slug,
-              quote,
-              symbolName: info.data.name,
-              token: net.contract_address,
-              network: net.network.slug,
-              pool: lastCandle.data.symbol.pool_address,
-            }
-          : undefined,
-    }),
-    [
-      net,
-      slug,
-      quote,
-      info.isLoading,
-      info.data?.name,
-      lastCandle.isLoading,
-      lastCandle.data?.symbol.pool_address,
-    ],
-  );
+export const useAdvancedChartWidget = () => {
+  const [chartWidget] = useContext(ChartContext) ?? [];
+  return chartWidget;
 };
 
 const AdvancedChart: React.FC<{
@@ -62,6 +50,7 @@ const AdvancedChart: React.FC<{
     i18n: { language },
   } = useTranslation();
 
+  const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
   useEffect(() => {
     if (isLoading || !data?.pool) return;
@@ -117,9 +106,13 @@ const AdvancedChart: React.FC<{
     });
 
     widgetRef?.(widget);
+    setGlobalChartWidget?.(widget);
 
-    return () => widget.remove();
-  }, [slug, data, isLoading, language, widgetRef]);
+    return () => {
+      setGlobalChartWidget?.(undefined);
+      widget.remove();
+    };
+  }, [slug, data, isLoading, language, setGlobalChartWidget, widgetRef]);
 
   if (isLoading || !data?.pool) return null;
   return (
