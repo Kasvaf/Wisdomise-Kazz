@@ -14,7 +14,7 @@ const durConf: Record<Resolution, [string, number]> = {
   '1D': ['day', 1],
 };
 
-const caches: Record<string, Promise<Candle[]>> = {};
+const caches: Record<string, Promise<Candle[]> | undefined> = {};
 const getCandlesCached = async ({
   network,
   pool,
@@ -54,19 +54,27 @@ const getCandlesCached = async ({
           before_timestamp: before,
           limit,
         },
+        retry: 3,
+        retryDelay: 3000,
+        retryStatusCodes: [429],
       },
-    ).then(data =>
-      data.data.attributes.ohlcv_list.map<Candle>(
-        ([date, open, high, low, close, volume]) => ({
-          open,
-          high,
-          low,
-          close,
-          volume,
-          related_at: new Date(date * 1000).toISOString(),
-        }),
-      ),
-    );
+    )
+      .then(data =>
+        data.data.attributes.ohlcv_list.map<Candle>(
+          ([date, open, high, low, close, volume]) => ({
+            open,
+            high,
+            low,
+            close,
+            volume,
+            related_at: new Date(date * 1000).toISOString(),
+          }),
+        ),
+      )
+      .catch(error => {
+        caches[cacheKey] = undefined;
+        throw error;
+      });
   }
 
   return await caches[cacheKey];
