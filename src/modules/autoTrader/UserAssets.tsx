@@ -1,9 +1,16 @@
 import { clsx } from 'clsx';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { bxCopy, bxEdit, bxLinkExternal, bxTransfer } from 'boxicons-quasar';
+import { Radio } from 'antd';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
-import { useUserWalletAssets } from 'api/chains';
+import {
+  useActiveClientWallet,
+  useActiveWallet,
+  useCustodialWallet,
+  useUserWalletAssets,
+} from 'api/chains';
 import { roundSensible } from 'utils/numbers';
 import { isMiniApp } from 'utils/version';
 import useIsMobile from 'utils/useIsMobile';
@@ -12,6 +19,22 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import Spin from 'shared/Spin';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
+import { useActiveNetwork } from 'modules/base/active-network';
+import {
+  useUpdateWalletMutation,
+  useWalletsQuery,
+  type Wallet,
+} from 'api/wallets';
+import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import Badge from 'shared/Badge';
+import { shortenAddress } from 'utils/shortenAddress';
+import { HoverTooltip } from 'shared/HoverTooltip';
+import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
+import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
+// eslint-disable-next-line import/max-dependencies
+import { useSolanaUserAssets } from 'api/chains/solana';
 
 interface AssetData {
   slug: string;
@@ -29,7 +52,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   return (
     <NavLink
       className={clsx(
-        'flex items-center justify-between p-3 hover:bg-v1-background-hover',
+        'flex items-center justify-between p-3 !text-v1-content-primary hover:bg-v1-background-hover',
         activeCoinSlug === asset.slug &&
           '!bg-v1-surface-l5 contrast-125 saturate-150',
       )}
@@ -83,8 +106,8 @@ interface Props {
   containerClassName?: string;
 }
 
-const UserAssetsInternal: React.FC<
-  Props & { title: string; data?: AssetData[] | null }
+export const UserAssetsInternal: React.FC<
+  Props & { title?: string; data?: AssetData[] | null }
 > = ({ title, data, className, containerClassName }) => {
   if (!data?.length) return null;
   const totalAssets = data?.reduce((a, b) => a + (b.usd_equity ?? 0), 0);
@@ -120,18 +143,14 @@ const UserAssetsInternal: React.FC<
 export default function UserAssets(props: Props) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
+  const net = useActiveNetwork();
 
-  const { data: tradingAssets, isLoading: loadingTraderAssets } =
-    useUserAssets();
-  const { data: walletAssets, isLoading: loadingWalletAssets } =
-    useUserWalletAssets(isMiniApp ? 'the-open-network' : 'solana');
+  const { data: tradingAssets } = useUserAssets();
+  const { data: walletAssets } = useUserWalletAssets(
+    isMiniApp ? 'the-open-network' : 'solana',
+  );
 
-  if (
-    !isLoggedIn ||
-    (loadingTraderAssets && loadingWalletAssets) ||
-    (!tradingAssets?.length && !walletAssets?.length)
-  )
-    return null;
+  if (!isLoggedIn) return null;
 
   return (
     <div>
@@ -141,14 +160,207 @@ export default function UserAssets(props: Props) {
           data={tradingAssets}
           {...props}
         />
-        {!isMobile && (
-          <UserAssetsInternal
-            title="Wallet Assets"
-            data={walletAssets}
-            {...props}
-          />
-        )}
+        {!isMobile &&
+          (net === 'the-open-network' ? (
+            <UserAssetsInternal
+              title="Wallet Assets"
+              data={walletAssets}
+              {...props}
+            />
+          ) : (
+            <UserWallets />
+          ))}
       </div>
+    </div>
+  );
+}
+
+function UserWallets() {
+  const { cw, setCw } = useCustodialWallet();
+  const { data: wallets } = useWalletsQuery();
+
+  return (
+    <div>
+      <Radio.Group
+        className="[&.ant-radio-wrapper]:items-start [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
+        value={cw?.key ?? false}
+        onChange={event => {
+          setCw(event.target.value || undefined);
+        }}
+        options={[
+          { value: false, label: <WalletItem /> },
+          ...(wallets?.results.map(w => ({
+            value: w.key,
+            label: <WalletItem wallet={w} />,
+          })) ?? []),
+        ]}
+      />
+    </div>
+  );
+}
+
+function WalletItem({ wallet }: { wallet?: Wallet }) {
+  const { address, connected, name, icon } = useActiveClientWallet();
+  const { address: activeAddress } = useActiveWallet();
+  const { data: walletAssets } = useUserWalletAssets(
+    isMiniApp ? 'the-open-network' : 'solana',
+  );
+  const { withdrawDepositModal, deposit, withdraw, transfer, openScan } =
+    useWalletActionHandler();
+  const [newName, setNewName] = useState(wallet?.name ?? '');
+  const [editMode, setEditMode] = useState(false);
+  const { mutate } = useUpdateWalletMutation(wallet?.key);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const isActive = (wallet ? wallet.address : address) === activeAddress;
+
+  const updateName = () => {
+    if (newName && wallet) {
+      mutate({ name: newName });
+      wallet.name = newName;
+    } else {
+      setNewName(wallet?.name ?? '');
+    }
+    setEditMode(false);
+  };
+
+  return (
+    <div className="w-full border-b border-v1-inverse-overlay-10 py-3">
+      <div
+        className={clsx(
+          'flex items-center gap-2 font-medium',
+          isActive && 'bg-pro-gradient bg-clip-text text-transparent',
+        )}
+      >
+        {wallet ? (
+          editMode ? (
+            <input
+              ref={inputRef}
+              className="bg-transparent"
+              defaultValue={newName}
+              onChange={e => setNewName(e.target.value)}
+              onBlur={updateName}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  updateName();
+                }
+              }}
+            />
+          ) : (
+            wallet.name
+          )
+        ) : (
+          'Connected Wallet'
+        )}
+        {isActive && <Badge color="pro" label="Active" />}
+      </div>
+      <div className="mb-2 flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
+        <div className="flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
+          {wallet ? (
+            <>
+              {shortenAddress(wallet.address)}
+              <Icon name={bxCopy} size={12} />
+            </>
+          ) : connected ? (
+            <div className="flex items-center gap-1">
+              <img src={icon} className="size-4" /> {name}
+            </div>
+          ) : (
+            'Not Connected'
+          )}
+        </div>
+        <div className="ml-auto">
+          {wallet ? (
+            <div className="flex gap-1">
+              <Button
+                onClick={() => withdraw(wallet)}
+                variant="outline"
+                size="2xs"
+                className="!bg-transparent !px-1"
+              >
+                Withdraw
+              </Button>
+              <Button
+                onClick={() => deposit(wallet)}
+                variant="outline"
+                size="2xs"
+                className="!bg-transparent !px-1"
+              >
+                Deposit
+              </Button>
+              <HoverTooltip title="Rename" ignoreFocus>
+                <Button
+                  onClick={() => {
+                    setEditMode(prev => !prev);
+                    setTimeout(() => inputRef.current?.select(), 0);
+                  }}
+                  variant="ghost"
+                  size="2xs"
+                  className="!bg-transparent !px-0 text-v1-content-secondary"
+                >
+                  <Icon name={bxEdit} />
+                </Button>
+              </HoverTooltip>
+              <HoverTooltip title="Transfer">
+                <Button
+                  onClick={() => {
+                    transfer(wallet);
+                  }}
+                  variant="ghost"
+                  size="2xs"
+                  className="!bg-transparent !px-0 text-v1-content-secondary"
+                >
+                  <Icon name={bxTransfer} />
+                </Button>
+              </HoverTooltip>
+              <HoverTooltip
+                title={`View on ${SCANNERS[wallet.network_slug].name}`}
+              >
+                <Button
+                  variant="ghost"
+                  size="2xs"
+                  className="!bg-transparent !px-0 text-v1-content-secondary"
+                  onClick={() => openScan(wallet)}
+                >
+                  <Icon name={bxLinkExternal} />
+                </Button>
+              </HoverTooltip>
+            </div>
+          ) : (
+            <BtnAppKitWalletConnect
+              network="solana"
+              variant="outline"
+              size="2xs"
+            />
+          )}
+        </div>
+      </div>
+      {wallet ? (
+        <WalletAssets wallet={wallet} />
+      ) : (
+        <UserAssetsInternal data={walletAssets} />
+      )}
+      {withdrawDepositModal}
+    </div>
+  );
+}
+
+export function WalletAssets({ wallet }: { wallet: Wallet }) {
+  const isLoggedIn = useIsLoggedIn();
+  const { data: custodialWalletAssets } = useSolanaUserAssets(wallet.address);
+  const { withdrawDepositModal, deposit } = useWalletActionHandler();
+
+  if (!isLoggedIn) return null;
+
+  return custodialWalletAssets?.length ? (
+    <UserAssetsInternal data={custodialWalletAssets} />
+  ) : (
+    <div className="flex h-44 flex-col items-center justify-center rounded-xl bg-v1-surface-l2">
+      <p className="mb-3">deposit and start your trade journey</p>
+      <Button size="sm" onClick={() => deposit(wallet)}>
+        Deposit
+      </Button>
+      {withdrawDepositModal}
     </div>
   );
 }

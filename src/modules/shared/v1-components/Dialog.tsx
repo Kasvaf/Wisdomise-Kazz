@@ -153,6 +153,7 @@ export const Dialog: FC<{
     position?: 'bottom' | 'start' | 'end';
     closeButton?: boolean;
   };
+  ignoreFocus?: boolean;
 }> = ({
   children,
   open: isOpen = false,
@@ -174,6 +175,7 @@ export const Dialog: FC<{
   popupConfig: userPopupConfig,
   modalConfig: userModalConfig,
   drawerConfig: userDrawerConfig,
+  ignoreFocus,
 }) => {
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
@@ -214,6 +216,7 @@ export const Dialog: FC<{
   );
 
   useEffect(() => {
+    if (ignoreFocus) return;
     if (isOpen) {
       lastFocus.current = document.activeElement as HTMLElement | null;
     } else if (lastFocus.current) {
@@ -221,7 +224,7 @@ export const Dialog: FC<{
         preventScroll: true,
       });
     }
-  }, [isOpen, mode]);
+  }, [ignoreFocus, isOpen, mode]);
 
   const bodyScroll = useBodyScroll();
   useEffect(() => {

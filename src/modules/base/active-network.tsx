@@ -20,7 +20,7 @@ const LayoutActiveNetworkContext = createContext<
 >(undefined);
 
 export const useActiveNetwork = () => {
-  return useContext(ActiveNetworkContext);
+  return useContext(ActiveNetworkContext) ?? 'solana';
 };
 
 export const ActiveNetworkProvider: React.FC<

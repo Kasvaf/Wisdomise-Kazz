@@ -350,6 +350,18 @@ div[data-tc-modal] {
   @apply text-xs;
 }
 
+.ant-radio-inner {
+  @apply !border-v1-border-primary !bg-transparent;
+}
+
+.ant-radio-wrapper-checked .ant-radio-inner {
+  @apply !border-v1-border-brand;
+}
+
+.ant-radio-wrapper-checked .ant-radio-inner::after {
+  @apply !bg-v1-background-brand;
+}
+
 /* hide google captcha */
 .grecaptcha-badge {
   display: none !important;

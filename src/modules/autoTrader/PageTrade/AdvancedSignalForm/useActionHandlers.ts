@@ -53,7 +53,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     quote,
     convertToUsd: true,
   });
-  const { address } = useActiveWallet();
+  const { address, isCustodial } = useActiveWallet();
 
   const { mutateAsync, isPending: isSubmitting } =
     useTraderFirePositionMutation();
@@ -101,12 +101,14 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
       const res = await mutateAsync(createData);
 
       try {
-        const awaitConfirm = await transferAssetsHandler({
-          positionKey: res.position_key,
-          recipientAddress: res.deposit_address,
-          gasFee: res.gas_fee,
-          amount,
-        });
+        const awaitConfirm = isCustodial
+          ? () => Promise.resolve(true)
+          : await transferAssetsHandler({
+              positionKey: res.position_key,
+              recipientAddress: res.deposit_address,
+              gasFee: res.gas_fee,
+              amount,
+            });
 
         setConfirming(true);
         void awaitConfirm()

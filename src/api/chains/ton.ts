@@ -76,8 +76,9 @@ const useJettonWalletAddress = (slug?: string) => {
   });
 };
 
-export const useAccountJettonBalance = (slug?: string) => {
-  const address = useTonAddress();
+export const useAccountJettonBalance = (slug?: string, address?: string) => {
+  const tonAddress = useTonAddress();
+  address ||= tonAddress;
   const { data: { walletAddress, decimals } = {}, isLoading: jettonIsLoading } =
     useJettonWalletAddress(slug);
   const addr = slug === 'the-open-network' ? address : walletAddress;

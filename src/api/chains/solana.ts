@@ -62,11 +62,13 @@ const useContractInfo = (slug?: string) => {
   });
 };
 
-export const useSolanaAccountBalance = (slug?: string) => {
+export const useSolanaAccountBalance = (slug?: string, address?: string) => {
   const { connection } = useAppKitConnection();
-  const { address } = useAppKitAccount();
+  const { address: appKitAddress } = useAppKitAccount();
   const { data: { contract } = {}, isLoading: contractIsLoading } =
     useContractInfo(slug);
+
+  address ||= appKitAddress;
 
   const query = useQuery({
     queryKey: ['sol-balance', slug, address],
@@ -118,9 +120,11 @@ export const useSolanaAccountBalance = (slug?: string) => {
   };
 };
 
-export const useSolanaUserAssets = () => {
+export const useSolanaUserAssets = (address?: string) => {
   const { connection } = useAppKitConnection();
-  const { address } = useAppKitAccount();
+  const { address: appKitAddress } = useAppKitAccount();
+
+  address ||= appKitAddress;
 
   return useQuery({
     queryKey: ['solana-user-assets', address],

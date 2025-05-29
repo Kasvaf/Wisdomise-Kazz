@@ -29,7 +29,7 @@ const useActionHandlers = (state: SwapState) => {
     firing: [firing, setFiring],
     confirming: [, setConfirming],
   } = state;
-  const { address } = useActiveWallet();
+  const { address, isCustodial } = useActiveWallet();
 
   const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
     setConfirming(true);
@@ -53,7 +53,7 @@ const useActionHandlers = (state: SwapState) => {
     if (!base.slug || !quote.slug || !address) return;
 
     // direct swap
-    if (network === 'solana' && isMarketPrice) {
+    if (network === 'solana' && isMarketPrice && !isCustodial) {
       setFiring(true);
       try {
         const swapData = {

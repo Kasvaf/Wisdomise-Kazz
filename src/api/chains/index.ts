@@ -5,10 +5,12 @@ import {
   useDisconnect,
   useWalletInfo,
 } from '@reown/appkit/react';
+import { useLocalStorage } from 'usehooks-ts';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
 import { useSymbolsInfo } from 'api/symbol';
 import { type SupportedNetworks } from 'api';
+import { useWalletsQuery } from 'api/wallets';
 import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
@@ -43,7 +45,18 @@ export const useDisconnectAll = () => {
   };
 };
 
-export const useActiveWallet = () => {
+export const useCustodialWallet = () => {
+  const { data: wallets } = useWalletsQuery();
+  const [cwKey, setCw] = useLocalStorage<string | undefined>(
+    'custodial-address',
+    undefined,
+  );
+  const cw = wallets?.results.find(w => w.key === cwKey);
+
+  return { cw, setCw };
+};
+
+export const useActiveClientWallet = () => {
   const net = useActiveNetwork();
 
   const tonAddress = useTonAddress();
@@ -53,6 +66,7 @@ export const useActiveWallet = () => {
     useAppKitAccount();
   const appKitWalletInfo = useWalletInfo();
   const { caipNetwork } = useAppKitNetwork();
+
   const chainNameSpace = caipNetwork?.chainNamespace;
   const isValidChain =
     chainNameSpace === (net === 'solana' ? 'solana' : 'eip155');
@@ -81,6 +95,10 @@ export const useActiveWallet = () => {
         : net === 'solana' || net === 'polygon'
         ? isAppKitConnected && isValidChain
         : false,
+    icon:
+      net === 'solana' || net === 'polygon'
+        ? appKitWalletInfo.walletInfo?.icon
+        : undefined,
 
     connect: () => {
       trackClick('wallet_connect', { network: net })();
@@ -95,6 +113,21 @@ export const useActiveWallet = () => {
   };
 };
 
+export const useActiveWallet = () => {
+  const { address, name, connected, connect } = useActiveClientWallet();
+  const net = useActiveNetwork();
+  const { cw } = useCustodialWallet();
+  const custodialSupported = cw && net === 'solana';
+
+  return {
+    address: custodialSupported ? cw.address : address,
+    name: custodialSupported ? cw.name : name,
+    connected: custodialSupported ? true : connected,
+    isCustodial: custodialSupported,
+    connect,
+  };
+};
+
 export type AutoTraderSupportedQuotes =
   | AutoTraderTonSupportedQuotes
   | AutoTraderSolanaSupportedQuotes;
@@ -102,15 +135,18 @@ export type AutoTraderSupportedQuotes =
 export const useAccountBalance = (
   quote?: string,
   network?: SupportedNetworks | null,
+  address?: string,
 ) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
 
   const solResult = useSolanaAccountBalance(
     net === 'solana' ? quote : undefined,
+    address,
   );
   const tonResult = useAccountJettonBalance(
     net === 'the-open-network' ? quote : undefined,
+    address,
   );
 
   if (net === 'solana') return solResult;
@@ -132,10 +168,12 @@ export const useUserWalletAssets = (
   return { data: null, isLoading: false };
 };
 
-export const useAccountNativeBalance = () => {
+export const useAccountNativeBalance = (address?: string) => {
   const net = useActiveNetwork();
   return useAccountBalance(
     net === 'the-open-network' ? 'the-open-network' : 'wrapped-solana',
+    undefined,
+    address,
   );
 };
 
