@@ -25,7 +25,7 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
   const { pathname } = useLocation();
 
   const getUrl = useCallback(
-    (meta: Partial<DiscoveryRouteMeta> & Record<T, string>): To => {
+    (meta: Partial<DiscoveryRouteMeta> & Record<T, string | undefined>): To => {
       if (Object.keys(meta).length === 0) {
         throw new Error('unexpected');
       }
