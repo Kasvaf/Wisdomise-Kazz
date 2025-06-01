@@ -42,10 +42,11 @@ export function useSvcMethodQuery<K extends ServiceKey, V, P>(
   params: P,
 ) {
   const service = useGrpcService(svc);
+  const method = methodSelector(service);
   const paramsJson = JSON.stringify(params);
   return useQuery({
-    queryKey: ['grpc', methodSelector(service).name, paramsJson],
-    queryFn: () => methodSelector(service)(JSON.parse(paramsJson)),
+    queryKey: ['grpc', svc, method.name, paramsJson],
+    queryFn: () => method.call(service, params),
     enabled,
   });
 }
@@ -63,12 +64,12 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
   params: P,
 ) {
   const service = useGrpcService(svc);
-  const paramsJson = JSON.stringify(params);
+  const method = methodSelector(service);
   return useObservableLastValue({
     observable: useMemo(
-      () => methodSelector(service)(JSON.parse(paramsJson)),
+      () => method.call(service, params),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [service, paramsJson],
+      [service, method, JSON.stringify(params)],
     ),
     enabled,
   });
@@ -87,12 +88,12 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
   params: P,
 ) {
   const service = useGrpcService(svc);
-  const paramsJson = JSON.stringify(params);
+  const method = methodSelector(service);
   return useObservableAllValues({
     observable: useMemo(
-      () => methodSelector(service)(JSON.parse(paramsJson)),
+      () => method.call(service, params),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [service, paramsJson],
+      [service, method, JSON.stringify(params)],
     ),
     enabled,
   });
