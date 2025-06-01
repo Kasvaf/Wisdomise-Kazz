@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useMemo } from 'react';
 import { type Observable } from 'rxjs';
-import { useQuery } from '@tanstack/react-query';
+import {
+  type UndefinedInitialDataOptions,
+  useQuery,
+} from '@tanstack/react-query';
 import {
   useObservableAllValues,
   useObservableLastValue,
@@ -33,12 +36,11 @@ export function useSvcMethodQuery<K extends ServiceKey, V, P>(
   {
     service: svc,
     method: methodSelector,
-    enabled,
+    ...queryOptions
   }: {
     service: K;
     method: (x: ServiceType<K>) => (params: P) => Promise<V>;
-    enabled?: boolean;
-  },
+  } & Omit<UndefinedInitialDataOptions<V>, 'queryKey' | 'queryFn'>,
   params: P,
 ) {
   const service = useGrpcService(svc);
@@ -47,7 +49,7 @@ export function useSvcMethodQuery<K extends ServiceKey, V, P>(
   return useQuery({
     queryKey: ['grpc', svc, method.name, paramsJson],
     queryFn: () => method.call(service, params),
-    enabled,
+    ...queryOptions,
   });
 }
 
@@ -178,7 +180,10 @@ export function createServiceSingleton<K extends ServiceKey>(svcName: K) {
       ? `use${Capitalize<string & M>}Query`
       : never]: (
       params: MethodMap[M]['params'],
-      options?: Options,
+      options?: Omit<
+        UndefinedInitialDataOptions<MethodMap[M]['returnType']>,
+        'queryKey' | 'queryFn'
+      >,
     ) => ReturnType<
       typeof useSvcMethodQuery<
         K,

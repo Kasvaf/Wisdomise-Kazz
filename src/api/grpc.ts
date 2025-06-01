@@ -2,3 +2,4 @@
 import { createServiceSingleton } from './grpc-utils';
 
 export const delphinusGrpc = createServiceSingleton('delphinus');
+export const pingGrpc = createServiceSingleton('ping');
