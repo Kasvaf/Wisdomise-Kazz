@@ -59,7 +59,7 @@ export function AlertEdit({
 
   return (
     <div className="flex flex-col items-stretch gap-4">
-      <div className="flex w-full items-center gap-2 px-2 py-4">
+      <div className="flex w-full items-center gap-2 px-0 py-4">
         {crumbs.filter(r => r.action).length > 1 && (
           <AlertNavbarButton
             type="back"

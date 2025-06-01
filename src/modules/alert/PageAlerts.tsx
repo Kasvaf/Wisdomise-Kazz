@@ -1,15 +1,14 @@
 import { useTranslation } from 'react-i18next';
-import { bxBell, bxSearch } from 'boxicons-quasar';
-import { clsx } from 'clsx';
+import { bxBell } from 'boxicons-quasar';
 import { useMemo, useState } from 'react';
 import { type AlertState, useAlerts } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
-import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
-import TextBox from 'shared/TextBox';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import { SearchInput } from 'shared/SearchInput';
+import { Button } from 'shared/v1-components/Button';
 import { useAlertActions } from './hooks/useAlertActions';
 import { AlertEmptyWidget } from './components/AlertEmptyWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
@@ -84,24 +83,22 @@ export default function AlertsPage() {
     >
       <PageTitle description={t('base:menu.alerts.subtitle')} />
 
-      <div className="my-8 flex flex-wrap items-center gap-4">
-        <TextBox
+      <div className="my-8 flex flex-wrap items-center gap-2">
+        <SearchInput
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder={t('common.search')}
-          className="shrink-0 basis-80 mobile:basis-full"
-          inputClassName="text-sm"
-          suffix={<Icon name={bxSearch} />}
+          size="md"
         />
         <AlertStateSelect value={alertState} onChange={setAlertState} />
         <div className="grow" />
         <Button
           onClick={() => alertActions.openSaveModal()}
-          variant="primary"
-          size="manual"
-          className={clsx('h-12 px-7', gtmClass('set-alert'))}
+          variant="white"
+          size="sm"
+          className={gtmClass('set-alert')}
         >
-          <Icon name={bxBell} className="mr-2" size={24} />
+          <Icon name={bxBell} size={24} />
           {t('common.set-alert')}
         </Button>
       </div>

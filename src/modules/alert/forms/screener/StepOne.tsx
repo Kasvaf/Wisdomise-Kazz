@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { bxBell } from 'boxicons-quasar';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
@@ -14,6 +13,7 @@ import { isDebugMode } from 'utils/version';
 import { type AlertMessenger, useSubscription } from 'api';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
+import { Button } from 'shared/v1-components/Button';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
 export function StepOne({
@@ -120,7 +120,7 @@ export function StepOne({
             <VipRedirectButton onClick={onClose} label="Upgrade to Set Alert" />
           ) : (
             <Button
-              variant="primary"
+              variant="white"
               className={clsx(
                 'mt-6 w-full grow',
                 gtmClass('submit coin-radar-alert'),

@@ -1,14 +1,14 @@
 import { clsx } from 'clsx';
 import { bxBell } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import Button from 'shared/Button';
-import { Toggle } from 'shared/Toggle';
+import { Toggle } from 'shared/v1-components/Toggle';
 import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
 import { isDebugMode } from 'utils/version';
 import { type AlertMessenger } from 'api';
+import { Button } from 'shared/v1-components/Button';
 import { IntervalSelect } from '../../components/IntervalSelect';
 import { AlertChannelsSelect } from '../../components/AlertChannelsSelect';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
@@ -72,6 +72,7 @@ export function StepTwo({
           value={value.config?.dnd_interval}
           className="block"
           cooldownMode
+          size="sm"
         />
       </FormControlWithLabel>
 
@@ -95,12 +96,12 @@ export function StepTwo({
               },
             }))
           }
-          checked={value.config?.one_time ?? false}
+          value={value.config?.one_time ?? false}
         />
       </FormControlWithLabel>
       <div>
         <Button
-          variant="primary"
+          variant="white"
           className={clsx('mt-6 w-full grow', gtmClass('submit price-alert'))}
           disabled={value.key ? false : (value.messengers?.length ?? 0) < 1}
           loading={loading}
