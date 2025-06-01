@@ -12,7 +12,7 @@ function useObservable<V>({
 }) {
   const handlerRef = useRef(handler);
   useEffect(() => {
-    if (enabled !== false) return;
+    if (enabled === false) return;
     const x = observable.subscribe(handlerRef.current);
     return () => x.unsubscribe();
   }, [enabled, observable]);
