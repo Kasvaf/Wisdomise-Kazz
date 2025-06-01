@@ -34,8 +34,9 @@ import {
   useActiveClientWallet,
   useActiveWallet,
   useCustodialWallet,
-  // eslint-disable-next-line import/max-dependencies
 } from 'api/chains/wallet';
+// eslint-disable-next-line import/max-dependencies
+import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
 
 interface AssetData {
   slug: string;
@@ -183,7 +184,7 @@ function UserWallets() {
   return (
     <div>
       <Radio.Group
-        className="[&.ant-radio-wrapper]:items-start [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
+        className="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
         value={cw?.key ?? false}
         onChange={event => {
           setCw(event.target.value || undefined);
@@ -196,6 +197,7 @@ function UserWallets() {
           })) ?? []),
         ]}
       />
+      <CreateWalletBtn />
     </div>
   );
 }

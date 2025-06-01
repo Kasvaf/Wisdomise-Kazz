@@ -1,5 +1,5 @@
 import { Radio } from 'antd';
-import { bxCopy, bxPlus } from 'boxicons-quasar';
+import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { Button } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -10,11 +10,7 @@ import Icon from 'shared/Icon';
 import { isMiniApp } from 'utils/version';
 import { useSymbolInfo } from 'api/symbol';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import {
-  useCreateWalletMutation,
-  useWalletsQuery,
-  type Wallet,
-} from 'api/wallets';
+import { useWalletsQuery, type Wallet } from 'api/wallets';
 import Badge from 'shared/Badge';
 import useIsMobile from 'utils/useIsMobile';
 import { useShare } from 'shared/useShare';
@@ -24,6 +20,7 @@ import {
   useActiveWallet,
   useCustodialWallet,
 } from 'api/chains/wallet';
+import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
@@ -57,14 +54,6 @@ export default function BtnSolanaWallets() {
 function BtnWalletsContent() {
   const { cw, setCw } = useCustodialWallet();
   const { data: wallets } = useWalletsQuery();
-  const { mutateAsync, isPending } = useCreateWalletMutation();
-
-  const createWallet = () => {
-    void mutateAsync({
-      network_slug: 'solana',
-      name: `Wallet ${(wallets?.count ?? 0) + 1}`,
-    });
-  };
 
   return (
     <div className="">
@@ -88,15 +77,7 @@ function BtnWalletsContent() {
             })) ?? []),
           ]}
         />
-        <Button
-          variant="ghost"
-          className="!bg-transparent"
-          onClick={createWallet}
-          loading={isPending}
-        >
-          <Icon name={bxPlus} />
-          Add Wallet
-        </Button>
+        <CreateWalletBtn />
       </div>
     </div>
   );
