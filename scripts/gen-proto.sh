@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git pull --recurse-submodules
+git submodule update --init --recursive
 
 INPUT=wiserpc/proto/
 OUTPUT=src/api/proto
