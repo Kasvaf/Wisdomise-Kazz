@@ -1,6 +1,8 @@
 import { type FC } from 'react';
-import PositionsCompact from 'modules/autoTrader/PagePositions/PositionsCompact';
+import PositionsExpandable from 'modules/autoTrader/Positions/PositionsExpandable';
 
-export const Positions: FC<{ expanded?: boolean; focus?: boolean }> = () => {
-  return <PositionsCompact />;
+export const Positions: FC<{ expanded?: boolean; focus?: boolean }> = ({
+  expanded,
+}) => {
+  return <PositionsExpandable expanded={expanded} />;
 };

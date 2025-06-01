@@ -2,7 +2,6 @@ import { useSupportedPairs } from 'api';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import PositionsList from 'modules/autoTrader/PagePositions/PositionsList';
 import BuySellTrader from 'modules/autoTrader/BuySellTrader';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
@@ -38,16 +37,6 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
           </div>
         )}
       </div>
-
-      <hr className="border-white/10 [&:has(+:not(.id-positions-list))]:hidden" />
-
-      <PositionsList
-        slug={slug}
-        isOpen
-        noEmptyState
-        noLoadingState
-        className="id-positions-list [&_.id-position-item]:rounded-md"
-      />
     </>
   );
 };

@@ -15,6 +15,7 @@ import {
 import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
 import { useActiveNetwork } from 'modules/base/active-network';
 import useIsMobile from 'utils/useIsMobile';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';
@@ -30,6 +31,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const network = useActiveNetwork();
+  const { getUrl } = useDiscoveryRouteMeta();
 
   const {
     leverage: [leverage],
@@ -121,7 +123,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
           .finally(() => {
             setConfirming(false);
             if (isMobile) {
-              navigate(`/trader/positions?slug=${baseSlug}`);
+              navigate(getUrl({ list: 'positions', slug: baseSlug }));
             }
           });
       } catch (error) {
@@ -201,7 +203,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
-      navigate(`/trader/positions?slug=${baseSlug}`);
+      navigate(getUrl({ list: 'positions', slug: baseSlug }));
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

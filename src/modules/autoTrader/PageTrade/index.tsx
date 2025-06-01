@@ -32,7 +32,7 @@ export default function PageTrade() {
         }),
       );
     } else if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(`/trader/positions?slug=${slug}`);
+      navigate(getUrl({ list: 'positions', slug }));
     }
   }, [getUrl, isMobile, navigate, position.data, slug]);
 
