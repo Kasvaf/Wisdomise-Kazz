@@ -61,7 +61,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp --recursive dist/ s3://app.wisdomise.com/
-          ./cleanup-bucket.sh app.wisdomise.com
+          ./scripts/cleanup-bucket.sh app.wisdomise.com
 
   notify-slack:
     runs-on: ubuntu-latest
