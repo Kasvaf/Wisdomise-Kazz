@@ -1,5 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 import { type Observable } from 'rxjs';
+import { useQuery } from '@tanstack/react-query';
+import {
+  useObservableAllValues,
+  useObservableLastValue,
+} from 'utils/observable';
 import { DelphinusServiceClientImpl, GrpcWebImpl } from './proto/delphinus';
 import { PingServiceClientImpl } from './proto/common';
 
@@ -22,53 +27,25 @@ export function useGrpcService<K extends ServiceKey>(svc: K): ServiceType<K> {
   }, [svc]);
 }
 
-function useObservable<V>({
-  observable,
-  handler,
-  enabled,
-}: {
-  observable: Observable<V>;
-  handler: (item: V) => void;
-  enabled?: boolean;
-}) {
-  const handlerRef = useRef(handler);
-  useEffect(() => {
-    if (enabled !== false) return;
-    const x = observable.subscribe(handlerRef.current);
-    return () => x.unsubscribe();
-  }, [enabled, observable]);
-}
-
-export function useObservableLastValue<V>({
-  observable,
-  enabled,
-}: {
-  observable: Observable<V>;
-  enabled?: boolean;
-}) {
-  const [value, setLastValue] = useState<V>();
-  useObservable({
-    observable,
-    handler: val => setLastValue(val),
+export function useSvcMethodQuery<K extends ServiceKey, V, P>(
+  {
+    service: svc,
+    method: methodSelector,
+    enabled,
+  }: {
+    service: K;
+    method: (x: ServiceType<K>) => (params: P) => Promise<V>;
+    enabled?: boolean;
+  },
+  params: P,
+) {
+  const service = useGrpcService(svc);
+  const paramsJson = JSON.stringify(params);
+  return useQuery({
+    queryKey: ['grpc', methodSelector(service).name, paramsJson],
+    queryFn: () => methodSelector(service)(JSON.parse(paramsJson)),
     enabled,
   });
-  return { value };
-}
-
-export function useObservableAllValues<V>({
-  observable,
-  enabled,
-}: {
-  observable: Observable<V>;
-  enabled?: boolean;
-}) {
-  const [values, setValues] = useState<V[]>();
-  useObservable({
-    observable,
-    handler: val => setValues(vals => [...(vals ?? []), val]),
-    enabled,
-  });
-  return { values };
 }
 
 export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
