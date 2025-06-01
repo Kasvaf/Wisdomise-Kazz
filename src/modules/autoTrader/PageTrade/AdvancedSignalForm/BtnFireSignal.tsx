@@ -1,13 +1,14 @@
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { type Position, useHasFlag } from 'api';
-import { useAccountBalance, useActiveWallet } from 'api/chains';
+import { useAccountBalance } from 'api/chains';
 import { useUserStorage } from 'api/userStorage';
 import { isMiniApp } from 'utils/version';
 import { DebugPin } from 'shared/DebugPin';
 import Button from 'shared/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useActiveWallet } from 'api/chains/wallet';
 import useActionHandlers from './useActionHandlers';
 import { type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as WarnIcon } from './WarnIcon.svg';

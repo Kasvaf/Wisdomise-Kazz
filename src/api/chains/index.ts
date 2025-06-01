@@ -1,19 +1,10 @@
-import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
-import {
-  useAppKitAccount,
-  useAppKitNetwork,
-  useDisconnect,
-  useWalletInfo,
-} from '@reown/appkit/react';
-import { useLocalStorage } from 'usehooks-ts';
+import { useTonConnectUI } from '@tonconnect/ui-react';
+import { useDisconnect } from '@reown/appkit/react';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { trackClick } from 'config/segment';
 import { useSymbolsInfo } from 'api/symbol';
 import { type SupportedNetworks } from 'api';
-import { useWalletsQuery } from 'api/wallets';
 import {
   type AutoTraderSolanaSupportedQuotes,
-  useAwaitSolanaWalletConnection,
   useSolanaAccountBalance,
   useSolanaMarketSwap,
   useSolanaTransferAssetsMutation,
@@ -22,7 +13,6 @@ import {
 import {
   type AutoTraderTonSupportedQuotes,
   useAccountJettonBalance,
-  useAwaitTonWalletConnection,
   useTonTransferAssetsMutation,
   useTonUserAssets,
 } from './ton';
@@ -42,89 +32,6 @@ export const useDisconnectAll = () => {
         }
       }
     }
-  };
-};
-
-export const useCustodialWallet = () => {
-  const { data: wallets } = useWalletsQuery();
-  const [cwKey, setCw] = useLocalStorage<string | undefined>(
-    'custodial-address',
-    undefined,
-  );
-  const cw = wallets?.results.find(w => w.key === cwKey);
-
-  return { cw, setCw };
-};
-
-export const useActiveClientWallet = () => {
-  const net = useActiveNetwork();
-
-  const tonAddress = useTonAddress();
-  const [tonConnectUI] = useTonConnectUI();
-
-  const { address: appKitAddress, isConnected: isAppKitConnected } =
-    useAppKitAccount();
-  const appKitWalletInfo = useWalletInfo();
-  const { caipNetwork } = useAppKitNetwork();
-
-  const chainNameSpace = caipNetwork?.chainNamespace;
-  const isValidChain =
-    chainNameSpace === (net === 'solana' ? 'solana' : 'eip155');
-
-  const awaitSolanaWalletConnect = useAwaitSolanaWalletConnection(
-    net === 'the-open-network' ? undefined : net,
-  );
-  const awaitTonWalletConnect = useAwaitTonWalletConnection();
-
-  return {
-    address:
-      net === 'the-open-network'
-        ? tonAddress
-        : net === 'solana' || net === 'polygon'
-        ? appKitAddress
-        : undefined,
-    name:
-      net === 'the-open-network'
-        ? tonConnectUI.wallet?.device.appName
-        : net === 'solana' || net === 'polygon'
-        ? appKitWalletInfo.walletInfo?.name
-        : undefined,
-    connected:
-      net === 'the-open-network'
-        ? tonConnectUI.connected
-        : net === 'solana' || net === 'polygon'
-        ? isAppKitConnected && isValidChain
-        : false,
-    icon:
-      net === 'solana' || net === 'polygon'
-        ? appKitWalletInfo.walletInfo?.icon
-        : undefined,
-
-    connect: () => {
-      trackClick('wallet_connect', { network: net })();
-      if (net === 'the-open-network') {
-        return awaitTonWalletConnect();
-      }
-      if (net === 'solana' || net === 'polygon') {
-        return awaitSolanaWalletConnect();
-      }
-      return Promise.resolve();
-    },
-  };
-};
-
-export const useActiveWallet = () => {
-  const { address, name, connected, connect } = useActiveClientWallet();
-  const net = useActiveNetwork();
-  const { cw } = useCustodialWallet();
-  const custodialSupported = cw && net === 'solana';
-
-  return {
-    address: custodialSupported ? cw.address : address,
-    name: custodialSupported ? cw.name : name,
-    connected: custodialSupported ? true : connected,
-    isCustodial: custodialSupported,
-    connect,
   };
 };
 
@@ -156,12 +63,13 @@ export const useAccountBalance = (
 
 export const useUserWalletAssets = (
   network?: 'solana' | 'the-open-network' | null,
+  address?: string,
 ) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
 
-  const solResult = useSolanaUserAssets();
-  const tonResult = useTonUserAssets();
+  const solResult = useSolanaUserAssets(address);
+  const tonResult = useTonUserAssets(address);
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;

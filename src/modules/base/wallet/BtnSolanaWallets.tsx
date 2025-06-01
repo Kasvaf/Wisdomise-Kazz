@@ -4,12 +4,7 @@ import { clsx } from 'clsx';
 import { Button } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import {
-  useActiveClientWallet,
-  useActiveWallet,
-  useCustodialWallet,
-  useUserWalletAssets,
-} from 'api/chains';
+import { useUserWalletAssets } from 'api/chains';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
 import { isMiniApp } from 'utils/version';
@@ -24,6 +19,11 @@ import Badge from 'shared/Badge';
 import useIsMobile from 'utils/useIsMobile';
 import { useShare } from 'shared/useShare';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
+import {
+  useActiveClientWallet,
+  useActiveWallet,
+  useCustodialWallet,
+} from 'api/chains/wallet';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
@@ -43,7 +43,12 @@ export default function BtnSolanaWallets() {
         {/* <div className="size-4 rounded bg-black p-px"> */}
         {/*   <SolanaIcon className="!size-full" /> */}
         {/* </div> */}
-        {connected && <img className="size-4" src={icon} alt="" />}
+        {connected && (
+          <>
+            <span>+</span>
+            <img className="size-4" src={icon} alt="" />
+          </>
+        )}
       </Button>
     </ClickableTooltip>
   );
@@ -168,8 +173,10 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
 }
 
 function UserAssets() {
+  const { address } = useActiveClientWallet();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',
+    address,
   );
 
   return walletAssets?.length ? (

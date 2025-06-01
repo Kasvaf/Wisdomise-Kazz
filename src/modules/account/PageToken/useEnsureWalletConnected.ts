@@ -1,6 +1,7 @@
 import { notification } from 'antd';
 import { useAccountQuery } from 'api';
-import { useActiveWallet } from 'api/chains';
+
+import { useActiveWallet } from 'api/chains/wallet';
 
 export function useEnsureWalletConnected() {
   const { data } = useAccountQuery();

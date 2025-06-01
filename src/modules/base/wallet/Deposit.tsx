@@ -5,15 +5,11 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { type Wallet } from 'api/wallets';
 import { useShare } from 'shared/useShare';
-import { useAccountBalance } from 'api/chains';
+import { useAccountNativeBalance } from 'api/chains';
 import { ReactComponent as SolanaIcon } from './solana.svg';
 
 export default function Deposit({ wallet }: { wallet: Wallet }) {
-  const { data } = useAccountBalance(
-    'wrapped-solana',
-    'solana',
-    wallet.address,
-  );
+  const { data } = useAccountNativeBalance(wallet.address);
   const [copy, notif] = useShare('copy');
 
   return (

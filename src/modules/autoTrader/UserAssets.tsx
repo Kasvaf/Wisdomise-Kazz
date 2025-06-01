@@ -5,12 +5,7 @@ import { bxCopy, bxEdit, bxLinkExternal, bxTransfer } from 'boxicons-quasar';
 import { Radio } from 'antd';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
-import {
-  useActiveClientWallet,
-  useActiveWallet,
-  useCustodialWallet,
-  useUserWalletAssets,
-} from 'api/chains';
+import { useUserWalletAssets } from 'api/chains';
 import { roundSensible } from 'utils/numbers';
 import { isMiniApp } from 'utils/version';
 import useIsMobile from 'utils/useIsMobile';
@@ -33,8 +28,14 @@ import { shortenAddress } from 'utils/shortenAddress';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
-// eslint-disable-next-line import/max-dependencies
 import { useSolanaUserAssets } from 'api/chains/solana';
+import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
+import {
+  useActiveClientWallet,
+  useActiveWallet,
+  useCustodialWallet,
+  // eslint-disable-next-line import/max-dependencies
+} from 'api/chains/wallet';
 
 interface AssetData {
   slug: string;
@@ -204,6 +205,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   const { address: activeAddress } = useActiveWallet();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',
+    wallet?.address ?? address,
   );
   const { withdrawDepositModal, deposit, withdraw, transfer, openScan } =
     useWalletActionHandler();
@@ -338,7 +340,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
       {wallet ? (
         <WalletAssets wallet={wallet} />
       ) : (
-        <UserAssetsInternal data={walletAssets} />
+        connected && <UserAssetsInternal data={walletAssets} />
       )}
       {withdrawDepositModal}
     </div>
@@ -356,8 +358,9 @@ export function WalletAssets({ wallet }: { wallet: Wallet }) {
     <UserAssetsInternal data={custodialWalletAssets} />
   ) : (
     <div className="flex h-44 flex-col items-center justify-center rounded-xl bg-v1-surface-l2">
-      <p className="mb-3">deposit and start your trade journey</p>
-      <Button size="sm" onClick={() => deposit(wallet)}>
+      <DepositIcon className="size-8" />
+      <p className="my-2 text-xxs">deposit and start your trade journey</p>
+      <Button size="xs" onClick={() => deposit(wallet)}>
         Deposit
       </Button>
       {withdrawDepositModal}

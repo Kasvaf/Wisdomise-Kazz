@@ -1,7 +1,6 @@
 import {
   CHAIN,
   useTonAddress,
-  useTonConnectModal,
   useTonConnectUI,
   type SendTransactionRequest,
 } from '@tonconnect/ui-react';
@@ -14,7 +13,8 @@ import { fromBigMoney, toBigMoney } from 'utils/money';
 import { gtag } from 'config/gtag';
 import { useSymbolInfo } from 'api/symbol';
 import { usePendingPositionInCache } from 'api/trader';
-import { queryContractSlugs, usePromiseOfEffect } from './utils';
+import { useActiveWallet } from 'api/chains/wallet';
+import { queryContractSlugs } from './utils';
 
 const tonClient = new TonClient({
   endpoint: `${String(import.meta.env.VITE_TONCENTER_BASE_URL)}/api/v2/jsonRPC`,
@@ -28,8 +28,9 @@ export type AutoTraderTonSupportedQuotes = 'tether' | 'the-open-network';
 
 const TON_API = 'https://tonapi.io/v2';
 
-const useJettonWalletAddress = (slug?: string) => {
-  const address = useTonAddress();
+const useJettonWalletAddress = (slug?: string, address?: string) => {
+  const { address: activeAddress } = useActiveWallet();
+  const addr = address ?? activeAddress;
   const isNative = slug === 'the-open-network';
   const { data } = useSymbolInfo(slug);
   const netInfo = data?.networks.find(
@@ -37,16 +38,16 @@ const useJettonWalletAddress = (slug?: string) => {
   );
 
   return useQuery({
-    queryKey: ['jetton-wallet-address', address, slug],
+    queryKey: ['jetton-wallet-address', addr, slug],
     queryFn: async () => {
       if (isNative) {
         return { decimals: 9, walletAddress: '' };
       }
 
-      if (!address || !slug || !netInfo) return;
+      if (!addr || !slug || !netInfo) return;
 
       const jettonMasterAddress = Address.parse(netInfo.contract_address);
-      const ownerAddress = Address.parse(address);
+      const ownerAddress = Address.parse(addr);
 
       try {
         const [decimals, walletAddress] = await Promise.all([
@@ -72,16 +73,16 @@ const useJettonWalletAddress = (slug?: string) => {
       }
     },
     staleTime: Number.POSITIVE_INFINITY,
-    enabled: isNative || (!!address && !!netInfo),
+    enabled: isNative || (!!addr && !!netInfo),
   });
 };
 
 export const useAccountJettonBalance = (slug?: string, address?: string) => {
-  const tonAddress = useTonAddress();
-  address ||= tonAddress;
+  const { address: activeAddress } = useActiveWallet();
+  const targetAddress = address ?? activeAddress;
   const { data: { walletAddress, decimals } = {}, isLoading: jettonIsLoading } =
-    useJettonWalletAddress(slug);
-  const addr = slug === 'the-open-network' ? address : walletAddress;
+    useJettonWalletAddress(slug, address);
+  const addr = slug === 'the-open-network' ? targetAddress : walletAddress;
 
   const query = useQuery({
     queryKey: ['accountJettonBalance', slug, addr],
@@ -116,21 +117,22 @@ export const useAccountJettonBalance = (slug?: string, address?: string) => {
   };
 };
 
-export const useTonUserAssets = () => {
-  const userAddress = useTonAddress();
+export const useTonUserAssets = (address?: string) => {
+  const { address: activeAddress } = useActiveWallet();
+  const addr = address ?? activeAddress;
 
   return useQuery({
-    queryKey: ['user-ton-assets', userAddress],
+    queryKey: ['user-ton-assets', addr],
     queryFn: async () => {
-      if (!userAddress) return [];
+      if (!addr) return [];
 
       try {
         const [tonBalance, jettonsResponse] = await Promise.all([
           // Get native TON balance
-          tonClient.getBalance(Address.parse(userAddress)),
+          tonClient.getBalance(Address.parse(addr)),
 
           // Get all Jetton balances
-          ofetch(`${TON_API}/accounts/${userAddress}/jettons`),
+          ofetch(`${TON_API}/accounts/${addr}/jettons`),
         ]);
 
         const assets = (jettonsResponse.balances as any[])
@@ -166,7 +168,7 @@ export const useTonUserAssets = () => {
       }
     },
     refetchInterval: 30_000,
-    enabled: !!userAddress,
+    enabled: !!addr && isValidTonAddress(addr),
   });
 };
 
@@ -256,13 +258,11 @@ export const useTonTransferAssetsMutation = (slug?: string) => {
   };
 };
 
-export function useAwaitTonWalletConnection() {
-  const [tonConnectUI] = useTonConnectUI();
-  const { open } = useTonConnectModal();
-
-  return usePromiseOfEffect({
-    action: open,
-    done: tonConnectUI.connected || tonConnectUI.modalState.status === 'closed',
-    result: tonConnectUI.connected,
-  });
+function isValidTonAddress(address: string): boolean {
+  try {
+    Address.parse(address);
+    return true;
+  } catch {
+    return false;
+  }
 }

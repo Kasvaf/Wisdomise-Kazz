@@ -12,9 +12,10 @@ import {
   type Position,
   type CreatePositionRequest,
 } from 'api/trader';
-import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
+import { useTransferAssetsMutation } from 'api/chains';
 import { useActiveNetwork } from 'modules/base/active-network';
 import useIsMobile from 'utils/useIsMobile';
+import { useActiveWallet } from 'api/chains/wallet';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';

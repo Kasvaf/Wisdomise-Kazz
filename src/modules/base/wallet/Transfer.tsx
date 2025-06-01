@@ -36,10 +36,11 @@ export default function Transfer({
     selectedAsset && amount && (toWallet || internalToWallet?.address);
 
   const withdraw = () => {
+    const isMax = amount === selectedAsset?.amount;
     if (isValid)
       void mutateAsync({
         symbol_slug: selectedAsset?.slug,
-        amount: String(amount),
+        amount: isMax ? 'ALL' : String(amount),
         receiver_address: (toWallet || internalToWallet?.address) ?? '',
       }).then(() =>
         notification.success({ message: 'Asset successfully transferred' }),
@@ -51,7 +52,7 @@ export default function Transfer({
     25: '25%',
     50: '50%',
     75: '75%',
-    100: '100%',
+    100: 'MAX',
   };
 
   useEffect(() => {

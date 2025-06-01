@@ -6,7 +6,7 @@ import { cookieStorage, createStorage, http } from 'wagmi';
 import { isProduction } from 'utils/version';
 
 // 1. Get projectId from https://cloud.reown.com
-const projectId = '5e4e2382e0dc5e93ebe35ff869d05c4d';
+export const projectId = '5e4e2382e0dc5e93ebe35ff869d05c4d';
 const metadata = {
   name: 'Wisdomise AutoTrader',
   description:
