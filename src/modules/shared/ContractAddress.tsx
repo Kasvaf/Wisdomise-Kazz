@@ -11,7 +11,8 @@ export const ContractAddress: FC<{
   className?: string;
   value?: CoinNetwork[] | CoinNetwork | string;
   allowCopy?: boolean;
-}> = ({ className, value, allowCopy = true }) => {
+  noLabel?: boolean;
+}> = ({ className, value, allowCopy = true, noLabel }) => {
   const { t } = useTranslation('coin-radar');
   const [copy, copyNotif] = useShare('copy');
 
@@ -92,11 +93,11 @@ export const ContractAddress: FC<{
 
   return (
     <>
-      {data.value === undefined ? (
+      {data.value === undefined && !noLabel ? (
         <p className={className}>{data.title}</p>
       ) : (
         <div className={clsx('flex items-center gap-1', className)}>
-          {data.title}
+          {!noLabel && data.title}
           {allowCopy && (
             <button
               onClick={() => copy(data.value ?? '')}
