@@ -9,7 +9,6 @@ import { type PageResponse } from 'api/types/page';
 import { type Coin } from 'api/types/shared';
 import {
   type CoinDetails,
-  type Pool,
   type RadarsMetcis,
   type Category,
   type CoinLabels,
@@ -1115,29 +1114,6 @@ export const useNCoinDetails = ({ slug }: { slug?: string }) =>
         : null,
     refetchOnMount: true,
     refetchInterval: 30 * 1000,
-  });
-
-export const useCoinPools = ({
-  slug,
-  network,
-}: {
-  slug?: string;
-  network?: string;
-}) =>
-  useQuery({
-    queryKey: ['pool-details', network, slug],
-    queryFn: () => {
-      if (!slug || !network) return null;
-      return resolvePageResponseToArray<Pool>('delphi/market/symbol-pools/', {
-        query: {
-          symbol_slug: slug,
-          network_slug: network,
-        },
-        meta: { auth: false },
-      });
-    },
-    refetchOnMount: true,
-    refetchInterval: 5 * 60 * 1000,
   });
 
 export const useRadarsMetrics = () =>
