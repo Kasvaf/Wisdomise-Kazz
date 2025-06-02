@@ -12,11 +12,11 @@ import {
 import { CoinLogo } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { ContractAddress } from 'shared/ContractAddress';
+import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export const CoinTitleWidget: FC<{
@@ -108,15 +108,7 @@ export const CoinTitleWidget: FC<{
                   />
 
                   {/* Developer Data */}
-                  {isNCoin && isDebugMode && (
-                    <>
-                      <span className="size-[2px] rounded-full bg-white" />
-                      <span className="text-xs text-v1-content-positive">
-                        {'TODO: Dev'}
-                      </span>
-                    </>
-                  )}
-                  {/* TODO an user icon and his assets history */}
+                  {nCoin.data?.dev && <NCoinDeveloper value={nCoin.data.dev} />}
 
                   {nCoin.data?.creation_datetime && (
                     <>
