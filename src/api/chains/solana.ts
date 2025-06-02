@@ -20,7 +20,7 @@ import {
   type Provider,
   useAppKitConnection,
 } from '@reown/appkit-adapter-solana/react';
-import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react';
+import { useAppKitProvider } from '@reown/appkit/react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { usePendingPositionInCache } from 'api/trader';
@@ -338,7 +338,7 @@ interface Account {
 export const useSolanaMarketSwap = () => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
   const { connection } = useAppKitConnection();
-  const { address } = useAppKitAccount();
+  const { address, isCustodial } = useActiveWallet();
   const queryClient = useQueryClient();
 
   return async ({
@@ -350,25 +350,29 @@ export const useSolanaMarketSwap = () => {
     side: 'LONG' | 'SHORT';
     amount: string;
   }) => {
-    if (!connection || !address) throw new Error('Wallet not connected');
+    if (!address) throw new Error('Wallet not connected');
     const publicKey = new PublicKey(address);
+
+    const swap = ofetch<SwapResponse>('/trader/swap', {
+      method: 'post',
+      body: {
+        pair_slug: pairSlug,
+        side,
+        amount,
+        network_slug: 'solana',
+        wallet_address: publicKey.toString(),
+      },
+    });
+    if (isCustodial) {
+      return async () => !!(await swap);
+    }
+
+    if (!connection) throw new Error('Appkit connection not found');
 
     const [
       { key, instructions, lookup_table_address: lookupTableAddresses },
       latestBlockhash,
-    ] = await Promise.all([
-      ofetch<SwapResponse>('/trader/swap', {
-        method: 'post',
-        body: {
-          pair_slug: pairSlug,
-          side,
-          amount,
-          network_slug: 'solana',
-          wallet_address: publicKey.toString(),
-        },
-      }),
-      connection.getLatestBlockhash(),
-    ]);
+    ] = await Promise.all([swap, connection.getLatestBlockhash()]);
 
     // Fetch the address lookup tables if provided
     const lookupTableAccounts = (
