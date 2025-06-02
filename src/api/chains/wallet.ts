@@ -78,7 +78,7 @@ export const useActiveClientWallet = () => {
 export const useCustodialWallet = () => {
   const { data: wallets } = useWalletsQuery();
   const [cwKey, setCw] = useLocalStorage<string | undefined>(
-    'custodial-address',
+    'custodial-key',
     undefined,
   );
   const cw = wallets?.results.find(w => w.key === cwKey);
