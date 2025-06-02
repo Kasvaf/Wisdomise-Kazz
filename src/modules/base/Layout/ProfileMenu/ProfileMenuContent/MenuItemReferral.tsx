@@ -17,7 +17,9 @@ const MenuItemReferral = () => {
       {!Number.isNaN(referral?.referred_users_count) && referral != null && (
         <Badge
           color="blue"
-          label={`"${String(referral?.referred_users_count)}" Users Invited`}
+          label={t('accounts:page-accounts.users_invited', {
+            count: referral?.referred_users_count || 0,
+          })}
         />
       )}
     </MenuItem>

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { type FC, type SVGProps, type PropsWithChildren } from 'react';
 import { useAccountQuery } from 'api';
-import { Toggle } from 'shared/Toggle';
+import { Toggle } from 'shared//v1-components/Toggle';
 import { type AlertMessenger } from 'api';
 import { isMiniApp } from 'utils/version';
 import { Button } from 'shared/v1-components/Button';
@@ -162,7 +162,7 @@ export const AlertChannelsSelect: FC<{
           subtitle={account.data?.email}
         >
           <Toggle
-            checked={(value || []).includes('EMAIL')}
+            value={(value || []).includes('EMAIL')}
             onChange={e => toggleValue('EMAIL', e)}
             loading={loading}
             disabled={disabled}
@@ -178,7 +178,7 @@ export const AlertChannelsSelect: FC<{
           connectAction={connectTelegram}
         >
           <Toggle
-            checked={(value || []).includes('TELEGRAM')}
+            value={(value || []).includes('TELEGRAM')}
             onChange={e => toggleValue('TELEGRAM', e)}
             loading={loading}
             disabled={disabled}
@@ -194,7 +194,7 @@ export const AlertChannelsSelect: FC<{
           connectAction={requestWebPushPermission}
         >
           <Toggle
-            checked={(value || []).includes('WEB_PUSH')}
+            value={(value || []).includes('WEB_PUSH')}
             onChange={e => toggleValue('WEB_PUSH', e)}
             loading={loading}
             disabled={disabled}

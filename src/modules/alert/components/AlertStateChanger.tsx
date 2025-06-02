@@ -1,5 +1,5 @@
 import { useSaveAlert, type Alert } from 'api';
-import { Toggle } from 'shared/Toggle';
+import { Toggle } from 'shared/v1-components/Toggle';
 
 export function AlertStateChanger({
   value,
@@ -18,7 +18,9 @@ export function AlertStateChanger({
           state: newState,
         });
       }}
-      checked={value.state !== 'DISABLED'}
+      trueLabel="Active"
+      falseLabel="Deactive"
+      value={value.state !== 'DISABLED'}
       className={className}
       loading={alertSaveMutation.isPending}
     />

@@ -22,7 +22,7 @@ export function AlertModal({
         closeButton: isMobile,
       }}
       className="w-[400px] mobile:w-full"
-      contentClassName="mobile:p-3 p-6"
+      contentClassName="mobile:p-3 p-4"
       surface={4}
     >
       {children}

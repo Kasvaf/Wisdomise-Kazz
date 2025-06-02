@@ -89,7 +89,6 @@ function AlertFormGroupButton({
         )}
         disabled={value.disabled?.()}
         onClick={() => {
-          console.log('here');
           value.onClick?.();
           setExpanded(p => !p);
         }}

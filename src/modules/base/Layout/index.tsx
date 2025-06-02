@@ -59,7 +59,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       {!isMobile && (
         <RouteDetails
           hasBack={hasBack}
-          className="fixed end-0 start-[--desktop-sidebar-width] top-[--desktop-header-height] z-20 w-auto"
+          className="sticky end-0 top-[--desktop-header-height] z-20 ms-[--desktop-sidebar-width] h-[--route-details-height] w-auto"
         />
       )}
 
@@ -68,7 +68,8 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         {!isMobile && sidebar !== null && (
           <aside
             id="sidebar"
-            className="sticky start-0 top-[--desktop-header-height] z-20 h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] shrink-0 overflow-auto border-t border-white/5 bg-v1-surface-l2 scrollbar-none"
+            // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
+            className="sticky start-0 top-[--desktop-header-height] z-20 -mt-[--route-details-height] h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] shrink-0 overflow-auto border-t border-white/5 bg-v1-surface-l2 scrollbar-none"
           >
             {sidebar || <DefaultSidebar />}
           </aside>
@@ -77,7 +78,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         {/* Main content */}
         <main
           className={clsx(
-            'mt-[--route-details-height] w-[calc(100%-var(--desktop-sidebar-width))] max-w-[calc(100%-var(--desktop-sidebar-width))] grow p-3',
+            'w-[calc(100%-var(--desktop-sidebar-width))] max-w-[calc(100%-var(--desktop-sidebar-width))] grow p-3',
             mainClassName,
           )}
         >
