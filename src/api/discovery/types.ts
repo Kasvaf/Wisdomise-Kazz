@@ -570,16 +570,6 @@ export interface RsiDivergenceRow {
   image?: string | null;
 }
 
-export interface RsiOvernessResponse {
-  over_bought: RsiOvernessRow[];
-  over_sold: RsiOvernessRow[];
-}
-
-export interface RsiDivergenceResponse {
-  bearish_divergence: RsiDivergenceRow[];
-  bullish_divergence: RsiDivergenceRow[];
-}
-
 export type Indicator = 'rsi' | 'macd';
 
 export type IndicatorHeatmap<I extends Indicator> = I extends 'rsi'

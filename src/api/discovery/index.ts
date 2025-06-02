@@ -28,8 +28,6 @@ import {
   type NetworkRadarNCoinStates,
   type RedditMessage,
   type RsiConfirmation,
-  type RsiDivergenceResponse,
-  type RsiOvernessResponse,
   type SingleWhale,
   type SocialMessage,
   type SocialRadarCoin,
@@ -282,18 +280,6 @@ export const useSocialRadarSources = () =>
 
 /* Technical Radar */
 export const MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 15 : 18;
-
-export const useRsiOverness = () =>
-  useQuery({
-    queryKey: ['rsi-overness'],
-    queryFn: () => ofetch<RsiOvernessResponse>('delphi/rsi/overness'),
-  });
-
-export const useRsiDivergence = () =>
-  useQuery({
-    queryKey: ['rsi-divergence'],
-    queryFn: () => ofetch<RsiDivergenceResponse>('delphi/rsi/divergence'),
-  });
 
 export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
   indicator: I;
@@ -549,20 +535,6 @@ export const useWhaleDetails = (filters: {
       );
       return data;
     },
-  });
-
-export const useWhaleNetworks = () =>
-  useQuery({
-    queryKey: ['whale-networks'],
-    queryFn: () =>
-      ofetch<
-        PageResponse<{
-          icon_url: string;
-          id: number;
-          name: string;
-          slug: string;
-        }>
-      >('/delphi/holders/networks/'),
   });
 
 export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
