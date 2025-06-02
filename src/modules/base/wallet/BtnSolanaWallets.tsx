@@ -36,14 +36,18 @@ export default function BtnSolanaWallets() {
     <ClickableTooltip chevron={false} title={<BtnWalletsContent />}>
       <Button variant="outline" size={isMobile ? 'md' : 'xs'} className="gap-2">
         <WalletIcon />
-        {wallets?.count}
-        {/* <div className="size-4 rounded bg-black p-px"> */}
-        {/*   <SolanaIcon className="!size-full" /> */}
-        {/* </div> */}
-        {connected && (
+        {!isMobile && (
           <>
-            <span>+</span>
-            <img className="size-4" src={icon} alt="" />
+            {wallets?.count}
+            {/* <div className="size-4 rounded bg-black p-px"> */}
+            {/*   <SolanaIcon className="!size-full" /> */}
+            {/* </div> */}
+            {connected && (
+              <>
+                <span>+</span>
+                <img className="size-4" src={icon} alt="" />
+              </>
+            )}
           </>
         )}
       </Button>

@@ -41,11 +41,10 @@ const MobileHeader: React.FC<
         )}
       >
         {title === undefined ? (
-          net ? (
+          <div className="flex gap-2">
+            {net === 'solana' && <TraderButtons />}
             <BtnWalletConnect />
-          ) : (
-            <TraderButtons />
-          )
+          </div>
         ) : null}
       </div>
     </>
