@@ -42,6 +42,7 @@ import {
   type WhaleShort,
   type WhaleTransaction,
   type CoinRadarCoin,
+  type NetworkRadarNCoinDetails,
 } from './types';
 
 export * from './types';
@@ -1095,15 +1096,15 @@ export const useNCoinDetails = ({ slug }: { slug?: string }) =>
     queryKey: ['ncoin-details', slug],
     queryFn: () => {
       if (!slug) return null;
-      return resolvePageResponseToArray<NetworkRadarNCoin>(
-        `delphi/market/new-born-pools/?base_slug=${slug}`,
+      return ofetch<NetworkRadarNCoinDetails>(
+        'delphi/market/unified-coin-details/',
         {
           meta: { auth: false },
+          query: {
+            slug,
+          },
         },
-      ).then(resp => {
-        if (resp.length !== 1) return null;
-        return resp[0];
-      });
+      ).catch(() => null);
     },
     select: x =>
       x

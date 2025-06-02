@@ -194,6 +194,11 @@ export interface CoinCommunityData {
   };
 }
 
+export interface CoinChart {
+  type: 'trading_view' | 'gecko_terminal';
+  id: string;
+  priority: number;
+}
 export interface CoinDetails {
   symbol: Coin;
   related_at: string | null;
@@ -241,13 +246,7 @@ export interface CoinDetails {
   exchanges: CoinExchange[];
   networks?: null | CoinNetwork[];
   symbol_labels?: null | string[];
-  charts?: null | Array<{
-    type: 'trading_view' | 'gecko_terminal';
-    id: string;
-    priority: number;
-    url: string;
-    embedUrl: string;
-  }>;
+  charts?: null | CoinChart[];
   security_data?: null | Array<{
     symbol_security: NetworkSecurity;
   }>;
@@ -916,6 +915,16 @@ export interface NetworkRadarNCoinStates {
   riskLevel: 'low' | 'medium' | 'high';
   isNew: boolean;
 }
+
+export interface NCoinDeveloper {
+  address: string;
+  tokens: Array<{
+    contract_address: string;
+    creation_datetime: string;
+    market_cap: number;
+    symbol: null | Coin;
+  }>;
+}
 export interface NetworkRadarNCoin {
   _rank?: number;
   _states: NetworkRadarNCoinStates;
@@ -976,6 +985,58 @@ export interface NetworkRadarNCoin {
   }>;
   risk_percent?: number;
   rugged?: boolean;
+}
+
+export interface NetworkRadarNCoinDetails extends NetworkRadarNCoin {
+  dev: NCoinDeveloper;
+  update: NetworkRadarNCoin['update'] & {
+    resolution: string;
+    num_buys: number;
+    num_sells: number;
+    buy_volume: {
+      native: number;
+      usd: number;
+    };
+    total_buy_volume: {
+      native: number;
+      usd: number;
+    };
+    sell_volume: {
+      native: number;
+      usd: number;
+    };
+    total_sell_volume: {
+      native: number;
+      usd: number;
+    };
+    trading_volume: {
+      native: number;
+      usd: number;
+    };
+    market_data: {
+      market_cap?: null | number;
+      total_supply?: null | number;
+      total_volume?: null | number;
+      volume_24h?: null | number;
+      current_price?: null | number;
+      price_change_24h?: null | number;
+      liquidity?: null | {
+        native: number;
+        usd: number;
+      };
+      volume_1m?: null | number;
+      volume_change_1m?: null | number;
+      volume_5m?: null | number;
+      volume_change_5m?: null | number;
+      volume_1h?: null | number;
+      volume_change_1h?: null | number;
+      volume_1d?: null | number;
+      volume_change_1d?: null | number;
+    };
+  };
+  charts: CoinChart[];
+  base_symbol_labels: string[];
+  pools: unknown[]; // NAITODO: ask Amir why this field value is different with CoinDetails Pools
 }
 
 /* Coin Radar */
