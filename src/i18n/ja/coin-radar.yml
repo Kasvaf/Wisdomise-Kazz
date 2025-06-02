@@ -301,6 +301,7 @@ common:
   labels: ラベル
   load_more: さらに読み込む
   low_liquidity_warn: このトークンは流動性が低いため、慎重に取引してください。
+  multiple_chain: 複数のチェーン
   native_coin: ネイティブコイン
   network: ネットワーク
   networks: ネットワーク

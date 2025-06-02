@@ -79,6 +79,7 @@ top_coins:
   labels: 标签
   market_cap: 市值
   name: 名稱
+  price: 價格
   rank: "#"
   sell_volume:
     avg: 平均每次销售
