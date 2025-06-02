@@ -1,7 +1,7 @@
 import { type ComponentProps, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
-import { type useWhaleRadarCoins } from 'api';
+import { type useWhaleRadarCoins } from 'api/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import { Filters } from '../Filters';

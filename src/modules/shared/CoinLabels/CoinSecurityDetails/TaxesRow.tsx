@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type NetworkSecurity } from 'api/types/shared';
+import { type NetworkSecurity } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useSecurityRows } from './useSecurityRows';
 

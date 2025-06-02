@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { type NetworkRadarNCoin } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/discovery';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinLogo } from 'shared/Coin';

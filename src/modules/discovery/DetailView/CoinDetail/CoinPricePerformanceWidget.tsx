@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCoinDetails } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { Select } from 'shared/v1-components/Select';

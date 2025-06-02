@@ -1,4 +1,5 @@
-import { type Coin, type NetworkSecurity } from 'api/types/shared';
+import { type NetworkSecurity } from 'api/discovery';
+import { type Coin } from 'api/types/shared';
 import { CoinSecurityDetails } from './CoinSecurityDetails';
 import { CoinLabel } from './CoinLabel';
 

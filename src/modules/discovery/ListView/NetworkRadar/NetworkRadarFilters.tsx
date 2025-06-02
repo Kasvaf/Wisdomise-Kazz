@@ -1,5 +1,5 @@
 import { useState, type ComponentProps, type FC } from 'react';
-import { type useNetworkRadarNCoins } from 'api/insight/network';
+import { type useNetworkRadarNCoins } from 'api/discovery';
 import { Input } from 'shared/v1-components/Input';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';

@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type Alert } from 'api';
+import { type Alert } from 'api/alert';
 import { useAlertForm } from '../forms';
 
 export function AlertType({

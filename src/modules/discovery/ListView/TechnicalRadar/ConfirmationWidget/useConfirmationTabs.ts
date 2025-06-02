@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { type IndicatorConfirmationCombination, type Indicator } from 'api';
+import {
+  type IndicatorConfirmationCombination,
+  type Indicator,
+} from 'api/discovery';
 
 export type ConfirmationType = 'bullish' | 'bearish';
 

@@ -1,10 +1,7 @@
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
-import {
-  type CoinNetwork,
-  type Coin,
-  type NetworkSecurity,
-} from 'api/types/shared';
+import { type Coin } from 'api/types/shared';
+import { type CoinNetwork, type NetworkSecurity } from 'api/discovery';
 import { CoinLabel } from './CoinLabel';
 import { CoinCategoryLabel } from './CoinCategoryLabel';
 import { CoinNetworksLabel } from './CoinNetworksLabel';

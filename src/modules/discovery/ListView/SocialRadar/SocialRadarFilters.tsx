@@ -1,7 +1,7 @@
 import { type ComponentProps, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
-import { type useSocialRadarCoins } from 'api';
+import { type useSocialRadarCoins } from 'api/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
 import { ExchangeSelect } from 'shared/ExchangeSelect';
 import { Filters } from '../Filters';

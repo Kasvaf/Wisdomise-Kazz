@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type MiniMarketData } from 'api/types/shared';
+import { type MiniMarketData } from 'api/discovery';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 

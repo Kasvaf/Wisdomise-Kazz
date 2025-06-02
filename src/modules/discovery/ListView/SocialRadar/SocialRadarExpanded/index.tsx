@@ -16,7 +16,7 @@ import {
   useRadarsMetrics,
   useSocialRadarCoins,
   useSocialRadarInfo,
-} from 'api';
+} from 'api/discovery';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { useLoadingBadge } from 'shared/LoadingBadge';

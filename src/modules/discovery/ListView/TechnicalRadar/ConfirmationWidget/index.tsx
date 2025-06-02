@@ -14,7 +14,7 @@ import {
   type IndicatorConfirmation,
   type IndicatorConfirmationCombination,
   type IndicatorConfirmationCore,
-} from 'api';
+} from 'api/discovery';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Coin } from 'shared/Coin';

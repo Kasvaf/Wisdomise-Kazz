@@ -1,7 +1,7 @@
 import { type ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useNetworks } from 'api';
+import { useNetworks } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 
 export function NetworkSelect<M extends boolean>({

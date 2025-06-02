@@ -1,7 +1,7 @@
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { bxError, bxXCircle } from 'boxicons-quasar';
-import { useNCoinDetails } from 'api';
+import { useNCoinDetails } from 'api/discovery';
 import Icon from 'shared/Icon';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { isDebugMode } from 'utils/version';

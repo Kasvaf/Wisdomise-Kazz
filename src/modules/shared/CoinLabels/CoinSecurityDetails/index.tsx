@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Coin, type NetworkSecurity } from 'api/types/shared';
+import { type Coin } from 'api/types/shared';
+import { type NetworkSecurity } from 'api/discovery';
 import { securityIcons } from '../icons';
 import { SecurityRow } from './SecurityRow';
 import { TaxesRow } from './TaxesRow';

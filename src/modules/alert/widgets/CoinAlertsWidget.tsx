@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCoinDetails } from 'api';
-import { type Alert } from 'api';
+import { useCoinDetails } from 'api/discovery';
+import { type Alert } from 'api/alert';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table, type TableColumn } from 'shared/v1-components/Table';

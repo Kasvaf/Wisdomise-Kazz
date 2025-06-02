@@ -1,10 +1,14 @@
 import { useMemo } from 'react';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
-import { useCoinDetails, useLastCandleQuery, useNCoinDetails } from 'api';
-import { type CoinDetails } from 'api/types/shared';
+import {
+  useCoinDetails,
+  useNCoinDetails,
+  type CoinDetails,
+} from 'api/discovery';
 import useIsMobile from 'utils/useIsMobile';
 import AdvancedChart from 'shared/AdvancedChart';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useLastCandleQuery } from 'api';
 
 const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,

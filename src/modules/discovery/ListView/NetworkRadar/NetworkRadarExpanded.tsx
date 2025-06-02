@@ -7,10 +7,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 
-import {
-  type NetworkRadarNCoin,
-  useNetworkRadarNCoins,
-} from 'api/insight/network';
+import { type NetworkRadarNCoin, useNetworkRadarNCoins } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';

@@ -2,10 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 
 import { clsx } from 'clsx';
-import { useCoinDetails } from 'api';
+import { useCoinDetails, type Pool } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { type Pool } from 'api/types/shared';
 import { ReadableDate } from 'shared/ReadableDate';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import { Button } from 'shared/v1-components/Button';

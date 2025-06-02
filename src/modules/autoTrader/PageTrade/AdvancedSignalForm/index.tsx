@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { useCoinDetails, type Position } from 'api';
+import { type Position } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import { Button } from 'shared/v1-components/Button';
 import PartIntro from './PartIntro';
 import PartOpen from './PartOpen';

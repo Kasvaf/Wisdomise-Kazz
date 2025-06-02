@@ -1,6 +1,6 @@
 import { bxEdit, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type Alert } from 'api';
+import { type Alert } from 'api/alert';
 import Icon from 'shared/Icon';
 import { useAlertActions } from '../hooks/useAlertActions';
 

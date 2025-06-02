@@ -3,7 +3,8 @@ import { type ComponentProps, type FC } from 'react';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
-import { useAlerts, useHasFlag } from 'api';
+import { useHasFlag } from 'api';
+import { useAlerts } from 'api/alert';
 import { DebugPin } from 'shared/DebugPin';
 
 export const AlertButton: FC<

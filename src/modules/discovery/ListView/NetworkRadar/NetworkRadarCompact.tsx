@@ -4,10 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import {
-  type NetworkRadarNCoin,
-  useNetworkRadarNCoins,
-} from 'api/insight/network';
+import { type NetworkRadarNCoin, useNetworkRadarNCoins } from 'api/discovery';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';

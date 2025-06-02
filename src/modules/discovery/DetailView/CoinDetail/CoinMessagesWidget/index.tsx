@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import { useNCoinDetails, useSocialRadarMessages } from 'api';
+import { useNCoinDetails, useSocialRadarMessages } from 'api/discovery';
 import { Button } from 'shared/v1-components/Button';
 import { SocialMessageSummary } from './SocialMessage';
 

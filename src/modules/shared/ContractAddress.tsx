@@ -3,7 +3,7 @@ import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { shortenAddress } from 'utils/shortenAddress';
-import { type CoinNetwork } from 'api/types/shared';
+import { type CoinNetwork } from 'api/discovery';
 import Icon from './Icon';
 import { useShare } from './useShare';
 

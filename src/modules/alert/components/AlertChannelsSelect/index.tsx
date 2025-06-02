@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { type FC, type SVGProps, type PropsWithChildren } from 'react';
 import { useAccountQuery } from 'api';
 import { Toggle } from 'shared//v1-components/Toggle';
-import { type AlertMessenger } from 'api';
+import { type AlertMessenger } from 'api/alert';
 import { isMiniApp } from 'utils/version';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as BellIcon } from './bell.svg';

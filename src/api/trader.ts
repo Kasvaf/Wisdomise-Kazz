@@ -9,7 +9,7 @@ import {
 import { ofetch } from 'config/ofetch';
 import { uniqueBy } from 'utils/uniqueBy';
 import { useJwtEmail } from 'modules/base/auth/jwt-store';
-import { type WhaleCoin, type WhaleCoinsFilter } from './insight/whale';
+import { type WhaleCoin, type WhaleCoinsFilter } from 'api/discovery';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
 

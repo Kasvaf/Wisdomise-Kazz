@@ -1,7 +1,7 @@
 import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { type TechnicalRadarCoin } from 'api';
+import { type TechnicalRadarCoin } from 'api/discovery';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 
 export const TechnicalRadarCoinsCharts: FC<{

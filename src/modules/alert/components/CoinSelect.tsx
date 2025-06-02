@@ -3,13 +3,14 @@ import { useMemo, useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
-import { useCoins, useCoinDetails, useLastPriceQuery } from 'api';
+import { useCoins, useCoinDetails } from 'api/discovery';
 import type { Coin as CoinType } from 'api/types/shared';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Spin from 'shared/Spin';
 import Icon from 'shared/Icon';
+import { useLastPriceQuery } from 'api';
 
 export const CoinSelect: FC<
   SelectProps<string> & {

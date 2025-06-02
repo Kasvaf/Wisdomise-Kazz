@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useCoinDetails } from 'api';
+import { useCoinDetails } from 'api/discovery';
 
 export function CoinIntroductionWidget({
   id,

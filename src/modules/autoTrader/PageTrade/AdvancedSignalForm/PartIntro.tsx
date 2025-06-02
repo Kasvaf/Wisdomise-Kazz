@@ -2,7 +2,7 @@
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
 import { Button } from 'shared/v1-components/Button';
-import { useCoinDetails } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import { type SignalFormState } from './useSignalFormStates';
 import AmountBalanceLabel from './AmountBalanceLabel';
 import useSensibleSteps from './useSensibleSteps';

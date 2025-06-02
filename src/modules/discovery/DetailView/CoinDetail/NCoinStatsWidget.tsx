@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNCoinDetails } from 'api';
+import { useNCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
 

@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxCopy } from 'boxicons-quasar';
-import { type NetworkRadarNCoin } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';

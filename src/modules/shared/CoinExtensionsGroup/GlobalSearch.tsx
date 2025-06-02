@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'usehooks-ts';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { useDetailedCoins } from 'api';
+import { useDetailedCoins } from 'api/discovery';
 import { CoinLogo } from 'shared/Coin';
 import { CoinLabels } from 'shared/CoinLabels';
 import { ContractAddress } from 'shared/ContractAddress';

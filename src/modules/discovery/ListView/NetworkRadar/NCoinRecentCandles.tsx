@@ -1,6 +1,6 @@
 import { useState, type ComponentProps, type FC } from 'react';
 import { clsx } from 'clsx';
-import { type NetworkRadarNCoin } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/discovery';
 import { CoinMiniCandleChart } from 'shared/CoinMiniCandleChart';
 import { useCandlesBySlugs } from 'api';
 

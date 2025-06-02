@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useWhaleDetails } from 'api';
+import { useWhaleDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 

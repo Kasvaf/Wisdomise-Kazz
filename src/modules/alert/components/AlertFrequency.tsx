@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { type Alert } from 'api';
+import { type Alert } from 'api/alert';
 
 export function AlertFrequency({
   value,

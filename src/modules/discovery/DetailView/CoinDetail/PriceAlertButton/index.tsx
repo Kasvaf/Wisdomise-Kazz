@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
-import { type Alert, useAlerts } from 'api';
+import { type Alert, useAlerts } from 'api/alert';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';

@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { NCoinSecurity } from 'modules/discovery/ListView/NetworkRadar/NCoinSecurity';
 import { NCoinLiquidity } from 'modules/discovery/ListView/NetworkRadar/NCoinLiquidity';
-import { useNCoinDetails } from 'api';
+import { useNCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 
 const NCoinSentimentCol: FC<{

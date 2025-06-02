@@ -4,7 +4,11 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
-import { useCoinDetails, useNCoinDetails } from 'api';
+import {
+  useCoinDetails,
+  useNCoinDetails,
+  type CoinNetwork,
+} from 'api/discovery';
 import { CoinLogo } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -13,7 +17,6 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { ContractAddress } from 'shared/ContractAddress';
-import { type CoinNetwork } from 'api/types/shared';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export const CoinTitleWidget: FC<{

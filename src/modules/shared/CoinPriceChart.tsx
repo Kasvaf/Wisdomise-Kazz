@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { formatNumber } from 'utils/numbers';
 import { ECharts } from 'shared/ECharts';
-import { type WhaleRadarCoin, type CoinSignalAnalysis } from 'api';
+import { type WhaleRadarCoin, type CoinSignalAnalysis } from 'api/discovery';
 
 interface PriceRow {
   value: number;
