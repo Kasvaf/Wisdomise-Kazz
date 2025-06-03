@@ -20,7 +20,7 @@ export const NCoinAge: FC<{
         'inline-flex',
         inline
           ? 'items-center justify-start gap-px'
-          : 'w-7 flex-col items-center justify-between',
+          : 'w-6 flex-col items-center justify-between',
         className,
       )}
     >

@@ -28,7 +28,7 @@ export const NCoinLiquidity: FC<{
         ) : (
           <NegativeIcon className={clsx('shrink-0', imgClassName)} />
         )}
-        <div className="flex flex-col gap-px">
+        <div className="flex max-h-max flex-col justify-center">
           <ReadableNumber
             value={value?.update.liquidity.usd}
             label="$"
