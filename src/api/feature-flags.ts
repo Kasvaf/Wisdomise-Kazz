@@ -56,7 +56,7 @@ export function useHasFlag() {
         }
       }
 
-      return result || !flagsObj['//all'];
+      return result || flagsObj['//all'];
     }
 
     throw new Error('Such flag name is not in our conventions!');
