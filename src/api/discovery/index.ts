@@ -43,6 +43,7 @@ import {
   type WhaleTransaction,
   type CoinRadarCoin,
   type NetworkRadarNCoinDetails,
+  type TokenInsight,
 } from './types';
 
 export * from './types';
@@ -1124,4 +1125,34 @@ export const useRadarsMetrics = () =>
       ofetch<RadarsMetcis>('delphi/intelligence/coin-radar/metrics/'),
     refetchOnMount: true,
     refetchInterval: 30 * 60 * 1000,
+  });
+
+export const useTokenInsight = ({
+  contractAddress,
+}: {
+  contractAddress?: string;
+}) =>
+  useQuery({
+    refetchOnMount: true,
+    refetchInterval: 10 * 1000,
+    queryKey: ['token-insight', contractAddress],
+    queryFn: async () => {
+      if (!contractAddress) return null;
+      try {
+        const data = await ofetch<TokenInsight>(
+          'delphi/intelligence/new-born/insights/',
+          {
+            query: {
+              contract_address: contractAddress,
+            },
+          },
+        );
+        return data;
+      } catch (error) {
+        if (error instanceof FetchError && error.status === 500) {
+          return null;
+        }
+        throw error;
+      }
+    },
   });

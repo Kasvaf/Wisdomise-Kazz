@@ -22,8 +22,8 @@ import { NCoinTradingVolume } from './NCoinTradingVolume';
 import { NCoinBuySell } from './NCoinBuySell';
 import { NCoinLiquidity } from './NCoinLiquidity';
 import { NCoinSecurity } from './NCoinSecurity';
-import { NCoinRecentCandles } from './NCoinRecentCandles';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
+import { NCoinTokenInsight } from './NCoinTokenInsight';
 
 export function NetworkRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
@@ -150,18 +150,28 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         ),
       },
       {
-        title: t('common.recent_candles.title'),
-        info: t('common.recent_candles.info'),
+        title: t('token_insight.title'),
         width: 210,
         render: row => (
-          <NCoinRecentCandles
-            value={row}
-            height={50}
-            width={65}
-            renderer="canvas"
+          <NCoinTokenInsight
+            contractAddress={row.base_contract_address}
+            type="row"
           />
         ),
       },
+      // {
+      //   title: t('common.recent_candles.title'),
+      //   info: t('common.recent_candles.info'),
+      //   width: 210,
+      //   render: row => (
+      //     <NCoinRecentCandles
+      //       value={row}
+      //       height={50}
+      //       width={65}
+      //       renderer="canvas"
+      //     />
+      //   ),
+      // },
       /* TODO: @arash16 Buy/Sell Button in Desktop */
       {
         title: '',

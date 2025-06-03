@@ -15,6 +15,7 @@ import { CoinWhalesWidget } from './CoinWhalesWidget';
 import { CoinIntroductionWidget } from './CoinIntroductionWidget';
 import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { useCoinDetailsTabs } from './useCoinDetailsTabs';
+import { NCoinInsightWidget } from './NCoinInsightWidget';
 
 export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -29,6 +30,7 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
       <NCoinSentimentWidget slug={slug} />
       <CoinStatsWidget slug={slug} />
       <NCoinStatsWidget slug={slug} />
+      <NCoinInsightWidget slug={slug} />
       <CoinChart slug={slug} height={420} />
       <CoinDetailsTabs
         options={tabs}
