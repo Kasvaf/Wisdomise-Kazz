@@ -19,13 +19,13 @@ export interface DiscoveryRouteMeta {
   slug?: string;
 }
 
-export const useDiscoveryRouteMeta = () => {
+export const useDiscoveryRouteMeta = <T extends string>() => {
   const isMobile = useIsMobile();
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
 
   const getUrl = useCallback(
-    (meta: Partial<DiscoveryRouteMeta>): To => {
+    (meta: Partial<DiscoveryRouteMeta> & Record<T, string | undefined>): To => {
       if (Object.keys(meta).length === 0) {
         throw new Error('unexpected');
       }

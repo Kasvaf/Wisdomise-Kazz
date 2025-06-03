@@ -2,6 +2,7 @@ import { type FC, useMemo } from 'react';
 import { type DiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
+import { ReactComponent as PositionsIcon } from './icons/positions.svg';
 import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
 import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
 import { ReactComponent as TechnicalRadarIcon } from './icons/technical.svg';
@@ -74,6 +75,16 @@ export const useMenuItems = () => {
         icon: PortfolioIcon,
         text: 'Portfolio',
         crumb: 'Portfolio',
+        hide: isMobile,
+      },
+      {
+        link: '/discovery?list=positions',
+        meta: {
+          list: 'positions',
+        },
+        icon: PositionsIcon,
+        text: 'Positions',
+        crumb: 'Positions',
         hide: isMobile,
       },
     ],
