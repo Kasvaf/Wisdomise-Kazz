@@ -18,7 +18,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
     'filter',
     'active',
   );
-  const [slug, setSlug] = useSearchParamAsState('slug');
+  const [slug, setSlug] = useSearchParamAsState('position_slug');
 
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const wallet = useActiveWallet();
@@ -32,7 +32,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
 
   return (
     <div>
-      <div className="mb-4 flex flex-row-reverse justify-between gap-4 mobile:flex-col">
+      <div className="mb-4 flex flex-row-reverse flex-wrap justify-between gap-4">
         <ButtonSelect
           options={[
             { value: 'active', label: 'Active' },
@@ -40,22 +40,20 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
           ]}
           value={filter}
           onChange={setFilter}
-          className="w-60 mobile:w-full"
+          className={clsx(!expanded && '!w-full', 'w-60 mobile:w-full')}
           itemsClassName="enabled:aria-checked:!bg-v1-content-brand"
         />
 
-        {(expanded || isMobile) && (
-          <CoinSelect
-            className="w-80 mobile:w-full"
-            filterTokens={x => x !== 'tether'}
-            value={slug}
-            showPrice
-            onChange={setSlug}
-            emptyOption="All Tradable Coins & Tokens"
-            mini={false}
-            tradableCoinsOnly
-          />
-        )}
+        <CoinSelect
+          className={clsx(!expanded && '!w-full', 'w-80 mobile:w-full')}
+          filterTokens={x => x !== 'tether'}
+          value={slug}
+          showPrice
+          onChange={setSlug}
+          emptyOption="All Tradable Coins & Tokens"
+          mini={false}
+          tradableCoinsOnly
+        />
       </div>
 
       <PositionsList
@@ -82,7 +80,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
                 if (isMobile) {
                   openTraderDrawer({ slug });
                 } else {
-                  navigate(getUrl({ view: 'both' }));
+                  navigate(getUrl({ view: 'both', slug }));
                 }
               }
             }}

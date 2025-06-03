@@ -58,6 +58,7 @@ const PositionDetail: React.FC<{
           <NavLink
             to={getUrl({
               detail: 'coin',
+              view: 'both',
               slug: position.base_slug,
             })}
           >
