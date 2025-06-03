@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
-import type { FC, ReactNode } from 'react';
+import { Fragment, useMemo, useState, type FC, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { isDebugMode } from 'utils/version';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 const StatCol: FC<{
   children: ReactNode;
@@ -67,45 +67,82 @@ export function NCoinStatsWidget({
   slug: string;
 }) {
   const nCoin = useNCoinDetails({ slug });
+  const [timeFramePrefix, setTimeFramePrefix] = useState<'total_' | ''>('');
   const { t } = useTranslation('network-radar');
+
+  const data = useMemo<
+    Array<{
+      key: string;
+      titles: [string, string, string];
+      values: [number, number, number];
+      label: string;
+    }>
+  >(() => {
+    return [
+      {
+        key: 'txns',
+        titles: [t('common.buy_sell'), t('common.buy'), t('common.sell')],
+        values: [
+          (nCoin.data?.update?.[`${timeFramePrefix}num_buys`] ?? 0) +
+            (nCoin.data?.update?.[`${timeFramePrefix}num_sells`] ?? 0),
+          nCoin.data?.update?.[`${timeFramePrefix}num_buys`] ?? 0,
+          nCoin.data?.update?.[`${timeFramePrefix}num_sells`] ?? 0,
+        ],
+        label: '',
+      },
+      {
+        key: 'volume',
+        titles: [t('common.volume'), t('common.buy_vol'), t('common.sell_vol')],
+        values: [
+          nCoin.data?.update?.[`${timeFramePrefix}trading_volume`].usd ?? 0,
+          nCoin.data?.update?.[`${timeFramePrefix}buy_volume`].usd ?? 0,
+          nCoin.data?.update?.[`${timeFramePrefix}sell_volume`].usd ?? 0,
+        ],
+        label: '$',
+      },
+    ];
+  }, [nCoin.data?.update, t, timeFramePrefix]);
 
   if (!nCoin.data) return null;
 
   return (
     <div
       className={clsx(
-        'grid grid-cols-[auto_1px_1fr] gap-x-2 gap-y-0 rounded-md bg-v1-surface-l2 p-3',
+        'grid grid-cols-[3.75rem_1px_1fr] gap-x-2 gap-y-0 rounded-md bg-v1-surface-l2 p-3',
         className,
       )}
     >
-      <StatCol label={t('common.buy_sell')}>
-        <ReadableNumber
-          value={
-            (nCoin.data?.update?.total_num_buys ?? 0) +
-            (nCoin.data?.update?.total_num_sells ?? 0)
-          }
-          popup="never"
+      <div className="col-span-3 mb-2 flex items-center justify-end">
+        <ButtonSelect
+          size="xxs"
+          variant="white"
+          options={[
+            { label: '24H', value: '' },
+            { value: 'total_', label: 'All Time' },
+          ]}
+          value={timeFramePrefix}
+          onChange={setTimeFramePrefix}
         />
-      </StatCol>
-      <div className="h-14 w-px bg-white/10" />
-      <GreenRedChart
-        values={[
-          nCoin.data?.update.total_num_buys ?? 0,
-          nCoin.data?.update.total_num_sells ?? 0,
-        ]}
-        titles={[t('common.buy'), t('common.sell')]}
-      />
-      {isDebugMode && (
-        <>
-          <StatCol label={t('common.volume')}>{'TODO: Volume'}</StatCol>
+      </div>
+      {data.map(row => (
+        <Fragment key={row.key}>
+          <StatCol label={row.titles[0]}>
+            <ReadableNumber
+              value={row.values[0]}
+              label={row.label}
+              popup="never"
+              format={{
+                decimalLength: 1,
+              }}
+            />
+          </StatCol>
           <div className="h-14 w-px bg-white/10" />
-          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO2']} />
-
-          <StatCol label={t('common.volume')}>{'TODO: Makers'}</StatCol>
-          <div className="h-14 w-px bg-white/10" />
-          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO2']} />
-        </>
-      )}
+          <GreenRedChart
+            values={row.values.slice(1) as [number, number]}
+            titles={row.titles.slice(1) as [string, string]}
+          />
+        </Fragment>
+      ))}
     </div>
   );
 }

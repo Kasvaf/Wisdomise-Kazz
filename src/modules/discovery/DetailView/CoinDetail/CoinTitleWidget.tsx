@@ -151,7 +151,7 @@ export const CoinTitleWidget: FC<{
                       {' (24h)'}
                     </p>
                     <ReadableNumber
-                      value={nCoin.data.update.total_trading_volume.usd}
+                      value={nCoin.data.update.trading_volume.usd}
                       className="text-xs"
                       label="$"
                       popup="never"
