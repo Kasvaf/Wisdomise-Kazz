@@ -28,7 +28,7 @@ export default function Transfer({
       NonNullable<ReturnType<typeof useSolanaUserAssets>['data']>[number]
     >();
   const [amount, setAmount] = useState<string>();
-  const { data: walletAssets } = useSolanaUserAssets(wallet.address);
+  const { data: walletAssets } = useSolanaUserAssets(fromWallet?.address);
   const { data: wallets } = useWalletsQuery();
   const { mutateAsync, isPending } = useWalletWithdrawMutation(fromWallet?.key);
   const { data: symbols } = useSymbolsInfo(
@@ -56,6 +56,7 @@ export default function Transfer({
 
   useEffect(() => {
     if (!walletAssets) return;
+    if (walletAssets.length === 0) setSelectedAsset(undefined);
     if (
       !selectedAsset ||
       walletAssets.map(a => a.slug)?.includes(selectedAsset.slug)
