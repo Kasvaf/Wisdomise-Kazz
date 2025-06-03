@@ -10,6 +10,7 @@ import useIsMobile from 'utils/useIsMobile';
 import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPair';
 
 const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
   const isMobile = useIsMobile();
@@ -22,7 +23,10 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const wallet = useActiveWallet();
   const { getUrl } = useDiscoveryRouteMeta();
-  // useEnsureIsSupportedPair({ slug, nextPage: '/' });
+  useEnsureIsSupportedPair({
+    slug,
+    nextPage: '/discovery?list=positions&view=list',
+  });
 
   const navigate = useNavigate();
 
@@ -40,7 +44,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
           itemsClassName="enabled:aria-checked:!bg-v1-content-brand"
         />
 
-        {expanded && (
+        {(expanded || isMobile) && (
           <CoinSelect
             className="w-80 mobile:w-full"
             filterTokens={x => x !== 'tether'}
@@ -60,7 +64,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
         grid={!isMobile && expanded}
       />
 
-      {filter === 'active' && slug && expanded && (
+      {filter === 'active' && slug && (expanded || isMobile) && (
         <div
           className={clsx(
             isMobile ? 'fixed end-4 start-4 z-50' : 'mt-6 flex justify-center',

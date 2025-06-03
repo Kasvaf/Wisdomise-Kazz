@@ -6,13 +6,14 @@ const useEnsureIsSupportedPair = ({
   slug,
   nextPage,
 }: {
-  slug: string;
+  slug?: string;
   nextPage: string;
 }) => {
   const navigate = useNavigate();
   const supportedPairs = useSupportedPairs(slug);
   useEffect(() => {
     if (
+      slug &&
       !supportedPairs.isLoading &&
       !supportedPairs.data?.length &&
       window.location.pathname !== nextPage
@@ -20,6 +21,7 @@ const useEnsureIsSupportedPair = ({
       navigate(nextPage);
     }
   }, [
+    slug,
     navigate,
     nextPage,
     supportedPairs.data?.length,

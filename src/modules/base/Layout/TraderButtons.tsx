@@ -56,39 +56,42 @@ const TraderButtons = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <Button
-        onClick={() => {
-          const to = getUrl({
-            list: 'positions',
-            view: 'list',
-            filter: hasClosedTrades && !openTrades ? 'history' : '',
-          });
-          navigate(to);
-        }}
-        size={isMobile ? 'md' : 'xs'}
-        variant="ghost"
-        className={clsx(
-          isMobile ? '!px-4' : 'hidden !px-2',
-          pathname.startsWith('/discovery') &&
-            searchParams.get('list') === 'positions' &&
-            '!text-v1-content-brand',
-          'id-tour-trades-btn',
-        )}
-        surface={isMobile ? 2 : 3}
-      >
-        <IconTrades />
-        Trades
-        {openTrades > 0 && (
-          <div
-            className={clsx(
-              'rounded-full bg-v1-background-negative text-xxs text-white',
-              openTrades >= 10 ? 'size-2' : 'size-4',
-            )}
-          >
-            {openTrades >= 10 ? '' : openTrades}
-          </div>
-        )}
-      </Button>
+      {isMobile && (
+        <Button
+          onClick={() => {
+            const to = getUrl({
+              list: 'positions',
+              view: 'list',
+              slug: undefined,
+              filter: hasClosedTrades && !openTrades ? 'history' : '',
+            });
+            navigate(to);
+          }}
+          size="md"
+          variant="ghost"
+          className={clsx(
+            isMobile && '!px-4',
+            pathname.startsWith('/discovery') &&
+              searchParams.get('list') === 'positions' &&
+              '!text-v1-content-brand',
+            'id-tour-trades-btn',
+          )}
+          surface={2}
+        >
+          <IconTrades />
+          Trades
+          {openTrades > 0 && (
+            <div
+              className={clsx(
+                'rounded-full bg-v1-background-negative text-xxs text-white',
+                openTrades >= 10 ? 'size-2' : 'size-4',
+              )}
+            >
+              {openTrades >= 10 ? '' : openTrades}
+            </div>
+          )}
+        </Button>
+      )}
 
       <Button
         onClick={() => navigate('/trader/quests')}
