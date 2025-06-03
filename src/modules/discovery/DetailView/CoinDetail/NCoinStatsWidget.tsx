@@ -108,11 +108,11 @@ export function NCoinStatsWidget({
   return (
     <div
       className={clsx(
-        'grid grid-cols-[3.75rem_1px_1fr] gap-x-2 gap-y-0 rounded-md bg-v1-surface-l2 p-3',
+        'grid grid-cols-[3.75rem_1px_1fr] gap-2 rounded-md bg-v1-surface-l2 p-3',
         className,
       )}
     >
-      <div className="col-span-3 mb-2 flex items-center justify-end">
+      <div className="col-span-3 mb-1 flex items-center justify-end">
         <ButtonSelect
           size="xxs"
           variant="white"
