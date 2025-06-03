@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 import { type SupportedNetworks } from 'api/trader';
+import { useHasFlag } from 'api/feature-flags';
 
 export interface Wallet {
   key: string;
@@ -11,12 +12,16 @@ export interface Wallet {
 }
 
 export const useWalletsQuery = () => {
+  const hasFlag = useHasFlag();
   return useQuery({
     queryKey: ['wallets'],
     queryFn: async () => {
       return await ofetch<PageResponse<Wallet>>('/wallets');
     },
-    select: data => ({ ...data, results: data.results.toReversed() }),
+    select: data =>
+      hasFlag('/wallets')
+        ? { ...data, results: data.results.toReversed() }
+        : { ...data, results: [] },
   });
 };
 
