@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notification, Slider } from 'antd';
+import { notification } from 'antd';
 import { Select } from 'shared/v1-components/Select';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useSolanaUserAssets } from 'api/chains/solana';
@@ -10,6 +10,8 @@ import {
   useWalletWithdrawMutation,
   type Wallet,
 } from 'api/wallets';
+import { useSymbolsInfo } from 'api/symbol';
+import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
 
 export default function Transfer({
   wallet,
@@ -25,34 +27,27 @@ export default function Transfer({
     useState<
       NonNullable<ReturnType<typeof useSolanaUserAssets>['data']>[number]
     >();
-  const [amount, setAmount] = useState<number>();
+  const [amount, setAmount] = useState<string>();
   const { data: walletAssets } = useSolanaUserAssets(wallet.address);
   const { data: wallets } = useWalletsQuery();
-  const { mutateAsync, isPending } = useWalletWithdrawMutation(
-    fromWallet?.address,
+  const { mutateAsync, isPending } = useWalletWithdrawMutation(fromWallet?.key);
+  const { data: symbols } = useSymbolsInfo(
+    walletAssets?.map(asset => asset.slug),
   );
 
   const isValid =
     selectedAsset && amount && (toWallet || internalToWallet?.address);
 
   const withdraw = () => {
-    const isMax = amount === selectedAsset?.amount;
+    const isMax = Number(amount) === selectedAsset?.amount;
     if (isValid)
       void mutateAsync({
         symbol_slug: selectedAsset?.slug,
-        amount: isMax ? 'ALL' : String(amount),
+        amount: isMax ? 'ALL' : amount,
         receiver_address: (toWallet || internalToWallet?.address) ?? '',
       }).then(() =>
         notification.success({ message: 'Asset successfully transferred' }),
       );
-  };
-
-  const marks = {
-    0: '0%',
-    25: '25%',
-    50: '50%',
-    75: '75%',
-    100: 'MAX',
   };
 
   useEffect(() => {
@@ -69,19 +64,24 @@ export default function Transfer({
     }
   }, [selectedAsset, walletAssets]);
 
+  const assetToSymbol = (slug: string) => {
+    return symbols?.find(s => s.slug === slug);
+  };
+
   return (
     <div className="text-xs">
       {mode === 'external_transfer' && (
-        <p className="my-3">
+        <p className="mt-3 text-v1-content-secondary">
           To ensure the security of your assets, please verify the recipient
           wallet address again before transferring to prevent asset loss.
         </p>
       )}
 
-      <p className="mb-4">From</p>
+      <p className="my-4">From</p>
       <Select
         surface={4}
-        className="w-full"
+        className="!h-16 w-full"
+        dialogClassName="w-80"
         value={fromWallet}
         onChange={newWallet => setFromWallet(newWallet)}
         options={wallets?.results}
@@ -100,45 +100,46 @@ export default function Transfer({
           <Select
             surface={4}
             className="mt-5 w-full"
+            dialogClassName="w-80"
             value={selectedAsset}
             onChange={newAsset => setSelectedAsset(newAsset)}
             options={walletAssets}
-            render={asset => (
-              <div className="flex items-center justify-between">
-                <span className="text-sm">{asset?.slug}</span>
-                <span className="text-xs text-v1-content-secondary">
-                  {asset?.amount}
-                </span>
-              </div>
-            )}
+            render={asset =>
+              asset && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">
+                    {assetToSymbol(asset.slug)?.name}
+                  </span>
+                  <div className="flex items-center gap-2 text-xs text-v1-content-secondary">
+                    <img
+                      className="size-4"
+                      src={assetToSymbol(asset.slug)?.logo_url ?? ''}
+                      alt=""
+                    />
+                    {asset?.amount}
+                  </div>
+                </div>
+              )
+            }
           />
 
           <Input
-            type="number"
             value={amount}
-            onChange={newAmount => setAmount(newAmount)}
+            onChange={newAmount => setAmount(String(newAmount))}
             placeholder="Enter Withdrawal Amount"
             className="mt-3 w-full"
             surface={4}
-            suffixIcon={selectedAsset?.slug}
+            suffixIcon={
+              selectedAsset && assetToSymbol(selectedAsset?.slug)?.abbreviation
+            }
           />
 
-          <Slider
-            defaultValue={0}
-            onChange={percentage =>
-              setAmount(((selectedAsset?.amount ?? 0) * percentage) / 100)
-            }
-            min={0}
-            max={100}
-            marks={marks}
-            step={null}
-            tooltip={{ open: false }}
-            trackStyle={{ backgroundColor: '#1890ff', height: 4 }}
-            handleStyle={{
-              borderColor: '#1890ff',
-              backgroundColor: '#1890ff',
-            }}
-            railStyle={{ backgroundColor: '#2c2f36', height: 4 }}
+          <SensibleSteps
+            className="mt-2"
+            base={selectedAsset?.amount ?? 0}
+            value={amount}
+            onChange={newAmount => setAmount(newAmount)}
+            surface={4}
           />
         </>
       ) : (
@@ -153,7 +154,7 @@ export default function Transfer({
           <Select
             placeholder="Select Your Destination Wallet"
             surface={4}
-            className="w-full"
+            className="!h-16 w-full"
             dialogClassName="w-80"
             value={internalToWallet}
             onChange={newWallet => setInternalToWallet(newWallet)}
