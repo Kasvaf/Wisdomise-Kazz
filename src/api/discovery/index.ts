@@ -1107,7 +1107,7 @@ export const useNCoinDetails = ({ slug }: { slug?: string }) =>
       ).catch(() => null);
     },
     select: x =>
-      x
+      x?.creation_datetime
         ? {
             ...x,
             _states: calculateNCoinStates(x),

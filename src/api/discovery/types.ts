@@ -257,14 +257,14 @@ export interface CoinDetails {
 export interface Pool {
   address?: string | null;
   name?: string | null;
-  fdv_usd?: number | null;
   market_cap_usd?: number | null;
   pool_created_at?: string | null;
-  reserve_in_usd?: number | null;
   h24_volume_usd_liquidity?: number | null;
   h24_sells?: number | null;
   h24_buys?: number | null;
   dex?: string | null;
+  // fdv_usd?: number | null;
+  // reserve_in_usd?: number | null;
 }
 
 /* Whale Radar */
@@ -1013,12 +1013,9 @@ export interface NetworkRadarNCoinDetails extends NetworkRadarNCoin {
       native: number;
       usd: number;
     };
-    market_data: {
-      market_cap?: null | number;
-      total_supply?: null | number;
+    base_market_data: NetworkRadarNCoin['update']['base_market_data'] & {
       total_volume?: null | number;
       volume_24h?: null | number;
-      current_price?: null | number;
       price_change_24h?: null | number;
       liquidity?: null | {
         native: number;
@@ -1036,7 +1033,7 @@ export interface NetworkRadarNCoinDetails extends NetworkRadarNCoin {
   };
   charts: CoinChart[];
   base_symbol_labels: string[];
-  pools: unknown[]; // NAITODO: ask Amir why this field value is different with CoinDetails Pools
+  pools: Pool[];
 }
 
 /* Coin Radar */

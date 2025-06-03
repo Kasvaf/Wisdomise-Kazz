@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 
 import { clsx } from 'clsx';
-import { useCoinDetails, type Pool } from 'api/discovery';
+import { useCoinDetails, useNCoinDetails, type Pool } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDate } from 'shared/ReadableDate';
@@ -23,7 +23,8 @@ export function CoinPoolsWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const coin = useCoinDetails({ slug });
-  const pools = coin.data?.symbol_pools ?? [];
+  const nCoin = useNCoinDetails({ slug });
+  const pools = nCoin.data?.pools ?? coin.data?.symbol_pools ?? [];
   const [limit, setLimit] = useState<number | undefined>(6);
 
   const columns = useMemo<Array<TableColumn<Pool>>>(
