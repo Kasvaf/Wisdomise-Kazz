@@ -4,6 +4,7 @@ import Transfer from 'modules/base/wallet/Transfer';
 import Deposit from 'modules/base/wallet/Deposit';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { type Wallet } from 'api/wallets';
+import useIsMobile from 'utils/useIsMobile';
 
 export default function WithdrawDepositModal({
   wallet,
@@ -16,6 +17,7 @@ export default function WithdrawDepositModal({
   open?: boolean;
   onResolve?: () => void;
 }) {
+  const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState(mode);
 
   useEffect(() => {
@@ -25,8 +27,8 @@ export default function WithdrawDepositModal({
   return (
     <Dialog
       mode="drawer"
-      className="w-[24rem] px-4 py-6"
-      drawerConfig={{ position: 'end' }}
+      className="w-[24rem] px-4 pb-6 md:pt-6"
+      drawerConfig={{ position: isMobile ? 'bottom' : 'end' }}
       open={open}
       onClose={onResolve}
     >
@@ -34,7 +36,7 @@ export default function WithdrawDepositModal({
         <h2 className="mb-4 text-xl">Internal Transfer</h2>
       ) : (
         <ButtonSelect
-          className="w-max"
+          className="w-max mobile:mt-3 mobile:w-full"
           options={
             [
               {
