@@ -18,7 +18,7 @@ const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <TonConnectUIProvider
       connector={tonConnector}
-      uiPreferences={{ theme: THEME.DARK }}
+      uiPreferences={{ theme: THEME.DARK, borderRadius: 's' }}
       actionsConfiguration={{
         twaReturnUrl: TELEGRAM_BOT_BASE_URL,
       }}

@@ -16,6 +16,7 @@ export function Input<T extends 'number' | 'string'>({
   max,
   disabled,
   readOnly,
+  pattern,
   loading,
   block,
   placeholder,
@@ -36,6 +37,7 @@ export function Input<T extends 'number' | 'string'>({
 
   disabled?: boolean;
   readOnly?: boolean;
+  pattern?: string;
   loading?: boolean;
   block?: boolean;
   placeholder?: string;
@@ -102,6 +104,7 @@ export function Input<T extends 'number' | 'string'>({
         placeholder={placeholder}
         ref={inputRef}
         type={type === 'number' ? 'number' : 'text'}
+        pattern={pattern}
       />
       {suffixIcon}
     </div>

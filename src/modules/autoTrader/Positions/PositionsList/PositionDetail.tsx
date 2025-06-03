@@ -43,7 +43,7 @@ const PositionDetail: React.FC<{
   return (
     <div
       className={clsx(
-        'id-position-item rounded-3xl bg-v1-surface-l2 p-4 text-xs',
+        'id-position-item rounded-xl bg-v1-surface-l2 p-4 text-xs',
         className,
       )}
       key={position.key}

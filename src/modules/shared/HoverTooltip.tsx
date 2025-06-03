@@ -9,12 +9,14 @@ export function HoverTooltip({
   children,
   disabled,
   onOpenChange,
+  ignoreFocus,
 }: {
   title?: ReactNode;
   children?: ReactNode;
   placement?: ComponentProps<typeof AntTooltip>['placement']; // DEPRECATED
   disabled?: boolean;
   onOpenChange?: (v: boolean) => void;
+  ignoreFocus?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   if (disabled) {
@@ -45,6 +47,7 @@ export function HoverTooltip({
           position: 'pointer',
         }}
         overlay={false}
+        ignoreFocus={ignoreFocus}
       >
         {title}
       </Dialog>

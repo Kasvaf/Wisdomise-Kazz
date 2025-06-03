@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { type AVAILABLE_LISTS } from 'modules/discovery/constants';
+import { Positions } from 'modules/discovery/ListView/Positions';
 import { SocialRadar } from './SocialRadar';
 import { WhaleRadar } from './WhaleRadar';
 import { TechnicalRadar } from './TechnicalRadar';
@@ -27,6 +28,8 @@ export const ListView: FC<{
         <CoinRadar {...rest} />
       ) : list === 'portfolio' ? (
         <Portfolio {...rest} />
+      ) : list === 'positions' ? (
+        <Positions {...rest} />
       ) : null}
     </div>
   );

@@ -1,5 +1,6 @@
 import {
   type AddressLookupTableAccount,
+  Connection,
   PublicKey,
   SystemProgram,
   Transaction,
@@ -19,21 +20,22 @@ import {
   type Provider,
   useAppKitConnection,
 } from '@reown/appkit-adapter-solana/react';
-import {
-  useAppKit,
-  useAppKitAccount,
-  useAppKitNetwork,
-  useAppKitProvider,
-  useAppKitState,
-} from '@reown/appkit/react';
+import { useAppKitProvider } from '@reown/appkit/react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { solana } from '@reown/appkit/networks';
-import { useCallback } from 'react';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { usePendingPositionInCache } from 'api/trader';
 import { useSymbolInfo } from 'api/symbol';
 import { ofetch } from 'config/ofetch';
-import { queryContractSlugs, usePromiseOfEffect } from './utils';
+import { projectId } from 'config/appKit';
+import { useActiveWallet } from 'api/chains/wallet';
+import { queryContractSlugs } from './utils';
+
+const chainId = 'solana';
+const clusterPublicKey = '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'; // mainnet-beta
+const connection = new Connection(
+  `https://rpc.walletconnect.org/v1/?chainId=${chainId}:${clusterPublicKey}&projectId=${projectId}`,
+  'confirmed',
+);
 
 export type AutoTraderSolanaSupportedQuotes =
   | 'tether'
@@ -62,17 +64,18 @@ const useContractInfo = (slug?: string) => {
   });
 };
 
-export const useSolanaAccountBalance = (slug?: string) => {
-  const { connection } = useAppKitConnection();
-  const { address } = useAppKitAccount();
+export const useSolanaAccountBalance = (slug?: string, address?: string) => {
+  const { address: activeAddress } = useActiveWallet();
   const { data: { contract } = {}, isLoading: contractIsLoading } =
     useContractInfo(slug);
 
+  const addr = address ?? activeAddress;
+
   const query = useQuery({
-    queryKey: ['sol-balance', slug, address],
+    queryKey: ['sol-balance', slug, addr],
     queryFn: async () => {
-      if (!address || !slug || !contract || !connection) return null;
-      const publicKey = new PublicKey(address);
+      if (!addr || !slug || !contract) return null;
+      const publicKey = new PublicKey(addr);
 
       try {
         if (slug === 'wrapped-solana') {
@@ -118,15 +121,15 @@ export const useSolanaAccountBalance = (slug?: string) => {
   };
 };
 
-export const useSolanaUserAssets = () => {
-  const { connection } = useAppKitConnection();
-  const { address } = useAppKitAccount();
+export const useSolanaUserAssets = (address?: string) => {
+  const { address: activeAddress } = useActiveWallet();
+  const addr = address ?? activeAddress;
 
   return useQuery({
-    queryKey: ['solana-user-assets', address],
+    queryKey: ['solana-user-assets', addr],
     queryFn: async () => {
-      if (!address || !connection) return [];
-      const publicKey = new PublicKey(address);
+      if (!addr || !connection) return [];
+      const publicKey = new PublicKey(addr);
 
       try {
         const [solBalance, tokenAccounts, token2022Accounts] =
@@ -179,14 +182,13 @@ export const useSolanaUserAssets = () => {
     },
     refetchInterval: 30_000, // Refresh every 30 seconds
     staleTime: 5000,
-    enabled: !!address,
+    enabled: !!addr && isValidSolanaAddress(addr),
   });
 };
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
-  const { connection } = useAppKitConnection();
-  const { address } = useAppKitAccount();
+  const { address } = useActiveWallet();
   const queryClient = useQueryClient();
   const { data: { contract, decimals } = {} } = useContractInfo(slug);
   const awaitPositionInCache = usePendingPositionInCache();
@@ -336,7 +338,7 @@ interface Account {
 export const useSolanaMarketSwap = () => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
   const { connection } = useAppKitConnection();
-  const { address } = useAppKitAccount();
+  const { address, isCustodial } = useActiveWallet();
   const queryClient = useQueryClient();
 
   return async ({
@@ -348,25 +350,29 @@ export const useSolanaMarketSwap = () => {
     side: 'LONG' | 'SHORT';
     amount: string;
   }) => {
-    if (!connection || !address) throw new Error('Wallet not connected');
+    if (!address) throw new Error('Wallet not connected');
     const publicKey = new PublicKey(address);
+
+    const swap = ofetch<SwapResponse>('/trader/swap', {
+      method: 'post',
+      body: {
+        pair_slug: pairSlug,
+        side,
+        amount,
+        network_slug: 'solana',
+        wallet_address: publicKey.toString(),
+      },
+    });
+    if (isCustodial) {
+      return async () => !!(await swap);
+    }
+
+    if (!connection) throw new Error('Appkit connection not found');
 
     const [
       { key, instructions, lookup_table_address: lookupTableAddresses },
       latestBlockhash,
-    ] = await Promise.all([
-      ofetch<SwapResponse>('/trader/swap', {
-        method: 'post',
-        body: {
-          pair_slug: pairSlug,
-          side,
-          amount,
-          network_slug: 'solana',
-          wallet_address: publicKey.toString(),
-        },
-      }),
-      connection.getLatestBlockhash(),
-    ]);
+    ] = await Promise.all([swap, connection.getLatestBlockhash()]);
 
     // Fetch the address lookup tables if provided
     const lookupTableAccounts = (
@@ -430,30 +436,11 @@ const timeoutSignal = (timeout = 7000) => {
   return abortController.signal;
 };
 
-export function useAwaitSolanaWalletConnection(
-  net: 'solana' | 'polygon' = 'solana',
-) {
-  const { isConnected } = useAppKitAccount();
-  const { open } = useAppKit();
-  const { open: isOpen } = useAppKitState();
-  const { caipNetwork, switchNetwork } = useAppKitNetwork();
-  const chain = net === 'solana' ? 'solana' : 'eip155';
-  const isValidChain = caipNetwork?.chainNamespace === chain;
-
-  return usePromiseOfEffect({
-    action: useCallback(async () => {
-      if (isConnected && !isValidChain) {
-        switchNetwork(solana);
-      }
-
-      if (!isConnected) {
-        await open({
-          view: 'Connect',
-          namespace: chain,
-        });
-      }
-    }, [chain, isConnected, isValidChain, open, switchNetwork]),
-    done: isConnected || !isOpen,
-    result: isConnected && isValidChain,
-  });
+function isValidSolanaAddress(address: string): boolean {
+  try {
+    const _pk = new PublicKey(address);
+    return true;
+  } catch {
+    return false;
+  }
 }

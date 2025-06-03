@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { useTraderPositionsQuery } from 'api';
 import usePageTour from 'shared/usePageTour';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useIsLoggedIn } from '../auth/jwt-store';
 import { IconQuests, IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
@@ -17,6 +18,8 @@ const TraderButtons = () => {
   const { data } = useTraderPositionsQuery({ isOpen: true });
   const openTrades =
     data?.positions.filter(x => x.deposit_status !== 'PENDING').length ?? 0;
+  const [searchParams] = useSearchParams();
+  const { getUrl } = useDiscoveryRouteMeta<'filter'>();
 
   const [maxOpenTrades, setMaxOpenTrade] = useLocalStorage(
     'max-open-trades',
@@ -53,35 +56,42 @@ const TraderButtons = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <Button
-        onClick={() =>
-          navigate(
-            '/trader/positions' +
-              (hasClosedTrades && !openTrades ? '?filter=history' : ''),
-          )
-        }
-        size={isMobile ? 'md' : 'xs'}
-        variant="ghost"
-        className={clsx(
-          isMobile ? '!px-4' : '!px-2',
-          pathname.startsWith('/trader/positions') && '!text-[#00A3FF]',
-          'id-tour-trades-btn',
-        )}
-        surface={isMobile ? 2 : 3}
-      >
-        <IconTrades />
-        Trades
-        {openTrades > 0 && (
-          <div
-            className={clsx(
-              'rounded-full bg-v1-background-negative text-xxs text-white',
-              openTrades >= 10 ? 'size-2' : 'size-4',
-            )}
-          >
-            {openTrades >= 10 ? '' : openTrades}
-          </div>
-        )}
-      </Button>
+      {isMobile && (
+        <Button
+          onClick={() => {
+            const to = getUrl({
+              list: 'positions',
+              view: 'list',
+              slug: undefined,
+              filter: hasClosedTrades && !openTrades ? 'history' : '',
+            });
+            navigate(to);
+          }}
+          size="md"
+          variant="ghost"
+          className={clsx(
+            isMobile && '!px-4',
+            pathname.startsWith('/discovery') &&
+              searchParams.get('list') === 'positions' &&
+              '!text-v1-content-brand',
+            'id-tour-trades-btn',
+          )}
+          surface={2}
+        >
+          <IconTrades />
+          Trades
+          {openTrades > 0 && (
+            <div
+              className={clsx(
+                'rounded-full bg-v1-background-negative text-xxs text-white',
+                openTrades >= 10 ? 'size-2' : 'size-4',
+              )}
+            >
+              {openTrades >= 10 ? '' : openTrades}
+            </div>
+          )}
+        </Button>
+      )}
 
       <Button
         onClick={() => navigate('/trader/quests')}

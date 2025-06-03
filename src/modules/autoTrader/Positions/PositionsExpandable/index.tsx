@@ -1,18 +1,18 @@
 import { clsx } from 'clsx';
-import { CoinSelect } from 'modules/alert/components/CoinSelect';
+import { useNavigate } from 'react-router-dom';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import PageWrapper from 'modules/base/PageWrapper';
+import PositionsList from 'modules/autoTrader/Positions/PositionsList';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import { CoinSelect } from 'modules/alert/components/CoinSelect';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
-import { ActiveNetworkProvider } from 'modules/base/active-network';
-import { useActiveWallet } from 'api/chains';
-import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
-import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
-import useTraderDrawer from '../BuySellTrader/useTraderDrawer';
-import PositionsList from './PositionsList';
+import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
+import { useActiveWallet } from 'api/chains/wallet';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPair';
 
-const PagePositions = () => {
+const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
   const isMobile = useIsMobile();
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
     'filter',
@@ -20,12 +20,18 @@ const PagePositions = () => {
   );
   const [slug, setSlug] = useSearchParamAsState('slug');
 
-  useEnsureIsSupportedPair({ slug, nextPage: '/trader/positions' });
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const wallet = useActiveWallet();
+  const { getUrl } = useDiscoveryRouteMeta();
+  useEnsureIsSupportedPair({
+    slug,
+    nextPage: '/discovery?list=positions&view=list',
+  });
+
+  const navigate = useNavigate();
 
   return (
-    <PageWrapper hasBack extension={!isMobile && <CoinExtensionsGroup />}>
+    <div>
       <div className="mb-4 flex flex-row-reverse justify-between gap-4 mobile:flex-col">
         <ButtonSelect
           options={[
@@ -38,25 +44,27 @@ const PagePositions = () => {
           itemsClassName="enabled:aria-checked:!bg-v1-content-brand"
         />
 
-        <CoinSelect
-          className="w-80 mobile:w-full"
-          filterTokens={x => x !== 'tether'}
-          value={slug}
-          showPrice
-          onChange={setSlug}
-          emptyOption="All Tradable Coins & Tokens"
-          mini={false}
-          tradableCoinsOnly
-        />
+        {(expanded || isMobile) && (
+          <CoinSelect
+            className="w-80 mobile:w-full"
+            filterTokens={x => x !== 'tether'}
+            value={slug}
+            showPrice
+            onChange={setSlug}
+            emptyOption="All Tradable Coins & Tokens"
+            mini={false}
+            tradableCoinsOnly
+          />
+        )}
       </div>
 
       <PositionsList
         slug={slug}
         isOpen={filter === 'active'}
-        grid={!isMobile}
+        grid={!isMobile && expanded}
       />
 
-      {filter === 'active' && slug && (
+      {filter === 'active' && slug && (expanded || isMobile) && (
         <div
           className={clsx(
             isMobile ? 'fixed end-4 start-4 z-50' : 'mt-6 flex justify-center',
@@ -71,7 +79,11 @@ const PagePositions = () => {
             className={clsx('block', isMobile ? 'w-full' : 'w-80')}
             onClick={async () => {
               if (wallet.connected || (await wallet.connect())) {
-                openTraderDrawer({ slug });
+                if (isMobile) {
+                  openTraderDrawer({ slug });
+                } else {
+                  navigate(getUrl({ view: 'both' }));
+                }
               }
             }}
           >
@@ -79,8 +91,8 @@ const PagePositions = () => {
           </Button>
         </div>
       )}
-    </PageWrapper>
+    </div>
   );
 };
 
-export default PagePositions;
+export default PositionsExpandable;

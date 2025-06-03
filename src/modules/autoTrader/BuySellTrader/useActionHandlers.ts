@@ -6,12 +6,9 @@ import {
   useTraderFirePositionMutation,
   type CreatePositionRequest,
 } from 'api';
-import {
-  useActiveWallet,
-  useMarketSwap,
-  useTransferAssetsMutation,
-} from 'api/chains';
+import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
+import { useActiveWallet } from 'api/chains/wallet';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
 import useModalApproval from './useModalApproval';

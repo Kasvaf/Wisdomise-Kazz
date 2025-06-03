@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import { bxLink } from 'boxicons-quasar';
 import { Button } from 'shared/v1-components/Button';
-import { useActiveWallet } from 'api/chains';
 import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
 import usePageTour from 'shared/usePageTour';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -9,6 +8,7 @@ import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useActiveWallet } from 'api/chains/wallet';
 import { type SwapState } from './useSwapState';
 import useActionHandlers from './useActionHandlers';
 

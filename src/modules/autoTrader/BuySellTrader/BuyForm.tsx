@@ -1,7 +1,6 @@
 import AmountInputBox from 'shared/AmountInputBox';
-import { Button } from 'shared/v1-components/Button';
+import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
-import useSensibleSteps from '../PageTrade/AdvancedSignalForm/useSensibleSteps';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
 import MarketField from './MarketField';
@@ -19,8 +18,6 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
     setAmount,
     base: { slug: baseSlug },
   } = state;
-
-  const steps = useSensibleSteps(balance);
 
   return (
     <div>
@@ -45,20 +42,11 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
       />
 
       {Boolean(balance) && (
-        <div className="mb-3 flex gap-1.5">
-          {steps.map(({ label, value }) => (
-            <Button
-              key={value}
-              size="xs"
-              variant={value === amount ? 'primary' : 'ghost'}
-              className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
-              onClick={() => setAmount(value)}
-              surface={2}
-            >
-              {label}
-            </Button>
-          ))}
-        </div>
+        <SensibleSteps
+          base={balance}
+          value={amount}
+          onChange={newAmount => setAmount(newAmount)}
+        />
       )}
 
       <MarketField state={state} />
