@@ -15,7 +15,8 @@ export default function Deposit({ wallet }: { wallet: Wallet }) {
   return (
     <div className="text-xs">
       <p className="my-3 text-v1-content-secondary">
-        Deposit SOL To Your {wallet.name} Wallet
+        Deposit To Your{' '}
+        <span className="text-v1-content-primary">{wallet.name}</span> Wallet
       </p>
       <div className="justify-between rounded-xl bg-v1-surface-l4 p-3">
         <div className="flex items-end justify-between">
@@ -54,8 +55,8 @@ export default function Deposit({ wallet }: { wallet: Wallet }) {
         <hr className="my-3 border-v1-inverse-overlay-10" />
         <div className="text-v1-content-notice">
           <Icon name={bxInfoCircle} className="mr-1 inline-block" size={12} />
-          Caution: This address only supports SOL deposits via the Solana
-          network. Please do not use other networks to avoid any loss of funds.
+          Caution: This address only supports deposits via the Solana network.
+          Please do not use other networks to avoid any loss of funds.
         </div>
       </div>
       {notif}

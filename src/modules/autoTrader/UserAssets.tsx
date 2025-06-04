@@ -253,7 +253,20 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
               }}
             />
           ) : (
-            wallet.name
+            <div className="flex items-center gap-1">
+              <span>{wallet.name}</span>
+              <HoverTooltip className="h-4" title="Rename" ignoreFocus>
+                <button
+                  onClick={() => {
+                    setEditMode(prev => !prev);
+                    setTimeout(() => inputRef.current?.select(), 0);
+                  }}
+                  className="text-v1-content-secondary"
+                >
+                  <Icon name={bxEdit} size={16} />
+                </button>
+              </HoverTooltip>
+            </div>
           )
         ) : (
           'Connected Wallet'
@@ -279,9 +292,9 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         </div>
         <div className="ml-auto">
           {wallet ? (
-            <div className="flex gap-1">
+            <div className="flex items-center gap-1">
               <Button
-                onClick={() => withdraw(wallet)}
+                onClick={() => withdraw(wallet.address)}
                 variant="outline"
                 size="2xs"
                 className="!bg-transparent !px-1"
@@ -289,49 +302,30 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
                 Withdraw
               </Button>
               <Button
-                onClick={() => deposit(wallet)}
+                onClick={() => deposit(wallet.address)}
                 variant="outline"
                 size="2xs"
                 className="!bg-transparent !px-1"
               >
                 Deposit
               </Button>
-              <HoverTooltip title="Rename" ignoreFocus>
-                <Button
-                  onClick={() => {
-                    setEditMode(prev => !prev);
-                    setTimeout(() => inputRef.current?.select(), 0);
-                  }}
-                  variant="ghost"
-                  size="2xs"
-                  className="!bg-transparent !px-0 text-v1-content-secondary"
-                >
-                  <Icon name={bxEdit} />
-                </Button>
-              </HoverTooltip>
               <HoverTooltip title="Transfer">
-                <Button
-                  onClick={() => {
-                    transfer(wallet);
-                  }}
-                  variant="ghost"
-                  size="2xs"
-                  className="!bg-transparent !px-0 text-v1-content-secondary"
+                <button
+                  onClick={() => transfer(wallet.address)}
+                  className="mt-1 text-v1-content-secondary"
                 >
-                  <Icon name={bxTransfer} />
-                </Button>
+                  <Icon name={bxTransfer} size={16} />
+                </button>
               </HoverTooltip>
               <HoverTooltip
                 title={`View on ${SCANNERS[wallet.network_slug].name}`}
               >
-                <Button
-                  variant="ghost"
-                  size="2xs"
-                  className="!bg-transparent !px-0 text-v1-content-secondary"
+                <button
+                  className="mt-1 text-v1-content-secondary"
                   onClick={() => openScan(wallet)}
                 >
-                  <Icon name={bxLinkExternal} />
-                </Button>
+                  <Icon name={bxLinkExternal} size={16} />
+                </button>
               </HoverTooltip>
             </div>
           ) : (
@@ -366,8 +360,8 @@ export function WalletAssets({ wallet }: { wallet: Wallet }) {
   ) : (
     <div className="flex h-44 flex-col items-center justify-center rounded-xl bg-v1-surface-l2">
       <DepositIcon className="size-8" />
-      <p className="my-2 text-xxs">deposit and start your trade journey</p>
-      <Button size="xs" onClick={() => deposit(wallet)}>
+      <p className="my-2 text-xxs">Deposit and start your trade journey</p>
+      <Button size="xs" onClick={() => deposit(wallet.address)}>
         Deposit
       </Button>
       {withdrawDepositModal}

@@ -35,8 +35,13 @@ export default function Transfer({
     walletAssets?.map(asset => asset.slug),
   );
 
+  const sameAddress =
+    (toWallet || internalToWallet?.address) === fromWallet?.address;
   const isValid =
-    selectedAsset && amount && (toWallet || internalToWallet?.address);
+    selectedAsset &&
+    amount &&
+    (toWallet || internalToWallet?.address) &&
+    !sameAddress;
 
   const withdraw = () => {
     const isMax = Number(amount) === selectedAsset?.amount;

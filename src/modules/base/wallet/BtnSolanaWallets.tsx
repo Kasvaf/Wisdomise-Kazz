@@ -133,7 +133,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
               className="!bg-transparent"
               variant="outline"
               size="xs"
-              onClick={() => deposit(wallet)}
+              onClick={() => deposit(wallet.address)}
             >
               Deposit
             </Button>
@@ -141,7 +141,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
               className="!bg-transparent"
               variant="outline"
               size="xs"
-              onClick={() => withdraw(wallet)}
+              onClick={() => withdraw(wallet.address)}
             >
               Withdraw
             </Button>

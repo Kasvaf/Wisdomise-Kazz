@@ -10,6 +10,7 @@ export function HoverTooltip({
   disabled,
   onOpenChange,
   ignoreFocus,
+  className,
 }: {
   title?: ReactNode;
   children?: ReactNode;
@@ -17,6 +18,7 @@ export function HoverTooltip({
   disabled?: boolean;
   onOpenChange?: (v: boolean) => void;
   ignoreFocus?: boolean;
+  className?: string;
 }) {
   const [open, setOpen] = useState(false);
   if (disabled) {
@@ -25,7 +27,7 @@ export function HoverTooltip({
   return (
     <>
       <span
-        className={clsx('cursor-help', DIALOG_OPENER_CLASS)}
+        className={clsx('cursor-help', DIALOG_OPENER_CLASS, className)}
         onMouseEnter={() => {
           setOpen(true);
         }}

@@ -9,6 +9,8 @@ import Icon from 'shared/Icon';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useActiveWallet } from 'api/chains/wallet';
+import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useSymbolInfo } from 'api/symbol';
 import { type SwapState } from './useSwapState';
 import useActionHandlers from './useActionHandlers';
 
@@ -23,13 +25,19 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   const wallet = useActiveWallet();
   const {
     dir,
+    quote,
     from: { balanceLoading, balance },
   } = state;
+  const { withdrawDepositModal, deposit } = useWalletActionHandler();
+  const { data: quoteInfo } = useSymbolInfo(quote.slug);
 
   const { ModalApproval, firePosition, isEnabled, isSubmitting } =
     useActionHandlers(state);
 
   const isTon = net === 'the-open-network';
+  const enableDeposit =
+    wallet.isCustodial && !balance && !balanceLoading && dir === 'buy';
+
   const isMobile = useIsMobile();
   usePageTour({
     key: (isTon ? 'ton' : 'appkit') + '-connect-tour',
@@ -99,24 +107,33 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
     <>
       {ModalLogin}
       {wallet.connected ? (
-        <Button
-          variant="primary"
-          onClick={isLoggedIn ? firePosition : showModalLogin}
-          loading={isSubmitting}
-          disabled={!isEnabled || !balance}
-          className={className}
-        >
-          {!balanceLoading && balance != null && !balance ? (
-            <>
-              <WarnIcon className="mr-2" />
-              <span className="text-white/70">Insufficient Balance</span>
-            </>
-          ) : dir === 'buy' ? (
-            'Buy'
-          ) : (
-            'Sell'
-          )}
-        </Button>
+        enableDeposit ? (
+          <Button
+            className={className}
+            onClick={() => deposit(wallet.address ?? '')}
+          >
+            Deposit {quoteInfo?.abbreviation} to Buy
+          </Button>
+        ) : (
+          <Button
+            variant="primary"
+            onClick={isLoggedIn ? firePosition : showModalLogin}
+            loading={isSubmitting}
+            disabled={!isEnabled || !balance}
+            className={className}
+          >
+            {!balanceLoading && balance != null && !balance ? (
+              <>
+                <WarnIcon className="mr-2" />
+                <span className="text-white/70">Insufficient Balance</span>
+              </>
+            ) : dir === 'buy' ? (
+              'Buy'
+            ) : (
+              'Sell'
+            )}
+          </Button>
+        )
       ) : (
         <Button
           variant="primary"
@@ -127,6 +144,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
         </Button>
       )}
       {ModalApproval}
+      {withdrawDepositModal}
     </>
   );
 };
