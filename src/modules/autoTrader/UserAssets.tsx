@@ -105,6 +105,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
 
 interface Props {
   noTotal?: boolean;
+  onlyTradingAssets?: boolean;
   className?: string;
   containerClassName?: string;
 }
@@ -144,7 +145,6 @@ export const UserAssetsInternal: React.FC<
 };
 
 export default function UserAssets(props: Props) {
-  const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const net = useActiveNetwork();
 
@@ -163,7 +163,7 @@ export default function UserAssets(props: Props) {
           data={tradingAssets}
           {...props}
         />
-        {!isMobile &&
+        {!props.onlyTradingAssets &&
           (net === 'the-open-network' ? (
             <UserAssetsInternal
               title="Wallet Assets"
@@ -183,7 +183,7 @@ function UserWallets() {
   const { data: wallets } = useWalletsQuery();
 
   return (
-    <div>
+    <div className="-mt-3">
       <Radio.Group
         className="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
         value={cw?.key ?? false}

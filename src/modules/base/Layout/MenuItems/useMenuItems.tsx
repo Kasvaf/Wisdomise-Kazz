@@ -75,7 +75,6 @@ export const useMenuItems = () => {
         icon: PortfolioIcon,
         text: 'Portfolio',
         crumb: 'Portfolio',
-        hide: isMobile,
       },
       {
         link: '/discovery?list=positions',

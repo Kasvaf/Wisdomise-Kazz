@@ -50,7 +50,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
             )}
           >
             <item.icon className="size-7" />
-            <div className="mt-1 text-xs font-normal">{item.text}</div>
+            <div className="mt-1 text-xxs font-normal">{item.text}</div>
           </NavLink>
         ))}
       </div>
