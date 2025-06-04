@@ -41,7 +41,8 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
           value={filter}
           onChange={setFilter}
           className={clsx(!expanded && '!w-full', 'w-60 mobile:w-full')}
-          surface={2}
+          size="sm"
+          surface={1}
         />
 
         <CoinSelect
