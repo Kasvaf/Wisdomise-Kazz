@@ -21,7 +21,7 @@ export const LISTS_CONFIG: Record<
     expandable: true,
   },
   'portfolio': {
-    expandable: false,
+    expandable: true,
   },
   'social-radar': {
     expandable: true,

@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PositionsList from 'modules/autoTrader/Positions/PositionsList';
-import { ButtonSelect } from 'shared/ButtonSelect';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Button from 'shared/Button';
@@ -11,6 +10,7 @@ import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPair';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
   const isMobile = useIsMobile();
@@ -41,7 +41,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
           value={filter}
           onChange={setFilter}
           className={clsx(!expanded && '!w-full', 'w-60 mobile:w-full')}
-          itemsClassName="enabled:aria-checked:!bg-v1-content-brand"
+          surface={2}
         />
 
         <CoinSelect
