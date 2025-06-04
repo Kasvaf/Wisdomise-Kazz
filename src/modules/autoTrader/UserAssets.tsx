@@ -35,8 +35,9 @@ import {
   useActiveWallet,
   useCustodialWallet,
 } from 'api/chains/wallet';
-// eslint-disable-next-line import/max-dependencies
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
+// eslint-disable-next-line import/max-dependencies
+import { useShare } from 'shared/useShare';
 
 interface AssetData {
   slug: string;
@@ -215,6 +216,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   const [editMode, setEditMode] = useState(false);
   const { mutate } = useUpdateWalletMutation(wallet?.key);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [copy, notif] = useShare('copy');
 
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
@@ -263,7 +265,9 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
           {wallet ? (
             <>
               {shortenAddress(wallet.address)}
-              <Icon name={bxCopy} size={12} />
+              <button onClick={() => copy(wallet.address)}>
+                <Icon name={bxCopy} size={12} />
+              </button>
             </>
           ) : connected ? (
             <div className="flex items-center gap-1">
@@ -345,6 +349,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         connected && <UserAssetsInternal data={walletAssets} />
       )}
       {withdrawDepositModal}
+      {notif}
     </div>
   );
 }

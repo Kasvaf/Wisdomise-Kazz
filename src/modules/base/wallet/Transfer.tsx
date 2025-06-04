@@ -55,15 +55,8 @@ export default function Transfer({
   }, [wallet]);
 
   useEffect(() => {
-    if (!walletAssets) return;
-    if (walletAssets.length === 0) setSelectedAsset(undefined);
-    if (
-      !selectedAsset ||
-      walletAssets.map(a => a.slug)?.includes(selectedAsset.slug)
-    ) {
-      setSelectedAsset(walletAssets[0]);
-    }
-  }, [selectedAsset, walletAssets]);
+    if (walletAssets?.length === 0) setSelectedAsset(undefined);
+  }, [walletAssets]);
 
   const assetToSymbol = (slug: string) => {
     return symbols?.find(s => s.slug === slug);
@@ -100,6 +93,7 @@ export default function Transfer({
         <>
           <Select
             surface={4}
+            placeholder="Select Asset"
             className="mt-5 w-full"
             dialogClassName="w-80"
             value={selectedAsset}
