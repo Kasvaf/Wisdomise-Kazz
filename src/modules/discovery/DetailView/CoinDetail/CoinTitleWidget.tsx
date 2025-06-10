@@ -4,16 +4,19 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
-import { useCoinDetails, useNCoinDetails } from 'api';
+import {
+  useCoinDetails,
+  useNCoinDetails,
+  type CoinNetwork,
+} from 'api/discovery';
 import { CoinLogo } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { ContractAddress } from 'shared/ContractAddress';
-import { type CoinNetwork } from 'api/types/shared';
+import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export const CoinTitleWidget: FC<{
@@ -105,15 +108,7 @@ export const CoinTitleWidget: FC<{
                   />
 
                   {/* Developer Data */}
-                  {isNCoin && isDebugMode && (
-                    <>
-                      <span className="size-[2px] rounded-full bg-white" />
-                      <span className="text-xs text-v1-content-positive">
-                        {'TODO: Dev'}
-                      </span>
-                    </>
-                  )}
-                  {/* TODO an user icon and his assets history */}
+                  {nCoin.data?.dev && <NCoinDeveloper value={nCoin.data.dev} />}
 
                   {nCoin.data?.creation_datetime && (
                     <>
@@ -156,7 +151,7 @@ export const CoinTitleWidget: FC<{
                       {' (24h)'}
                     </p>
                     <ReadableNumber
-                      value={nCoin.data.update.total_trading_volume.usd}
+                      value={nCoin.data.update.trading_volume.usd}
                       className="text-xs"
                       label="$"
                       popup="never"

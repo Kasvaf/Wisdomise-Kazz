@@ -3,7 +3,7 @@ import { type FC, useMemo } from 'react';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
-import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
+import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

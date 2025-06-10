@@ -1,6 +1,6 @@
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useWhaleTransactions, type WhaleTransaction } from 'api';
+import { useWhaleTransactions, type WhaleTransaction } from 'api/discovery';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

@@ -5,7 +5,7 @@ import {
   useSocialRadarSentiment,
   useTechnicalRadarSentiment,
   useWhaleRadarSentiment,
-} from 'api';
+} from 'api/discovery';
 import { SocialRadarSentiment } from '../../ListView/SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../../ListView/TechnicalRadar/TechnicalRadarSentiment';
 import { WhaleRadarSentiment } from '../../ListView/WhaleRadar/WhaleRadarSentiment';

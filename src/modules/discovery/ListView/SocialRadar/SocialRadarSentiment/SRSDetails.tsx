@@ -1,7 +1,7 @@
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { type SocialRadarSentiment } from 'api';
+import { type SocialRadarSentiment } from 'api/discovery';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

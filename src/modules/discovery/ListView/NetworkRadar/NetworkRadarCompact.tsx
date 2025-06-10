@@ -4,10 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import {
-  type NetworkRadarNCoin,
-  useNetworkRadarNCoins,
-} from 'api/insight/network';
+import { type NetworkRadarNCoin, useNetworkRadarNCoins } from 'api/discovery';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
@@ -39,17 +36,13 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
     () => [
       {
-        key: 'rank',
-        render: row => row._rank,
-      },
-      {
         key: 'coin',
         render: row => (
           <Coin
             coin={row.base_symbol}
             imageClassName="size-7"
             className="text-xs"
-            truncate={50}
+            truncate={45}
             nonLink={true}
           />
         ),
@@ -86,11 +79,11 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       },
       {
         key: 'liquidity',
-        className: 'max-w-22',
+        // className: 'max-w-22',
         render: row => (
           <NCoinLiquidity
             value={row}
-            className="text-xxs"
+            className="h-6 text-xxs"
             imgClassName="size-6"
             type="update_with_icon"
           />

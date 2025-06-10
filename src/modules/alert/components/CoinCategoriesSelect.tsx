@@ -3,7 +3,7 @@ import { useMemo, useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
-import { useCategories } from 'api';
+import { useCategories } from 'api/discovery';
 
 export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
   value,

@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
+import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

@@ -3,7 +3,7 @@ import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { shortenAddress } from 'utils/shortenAddress';
-import { type CoinNetwork } from 'api/types/shared';
+import { type CoinNetwork } from 'api/discovery';
 import Icon from './Icon';
 import { useShare } from './useShare';
 
@@ -11,7 +11,8 @@ export const ContractAddress: FC<{
   className?: string;
   value?: CoinNetwork[] | CoinNetwork | string;
   allowCopy?: boolean;
-}> = ({ className, value, allowCopy = true }) => {
+  noLabel?: boolean;
+}> = ({ className, value, allowCopy = true, noLabel }) => {
   const { t } = useTranslation('coin-radar');
   const [copy, copyNotif] = useShare('copy');
 
@@ -92,11 +93,11 @@ export const ContractAddress: FC<{
 
   return (
     <>
-      {data.value === undefined ? (
+      {data.value === undefined && !noLabel ? (
         <p className={className}>{data.title}</p>
       ) : (
         <div className={clsx('flex items-center gap-1', className)}>
-          {data.title}
+          {!noLabel && data.title}
           {allowCopy && (
             <button
               onClick={() => copy(data.value ?? '')}

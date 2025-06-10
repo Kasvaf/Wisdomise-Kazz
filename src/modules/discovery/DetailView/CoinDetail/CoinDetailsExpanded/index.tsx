@@ -14,6 +14,7 @@ import { CoinWhalesWidget } from '../CoinWhalesWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
+import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import TraderSection from './TraderSection';
 
 export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
@@ -68,7 +69,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         <div className="h-0" />
         <TraderSection slug={slug} />
         <hr className="border-white/10" />
-
+        <NCoinInsightWidget slug={slug} />
         <CoinStatsWidget slug={slug} />
         <NCoinStatsWidget slug={slug} />
       </div>

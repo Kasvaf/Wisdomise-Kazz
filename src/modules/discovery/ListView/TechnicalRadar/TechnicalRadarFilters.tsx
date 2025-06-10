@@ -1,6 +1,6 @@
 import { type ComponentProps, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type useTechnicalRadarCoins } from 'api';
+import { type useTechnicalRadarCoins } from 'api/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
 import { Filters } from '../Filters';
 import {

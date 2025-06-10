@@ -5,7 +5,7 @@ import {
   type MacdConfirmation,
   type RsiConfirmation,
   type TechnicalRadarSentiment as TechnicalRadarSentimentType,
-} from 'api';
+} from 'api/discovery';
 
 function Progress({ value }: { value: number }) {
   return (

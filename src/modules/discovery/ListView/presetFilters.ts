@@ -2,8 +2,8 @@ import {
   type useSocialRadarCoins,
   type useTechnicalRadarCoins,
   type useWhaleRadarCoins,
-} from 'api/insight';
-import { type useNetworkRadarNCoins } from 'api/insight/network';
+  type useNetworkRadarNCoins,
+} from 'api/discovery';
 
 export interface PresetFilter<FilterType> {
   label: string;

@@ -2,8 +2,7 @@
 import { useMemo, type FC, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
-
-import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
+import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';

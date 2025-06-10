@@ -1,6 +1,6 @@
 import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSocialRadarSources } from 'api';
+import { useSocialRadarSources } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 import { SocialLogo } from '../../DetailView/CoinDetail/CoinMessagesWidget/SocialLogo';
 

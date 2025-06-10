@@ -3,10 +3,13 @@ import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxDotsHorizontal } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type WhaleRadarSentiment as WhaleRadarSentimentType } from 'api';
+import {
+  type WhaleRadarSentiment as WhaleRadarSentimentType,
+  type MiniMarketData,
+} from 'api/discovery';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type Coin as CoinType, type MiniMarketData } from 'api/types/shared';
+import { type Coin as CoinType } from 'api/types/shared';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';

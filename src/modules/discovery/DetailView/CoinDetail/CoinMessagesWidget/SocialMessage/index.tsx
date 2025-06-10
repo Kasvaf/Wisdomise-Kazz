@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SocialMessage } from 'api';
+import { type SocialMessage } from 'api/discovery';
 import useIsMobile from 'utils/useIsMobile';
 import { ReadableDate } from 'shared/ReadableDate';
 import { Dialog } from 'shared/v1-components/Dialog';

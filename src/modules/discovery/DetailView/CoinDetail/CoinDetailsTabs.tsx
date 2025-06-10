@@ -23,7 +23,7 @@ export function CoinDetailsTabs({
           onChange={onChange}
           surface={1}
           className="max-w-full rounded-none"
-          size="sm"
+          size="md"
         />
       </div>
       {hr && <hr className="border-white/10" />}

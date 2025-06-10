@@ -7,10 +7,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 
-import {
-  type NetworkRadarNCoin,
-  useNetworkRadarNCoins,
-} from 'api/insight/network';
+import { type NetworkRadarNCoin, useNetworkRadarNCoins } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
@@ -25,8 +22,8 @@ import { NCoinTradingVolume } from './NCoinTradingVolume';
 import { NCoinBuySell } from './NCoinBuySell';
 import { NCoinLiquidity } from './NCoinLiquidity';
 import { NCoinSecurity } from './NCoinSecurity';
-import { NCoinRecentCandles } from './NCoinRecentCandles';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
+import { NCoinRecentCandles } from './NCoinRecentCandles';
 
 export function NetworkRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
@@ -152,6 +149,16 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
           />
         ),
       },
+      // {
+      //   title: t('token_insight.title'),
+      //   width: 210,
+      //   render: row => (
+      //     <NCoinTokenInsight
+      //       contractAddress={row.base_contract_address}
+      //       type="row"
+      //     />
+      //   ),
+      // },
       {
         title: t('common.recent_candles.title'),
         info: t('common.recent_candles.info'),

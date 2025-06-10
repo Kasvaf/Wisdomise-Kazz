@@ -2,11 +2,11 @@ import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { useMemo, type ReactNode } from 'react';
 import { useSymbolInfo } from 'api/symbol';
-import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
-import { useNetworks } from 'api';
+import { type Coin as CoinType } from 'api/types/shared';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useNetworks } from 'api/discovery';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({

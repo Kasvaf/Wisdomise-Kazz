@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { Tooltip } from 'antd';
-import { type Alert } from 'api';
+import { type Alert } from 'api/alert';
 import { AlertChannelIcon, AlertChannelTitle } from './AlertChannelsSelect';
 
 export function AlertDeliveryMethods({

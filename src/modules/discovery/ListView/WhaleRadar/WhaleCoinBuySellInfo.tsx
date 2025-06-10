@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { type WhaleRadarSentiment } from 'api';
+import { type WhaleRadarSentiment } from 'api/discovery';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 

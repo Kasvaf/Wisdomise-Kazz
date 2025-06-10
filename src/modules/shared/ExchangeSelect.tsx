@@ -1,6 +1,6 @@
 import { type ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useExchanges } from 'api';
+import { useExchanges } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 
 export function ExchangeSelect<M extends boolean>({

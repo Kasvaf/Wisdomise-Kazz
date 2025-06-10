@@ -5,7 +5,7 @@ import SharingModal from 'shared/ShareTools/SharingModal';
 import logo from 'shared/ShareTools/images/logo.png';
 import { Coin } from 'shared/Coin';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
-import { type TechnicalRadarCoin } from 'api';
+import { type TechnicalRadarCoin } from 'api/discovery';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';

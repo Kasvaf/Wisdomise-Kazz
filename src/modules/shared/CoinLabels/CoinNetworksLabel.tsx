@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { type CoinNetwork } from 'api/types/shared';
+import { type CoinNetwork } from 'api/discovery';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ContractAddress } from 'shared/ContractAddress';
 

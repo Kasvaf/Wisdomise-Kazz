@@ -31,3 +31,20 @@ security:
   lp_burned: LP<br />やけど
   mint_auth: ミント認証<br />無効
   top_holders: トップ10<br />ホルダー
+token_insight:
+  bundle_holding:
+    full: バンドラーの保有率
+    mini: バンドラー
+  dev_holding:
+    full: 開発者の保有割合
+    mini: デヴH.
+  insiders_holding:
+    full: インサイダー保有率
+    mini: インサイダー
+  snipers_holding:
+    full: スナイパーホールディング率
+    mini: スナイパーH。
+  title: トークン情報
+  top_10_holders_holding:
+    full: 上位10人の保有率
+    mini: トップ10 H

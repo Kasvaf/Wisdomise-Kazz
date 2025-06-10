@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
 import { useMemo, useState } from 'react';
-import { type AlertState, useAlerts } from 'api';
+import { type AlertState, useAlerts } from 'api/alert';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import Icon from 'shared/Icon';

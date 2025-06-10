@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { type MiniMarketData } from 'api/types/shared';
+import { type MiniMarketData } from 'api/discovery';
 import { ReactComponent as CapIcon } from './cap.svg';
 
 export function CoinMarketCap({
