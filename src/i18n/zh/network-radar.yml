@@ -30,3 +30,20 @@ security:
   lp_burned: LP<br />烧毁
   mint_auth: Mint Auth<br />已禁用
   top_holders: 前 10 名<br />持有人
+token_insight:
+  bundle_holding:
+    full: 捆绑商持股比例
+    mini: 捆绑器
+  dev_holding:
+    full: 开发商持股比例
+    mini: Dev H.
+  insiders_holding:
+    full: 内部人士持股比例
+    mini: 内部人士
+  snipers_holding:
+    full: 狙击手持球率
+    mini: 狙击手 H.
+  title: 代币信息
+  top_10_holders_holding:
+    full: 前十大股东持股比例
+    mini: 前 10 名
