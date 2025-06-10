@@ -12,9 +12,11 @@ import {
   type Position,
   type CreatePositionRequest,
 } from 'api/trader';
-import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
+import { useTransferAssetsMutation } from 'api/chains';
 import { useActiveNetwork } from 'modules/base/active-network';
 import useIsMobile from 'utils/useIsMobile';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useActiveWallet } from 'api/chains/wallet';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';
@@ -30,6 +32,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const network = useActiveNetwork();
+  const { getUrl } = useDiscoveryRouteMeta();
 
   const {
     leverage: [leverage],
@@ -53,7 +56,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     quote,
     convertToUsd: true,
   });
-  const { address } = useActiveWallet();
+  const { address, isCustodial } = useActiveWallet();
 
   const { mutateAsync, isPending: isSubmitting } =
     useTraderFirePositionMutation();
@@ -101,12 +104,14 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
       const res = await mutateAsync(createData);
 
       try {
-        const awaitConfirm = await transferAssetsHandler({
-          positionKey: res.position_key,
-          recipientAddress: res.deposit_address,
-          gasFee: res.gas_fee,
-          amount,
-        });
+        const awaitConfirm = isCustodial
+          ? () => Promise.resolve(true)
+          : await transferAssetsHandler({
+              positionKey: res.position_key,
+              recipientAddress: res.deposit_address,
+              gasFee: res.gas_fee,
+              amount,
+            });
 
         setConfirming(true);
         void awaitConfirm()
@@ -121,7 +126,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
           .finally(() => {
             setConfirming(false);
             if (isMobile) {
-              navigate(`/trader/positions?slug=${baseSlug}`);
+              navigate(getUrl({ list: 'positions', slug: baseSlug }));
             }
           });
       } catch (error) {
@@ -201,7 +206,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
-      navigate(`/trader/positions?slug=${baseSlug}`);
+      navigate(getUrl({ list: 'positions', slug: baseSlug }));
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

@@ -11,7 +11,8 @@ const ShareButton: React.FC<{ position: Position }> = ({ position }) => {
   return (
     <>
       {(position.status === 'CLOSED' || position.status === 'OPEN') &&
-        !isMiniApp && (
+        !isMiniApp &&
+        position.mode === 'buy_and_sell' && (
           <Button
             variant="link"
             className="id-tour-share ms-auto !p-0 !text-xs text-v1-content-link"

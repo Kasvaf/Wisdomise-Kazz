@@ -1,11 +1,10 @@
 /* eslint-disable import/max-dependencies */
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
-import { Button } from 'shared/v1-components/Button';
 import { useCoinDetails } from 'api/discovery';
+import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
 import { type SignalFormState } from './useSignalFormStates';
 import AmountBalanceLabel from './AmountBalanceLabel';
-import useSensibleSteps from './useSensibleSteps';
 import QuoteSelector from './QuoteSelector';
 import AIPresets from './AIPressets';
 
@@ -23,7 +22,6 @@ const PartIntro: React.FC<{
   const { data: quoteBalance, isLoading: balanceLoading } =
     useAccountBalance(quote);
 
-  const steps = useSensibleSteps(quoteBalance);
   const coin = useCoinDetails({ slug: baseSlug });
   const isNewBorn = coin?.data?.symbol_labels?.includes('new_born');
 
@@ -54,19 +52,11 @@ const PartIntro: React.FC<{
       />
 
       {Boolean(quoteBalance) && !isUpdate && (
-        <div className="mb-3 flex gap-1.5">
-          {steps.map(({ label, value }) => (
-            <Button
-              key={value}
-              size="xs"
-              variant={value === amount ? 'primary' : 'ghost'}
-              className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
-              onClick={() => setAmount(value)}
-            >
-              {label}
-            </Button>
-          ))}
-        </div>
+        <SensibleSteps
+          base={quoteBalance}
+          value={amount}
+          onChange={newAmount => setAmount(newAmount)}
+        />
       )}
 
       {!isNewBorn && (

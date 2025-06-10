@@ -6,12 +6,9 @@ import {
   useTraderFirePositionMutation,
   type CreatePositionRequest,
 } from 'api';
-import {
-  useActiveWallet,
-  useMarketSwap,
-  useTransferAssetsMutation,
-} from 'api/chains';
+import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
+import { useActiveWallet } from 'api/chains/wallet';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
 import useModalApproval from './useModalApproval';
@@ -29,7 +26,7 @@ const useActionHandlers = (state: SwapState) => {
     firing: [firing, setFiring],
     confirming: [, setConfirming],
   } = state;
-  const { address } = useActiveWallet();
+  const { address, isCustodial } = useActiveWallet();
 
   const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
     setConfirming(true);
@@ -149,12 +146,14 @@ const useActionHandlers = (state: SwapState) => {
 
       try {
         awaitConfirm(
-          await transferAssetsHandler({
-            positionKey: res.position_key,
-            recipientAddress: res.deposit_address,
-            gasFee: res.gas_fee,
-            amount: from.amount,
-          }),
+          isCustodial
+            ? () => Promise.resolve(true)
+            : await transferAssetsHandler({
+                positionKey: res.position_key,
+                recipientAddress: res.deposit_address,
+                gasFee: res.gas_fee,
+                amount: from.amount,
+              }),
           'Position created successfully',
         );
       } catch (error) {

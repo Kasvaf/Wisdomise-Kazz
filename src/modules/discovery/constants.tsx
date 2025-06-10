@@ -5,6 +5,7 @@ export const AVAILABLE_LISTS = [
   'social-radar',
   'technical-radar',
   'whale-radar',
+  'positions',
 ] as const;
 
 export const LISTS_CONFIG: Record<
@@ -20,7 +21,7 @@ export const LISTS_CONFIG: Record<
     expandable: true,
   },
   'portfolio': {
-    expandable: false,
+    expandable: true,
   },
   'social-radar': {
     expandable: true,
@@ -29,6 +30,9 @@ export const LISTS_CONFIG: Record<
     expandable: true,
   },
   'whale-radar': {
+    expandable: true,
+  },
+  'positions': {
     expandable: true,
   },
 };

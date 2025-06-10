@@ -111,29 +111,31 @@ export default function SubscriptionDetail() {
                     </div>
                   </>
                 )}
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-xl font-semibold">
-                    $
-                    {formatNumber(revenue?.net_revenue ?? 0, {
-                      compactInteger: false,
-                      seperateByComma: false,
-                      decimalLength: 2,
-                      minifyDecimalRepeats: false,
-                    })}
-                  </h3>
-                  <p className="text-xs text-v1-inverse-overlay-50">
-                    Net Revenue
-                  </p>
-                  <p className="text-xs font-medium text-v1-inverse-overlay-70">
-                    {formatNumber(revenue?.trading_volume ?? 0, {
-                      compactInteger: true,
-                      seperateByComma: false,
-                      decimalLength: 2,
-                      minifyDecimalRepeats: false,
-                    })}{' '}
-                    Trading Volume
-                  </p>
-                </div>
+                {hasFlag('/account/billing?revenue') && (
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-xl font-semibold">
+                      $
+                      {formatNumber(revenue?.net_revenue ?? 0, {
+                        compactInteger: false,
+                        seperateByComma: false,
+                        decimalLength: 2,
+                        minifyDecimalRepeats: false,
+                      })}
+                    </h3>
+                    <p className="text-xs text-v1-inverse-overlay-50">
+                      Net Revenue
+                    </p>
+                    <p className="text-xs font-medium text-v1-inverse-overlay-70">
+                      {formatNumber(revenue?.trading_volume ?? 0, {
+                        compactInteger: true,
+                        seperateByComma: false,
+                        decimalLength: 2,
+                        minifyDecimalRepeats: false,
+                      })}{' '}
+                      Trading Volume
+                    </p>
+                  </div>
+                )}
               </div>
               <Utility />
             </div>

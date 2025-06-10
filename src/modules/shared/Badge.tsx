@@ -10,6 +10,7 @@ const badgeColors = {
   purple: clsx('bg-[#B634DA4D] text-[#C968E4]'),
   orange: clsx('bg-[#C371114D] text-[#EBA24C]'),
   wsdm: 'bg-wsdm-gradient text-white',
+  pro: 'bg-pro-gradient text-black',
 };
 
 type BadgeColors = keyof typeof badgeColors;

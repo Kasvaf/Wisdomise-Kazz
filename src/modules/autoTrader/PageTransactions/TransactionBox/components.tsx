@@ -88,9 +88,20 @@ export const GasFee: React.FC<{
   );
 };
 
-const SCANNERS: Record<Exclude<SupportedNetworks, 'polygon'>, string> = {
-  'the-open-network': 'TonViewer',
-  'solana': 'SolScan',
+export const SCANNERS: Record<
+  Exclude<SupportedNetworks, 'polygon'>,
+  { name: string; baseUrl: string; txPath?: string; addressPath?: string }
+> = {
+  'the-open-network': {
+    name: 'TonViewer',
+    baseUrl: 'https://tonviewer.com/',
+  },
+  'solana': {
+    name: 'SolScan',
+    baseUrl: 'https://solscan.io/',
+    txPath: 'tx/',
+    addressPath: 'account/',
+  },
 };
 
 export const TonViewer: React.FC<{
@@ -110,7 +121,8 @@ export const TonViewer: React.FC<{
         <Icon name={bxGlobe} className="mr-2" size={16} />
         View
         {network in SCANNERS
-          ? ' on ' + SCANNERS[network as Exclude<SupportedNetworks, 'polygon'>]
+          ? ' on ' +
+            SCANNERS[network as Exclude<SupportedNetworks, 'polygon'>].name
           : ''}
       </Button>
     </div>

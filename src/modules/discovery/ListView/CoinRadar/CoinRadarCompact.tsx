@@ -130,7 +130,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   } = useDiscoveryRouteMeta();
   return (
     <>
-      {focus && <UserAssets className="mb-4" />}
+      {focus && <UserAssets onlyTradingAssets className="mb-4" />}
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table

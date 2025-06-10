@@ -7,7 +7,7 @@ import {
 } from 'api/tournament';
 import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
-import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
+import empty from 'modules/autoTrader/Positions/PositionsList/empty.svg';
 import Leaderboard, {
   LeaderboardItem,
 } from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';

@@ -9,12 +9,16 @@ export function HoverTooltip({
   children,
   disabled,
   onOpenChange,
+  ignoreFocus,
+  className,
 }: {
   title?: ReactNode;
   children?: ReactNode;
   placement?: ComponentProps<typeof AntTooltip>['placement']; // DEPRECATED
   disabled?: boolean;
   onOpenChange?: (v: boolean) => void;
+  ignoreFocus?: boolean;
+  className?: string;
 }) {
   const [open, setOpen] = useState(false);
   if (disabled) {
@@ -23,7 +27,7 @@ export function HoverTooltip({
   return (
     <>
       <span
-        className={clsx('cursor-help', DIALOG_OPENER_CLASS)}
+        className={clsx('cursor-help', DIALOG_OPENER_CLASS, className)}
         onMouseEnter={() => {
           setOpen(true);
         }}
@@ -45,6 +49,7 @@ export function HoverTooltip({
           position: 'pointer',
         }}
         overlay={false}
+        ignoreFocus={ignoreFocus}
       >
         {title}
       </Dialog>
