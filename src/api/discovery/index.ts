@@ -1134,7 +1134,7 @@ export const useTokenInsight = ({
 }) =>
   useQuery({
     refetchOnMount: true,
-    refetchInterval: 10 * 1000,
+    refetchInterval: 30 * 1000,
     queryKey: ['token-insight', contractAddress],
     queryFn: async () => {
       if (!contractAddress) return null;
