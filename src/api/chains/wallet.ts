@@ -10,7 +10,7 @@ import {
   useAppKitState,
   useWalletInfo,
 } from '@reown/appkit/react';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { solana } from '@reown/appkit/networks';
 import { useLocalStorage } from 'usehooks-ts';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -82,6 +82,12 @@ export const useCustodialWallet = () => {
     undefined,
   );
   const cw = wallets?.results.find(w => w.key === cwKey);
+
+  useEffect(() => {
+    if (cwKey === undefined && wallets?.results.length !== 0) {
+      setCw(wallets?.results[0]?.key);
+    }
+  }, [cwKey, setCw, wallets]);
 
   return { cw, setCw };
 };

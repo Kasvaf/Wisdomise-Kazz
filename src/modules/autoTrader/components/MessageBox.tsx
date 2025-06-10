@@ -18,8 +18,8 @@ const MessageBox: React.FC<
         className,
       )}
     >
-      {title && <div className="text-base font-medium">{title}</div>}
-      <div className="mt-1 text-sm">{children}</div>
+      {title && <div className="mb-1 text-base font-medium">{title}</div>}
+      <div>{children}</div>
     </div>
   );
 };

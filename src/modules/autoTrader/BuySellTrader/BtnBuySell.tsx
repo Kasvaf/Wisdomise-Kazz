@@ -11,6 +11,8 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { useSymbolInfo } from 'api/symbol';
+import { SimulatePrepare } from 'modules/autoTrader/BuySellTrader/SimulatePrepare';
+import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulatePrepare';
 import { type SwapState } from './useSwapState';
 import useActionHandlers from './useActionHandlers';
 
@@ -31,8 +33,10 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
   const { data: quoteInfo } = useSymbolInfo(quote.slug);
 
-  const { ModalApproval, firePosition, isEnabled, isSubmitting } =
-    useActionHandlers(state);
+  const { firePosition, isEnabled, isSubmitting } = useActionHandlers(state);
+  const { ready, isLoading } = useSimulatePrepare({
+    formState: state,
+  });
 
   const isTon = net === 'the-open-network';
   const enableDeposit =
@@ -118,8 +122,8 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
           <Button
             variant="primary"
             onClick={isLoggedIn ? firePosition : showModalLogin}
-            loading={isSubmitting}
-            disabled={!isEnabled || !balance}
+            loading={isSubmitting || isLoading}
+            disabled={!isEnabled || !ready || !balance}
             className={className}
           >
             {!balanceLoading && balance != null && !balance ? (
@@ -143,7 +147,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
           Connect Wallet
         </Button>
       )}
-      {ModalApproval}
+      <SimulatePrepare formState={state} />
       {withdrawDepositModal}
     </>
   );

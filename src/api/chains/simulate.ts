@@ -31,6 +31,6 @@ export const useMarketSwapSimulate = (req?: SwapRequest) => {
     },
     staleTime: 50,
     refetchInterval: 7000,
-    enabled: !!req,
+    enabled: !!req && !!Number(amount),
   });
 };

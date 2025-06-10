@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { bxCopy, bxEdit, bxLinkExternal, bxTransfer } from 'boxicons-quasar';
-import { Radio } from 'antd';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useUserWalletAssets } from 'api/chains';
@@ -17,11 +16,7 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useActiveNetwork } from 'modules/base/active-network';
-import {
-  useUpdateWalletMutation,
-  useWalletsQuery,
-  type Wallet,
-} from 'api/wallets';
+import { useUpdateWalletMutation, type Wallet } from 'api/wallets';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import Badge from 'shared/Badge';
 import { shortenAddress } from 'utils/shortenAddress';
@@ -30,14 +25,10 @@ import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/com
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import { useSolanaUserAssets } from 'api/chains/solana';
 import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
-import {
-  useActiveClientWallet,
-  useActiveWallet,
-  useCustodialWallet,
-} from 'api/chains/wallet';
-import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
-// eslint-disable-next-line import/max-dependencies
+import { useActiveClientWallet, useActiveWallet } from 'api/chains/wallet';
 import { useShare } from 'shared/useShare';
+// eslint-disable-next-line import/max-dependencies
+import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 
 interface AssetData {
   slug: string;
@@ -107,6 +98,7 @@ interface Props {
   noTotal?: boolean;
   onlyTradingAssets?: boolean;
   className?: string;
+  expanded?: boolean;
   containerClassName?: string;
 }
 
@@ -171,47 +163,31 @@ export default function UserAssets(props: Props) {
               {...props}
             />
           ) : (
-            <UserWallets />
+            <WalletSelector
+              radioClassName="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
+              WalletOptionComponent={WalletItem}
+              expanded={props.expanded}
+              className="-mt-3"
+            />
           ))}
       </div>
     </div>
   );
 }
 
-function UserWallets() {
-  const { cw, setCw } = useCustodialWallet();
-  const { data: wallets } = useWalletsQuery();
-
-  return (
-    <div className="-mt-3">
-      <Radio.Group
-        className="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
-        value={cw?.key ?? false}
-        onChange={event => {
-          setCw(event.target.value || undefined);
-        }}
-        options={[
-          { value: false, label: <WalletItem /> },
-          ...(wallets?.results.map(w => ({
-            value: w.key,
-            label: <WalletItem wallet={w} />,
-          })) ?? []),
-        ]}
-      />
-      <CreateWalletBtn />
-    </div>
-  );
-}
-
-function WalletItem({ wallet }: { wallet?: Wallet }) {
+function WalletItem({
+  wallet,
+  expanded,
+}: {
+  wallet?: Wallet;
+  expanded?: boolean;
+}) {
   const { address, connected, name, icon } = useActiveClientWallet();
   const { address: activeAddress } = useActiveWallet();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',
     wallet?.address ?? address,
   );
-  const { withdrawDepositModal, deposit, withdraw, transfer, openScan } =
-    useWalletActionHandler();
   const [newName, setNewName] = useState(wallet?.name ?? '');
   const [editMode, setEditMode] = useState(false);
   const { mutate } = useUpdateWalletMutation(wallet?.key);
@@ -232,118 +208,139 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
 
   return (
     <div className="w-full border-b border-v1-inverse-overlay-10 py-3">
-      <div
-        className={clsx(
-          'flex items-center gap-2 font-medium',
-          isActive && 'bg-pro-gradient bg-clip-text text-transparent',
-        )}
-      >
-        {wallet ? (
-          editMode ? (
-            <input
-              ref={inputRef}
-              className="bg-transparent"
-              defaultValue={newName}
-              onChange={e => setNewName(e.target.value)}
-              onBlur={updateName}
-              onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  updateName();
-                }
-              }}
-            />
-          ) : (
-            <div className="flex items-center gap-1">
-              <span>{wallet.name}</span>
-              <HoverTooltip className="h-4" title="Rename" ignoreFocus>
-                <button
-                  onClick={() => {
-                    setEditMode(prev => !prev);
-                    setTimeout(() => inputRef.current?.select(), 0);
+      <div className={expanded ? 'flex items-center justify-between' : ''}>
+        <div>
+          <div
+            className={clsx(
+              'flex items-center gap-2 font-medium',
+              isActive && 'bg-pro-gradient bg-clip-text text-transparent',
+            )}
+          >
+            {wallet ? (
+              editMode ? (
+                <input
+                  ref={inputRef}
+                  className="bg-transparent"
+                  defaultValue={newName}
+                  onChange={e => setNewName(e.target.value)}
+                  onBlur={updateName}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      updateName();
+                    }
                   }}
-                  className="text-v1-content-secondary"
-                >
-                  <Icon name={bxEdit} size={16} />
-                </button>
-              </HoverTooltip>
+                />
+              ) : (
+                <div className="flex items-center gap-1">
+                  <span>{wallet.name}</span>
+                  <HoverTooltip className="h-4" title="Rename" ignoreFocus>
+                    <button
+                      onClick={() => {
+                        setEditMode(prev => !prev);
+                        setTimeout(() => inputRef.current?.select(), 0);
+                      }}
+                      className="text-v1-content-secondary"
+                    >
+                      <Icon name={bxEdit} size={16} />
+                    </button>
+                  </HoverTooltip>
+                </div>
+              )
+            ) : (
+              'Connected Wallet'
+            )}
+            {isActive && <Badge color="pro" label="Active" />}
+          </div>
+          <div className="mb-2 flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
+            <div className="flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
+              {wallet ? (
+                <>
+                  {shortenAddress(wallet.address)}
+                  <button onClick={() => copy(wallet.address)}>
+                    <Icon name={bxCopy} size={12} />
+                  </button>
+                </>
+              ) : connected ? (
+                <div className="flex items-center gap-1">
+                  <img src={icon} className="size-4" /> {name}
+                </div>
+              ) : (
+                <span className={expanded ? 'mt-1' : ''}>Not Connected</span>
+              )}
             </div>
-          )
-        ) : (
-          'Connected Wallet'
+            <div className="ml-auto">
+              {wallet ? (
+                <WalletActions wallet={wallet} />
+              ) : (
+                !expanded && (
+                  <BtnAppKitWalletConnect
+                    network="solana"
+                    variant="outline"
+                    size="2xs"
+                  />
+                )
+              )}
+            </div>
+          </div>
+        </div>
+        {expanded && (
+          <BtnAppKitWalletConnect
+            network="solana"
+            variant="outline"
+            size="sm"
+            className=""
+          />
         )}
-        {isActive && <Badge color="pro" label="Active" />}
-      </div>
-      <div className="mb-2 flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
-        <div className="flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
-          {wallet ? (
-            <>
-              {shortenAddress(wallet.address)}
-              <button onClick={() => copy(wallet.address)}>
-                <Icon name={bxCopy} size={12} />
-              </button>
-            </>
-          ) : connected ? (
-            <div className="flex items-center gap-1">
-              <img src={icon} className="size-4" /> {name}
-            </div>
-          ) : (
-            'Not Connected'
-          )}
-        </div>
-        <div className="ml-auto">
-          {wallet ? (
-            <div className="flex items-center gap-1">
-              <Button
-                onClick={() => withdraw(wallet.address)}
-                variant="outline"
-                size="2xs"
-                className="!bg-transparent !px-1"
-              >
-                Withdraw
-              </Button>
-              <Button
-                onClick={() => deposit(wallet.address)}
-                variant="outline"
-                size="2xs"
-                className="!bg-transparent !px-1"
-              >
-                Deposit
-              </Button>
-              <HoverTooltip title="Transfer">
-                <button
-                  onClick={() => transfer(wallet.address)}
-                  className="mt-1 text-v1-content-secondary"
-                >
-                  <Icon name={bxTransfer} size={16} />
-                </button>
-              </HoverTooltip>
-              <HoverTooltip
-                title={`View on ${SCANNERS[wallet.network_slug].name}`}
-              >
-                <button
-                  className="mt-1 text-v1-content-secondary"
-                  onClick={() => openScan(wallet)}
-                >
-                  <Icon name={bxLinkExternal} size={16} />
-                </button>
-              </HoverTooltip>
-            </div>
-          ) : (
-            <BtnAppKitWalletConnect
-              network="solana"
-              variant="outline"
-              size="2xs"
-            />
-          )}
-        </div>
       </div>
       {wallet ? (
         <WalletAssets wallet={wallet} />
       ) : (
         connected && <UserAssetsInternal data={walletAssets} />
       )}
-      {withdrawDepositModal}
       {notif}
+    </div>
+  );
+}
+
+function WalletActions({ wallet }: { wallet: Wallet }) {
+  const { withdrawDepositModal, deposit, withdraw, transfer, openScan } =
+    useWalletActionHandler();
+
+  return (
+    <div className="flex items-center gap-1">
+      <Button
+        onClick={() => withdraw(wallet.address)}
+        variant="outline"
+        size="2xs"
+        className="!bg-transparent !px-1"
+      >
+        Withdraw
+      </Button>
+      <Button
+        onClick={() => deposit(wallet.address)}
+        variant="outline"
+        size="2xs"
+        className="!bg-transparent !px-1"
+      >
+        Deposit
+      </Button>
+      <HoverTooltip title="Transfer">
+        <button
+          onClick={() => transfer(wallet.address)}
+          className="mt-1 text-v1-content-secondary"
+        >
+          <Icon name={bxTransfer} size={16} />
+        </button>
+      </HoverTooltip>
+      <HoverTooltip title={`View on ${SCANNERS[wallet.network_slug].name}`}>
+        <button
+          className="mt-1 text-v1-content-secondary"
+          onClick={() => openScan(wallet)}
+        >
+          <Icon name={bxLinkExternal} size={16} />
+        </button>
+      </HoverTooltip>
+      {withdrawDepositModal}
     </div>
   );
 }

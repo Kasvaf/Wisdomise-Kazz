@@ -7,6 +7,7 @@ import {
   type PropsWithChildren,
 } from 'react';
 import { type SupportedNetworks, useSupportedNetworks } from 'api/trader';
+import { isMiniApp } from 'utils/version';
 
 const ActiveNetworkContext = createContext<SupportedNetworks | undefined>(
   undefined,
@@ -20,7 +21,10 @@ const LayoutActiveNetworkContext = createContext<
 >(undefined);
 
 export const useActiveNetwork = () => {
-  return useContext(ActiveNetworkContext) ?? 'solana';
+  return (
+    useContext(ActiveNetworkContext) ??
+    (isMiniApp ? 'the-open-network' : 'solana')
+  );
 };
 
 export const ActiveNetworkProvider: React.FC<
