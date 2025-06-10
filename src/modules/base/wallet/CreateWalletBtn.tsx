@@ -15,7 +15,7 @@ export default function CreateWalletBtn({ className }: { className?: string }) {
   const createWallet = () => {
     void mutateAsync({
       network_slug: 'solana',
-      name: `Wallet ${(wallets?.count ?? 0) + 1}`,
+      name: `Wallet #${(wallets?.count ?? 0) + 1}`,
     });
   };
 

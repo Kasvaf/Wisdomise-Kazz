@@ -1,8 +1,7 @@
 import { clsx } from 'clsx';
-import React, { type ReactNode, useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { bxCopy, bxEdit, bxLinkExternal, bxTransfer } from 'boxicons-quasar';
-import { Radio } from 'antd';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useUserWalletAssets } from 'api/chains';
@@ -17,11 +16,7 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useActiveNetwork } from 'modules/base/active-network';
-import {
-  useUpdateWalletMutation,
-  useWalletsQuery,
-  type Wallet,
-} from 'api/wallets';
+import { useUpdateWalletMutation, type Wallet } from 'api/wallets';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import Badge from 'shared/Badge';
 import { shortenAddress } from 'utils/shortenAddress';
@@ -30,14 +25,10 @@ import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/com
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import { useSolanaUserAssets } from 'api/chains/solana';
 import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
-import {
-  useActiveClientWallet,
-  useActiveWallet,
-  useCustodialWallet,
-} from 'api/chains/wallet';
-import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
-// eslint-disable-next-line import/max-dependencies
+import { useActiveClientWallet, useActiveWallet } from 'api/chains/wallet';
 import { useShare } from 'shared/useShare';
+// eslint-disable-next-line import/max-dependencies
+import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 
 interface AssetData {
   slug: string;
@@ -171,41 +162,13 @@ export default function UserAssets(props: Props) {
               {...props}
             />
           ) : (
-            <UserWallets />
+            <WalletSelector
+              radioClassName="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
+              WalletOptionComponent={WalletItem}
+              className="-mt-3"
+            />
           ))}
       </div>
-    </div>
-  );
-}
-
-function UserWallets() {
-  const { cw, setCw } = useCustodialWallet();
-  const { data: wallets } = useWalletsQuery();
-  const isMobile = useIsMobile();
-
-  const options = useMemo(() => {
-    const ops: Array<{ value: string | boolean; label: ReactNode }> =
-      wallets?.results?.map(w => ({
-        value: w.key,
-        label: <WalletItem wallet={w} />,
-      })) ?? [];
-    if (!isMobile) {
-      ops.unshift({ value: false, label: <WalletItem /> });
-    }
-    return ops;
-  }, [isMobile, wallets]);
-
-  return (
-    <div className="-mt-3">
-      <Radio.Group
-        className="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
-        value={cw?.key ?? false}
-        onChange={event => {
-          setCw(event.target.value || null);
-        }}
-        options={options}
-      />
-      <CreateWalletBtn />
     </div>
   );
 }
@@ -217,8 +180,6 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
     isMiniApp ? 'the-open-network' : 'solana',
     wallet?.address ?? address,
   );
-  const { withdrawDepositModal, deposit, withdraw, transfer, openScan } =
-    useWalletActionHandler();
   const [newName, setNewName] = useState(wallet?.name ?? '');
   const [editMode, setEditMode] = useState(false);
   const { mutate } = useUpdateWalletMutation(wallet?.key);
@@ -299,42 +260,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         </div>
         <div className="ml-auto">
           {wallet ? (
-            <div className="flex items-center gap-1">
-              <Button
-                onClick={() => withdraw(wallet.address)}
-                variant="outline"
-                size="2xs"
-                className="!bg-transparent !px-1"
-              >
-                Withdraw
-              </Button>
-              <Button
-                onClick={() => deposit(wallet.address)}
-                variant="outline"
-                size="2xs"
-                className="!bg-transparent !px-1"
-              >
-                Deposit
-              </Button>
-              <HoverTooltip title="Transfer">
-                <button
-                  onClick={() => transfer(wallet.address)}
-                  className="mt-1 text-v1-content-secondary"
-                >
-                  <Icon name={bxTransfer} size={16} />
-                </button>
-              </HoverTooltip>
-              <HoverTooltip
-                title={`View on ${SCANNERS[wallet.network_slug].name}`}
-              >
-                <button
-                  className="mt-1 text-v1-content-secondary"
-                  onClick={() => openScan(wallet)}
-                >
-                  <Icon name={bxLinkExternal} size={16} />
-                </button>
-              </HoverTooltip>
-            </div>
+            <WalletActions wallet={wallet} />
           ) : (
             <BtnAppKitWalletConnect
               network="solana"
@@ -349,8 +275,50 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
       ) : (
         connected && <UserAssetsInternal data={walletAssets} />
       )}
-      {withdrawDepositModal}
       {notif}
+    </div>
+  );
+}
+
+function WalletActions({ wallet }: { wallet: Wallet }) {
+  const { withdrawDepositModal, deposit, withdraw, transfer, openScan } =
+    useWalletActionHandler();
+
+  return (
+    <div className="flex items-center gap-1">
+      <Button
+        onClick={() => withdraw(wallet.address)}
+        variant="outline"
+        size="2xs"
+        className="!bg-transparent !px-1"
+      >
+        Withdraw
+      </Button>
+      <Button
+        onClick={() => deposit(wallet.address)}
+        variant="outline"
+        size="2xs"
+        className="!bg-transparent !px-1"
+      >
+        Deposit
+      </Button>
+      <HoverTooltip title="Transfer">
+        <button
+          onClick={() => transfer(wallet.address)}
+          className="mt-1 text-v1-content-secondary"
+        >
+          <Icon name={bxTransfer} size={16} />
+        </button>
+      </HoverTooltip>
+      <HoverTooltip title={`View on ${SCANNERS[wallet.network_slug].name}`}>
+        <button
+          className="mt-1 text-v1-content-secondary"
+          onClick={() => openScan(wallet)}
+        >
+          <Icon name={bxLinkExternal} size={16} />
+        </button>
+      </HoverTooltip>
+      {withdrawDepositModal}
     </div>
   );
 }

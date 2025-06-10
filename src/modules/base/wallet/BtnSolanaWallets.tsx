@@ -1,7 +1,7 @@
 import { Radio } from 'antd';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type ReactNode, useMemo } from 'react';
+import { type FC, type ReactNode, useMemo } from 'react';
 import { Button } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
@@ -36,15 +36,12 @@ export default function BtnSolanaWallets() {
   if (!isLoggedIn) return null;
 
   return (
-    <ClickableTooltip chevron={false} title={<BtnWalletsContent />}>
+    <ClickableTooltip chevron={false} title={<UserWallets />}>
       <Button variant="outline" size={isMobile ? 'md' : 'xs'} className="gap-2">
         <WalletIcon />
         {!isMobile && (
           <>
             {hasFlag('/wallets') && wallets?.count}
-            {/* <div className="size-4 rounded bg-black p-px"> */}
-            {/*   <SolanaIcon className="!size-full" /> */}
-            {/* </div> */}
             {connected && (
               <>
                 {hasFlag('/wallets') && <span>+</span>}
@@ -58,7 +55,24 @@ export default function BtnSolanaWallets() {
   );
 }
 
-function BtnWalletsContent() {
+function UserWallets() {
+  return (
+    <div>
+      <div className="text-xxs text-v1-inverse-overlay-70">Wallets</div>
+      <WalletSelector WalletOptionComponent={WalletItem} />
+    </div>
+  );
+}
+
+export function WalletSelector({
+  WalletOptionComponent,
+  className,
+  radioClassName,
+}: {
+  WalletOptionComponent: FC<{ wallet?: Wallet }>;
+  className?: string;
+  radioClassName?: string;
+}) {
   const { cw, setCw } = useCustodialWallet();
   const { data: wallets } = useWalletsQuery();
   const isMobile = useIsMobile();
@@ -67,19 +81,21 @@ function BtnWalletsContent() {
     const ops: Array<{ value: string | boolean; label: ReactNode }> =
       wallets?.results?.map(w => ({
         value: w.key,
-        label: <WalletItem wallet={w} />,
+        label: <WalletOptionComponent wallet={w} />,
       })) ?? [];
     if (!isMobile) {
-      ops.unshift({ value: false, label: <WalletItem /> });
+      ops.unshift({ value: false, label: <WalletOptionComponent /> });
     }
     return ops;
-  }, [isMobile, wallets]);
+  }, [WalletOptionComponent, isMobile, wallets?.results]);
 
   return (
-    <div>
-      <div className="text-xxs text-v1-inverse-overlay-70">Wallets</div>
+    <div className={className}>
       <Radio.Group
-        className="w-full [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full"
+        className={clsx(
+          radioClassName,
+          'w-full [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full',
+        )}
         value={cw?.key ?? false}
         onChange={event => {
           setCw(event.target.value || null);
