@@ -11,7 +11,6 @@ import { unwrapErrorMessage } from 'utils/error';
 import { useActiveWallet } from 'api/chains/wallet';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
-import useModalApproval from './useModalApproval';
 
 const useActionHandlers = (state: SwapState) => {
   const {
@@ -45,7 +44,6 @@ const useActionHandlers = (state: SwapState) => {
   const transferAssetsHandler = useTransferAssetsMutation(from.slug);
   const marketSwapHandler = useMarketSwap();
 
-  const [ModalApproval, showModalApproval] = useModalApproval();
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
 
@@ -58,14 +56,6 @@ const useActionHandlers = (state: SwapState) => {
           side: dir === 'buy' ? 'LONG' : 'SHORT',
           amount: from.amount,
         } as const;
-
-        if (
-          !(await showModalApproval(state, undefined, {
-            ...swapData,
-            network: 'solana',
-          }))
-        )
-          return;
 
         awaitConfirm(
           await marketSwapHandler(swapData),
@@ -138,8 +128,6 @@ const useActionHandlers = (state: SwapState) => {
       },
       withdraw_address: address,
     } as const;
-    if (!(await showModalApproval(state, createData))) return;
-
     try {
       setFiring(true);
       const res = await mutateAsync(createData);
@@ -181,7 +169,6 @@ const useActionHandlers = (state: SwapState) => {
     isEnabled: !!network && !!base && !!quote && Number(from.amount) > 0,
     isSubmitting: firing || isSubmitting,
     firePosition,
-    ModalApproval,
   };
 };
 
