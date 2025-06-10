@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import React, { useRef, useState } from 'react';
+import React, { type ReactNode, useMemo, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { bxCopy, bxEdit, bxLinkExternal, bxTransfer } from 'boxicons-quasar';
 import { Radio } from 'antd';
@@ -181,6 +181,19 @@ export default function UserAssets(props: Props) {
 function UserWallets() {
   const { cw, setCw } = useCustodialWallet();
   const { data: wallets } = useWalletsQuery();
+  const isMobile = useIsMobile();
+
+  const options = useMemo(() => {
+    const ops: Array<{ value: string | boolean; label: ReactNode }> =
+      wallets?.results?.map(w => ({
+        value: w.key,
+        label: <WalletItem wallet={w} />,
+      })) ?? [];
+    if (!isMobile) {
+      ops.unshift({ value: false, label: <WalletItem /> });
+    }
+    return ops;
+  }, [isMobile, wallets]);
 
   return (
     <div className="-mt-3">
@@ -188,15 +201,9 @@ function UserWallets() {
         className="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
         value={cw?.key ?? false}
         onChange={event => {
-          setCw(event.target.value || undefined);
+          setCw(event.target.value || null);
         }}
-        options={[
-          { value: false, label: <WalletItem /> },
-          ...(wallets?.results.map(w => ({
-            value: w.key,
-            label: <WalletItem wallet={w} />,
-          })) ?? []),
-        ]}
+        options={options}
       />
       <CreateWalletBtn />
     </div>
