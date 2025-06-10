@@ -68,10 +68,12 @@ export function WalletSelector({
   WalletOptionComponent,
   className,
   radioClassName,
+  expanded,
 }: {
-  WalletOptionComponent: FC<{ wallet?: Wallet }>;
+  WalletOptionComponent: FC<{ wallet?: Wallet; expanded?: boolean }>;
   className?: string;
   radioClassName?: string;
+  expanded?: boolean;
 }) {
   const { cw, setCw } = useCustodialWallet();
   const { data: wallets } = useWalletsQuery();
@@ -84,10 +86,13 @@ export function WalletSelector({
         label: <WalletOptionComponent wallet={w} />,
       })) ?? [];
     if (!isMobile) {
-      ops.unshift({ value: false, label: <WalletOptionComponent /> });
+      ops.unshift({
+        value: false,
+        label: <WalletOptionComponent expanded={expanded} />,
+      });
     }
     return ops;
-  }, [WalletOptionComponent, isMobile, wallets?.results]);
+  }, [WalletOptionComponent, isMobile, wallets?.results, expanded]);
 
   return (
     <div className={className}>

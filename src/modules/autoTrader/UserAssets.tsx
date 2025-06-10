@@ -98,6 +98,7 @@ interface Props {
   noTotal?: boolean;
   onlyTradingAssets?: boolean;
   className?: string;
+  expanded?: boolean;
   containerClassName?: string;
 }
 
@@ -165,6 +166,7 @@ export default function UserAssets(props: Props) {
             <WalletSelector
               radioClassName="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio]:mt-7 [&_.ant-radio]:self-start"
               WalletOptionComponent={WalletItem}
+              expanded={props.expanded}
               className="-mt-3"
             />
           ))}
@@ -173,7 +175,13 @@ export default function UserAssets(props: Props) {
   );
 }
 
-function WalletItem({ wallet }: { wallet?: Wallet }) {
+function WalletItem({
+  wallet,
+  expanded,
+}: {
+  wallet?: Wallet;
+  expanded?: boolean;
+}) {
   const { address, connected, name, icon } = useActiveClientWallet();
   const { address: activeAddress } = useActiveWallet();
   const { data: walletAssets } = useUserWalletAssets(
@@ -200,75 +208,89 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
 
   return (
     <div className="w-full border-b border-v1-inverse-overlay-10 py-3">
-      <div
-        className={clsx(
-          'flex items-center gap-2 font-medium',
-          isActive && 'bg-pro-gradient bg-clip-text text-transparent',
-        )}
-      >
-        {wallet ? (
-          editMode ? (
-            <input
-              ref={inputRef}
-              className="bg-transparent"
-              defaultValue={newName}
-              onChange={e => setNewName(e.target.value)}
-              onBlur={updateName}
-              onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  updateName();
-                }
-              }}
-            />
-          ) : (
-            <div className="flex items-center gap-1">
-              <span>{wallet.name}</span>
-              <HoverTooltip className="h-4" title="Rename" ignoreFocus>
-                <button
-                  onClick={() => {
-                    setEditMode(prev => !prev);
-                    setTimeout(() => inputRef.current?.select(), 0);
+      <div className={expanded ? 'flex items-center justify-between' : ''}>
+        <div>
+          <div
+            className={clsx(
+              'flex items-center gap-2 font-medium',
+              isActive && 'bg-pro-gradient bg-clip-text text-transparent',
+            )}
+          >
+            {wallet ? (
+              editMode ? (
+                <input
+                  ref={inputRef}
+                  className="bg-transparent"
+                  defaultValue={newName}
+                  onChange={e => setNewName(e.target.value)}
+                  onBlur={updateName}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      updateName();
+                    }
                   }}
-                  className="text-v1-content-secondary"
-                >
-                  <Icon name={bxEdit} size={16} />
-                </button>
-              </HoverTooltip>
+                />
+              ) : (
+                <div className="flex items-center gap-1">
+                  <span>{wallet.name}</span>
+                  <HoverTooltip className="h-4" title="Rename" ignoreFocus>
+                    <button
+                      onClick={() => {
+                        setEditMode(prev => !prev);
+                        setTimeout(() => inputRef.current?.select(), 0);
+                      }}
+                      className="text-v1-content-secondary"
+                    >
+                      <Icon name={bxEdit} size={16} />
+                    </button>
+                  </HoverTooltip>
+                </div>
+              )
+            ) : (
+              'Connected Wallet'
+            )}
+            {isActive && <Badge color="pro" label="Active" />}
+          </div>
+          <div className="mb-2 flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
+            <div className="flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
+              {wallet ? (
+                <>
+                  {shortenAddress(wallet.address)}
+                  <button onClick={() => copy(wallet.address)}>
+                    <Icon name={bxCopy} size={12} />
+                  </button>
+                </>
+              ) : connected ? (
+                <div className="flex items-center gap-1">
+                  <img src={icon} className="size-4" /> {name}
+                </div>
+              ) : (
+                <span className={expanded ? 'mt-1' : ''}>Not Connected</span>
+              )}
             </div>
-          )
-        ) : (
-          'Connected Wallet'
+            <div className="ml-auto">
+              {wallet ? (
+                <WalletActions wallet={wallet} />
+              ) : (
+                !expanded && (
+                  <BtnAppKitWalletConnect
+                    network="solana"
+                    variant="outline"
+                    size="2xs"
+                  />
+                )
+              )}
+            </div>
+          </div>
+        </div>
+        {expanded && (
+          <BtnAppKitWalletConnect
+            network="solana"
+            variant="outline"
+            size="sm"
+            className=""
+          />
         )}
-        {isActive && <Badge color="pro" label="Active" />}
-      </div>
-      <div className="mb-2 flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
-        <div className="flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
-          {wallet ? (
-            <>
-              {shortenAddress(wallet.address)}
-              <button onClick={() => copy(wallet.address)}>
-                <Icon name={bxCopy} size={12} />
-              </button>
-            </>
-          ) : connected ? (
-            <div className="flex items-center gap-1">
-              <img src={icon} className="size-4" /> {name}
-            </div>
-          ) : (
-            'Not Connected'
-          )}
-        </div>
-        <div className="ml-auto">
-          {wallet ? (
-            <WalletActions wallet={wallet} />
-          ) : (
-            <BtnAppKitWalletConnect
-              network="solana"
-              variant="outline"
-              size="2xs"
-            />
-          )}
-        </div>
       </div>
       {wallet ? (
         <WalletAssets wallet={wallet} />
