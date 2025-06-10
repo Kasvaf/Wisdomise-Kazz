@@ -53,7 +53,8 @@ const PartIntro: React.FC<{
 
       {Boolean(quoteBalance) && !isUpdate && (
         <SensibleSteps
-          base={quoteBalance}
+          token={quote}
+          balance={quoteBalance}
           value={amount}
           onChange={newAmount => setAmount(newAmount)}
         />

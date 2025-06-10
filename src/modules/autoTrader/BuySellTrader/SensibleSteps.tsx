@@ -4,19 +4,25 @@ import useSensibleSteps from 'modules/autoTrader/PageTrade/AdvancedSignalForm/us
 import { type Surface } from 'utils/useSurface';
 
 export default function SensibleSteps({
-  base,
+  token,
+  balance,
   value,
   onChange,
   surface = 2,
   className,
 }: {
-  base?: number | null;
+  token?: string;
+  balance?: number | null;
   value?: string;
   onChange: (value: string) => void;
   surface?: Surface;
   className?: string;
 }) {
-  const steps = useSensibleSteps(base);
+  const noMax =
+    token === 'the-open-network' ||
+    token === 'solana' ||
+    token === 'wrapped-solana';
+  const steps = useSensibleSteps(balance, noMax);
 
   return (
     <div className={clsx('mb-3 flex gap-1.5', className)}>

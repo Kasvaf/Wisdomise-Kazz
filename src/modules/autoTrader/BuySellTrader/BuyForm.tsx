@@ -43,7 +43,8 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
 
       {Boolean(balance) && (
         <SensibleSteps
-          base={balance}
+          token={quoteSlug}
+          balance={balance}
           value={amount}
           onChange={newAmount => setAmount(newAmount)}
         />
