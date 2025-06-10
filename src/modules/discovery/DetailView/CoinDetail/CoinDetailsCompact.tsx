@@ -22,7 +22,7 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 p-3">
       <NCoinRisksBanner slug={slug} />
       <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
       <BtnAutoTrade slug={slug} block variant="primary" />
