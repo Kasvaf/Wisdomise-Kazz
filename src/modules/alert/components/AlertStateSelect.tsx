@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { type AlertState } from 'api';
+import { type AlertState } from 'api/alert';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 export function AlertStateSelect({

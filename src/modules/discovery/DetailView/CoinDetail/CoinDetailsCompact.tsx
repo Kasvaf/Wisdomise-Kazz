@@ -15,13 +15,14 @@ import { CoinWhalesWidget } from './CoinWhalesWidget';
 import { CoinIntroductionWidget } from './CoinIntroductionWidget';
 import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { useCoinDetailsTabs } from './useCoinDetailsTabs';
+import { NCoinInsightWidget } from './NCoinInsightWidget';
 
 export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 p-3">
       <NCoinRisksBanner slug={slug} />
       <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
       <BtnAutoTrade slug={slug} block variant="primary" />
@@ -29,6 +30,7 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
       <NCoinSentimentWidget slug={slug} />
       <CoinStatsWidget slug={slug} />
       <NCoinStatsWidget slug={slug} />
+      <NCoinInsightWidget slug={slug} />
       <CoinChart slug={slug} height={420} />
       <CoinDetailsTabs
         options={tabs}

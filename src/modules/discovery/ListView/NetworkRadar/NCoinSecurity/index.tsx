@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { type ReactNode, useMemo, type FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { type NetworkRadarNCoin } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/discovery';
 import { ReactComponent as MintIcon } from './mint.svg';
 import { ReactComponent as FreezeIcon } from './freeze.svg';
 import { ReactComponent as FireIcon } from './fire.svg';

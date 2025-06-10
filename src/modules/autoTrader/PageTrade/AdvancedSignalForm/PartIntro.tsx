@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
-import { useCoinDetails } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
 import { type SignalFormState } from './useSignalFormStates';
 import AmountBalanceLabel from './AmountBalanceLabel';

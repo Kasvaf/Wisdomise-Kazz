@@ -1,4 +1,4 @@
-import { useSaveAlert, type Alert } from 'api';
+import { useSaveAlert, type Alert } from 'api/alert';
 import { Toggle } from 'shared/v1-components/Toggle';
 
 export function AlertStateChanger({

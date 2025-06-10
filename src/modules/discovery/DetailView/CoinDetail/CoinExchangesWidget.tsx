@@ -3,12 +3,11 @@ import { useMemo, useState } from 'react';
 
 import { bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { useCoinDetails } from 'api';
+import { useCoinDetails, type CoinExchange } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
-import { type CoinExchange } from 'api/types/shared';
 import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
 

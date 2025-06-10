@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { bxBell } from 'boxicons-quasar';
@@ -10,11 +11,12 @@ import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSel
 import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
 import { isDebugMode } from 'utils/version';
-import { type AlertMessenger, useSubscription } from 'api';
+import { useSubscription } from 'api';
+import { type AlertMessenger } from 'api/alert';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
 import { Button } from 'shared/v1-components/Button';
-import { FormControlWithLabel } from '../../components/FormControlWithLabel';
+import { FormControlWithLabel } from 'modules/alert/components/FormControlWithLabel';
 
 export function StepOne({
   onSubmit,

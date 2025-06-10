@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type SocialMessage } from 'api';
+import { type SocialMessage } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useSocialMessage } from './useSocialMessage';
 import {

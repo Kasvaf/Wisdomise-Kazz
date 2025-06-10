@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useCoinDetails } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import { formatNumber } from 'utils/numbers';
 
 export function CoinDetailsMeta({ slug }: { slug: string }) {

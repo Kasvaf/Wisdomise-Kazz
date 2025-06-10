@@ -2,7 +2,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';
-import { type SingleWhale, useWhaleDetails, type WhaleAssetLabel } from 'api';
+import {
+  type SingleWhale,
+  useWhaleDetails,
+  type WhaleAssetLabel,
+} from 'api/discovery';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table, type TableColumn } from 'shared/v1-components/Table';

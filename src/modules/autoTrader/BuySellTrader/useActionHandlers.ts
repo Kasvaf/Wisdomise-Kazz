@@ -113,7 +113,7 @@ const useActionHandlers = (state: SwapState) => {
                         type: 'compare',
                         left: 'price',
                         op: '<=',
-                        right: 100,
+                        right: +quote.amount / +base.amount,
                       },
                   amount: 1, // buy all at once
                 }

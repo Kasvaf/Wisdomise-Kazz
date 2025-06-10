@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { type IndicatorHeatmapResolution, useIndicatorHeatmap } from 'api';
+import {
+  type IndicatorHeatmapResolution,
+  useIndicatorHeatmap,
+} from 'api/discovery';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { AccessShield } from 'shared/AccessShield';
 import useSearchParamAsState from 'shared/useSearchParamAsState';

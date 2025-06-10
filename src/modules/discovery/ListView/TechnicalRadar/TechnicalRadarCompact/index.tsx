@@ -2,7 +2,7 @@
 import { type FC } from 'react';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type TechnicalRadarCoin } from 'api';
+import { type TechnicalRadarCoin } from 'api/discovery';
 import {
   type TechnicalRadarView,
   TechnicalRadarViewSelect,

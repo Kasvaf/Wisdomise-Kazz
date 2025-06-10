@@ -3,7 +3,11 @@ import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
-import { type CoinRadarCoin, useCoinRadarCoins, useRadarsMetrics } from 'api';
+import {
+  type CoinRadarCoin,
+  useCoinRadarCoins,
+  useRadarsMetrics,
+} from 'api/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { OverviewWidget } from 'shared/OverviewWidget';

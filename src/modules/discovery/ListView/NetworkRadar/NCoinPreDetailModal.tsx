@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DrawerModal } from 'shared/DrawerModal';
 
-import { type NetworkRadarNCoin } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/discovery';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
 import { isDebugMode } from 'utils/version';

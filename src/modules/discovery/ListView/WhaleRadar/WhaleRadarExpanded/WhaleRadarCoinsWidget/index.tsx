@@ -3,7 +3,7 @@ import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
+import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';

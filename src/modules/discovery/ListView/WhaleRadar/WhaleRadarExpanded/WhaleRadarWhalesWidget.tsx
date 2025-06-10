@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { useHasFlag, useWhaleRadarWhales, type WhaleShort } from 'api';
+import { useHasFlag } from 'api';
+import { useWhaleRadarWhales, type WhaleShort } from 'api/discovery';
 import { Network } from 'shared/Network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coins } from 'shared/Coins';

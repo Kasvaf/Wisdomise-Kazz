@@ -1,10 +1,14 @@
 import { useMemo } from 'react';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
-import { useCoinDetails, useLastCandleQuery, useNCoinDetails } from 'api';
-import { type CoinDetails } from 'api/types/shared';
+import {
+  type CoinChart as CoinChartType,
+  useCoinDetails,
+  useNCoinDetails,
+} from 'api/discovery';
 import useIsMobile from 'utils/useIsMobile';
 import AdvancedChart from 'shared/AdvancedChart';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useLastCandleQuery } from 'api';
 
 const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,
@@ -14,21 +18,10 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   const coin = useCoinDetails({ slug });
   const nCoin = useNCoinDetails({ slug });
   const charts = useMemo(() => {
-    let charts: Required<CoinDetails['charts']> = [];
-    if (nCoin.data?.address) {
-      // TODO its toff, fix this
-      charts = [
-        ...charts,
-        {
-          id: 'coingecko_manual',
-          priority: 0,
-          type: 'gecko_terminal',
-          url: `https://www.geckoterminal.com/solana/pools/${nCoin.data.address}`,
-          embedUrl: `https://www.geckoterminal.com/solana/pools/${nCoin.data.address}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=1m`,
-        },
-      ];
-    }
-    if (coin.data?.charts) {
+    let charts: CoinChartType[] = [];
+    if (nCoin.data?.charts) {
+      charts = [...charts, ...nCoin.data?.charts];
+    } else if (coin.data?.charts) {
       charts = [...charts, ...coin.data.charts];
     }
     return charts;
@@ -39,19 +32,19 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
 
   return chart.type === 'gecko_terminal' ? (
     <iframe
-      key={chart.url}
+      key={chart.id}
       height={height}
       width="100%"
       id="geckoterminal-embed"
       title="GeckoTerminal Embed"
-      src={chart.embedUrl}
+      src={`https://www.geckoterminal.com/${chart.id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=1m`}
       frameBorder="0"
       allow="clipboard-write"
       allowFullScreen
     />
   ) : chart.type === 'trading_view' ? (
     <AdvancedRealTimeChart
-      key={chart.url}
+      key={chart.id}
       allow_symbol_change={false}
       symbol={chart.id}
       style="1"

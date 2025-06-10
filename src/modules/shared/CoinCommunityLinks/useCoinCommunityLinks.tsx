@@ -1,7 +1,7 @@
 import { type ReactNode, useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { type CoinCommunityData } from 'api/types/shared';
+import { type CoinCommunityData } from 'api/discovery';
 // https://simpleicons.org
 import { ReactComponent as FacebookIcon } from './facebook.svg';
 import { ReactComponent as RedditIcon } from './reddit.svg';

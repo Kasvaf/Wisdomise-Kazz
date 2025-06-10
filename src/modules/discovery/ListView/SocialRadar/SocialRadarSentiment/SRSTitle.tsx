@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { type SocialRadarSentiment } from 'api';
+import { type SocialRadarSentiment } from 'api/discovery';
 
 export const SRSTitle: FC<{
   value?: SocialRadarSentiment['gauge_tag'];

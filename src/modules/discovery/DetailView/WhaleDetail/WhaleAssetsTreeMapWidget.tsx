@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { type TreemapConfig } from '@ant-design/plots/es/components/treemap';
 import { Treemap } from '@ant-design/plots';
 import { useTranslation } from 'react-i18next';
-import { useWhaleDetails } from 'api';
+import { useWhaleDetails } from 'api/discovery';
 import { formatNumber } from 'utils/numbers';
 
 export function WhaleAssetsTreeMapWidget({

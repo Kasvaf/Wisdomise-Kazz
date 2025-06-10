@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 
 import { clsx } from 'clsx';
 import { bxSearch } from 'boxicons-quasar';
-import { type CoinWhale, useCoinWhales } from 'api';
+import { type CoinWhale, useCoinWhales } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Network } from 'shared/Network';

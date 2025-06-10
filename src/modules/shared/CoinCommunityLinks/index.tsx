@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
 import { Tooltip } from 'antd';
-import { type Coin, type CoinCommunityData } from 'api/types/shared';
+import { type Coin } from 'api/types/shared';
+import { type CoinCommunityData } from 'api/discovery';
 import { useCoinCommunityLinks } from './useCoinCommunityLinks';
 import { ReactComponent as TwitterIcon } from './x.svg';
 

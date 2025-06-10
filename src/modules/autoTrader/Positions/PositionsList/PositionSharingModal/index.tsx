@@ -1,12 +1,8 @@
 import { useRef, useState } from 'react';
 import { Toggle } from 'shared/Toggle';
 import { Coin } from 'shared/Coin';
-import {
-  initialQuoteAsset,
-  type Position,
-  useCoinDetails,
-  useLastPriceQuery,
-} from 'api';
+import { initialQuoteAsset, type Position, useLastPriceQuery } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import PriceChange from 'shared/PriceChange';
 import logo from 'shared/ShareTools/images/logo.png';
 import SharingModal from 'shared/ShareTools/SharingModal';

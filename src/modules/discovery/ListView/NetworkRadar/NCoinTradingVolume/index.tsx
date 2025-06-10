@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { type NetworkRadarNCoin } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import volume from './volume.png';
 

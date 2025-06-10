@@ -1,7 +1,7 @@
 import { useEffect, type FC } from 'react';
 import { clsx } from 'clsx';
 import { Trans } from 'react-i18next';
-import { useCoinDetails } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import { ReactComponent as PriceIcon } from './price.svg';

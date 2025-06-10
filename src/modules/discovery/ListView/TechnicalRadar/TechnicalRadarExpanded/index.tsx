@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useRadarsMetrics, useTechnicalRadarCoins } from 'api';
+import { useRadarsMetrics, useTechnicalRadarCoins } from 'api/discovery';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';

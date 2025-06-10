@@ -1,7 +1,7 @@
 import { type FC, useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { type CoinWhale, useCoinWhales } from 'api';
+import { type CoinWhale, useCoinWhales } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { Network } from 'shared/Network';

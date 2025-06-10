@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
-import { type NetworkSecurity } from 'api/types/shared';
+import { type NetworkSecurity } from 'api/discovery';
 import Icon from 'shared/Icon';
 import { securityIcons } from '../icons';
 import { useSecurityRows } from './useSecurityRows';
