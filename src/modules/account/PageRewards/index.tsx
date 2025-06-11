@@ -24,6 +24,7 @@ import dailySrc from './images/daily.png';
 import refSubSrc from './images/ref-sub.png';
 import refFeeSrc from './images/ref-fee.png';
 import leagueSrc from './images/league.png';
+import wiseGold from './images/wise-gold.png';
 
 export default function PageRewards() {
   const isMobile = useIsMobile();
@@ -35,6 +36,7 @@ export default function PageRewards() {
     claimed,
     league,
     tournament,
+    wiseClub,
   } = useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
@@ -139,6 +141,7 @@ export default function PageRewards() {
           {hasFlag('/trader/quests/tournaments') && (
             <RewardItem title="Tournaments" image={logo} amount={tournament} />
           )}
+          <RewardItem title="Wise Club" image={wiseGold} amount={wiseClub} />
         </div>
       )}
 
@@ -191,7 +194,7 @@ function RewardItem({
     <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l2">
       <div className="relative flex h-full items-center">
         <div className="flex grow gap-x-3 p-3 mobile:flex-col">
-          <img src={image} alt="" className="size-10" />
+          <img src={image} alt="" className="size-10 object-contain" />
           <p className="mt-2">{title}</p>
         </div>
         <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled">
