@@ -67,7 +67,7 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     coinInfo: baseInfo,
 
     price: basePrice,
-    finalPrice:
+    finalPriceDollar:
       (Number(basePrice) *
         (100 + (dir === 'buy' ? -1 : 1) * Number(percentage))) /
       100,

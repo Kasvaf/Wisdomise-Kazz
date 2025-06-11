@@ -1,6 +1,7 @@
 import { Toggle } from 'shared/Toggle';
 import Spin from 'shared/Spin';
 import AmountInputBox from 'shared/AmountInputBox';
+import { roundSensible } from 'utils/numbers';
 import { type SwapState } from './useSwapState';
 
 const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
@@ -20,7 +21,8 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
         <div className="text-v1-content-secondary">
           {from.priceByOther ? (
             <>
-              1 {from.coinInfo?.abbreviation} ≈ {to.amount}{' '}
+              1 {from.coinInfo?.abbreviation} ≈{' '}
+              {roundSensible(+from.priceByOther * (1 + +percentage / 100))}{' '}
               {to.coinInfo?.abbreviation}
             </>
           ) : (

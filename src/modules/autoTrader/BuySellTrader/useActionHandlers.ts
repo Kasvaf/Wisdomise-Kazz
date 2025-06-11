@@ -94,7 +94,7 @@ const useActionHandlers = (state: SwapState) => {
                     // sell order
                     key: v4(),
                     amount_ratio: 1, // always 1
-                    price_exact: isMarketPrice ? 0 : base.finalPrice, // happens when price >= 123
+                    price_exact: isMarketPrice ? 0 : base.finalPriceDollar, // happens when price >= 123
                   },
                 ]
               : [], // buy = hold -> no take-profit
@@ -111,7 +111,7 @@ const useActionHandlers = (state: SwapState) => {
                         type: 'compare',
                         left: 'price',
                         op: '<=',
-                        right: base.finalPrice,
+                        right: base.finalPriceDollar,
                       },
                   amount: 1, // buy all at once
                 }
