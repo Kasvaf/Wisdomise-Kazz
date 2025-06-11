@@ -1,0 +1,3 @@
+[submodule "wiserpc"]
+	path = wiserpc
+	url = https://github.com/Wisdomise/wiserpc
