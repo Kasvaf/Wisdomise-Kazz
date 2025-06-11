@@ -10,9 +10,11 @@ import {
   useObservableLastValue,
 } from 'utils/observable';
 import { DelphinusServiceClientImpl, GrpcWebImpl } from './proto/delphinus';
+import { NetworkRadarServiceClientImpl } from './proto/network_radar';
 import { PingServiceClientImpl } from './proto/common';
 
 export const grpcServices = {
+  networkRadar: NetworkRadarServiceClientImpl,
   delphinus: DelphinusServiceClientImpl,
   ping: PingServiceClientImpl,
 } as const;
