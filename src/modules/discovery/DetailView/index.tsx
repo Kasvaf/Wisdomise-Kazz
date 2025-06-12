@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { type AVAILABLE_DETAILS } from 'modules/discovery/constants';
 import { WhaleDetail } from './WhaleDetail';
 import { CoinDetail } from './CoinDetail';
-import EmptyIcon from './empty.png';
+import { ReactComponent as EmptyIcon } from './empty.svg';
 
 export const DetailView: FC<{
   detail: (typeof AVAILABLE_DETAILS)[number];
@@ -23,7 +23,7 @@ export const DetailView: FC<{
         )
       ) : (
         <div className="flex flex-col items-center justify-center gap-2 p-3 py-24">
-          <img src={EmptyIcon} alt="empty" className="mb-2 h-36" />
+          <EmptyIcon className="mb-2 h-36" />
           <h2 className="text-2xl font-semibold">
             {t('common:select-detail-first')}
           </h2>
