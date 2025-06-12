@@ -1,6 +1,5 @@
 import {
   type AddressLookupTableAccount,
-  Connection,
   PublicKey,
   SystemProgram,
   Transaction,
@@ -26,16 +25,9 @@ import { fromBigMoney, toBigMoney } from 'utils/money';
 import { usePendingPositionInCache } from 'api/trader';
 import { useSymbolInfo } from 'api/symbol';
 import { ofetch } from 'config/ofetch';
-import { projectId } from 'config/appKit';
 import { useActiveWallet } from 'api/chains/wallet';
+import { getConnection } from 'api/chains/connection';
 import { queryContractSlugs } from './utils';
-
-const chainId = 'solana';
-const clusterPublicKey = '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'; // mainnet-beta
-const connection = new Connection(
-  `https://rpc.walletconnect.org/v1/?chainId=${chainId}:${clusterPublicKey}&projectId=${projectId}`,
-  'confirmed',
-);
 
 export type AutoTraderSolanaSupportedQuotes =
   | 'tether'
@@ -80,15 +72,15 @@ export const useSolanaAccountBalance = (slug?: string, address?: string) => {
       try {
         if (slug === 'wrapped-solana') {
           return Number(
-            fromBigMoney(await connection.getBalance(publicKey), 9),
+            fromBigMoney(await getConnection().getBalance(publicKey), 9),
           );
         } else {
           const mint = new PublicKey(contract);
-          const accountInfo = await connection.getAccountInfo(mint);
+          const accountInfo = await getConnection().getAccountInfo(mint);
           if (!accountInfo) return 0;
 
           // Get the token account info
-          const balance = await connection.getTokenAccountBalance(
+          const balance = await getConnection().getTokenAccountBalance(
             getAssociatedTokenAddressSync(
               mint,
               publicKey,
@@ -128,21 +120,21 @@ export const useSolanaUserAssets = (address?: string) => {
   return useQuery({
     queryKey: ['solana-user-assets', addr],
     queryFn: async () => {
-      if (!addr || !connection) return [];
+      if (!addr || !getConnection()) return [];
       const publicKey = new PublicKey(addr);
 
       try {
         const [solBalance, tokenAccounts, token2022Accounts] =
           await Promise.all([
             // native SOL balance
-            connection.getBalance(publicKey),
+            getConnection().getBalance(publicKey),
 
             // all token accounts owned by the user
-            connection.getParsedTokenAccountsByOwner(publicKey, {
+            getConnection().getParsedTokenAccountsByOwner(publicKey, {
               programId: TOKEN_PROGRAM_ID,
             }),
 
-            connection.getParsedTokenAccountsByOwner(publicKey, {
+            getConnection().getParsedTokenAccountsByOwner(publicKey, {
               programId: TOKEN_2022_PROGRAM_ID,
             }),
           ]);
@@ -204,7 +196,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
     amount: string;
     gasFee: string;
   }) => {
-    if (!connection || !address || !slug || !contract || !decimals)
+    if (!getConnection() || !address || !slug || !contract || !decimals)
       throw new Error('Wallet not connected');
 
     const publicKey = new PublicKey(address);
@@ -221,7 +213,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         }),
       );
     } else {
-      const accountInfo = await connection.getAccountInfo(tokenMint);
+      const accountInfo = await getConnection().getAccountInfo(tokenMint);
       if (!accountInfo) throw new Error('unknown token');
 
       // get user's Associated Token Account
@@ -278,7 +270,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
 
     try {
       // Get latest blockhash
-      const latestBlockhash = await connection.getLatestBlockhash();
+      const latestBlockhash = await getConnection().getLatestBlockhash();
       transaction.recentBlockhash = latestBlockhash.blockhash;
       transaction.feePayer = publicKey;
 
@@ -293,7 +285,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
         });
 
         // Wait for confirmation
-        const networkConfirmation = connection
+        const networkConfirmation = getConnection()
           .confirmTransaction({
             signature,
             blockhash: latestBlockhash.blockhash,
