@@ -7,6 +7,7 @@ import { TechnicalRadar } from './TechnicalRadar';
 import { NetworkRadar } from './NetworkRadar';
 import { CoinRadar } from './CoinRadar';
 import { Portfolio } from './Portfolio';
+import { TwitterTracker } from './TwitterTracker';
 
 export const ListView: FC<{
   list: (typeof AVAILABLE_LISTS)[number];
@@ -30,6 +31,8 @@ export const ListView: FC<{
         <Portfolio {...rest} />
       ) : list === 'positions' ? (
         <Positions {...rest} />
+      ) : list === 'twitter-tracker' ? (
+        <TwitterTracker {...rest} />
       ) : null}
     </div>
   );
