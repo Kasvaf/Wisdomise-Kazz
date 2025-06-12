@@ -1,7 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { notification } from 'antd';
 import { useState } from 'react';
-import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
   useWithdrawRewardMutation,
@@ -17,6 +16,7 @@ import { useHasFlag } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import logo from 'assets/logo.svg';
+import { useActiveWallet } from 'api/chains/wallet';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
 import gradient from './images/gradient.png';
@@ -41,9 +41,7 @@ export default function PageRewards() {
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
-  const { address: userWalletAddress } = useAppKitAccount();
-  const { caipNetwork } = useAppKitNetwork();
-
+  const { address } = useActiveWallet();
   const disableWithdraw = history?.[0]?.status === 'pending';
   const unclaimed = total - claimed;
   const [activeTab, setActiveTab] = useState('rewards');
@@ -58,13 +56,14 @@ export default function PageRewards() {
   };
 
   const withdraw = () => {
-    if (!userWalletAddress || caipNetwork?.chainNamespace !== 'solana') {
+    if (!address) {
       notification.error({
-        message: 'Please connect your solana wallet.',
+        message:
+          'Please connect your wallet or use a custodial wallet to continue.',
       });
       return;
     }
-    void mutateAsync({ solana_wallet_address: userWalletAddress }).then(() => {
+    void mutateAsync({ solana_wallet_address: address }).then(() => {
       notification.success({
         message:
           'Withdrawal registered! You will get your tokens within few days.',
