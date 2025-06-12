@@ -48,6 +48,7 @@ import {
   type TokenInsight,
   type TwitterAccount,
   type TwitterFollowedAccount,
+  type TwitterTweet,
 } from './types';
 
 export * from './types';
@@ -981,6 +982,71 @@ export const useTwitterFollowedAccounts = () => {
       rawValue,
     };
   }, [isLoading, value, save, rawValue]);
+};
+
+export const useStreamTweets = (config: { userIds: number[] }) => {
+  const [tweets, setTweets] = useState<TwitterTweet[]>([]);
+  const initialStream = useQuery({
+    queryKey: ['streamed-tweets', config.userIds],
+    queryFn: () =>
+      resolvePageResponseToArray<TwitterTweet>('delphi/streamed/tweets/', {
+        query: {
+          user_id: config.userIds,
+          hours: 12,
+        },
+      }),
+    enabled: config.userIds.length > 0,
+    refetchInterval: 0,
+    refetchOnMount: false,
+  });
+
+  useEffect(() => {
+    if (config.userIds.length === 0) return;
+    const controller = new AbortController();
+
+    const startStream = async () => {
+      try {
+        const response = await ofetch('delphi/stream/tweets/', {
+          query: {
+            user_id: config.userIds,
+          },
+          signal: controller.signal,
+          responseType: 'stream',
+        });
+
+        const reader = response.getReader();
+        const decoder = new TextDecoder('utf8');
+        if (!reader) throw new Error('No reader available');
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+
+          const text = decoder.decode(value, { stream: true });
+          console.log(text);
+          const lines = text.split('\n').filter(Boolean);
+          for (const line of lines) {
+            try {
+              const tweet = JSON.parse(line);
+              setTweets(prev => [...prev, tweet]);
+            } catch {}
+          }
+        }
+      } catch {}
+    };
+
+    void startStream();
+
+    return () => controller.abort(); // cleanup on unmount
+  }, [config.userIds]);
+
+  return useMemo(
+    () => ({
+      ...initialStream,
+      data: [...(initialStream.data ?? []), ...tweets],
+    }),
+    [initialStream, tweets],
+  );
 };
 
 /* Rest */

@@ -1076,6 +1076,29 @@ export interface TwitterFollowedAccount {
   hide_from_list: boolean;
 }
 
+export interface TwitterTweet {
+  user: TwitterAccount;
+  tweet_id: number;
+  related_at: string;
+  retweet_count: number;
+  reply_count: number;
+  like_count: number;
+  quote_count: number;
+  bookmark_count: number;
+  impression_count: number;
+  text?: null | string;
+  language?: null | string;
+  media: Array<{
+    url: string;
+    type: 'photo' | 'video';
+    width: number;
+    height: number;
+  }>;
+  quoted_tweet?: null | TwitterTweet;
+  retweeted_tweet?: null | TwitterTweet;
+  replied_tweet?: null | TwitterTweet;
+}
+
 /* Rest */
 export interface DetailedCoin {
   symbol: Coin;
