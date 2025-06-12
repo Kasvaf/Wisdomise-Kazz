@@ -1054,7 +1054,29 @@ export interface CoinRadarCoin {
   _highlighted?: boolean;
 }
 
-/* Other */
+/* Twitter Tracker */
+export interface TwitterAccount {
+  id: number;
+  key: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  user_id: number;
+  name: string;
+  username: string;
+  followers_count: null | number;
+  following_count: null | number;
+  tweet_count: null | number;
+  like_count: null | number;
+}
+
+export interface TwitterFollowedAccount {
+  user_id: number;
+  username: string;
+  hide_from_list: boolean;
+}
+
+/* Rest */
 export interface DetailedCoin {
   symbol: Coin;
   symbol_community_links?: null | CoinCommunityData['links'];

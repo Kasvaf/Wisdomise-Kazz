@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
+import { useEffect, useMemo, useState } from 'react';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { resolvePageResponseToArray, createSorter, matcher } from 'api/utils';
 import { extractTwitterInfo } from 'shared/CoinCommunityLinks/useCoinCommunityLinks';
@@ -7,6 +8,7 @@ import { isDebugMode, isMiniApp } from 'utils/version';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from 'api/types/page';
 import { type Coin } from 'api/types/shared';
+import { useUserStorage } from 'api/userStorage';
 import {
   type CoinDetails,
   type RadarsMetcis,
@@ -44,6 +46,8 @@ import {
   type CoinRadarCoin,
   type NetworkRadarNCoinDetails,
   type TokenInsight,
+  type TwitterAccount,
+  type TwitterFollowedAccount,
 } from './types';
 
 export * from './types';
@@ -909,6 +913,74 @@ export const useNetworkRadarNCoins = (config: {
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });
+};
+
+/* Twitter Tracker */
+export const useTwitterSuggestedAccounts = () =>
+  useQuery({
+    queryKey: ['twitter-suggested-accounts'],
+    queryFn: () =>
+      resolvePageResponseToArray<TwitterAccount>(
+        'delphi/stream/twitter-users/',
+      ),
+  });
+
+export const useTwitterFollowedAccounts = () => {
+  const {
+    value: rawValue,
+    isLoading,
+    save,
+  } = useUserStorage('followed_twitter_accounts');
+
+  const [value, setValue] = useState<TwitterFollowedAccount[]>([]);
+  useEffect(() => {
+    try {
+      if (rawValue) {
+        const list: TwitterFollowedAccount[] = JSON.parse(rawValue || '[]');
+        if (
+          Array.isArray(list) &&
+          list.every(
+            item =>
+              typeof item.username === 'string' &&
+              typeof item.hide_from_list === 'boolean' &&
+              typeof item.user_id === 'number',
+          )
+        ) {
+          setValue(list);
+        }
+      }
+    } catch {}
+  }, [rawValue]);
+
+  return useMemo(() => {
+    const follow = (acc: TwitterFollowedAccount) => {
+      const currentIndex = value.findIndex(x => x.user_id === acc.user_id);
+      if (currentIndex !== -1) {
+        return save(
+          JSON.stringify([
+            ...value.slice(0, currentIndex),
+            acc,
+            ...value.slice(currentIndex + 1),
+          ]),
+        );
+      }
+      return save(JSON.stringify([...value, acc]));
+    };
+    const unFollow = (acc: TwitterFollowedAccount | true) =>
+      save(
+        JSON.stringify(
+          acc === true ? [] : value.filter(x => x.user_id !== acc.user_id),
+        ),
+      );
+
+    return {
+      isLoading,
+      follow,
+      unFollow,
+      value,
+      rawValue,
+    };
+  }, [isLoading, value, save, rawValue]);
 };
 
 /* Rest */
