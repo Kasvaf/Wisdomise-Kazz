@@ -7,10 +7,11 @@ import useIsMobile from 'utils/useIsMobile';
 import { useTraderPositionsQuery } from 'api';
 import usePageTour from 'shared/usePageTour';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { SubscriptionIcon } from 'modules/account/PageAccount/icons';
 import { useIsLoggedIn } from '../auth/jwt-store';
 import { IconQuests, IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
-const TraderButtons = () => {
+const HeaderNav = () => {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -93,13 +94,30 @@ const TraderButtons = () => {
         </Button>
       )}
 
+      {!isMobile && (
+        <Button
+          onClick={() => navigate('/account/billing')}
+          size="xs"
+          variant="ghost"
+          className={clsx(
+            '!px-2',
+            pathname.startsWith('/account/billing') &&
+              '!text-v1-content-notice',
+          )}
+          surface={isMobile ? 2 : 3}
+        >
+          <SubscriptionIcon />
+          Wise Club
+        </Button>
+      )}
+
       <Button
         onClick={() => navigate('/trader/quests')}
         size={isMobile ? 'md' : 'xs'}
         variant="ghost"
         className={clsx(
           isMobile ? '!px-4' : '!px-2',
-          '!text-v1-content-notice',
+          pathname.startsWith('/trader/quests') && '!text-v1-content-notice',
         )}
         surface={isMobile ? 2 : 3}
       >
@@ -110,4 +128,4 @@ const TraderButtons = () => {
   );
 };
 
-export default TraderButtons;
+export default HeaderNav;

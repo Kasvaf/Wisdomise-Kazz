@@ -8,7 +8,7 @@ import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { ReactComponent as Logo } from 'assets/WisdomiseLogo.svg';
 import ProfileMenu from '../ProfileMenu';
 import BranchSelector from '../BranchSelector';
-import TraderButtons from '../TraderButtons';
+import HeaderNav from '../HeaderNav';
 
 const DesktopHeader: React.FC<{
   extension?: null | false | ReactElement;
@@ -32,7 +32,7 @@ const DesktopHeader: React.FC<{
 
         {RouterBaseName && <BranchSelector />}
 
-        <TraderButtons />
+        <HeaderNav />
         <BtnWalletConnect />
         <ProfileMenu />
       </div>
