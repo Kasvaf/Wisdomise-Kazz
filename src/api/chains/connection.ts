@@ -23,17 +23,18 @@ async function checkConnectionHealth() {
   }
 }
 
-async function initConnection() {
-  const isHealthy = await checkConnectionHealth();
-  if (!isHealthy) {
-    connection = new Connection(backupRpc, 'confirmed');
-  }
-
-  try {
-    await connection.getEpochInfo();
-  } catch (error) {
-    console.error('Backup RPC failed', error);
-  }
+function initConnection() {
+  void checkConnectionHealth().then(async isHealthy => {
+    if (!isHealthy) {
+      connection = new Connection(backupRpc, 'confirmed');
+      try {
+        await connection.getEpochInfo();
+      } catch (error) {
+        console.error('Backup RPC failed', error);
+      }
+    }
+    return null;
+  });
 }
 
-void (await initConnection());
+initConnection();
