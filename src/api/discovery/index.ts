@@ -923,6 +923,11 @@ export const useTwitterSuggestedAccounts = () =>
     queryFn: () =>
       resolvePageResponseToArray<TwitterAccount>(
         'delphi/stream/twitter-users/',
+      ).then(x =>
+        x.map(acc => ({
+          ...acc,
+          user_id: BigInt(acc.user_id).toString(),
+        })),
       ),
   });
 
@@ -944,7 +949,7 @@ export const useTwitterFollowedAccounts = () => {
             item =>
               typeof item.username === 'string' &&
               typeof item.hide_from_list === 'boolean' &&
-              typeof item.user_id === 'number',
+              typeof item.user_id === 'string',
           )
         ) {
           setValue(list);
@@ -984,29 +989,40 @@ export const useTwitterFollowedAccounts = () => {
   }, [isLoading, value, save, rawValue]);
 };
 
-export const useStreamTweets = (config: { userIds: number[] }) => {
+export const useStreamTweets = (config: { userIds: string[] }) => {
   const [tweets, setTweets] = useState<TwitterTweet[]>([]);
   const initialStream = useQuery({
     queryKey: ['streamed-tweets', config.userIds],
     queryFn: () =>
       resolvePageResponseToArray<TwitterTweet>('delphi/streamed/tweets/', {
+        meta: {
+          auth: false,
+        },
         query: {
           user_id: config.userIds,
-          hours: 12,
+          hours: 24,
         },
       }),
     enabled: config.userIds.length > 0,
-    refetchInterval: 0,
+    refetchInterval: 1000 * 60 * 5,
     refetchOnMount: false,
+    meta: {
+      persist: true,
+    },
   });
 
   useEffect(() => {
-    if (config.userIds.length === 0) return;
+    // TODO: i couldn't make sure how stream works and cannot test it, so i disabled it for now
+    // eslint-disable-next-line no-constant-condition
+    if (config.userIds.length === 0 || true) return;
     const controller = new AbortController();
 
     const startStream = async () => {
       try {
         const response = await ofetch('delphi/stream/tweets/', {
+          meta: {
+            auth: false,
+          },
           query: {
             user_id: config.userIds,
           },
@@ -1023,7 +1039,6 @@ export const useStreamTweets = (config: { userIds: number[] }) => {
           if (done) break;
 
           const text = decoder.decode(value, { stream: true });
-          console.log(text);
           const lines = text.split('\n').filter(Boolean);
           for (const line of lines) {
             try {
@@ -1043,7 +1058,12 @@ export const useStreamTweets = (config: { userIds: number[] }) => {
   return useMemo(
     () => ({
       ...initialStream,
-      data: [...(initialStream.data ?? []), ...tweets],
+      data: [
+        ...(initialStream.data ?? []).filter(
+          x => !tweets.some(y => y.tweet_id === x.tweet_id),
+        ),
+        ...tweets,
+      ],
     }),
     [initialStream, tweets],
   );
