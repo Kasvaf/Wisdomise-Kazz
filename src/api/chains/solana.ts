@@ -103,7 +103,7 @@ export const useSolanaAccountBalance = (slug?: string, address?: string) => {
       }
     },
     refetchInterval: 10_000,
-    staleTime: 500,
+    staleTime: 10_000,
     enabled: !!contract,
   });
 
@@ -173,7 +173,7 @@ export const useSolanaUserAssets = (address?: string) => {
       }
     },
     refetchInterval: 30_000, // Refresh every 30 seconds
-    staleTime: 5000,
+    staleTime: 30_000,
     enabled: !!addr && isValidSolanaAddress(addr),
   });
 };
