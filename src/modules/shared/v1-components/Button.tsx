@@ -22,7 +22,7 @@ export interface ButtonProps {
   children?: ReactNode;
   className?: string;
   onClick?: (
-    e?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => unknown | Promise<unknown>;
   surface?: Surface;
   type?: 'button' | 'submit';
