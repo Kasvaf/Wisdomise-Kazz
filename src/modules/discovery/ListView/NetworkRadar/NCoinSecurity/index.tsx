@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { type ReactNode, useMemo, type FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { type NetworkRadarNCoin } from 'api/discovery';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as MintIcon } from './mint.svg';
 import { ReactComponent as FreezeIcon } from './freeze.svg';
 import { ReactComponent as FireIcon } from './fire.svg';
@@ -10,7 +10,12 @@ import { ReactComponent as UserIcon } from './user.svg';
 export const NCoinSecurity: FC<{
   className?: string;
   imgClassName?: string;
-  value?: NetworkRadarNCoin | null;
+  value?: {
+    mintable: boolean;
+    freezable: boolean;
+    lpBurned: boolean;
+    safeTopHolders: boolean;
+  } | null;
   type: 'grid' | 'row' | 'row2' | 'card';
 }> = ({ className, imgClassName, value, type }) => {
   const { t } = useTranslation('network-radar');
@@ -28,7 +33,7 @@ export const NCoinSecurity: FC<{
       ...ret,
       {
         key: 'mint_auth',
-        value: !value?._states.mintable,
+        value: !value?.mintable,
         icon: MintIcon,
         title: <Trans i18nKey="security.mint_auth" ns="network-radar" />,
       },
@@ -39,7 +44,7 @@ export const NCoinSecurity: FC<{
       ...ret,
       {
         key: 'freeze_auth',
-        value: !value?._states.freezable,
+        value: !value?.freezable,
         icon: FreezeIcon,
         title: <Trans i18nKey="security.freeze_auth" ns="network-radar" />,
       },
@@ -50,7 +55,7 @@ export const NCoinSecurity: FC<{
       ...ret,
       {
         key: 'lp_is_burned',
-        value: !!value?._states.burnt,
+        value: !!value?.lpBurned,
         icon: FireIcon,
         title: <Trans i18nKey="security.lp_burned" ns="network-radar" />,
       },
@@ -61,7 +66,7 @@ export const NCoinSecurity: FC<{
       ...ret,
       {
         key: 'top_holders_auth',
-        value: !!value?._states.safeTopHolders,
+        value: !!value?.safeTopHolders,
         icon: UserIcon,
         title: <Trans i18nKey="security.top_holders" ns="network-radar" />,
       },
@@ -108,18 +113,15 @@ export const NCoinSecurity: FC<{
                 ? 'grid grid-cols-4 grid-rows-1 gap-1'
                 : [
                     'flex items-start',
-                    type === 'row' ? 'gap-3' : 'justify-between gap-6',
+                    type === 'row' ? 'gap-1' : 'justify-between gap-6',
                   ],
             )}
           >
             {items.map(item => (
-              <div
+              <HoverTooltip
                 key={item.key}
-                className={clsx(
-                  'flex gap-2',
-                  type === 'card' && 'items-center text-center',
-                  type === 'row2' ? 'flex-row items-center' : 'flex-col',
-                )}
+                className={clsx('flex items-center gap-2 text-center')}
+                title={item.title}
               >
                 <div
                   className={clsx(
@@ -132,15 +134,17 @@ export const NCoinSecurity: FC<{
                 >
                   <item.icon className={clsx('size-[85%]')} />
                 </div>
-                <p
-                  className={clsx(
-                    'whitespace-nowrap font-normal leading-snug',
-                    !item.value && 'text-v1-content-secondary',
-                  )}
-                >
-                  {item.title}
-                </p>
-              </div>
+                {type !== 'row' && (
+                  <p
+                    className={clsx(
+                      'whitespace-nowrap font-normal leading-snug',
+                      !item.value && 'text-v1-content-secondary',
+                    )}
+                  >
+                    {item.title}
+                  </p>
+                )}
+              </HoverTooltip>
             ))}
           </div>
         </div>

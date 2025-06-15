@@ -1,14 +1,56 @@
 import { useState, type ComponentProps, type FC } from 'react';
-import { type useNetworkRadarNCoins } from 'api/discovery';
 import { Input } from 'shared/v1-components/Input';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import { Filters } from '../Filters';
 import { NETWORK_RADAR_PRESETS } from '../presetFilters';
 
+interface NCoinsFilters {
+  /* general */
+  query?: string;
+  excludeQuery?: string;
+  // protocols?: Array<'moonshot' | 'raydium' | 'pump_amm'>,
+  // bCurveMinPercent?: number,
+  // bCurveMaxPercent?: number,
+  networks?: string[];
+  /* audit */
+  burnt?: boolean;
+  // devHasNotSoldYet?: boolean;
+  // devSoldAll?: boolean;
+  noMint?: boolean;
+  noFreeze?: boolean;
+  safeTopHolder?: boolean;
+  minRiskPercent?: number;
+  maxRiskPercent?: number;
+  /* metrics */
+  minAgeMinutes?: number;
+  maxAgeMinutes?: number;
+  minLiquidity?: number;
+  maxLiquidity?: number;
+  minVolume?: number;
+  maxVolume?: number;
+  minMarketCap?: number;
+  maxMarketCap?: number;
+  minTransactions?: number;
+  maxTransactions?: number;
+  minNumBuys?: number;
+  maxNumBuys?: number;
+  minNumSells?: number;
+  maxNumSells?: number;
+  minLiquidityChangePercent?: number;
+  maxLiquidityChangePercent?: number;
+  minVolumeToMaketCapRatio?: number;
+  /* socials */
+  hasTwitter?: boolean;
+  hasWebsite?: boolean;
+  hasTelegram?: boolean;
+  hasTwitterPost?: boolean;
+  hasAtleastOneSocial?: boolean;
+}
+
 export const NetworkRadarFilters: FC<
   Omit<
-    ComponentProps<typeof Filters<Parameters<typeof useNetworkRadarNCoins>[0]>>,
+    ComponentProps<typeof Filters<NCoinsFilters>>,
     'presets' | 'sorts' | 'dialog'
   >
 > = ({ ...props }) => {

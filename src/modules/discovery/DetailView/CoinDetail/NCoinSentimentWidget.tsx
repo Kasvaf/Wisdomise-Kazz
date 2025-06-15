@@ -5,6 +5,10 @@ import { NCoinSecurity } from 'modules/discovery/ListView/NetworkRadar/NCoinSecu
 import { NCoinLiquidity } from 'modules/discovery/ListView/NetworkRadar/NCoinLiquidity';
 import { useNCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import {
+  convertNCoinSecurityFieldToBool,
+  doesNCoinHaveSafeTopHolders,
+} from 'modules/discovery/ListView/NetworkRadar/lib';
 
 const NCoinSentimentCol: FC<{
   label: string;
@@ -76,7 +80,27 @@ export const NCoinSentimentWidget: FC<{
           className="w-1/3 justify-self-end pe-12"
         >
           <NCoinSecurity
-            value={nCoin.data}
+            value={{
+              freezable: convertNCoinSecurityFieldToBool({
+                value: nCoin.data.base_symbol_security.freezable,
+                type: 'freezable',
+              }),
+              lpBurned: convertNCoinSecurityFieldToBool({
+                value: nCoin.data.base_symbol_security.lp_is_burned,
+                type: 'lpBurned',
+              }),
+              mintable: convertNCoinSecurityFieldToBool({
+                value: nCoin.data.base_symbol_security.mintable,
+                type: 'mintable',
+              }),
+              safeTopHolders: doesNCoinHaveSafeTopHolders({
+                topHolders:
+                  nCoin.data?.base_symbol_security.holders.map(
+                    x => x.balance,
+                  ) ?? 0,
+                totalSupply: nCoin.data.update.base_market_data.total_supply,
+              }),
+            }}
             type="row2"
             className="text-xxs"
             imgClassName="size-4 shrink-0"

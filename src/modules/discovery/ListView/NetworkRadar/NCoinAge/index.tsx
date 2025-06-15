@@ -14,6 +14,8 @@ export const NCoinAge: FC<{
     [value],
   );
 
+  const isNew = (timestap ?? 0) + 1000 * 60 * 60 > Date.now();
+
   return (
     <div
       className={clsx(
@@ -21,6 +23,7 @@ export const NCoinAge: FC<{
         inline
           ? 'items-center justify-start gap-px'
           : 'w-6 flex-col items-center justify-between',
+        isNew && 'text-v1-background-secondary',
         className,
       )}
     >
