@@ -1,5 +1,6 @@
 import { getPairsCached } from 'api';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
+import { type DelphinusServiceClientImpl } from 'api/proto/delphinus';
 import {
   type ResolutionString,
   type LibrarySymbolInfo,
@@ -12,11 +13,9 @@ export const resolutionToSeconds: Record<Resolution, number> = {
   '1m': 60,
   '5m': 60 * 5,
   '15m': 60 * 15,
-  // '30m': 60,
+  '30m': 60 * 30,
   '1h': 60 * 60,
   '4h': 60 * 60 * 4,
-  // '12h': 60 * 60 * 12,
-  '1D': 60 * 60 * 24,
 };
 
 const minutesToResolution: Record<string, Resolution> = Object.fromEntries(
@@ -36,19 +35,18 @@ const config: DatafeedConfiguration = {
   symbols_types: [{ name: 'crypto', value: 'crypto' }],
 };
 
-const makeDataFeed = ({
-  slug: baseSlug,
-  quote,
-  pool,
-  token,
-  network,
-}: {
-  slug: string;
-  quote: string;
-  pool: string;
-  token: string;
-  network: string;
-}): IBasicDataFeed => {
+const makeDataFeed = (
+  delphinus: DelphinusServiceClientImpl,
+  {
+    slug: baseSlug,
+    quote,
+    network,
+  }: {
+    slug: string;
+    quote: string;
+    network: string;
+  },
+): IBasicDataFeed => {
   return {
     onReady: async callback => {
       await getPairsCached(baseSlug);
@@ -122,34 +120,28 @@ const makeDataFeed = ({
 
       try {
         const dur = resolutionToSeconds[res];
-        const before = Math.round(periodParams.to / dur) * dur;
-        const limit = before / dur - Math.round(periodParams.from / dur);
+        const endTime = Math.round(periodParams.to / dur) * dur;
+        const startTime =
+          endTime -
+          Math.min(1000, endTime / dur - Math.round(periodParams.from / dur)) *
+            dur;
 
-        const data = await getCandlesCached({
+        const bars = await getCandlesCached(delphinus, {
+          market: 'SPOT',
           network,
-          pool,
-          token,
+          baseSlug,
+          quoteSlug: quote,
           resolution: res,
-          before,
-          limit: Math.min(limit, 1000),
+          startTime: new Date(startTime * 1000).toISOString(),
+          endTime: new Date(endTime * 1000).toISOString(),
+          skipEmptyCandles: true,
         });
 
-        const bars = data
-          .map(c => ({
-            open: c.open,
-            close: c.close,
-            low: c.low,
-            high: c.high,
-            time: +new Date(c.related_at),
-            volume: c.volume,
-          }))
-          .reverse();
-
         onResult(bars, {
-          noData: !data?.length,
+          noData: !bars?.length,
           nextTime:
-            limit > 1000 && bars.length > 0
-              ? bars[0].time / 1000 - limit
+            startTime > 1000 && bars.length > 0
+              ? bars[0].time / 1000 - startTime
               : undefined,
         });
       } catch (error: any) {

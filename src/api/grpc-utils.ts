@@ -9,6 +9,7 @@ import {
   useObservableAllValues,
   useObservableLastValue,
 } from 'utils/observable';
+import { GRPC_ORIGIN } from 'config/constants';
 import { DelphinusServiceClientImpl, GrpcWebImpl } from './proto/delphinus';
 import { NetworkRadarServiceClientImpl } from './proto/network_radar';
 import { PingServiceClientImpl } from './proto/common';
@@ -29,7 +30,7 @@ export function useGrpcService<K extends ServiceKey>(svc: K): ServiceType<K> {
   return useMemo(() => {
     const Imp = grpcServices[svc];
     return new Imp(
-      new GrpcWebImpl('https://stage-grpc.wisdomise.com/' + svc, {}),
+      new GrpcWebImpl(`${GRPC_ORIGIN}/${svc}`, {}),
     ) as ServiceType<K>;
   }, [svc]);
 }

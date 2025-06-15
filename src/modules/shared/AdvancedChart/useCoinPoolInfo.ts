@@ -23,9 +23,7 @@ const useCoinPoolInfo = (slug: string) => {
               slug,
               quote,
               symbolName: info.data.name,
-              token: net.contract_address,
               network: net.network.slug,
-              pool: lastCandle.data.symbol.pool_address,
             }
           : undefined,
     }),

@@ -1,82 +1,53 @@
-import { type Candle } from 'api';
-import { ofetch } from 'config/ofetch';
+import { type DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import { isProduction } from 'utils/version';
 
-export type Resolution = '1m' | '5m' | '15m' | '1h' | '4h' | '1D';
+export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h' | '4h';
 
-const durConf: Record<Resolution, [string, number]> = {
-  '1m': ['minute', 1],
-  '5m': ['minute', 5],
-  '15m': ['minute', 15],
-  // '30m': 60,
-  '1h': ['hour', 1],
-  '4h': ['hour', 4],
-  // '12h': 60 * 60 * 12,
-  '1D': ['day', 1],
-};
+interface ChartCandle {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  time: number;
+}
 
-const caches: Record<string, Promise<Candle[]> | undefined> = {};
-const getCandlesCached = async ({
-  network,
-  pool,
-  token,
-  resolution,
-  before,
-  limit,
-}: {
-  network: string;
-  pool: string;
-  token: string;
-  resolution: Resolution;
-  before: number;
-  limit: number;
-}) => {
-  const normNet = network === 'the-open-network' ? 'ton' : network;
-  const cacheKey = [normNet, pool, token, resolution, before, limit].join(',');
-
-  // don't ask for data before 180 days ago
-  if (Date.now() / 1000 - before > 180 * 24 * 60 * 60) {
-    return [];
-  }
-
+const caches: Record<string, Promise<ChartCandle[]> | undefined> = {};
+const getCandlesCached = async (
+  delphinus: DelphinusServiceClientImpl,
+  params: {
+    network: string;
+    baseSlug: string;
+    quoteSlug: string;
+    resolution: Resolution;
+    startTime: string;
+    endTime: string;
+    skipEmptyCandles: boolean;
+    market: string;
+  },
+) => {
+  const cacheKey = JSON.stringify(params);
   if (!caches[cacheKey]) {
-    caches[cacheKey] = ofetch<{
-      data: {
-        attributes: {
-          ohlcv_list: Array<[number, number, number, number, number, number]>;
-        };
-      };
-    }>(
-      `/delphi/chart/${normNet}/pools/${pool}/ohlcv/${durConf[resolution][0]}/`,
-      {
-        query: {
-          aggregate: durConf[resolution][1],
-          token,
-          before_timestamp: before,
-          limit,
-        },
-        retry: 3,
-        retryDelay: 3000,
-        retryStatusCodes: [429],
-      },
-    )
+    caches[cacheKey] = delphinus
+      .getCandles(params)
       .then(data =>
-        data.data.attributes.ohlcv_list.map<Candle>(
-          ([date, open, high, low, close, volume]) => ({
-            open,
-            high,
-            low,
-            close,
-            volume,
-            related_at: new Date(date * 1000).toISOString(),
-          }),
-        ),
+        data.candles.map(c => ({
+          open: +c.open,
+          high: +c.high,
+          low: +c.low,
+          close: +c.close,
+          volume: +c.volume,
+          time: +new Date(c.relatedAt),
+        })),
       )
       .catch(error => {
+        if (!isProduction) {
+          console.error(error);
+        }
         caches[cacheKey] = undefined;
         throw error;
       });
   }
-
   return await caches[cacheKey];
 };
 

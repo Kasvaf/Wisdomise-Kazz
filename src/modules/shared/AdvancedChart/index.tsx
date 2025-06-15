@@ -11,6 +11,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
+import { useGrpcService } from 'api/grpc-utils';
 import {
   widget as Widget,
   type IChartingLibraryWidget,
@@ -50,14 +51,16 @@ const AdvancedChart: React.FC<{
     i18n: { language },
   } = useTranslation();
 
+  const delphinus = useGrpcService('delphinus');
+
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
   useEffect(() => {
-    if (isLoading || !data?.pool) return;
+    if (isLoading || !data?.network) return;
 
     const widget = new Widget({
       symbol: data.symbolName,
-      datafeed: makeDataFeed(data),
+      datafeed: makeDataFeed(delphinus, data),
       container: chartContainerRef.current,
       library_path:
         (RouterBaseName ? '/' + RouterBaseName : '') + '/charting_library/',
@@ -77,18 +80,14 @@ const AdvancedChart: React.FC<{
         // 'header_resolutions',
       ],
       timeframe: '7D', // initial zoom on chart
-      interval: '1h' as ResolutionString,
+      interval: '30' as ResolutionString,
       time_frames: [
         { title: '12h/1m', text: '12h', resolution: '1' as ResolutionString },
         { title: '1d/5m', text: '1D', resolution: '5' as ResolutionString },
         { title: '5d/15m', text: '5D', resolution: '15' as ResolutionString },
-        { title: '7d/1h', text: '7D', resolution: '60' as ResolutionString }, // default
+        { title: '7d/30m', text: '7D', resolution: '30' as ResolutionString }, // default
+        { title: '14d/1h', text: '14D', resolution: '60' as ResolutionString },
         { title: '31d/4h', text: '30D', resolution: '240' as ResolutionString },
-        {
-          title: '180d/1d',
-          text: '180D',
-          resolution: '1440' as ResolutionString,
-        },
       ],
       overrides: {
         'scalesProperties.showSymbolLabels': false,
@@ -112,9 +111,17 @@ const AdvancedChart: React.FC<{
       setGlobalChartWidget?.(undefined);
       widget.remove();
     };
-  }, [slug, data, isLoading, language, setGlobalChartWidget, widgetRef]);
+  }, [
+    slug,
+    data,
+    isLoading,
+    language,
+    setGlobalChartWidget,
+    widgetRef,
+    delphinus,
+  ]);
 
-  if (isLoading || !data?.pool) return null;
+  if (isLoading || !data?.network) return null;
   return (
     <div ref={chartContainerRef} className={clsx('h-[600px]', className)} />
   );
