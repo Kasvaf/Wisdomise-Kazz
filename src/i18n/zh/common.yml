@@ -70,6 +70,8 @@ search_coins: 代幣、Abbv 和合約地址
 security_label: 安全标签
 see-more: 查看更多
 select-crypto: 选择加密
+select-detail-first: 选择硬币查看详细信息
+select-detail-first-description: 要进行交易，请首先从追踪器列表中选择一种硬币。
 share-page-url: 分享此页面
 show-more: 顯示更多
 soon: 即將推出

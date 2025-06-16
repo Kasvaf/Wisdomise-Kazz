@@ -55,6 +55,20 @@ export const ListExpander: FC = () => {
     }
   }, [params, isMobile]);
 
+  useEffect(() => {
+    if (
+      params.view === 'list' &&
+      !LISTS_CONFIG[params.list].expandable &&
+      !isMobile
+    ) {
+      navigate(
+        getUrl({
+          view: 'both',
+        }),
+      );
+    }
+  }, [getUrl, isMobile, navigate, params.list, params.view]);
+
   if (isMobile) return null;
 
   const handleExpandClick = () => {

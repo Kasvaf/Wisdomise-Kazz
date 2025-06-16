@@ -1054,7 +1054,52 @@ export interface CoinRadarCoin {
   _highlighted?: boolean;
 }
 
-/* Other */
+/* Twitter Tracker */
+export interface TwitterAccount {
+  id: number;
+  key: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  user_id: string; // its a big int number by default, so it will convert to string due to convert issue
+  name: string;
+  username: string;
+  followers_count: null | number;
+  following_count: null | number;
+  tweet_count: null | number;
+  like_count: null | number;
+}
+
+export interface TwitterFollowedAccount {
+  user_id: string;
+  username: string;
+  hide_from_list: boolean;
+}
+
+export interface TwitterTweet {
+  user: TwitterAccount;
+  tweet_id: number;
+  related_at: string;
+  retweet_count: number;
+  reply_count: number;
+  like_count: number;
+  quote_count: number;
+  bookmark_count: number;
+  impression_count: number;
+  text?: null | string;
+  language?: null | string;
+  media: Array<{
+    url: string;
+    type: 'photo' | 'video';
+    width: number;
+    height: number;
+  }>;
+  quoted_tweet?: null | TwitterTweet;
+  retweeted_tweet?: null | TwitterTweet;
+  replied_tweet?: null | TwitterTweet;
+}
+
+/* Rest */
 export interface DetailedCoin {
   symbol: Coin;
   symbol_community_links?: null | CoinCommunityData['links'];
