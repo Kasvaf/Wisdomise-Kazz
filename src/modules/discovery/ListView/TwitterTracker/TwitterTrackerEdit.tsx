@@ -60,7 +60,7 @@ export const TwitterTrackerEdit: FC = () => {
       },
       {
         key: 'followers',
-        title: 'Subscribers',
+        title: 'Followers',
         render: row => <ReadableNumber value={row.followers_count} />,
       },
       {
