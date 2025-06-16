@@ -54,3 +54,5 @@ export const convertNCoinSecurityFieldToBool = ({
   }
   return false;
 };
+
+export type NetworkRadarTab = 'new_pairs' | 'final_stretch' | 'migrated';

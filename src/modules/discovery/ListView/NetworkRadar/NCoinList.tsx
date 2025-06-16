@@ -2,7 +2,6 @@
 import { type ReactNode, type FC, useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { bxPauseCircle } from 'boxicons-quasar';
 import { type TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { CircularProgress } from 'shared/CircularProgress';
@@ -10,8 +9,6 @@ import { CoinLogo } from 'shared/Coin';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { ContractAddress } from 'shared/ContractAddress';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
@@ -23,10 +20,10 @@ const NCoinLogo: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
 }> = ({ className, value }) => (
-  <div className={clsx('relative size-11', className)}>
+  <div className={clsx('relative size-[44px]', className)}>
     <CoinLogo
       value={value.symbol?.imageUrl}
-      className="absolute left-[4px] top-[4px] size-[36px]"
+      className="!absolute inset-[4px] size-[36px]"
     />
     <CircularProgress
       className="absolute inset-0"
@@ -50,7 +47,7 @@ const NCoinBasicInfo: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
 }> = ({ className, value }) => (
-  <div className={clsx('flex flex-col gap-1', className)}>
+  <div className={clsx('flex flex-col items-start gap-1', className)}>
     <p className="text-xs">{value.symbol?.name ?? ''}</p>
     <div className="flex items-center justify-start gap-1 text-xs">
       <p className="text-v1-content-secondary">{value.symbol?.base ?? ''}</p>
@@ -167,12 +164,11 @@ export const NCoinList: FC<{
   title?: ReactNode;
   className?: string;
   loading?: boolean;
-}> = ({ dataSource: _dataSource, title, loading, className }) => {
+  onRowClick?: (slug: string) => void;
+}> = ({ dataSource: _dataSource, title, loading, className, onRowClick }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
   useEffect(() => {
     if (!hovered) {
       setDataSource(_dataSource);
@@ -185,18 +181,20 @@ export const NCoinList: FC<{
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
     >
-      <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-v1-surface-l-next">
-        {title}
-        <div
-          className={clsx(
-            'flex items-center gap-1 text-xs text-v1-content-info transition-all',
-            !hovered && 'pointer-events-none opacity-0',
-          )}
-        >
-          <Icon name={bxPauseCircle} size={18} />
-          {'Paused'}
+      {title && (
+        <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-v1-surface-l-next">
+          {title}
+          <div
+            className={clsx(
+              'flex items-center gap-1 text-xs text-v1-content-info transition-all',
+              !hovered && 'pointer-events-none opacity-0',
+            )}
+          >
+            <Icon name={bxPauseCircle} size={18} />
+            {'Paused'}
+          </div>
         </div>
-      </div>
+      )}
       {loading ? (
         <p className="animate-pulse p-3 text-center text-xs text-v1-content-secondary">
           {t('common:almost-there')}
@@ -208,18 +206,15 @@ export const NCoinList: FC<{
       ) : (
         <div className="flex flex-col gap-3">
           {dataSource.map(row => (
-            <Link
+            <button
               key={row.symbol?.slug}
               className="relative flex max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
-              to={getUrl({
-                detail: 'coin',
-                slug: row.symbol?.slug,
-                view: isMobile || params.view === 'detail' ? 'detail' : 'both',
-              })}
+              type="button"
+              onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
               <div className="flex w-3/4 flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <NCoinLogo value={row} />
+                <div className="flex shrink-0 items-center gap-2">
+                  <NCoinLogo value={row} className="shrink-0" />
                   <NCoinBasicInfo value={row} />
                 </div>
                 <NCoinInsightRow value={row} />
@@ -228,7 +223,7 @@ export const NCoinList: FC<{
                 value={row}
                 className="absolute end-2 h-full"
               />
-            </Link>
+            </button>
           ))}
         </div>
       )}
