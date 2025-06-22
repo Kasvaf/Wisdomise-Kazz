@@ -83,13 +83,17 @@ export const useCustodialWallet = () => {
   );
   const cw = wallets?.results.find(w => w.key === cwKey);
 
+  const delCw = () => {
+    localStorage.removeItem('custodial-key');
+  };
+
   useEffect(() => {
     if (cwKey === undefined && wallets?.results.length !== 0) {
       setCw(wallets?.results[0]?.key);
     }
   }, [cwKey, setCw, wallets]);
 
-  return { cw, setCw };
+  return { cw, setCw, delCw };
 };
 
 export const useActiveWallet = () => {
