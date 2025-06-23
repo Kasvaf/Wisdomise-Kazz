@@ -11,11 +11,15 @@ const TweetUser: FC<{
   value: TwitterTweet;
   className?: string;
 }> = ({ value, className }) => (
-  <div
+  <a
     className={clsx(
       'flex items-center gap-1 text-v1-content-secondary',
       className,
     )}
+    href={`https://x.com/${value.user.username}`}
+    target="_blank"
+    referrerPolicy="no-referrer"
+    rel="noreferrer"
   >
     <img
       className="size-6 shrink-0 rounded-full bg-v1-surface-l5"
@@ -23,7 +27,7 @@ const TweetUser: FC<{
     />
     <p className="shrink text-v1-content-primary">{value.user.name}</p>
     <p>@{value.user.username}</p>
-  </div>
+  </a>
 );
 
 const TweetTime: FC<{
@@ -111,13 +115,26 @@ export const TweetCard: FC<{
         {value.replied_tweet && (
           <div className="text-xs text-v1-content-secondary">
             {'Replying to '}
-            <span className="text-v1-background-brand">
+            <a
+              href={`https://x.com/${value.replied_tweet.user.username}`}
+              target="_blank"
+              referrerPolicy="no-referrer"
+              rel="noreferrer"
+              className="text-v1-background-brand"
+            >
               @{value.replied_tweet.user.username}
-            </span>
+            </a>
           </div>
         )}
         {value.text && (
-          <p className="whitespace-pre-wrap text-sm">{value.text}</p>
+          <p
+            className="max-w-full whitespace-pre-wrap text-sm"
+            style={{
+              overflowWrap: 'anywhere',
+            }}
+          >
+            {value.text}
+          </p>
         )}
         <TweetMedia value={value} onOpen={onOpenMedia} />
       </div>
