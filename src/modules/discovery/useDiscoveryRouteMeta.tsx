@@ -13,34 +13,44 @@ export interface DiscoveryRouteMeta {
   view: keyof typeof VIEWS;
 }
 
+export const groupDiscoveryRouteMeta = (meta: Partial<DiscoveryRouteMeta>) =>
+  [
+    LISTS[meta.list || 'coin-radar'].alias,
+    DETAILS[meta.detail || 'coin'].alias,
+    VIEWS[meta.view || 'both'].alias,
+  ].join('');
+
+export const unGroupDiscoveryRouteMeta = (grouped: string) => {
+  const list: keyof typeof LISTS =
+    (Object.entries(LISTS).find(
+      ([, v]) => v.alias === grouped.slice(0, 1),
+    )?.[0] as keyof typeof LISTS) ?? 'coin-radar';
+
+  const detail: keyof typeof DETAILS =
+    (Object.entries(DETAILS).find(
+      ([, v]) => v.alias === grouped.slice(1, 2),
+    )?.[0] as keyof typeof DETAILS) ?? 'coin';
+
+  const view: keyof typeof VIEWS =
+    (Object.entries(VIEWS).find(
+      ([, v]) => v.alias === grouped.slice(2, 3),
+    )?.[0] as keyof typeof VIEWS) ?? 'both';
+
+  return {
+    list,
+    detail,
+    view,
+  };
+};
+
 export const useDiscoveryRouteMeta = <T extends string>() => {
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
 
-  const params = useMemo<DiscoveryRouteMeta>(() => {
-    const ui = searchParams.get('ui') ?? '';
-
-    const list: keyof typeof LISTS =
-      (Object.entries(LISTS).find(
-        ([, v]) => v.alias === ui.slice(0, 1),
-      )?.[0] as keyof typeof LISTS) ?? 'coin-radar';
-
-    const detail: keyof typeof DETAILS =
-      (Object.entries(DETAILS).find(
-        ([, v]) => v.alias === ui.slice(1, 2),
-      )?.[0] as keyof typeof DETAILS) ?? 'coin';
-
-    const view: keyof typeof VIEWS =
-      (Object.entries(VIEWS).find(
-        ([, v]) => v.alias === ui.slice(2, 3),
-      )?.[0] as keyof typeof VIEWS) ?? 'both';
-
-    return {
-      list,
-      detail,
-      view,
-    };
-  }, [searchParams]);
+  const params = useMemo<DiscoveryRouteMeta>(
+    () => unGroupDiscoveryRouteMeta(searchParams.get('ui') ?? ''),
+    [searchParams],
+  );
 
   const getUrl = useCallback(
     ({
@@ -61,11 +71,11 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
       }
       newSearchParams.set(
         'ui',
-        [
-          LISTS[list || params.list].alias,
-          DETAILS[detail || params.detail].alias,
-          VIEWS[view || params.view].alias,
-        ].join(''),
+        groupDiscoveryRouteMeta({
+          list: list ?? params.list,
+          detail: detail ?? params.detail,
+          view: view ?? params.view,
+        }),
       );
       return {
         pathname: '/discovery',

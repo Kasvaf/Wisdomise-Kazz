@@ -1,17 +1,62 @@
 import { useLocation, Navigate } from 'react-router-dom';
+import { LISTS } from 'modules/discovery/constants';
+import { groupDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 
 const REDIRECT_MAP: Record<string, string> = {
-  '': '/discovery?list=coin-radar',
-  '/coin-radar': '/discovery?list=coin-radar',
-  '/coin-radar/overview': '/discovery?list=coin-radar',
-  '/coin-radar/social-radar': '/discovery?list=social-radar',
-  '/coin-radar/technical-radar': '/discovery?list=technical-radar',
-  '/coin-radar/whale-radar': '/discovery?list=whale-radar',
-  '/coin-radar/network-radar': '/discovery?list=network-radar',
+  // Coin Radar
+  '': `/discovery?ui=${groupDiscoveryRouteMeta({})}`,
+  '/coin-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+    list: 'coin-radar',
+  })}`,
+  '/coin-radar/overview': `/discovery?ui=${groupDiscoveryRouteMeta({
+    list: 'coin-radar',
+  })}`,
+  // Social Radar
+  '/coin-radar/social-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+    list: 'social-radar',
+  })}`,
+  // Social Radar
+  '/coin-radar/technical-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+    list: 'technical-radar',
+  })}`,
+  // Whale Radar
+  '/coin-radar/whale-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+    list: 'whale-radar',
+  })}`,
+  // Network Radar
+  '/coin-radar/network-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+    list: 'network-radar',
+  })}`,
+  // Alerts
   '/coin-radar/alerts': '/account/alerts',
-  '/coin/{slug}': '/discovery?detail=coin&slug={slug}',
-  '/coin-radar/whale-radar/{nework}/{address}':
-    '/discovery?detail=whale&slug={nework}/{address}',
+  // Whale Details
+  '/whale/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta({
+    detail: 'whale',
+  })}&slug={nework}/{address}`,
+  '/coin-radar/whale-radar/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta(
+    {
+      detail: 'whale',
+    },
+  )}&slug={nework}/{address}`,
+  // Coin Details
+  '/token/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta({
+    detail: 'coin',
+  })}&slug={nework}/{address}`,
+  '/token/{nework}': `/discovery?ui=${groupDiscoveryRouteMeta({
+    detail: 'coin',
+  })}&slug={nework}/`,
+  '/coin/{slug}': `/discovery?ui=${groupDiscoveryRouteMeta({
+    detail: 'coin',
+  })}&slug={slug}`,
+
+  ...Object.fromEntries(
+    Object.keys(LISTS).map(list => [
+      `/discovery/${list}`,
+      `/discovery?ui=${groupDiscoveryRouteMeta({
+        list: list as never,
+      })}`,
+    ]),
+  ),
 };
 
 const findMatchingRoute = (

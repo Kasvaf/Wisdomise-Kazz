@@ -1175,13 +1175,17 @@ export const useDetailedCoins = (config: {
   return useQuery({
     queryKey: ['coinsV2', config.query, network],
     staleTime: Number.POSITIVE_INFINITY,
-    queryFn: () =>
-      ofetch<DetailedCoin[]>('delphi/market/symbol-advanced-search/', {
+    queryFn: () => {
+      if (!network) {
+        return [];
+      }
+      return ofetch<DetailedCoin[]>('delphi/market/symbol-advanced-search/', {
         query: {
           q: config.query,
           network_slug: network,
         },
-      }),
+      });
+    },
   });
 };
 
