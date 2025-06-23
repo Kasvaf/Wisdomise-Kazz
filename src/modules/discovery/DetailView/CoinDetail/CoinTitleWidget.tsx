@@ -2,6 +2,7 @@
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { bxShareAlt } from 'boxicons-quasar';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import {
@@ -17,6 +18,10 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { ContractAddress } from 'shared/ContractAddress';
 import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
+import { Button } from 'shared/v1-components/Button';
+import Icon from 'shared/Icon';
+import { useShare } from 'shared/useShare';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export const CoinTitleWidget: FC<{
@@ -25,8 +30,10 @@ export const CoinTitleWidget: FC<{
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
+  const [globalNetwork] = useGlobalNetwork();
   const coin = useCoinDetails({ slug });
   const nCoin = useNCoinDetails({ slug });
+  const [share, shareNotif] = useShare('copy');
   const isLoading =
     coin.isLoading || nCoin.isLoading || coin.isPending || nCoin.isPending;
   const isNCoin = !!nCoin.data?.base_symbol;
@@ -47,6 +54,15 @@ export const CoinTitleWidget: FC<{
     }
     return ret;
   }, [nCoin.data, coin.data]);
+  const pageUrl = useMemo(() => {
+    const network = globalNetwork
+      ? networks.find(n => n.network.slug === globalNetwork)
+      : networks[0];
+    if (network?.contract_address) {
+      return `${window.location.origin}/token/${network.network.slug}/${network.contract_address}`;
+    }
+    return `${window.location.origin}/coin/${slug}`;
+  }, [globalNetwork, networks, slug]);
 
   useLoadingBadge(isLoading);
 
@@ -191,7 +207,7 @@ export const CoinTitleWidget: FC<{
               )}
             </div>
 
-            <div className="flex items-center gap-4 mobile:w-full mobile:justify-between">
+            <div className="flex items-center gap-3 mobile:w-full mobile:justify-between">
               <div className="flex flex-col items-end justify-between gap-1 mobile:items-start">
                 <DirectionalNumber
                   value={
@@ -222,6 +238,16 @@ export const CoinTitleWidget: FC<{
                 surface={1}
                 size="md"
               />
+              <Button
+                surface={1}
+                size="sm"
+                fab
+                variant="outline"
+                onClick={() => share(pageUrl)}
+              >
+                <Icon name={bxShareAlt} />
+              </Button>
+              {shareNotif}
             </div>
           </>
         ) : (
