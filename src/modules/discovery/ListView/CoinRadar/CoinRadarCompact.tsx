@@ -1,6 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
@@ -11,7 +12,6 @@ import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import UserAssets from 'modules/autoTrader/UserAssets';
 import useIsMobile from 'utils/useIsMobile';
 import {
@@ -124,10 +124,9 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     ],
     [],
   );
+  const [searchParams] = useSearchParams();
+  const activeSlug = searchParams.get('slug');
 
-  const {
-    params: { slug: activeSlug },
-  } = useDiscoveryRouteMeta();
   return (
     <>
       {focus && <UserAssets onlyTradingAssets className="mb-4" />}

@@ -1,12 +1,12 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { type NetworkRadarNCoin, useNetworkRadarNCoins } from 'api/discovery';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
 import { useCoinPreDetailModal } from '../CoinPreDetailModal';
 import { NCoinAge } from './NCoinAge';
@@ -105,9 +105,9 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
-  const {
-    params: { slug: activeSlug },
-  } = useDiscoveryRouteMeta();
+  const [searchParams] = useSearchParams();
+  const activeSlug = searchParams.get('slug');
+
   return (
     <>
       {focus && (
