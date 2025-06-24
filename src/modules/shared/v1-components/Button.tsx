@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode, type FC, type MouseEventHandler } from 'react';
+import { type ReactNode, type FC, useState, type MouseEvent } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
 export interface ButtonProps {
@@ -21,7 +21,9 @@ export interface ButtonProps {
   block?: boolean;
   children?: ReactNode;
   className?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => unknown | Promise<unknown>;
   surface?: Surface;
   type?: 'button' | 'submit';
 }
@@ -39,6 +41,7 @@ export const Button: FC<ButtonProps> = ({
   surface = 3,
   type,
 }) => {
+  const [localLoading, setLocalLoading] = useState(false);
   const colors = useSurface(surface);
   return (
     <button
@@ -84,7 +87,7 @@ export const Button: FC<ButtonProps> = ({
         variant === 'positive' &&
           'border-v1-border-positive bg-transparent text-v1-content-positive enabled:hover:bg-v1-background-positive/15 enabled:active:bg-transparent',
         /* Loading */
-        loading && 'animate-pulse',
+        (loading || localLoading) && 'animate-pulse',
         /* Disabled */
         'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
         /* Shared */
@@ -94,8 +97,17 @@ export const Button: FC<ButtonProps> = ({
         'items-center justify-center gap-1',
         className,
       )}
-      disabled={disabled || loading}
-      onClick={onClick}
+      disabled={disabled || loading || localLoading}
+      onClick={e => {
+        const ret = onClick?.(e);
+        if (ret && ret instanceof Promise) {
+          setLocalLoading(true);
+          return ret.finally(() => {
+            setLocalLoading(false);
+          });
+        }
+        return ret;
+      }}
       type={type}
     >
       {children}

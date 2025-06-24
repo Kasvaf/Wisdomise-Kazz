@@ -70,6 +70,8 @@ search_coins: コイン、Abbv、契約アドレス
 security_label: セキュリティラベル
 see-more: もっと見る
 select-crypto: 暗号を選択
+select-detail-first: コインを選択して詳細を表示
+select-detail-first-description: 取引を行うには、まずトラッカーリストからコインを選択する必要があります。
 share-page-url: このページを共有する
 show-more: もっと見せる
 soon: すぐ

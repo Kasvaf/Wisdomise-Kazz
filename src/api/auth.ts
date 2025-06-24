@@ -7,6 +7,7 @@ import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
 import { isLocal } from 'utils/version';
+import { useCustodialWallet } from 'api/chains/wallet';
 import { useUserStorage } from './userStorage';
 import { useDisconnectAll } from './chains';
 
@@ -232,6 +233,7 @@ export function useMiniAppWebLoginMutation() {
 export function useLogoutMutation() {
   const queryClient = useQueryClient();
   const disconnectChains = useDisconnectAll();
+  const { delCw } = useCustodialWallet();
 
   return useMutation<boolean, unknown, unknown>({
     mutationFn: async () => {
@@ -240,6 +242,7 @@ export function useLogoutMutation() {
         { credentials: 'include', body: {}, method: 'post' },
       );
       delJwtToken();
+      delCw();
       await Promise.all([
         disconnectChains(),
         queryClient.invalidateQueries({}),

@@ -1,11 +1,13 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
+import { useEffect, useMemo, useState } from 'react';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { resolvePageResponseToArray, createSorter, matcher } from 'api/utils';
 import { isDebugMode, isMiniApp } from 'utils/version';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from 'api/types/page';
 import { type Coin } from 'api/types/shared';
+import { useUserStorage } from 'api/userStorage';
 import {
   type CoinDetails,
   type RadarsMetcis,
@@ -41,6 +43,9 @@ import {
   type CoinRadarCoin,
   type NetworkRadarNCoinDetails,
   type TokenInsight,
+  type TwitterAccount,
+  type TwitterFollowedAccount,
+  type TwitterTweet,
 } from './types';
 
 export * from './types';
@@ -683,6 +688,159 @@ export const useWhaleTransactions = (config: {
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
+
+/* Twitter Tracker */
+export const useTwitterSuggestedAccounts = () =>
+  useQuery({
+    queryKey: ['twitter-suggested-accounts'],
+    queryFn: () =>
+      resolvePageResponseToArray<TwitterAccount>(
+        'delphi/stream/twitter-users/',
+      ).then(x =>
+        x.map(acc => ({
+          ...acc,
+          user_id: BigInt(acc.user_id).toString(),
+        })),
+      ),
+  });
+
+export const useTwitterFollowedAccounts = () => {
+  const {
+    value: rawValue,
+    isLoading,
+    save,
+  } = useUserStorage('followed_twitter_accounts');
+
+  const [value, setValue] = useState<TwitterFollowedAccount[]>([]);
+  useEffect(() => {
+    try {
+      if (rawValue) {
+        const list: TwitterFollowedAccount[] = JSON.parse(rawValue || '[]');
+        if (
+          Array.isArray(list) &&
+          list.every(
+            item =>
+              typeof item.username === 'string' &&
+              typeof item.hide_from_list === 'boolean' &&
+              typeof item.user_id === 'string',
+          )
+        ) {
+          setValue(list);
+        }
+      }
+    } catch {}
+  }, [rawValue]);
+
+  return useMemo(() => {
+    const follow = (acc: TwitterFollowedAccount) => {
+      const currentIndex = value.findIndex(x => x.user_id === acc.user_id);
+      if (currentIndex !== -1) {
+        return save(
+          JSON.stringify([
+            ...value.slice(0, currentIndex),
+            acc,
+            ...value.slice(currentIndex + 1),
+          ]),
+        );
+      }
+      return save(JSON.stringify([...value, acc]));
+    };
+    const unFollow = (acc: TwitterFollowedAccount | true) =>
+      save(
+        JSON.stringify(
+          acc === true ? [] : value.filter(x => x.user_id !== acc.user_id),
+        ),
+      );
+
+    return {
+      isLoading,
+      follow,
+      unFollow,
+      value,
+      rawValue,
+    };
+  }, [isLoading, value, save, rawValue]);
+};
+
+export const useStreamTweets = (config: { userIds: string[] }) => {
+  const [tweets, setTweets] = useState<TwitterTweet[]>([]);
+  const initialStream = useQuery({
+    queryKey: ['streamed-tweets', config.userIds],
+    queryFn: () =>
+      resolvePageResponseToArray<TwitterTweet>('delphi/streamed/tweets/', {
+        meta: {
+          auth: false,
+        },
+        query: {
+          user_id: config.userIds,
+          hours: 24,
+        },
+      }),
+    enabled: config.userIds.length > 0,
+    refetchInterval: 1000 * 60 * 5,
+    refetchOnMount: false,
+    meta: {
+      persist: true,
+    },
+  });
+
+  useEffect(() => {
+    // TODO: i couldn't make sure how stream works and cannot test it, so i disabled it for now
+    // eslint-disable-next-line no-constant-condition
+    if (config.userIds.length === 0 || true) return;
+    const controller = new AbortController();
+
+    const startStream = async () => {
+      try {
+        const response = await ofetch('delphi/stream/tweets/', {
+          meta: {
+            auth: false,
+          },
+          query: {
+            user_id: config.userIds,
+          },
+          signal: controller.signal,
+          responseType: 'stream',
+        });
+
+        const reader = response.getReader();
+        const decoder = new TextDecoder('utf8');
+        if (!reader) throw new Error('No reader available');
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+
+          const text = decoder.decode(value, { stream: true });
+          const lines = text.split('\n').filter(Boolean);
+          for (const line of lines) {
+            try {
+              const tweet = JSON.parse(line);
+              setTweets(prev => [...prev, tweet]);
+            } catch {}
+          }
+        }
+      } catch {}
+    };
+
+    void startStream();
+
+    return () => controller.abort(); // cleanup on unmount
+  }, [config.userIds]);
+
+  return useMemo(
+    () => ({
+      ...initialStream,
+      data: [
+        ...(initialStream.data ?? []).filter(
+          x => !tweets.some(y => y.tweet_id === x.tweet_id),
+        ),
+        ...tweets,
+      ],
+    }),
+    [initialStream, tweets],
+  );
+};
 
 /* Rest */
 export const useNetworks = (config: {

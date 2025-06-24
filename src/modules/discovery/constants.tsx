@@ -6,6 +6,7 @@ export const AVAILABLE_LISTS = [
   'technical-radar',
   'whale-radar',
   'positions',
+  'twitter-tracker',
 ] as const;
 
 export const LISTS_CONFIG: Record<
@@ -34,6 +35,9 @@ export const LISTS_CONFIG: Record<
   },
   'positions': {
     expandable: true,
+  },
+  'twitter-tracker': {
+    expandable: false,
   },
 };
 

@@ -8,6 +8,7 @@ import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
 import { ReactComponent as TechnicalRadarIcon } from './icons/technical.svg';
 import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
 import { ReactComponent as NetworkRadarIcon } from './icons/trench.svg';
+import { ReactComponent as TwitterTrackerIcon } from './icons/twitter-tracker.svg';
 interface MenuItem {
   link: string;
   meta: Partial<DiscoveryRouteMeta>;
@@ -84,6 +85,16 @@ export const useMenuItems = () => {
         icon: PositionsIcon,
         text: 'Positions',
         crumb: 'Positions',
+        hide: isMobile,
+      },
+      {
+        link: '/discovery?list=twitter-tracker',
+        meta: {
+          list: 'twitter-tracker',
+        },
+        icon: TwitterTrackerIcon,
+        text: 'X Tracker',
+        crumb: 'X Tracker',
         hide: isMobile,
       },
     ],
