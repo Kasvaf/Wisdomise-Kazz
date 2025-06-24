@@ -50,7 +50,9 @@ const NCoinBasicInfo: FC<{
   <div className={clsx('flex flex-col items-start gap-1', className)}>
     <p className="text-xs">{value.symbol?.name ?? ''}</p>
     <div className="flex items-center justify-start gap-1 text-xs">
-      <p className="text-v1-content-secondary">{value.symbol?.base ?? ''}</p>
+      <p className="max-w-24 overflow-hidden text-ellipsis text-v1-content-secondary">
+        {value.symbol?.base ?? ''}
+      </p>
       <ContractAddress value={value.symbol?.contractAddress ?? ''} allowCopy />
       .
       <NCoinAge value={value.symbol?.createdAt} inline imgClassName="hidden" />
