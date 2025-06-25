@@ -42,7 +42,9 @@ export default function LeagueResultModalContent({
         </video>
       )}
       <div className="relative flex flex-col items-center text-center">
-        <h1 className="mb-16 text-3xl font-semibold italic">League</h1>
+        <h1 className="mb-16 text-2xl font-semibold italic">
+          Last Week League Result
+        </h1>
         {profile.promotion_status === 'PROMOTING' ? (
           isChampion ? (
             <>

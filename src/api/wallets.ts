@@ -25,6 +25,12 @@ export const useWalletsQuery = () => {
   });
 };
 
+export const useWalletQuery = (key?: string) => {
+  const query = useWalletsQuery();
+
+  return { ...query, data: query.data?.results.find(w => w.key === key) };
+};
+
 interface CreateWalletRequest {
   network_slug: Exclude<SupportedNetworks, 'polygon'>;
   name: string;
