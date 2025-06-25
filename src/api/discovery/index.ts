@@ -923,11 +923,6 @@ export const useTwitterSuggestedAccounts = () =>
     queryFn: () =>
       resolvePageResponseToArray<TwitterAccount>(
         'delphi/stream/twitter-users/',
-      ).then(x =>
-        x.map(acc => ({
-          ...acc,
-          user_id: BigInt(acc.user_id).toString(),
-        })),
       ),
   });
 

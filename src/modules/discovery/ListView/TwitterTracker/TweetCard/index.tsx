@@ -13,7 +13,7 @@ const TweetUser: FC<{
 }> = ({ value, className }) => (
   <a
     className={clsx(
-      'flex items-center gap-1 text-v1-content-secondary',
+      'group flex items-center gap-1 text-v1-content-secondary',
       className,
     )}
     href={`https://x.com/${value.user.username}`}
@@ -26,7 +26,7 @@ const TweetUser: FC<{
       src={`https://unavatar.io/x/${value.user.username}`}
     />
     <p className="shrink text-v1-content-primary">{value.user.name}</p>
-    <p>@{value.user.username}</p>
+    <p className="group-hover:underline">@{value.user.username}</p>
   </a>
 );
 
@@ -34,11 +34,19 @@ const TweetTime: FC<{
   value: TwitterTweet;
   className?: string;
 }> = ({ value, className }) => (
-  <ReadableDate
-    className={clsx('text-v1-content-secondary', className)}
-    value={value.related_at}
-    popup={false}
-  />
+  <a
+    href={`https://x.com/${value.user.username}/status/${value.tweet_id}`}
+    target="_blank"
+    referrerPolicy="no-referrer"
+    rel="noreferrer"
+    className="hover:underline"
+  >
+    <ReadableDate
+      className={clsx('text-v1-content-secondary', className)}
+      value={value.related_at}
+      popup={false}
+    />
+  </a>
 );
 
 const TweetType: FC<{
@@ -120,7 +128,7 @@ export const TweetCard: FC<{
               target="_blank"
               referrerPolicy="no-referrer"
               rel="noreferrer"
-              className="text-v1-background-brand"
+              className="text-v1-background-brand hover:underline"
             >
               @{value.replied_tweet.user.username}
             </a>

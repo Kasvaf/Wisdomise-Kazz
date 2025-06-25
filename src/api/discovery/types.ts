@@ -1061,7 +1061,7 @@ export interface TwitterAccount {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  user_id: string; // its a big int number by default, so it will convert to string due to convert issue
+  user_id: string;
   name: string;
   username: string;
   followers_count: null | number;
@@ -1078,7 +1078,7 @@ export interface TwitterFollowedAccount {
 
 export interface TwitterTweet {
   user: TwitterAccount;
-  tweet_id: number;
+  tweet_id: string;
   related_at: string;
   retweet_count: number;
   reply_count: number;
