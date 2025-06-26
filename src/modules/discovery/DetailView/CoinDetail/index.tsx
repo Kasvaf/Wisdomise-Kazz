@@ -20,7 +20,7 @@ const useCoinSlug = () => {
   }).data?.[0].symbol.slug;
 
   useEffect(() => {
-    if (calculatedSlug) {
+    if (calculatedSlug && !isSlug) {
       const newSearchParams = createSearchParams(searchParams);
       newSearchParams.set('slug', calculatedSlug);
       setSearchParams(newSearchParams);
