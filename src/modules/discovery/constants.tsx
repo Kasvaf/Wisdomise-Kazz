@@ -41,6 +41,6 @@ export const LISTS_CONFIG: Record<
   },
 };
 
-export const AVAILABLE_DETAILS = ['coin', 'whale'] as const;
+export const AVAILABLE_DETAILS = ['coin', 'whale', 'wallet'] as const;
 
 export const AVAILABLE_VIEWS = ['detail', 'list', 'both'] as const;

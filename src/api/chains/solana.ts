@@ -27,12 +27,18 @@ import { useSymbolInfo } from 'api/symbol';
 import { ofetch } from 'config/ofetch';
 import { useActiveWallet } from 'api/chains/wallet';
 import { getConnection } from 'api/chains/connection';
+import { queryBatchCandles, useUSDCLastPrice, useUSDTLastPrice } from 'api';
 import { queryContractSlugs } from './utils';
 
 export type AutoTraderSolanaSupportedQuotes =
   | 'tether'
   | 'usd-coin'
   | 'wrapped-solana';
+
+export const SOLANA_CONTRACT_ADDRESS =
+  'So11111111111111111111111111111111111111112';
+export const USDC_CONTRACT_ADDRESS =
+  'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 
 const useContractInfo = (slug?: string) => {
   const { data } = useSymbolInfo(slug);
@@ -42,7 +48,7 @@ const useContractInfo = (slug?: string) => {
     queryFn: async () => {
       if (slug === 'wrapped-solana') {
         return {
-          contract: 'So11111111111111111111111111111111111111112',
+          contract: SOLANA_CONTRACT_ADDRESS,
           decimals: 9,
         };
       }
@@ -116,8 +122,10 @@ export const useSolanaAccountBalance = (slug?: string, address?: string) => {
 export const useSolanaUserAssets = (address?: string) => {
   const { address: activeAddress } = useActiveWallet();
   const addr = address ?? activeAddress;
+  const { data: usdtPrice, isPending: p1 } = useUSDTLastPrice();
+  const { data: usdcPrice, isPending: p2 } = useUSDCLastPrice();
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ['solana-user-assets', addr],
     queryFn: async () => {
       if (!addr || !getConnection()) return [];
@@ -154,6 +162,7 @@ export const useSolanaUserAssets = (address?: string) => {
         const assetBalances = assets.map(x => ({
           network: 'solana',
           slug: slugOf[x.address],
+          address: x.address,
           amount: x.amount,
         }));
 
@@ -162,11 +171,40 @@ export const useSolanaUserAssets = (address?: string) => {
           assetBalances.unshift({
             network: 'solana',
             slug: 'solana',
+            address: SOLANA_CONTRACT_ADDRESS,
             amount: +fromBigMoney(solBalance, 9),
           });
         }
 
-        return assetBalances.filter(x => x.slug);
+        if (assetBalances.length === 0) {
+          return [];
+        }
+
+        const bases = assetBalances?.map(c => c.address);
+        const quotes = assetBalances?.map(c =>
+          c.slug === 'solana' ? USDC_CONTRACT_ADDRESS : SOLANA_CONTRACT_ADDRESS,
+        );
+
+        const batchRes = await queryBatchCandles({
+          bases,
+          quotes,
+          network: 'solana',
+          resolution: '1h',
+        });
+
+        return assetBalances
+          .filter(x => x.slug)
+          ?.map(a => ({
+            ...a,
+            usd_equity:
+              ((a.slug === 'tether'
+                ? usdtPrice
+                : a.slug === 'usd-coin'
+                ? usdcPrice
+                : batchRes?.responses?.find(
+                    res => res.symbol.base === a.address,
+                  )?.candles?.[0]?.close) ?? 0) * a.amount,
+          }));
       } catch (error) {
         console.error('Error fetching token accounts:', error);
         throw new Error('Failed to fetch user assets');
@@ -174,8 +212,23 @@ export const useSolanaUserAssets = (address?: string) => {
     },
     refetchInterval: 30_000, // Refresh every 30 seconds
     staleTime: 30_000,
-    enabled: !!addr && isValidSolanaAddress(addr),
+    enabled: !!addr && isValidSolanaAddress(addr) && !!usdtPrice && !!usdcPrice,
   });
+
+  return {
+    ...query,
+    isPending: query.isPending || p1 || p2,
+  };
+};
+
+export const useBalanceInUSD = (address?: string) => {
+  const { data: assets, isPending } = useSolanaUserAssets(address);
+  return {
+    balance: isPending
+      ? 0
+      : assets?.reduce((sum, curr) => (sum += curr.usd_equity), 0) ?? 0,
+    isPending,
+  };
 };
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {

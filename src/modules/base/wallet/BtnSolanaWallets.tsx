@@ -17,7 +17,7 @@ import useIsMobile from 'utils/useIsMobile';
 import { useShare } from 'shared/useShare';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import {
-  useActiveClientWallet,
+  useConnectedWallet,
   useActiveWallet,
   useCustodialWallet,
 } from 'api/chains/wallet';
@@ -30,7 +30,7 @@ export default function BtnSolanaWallets() {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const { data: wallets } = useWalletsQuery();
-  const { icon, connected } = useActiveClientWallet();
+  const { icon, connected } = useConnectedWallet();
   const hasFlag = useHasFlag();
 
   if (!isLoggedIn) return null;
@@ -113,7 +113,7 @@ export function WalletSelector({
 }
 
 function WalletItem({ wallet }: { wallet?: Wallet }) {
-  const { connected, address, name, icon } = useActiveClientWallet();
+  const { connected, address, name, icon } = useConnectedWallet();
   const { address: activeAddress } = useActiveWallet();
   const { withdrawDepositModal, deposit, withdraw } = useWalletActionHandler();
   const [copy, notif] = useShare('copy');
@@ -183,7 +183,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
 }
 
 function UserAssets() {
-  const { address } = useActiveClientWallet();
+  const { address } = useConnectedWallet();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',
     address,
