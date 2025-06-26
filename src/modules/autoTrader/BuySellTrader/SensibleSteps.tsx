@@ -7,14 +7,16 @@ export default function SensibleSteps({
   token,
   balance,
   value,
-  onChange,
+  onClick,
   surface = 2,
   className,
+  mode,
 }: {
   token?: string;
   balance?: number | null;
   value?: string;
-  onChange: (value: string) => void;
+  mode?: 'buy' | 'sell';
+  onClick: (value: string) => void;
   surface?: Surface;
   className?: string;
 }) {
@@ -30,9 +32,16 @@ export default function SensibleSteps({
         <Button
           key={stepValue}
           size="xs"
-          variant={stepValue === value ? 'primary' : 'ghost'}
-          className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
-          onClick={() => onChange(stepValue)}
+          variant={mode ? 'outline' : stepValue === value ? 'primary' : 'ghost'}
+          className={clsx(
+            '!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand',
+            mode === 'buy' &&
+              '!border-v1-border-positive !text-v1-content-positive enabled:hover:!bg-v1-background-positive-subtle',
+            mode === 'sell' &&
+              '!border-v1-border-negative !text-v1-content-negative enabled:hover:!bg-v1-background-negative-subtle',
+          )}
+          disabled={!balance}
+          onClick={() => onClick(stepValue)}
           surface={surface}
         >
           {label}

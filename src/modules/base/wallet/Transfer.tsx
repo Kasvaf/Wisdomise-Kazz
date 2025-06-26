@@ -138,7 +138,7 @@ export default function Transfer({
             className="mt-2"
             balance={selectedAsset?.amount ?? 0}
             value={amount}
-            onChange={newAmount => setAmount(newAmount)}
+            onClick={newAmount => setAmount(newAmount)}
             surface={4}
           />
         </>

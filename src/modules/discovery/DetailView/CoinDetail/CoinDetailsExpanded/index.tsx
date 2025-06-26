@@ -1,5 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
+import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
@@ -36,6 +37,9 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         />
         <div className="p-3">
           <CoinChart slug={slug} height={420} />
+          <div className="mt-2 flex justify-end">
+            <BtnInstantTrade />
+          </div>
         </div>
         <CoinDetailsTabs
           options={tabs}

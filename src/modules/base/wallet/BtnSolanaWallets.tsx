@@ -22,33 +22,28 @@ import {
   useCustodialWallet,
 } from 'api/chains/wallet';
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
-import { useHasFlag } from 'api';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
 export default function BtnSolanaWallets() {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-  const { data: wallets } = useWalletsQuery();
   const { icon, connected } = useActiveClientWallet();
-  const hasFlag = useHasFlag();
+  const { isCustodial } = useActiveWallet();
 
   if (!isLoggedIn) return null;
 
   return (
     <ClickableTooltip chevron={false} title={<UserWallets />}>
-      <Button variant="outline" size={isMobile ? 'md' : 'xs'} className="gap-2">
-        <WalletIcon />
-        {!isMobile && (
-          <>
-            {hasFlag('/wallets') && wallets?.count}
-            {connected && (
-              <>
-                {hasFlag('/wallets') && <span>+</span>}
-                <img className="size-4" src={icon} alt="" />
-              </>
-            )}
-          </>
+      <Button
+        variant="ghost"
+        size={isMobile ? 'md' : 'xs'}
+        className="gap-2 !px-2"
+      >
+        {!isMobile && connected && !isCustodial ? (
+          <img className="size-4" src={icon} alt="" />
+        ) : (
+          <WalletIcon />
         )}
       </Button>
     </ClickableTooltip>

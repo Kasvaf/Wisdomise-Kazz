@@ -56,7 +56,7 @@ const PartIntro: React.FC<{
           token={quote}
           balance={quoteBalance}
           value={amount}
-          onChange={newAmount => setAmount(newAmount)}
+          onClick={newAmount => setAmount(newAmount)}
         />
       )}
 

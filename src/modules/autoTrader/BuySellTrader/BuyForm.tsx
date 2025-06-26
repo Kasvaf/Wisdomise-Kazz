@@ -46,7 +46,7 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
           token={quoteSlug}
           balance={balance}
           value={amount}
-          onChange={newAmount => setAmount(newAmount)}
+          onClick={newAmount => setAmount(newAmount)}
         />
       )}
 

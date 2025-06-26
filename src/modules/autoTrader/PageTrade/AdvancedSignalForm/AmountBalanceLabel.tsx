@@ -10,6 +10,19 @@ const AmountBalanceLabel: React.FC<{
   disabled?: boolean;
   setAmount?: (val: string) => void;
 }> = ({ slug, disabled, setAmount }) => {
+  return (
+    <div className="flex items-center justify-between text-xs">
+      <span>Amount</span>
+      <AccountBalance slug={slug} disabled={disabled} setAmount={setAmount} />
+    </div>
+  );
+};
+
+export const AccountBalance: React.FC<{
+  slug?: string;
+  disabled?: boolean;
+  setAmount?: (val: string) => void;
+}> = ({ slug, disabled, setAmount }) => {
   const net = useActiveNetwork();
   const { data: balance, isLoading } = useAccountBalance(slug, net);
   const { data: symbol } = useSymbolInfo(slug);
@@ -17,43 +30,35 @@ const AmountBalanceLabel: React.FC<{
     (net === 'the-open-network' && slug === 'the-open-network') ||
     (net === 'solana' && slug === 'wrapped-solana');
 
-  return (
-    <div className="flex items-center justify-between text-xs">
-      <span>Amount</span>
-      {slug &&
-        (isLoading ? (
-          <div className="flex items-center gap-1 text-v1-content-secondary">
-            <Spin />
-            Reading Balance
-          </div>
+  return slug ? (
+    isLoading ? (
+      <div className="flex items-center gap-1 text-v1-content-secondary">
+        <Spin />
+        Reading Balance
+      </div>
+    ) : balance === null ? null : (
+      <div
+        className={clsx(
+          'flex items-center gap-1 text-white/40',
+          !disabled && !isNativeQuote && 'cursor-pointer hover:text-white',
+        )}
+        onClick={() =>
+          !disabled && !isNativeQuote && setAmount?.(String(balance))
+        }
+      >
+        {balance ? (
+          <>
+            <span className="flex items-center">
+              <WalletIcon className="mr-1" /> {String(balance)}{' '}
+              {symbol?.abbreviation}
+            </span>
+          </>
         ) : (
-          balance != null && (
-            <div
-              className={clsx(
-                'flex items-center gap-1 text-white/40',
-                !disabled &&
-                  !isNativeQuote &&
-                  'cursor-pointer hover:text-white',
-              )}
-              onClick={() =>
-                !disabled && !isNativeQuote && setAmount?.(String(balance))
-              }
-            >
-              {balance ? (
-                <>
-                  <span className="flex items-center">
-                    <WalletIcon className="mr-1" /> {String(balance)}{' '}
-                    {symbol?.abbreviation}
-                  </span>
-                </>
-              ) : (
-                <span className="text-v1-content-negative">No Balance</span>
-              )}
-            </div>
-          )
-        ))}
-    </div>
-  );
+          <span className="text-v1-content-negative">No Balance</span>
+        )}
+      </div>
+    )
+  ) : null;
 };
 
 export default AmountBalanceLabel;
