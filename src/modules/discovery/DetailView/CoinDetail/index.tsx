@@ -14,18 +14,24 @@ const useCoinSlug = () => {
   const [slugOrNetwork, contractAddress] = (query ?? '').split('/');
   const isSlug = !(query ?? '').includes('/');
 
-  const calculatedSlug = useDetailedCoins({
+  const searchResult = useDetailedCoins({
     network: isSlug ? undefined : slugOrNetwork,
     query: contractAddress,
-  }).data?.[0].symbol.slug;
+  }).data;
 
   useEffect(() => {
-    if (calculatedSlug && !isSlug) {
+    if (searchResult?.length && !isSlug) {
+      const calculatedSlug =
+        searchResult.find(
+          x =>
+            x.contract_address === contractAddress ||
+            (!contractAddress && !x.contract_address),
+        )?.symbol.slug ?? '';
       const newSearchParams = createSearchParams(searchParams);
       newSearchParams.set('slug', calculatedSlug);
       setSearchParams(newSearchParams);
     }
-  }, [calculatedSlug, isSlug, searchParams, setSearchParams]);
+  }, [contractAddress, isSlug, searchParams, searchResult, setSearchParams]);
 
   return {
     slug: isSlug ? slugOrNetwork || undefined : undefined,
