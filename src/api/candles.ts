@@ -63,21 +63,23 @@ export const useCandlesQuery = ({
   });
 
 interface LastCandleResponse {
-  symbol: {
-    id: number;
-    name: string;
-    exchange: string;
-    market: string;
-    active: boolean;
-    created_at: string;
-    updated_at: string;
-    deleted_at: null;
-    network?: string;
-    pool_address: string | null;
-    base: string;
-    quote: string;
-  };
+  symbol: LastCandleSymbol;
   candle: Candle;
+}
+
+interface LastCandleSymbol {
+  id: number;
+  name: string;
+  exchange: string;
+  market: string;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null;
+  network?: string;
+  pool_address: string | null;
+  base: string;
+  quote: string;
 }
 
 interface LastCandleParams {
@@ -153,6 +155,14 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
   };
 };
 
+export const useUSDTLastPrice = () => {
+  return useLastPriceQuery({ slug: 'tether', quote: 'usd-coin' });
+};
+
+export const useUSDCLastPrice = () => {
+  return useLastPriceQuery({ slug: 'usd-coin', quote: 'tether' });
+};
+
 export const useCandlesBySlugs = (userConfig: {
   base?: string;
   quote?: string;
@@ -208,4 +218,56 @@ export const useCandlesBySlugs = (userConfig: {
     enabled: !!config.base && !!config.quote,
     placeholderData: p => p,
   });
+};
+
+export interface BatchCandleResponse {
+  responses: Array<{ candles: Candle[]; symbol: LastCandleSymbol }>;
+}
+
+export const queryBatchCandles = async (userConfig: {
+  bases?: string[];
+  quotes?: string[];
+  network: 'the-open-network' | 'solana';
+  resolution?: Resolution;
+  start?: string;
+  end?: string;
+}) => {
+  const now = Date.now();
+  const yesterday = now - 1000 * 60 * 60;
+  const config = {
+    start: new Date(yesterday).toISOString(),
+    end: new Date(now).toISOString(),
+    ...userConfig,
+  };
+  if (!config.resolution) {
+    const hoursDiff = Math.abs(dayjs(config.start).diff(config.end, 'hours'));
+    config.resolution =
+      hoursDiff < 1
+        ? '1m'
+        : hoursDiff < 2
+        ? '5m'
+        : hoursDiff < 3
+        ? '15m'
+        : hoursDiff < 6
+        ? '30m'
+        : hoursDiff < 24
+        ? '1h'
+        : hoursDiff < 96
+        ? '4h'
+        : '1d';
+  }
+
+  return await ofetch<BatchCandleResponse>(
+    'https://stage-temple.wisdomise.com/api/v1/delphinus/candles-batch/',
+    {
+      query: {
+        market: 'SPOT',
+        convert_to_usd: true,
+        base: config.bases,
+        quote: config.quotes,
+        ...config,
+      },
+      meta: { auth: false },
+    },
+  );
 };

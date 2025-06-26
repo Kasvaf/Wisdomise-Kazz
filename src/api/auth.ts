@@ -7,9 +7,8 @@ import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
 import { isLocal } from 'utils/version';
-import { useCustodialWallet } from 'api/chains/wallet';
+import { useCustodialWallet, useDisconnectAll } from 'api/chains/wallet';
 import { useUserStorage } from './userStorage';
-import { useDisconnectAll } from './chains';
 
 interface SuccessResponse {
   message: 'ok';

@@ -1,5 +1,3 @@
-import { useTonConnectUI } from '@tonconnect/ui-react';
-import { useDisconnect } from '@reown/appkit/react';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useSymbolsInfo } from 'api/symbol';
 import { type SupportedNetworks } from 'api';
@@ -16,24 +14,6 @@ import {
   useTonTransferAssetsMutation,
   useTonUserAssets,
 } from './ton';
-
-export const useDisconnectAll = () => {
-  const [{ disconnect: tonDisconnect }] = useTonConnectUI();
-  const { disconnect } = useDisconnect();
-
-  return async () => {
-    try {
-      await Promise.all([disconnect(), tonDisconnect()]);
-    } catch {
-    } finally {
-      for (const key of Object.keys(localStorage)) {
-        if (/^(wallet|ton|@appkit|binance|ethereum)/.test(key)) {
-          localStorage.removeItem(key);
-        }
-      }
-    }
-  };
-};
 
 export type AutoTraderSupportedQuotes =
   | AutoTraderTonSupportedQuotes

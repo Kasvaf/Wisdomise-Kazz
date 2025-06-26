@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type AVAILABLE_DETAILS } from 'modules/discovery/constants';
+import WalletDetail from 'modules/base/wallet/WalletDetail';
 import { WhaleDetail } from './WhaleDetail';
 import { CoinDetail } from './CoinDetail';
 import { ReactComponent as EmptyIcon } from './empty.svg';
@@ -18,6 +19,8 @@ export const DetailView: FC<{
       {slug ? (
         detail === 'whale' ? (
           <WhaleDetail expanded={expanded} focus={focus} slug={slug} />
+        ) : detail === 'wallet' ? (
+          <WalletDetail expanded={expanded} focus={focus} slug={slug} />
         ) : (
           <CoinDetail expanded={expanded} focus={focus} slug={slug} />
         )
