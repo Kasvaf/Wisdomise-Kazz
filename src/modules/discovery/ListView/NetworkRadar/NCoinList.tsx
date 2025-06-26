@@ -20,17 +20,17 @@ const NCoinLogo: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
 }> = ({ className, value }) => (
-  <div className={clsx('relative size-[44px]', className)}>
+  <div className={clsx('relative size-[54px]', className)}>
     <CoinLogo
       value={value.symbol?.imageUrl}
-      className="!absolute inset-[4px] size-[36px]"
+      className="!absolute inset-[4px] size-[48px]"
     />
     <CircularProgress
       className="absolute inset-0"
       color={calcNCoinBCurveColor({
         bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
       })}
-      size={44}
+      size={54}
       strokeWidth={4}
       value={value.networkData?.boundingCurve ?? 0}
     />
@@ -47,19 +47,30 @@ const NCoinBasicInfo: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
 }> = ({ className, value }) => (
-  <div className={clsx('flex flex-col items-start gap-1', className)}>
-    <p className="text-xs">{value.symbol?.name ?? ''}</p>
-    <div className="flex items-center justify-start gap-1 text-xs">
+  <div
+    className={clsx(
+      'flex flex-col items-start gap-1 overflow-hidden',
+      className,
+    )}
+  >
+    <p className="max-w-full truncate text-base leading-none">
+      {value.symbol?.name ?? ''}
+    </p>
+    <div className="flex items-center justify-start gap-1 text-sm">
       <p className="max-w-24 overflow-hidden text-ellipsis text-v1-content-secondary">
         {value.symbol?.base ?? ''}
       </p>
-      <ContractAddress value={value.symbol?.contractAddress ?? ''} allowCopy />
+      <ContractAddress
+        value={value.symbol?.contractAddress ?? ''}
+        allowCopy
+        className="whitespace-nowrap"
+      />
       .
       <NCoinAge value={value.symbol?.createdAt} inline imgClassName="hidden" />
     </div>
     <NCoinSecurity
       type="row"
-      imgClassName="size-3"
+      imgClassName="size-[18px]"
       value={{
         freezable: value.securityData?.freezable ?? false,
         mintable: value.securityData?.mintable ?? false,
@@ -85,7 +96,7 @@ const NCoinInsightRow: FC<{
   >
     <div
       className={clsx(
-        'flex w-11 flex-col items-center text-xxs',
+        'flex w-[54px] flex-col items-center text-xs',
         value.networkData?.boundingCurve === 1 &&
           'pointer-events-none opacity-0',
       )}
@@ -106,7 +117,12 @@ const NCoinInsightRow: FC<{
         }}
       />
     </div>
-    <NCoinTokenInsight value={value.validatedData} type="row" />
+    <NCoinTokenInsight
+      value={value.validatedData}
+      type="row"
+      imgClassName="size-5"
+      className="text-xs"
+    />
   </div>
 );
 
@@ -116,7 +132,7 @@ const NCoinMarketDataCol: FC<{
 }> = ({ className, value }) => (
   <div
     className={clsx(
-      'flex flex-col items-end justify-center gap-1 text-xxs',
+      'flex flex-col items-end justify-between gap-1 py-3 text-xs',
       className,
     )}
   >
@@ -214,7 +230,7 @@ export const NCoinList: FC<{
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
-              <div className="flex w-3/4 flex-col gap-1">
+              <div className="flex w-3/4 flex-col gap-1 overflow-hidden">
                 <div className="flex shrink-0 items-center gap-2">
                   <NCoinLogo value={row} className="shrink-0" />
                   <NCoinBasicInfo value={row} />

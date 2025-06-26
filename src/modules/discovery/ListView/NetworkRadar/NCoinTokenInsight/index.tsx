@@ -11,6 +11,7 @@ import { ReactComponent as BundleHolding } from './bundle_holding.svg';
 
 export const NCoinTokenInsight: FC<{
   className?: string;
+  imgClassName?: string;
   value?: {
     top10Holding?: number;
     snipersHolding?: number;
@@ -20,7 +21,7 @@ export const NCoinTokenInsight: FC<{
     boundleHolding?: number;
   };
   type: 'row' | 'card';
-}> = ({ type, className, value }) => {
+}> = ({ type, className, imgClassName, value }) => {
   const { t } = useTranslation('network-radar');
 
   const items = useMemo<
@@ -117,8 +118,8 @@ export const NCoinTokenInsight: FC<{
             <HoverTooltip key={item.key} title={item.fullTitle}>
               <div
                 className={clsx(
-                  'relative flex shrink-0 items-center justify-start gap-px text-xxs',
-                  'rounded-full border border-v1-border-primary/20 p-px',
+                  'relative flex shrink-0 items-center justify-start gap-px',
+                  'rounded-full border border-v1-border-primary/20 p-px pe-2',
                   item.color === 'green'
                     ? 'text-v1-content-primary'
                     : item.color === 'red'
@@ -132,6 +133,7 @@ export const NCoinTokenInsight: FC<{
                       ? 'stroke-v1-background-inverse'
                       : 'stroke-v1-background-negative-subtle',
                     'size-4',
+                    imgClassName,
                   )}
                 />{' '}
                 <ReadableNumber
@@ -140,7 +142,6 @@ export const NCoinTokenInsight: FC<{
                   format={{ decimalLength: 1 }}
                   popup="never"
                   emptyText=""
-                  className="w-[26px]"
                 />
               </div>
             </HoverTooltip>
@@ -166,7 +167,7 @@ export const NCoinTokenInsight: FC<{
 
                   <div
                     className={clsx(
-                      'relative flex shrink-0 items-center justify-start gap-1 text-xs',
+                      'relative flex shrink-0 items-center justify-start gap-1',
                       item.color === 'green'
                         ? 'text-v1-background-positive'
                         : item.color === 'red'
@@ -180,6 +181,7 @@ export const NCoinTokenInsight: FC<{
                           ? 'stroke-v1-background-positive-subtle'
                           : 'stroke-v1-background-negative-subtle',
                         'size-5',
+                        imgClassName,
                       )}
                     />
                     <ReadableNumber
