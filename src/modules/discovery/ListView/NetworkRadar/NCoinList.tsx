@@ -48,7 +48,7 @@ const NCoinBasicInfo: FC<{
         lpBurned: value.securityData?.lpBurned ?? false,
         safeTopHolders: doesNCoinHaveSafeTopHolders({
           topHolders: value.validatedData?.top10Holding ?? 0,
-          totalSupply: value.networkData?.totalSupply ?? 0,
+          totalSupply: +(value.networkData?.totalSupply ?? '0') || 0,
         }),
       }}
     />
@@ -111,7 +111,7 @@ const NCoinMarketDataCol: FC<{
       <p className="text-v1-content-secondary">{'MC: '}</p>
       <ReadableNumber
         popup="never"
-        value={value.networkData?.marketCap}
+        value={+(value.networkData?.marketCap ?? '0') || 0}
         label="$"
         format={{
           decimalLength: 2,
@@ -122,7 +122,7 @@ const NCoinMarketDataCol: FC<{
       <p className="text-v1-content-secondary">{'VOL: '}</p>
       <ReadableNumber
         popup="never"
-        value={value.networkData?.volume}
+        value={+(value.networkData?.volume ?? '0') || 0}
         label="$"
         format={{
           decimalLength: 2,
