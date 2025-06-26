@@ -6,6 +6,12 @@ import { CircularProgress } from 'shared/CircularProgress';
 import { CoinLogo } from 'shared/Coin';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { calcNCoinBCurveColor } from '../lib';
+import pumpFunLogo from './pumpfun.png';
+
+const EXCHANGE_LOGOS = {
+  pumpfun: pumpFunLogo,
+  PumpSwap: pumpFunLogo,
+};
 
 export const NCoinLogo: FC<{
   className?: string;
@@ -26,10 +32,14 @@ export const NCoinLogo: FC<{
       value={value.networkData?.boundingCurve ?? 0}
     />
     <HoverTooltip
-      className="absolute bottom-[2px] right-[2px] size-3 rounded-full bg-v1-background-primary text-center text-xxs font-bold leading-[12px] text-v1-content-primary"
+      className="absolute bottom-[2px] right-[2px] inline-flex size-4 items-center justify-center rounded-full bg-v1-background-primary text-xxs font-bold leading-[12px] text-v1-content-primary [&_img]:size-[75%]"
       title={value.symbol?.exchange ?? ''}
     >
-      {value.symbol?.exchange.slice(0, 1) ?? ''}
+      {value.symbol?.exchange && value.symbol.exchange in EXCHANGE_LOGOS ? (
+        <img src={EXCHANGE_LOGOS[value.symbol.exchange as never]} />
+      ) : (
+        <>{value.symbol?.exchange.slice(0, 1) ?? ''}</>
+      )}
     </HoverTooltip>
   </div>
 );
