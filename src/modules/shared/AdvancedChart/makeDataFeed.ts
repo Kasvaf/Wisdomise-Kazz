@@ -148,12 +148,30 @@ const makeDataFeed = (
         onError(error.message);
       }
     },
-    subscribeBars: noop,
-    unsubscribeBars: noop,
+    subscribeBars: (symbolInfo, resolution, onTick, listenerGuid) => {
+      const req = delphinus.lastCandleStream({
+        market: 'SPOT',
+        network,
+        baseSlug,
+        quoteSlug: quote,
+      });
+      const sub = req.subscribe(({ candle }) => {
+        if (!candle) return;
+        onTick({
+          open: +candle.open,
+          high: +candle.high,
+          low: +candle.low,
+          close: +candle.close,
+          volume: +candle.volume,
+          time: +new Date(candle.relatedAt),
+        });
+      });
+      listeners[listenerGuid] = () => sub.unsubscribe();
+    },
+    unsubscribeBars: listenerGuid => listeners[listenerGuid]?.(),
   };
 };
 
-export default makeDataFeed;
+const listeners: Record<string, () => void> = {};
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-function noop() {}
+export default makeDataFeed;
