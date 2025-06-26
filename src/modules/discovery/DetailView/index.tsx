@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { type DETAILS } from 'modules/discovery/constants';
+import WalletDetail from 'modules/base/wallet/WalletDetail';
 import { WhaleDetail } from './WhaleDetail';
 import { CoinDetail } from './CoinDetail';
 
@@ -11,7 +12,9 @@ export const DetailView: FC<{
 }> = ({ detail, focus, expanded, className }) => {
   return (
     <div className={className}>
-      {detail === 'whale' ? (
+      {detail === 'wallet' ? (
+        <WalletDetail expanded={expanded} focus={focus} />
+      ) : detail === 'whale' ? (
         <WhaleDetail expanded={expanded} focus={focus} />
       ) : (
         <CoinDetail expanded={expanded} focus={focus} />

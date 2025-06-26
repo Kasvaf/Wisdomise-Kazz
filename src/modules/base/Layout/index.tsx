@@ -55,6 +55,8 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
             )}
       </header>
 
+      <div id="cio-inline-banner" />
+
       {/* Route details - only for desktop */}
       {!isMobile && (
         <RouteDetails

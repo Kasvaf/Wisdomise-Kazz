@@ -49,7 +49,7 @@ export const LISTS: Record<
 } as const;
 
 export const DETAILS: Record<
-  'coin' | 'whale',
+  'coin' | 'whale' | 'wallet',
   {
     alias: string;
   }
@@ -58,6 +58,9 @@ export const DETAILS: Record<
     alias: 'c',
   },
   whale: {
+    alias: 'd',
+  },
+  wallet: {
     alias: 'w',
   },
 };

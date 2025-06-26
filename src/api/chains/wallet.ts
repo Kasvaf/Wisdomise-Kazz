@@ -8,6 +8,7 @@ import {
   useAppKitAccount,
   useAppKitNetwork,
   useAppKitState,
+  useDisconnect,
   useWalletInfo,
 } from '@reown/appkit/react';
 import { useCallback, useEffect } from 'react';
@@ -18,7 +19,7 @@ import { trackClick } from 'config/segment';
 import { usePromiseOfEffect } from 'api/chains/utils';
 import { useWalletsQuery } from 'api/wallets';
 
-export const useActiveClientWallet = () => {
+export const useConnectedWallet = () => {
   const net = useActiveNetwork();
 
   const tonAddress = useTonAddress();
@@ -97,7 +98,7 @@ export const useCustodialWallet = () => {
 };
 
 export const useActiveWallet = () => {
-  const { address, name, connected, connect } = useActiveClientWallet();
+  const { address, name, connected, connect } = useConnectedWallet();
   const net = useActiveNetwork();
   const { cw } = useCustodialWallet();
   const custodialSupported = cw && net === 'solana';
@@ -149,3 +150,21 @@ export function useAwaitTonWalletConnection() {
     result: tonConnectUI.connected,
   });
 }
+
+export const useDisconnectAll = () => {
+  const [{ disconnect: tonDisconnect }] = useTonConnectUI();
+  const { disconnect } = useDisconnect();
+
+  return async () => {
+    try {
+      await Promise.all([disconnect(), tonDisconnect()]);
+    } catch {
+    } finally {
+      for (const key of Object.keys(localStorage)) {
+        if (/^(wallet|ton|@appkit|binance|ethereum)/.test(key)) {
+          localStorage.removeItem(key);
+        }
+      }
+    }
+  };
+};
