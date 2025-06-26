@@ -45,10 +45,10 @@ const NCoinBasicInfo: FC<{
       value={{
         freezable: value.securityData?.freezable ?? false,
         mintable: value.securityData?.mintable ?? false,
-        lpBurned: (value.securityData?.lpBurned ?? 0) > 50, // NAITODO: ask roohi to convert it to boolean
+        lpBurned: value.securityData?.lpBurned ?? false,
         safeTopHolders: doesNCoinHaveSafeTopHolders({
           topHolders: value.validatedData?.top10Holding ?? 0,
-          totalSupply: value.networkData?.volume ?? 0, // NAITODO: ask roohi to include total supply
+          totalSupply: value.networkData?.totalSupply ?? 0,
         }),
       }}
     />
