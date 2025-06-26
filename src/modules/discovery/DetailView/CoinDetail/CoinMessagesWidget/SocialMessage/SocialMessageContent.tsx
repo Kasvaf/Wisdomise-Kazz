@@ -45,7 +45,7 @@ export function SocialMessageContent({
         break;
       }
       case 'twitter': {
-        ret = message.content.text;
+        ret = message.content.text ?? '';
         break;
       }
       case 'trading_view': {
