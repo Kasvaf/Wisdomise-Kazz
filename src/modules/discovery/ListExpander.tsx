@@ -11,7 +11,7 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from './useDiscoveryRouteMeta';
-import { LISTS_CONFIG } from './constants';
+import { LISTS } from './constants';
 
 export const ListExpander: FC = () => {
   const isMobile = useIsMobile();
@@ -42,25 +42,17 @@ export const ListExpander: FC = () => {
         left: (appListRect?.left ?? 68) + (appListRect?.width ?? 384) - 12,
         position: 'fixed',
       });
-    } else if (params.slug) {
+    } else {
       setStyle({
         top: (sidebarRect?.top ?? 74) + 32,
         right: 6,
         position: 'fixed',
       });
-    } else {
-      setStyle({
-        display: 'none',
-      });
     }
   }, [params, isMobile]);
 
   useEffect(() => {
-    if (
-      params.view === 'list' &&
-      !LISTS_CONFIG[params.list].expandable &&
-      !isMobile
-    ) {
+    if (params.view === 'list' && !LISTS[params.list].expandable && !isMobile) {
       navigate(
         getUrl({
           view: 'both',
@@ -110,7 +102,7 @@ export const ListExpander: FC = () => {
       style={style}
     >
       {(params.view === 'detail' ||
-        (params.view === 'both' && LISTS_CONFIG[params.list].expandable)) && (
+        (params.view === 'both' && LISTS[params.list].expandable)) && (
         <Button
           fab
           variant="white"

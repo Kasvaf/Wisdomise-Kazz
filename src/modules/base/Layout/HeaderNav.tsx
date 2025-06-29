@@ -63,7 +63,6 @@ const HeaderNav = () => {
             const to = getUrl({
               list: 'positions',
               view: 'list',
-              slug: undefined,
               filter: hasClosedTrades && !openTrades ? 'history' : '',
             });
             navigate(to);
