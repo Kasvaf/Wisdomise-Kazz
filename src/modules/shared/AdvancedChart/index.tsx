@@ -79,6 +79,7 @@ const AdvancedChart: React.FC<{
         'header_compare',
         // 'header_resolutions',
       ],
+      enabled_features: ['seconds_resolution'],
       timeframe: '7D', // initial zoom on chart
       interval: '30' as ResolutionString,
       time_frames: [

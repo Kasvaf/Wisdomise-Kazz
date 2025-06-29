@@ -10,6 +10,10 @@ import {
 import getCandlesCached, { type Resolution } from './getCandlesCached';
 
 export const resolutionToSeconds: Record<Resolution, number> = {
+  '1s': 1,
+  '5s': 5,
+  '15s': 15,
+  '30s': 30,
   '1m': 60,
   '5m': 60 * 5,
   '15m': 60 * 15,
@@ -20,7 +24,7 @@ export const resolutionToSeconds: Record<Resolution, number> = {
 
 const minutesToResolution: Record<string, Resolution> = Object.fromEntries(
   Object.entries(resolutionToSeconds).map(([x, y]) => [
-    y / 60,
+    y < 60 ? `${y}S` : y / 60,
     x as Resolution,
   ]),
 );
@@ -95,6 +99,8 @@ const makeDataFeed = (
         minmov: 1,
         fractional: false,
         pricescale: 100_000,
+        has_seconds: true,
+        seconds_multipliers: ['1', '5', '15', '30'],
 
         volume_precision: 2,
         has_intraday: true,
@@ -139,10 +145,6 @@ const makeDataFeed = (
 
         onResult(bars, {
           noData: !bars?.length,
-          nextTime:
-            startTime > 1000 && bars.length > 0
-              ? bars[0].time / 1000 - startTime
-              : undefined,
         });
       } catch (error: any) {
         onError(error.message);
@@ -155,18 +157,31 @@ const makeDataFeed = (
         baseSlug,
         quoteSlug: quote,
       });
-      const sub = req.subscribe(({ candle }) => {
-        if (!candle) return;
-        onTick({
-          open: +candle.open,
-          high: +candle.high,
-          low: +candle.low,
-          close: +candle.close,
-          volume: +candle.volume,
-          time: +new Date(candle.relatedAt),
-        });
-      });
-      listeners[listenerGuid] = () => sub.unsubscribe();
+
+      function doSub() {
+        const sub = req.subscribe(
+          ({ candle }) => {
+            if (!candle) return;
+            onTick({
+              open: +candle.open,
+              high: +candle.high,
+              low: +candle.low,
+              close: +candle.close,
+              volume: +candle.volume,
+              time: +new Date(candle.relatedAt),
+            });
+          },
+          err => {
+            console.error(err);
+            try {
+              sub.unsubscribe();
+            } catch {}
+            doSub();
+          },
+        );
+        listeners[listenerGuid] = () => sub.unsubscribe();
+      }
+      doSub();
     },
     unsubscribeBars: listenerGuid => listeners[listenerGuid]?.(),
   };
