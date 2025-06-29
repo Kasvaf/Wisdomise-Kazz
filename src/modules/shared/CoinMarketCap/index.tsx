@@ -40,7 +40,7 @@ export function CoinMarketCap({
               ? {
                   compactInteger: true,
                   decimalLength: 1,
-                  seperateByComma: true,
+                  separateByComma: true,
                 }
               : undefined
           }

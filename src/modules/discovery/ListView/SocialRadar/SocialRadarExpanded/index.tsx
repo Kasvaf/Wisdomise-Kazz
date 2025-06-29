@@ -145,7 +145,7 @@ export function SocialRadarExpanded() {
               posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
                 compactInteger: true,
                 decimalLength: 0,
-                seperateByComma: true,
+                separateByComma: true,
                 minifyDecimalRepeats: false,
               }),
             }}

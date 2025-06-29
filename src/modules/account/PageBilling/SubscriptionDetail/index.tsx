@@ -117,7 +117,7 @@ export default function SubscriptionDetail() {
                       $
                       {formatNumber(revenue?.net_revenue ?? 0, {
                         compactInteger: false,
-                        seperateByComma: false,
+                        separateByComma: false,
                         decimalLength: 2,
                         minifyDecimalRepeats: false,
                       })}
@@ -128,7 +128,7 @@ export default function SubscriptionDetail() {
                     <p className="text-xs font-medium text-v1-inverse-overlay-70">
                       {formatNumber(revenue?.trading_volume ?? 0, {
                         compactInteger: true,
-                        seperateByComma: false,
+                        separateByComma: false,
                         decimalLength: 2,
                         minifyDecimalRepeats: false,
                       })}{' '}

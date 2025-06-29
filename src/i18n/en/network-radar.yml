@@ -1,31 +1,19 @@
 common:
-  name: Name
-  address: Address
   buy: Buy
   buy_sell: TXNS
   buy_vol: Buy Vol
   contract_address: Contract Address
-  created: Age
   initial_liquidity: Initial Liquidity
   liquidity: Liquidity
   marketcap: Market Cap
-  recent_candles:
-    title: Recent Candles
-    info: Last 20 minutes of candlestick data at 1-minute resolution.
   risk: Risk
   sell: Sell
   sell_vol: Sell Vol
   socials: Socials
-  txns:
-    title: TXNS
-    info: >-
-      TXNS (Transactions) indicates the total number of buy and sell orders
-      executed for this pair. A higher number may suggest increased interest and
-      activity.
   validation_insights: Validation Insights
   volume: Volume
 page:
-  title: Trench
+  title: Trenches
   info: >-
     This page displays newly launched Solana coins and liquidity pools,
     providing insights into their market cap, creation date, and transaction

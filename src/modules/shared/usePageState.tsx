@@ -4,7 +4,7 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import useSearchParamAsState from './useSearchParamAsState';
+import { useSessionStorage } from 'usehooks-ts';
 
 function encode(obj: unknown) {
   return encodeURIComponent(
@@ -31,7 +31,7 @@ export const usePageState = <T extends object>(
   prefix: string,
   initialState: T,
 ) => {
-  const [state, setState] = useSearchParamAsState(prefix, encode(initialState));
+  const [state, setState] = useSessionStorage(prefix, encode(initialState));
 
   const value = useMemo(() => decode<T>(state), [state]);
 

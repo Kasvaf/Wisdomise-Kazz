@@ -2,6 +2,7 @@
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { bxShareAlt } from 'boxicons-quasar';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import {
@@ -17,6 +18,14 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { ContractAddress } from 'shared/ContractAddress';
 import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
+import {
+  calcNCoinRiskLevel,
+  doesNCoinHaveLargeTxns,
+} from 'modules/discovery/ListView/NetworkRadar/lib';
+import { Button } from 'shared/v1-components/Button';
+import Icon from 'shared/Icon';
+import { useShare } from 'shared/useShare';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export const CoinTitleWidget: FC<{
@@ -25,12 +34,17 @@ export const CoinTitleWidget: FC<{
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
+  const [globalNetwork] = useGlobalNetwork();
   const coin = useCoinDetails({ slug });
   const nCoin = useNCoinDetails({ slug });
+  const [share, shareNotif] = useShare('copy');
   const isLoading =
     coin.isLoading || nCoin.isLoading || coin.isPending || nCoin.isPending;
   const isNCoin = !!nCoin.data?.base_symbol;
   const symbol = nCoin.data?.base_symbol || coin.data?.symbol;
+  const nCoinRiskLevel = calcNCoinRiskLevel({
+    riskPercent: nCoin.data?.risk_percent ?? 0,
+  });
   const networks = useMemo<CoinNetwork[]>(() => {
     const ret: CoinNetwork[] = [];
     if (nCoin.data?.base_contract_address && nCoin.data.network) {
@@ -47,6 +61,15 @@ export const CoinTitleWidget: FC<{
     }
     return ret;
   }, [nCoin.data, coin.data]);
+  const pageUrl = useMemo(() => {
+    const network = globalNetwork
+      ? networks.find(n => n.network.slug === globalNetwork)
+      : networks[0];
+    if (network?.contract_address) {
+      return `${window.location.origin}/token/${network.network.slug}/${network.contract_address}`;
+    }
+    return `${window.location.origin}/coin/${slug}`;
+  }, [globalNetwork, networks, slug]);
 
   useLoadingBadge(isLoading);
 
@@ -116,11 +139,7 @@ export const CoinTitleWidget: FC<{
                       <NCoinAge
                         value={nCoin.data?.creation_datetime}
                         inline
-                        className={clsx(
-                          'text-xs',
-                          nCoin.data._states.isNew &&
-                            'text-v1-background-secondary',
-                        )}
+                        className="text-xs"
                       />
                     </>
                   )}
@@ -133,7 +152,12 @@ export const CoinTitleWidget: FC<{
                     <p className="text-xs text-v1-content-secondary">
                       {t('common.buy_sell')}
                       {' (24h)'}
-                      {nCoin.data._states.hasLargeTxns ? ' 🔥' : ''}
+                      {doesNCoinHaveLargeTxns({
+                        totalNumBuys: nCoin.data.update.total_num_buys ?? 0,
+                        totalNumSells: nCoin.data.update.total_num_sells ?? 0,
+                      })
+                        ? ' 🔥'
+                        : ''}
                     </p>
                     <NCoinBuySell
                       value={{
@@ -166,9 +190,9 @@ export const CoinTitleWidget: FC<{
                     <span className="text-xs">
                       <span
                         className={clsx(
-                          nCoin.data._states.riskLevel === 'low'
+                          nCoinRiskLevel === 'low'
                             ? 'text-v1-content-positive'
-                            : nCoin.data._states.riskLevel === 'medium'
+                            : nCoinRiskLevel === 'medium'
                             ? 'text-v1-content-notice'
                             : 'text-v1-content-negative',
                         )}
@@ -191,7 +215,7 @@ export const CoinTitleWidget: FC<{
               )}
             </div>
 
-            <div className="flex items-center gap-4 mobile:w-full mobile:justify-between">
+            <div className="flex items-center gap-3 mobile:w-full mobile:justify-between">
               <div className="flex flex-col items-end justify-between gap-1 mobile:items-start">
                 <DirectionalNumber
                   value={
@@ -222,6 +246,16 @@ export const CoinTitleWidget: FC<{
                 surface={1}
                 size="md"
               />
+              <Button
+                surface={1}
+                size="sm"
+                fab
+                variant="outline"
+                onClick={() => share(pageUrl)}
+              >
+                <Icon name={bxShareAlt} />
+              </Button>
+              {shareNotif}
             </div>
           </>
         ) : (

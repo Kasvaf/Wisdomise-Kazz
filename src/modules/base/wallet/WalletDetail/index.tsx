@@ -1,6 +1,8 @@
+/* eslint-disable import/max-dependencies */
 import { useRef, useState } from 'react';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
 import { Tabs, type TabsProps } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 import {
   useUpdateWalletMutation,
   useWalletQuery,
@@ -20,13 +22,13 @@ import BuySellList from 'modules/base/wallet/WalletDetail/BuySellList';
 import { useBalanceInUSD } from 'api/chains/solana';
 import { roundSensible } from 'utils/numbers';
 
-export default function WalletDetail({
-  slug,
-}: {
-  slug: string;
+export default function WalletDetail(_: {
   expanded?: boolean;
   focus?: boolean;
 }) {
+  const [searchParams] = useSearchParams();
+  const slug = searchParams.get('slug');
+  if (!slug) throw new Error('unexpected');
   const { data: wallet } = useWalletQuery(slug);
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();

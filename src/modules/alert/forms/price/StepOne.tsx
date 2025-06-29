@@ -137,7 +137,7 @@ export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
                     compactInteger: false,
                     decimalLength: 1,
                     minifyDecimalRepeats: false,
-                    seperateByComma: false,
+                    separateByComma: false,
                   }) as never,
                 );
               }

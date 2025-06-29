@@ -193,7 +193,7 @@ export const CoinPriceChart: FC<
               compactInteger: true,
               decimalLength: 3,
               minifyDecimalRepeats: true,
-              seperateByComma: true,
+              separateByComma: true,
             })}`,
           ];
           if (dataIndex === socialIndexes?.last) {

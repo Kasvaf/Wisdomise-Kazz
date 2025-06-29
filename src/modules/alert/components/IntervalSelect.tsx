@@ -19,7 +19,7 @@ const useCustomOption = (value?: number, cooldownMode?: boolean) => {
             compactInteger: false,
             decimalLength: Number.POSITIVE_INFINITY,
             minifyDecimalRepeats: false,
-            seperateByComma: true,
+            separateByComma: true,
           })
         : null;
     return formattedNumber

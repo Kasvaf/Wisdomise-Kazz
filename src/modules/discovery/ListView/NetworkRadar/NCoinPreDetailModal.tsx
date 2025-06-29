@@ -10,6 +10,10 @@ import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
 import { NCoinDetails } from './NCoinDetails';
 import { NCoinRecentCandles } from './NCoinRecentCandles';
+import {
+  convertNCoinSecurityFieldToBool,
+  doesNCoinHaveSafeTopHolders,
+} from './lib';
 
 export const NCoinPreDetailModal: FC<{
   value: NetworkRadarNCoin | null;
@@ -51,7 +55,25 @@ export const NCoinPreDetailModal: FC<{
             </div>
           </div>
           <NCoinSecurity
-            value={value}
+            value={{
+              freezable: convertNCoinSecurityFieldToBool({
+                value: value.base_symbol_security.freezable,
+                type: 'freezable',
+              }),
+              lpBurned: convertNCoinSecurityFieldToBool({
+                value: value.base_symbol_security.lp_is_burned,
+                type: 'lpBurned',
+              }),
+              mintable: convertNCoinSecurityFieldToBool({
+                value: value.base_symbol_security.mintable,
+                type: 'mintable',
+              }),
+              safeTopHolders: doesNCoinHaveSafeTopHolders({
+                topHolders:
+                  value?.base_symbol_security.holders.map(x => x.balance) ?? 0,
+                totalSupply: value.update.base_market_data.total_supply,
+              }),
+            }}
             type="card"
             imgClassName="size-4"
             className="text-[11px]"

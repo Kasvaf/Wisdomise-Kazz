@@ -15,9 +15,9 @@ import { NetworkRadarServiceClientImpl } from './proto/network_radar';
 import { PingServiceClientImpl } from './proto/common';
 
 export const grpcServices = {
-  networkRadar: NetworkRadarServiceClientImpl,
-  delphinus: DelphinusServiceClientImpl,
-  ping: PingServiceClientImpl,
+  'network-radar': NetworkRadarServiceClientImpl,
+  'delphinus': DelphinusServiceClientImpl,
+  'ping': PingServiceClientImpl,
 } as const;
 
 export type ServiceKey = keyof typeof grpcServices;

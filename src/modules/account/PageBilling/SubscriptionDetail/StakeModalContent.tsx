@@ -89,7 +89,7 @@ export default function StakeModalContent() {
             Balance:{' '}
             {formatNumber(balance, {
               compactInteger: false,
-              seperateByComma: true,
+              separateByComma: true,
               decimalLength: 2,
               minifyDecimalRepeats: false,
             })}{' '}

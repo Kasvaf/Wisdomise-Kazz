@@ -1,151 +1,80 @@
 /* eslint-disable import/max-dependencies */
-import { type FC, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Coin } from 'shared/Coin';
-import { AccessShield } from 'shared/AccessShield';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { type NetworkRadarNCoin, useNetworkRadarNCoins } from 'api/discovery';
-import { useLoadingBadge } from 'shared/LoadingBadge';
+import { type FC } from 'react';
+import { clsx } from 'clsx';
+import { useNavigate } from 'react-router-dom';
+import { networkRadarGrpc } from 'api/grpc';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
-import { useCoinPreDetailModal } from '../CoinPreDetailModal';
-import { NCoinAge } from './NCoinAge';
-import { NCoinBuySell } from './NCoinBuySell';
-import { NCoinTradingVolume } from './NCoinTradingVolume';
-import { NCoinLiquidity } from './NCoinLiquidity';
-import { NCoinSecurity } from './NCoinSecurity';
-import { NCoinPreDetailModal } from './NCoinPreDetailModal';
-import { NetworkRadarFilters } from './NetworkRadarFilters';
+import { type NetworkRadarTab } from './lib';
+import { NCoinList } from './NCoinList';
 
-export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
-  const { t } = useTranslation('network-radar');
-
-  const [openModal, { closeModal, isModalOpen, selectedRow }] =
-    useCoinPreDetailModal<NetworkRadarNCoin>({
-      directNavigate: !focus,
-      slug: r => r.base_symbol.slug,
-    });
-
-  const [pageState, setPageState] = usePageState<
-    Parameters<typeof useNetworkRadarNCoins>[0]
-  >('network-radar', {});
-
-  const nCoins = useNetworkRadarNCoins(pageState);
-  useLoadingBadge(nCoins.isFetching);
-
-  const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
-    () => [
-      {
-        key: 'coin',
-        render: row => (
-          <Coin
-            coin={row.base_symbol}
-            imageClassName="size-7"
-            className="text-xs"
-            truncate={45}
-            nonLink={true}
-          />
-        ),
-      },
-      {
-        key: 'age',
-        render: row => (
-          <NCoinAge
-            value={row.creation_datetime}
-            imgClassName="size-3"
-            className="mt-[3px] text-xxs"
-          />
-        ),
-      },
-      {
-        key: 'market_data',
-        render: row => (
-          <div className="flex flex-col justify-between">
-            <NCoinTradingVolume
-              value={row}
-              imgClassName="size-3"
-              className="text-xxs"
-            />
-            <NCoinBuySell
-              value={{
-                buys: row.update.total_num_buys,
-                sells: row.update.total_num_sells,
-              }}
-              imgClassName="size-3"
-              className="text-[8px]"
-            />
-          </div>
-        ),
-      },
-      {
-        key: 'liquidity',
-        // className: 'max-w-22',
-        render: row => (
-          <NCoinLiquidity
-            value={row}
-            className="h-6 text-xxs"
-            imgClassName="size-6"
-            type="update_with_icon"
-          />
-        ),
-      },
-      {
-        key: 'security',
-        align: 'end',
-        render: row => (
-          <NCoinSecurity
-            value={row}
-            className="w-max shrink-0 text-xxs"
-            imgClassName="!size-[12px]"
-            type="grid"
-          />
-        ),
-      },
-    ],
-    [],
+export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
+  const newBorn = networkRadarGrpc.useTrenchNewBornStreamLastValue({});
+  const finalStretch = networkRadarGrpc.useTrenchFinalStretchStreamLastValue(
+    {},
   );
+  const migrated = networkRadarGrpc.useTrenchMigratedStreamLastValue({});
+  const { getUrl, params } = useDiscoveryRouteMeta();
+  const isMobile = useIsMobile();
+  const [pageState, setPageState] = usePageState<{
+    tab: NetworkRadarTab;
+  }>('network-radar', {
+    tab: 'new_pairs',
+  });
+  const navigate = useNavigate();
 
-  const {
-    params: { slug: activeSlug },
-  } = useDiscoveryRouteMeta();
+  const onRowClick = (slug: string) => {
+    navigate(
+      getUrl({
+        detail: 'coin',
+        slug,
+        view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+      }),
+    );
+  };
+
   return (
     <>
-      {focus && (
-        <div className="mb-2 flex items-center justify-between">
-          <h1 className="text-sm">{t('page.title')}</h1>
-        </div>
-      )}
-      <NetworkRadarFilters
-        value={pageState}
-        onChange={newPageState => setPageState(newPageState)}
-        className="mb-4 w-full"
-        surface={1}
-        mini
+      <ButtonSelect
+        value={pageState.tab}
+        onChange={newTab => setPageState({ tab: newTab })}
+        options={[
+          {
+            label: 'New Pairs',
+            value: 'new_pairs' as NetworkRadarTab,
+          },
+          {
+            label: 'Final Stretch',
+            value: 'final_stretch' as NetworkRadarTab,
+          },
+          {
+            label: 'Migrated',
+            value: 'migrated' as NetworkRadarTab,
+          },
+        ]}
+        size="xs"
+        className="mb-3"
+        surface={2}
       />
-      <AccessShield
-        mode="table"
-        sizes={{
-          guest: false,
-          initial: false,
-          free: false,
-          vip: false,
-        }}
-      >
-        <Table
-          columns={columns}
-          dataSource={nCoins.data ?? []}
-          rowKey={r => r.base_contract_address}
-          loading={nCoins.isLoading}
-          surface={2}
-          scrollable={false}
-          onClick={r => openModal(r)}
-          isActive={r => r.base_symbol.slug === activeSlug}
-        />
-      </AccessShield>
-      <NCoinPreDetailModal
-        value={selectedRow}
-        open={isModalOpen}
-        onClose={() => closeModal()}
+      <NCoinList
+        dataSource={newBorn.data?.results ?? []}
+        loading={newBorn.isLoading}
+        className={clsx(pageState.tab !== 'new_pairs' && 'hidden')}
+        onRowClick={onRowClick}
+      />
+      <NCoinList
+        dataSource={finalStretch.data?.results ?? []}
+        loading={finalStretch.isLoading}
+        className={clsx(pageState.tab !== 'final_stretch' && 'hidden')}
+        onRowClick={onRowClick}
+      />
+      <NCoinList
+        dataSource={migrated.data?.results ?? []}
+        loading={migrated.isLoading}
+        className={clsx(pageState.tab !== 'migrated' && 'hidden')}
+        onRowClick={onRowClick}
       />
     </>
   );

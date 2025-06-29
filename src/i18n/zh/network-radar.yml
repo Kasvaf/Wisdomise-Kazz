@@ -4,7 +4,7 @@ common:
   buy_sell: 德州新星
   buy_vol: 购买量
   contract_address: 合约地址
-  created: 创建
+  created: 年龄
   initial_liquidity: 初始流动性
   liquidity: 流动性
   marketcap: 市值
@@ -24,7 +24,7 @@ common:
 page:
   info: 此页面显示新推出的 Solana 代币和流动性池，提供有关其市值、创建日期和交易活动的见解。TXNS
     列显示买卖交易的总数，有助于识别每个项目的交易活动和兴趣。
-  title: 沟
+  title: 战壕
 security:
   freeze_auth: 冻结授权<br />已禁用
   lp_burned: LP<br />烧毁

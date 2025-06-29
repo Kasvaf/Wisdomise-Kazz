@@ -66,7 +66,7 @@ export function AlertTarget({
                   compactInteger: false,
                   decimalLength: -1,
                   minifyDecimalRepeats: false,
-                  seperateByComma: true,
+                  separateByComma: true,
                 }}
               />
             ),

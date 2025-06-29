@@ -63,7 +63,7 @@ export const TechnicalRadarChart: FC<{
                 compactInteger: true,
                 decimalLength: 2,
                 minifyDecimalRepeats: true,
-                seperateByComma: true,
+                separateByComma: true,
               },
             )}%</b></div>
           </div>`;
