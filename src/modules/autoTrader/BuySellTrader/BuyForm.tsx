@@ -44,7 +44,7 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
 
       <SensibleSteps
         className="mb-3"
-        token={quoteSlug}
+        quote={quoteSlug}
         mode={dir}
         value={amount}
         onClick={newAmount => setAmount(newAmount)}

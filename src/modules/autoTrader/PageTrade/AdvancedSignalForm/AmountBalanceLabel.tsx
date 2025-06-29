@@ -15,7 +15,7 @@ const AmountBalanceLabel: React.FC<{
     <div className="flex items-center justify-between text-xs">
       <span>Amount</span>
       <div className="flex items-center justify-between">
-        <BtnSolanaWallets className="mr-2 !h-auto !p-0" />
+        <BtnSolanaWallets className="mr-2 !h-auto !bg-transparent !p-0" />
         <AccountBalance slug={slug} disabled={disabled} setAmount={setAmount} />
       </div>
     </div>

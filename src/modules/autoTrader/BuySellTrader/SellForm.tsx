@@ -45,7 +45,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
 
       <SensibleSteps
         className="mb-3"
-        token={quoteSlug}
+        quote={quoteSlug}
         balance={baseBalance}
         mode="sell"
         value={baseAmount}

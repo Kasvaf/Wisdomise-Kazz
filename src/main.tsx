@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 // eslint-disable-next-line unicorn/prefer-node-protocol
 
 import * as Sentry from '@sentry/react';
@@ -18,6 +19,7 @@ import { queryClient, persisterOptions } from 'config/reactQuery';
 import { RouterBaseName } from 'config/constants';
 import { LoadingBadgeProvider } from 'shared/LoadingBadge';
 import { ComponentsProvider } from 'shared/v1-components/ComponentsProvider';
+import { QuotesPresetAmountProvider } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/PresetAmountProvider';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');
@@ -71,7 +73,9 @@ function Root() {
             <HelmetProvider context={{}}>
               <LoadingBadgeProvider>
                 <CustomTourProvider>
-                  <App />
+                  <QuotesPresetAmountProvider>
+                    <App />
+                  </QuotesPresetAmountProvider>
                 </CustomTourProvider>
               </LoadingBadgeProvider>
             </HelmetProvider>

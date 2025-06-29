@@ -1,5 +1,5 @@
 import Draggable from 'react-draggable';
-import { bxEdit, bxX } from 'boxicons-quasar';
+import { bxCheck, bxEditAlt, bxX } from 'boxicons-quasar';
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { notification } from 'antd';
@@ -15,6 +15,7 @@ import { useAccountBalance, useMarketSwap } from 'api/chains';
 import { useSolanaUserAssets } from 'api/chains/solana';
 import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
 import { useSupportedPairs } from 'api';
+import { useQuotesPresetAmount } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/PresetAmountProvider';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -29,6 +30,7 @@ export default function BtnInstantTrade({
   setQuote: (newVal: string) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const { connected } = useActiveWallet();
   const marketSwapHandler = useMarketSwap();
   const { refetch: refetchAssets } = useSolanaUserAssets();
@@ -38,6 +40,7 @@ export default function BtnInstantTrade({
   );
   const { refetch: refetchQuote } = useAccountBalance(quote, 'solana');
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
+  const { finalize } = useQuotesPresetAmount();
 
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
     await marketSwapHandler(slug, quote, side, amount);
@@ -53,21 +56,32 @@ export default function BtnInstantTrade({
     <div className="relative">
       <Draggable
         handle="#instant-trade-drag-handle"
-        defaultClassName={isOpen ? '' : 'hidden'}
-        defaultClassNameDragging="opacity-60"
+        defaultClassName={isOpen ? 'border border-transparent' : 'hidden'}
+        defaultClassNameDragging="opacity-60 border-v1-border-primary"
+        bounds="body"
       >
-        <div className="absolute -top-96 right-8 z-50 w-[20rem] rounded-xl bg-v1-surface-l3 text-xs">
+        <div className="fixed left-1/3 top-1/3 z-50 w-[20rem]  rounded-xl bg-v1-surface-l3 text-xs">
           <div
             id="instant-trade-drag-handle"
             className="relative flex cursor-move items-center border-b border-white/5 px-1 py-2"
           >
-            <button className="absolute left-1/2 top-2 -translate-x-1/2">
-              <DragIcon />
+            <button className="absolute left-1/2 top-2 -translate-x-1/2 cursor-move">
+              <DragIcon className="size-3" />
             </button>
-            <Button size="xs" variant="ghost" className="ml-auto !px-2">
-              <Icon name={bxEdit} size={20} />
+            <Button
+              size="xs"
+              variant="ghost"
+              className="ml-auto !px-2"
+              onClick={() => {
+                if (isEditMode) {
+                  finalize();
+                }
+                setIsEditMode(prev => !prev);
+              }}
+            >
+              <Icon name={isEditMode ? bxCheck : bxEditAlt} size={20} />
             </Button>
-            <BtnSolanaWallets />
+            <BtnSolanaWallets className="!px-2" />
             <Button
               variant="ghost"
               size="xs"
@@ -87,7 +101,14 @@ export default function BtnInstantTrade({
               </div>
               <SensibleSteps
                 mode="buy"
-                btnClassName="!border-v1-border-positive !border-[0.5px] !text-v1-content-positive enabled:hover:!bg-v1-background-positive-subtle"
+                enableEdit={isEditMode}
+                hasEditBtn={false}
+                quote={quote}
+                btnClassName={clsx(
+                  '!border-[0.5px]',
+                  !isEditMode &&
+                    '!border-v1-border-positive !text-v1-content-positive enabled:hover:!bg-v1-background-positive-subtle/40',
+                )}
                 className="mb-1"
                 onClick={value => swap(value, 'LONG')}
                 surface={3}
@@ -104,25 +125,21 @@ export default function BtnInstantTrade({
               </div>
               <hr className="my-3 border-white/5" />
               <div className="mb-3 flex items-center justify-between">
-                <div>
-                  Sell
-                  {/* <Button */}
-                  {/*   variant="ghost" */}
-                  {/*   size="2xs" */}
-                  {/*   className="!px-2" */}
-                  {/*   onClick={() => setIsPercentage(prev => !prev)} */}
-                  {/* > */}
-                  {/*   {isPercentage ? '%' : quoteInfo?.abbreviation} */}
-                  {/*   <Icon name={bxTransfer} size={12} /> */}
-                  {/* </Button> */}
-                </div>
+                Sell
                 <AccountBalance slug={slug} />
               </div>
               <SensibleSteps
                 mode="sell"
+                quote={quote}
+                enableEdit={isEditMode}
+                hasEditBtn={false}
                 className="mb-1"
                 balance={baseBalance}
-                btnClassName="!border-v1-border-negative !border-[0.5px] !text-v1-content-negative enabled:hover:!bg-v1-background-negative-subtle"
+                btnClassName={clsx(
+                  '!border-[0.5px]',
+                  !isEditMode &&
+                    '!border-v1-border-negative !text-v1-content-negative enabled:hover:!bg-v1-background-negative-subtle/40',
+                )}
                 onClick={amount => swap(amount, 'SHORT')}
                 surface={3}
               />

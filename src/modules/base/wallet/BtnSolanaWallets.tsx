@@ -2,6 +2,7 @@ import { Radio } from 'antd';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, type ReactNode, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
@@ -22,6 +23,7 @@ import {
   useCustodialWallet,
 } from 'api/chains/wallet';
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
@@ -114,8 +116,10 @@ export function WalletSelector({
 function WalletItem({ wallet }: { wallet?: Wallet }) {
   const { connected, address, name, icon } = useConnectedWallet();
   const { address: activeAddress } = useActiveWallet();
-  const { withdrawDepositModal, deposit, withdraw } = useWalletActionHandler();
+  const { withdrawDepositModal } = useWalletActionHandler();
   const [copy, notif] = useShare('copy');
+  const { getUrl } = useDiscoveryRouteMeta();
+  const navigate = useNavigate();
 
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
@@ -148,31 +152,23 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
           )}
         </div>
       </div>
-      <div>
+      <div className="flex gap-1">
+        <UserMiniAssets wallet={wallet} />
         {wallet ? (
-          <div className="flex gap-1">
-            <Button
-              className="!bg-transparent"
-              variant="outline"
-              size="xs"
-              onClick={() => deposit(wallet.address)}
-            >
-              Deposit
-            </Button>
-            <Button
-              className="!bg-transparent"
-              variant="outline"
-              size="xs"
-              onClick={() => withdraw(wallet.address)}
-            >
-              Withdraw
-            </Button>
-          </div>
+          <Button
+            onClick={() =>
+              navigate(
+                getUrl({ slug: wallet.key, detail: 'wallet', view: 'both' }),
+              )
+            }
+            variant="outline"
+            size="xs"
+            className="!bg-transparent"
+          >
+            Details
+          </Button>
         ) : (
-          <div className="flex items-stretch gap-1">
-            {connected && <UserAssets />}
-            <BtnAppKitWalletConnect network="solana" />
-          </div>
+          <BtnAppKitWalletConnect network="solana" />
         )}
       </div>
       {withdrawDepositModal}
@@ -181,20 +177,28 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   );
 }
 
-function UserAssets() {
+const MAX_ASSETS = 3;
+function UserMiniAssets({ wallet }: { wallet?: Wallet }) {
   const { address } = useConnectedWallet();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',
-    address,
+    wallet?.address ?? address,
   );
 
-  return walletAssets?.length ? (
+  return walletAssets?.length && (wallet?.address || address) ? (
     <div className="flex items-center justify-center rounded-md border border-v1-inverse-overlay-10 pl-5 pr-3">
-      {walletAssets?.map(walletAsset => (
-        <div key={walletAsset.slug} className="-ml-2">
-          <AssetIcon slug={walletAsset.slug} />
-        </div>
-      ))}
+      {walletAssets
+        ?.filter((_, index) => index < MAX_ASSETS)
+        .map(walletAsset => (
+          <div key={walletAsset.slug} className="-ml-2">
+            <AssetIcon slug={walletAsset.slug} />
+          </div>
+        ))}
+      {walletAssets?.length > 3 && (
+        <span className="ml-1 text-xxs">
+          + {walletAssets.length - MAX_ASSETS}
+        </span>
+      )}
     </div>
   ) : null;
 }
