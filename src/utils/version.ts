@@ -1,7 +1,7 @@
 export const isLocal = /^([\w-]+\.)*localhost$/.test(window.location.hostname);
 
 export const isProduction =
-  true || (!window.location.hostname.startsWith('stage-') && !isLocal);
+  !window.location.hostname.startsWith('stage-') && !isLocal;
 
 export const isMiniApp =
   Boolean(isLocal && import.meta.env.VITE_IS_MINIAPP) ||
