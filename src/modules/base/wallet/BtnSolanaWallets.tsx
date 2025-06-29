@@ -25,7 +25,11 @@ import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
-export default function BtnSolanaWallets() {
+export default function BtnSolanaWallets({
+  className,
+}: {
+  className?: string;
+}) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const { icon, connected } = useConnectedWallet();
@@ -38,9 +42,9 @@ export default function BtnSolanaWallets() {
       <Button
         variant="ghost"
         size={isMobile ? 'md' : 'xs'}
-        className="gap-2 !px-2"
+        className={className}
       >
-        {!isMobile && connected && !isCustodial ? (
+        {!isMobile && connected && !isCustodial && icon ? (
           <img className="size-4" src={icon} alt="" />
         ) : (
           <WalletIcon />

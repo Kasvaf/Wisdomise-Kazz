@@ -1,9 +1,10 @@
 import { clsx } from 'clsx';
 import { Spin } from 'antd';
-import { ReactComponent as WalletIcon } from 'modules/base/wallet/wallet-icon.svg';
 import { useAccountBalance } from 'api/chains';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useSymbolInfo } from 'api/symbol';
+import { Coin } from 'shared/Coin';
+import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 
 const AmountBalanceLabel: React.FC<{
   slug?: string;
@@ -13,7 +14,10 @@ const AmountBalanceLabel: React.FC<{
   return (
     <div className="flex items-center justify-between text-xs">
       <span>Amount</span>
-      <AccountBalance slug={slug} disabled={disabled} setAmount={setAmount} />
+      <div className="flex items-center justify-between">
+        <BtnSolanaWallets className="mr-2 !h-auto !p-0" />
+        <AccountBalance slug={slug} disabled={disabled} setAmount={setAmount} />
+      </div>
     </div>
   );
 };
@@ -40,17 +44,23 @@ export const AccountBalance: React.FC<{
       <div
         className={clsx(
           'flex items-center gap-1 text-white/40',
-          !disabled && !isNativeQuote && 'cursor-pointer hover:text-white',
+          !disabled &&
+            !isNativeQuote &&
+            setAmount &&
+            'cursor-pointer hover:text-white',
         )}
-        onClick={() =>
-          !disabled && !isNativeQuote && setAmount?.(String(balance))
-        }
+        onClick={e => {
+          e.preventDefault();
+          !disabled && !isNativeQuote && setAmount?.(String(balance));
+        }}
       >
         {balance ? (
           <>
             <span className="flex items-center">
-              <WalletIcon className="mr-1" /> {String(balance)}{' '}
-              {symbol?.abbreviation}
+              {String(balance)}{' '}
+              {symbol && (
+                <Coin coin={symbol} mini nonLink className="-mr-2 ml-2" />
+              )}
             </span>
           </>
         ) : (

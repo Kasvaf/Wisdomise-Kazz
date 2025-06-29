@@ -135,7 +135,7 @@ export default function Transfer({
           />
 
           <SensibleSteps
-            className="mt-2"
+            className="my-2"
             balance={selectedAsset?.amount ?? 0}
             value={amount}
             onClick={newAmount => setAmount(newAmount)}

@@ -38,7 +38,13 @@ export const useAccountBalance = (
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
-  return { data: null, isLoading: !net };
+  return {
+    data: null,
+    isLoading: !net,
+    refetch: () => {
+      return null;
+    },
+  };
 };
 
 export const useUserWalletAssets = (

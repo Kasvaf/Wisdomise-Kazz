@@ -386,22 +386,19 @@ export const useSolanaMarketSwap = () => {
   const { address, isCustodial } = useActiveWallet();
   const queryClient = useQueryClient();
 
-  return async ({
-    pairSlug,
-    side,
-    amount,
-  }: {
-    pairSlug: string;
-    side: 'LONG' | 'SHORT';
-    amount: string;
-  }) => {
+  return async (
+    base: string,
+    quote: string,
+    side: 'LONG' | 'SHORT',
+    amount: string,
+  ) => {
     if (!address) throw new Error('Wallet not connected');
     const publicKey = new PublicKey(address);
 
     const swap = ofetch<SwapResponse>('/trader/swap', {
       method: 'post',
       body: {
-        pair_slug: pairSlug,
+        pair_slug: base + '/' + quote,
         side,
         amount,
         network_slug: 'solana',

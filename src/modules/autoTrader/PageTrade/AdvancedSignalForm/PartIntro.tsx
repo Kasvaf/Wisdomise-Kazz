@@ -53,6 +53,8 @@ const PartIntro: React.FC<{
 
       {Boolean(quoteBalance) && !isUpdate && (
         <SensibleSteps
+          className="mb-3"
+          mode="buy"
           token={quote}
           balance={quoteBalance}
           value={amount}

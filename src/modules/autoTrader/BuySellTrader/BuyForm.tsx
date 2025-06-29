@@ -17,6 +17,7 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
     },
     setAmount,
     base: { slug: baseSlug },
+    dir,
   } = state;
 
   return (
@@ -41,14 +42,13 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
         disabled={balanceLoading || !balance}
       />
 
-      {Boolean(balance) && (
-        <SensibleSteps
-          token={quoteSlug}
-          balance={balance}
-          value={amount}
-          onClick={newAmount => setAmount(newAmount)}
-        />
-      )}
+      <SensibleSteps
+        className="mb-3"
+        token={quoteSlug}
+        mode={dir}
+        value={amount}
+        onClick={newAmount => setAmount(newAmount)}
+      />
 
       <MarketField state={state} />
       <BtnBuySell state={state} className="mt-6 w-full" />
