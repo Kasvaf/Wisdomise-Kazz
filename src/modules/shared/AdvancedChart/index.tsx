@@ -12,6 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
+import { formatNumber } from 'utils/numbers';
 import {
   widget as Widget,
   type IChartingLibraryWidget,
@@ -102,9 +103,25 @@ const AdvancedChart: React.FC<{
         'scalesProperties.showSeriesPrevCloseValue': false,
         'scalesProperties.seriesLastValueMode': 1,
         'mainSeriesProperties.showPriceLine': false,
-        // 'mainSeriesProperties.minTick': '10000,1,false',
         'paneProperties.showSymbolLabels': false,
       },
+      custom_formatters: {
+        priceFormatterFactory: symbolInfo => {
+          if (symbolInfo && symbolInfo.format === 'volume') {
+            return {
+              format: price =>
+                formatNumber(price, {
+                  compactInteger: true,
+                  separateByComma: true,
+                  decimalLength: 2,
+                  minifyDecimalRepeats: true,
+                }),
+            };
+          }
+          return null; // default formatter
+        },
+      },
+
       fullscreen: false,
       autosize: true,
       studies_overrides: {},

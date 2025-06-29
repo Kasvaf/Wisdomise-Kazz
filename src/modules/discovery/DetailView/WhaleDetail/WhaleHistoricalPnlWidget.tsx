@@ -73,7 +73,7 @@ export function WhaleHistoricalPnlWidget({
             compactInteger: true,
             decimalLength: 1,
             minifyDecimalRepeats: true,
-            seperateByComma: true,
+            separateByComma: true,
           })}`,
         }),
         domStyles: {

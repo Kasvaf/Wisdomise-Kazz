@@ -31,7 +31,7 @@ export const RsiNumber: FC<{
           compactInteger: false,
           decimalLength: 0,
           minifyDecimalRepeats: false,
-          seperateByComma: true,
+          separateByComma: true,
         }}
       />
     </span>

@@ -80,7 +80,7 @@ const PriceChange: React.FC<Props> = ({
           format={{
             minifyDecimalRepeats: false,
             decimalLength: 2,
-            seperateByComma: true,
+            separateByComma: true,
             compactInteger: true,
           }}
           label="%"

@@ -19,7 +19,7 @@ export function CoinDetailsMeta({ slug }: { slug: string }) {
           compactInteger: true,
           decimalLength: 2,
           minifyDecimalRepeats: true,
-          seperateByComma: true,
+          separateByComma: true,
         })} USDT`
       : 'unknown';
   /* eslint-disable i18next/no-literal-string */

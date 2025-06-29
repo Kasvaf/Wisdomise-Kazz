@@ -56,7 +56,7 @@ export function WhaleBalanceChartWidget({
               compactInteger: true,
               decimalLength: 3,
               minifyDecimalRepeats: true,
-              seperateByComma: true,
+              separateByComma: true,
             }),
         }),
       },
