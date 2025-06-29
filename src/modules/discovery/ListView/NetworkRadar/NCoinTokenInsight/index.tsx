@@ -1,23 +1,28 @@
 import { clsx } from 'clsx';
-import { type ComponentProps, useMemo, type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTokenInsight } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { Lazy } from 'shared/Lazy';
 import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
 import { ReactComponent as DevHolding } from './dev_holding.svg';
 import { ReactComponent as SnipersHolding } from './snipers_holding.svg';
 import { ReactComponent as InsidersHolding } from './insiders_holding.svg';
 import { ReactComponent as BundleHolding } from './bundle_holding.svg';
 
-export const NCoinTokenInsightRaw: FC<{
+export const NCoinTokenInsight: FC<{
   className?: string;
-  contractAddress?: string;
+  imgClassName?: string;
+  value?: {
+    top10Holding?: number;
+    snipersHolding?: number;
+    numberOfHolders?: number;
+    insiderHolding?: number;
+    devHolding?: number;
+    boundleHolding?: number;
+  };
   type: 'row' | 'card';
-}> = ({ type, className, contractAddress }) => {
+}> = ({ type, className, imgClassName, value }) => {
   const { t } = useTranslation('network-radar');
-  const value = useTokenInsight({ contractAddress });
 
   const items = useMemo<
     Array<{
@@ -33,12 +38,12 @@ export const NCoinTokenInsightRaw: FC<{
       {
         key: 'top_10_holders_holding',
         icon: Top10HoldersHolding,
-        value: value.data?.top_10_holders_holding_percentage,
+        value: value?.top10Holding,
         title: t('network-radar:token_insight.top_10_holders_holding.mini'),
         fullTitle: t('network-radar:token_insight.top_10_holders_holding.full'),
         color:
-          typeof value.data?.top_10_holders_holding_percentage === 'number'
-            ? (value.data?.top_10_holders_holding_percentage ?? 0) < 15
+          typeof value?.top10Holding === 'number'
+            ? (value?.top10Holding ?? 0) < 15
               ? 'green'
               : 'red'
             : 'gray',
@@ -46,12 +51,12 @@ export const NCoinTokenInsightRaw: FC<{
       {
         key: 'dev_holding',
         icon: DevHolding,
-        value: value.data?.dev_holding_percentage,
+        value: value?.devHolding,
         title: t('network-radar:token_insight.dev_holding.mini'),
         fullTitle: t('network-radar:token_insight.dev_holding.full'),
         color:
-          typeof value.data?.dev_holding_percentage === 'number'
-            ? (value.data?.dev_holding_percentage ?? 0) < 15
+          typeof value?.devHolding === 'number'
+            ? (value?.devHolding ?? 0) < 15
               ? 'green'
               : 'red'
             : 'gray',
@@ -59,12 +64,12 @@ export const NCoinTokenInsightRaw: FC<{
       {
         key: 'snipers_holding',
         icon: SnipersHolding,
-        value: value.data?.snipers_holding_percentage,
+        value: value?.snipersHolding,
         title: t('network-radar:token_insight.snipers_holding.mini'),
         fullTitle: t('network-radar:token_insight.snipers_holding.full'),
         color:
-          typeof value.data?.snipers_holding_percentage === 'number'
-            ? (value.data?.snipers_holding_percentage ?? 0) < 15
+          typeof value?.snipersHolding === 'number'
+            ? (value?.snipersHolding ?? 0) < 15
               ? 'green'
               : 'red'
             : 'gray',
@@ -72,12 +77,12 @@ export const NCoinTokenInsightRaw: FC<{
       {
         key: 'insiders_holding',
         icon: InsidersHolding,
-        value: value.data?.insiders_holding_percentage,
+        value: value?.insiderHolding,
         title: t('network-radar:token_insight.insiders_holding.mini'),
         fullTitle: t('network-radar:token_insight.insiders_holding.full'),
         color:
-          typeof value.data?.insiders_holding_percentage === 'number'
-            ? (value.data?.insiders_holding_percentage ?? 0) < 15
+          typeof value?.insiderHolding === 'number'
+            ? (value?.insiderHolding ?? 0) < 15
               ? 'green'
               : 'red'
             : 'gray',
@@ -85,12 +90,12 @@ export const NCoinTokenInsightRaw: FC<{
       {
         key: 'bundle_holding',
         icon: BundleHolding,
-        value: value.data?.bundlers_holding_percentage,
+        value: value?.boundleHolding,
         title: t('network-radar:token_insight.bundle_holding.mini'),
         fullTitle: t('network-radar:token_insight.bundle_holding.full'),
         color:
-          typeof value.data?.bundlers_holding_percentage === 'number'
-            ? (value.data?.bundlers_holding_percentage ?? 0) < 15
+          typeof value?.boundleHolding === 'number'
+            ? (value?.boundleHolding ?? 0) < 15
               ? 'green'
               : 'red'
             : 'gray',
@@ -104,8 +109,8 @@ export const NCoinTokenInsightRaw: FC<{
       {type === 'row' ? (
         <div
           className={clsx(
-            'flex items-center gap-1',
-            !value.data && 'animate-pulse',
+            'flex items-center gap-px',
+            !value && 'animate-pulse',
             className,
           )}
         >
@@ -113,10 +118,10 @@ export const NCoinTokenInsightRaw: FC<{
             <HoverTooltip key={item.key} title={item.fullTitle}>
               <div
                 className={clsx(
-                  'relative flex shrink-0 items-center justify-start gap-px text-xxs',
-                  'rounded-full border border-v1-border-primary/30 px-1 py-[2px]',
+                  'relative flex shrink-0 items-center justify-start gap-px',
+                  'rounded-full border border-v1-border-primary/20 p-px pe-2',
                   item.color === 'green'
-                    ? 'text-v1-background-positive'
+                    ? 'text-v1-content-primary'
                     : item.color === 'red'
                     ? 'text-v1-background-negative'
                     : 'opacity-80',
@@ -125,9 +130,10 @@ export const NCoinTokenInsightRaw: FC<{
                 <item.icon
                   className={clsx(
                     item.color === 'green'
-                      ? 'stroke-v1-background-positive-subtle'
+                      ? 'stroke-v1-background-inverse'
                       : 'stroke-v1-background-negative-subtle',
                     'size-4',
+                    imgClassName,
                   )}
                 />{' '}
                 <ReadableNumber
@@ -161,7 +167,7 @@ export const NCoinTokenInsightRaw: FC<{
 
                   <div
                     className={clsx(
-                      'relative flex shrink-0 items-center justify-start gap-1 text-xs',
+                      'relative flex shrink-0 items-center justify-start gap-1',
                       item.color === 'green'
                         ? 'text-v1-background-positive'
                         : item.color === 'red'
@@ -175,6 +181,7 @@ export const NCoinTokenInsightRaw: FC<{
                           ? 'stroke-v1-background-positive-subtle'
                           : 'stroke-v1-background-negative-subtle',
                         'size-5',
+                        imgClassName,
                       )}
                     />
                     <ReadableNumber
@@ -191,19 +198,5 @@ export const NCoinTokenInsightRaw: FC<{
         </div>
       )}
     </>
-  );
-};
-
-export const NCoinTokenInsight: FC<
-  ComponentProps<typeof NCoinTokenInsightRaw> & { rootClassName?: string }
-> = ({ rootClassName, ...props }) => {
-  const { t } = useTranslation('common');
-  return (
-    <Lazy
-      className={rootClassName}
-      fallback={<p className="animate-pulse text-xxs">{t('loading')}</p>}
-    >
-      <NCoinTokenInsightRaw {...props} />
-    </Lazy>
   );
 };

@@ -898,8 +898,6 @@ export interface NCoinDeveloper {
   }>;
 }
 export interface NetworkRadarNCoin {
-  _rank?: number;
-  _states: NetworkRadarNCoinStates;
   address: string;
   base_contract_address: string;
   base_symbol: Coin;

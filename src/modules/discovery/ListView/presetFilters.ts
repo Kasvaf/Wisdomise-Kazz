@@ -2,7 +2,6 @@ import {
   type useSocialRadarCoins,
   type useTechnicalRadarCoins,
   type useWhaleRadarCoins,
-  type useNetworkRadarNCoins,
 } from 'api/discovery';
 
 export interface PresetFilter<FilterType> {
@@ -366,69 +365,70 @@ export const WHALE_RADAR_SORTS: Array<
   },
 ];
 
-export const NETWORK_RADAR_PRESETS: Array<
-  PresetFilter<Partial<Parameters<typeof useNetworkRadarNCoins>[0]>>
-> = [
-  {
-    label: '🔥 Under 1H',
-    filters: {
-      maxAgeMinutes: 60,
-    },
-  },
-  // {
-  //   label: '🔥 Safe Haven',
-  //   filters: {
-  //     noMint: true,
-  //     noFreeze: true,
-  //     safeTopHolder: true,
-  //     maxRiskPercent: 55,
-  //   },
-  // },
-  {
-    label: '🔥 Trending',
-    filters: {
-      minTransactions: 55_000,
-    },
-  },
-  {
-    label: '🔥 Narrative',
-    filters: {
-      hasTwitterPost: true,
-    },
-  },
-  {
-    label: '🔥 Liquid Gold',
-    filters: {
-      minLiquidity: 250_000,
-    },
-  },
-  {
-    label: '🔥 Active Market',
-    filters: {
-      minVolume: 300_000,
-      minVolumeToMaketCapRatio: 1.2,
-    },
-  },
-  {
-    label: '🔥 Verified',
-    filters: {
-      maxRiskPercent: 45,
-      noMint: true,
-      noFreeze: true,
-      burnt: true,
-      safeTopHolder: true,
-    },
-  },
-  // {
-  //   label: '🔥 Dev Hold',
-  //   filters: {
-  //     query: 'sol',
-  //   },
-  // },
-  // {
-  //   label: '🔥 Dev Sold All',
-  //   filters: {
-  //     query: 'dev',
-  //   },
-  // },
-];
+export const NETWORK_RADAR_PRESETS = [];
+// export const NETWORK_RADAR_PRESETS: Array<
+//   PresetFilter<Partial<Parameters<typeof useNetworkRadarNCoins>[0]>>
+// > = [
+//   {
+//     label: '🔥 Under 1H',
+//     filters: {
+//       maxAgeMinutes: 60,
+//     },
+//   },
+//   // {
+//   //   label: '🔥 Safe Haven',
+//   //   filters: {
+//   //     noMint: true,
+//   //     noFreeze: true,
+//   //     safeTopHolder: true,
+//   //     maxRiskPercent: 55,
+//   //   },
+//   // },
+//   {
+//     label: '🔥 Trending',
+//     filters: {
+//       minTransactions: 55_000,
+//     },
+//   },
+//   {
+//     label: '🔥 Narrative',
+//     filters: {
+//       hasTwitterPost: true,
+//     },
+//   },
+//   {
+//     label: '🔥 Liquid Gold',
+//     filters: {
+//       minLiquidity: 250_000,
+//     },
+//   },
+//   {
+//     label: '🔥 Active Market',
+//     filters: {
+//       minVolume: 300_000,
+//       minVolumeToMaketCapRatio: 1.2,
+//     },
+//   },
+//   {
+//     label: '🔥 Verified',
+//     filters: {
+//       maxRiskPercent: 45,
+//       noMint: true,
+//       noFreeze: true,
+//       burnt: true,
+//       safeTopHolder: true,
+//     },
+//   },
+//   // {
+//   //   label: '🔥 Dev Hold',
+//   //   filters: {
+//   //     query: 'sol',
+//   //   },
+//   // },
+//   // {
+//   //   label: '🔥 Dev Sold All',
+//   //   filters: {
+//   //     query: 'dev',
+//   //   },
+//   // },
+// ];

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { type Observable } from 'rxjs';
+import { isProduction } from './version';
 
 function useObservable<V>({
   observable,
@@ -13,7 +14,11 @@ function useObservable<V>({
   const handlerRef = useRef(handler);
   useEffect(() => {
     if (enabled === false) return;
-    const x = observable.subscribe(handlerRef.current);
+    const x = observable.subscribe(handlerRef.current, e => {
+      if (!isProduction) {
+        console.error('GRPC_ERROR', e);
+      }
+    });
     return () => x.unsubscribe();
   }, [enabled, observable]);
 }
