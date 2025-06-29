@@ -53,6 +53,13 @@ const AdvancedChart: React.FC<{
 
   const delphinus = useGrpcService('delphinus');
 
+  const [currentResolution, setCurrentResolution] = useState<ResolutionString>(
+    () => {
+      const savedResolution = localStorage.getItem('chart-resolution');
+      return (savedResolution || '30') as ResolutionString;
+    },
+  );
+
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
   useEffect(() => {
@@ -68,8 +75,7 @@ const AdvancedChart: React.FC<{
       locale: language as any,
       // enabled_features: ['study_templates'],
       disabled_features: [
-        'use_localstorage_for_settings',
-        'header_symbol_search',
+        // 'use_localstorage_for_settings',
         'symbol_search_hot_key',
         'hide_price_scale_global_last_bar_value',
         'chart_style_hilo_last_price',
@@ -79,9 +85,9 @@ const AdvancedChart: React.FC<{
         'header_compare',
         // 'header_resolutions',
       ],
-      enabled_features: ['seconds_resolution'],
+      enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       timeframe: '7D', // initial zoom on chart
-      interval: '30' as ResolutionString,
+      interval: currentResolution,
       time_frames: [
         { title: '12h/1m', text: '12h', resolution: '1' as ResolutionString },
         { title: '1d/5m', text: '1D', resolution: '5' as ResolutionString },
@@ -105,10 +111,19 @@ const AdvancedChart: React.FC<{
       theme: 'dark',
     });
 
+    const timer = setInterval(() => {
+      const res = widget.activeChart().resolution();
+      if (res !== currentResolution) {
+        setCurrentResolution(res);
+        localStorage.setItem('chart-resolution', res);
+      }
+    }, 2000);
+
     widgetRef?.(widget);
     setGlobalChartWidget?.(widget);
 
     return () => {
+      clearInterval(timer);
       setGlobalChartWidget?.(undefined);
       widget.remove();
     };
@@ -120,6 +135,7 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget,
     widgetRef,
     delphinus,
+    currentResolution,
   ]);
 
   if (isLoading || !data?.network) return null;
