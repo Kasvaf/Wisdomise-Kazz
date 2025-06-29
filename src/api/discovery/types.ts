@@ -844,35 +844,7 @@ export interface RedditMessage {
   }>;
 }
 
-export interface TwitterMessage {
-  tweet_id: number;
-  related_at: string;
-  retweet_count: number;
-  reply_count: number;
-  like_count: number;
-  quote_count: number;
-  bookmark_count: number;
-  impression_count: number;
-  text: string;
-  lang: string;
-  media?:
-    | string
-    | Array<{
-        height: number;
-        width: number;
-        type: 'video' | 'photo';
-        url: string;
-      }>;
-  user: {
-    created_at: string;
-    id: number;
-    is_active: boolean;
-    name: string;
-    updated_at: string;
-    user_id: number;
-    username: string;
-  };
-}
+export type TwitterMessage = TwitterTweet;
 
 export interface TradingViewIdeasMessage {
   id: number;
@@ -1061,7 +1033,7 @@ export interface TwitterAccount {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  user_id: string; // its a big int number by default, so it will convert to string due to convert issue
+  user_id: string;
   name: string;
   username: string;
   followers_count: null | number;
@@ -1078,7 +1050,7 @@ export interface TwitterFollowedAccount {
 
 export interface TwitterTweet {
   user: TwitterAccount;
-  tweet_id: number;
+  tweet_id: string;
   related_at: string;
   retweet_count: number;
   reply_count: number;

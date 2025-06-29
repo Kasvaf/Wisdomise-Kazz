@@ -46,7 +46,6 @@ export default function PageDiscovery() {
             detail={params.detail}
             expanded={!isMobile}
             focus={true}
-            slug={params.slug}
           />
         )}
       </div>

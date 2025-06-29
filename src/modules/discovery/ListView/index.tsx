@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type AVAILABLE_LISTS } from 'modules/discovery/constants';
+import { type LISTS } from 'modules/discovery/constants';
 import { Positions } from 'modules/discovery/ListView/Positions';
 import { SocialRadar } from './SocialRadar';
 import { WhaleRadar } from './WhaleRadar';
@@ -10,7 +10,7 @@ import { Portfolio } from './Portfolio';
 import { TwitterTracker } from './TwitterTracker';
 
 export const ListView: FC<{
-  list: (typeof AVAILABLE_LISTS)[number];
+  list: keyof typeof LISTS;
   expanded?: boolean;
   focus?: boolean;
   className?: string;

@@ -27,7 +27,9 @@ export const TwitterTracker: FC<{
       {pageState.tab === 'edit' ? (
         <TwitterTrackerEdit />
       ) : (
-        <TwitterTrackerView />
+        <TwitterTrackerView
+          onRequestEdit={() => setPageState(p => ({ ...p, tab: 'edit' }))}
+        />
       )}
     </>
   );

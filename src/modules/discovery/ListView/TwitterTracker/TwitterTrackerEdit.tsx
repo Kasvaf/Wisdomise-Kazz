@@ -1,6 +1,7 @@
 import { type ComponentProps, useState, type FC, useMemo } from 'react';
 import { bxPlus, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import useNotification from 'antd/es/notification/useNotification';
 import {
   type TwitterAccount,
   type TwitterFollowedAccount,
@@ -25,12 +26,12 @@ const SubTab: FC<
   <ButtonSelect
     options={[
       {
-        label: 'My List',
-        value: 'followings',
+        label: 'Top Accounts',
+        value: 'suggestions',
       },
       {
-        label: 'Top Subs',
-        value: 'suggestions',
+        label: 'My List',
+        value: 'followings',
       },
     ]}
     {...props}
@@ -38,8 +39,11 @@ const SubTab: FC<
 );
 
 export const TwitterTrackerEdit: FC = () => {
+  const [notif, notifContent] = useNotification({});
   const [tab, setTab] =
-    useState<NonNullable<ComponentProps<typeof SubTab>['value']>>('followings');
+    useState<NonNullable<ComponentProps<typeof SubTab>['value']>>(
+      'suggestions',
+    );
 
   const followings = useTwitterFollowedAccounts();
   const suggestions = useTwitterSuggestedAccounts();
@@ -54,14 +58,30 @@ export const TwitterTrackerEdit: FC = () => {
       },
       {
         key: 'username',
-        title: 'Sub',
+        title: 'Handle',
         width: 150,
-        render: row => <>@{row.username}</>,
+        render: row => (
+          <a
+            href={`https://x.com/${row.username}`}
+            target="_blank"
+            referrerPolicy="no-referrer"
+            rel="noreferrer"
+          >
+            @{row.username}
+          </a>
+        ),
       },
       {
         key: 'followers',
         title: 'Followers',
-        render: row => <ReadableNumber value={row.followers_count} />,
+        render: row => (
+          <ReadableNumber
+            value={row.followers_count}
+            format={{
+              decimalLength: 1,
+            }}
+          />
+        ),
       },
       {
         key: 'action',
@@ -83,8 +103,16 @@ export const TwitterTrackerEdit: FC = () => {
               fab
               onClick={() =>
                 followed
-                  ? followings.unFollow(asFollowedAccount)
-                  : followings.follow(asFollowedAccount)
+                  ? followings.unFollow(asFollowedAccount).then(() =>
+                      notif.success({
+                        message: `@${asFollowedAccount.username} removed from your list.`,
+                      }),
+                    )
+                  : followings.follow(asFollowedAccount).then(() =>
+                      notif.success({
+                        message: `@${asFollowedAccount.username} added to your list.`,
+                      }),
+                    )
               }
               size="xs"
               variant="ghost"
@@ -99,7 +127,7 @@ export const TwitterTrackerEdit: FC = () => {
         },
       },
     ],
-    [followings],
+    [followings, notif],
   );
 
   const followingsColumns = useMemo<Array<TableColumn<TwitterFollowedAccount>>>(
@@ -112,9 +140,18 @@ export const TwitterTrackerEdit: FC = () => {
       },
       {
         key: 'username',
-        title: 'Sub',
+        title: 'Handle',
         width: 150,
-        render: row => <>@{row.username}</>,
+        render: row => (
+          <a
+            href={`https://x.com/${row.username}`}
+            target="_blank"
+            referrerPolicy="no-referrer"
+            rel="noreferrer"
+          >
+            @{row.username}
+          </a>
+        ),
       },
       {
         key: 'toggle_tweets',
@@ -172,6 +209,7 @@ export const TwitterTrackerEdit: FC = () => {
         onChange={setTab}
         className="mb-3"
       />
+      {notifContent}
       {tab === 'suggestions' && (
         <Table
           columns={suggestionsColumns}
