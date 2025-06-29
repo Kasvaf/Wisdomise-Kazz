@@ -4,7 +4,7 @@ common:
   buy_sell: TXNS
   buy_vol: 巻を購入
   contract_address: 契約住所
-  created: 作成
+  created: 年
   initial_liquidity: 初期流動性
   liquidity: 流動性
   marketcap: 時価総額
@@ -25,7 +25,7 @@ page:
   info: このページには、新しく発行された Solana
     コインと流動性プールが表示され、時価総額、作成日、取引アクティビティに関する情報が提供されます。TXNS
     列には売買取引の合計数が表示され、各プロジェクトの取引アクティビティと関心を識別するのに役立ちます。
-  title: 溝
+  title: 塹壕
 security:
   freeze_auth: 凍結認証<br />無効
   lp_burned: LP<br />やけど
