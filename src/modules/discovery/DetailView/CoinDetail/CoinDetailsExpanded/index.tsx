@@ -15,6 +15,7 @@ import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
+import { CoinPriceWidget } from '../CoinPriceWidget';
 import TraderSection from './TraderSection';
 
 export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
@@ -25,13 +26,12 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
     <div className="flex w-full min-w-0 max-w-full flex-nowrap justify-between">
       {/* Validate */}
       <div className="relative w-full min-w-0 shrink grow border-r border-white/10">
-        <NCoinRisksBanner slug={slug} />
         {/* Sentiment Widgets */}
-        <CoinSentimentsWidget slug={slug} className="p-3" hr />
         <NCoinSentimentWidget slug={slug} className="p-3" hr />
         <CoinTitleWidget
           slug={slug}
           className="sticky top-[76px] z-20 p-3 bg-v1-surface-l-current"
+          suffix={<CoinSentimentsWidget slug={slug} />}
           hr
         />
         <div className="p-3">
@@ -65,13 +65,16 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Trade + Additional */}
-      <div className="sticky top-[76px] z-20 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink space-y-3 overflow-y-auto px-3 scrollbar-none">
-        <div className="h-0" />
-        <TraderSection slug={slug} />
-        <hr className="border-white/10" />
-        <NCoinInsightWidget slug={slug} />
-        <CoinStatsWidget slug={slug} />
-        <NCoinStatsWidget slug={slug} />
+      <div className="sticky top-[76px] z-20 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink overflow-y-auto scrollbar-none">
+        <NCoinRisksBanner slug={slug} />
+        <CoinPriceWidget slug={slug} className="p-3" hr />
+        <div className="space-y-3 p-3">
+          <TraderSection slug={slug} />
+          <hr className="border-white/10" />
+          <NCoinInsightWidget slug={slug} />
+          <CoinStatsWidget slug={slug} />
+          <NCoinStatsWidget slug={slug} />
+        </div>
       </div>
     </div>
   );
