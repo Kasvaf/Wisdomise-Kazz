@@ -151,10 +151,18 @@ const NCoinMarketDataCol: FC<{
 export const NCoinList: FC<{
   dataSource: TrenchStreamResponseResult[];
   title?: ReactNode;
+  titleSuffix?: ReactNode;
   className?: string;
   loading?: boolean;
   onRowClick?: (slug: string) => void;
-}> = ({ dataSource: _dataSource, title, loading, className, onRowClick }) => {
+}> = ({
+  dataSource: _dataSource,
+  title,
+  titleSuffix,
+  loading,
+  className,
+  onRowClick,
+}) => {
   const [dataSource, setDataSource] = useState(_dataSource);
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
@@ -182,6 +190,11 @@ export const NCoinList: FC<{
             <Icon name={bxPauseCircle} size={18} />
             {'Paused'}
           </div>
+          {titleSuffix && (
+            <div className="flex w-auto shrink-0 grow items-center justify-end gap-1">
+              {titleSuffix}
+            </div>
+          )}
         </div>
       )}
       {loading ? (
