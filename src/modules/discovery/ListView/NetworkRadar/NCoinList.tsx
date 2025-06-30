@@ -174,12 +174,15 @@ export const NCoinList: FC<{
 
   return (
     <div
-      className={clsx('flex flex-col gap-3', className)}
+      className={clsx(
+        'flex flex-col gap-3 overflow-auto rounded-lg scrollbar-none',
+        className,
+      )}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
     >
       {title && (
-        <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-v1-surface-l-next">
+        <div className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none">
           {title}
           <div
             className={clsx(
@@ -188,10 +191,9 @@ export const NCoinList: FC<{
             )}
           >
             <Icon name={bxPauseCircle} size={18} />
-            {'Paused'}
           </div>
           {titleSuffix && (
-            <div className="flex w-auto shrink-0 grow items-center justify-end gap-1">
+            <div className="flex w-auto shrink-0 grow items-center justify-end gap-2">
               {titleSuffix}
             </div>
           )}

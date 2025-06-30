@@ -46,9 +46,19 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       }),
     );
   };
-
+  // ['--desktop-header-height' as never]: isMobile ? '0px' : '3rem',
+  // ['--route-details-height' as never]: isMobile ? '0px' : '1.75rem',
   return (
-    <div className={clsx('grid grid-cols-3 gap-3', className)}>
+    <div
+      className={clsx(
+        'grid h-full grid-cols-3 gap-3 overflow-hidden',
+        className,
+      )}
+      style={{
+        maxHeight:
+          'calc(100svh - var(--desktop-header-height) - var(--route-details-height) - 1.5rem)',
+      }}
+    >
       <h2 className="col-span-3 flex items-center justify-start gap-1 text-base">
         {t('page.title')}
         <HoverTooltip title={t('page.info')}>
