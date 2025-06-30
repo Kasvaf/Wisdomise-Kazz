@@ -24,11 +24,11 @@ const NCoinBasicInfo: FC<{
       className,
     )}
   >
-    <p className="max-w-full truncate text-base leading-none">
+    <p className="max-w-full truncate text-sm leading-none">
       {value.symbol?.name ?? ''}
     </p>
-    <div className="flex items-center justify-start gap-1 text-sm">
-      <p className="max-w-24 overflow-hidden text-ellipsis text-v1-content-secondary">
+    <div className="flex items-center justify-start gap-1 text-xs">
+      <p className="max-w-14 overflow-hidden text-ellipsis text-v1-content-secondary">
         {value.symbol?.base ?? ''}
       </p>
       <ContractAddress
@@ -41,7 +41,7 @@ const NCoinBasicInfo: FC<{
     </div>
     <NCoinSecurity
       type="row"
-      imgClassName="size-[18px]"
+      imgClassName="size-[14px]"
       value={{
         freezable: value.securityData?.freezable ?? false,
         mintable: value.securityData?.mintable ?? false,
@@ -91,7 +91,7 @@ const NCoinInsightRow: FC<{
     <NCoinTokenInsight
       value={value.validatedData}
       type="row"
-      imgClassName="size-5"
+      imgClassName="size-4"
       className="text-xs"
     />
   </div>
@@ -103,7 +103,7 @@ const NCoinMarketDataCol: FC<{
 }> = ({ className, value }) => (
   <div
     className={clsx(
-      'flex flex-col items-end justify-between gap-1 py-3 text-xs',
+      'flex flex-col items-end justify-center gap-2 py-3 text-xs',
       className,
     )}
   >
