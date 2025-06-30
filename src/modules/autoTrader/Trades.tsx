@@ -22,7 +22,9 @@ const Trades: React.FC<{ slug: string }> = ({ slug }) => {
     asset,
   });
   const data = uniqueBy(
-    [...(recent ?? []).toReversed(), ...(history ?? [])],
+    [...(recent ?? []), ...(history ?? [])].sort(
+      (a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt),
+    ),
     x => x.id,
   ).slice(0, 20);
 
