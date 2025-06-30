@@ -2,7 +2,7 @@ import { useSupportedPairs } from 'api';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import BuySellTrader from 'modules/autoTrader/BuySellTrader';
+import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
 const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
@@ -18,7 +18,7 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
           </div>
         ) : supportedPairs?.length ? (
           <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
-            <BuySellTrader
+            <TraderTrades
               quote={quote}
               setQuote={setQuote}
               slug={slug}
