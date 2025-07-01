@@ -14,7 +14,7 @@ import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConne
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import { useAccountBalance, useMarketSwap } from 'api/chains';
 import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
-import { useSupportedPairs } from 'api';
+import { useHasFlag, useSupportedPairs } from 'api';
 import { useQuotesPresetAmount } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/PresetAmountProvider';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
@@ -32,11 +32,17 @@ export default function BtnInstantTrade({
   const [isEditMode, setIsEditMode] = useState(false);
   const { connected } = useActiveWallet();
   const { data: baseBalance } = useAccountBalance(slug);
+  const { data: quoteBalance } = useAccountBalance(quote);
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
   const { finalize } = useQuotesPresetAmount();
+  const hasFlag = useHasFlag();
 
   const marketSwapHandler = useMarketSwap();
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
+    if (side === 'LONG' && (quoteBalance ?? 0) < +amount) {
+      notification.error({ message: 'Insufficient balance' });
+      return;
+    }
     await marketSwapHandler(slug, quote, side, amount);
     notification.success({ message: 'Transaction successfully sent' });
   };
@@ -46,6 +52,8 @@ export default function BtnInstantTrade({
     'instant-position',
     undefined,
   );
+
+  if (!hasFlag('/trader/instant')) return null;
 
   return (
     <div className="relative">
