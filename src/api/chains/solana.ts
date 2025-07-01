@@ -220,7 +220,7 @@ export const useSolanaUserAssets = (address?: string) => {
   };
 };
 
-export const useBalanceInUSD = (address?: string) => {
+export const useSolanaBalanceInUSD = (address?: string) => {
   const { data: assets, isPending } = useSolanaUserAssets(address);
   return {
     balance: isPending

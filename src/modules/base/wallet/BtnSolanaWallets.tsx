@@ -24,6 +24,8 @@ import {
 } from 'api/chains/wallet';
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useSolanaBalanceInUSD } from 'api/chains/solana';
+import { roundSensible } from 'utils/numbers';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
@@ -120,6 +122,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   const [copy, notif] = useShare('copy');
   const { getUrl } = useDiscoveryRouteMeta();
   const navigate = useNavigate();
+  const { balance } = useSolanaBalanceInUSD(wallet ? wallet?.address : address);
 
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
@@ -149,6 +152,9 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
             </div>
           ) : (
             'Not Connected'
+          )}
+          {(wallet || address) && (
+            <span className="ml-2">${roundSensible(balance)}</span>
           )}
         </div>
       </div>
