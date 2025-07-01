@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { useHistoricalSwaps } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -22,12 +23,16 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
     network,
     asset,
   });
-  const data = uniqueBy(
-    [...(recent ?? []), ...(history ?? [])].sort(
-      (a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt),
-    ),
-    x => x.id,
-  ).slice(0, 20);
+  const data = useMemo(
+    () =>
+      uniqueBy(
+        [...(recent ?? []), ...(history ?? [])].sort(
+          (a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt),
+        ),
+        x => x.id,
+      ).slice(0, 20),
+    [history, recent],
+  );
 
   const now = useNow();
 
