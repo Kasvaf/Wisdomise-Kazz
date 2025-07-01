@@ -69,7 +69,7 @@ const AdvancedChart: React.FC<{
 
   useEffect(() => {
     if (isLoading || !data?.network) return;
-    let isMarketCap = localStorage.getItem('tw-market-cap') === 'true';
+    let isMarketCap = localStorage.getItem('tw-market-cap') !== 'false';
 
     const widget = new Widget({
       symbol: data.symbolName,
