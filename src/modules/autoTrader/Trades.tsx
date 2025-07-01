@@ -6,13 +6,14 @@ import useNow from 'utils/useNow';
 import { formatNumber } from 'utils/numbers';
 import { delphinusGrpc } from 'api/grpc';
 import { uniqueBy } from 'utils/uniqueBy';
+import Spin from 'shared/Spin';
 
 const Trades: React.FC<{ slug: string }> = ({ slug }) => {
   const { data: symbol } = useSymbolInfo(slug);
   const network = useActiveNetwork();
   const asset = symbol?.networks.find(x => x.network.slug === network)
     ?.contract_address;
-  const { data: history } = useHistoricalSwaps({
+  const { data: history, isLoading } = useHistoricalSwaps({
     network,
     asset,
   });
@@ -29,6 +30,14 @@ const Trades: React.FC<{ slug: string }> = ({ slug }) => {
   ).slice(0, 20);
 
   const now = useNow();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center gap-1 py-6">
+        <Spin /> Loading...
+      </div>
+    );
+  }
 
   return (
     <div>
