@@ -1,7 +1,7 @@
 import Tabs from 'shared/Tabs';
 import { type TraderInputs } from './PageTrade/types';
 import BuySellTrader from './BuySellTrader';
-import Trades from './Trades';
+import AssetSwapsStream from './AssetSwapsStream';
 
 const TraderTrades: React.FC<
   TraderInputs & {
@@ -17,7 +17,7 @@ const TraderTrades: React.FC<
     {
       key: 'trades',
       label: 'Trades',
-      children: <Trades slug={props.slug} />,
+      children: <AssetSwapsStream slug={props.slug} />,
     },
   ];
 

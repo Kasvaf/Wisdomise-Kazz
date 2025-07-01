@@ -8,7 +8,7 @@ import { delphinusGrpc } from 'api/grpc';
 import { uniqueBy } from 'utils/uniqueBy';
 import Spin from 'shared/Spin';
 
-const Trades: React.FC<{ slug: string }> = ({ slug }) => {
+const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   const { data: symbol } = useSymbolInfo(slug);
   const network = useActiveNetwork();
   const asset = symbol?.networks.find(x => x.network.slug === network)
@@ -92,4 +92,4 @@ const Trades: React.FC<{ slug: string }> = ({ slug }) => {
   );
 };
 
-export default Trades;
+export default AssetSwapsStream;
