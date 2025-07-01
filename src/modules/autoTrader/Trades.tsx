@@ -3,7 +3,7 @@ import { useHistoricalSwaps } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useActiveNetwork } from 'modules/base/active-network';
 import useNow from 'utils/useNow';
-import { roundSensible } from 'utils/numbers';
+import { formatNumber } from 'utils/numbers';
 import { delphinusGrpc } from 'api/grpc';
 import { uniqueBy } from 'utils/uniqueBy';
 
@@ -36,14 +36,15 @@ const Trades: React.FC<{ slug: string }> = ({ slug }) => {
         <thead className="text-white/50">
           <td>Amount</td>
           <td>Price</td>
+          <td>Trader</td>
           <td>Age</td>
         </thead>
         <tbody>
           {data?.map(row => {
             const dir = row.fromAsset === asset ? 'sell' : 'buy';
             const amount =
-              +(row.fromAsset === asset ? row.fromAmount : row.toAmount) *
-              +(row.price ?? 0);
+              row.fromAsset === asset ? row.fromAmount : row.toAmount;
+
             return (
               <tr key={row.id}>
                 <td
@@ -53,9 +54,25 @@ const Trades: React.FC<{ slug: string }> = ({ slug }) => {
                       : 'text-v1-content-positive'
                   }
                 >
-                  $ {roundSensible(amount)}
+                  {formatNumber(+amount, {
+                    compactInteger: true,
+                    decimalLength: 3,
+                    separateByComma: false,
+                    minifyDecimalRepeats: true,
+                  })}
                 </td>
-                <td>{roundSensible(row.price)}</td>
+                <td>
+                  {row.price
+                    ? '$ ' +
+                      formatNumber(+row.price, {
+                        compactInteger: true,
+                        decimalLength: 2,
+                        separateByComma: false,
+                        minifyDecimalRepeats: true,
+                      })
+                    : ''}
+                </td>
+                <td>{row.wallet.replace(/^(\w{3}).*(\w{3})$/, '$1..$2')}</td>
                 <td>{dayjs(+new Date(row.relatedAt)).from(now)}</td>
               </tr>
             );
