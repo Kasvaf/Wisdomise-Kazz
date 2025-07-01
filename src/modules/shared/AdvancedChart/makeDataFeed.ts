@@ -9,7 +9,7 @@ import {
 } from './charting_library/charting_library';
 import getCandlesCached, { type Resolution } from './getCandlesCached';
 
-export const resolutionToSeconds: Record<Resolution, number> = {
+const resolutionToSeconds: Record<Resolution, number> = {
   '1s': 1,
   '5s': 5,
   '15s': 15,

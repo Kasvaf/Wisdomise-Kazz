@@ -35,10 +35,8 @@ export type AutoTraderSolanaSupportedQuotes =
   | 'usd-coin'
   | 'wrapped-solana';
 
-export const SOLANA_CONTRACT_ADDRESS =
-  'So11111111111111111111111111111111111111112';
-export const USDC_CONTRACT_ADDRESS =
-  'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+const SOLANA_CONTRACT_ADDRESS = 'So11111111111111111111111111111111111111112';
+const USDC_CONTRACT_ADDRESS = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 
 const useContractInfo = (slug?: string) => {
   const { data } = useSymbolInfo(slug);

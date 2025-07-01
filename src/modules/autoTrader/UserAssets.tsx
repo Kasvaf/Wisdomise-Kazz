@@ -234,7 +234,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
   );
 }
 
-export function WalletAssets({ wallet }: { wallet: Wallet }) {
+function WalletAssets({ wallet }: { wallet: Wallet }) {
   const isLoggedIn = useIsLoggedIn();
   const { data: custodialWalletAssets } = useSolanaUserAssets(wallet.address);
   const { withdrawDepositModal, deposit } = useWalletActionHandler();

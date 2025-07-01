@@ -137,7 +137,7 @@ export default function WalletDetail(_: {
   ) : null;
 }
 
-export function WalletName({ wallet }: { wallet: Wallet }) {
+function WalletName({ wallet }: { wallet: Wallet }) {
   const [newName, setNewName] = useState(wallet?.name ?? '');
   const [editMode, setEditMode] = useState(false);
   const { mutate } = useUpdateWalletMutation(wallet?.key);
