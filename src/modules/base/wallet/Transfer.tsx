@@ -11,7 +11,7 @@ import {
   type Wallet,
 } from 'api/wallets';
 import { useSymbolsInfo } from 'api/symbol';
-import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
+import SensibleSteps from 'modules/base/wallet/SensibleSteps';
 
 export default function Transfer({
   wallet,
@@ -138,7 +138,7 @@ export default function Transfer({
             className="my-2"
             balance={selectedAsset?.amount ?? 0}
             value={amount}
-            onClick={newAmount => setAmount(newAmount)}
+            onChange={newAmount => setAmount(newAmount)}
             surface={4}
           />
         </>

@@ -8,7 +8,7 @@ import { useQuotesPresetAmount } from 'modules/autoTrader/BuySellTrader/BtnInsta
 import { type AutoTraderSupportedQuotes } from 'api/chains';
 import Icon from 'shared/Icon';
 
-export default function SensibleSteps({
+export default function QuotePresetAmount({
   balance,
   onClick,
   surface = 2,
@@ -32,7 +32,7 @@ export default function SensibleSteps({
   quote?: string;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const { presets, update } = useQuotesPresetAmount();
+  const { presets, update, finalize } = useQuotesPresetAmount();
   const preset = mode === 'buy' ? presets?.buy : presets?.sellPercentage;
   const presetOptions = preset?.[quote as AutoTraderSupportedQuotes]?.map(
     v => ({
@@ -41,7 +41,7 @@ export default function SensibleSteps({
           ? v === '100'
             ? String(balance)
             : roundSensible((+v / 100) * (balance ?? 0))
-          : String(v),
+          : v,
       label: v,
     }),
   );
@@ -77,8 +77,19 @@ export default function SensibleSteps({
             {isEditMode ? (
               <input
                 type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={label}
                 className="w-full bg-transparent text-center outline-none"
+                onKeyDown={e => {
+                  if (
+                    Number.isNaN(+e.key) &&
+                    e.key !== 'Backspace' &&
+                    e.key !== '.'
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
                 onChange={e => {
                   if (quote && mode) {
                     update(
@@ -102,7 +113,10 @@ export default function SensibleSteps({
           variant="ghost"
           size="2xs"
           className="!px-1"
-          onClick={() => setIsEditMode(prev => !prev)}
+          onClick={() => {
+            setIsEditMode(prev => !prev);
+            finalize();
+          }}
         >
           <Icon name={isEditMode ? bxCheck : bxEditAlt} />
         </Button>

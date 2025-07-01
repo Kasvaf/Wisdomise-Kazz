@@ -54,18 +54,12 @@ export const AccountBalance: React.FC<{
           !disabled && !isNativeQuote && setAmount?.(String(balance));
         }}
       >
-        {balance ? (
-          <>
-            <span className="flex items-center">
-              {String(balance)}{' '}
-              {symbol && (
-                <Coin coin={symbol} mini nonLink className="-mr-2 ml-2" />
-              )}
-            </span>
-          </>
-        ) : (
-          <span className="text-v1-content-negative">No Balance</span>
-        )}
+        <span className="flex items-center gap-2">
+          {symbol && (
+            <Coin coin={symbol} mini nonLink noText className="-mr-2 ml-2" />
+          )}
+          {String(balance)}
+        </span>
       </div>
     )
   ) : null;

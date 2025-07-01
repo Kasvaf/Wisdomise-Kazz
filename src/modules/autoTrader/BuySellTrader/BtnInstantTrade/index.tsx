@@ -1,18 +1,18 @@
-import Draggable from 'react-draggable';
+import Draggable, { type ControlPosition } from 'react-draggable';
 import { bxCheck, bxEditAlt, bxX } from 'boxicons-quasar';
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { notification } from 'antd';
+import { useLocalStorage } from 'usehooks-ts';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
-import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
+import QuotePresetAmount from 'modules/autoTrader/BuySellTrader/QuotePresetAmount';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { useActiveWallet } from 'api/chains/wallet';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import { useAccountBalance, useMarketSwap } from 'api/chains';
-import { useSolanaUserAssets } from 'api/chains/solana';
 import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
 import { useSupportedPairs } from 'api';
 import { useQuotesPresetAmount } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/PresetAmountProvider';
@@ -29,28 +29,23 @@ export default function BtnInstantTrade({
   quote: string;
   setQuote: (newVal: string) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const { connected } = useActiveWallet();
-  const marketSwapHandler = useMarketSwap();
-  const { refetch: refetchAssets } = useSolanaUserAssets();
-  const { data: baseBalance, refetch: refetchBase } = useAccountBalance(
-    slug,
-    'solana',
-  );
-  const { refetch: refetchQuote } = useAccountBalance(quote, 'solana');
+  const { data: baseBalance } = useAccountBalance(slug);
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
   const { finalize } = useQuotesPresetAmount();
 
+  const marketSwapHandler = useMarketSwap();
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
     await marketSwapHandler(slug, quote, side, amount);
     notification.success({ message: 'Transaction successfully sent' });
-    setTimeout(() => {
-      void refetchAssets();
-      void refetchBase();
-      void refetchQuote();
-    }, 5000);
   };
+
+  const [isOpen, setIsOpen] = useLocalStorage('instant-open', false);
+  const [position, setPosition] = useLocalStorage<ControlPosition | undefined>(
+    'instant-position',
+    undefined,
+  );
 
   return (
     <div className="relative">
@@ -58,9 +53,11 @@ export default function BtnInstantTrade({
         handle="#instant-trade-drag-handle"
         defaultClassName={isOpen ? 'border border-transparent' : 'hidden'}
         defaultClassNameDragging="opacity-60 border-v1-border-primary"
+        defaultPosition={position}
+        onStop={(_, data) => setPosition({ x: data.x, y: data.y })}
         bounds="body"
       >
-        <div className="fixed left-1/3 top-1/3 z-50 w-[20rem]  rounded-xl bg-v1-surface-l3 text-xs">
+        <div className="fixed left-0 top-0 z-50 w-[20rem] rounded-xl bg-v1-surface-l3 text-xs">
           <div
             id="instant-trade-drag-handle"
             className="relative flex cursor-move items-center border-b border-white/5 px-1 py-2"
@@ -99,7 +96,7 @@ export default function BtnInstantTrade({
                 Buy
                 <AccountBalance slug={quote} />
               </div>
-              <SensibleSteps
+              <QuotePresetAmount
                 mode="buy"
                 enableEdit={isEditMode}
                 hasEditBtn={false}
@@ -128,7 +125,7 @@ export default function BtnInstantTrade({
                 Sell
                 <AccountBalance slug={slug} />
               </div>
-              <SensibleSteps
+              <QuotePresetAmount
                 mode="sell"
                 quote={quote}
                 enableEdit={isEditMode}

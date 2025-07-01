@@ -193,14 +193,16 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         >
           <div className="flex items-center gap-1">
             {wallet ? wallet.name : 'Connected Wallet'}
-            <HoverTooltip title="Copy Wallet Address">
-              <button
-                className="mt-1 text-v1-content-secondary"
-                onClick={() => copy(wallet?.address ?? address ?? '')}
-              >
-                <Icon name={bxCopy} size={16} />
-              </button>
-            </HoverTooltip>
+            {(wallet?.address || address) && (
+              <HoverTooltip title="Copy Wallet Address">
+                <button
+                  className="mt-1 text-v1-content-secondary"
+                  onClick={() => copy(wallet?.address ?? address ?? '')}
+                >
+                  <Icon name={bxCopy} size={16} />
+                </button>
+              </HoverTooltip>
+            )}
           </div>
 
           {isActive && <Badge color="pro" label="Active" />}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
 import AmountInputBox from 'shared/AmountInputBox';
-import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
+import QuotePresetAmount from 'modules/autoTrader/BuySellTrader/QuotePresetAmount';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
@@ -43,7 +43,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
         disabled={balanceLoading || !baseBalance}
       />
 
-      <SensibleSteps
+      <QuotePresetAmount
         className="mb-3"
         quote={quoteSlug}
         balance={baseBalance}

@@ -194,10 +194,9 @@ function UserMiniAssets({ wallet }: { wallet?: Wallet }) {
             <AssetIcon slug={walletAsset.slug} />
           </div>
         ))}
-      {walletAssets?.length > 3 && (
-        <span className="ml-1 text-xxs">
-          + {walletAssets.length - MAX_ASSETS}
-        </span>
+
+      {walletAssets.length > MAX_ASSETS && (
+        <span className="ml-2 text-xxs">{walletAssets.length}</span>
       )}
     </div>
   ) : null;
