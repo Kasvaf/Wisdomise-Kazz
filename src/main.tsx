@@ -19,7 +19,7 @@ import { queryClient, persisterOptions } from 'config/reactQuery';
 import { RouterBaseName } from 'config/constants';
 import { LoadingBadgeProvider } from 'shared/LoadingBadge';
 import { ComponentsProvider } from 'shared/v1-components/ComponentsProvider';
-import { QuotesPresetAmountProvider } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/PresetAmountProvider';
+import { QuotesPresetsProvider } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/QuotesPresetsProvider';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');
@@ -73,9 +73,9 @@ function Root() {
             <HelmetProvider context={{}}>
               <LoadingBadgeProvider>
                 <CustomTourProvider>
-                  <QuotesPresetAmountProvider>
+                  <QuotesPresetsProvider>
                     <App />
-                  </QuotesPresetAmountProvider>
+                  </QuotesPresetsProvider>
                 </CustomTourProvider>
               </LoadingBadgeProvider>
             </HelmetProvider>

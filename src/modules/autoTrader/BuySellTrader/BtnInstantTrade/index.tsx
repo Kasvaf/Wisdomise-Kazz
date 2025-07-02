@@ -15,7 +15,7 @@ import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/Quote
 import { useAccountBalance, useMarketSwap } from 'api/chains';
 import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
 import { useHasFlag, useSupportedPairs } from 'api';
-import { useQuotesPresetAmount } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/PresetAmountProvider';
+import { useQuotesPresets } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/QuotesPresetsProvider';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -34,12 +34,15 @@ export default function BtnInstantTrade({
   const { data: baseBalance } = useAccountBalance(slug);
   const { data: quoteBalance } = useAccountBalance(quote);
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
-  const { finalize } = useQuotesPresetAmount();
+  const { finalize } = useQuotesPresets();
   const hasFlag = useHasFlag();
 
   const marketSwapHandler = useMarketSwap();
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
-    if (side === 'LONG' && (quoteBalance ?? 0) < +amount) {
+    if (
+      (side === 'LONG' && (quoteBalance ?? 0) < +amount) ||
+      (side === 'SHORT' && (baseBalance ?? 0) === 0)
+    ) {
       notification.error({ message: 'Insufficient balance' });
       return;
     }

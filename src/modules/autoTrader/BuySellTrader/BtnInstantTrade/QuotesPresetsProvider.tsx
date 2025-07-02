@@ -8,7 +8,7 @@ import {
 import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { useUserStorage } from 'api/userStorage';
 
-interface QuotesAmountPresets {
+interface QuotesPresets {
   buy: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
   sell: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
   sellPercentage: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
@@ -17,10 +17,10 @@ interface QuotesAmountPresets {
 const DEFAULT_PERCENTAGE_PRESET = ['10', '25', '50', '100', '0', '0', '0', '0'];
 
 const context = createContext<{
-  presets: QuotesAmountPresets | null;
+  presets: QuotesPresets | null;
   update: (
     quote: AutoTraderSupportedQuotes,
-    mode: keyof QuotesAmountPresets,
+    mode: keyof QuotesPresets,
     index: number,
     newValue: string,
   ) => void;
@@ -31,13 +31,11 @@ const context = createContext<{
   finalize: () => null,
 });
 
-export const useQuotesPresetAmount = () => useContext(context);
+export const useQuotesPresets = () => useContext(context);
 
-export function QuotesPresetAmountProvider({ children }: PropsWithChildren) {
-  const { value, save } = useUserStorage<QuotesAmountPresets>(
-    'quotes-amount-presets',
-  );
-  const [clientValue, setClientValue] = useState<QuotesAmountPresets>({
+export function QuotesPresetsProvider({ children }: PropsWithChildren) {
+  const { value, save } = useUserStorage<QuotesPresets>('quotes_presets');
+  const [clientValue, setClientValue] = useState<QuotesPresets>({
     buy: {
       'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
       'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
@@ -59,7 +57,7 @@ export function QuotesPresetAmountProvider({ children }: PropsWithChildren) {
     if (!value) return;
 
     setClientValue(prev => {
-      const merged: QuotesAmountPresets = {
+      const merged: QuotesPresets = {
         buy: { ...prev.buy },
         sell: { ...prev.sell },
         sellPercentage: { ...prev.sellPercentage },
@@ -84,7 +82,7 @@ export function QuotesPresetAmountProvider({ children }: PropsWithChildren) {
 
   const update = (
     quote: AutoTraderSupportedQuotes,
-    mode: keyof QuotesAmountPresets,
+    mode: keyof QuotesPresets,
     index: number,
     newValue: string,
   ) => {
