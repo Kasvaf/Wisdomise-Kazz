@@ -32,22 +32,27 @@ const REDIRECT_MAP: Record<string, string> = {
   // Whale Details
   '/whale/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta({
     detail: 'whale',
-  })}&slug={nework}/{address}`,
+    slug: '{nework}/{address}',
+  })}`,
   '/coin-radar/whale-radar/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta(
     {
       detail: 'whale',
+      slug: '{nework}/{address}',
     },
-  )}&slug={nework}/{address}`,
+  )}`,
   // Coin Details
   '/token/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta({
     detail: 'coin',
-  })}&slug={nework}/{address}`,
+    slug: '{nework}/{address}',
+  })}`,
   '/token/{nework}': `/discovery?ui=${groupDiscoveryRouteMeta({
     detail: 'coin',
-  })}&slug={nework}/`,
+    slug: '{network}/',
+  })}`,
   '/coin/{slug}': `/discovery?ui=${groupDiscoveryRouteMeta({
     detail: 'coin',
-  })}&slug={slug}`,
+    slug: '{slug}',
+  })}`,
 
   ...Object.fromEntries(
     Object.keys(LISTS).map(list => [
