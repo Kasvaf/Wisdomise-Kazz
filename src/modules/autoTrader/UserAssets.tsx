@@ -61,6 +61,11 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
           className="text-xs"
           imageClassName="size-7"
           nonLink
+          abbrevationSuffix={
+            <div className="ml-2 text-xxs font-normal text-v1-content-secondary">
+              ${roundSensible((asset.usd_equity ?? 0) / asset.amount)}
+            </div>
+          }
         />
       ) : baseLoading ? (
         <Spin />
@@ -186,21 +191,20 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
             isActive && 'bg-pro-gradient bg-clip-text text-transparent',
           )}
         >
-          {wallet ? (
-            <div className="flex items-center gap-1">
-              {wallet.name}
+          <div className="flex items-center gap-1">
+            {wallet ? wallet.name : 'Connected Wallet'}
+            {(wallet?.address || address) && (
               <HoverTooltip title="Copy Wallet Address">
                 <button
                   className="mt-1 text-v1-content-secondary"
-                  onClick={() => copy(wallet.address)}
+                  onClick={() => copy(wallet?.address ?? address ?? '')}
                 >
                   <Icon name={bxCopy} size={16} />
                 </button>
               </HoverTooltip>
-            </div>
-          ) : (
-            'Connected Wallet'
-          )}
+            )}
+          </div>
+
           {isActive && <Badge color="pro" label="Active" />}
         </div>
         {wallet ? (

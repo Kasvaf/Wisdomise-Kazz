@@ -20,6 +20,7 @@ const BuySellForms: React.FC<
     setIsMarketPrice,
     firing: [firing],
     confirming: [confirming],
+    setAmount,
   } = swapState;
 
   useEffect(() => {
@@ -29,7 +30,8 @@ const BuySellForms: React.FC<
   useEffect(() => {
     setDir(mode);
     setIsMarketPrice(true);
-  }, [mode, setDir, setIsMarketPrice]);
+    setAmount('0');
+  }, [mode, setAmount, setDir, setIsMarketPrice]);
 
   return (
     <>

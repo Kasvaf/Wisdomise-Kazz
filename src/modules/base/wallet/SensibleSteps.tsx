@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { Button } from 'shared/v1-components/Button';
-import useSensibleSteps from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSensibleSteps';
+import useSensibleSteps from 'modules/base/wallet/useSensibleSteps';
 import { type Surface } from 'utils/useSurface';
 
 export default function SensibleSteps({

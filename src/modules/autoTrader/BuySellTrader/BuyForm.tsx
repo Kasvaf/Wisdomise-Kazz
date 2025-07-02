@@ -1,5 +1,5 @@
 import AmountInputBox from 'shared/AmountInputBox';
-import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
+import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
@@ -17,6 +17,7 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
     },
     setAmount,
     base: { slug: baseSlug },
+    dir,
   } = state;
 
   return (
@@ -41,14 +42,13 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
         disabled={balanceLoading || !balance}
       />
 
-      {Boolean(balance) && (
-        <SensibleSteps
-          token={quoteSlug}
-          balance={balance}
-          value={amount}
-          onChange={newAmount => setAmount(newAmount)}
-        />
-      )}
+      <QuoteAmountPresets
+        className="mb-3"
+        quote={quoteSlug}
+        mode={dir}
+        value={amount}
+        onClick={newAmount => setAmount(newAmount)}
+      />
 
       <MarketField state={state} />
       <BtnBuySell state={state} className="mt-6 w-full" />

@@ -25,7 +25,7 @@ const BtnWalletConnect: React.FC<{ className?: string }> = ({ className }) => {
           className={clsx(className, !isMobile && 'h-[38px]')}
         />
       ) : net === 'solana' ? (
-        <BtnSolanaWallets />
+        <BtnSolanaWallets className="!px-2" />
       ) : net === 'polygon' ? (
         <BtnAppKitWalletConnect className={className} network={net} />
       ) : null}

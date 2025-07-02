@@ -1,5 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
+import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
@@ -20,6 +22,7 @@ import TraderSection from './TraderSection';
 export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
+  const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
 
   return (
     <div className="flex w-full min-w-0 max-w-full flex-nowrap justify-between">
@@ -36,6 +39,9 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         />
         <div className="p-3">
           <CoinChart slug={slug} height={420} />
+          <div className="mt-2 flex justify-end">
+            <BtnInstantTrade slug={slug} quote={quote} setQuote={setQuote} />
+          </div>
         </div>
         <CoinDetailsTabs
           options={tabs}
@@ -67,7 +73,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       {/* Trade + Additional */}
       <div className="sticky top-[76px] z-20 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink space-y-3 overflow-y-auto px-3 scrollbar-none">
         <div className="h-0" />
-        <TraderSection slug={slug} />
+        <TraderSection slug={slug} quote={quote} setQuote={setQuote} />
         <hr className="border-white/10" />
         <NCoinInsightWidget slug={slug} />
         <CoinStatsWidget slug={slug} />
