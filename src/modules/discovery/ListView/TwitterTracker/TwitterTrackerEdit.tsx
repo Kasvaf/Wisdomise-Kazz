@@ -200,7 +200,7 @@ export const TwitterTrackerEdit: FC = () => {
   );
 
   return (
-    <div>
+    <div className="max-w-xl">
       <SubTab
         variant="tab"
         size="md"

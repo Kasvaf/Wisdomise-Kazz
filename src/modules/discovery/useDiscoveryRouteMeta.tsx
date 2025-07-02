@@ -5,6 +5,7 @@ import {
   useLocation,
   useSearchParams,
 } from 'react-router-dom';
+import useIsMobile from 'utils/useIsMobile';
 import { DETAILS, LISTS, VIEWS } from './constants';
 
 export interface DiscoveryRouteMeta {
@@ -54,11 +55,18 @@ export const unGroupDiscoveryRouteMeta = (
 export const useDiscoveryRouteMeta = <T extends string>() => {
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
+  const isMobile = useIsMobile();
 
-  const params = useMemo<DiscoveryRouteMeta>(
-    () => unGroupDiscoveryRouteMeta(searchParams.get('ui') ?? ''),
-    [searchParams],
-  );
+  const params = useMemo<DiscoveryRouteMeta>(() => {
+    const ret = unGroupDiscoveryRouteMeta(searchParams.get('ui') ?? '');
+    if (!ret.slug) {
+      ret.view = 'list';
+    }
+    if (ret.slug && isMobile) {
+      ret.view = 'detail';
+    }
+    return ret;
+  }, [isMobile, searchParams]);
 
   const getUrl = useCallback(
     ({

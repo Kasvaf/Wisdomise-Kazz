@@ -113,7 +113,7 @@ export const ListExpander: FC = () => {
           <Icon name={bxChevronRight} />
         </Button>
       )}
-      {params.view !== 'detail' && (
+      {params.view !== 'detail' && params.slug && (
         <Button
           fab
           variant="white"

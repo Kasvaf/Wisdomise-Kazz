@@ -27,7 +27,7 @@ export const TwitterTrackerView: FC<{ onRequestEdit?: () => void }> = ({
       .map(x => x.user_id),
   });
   return (
-    <div className="divide-y divide-v1-content-primary/10">
+    <div className="mx-auto max-w-xl divide-y divide-v1-content-primary/10">
       {tweets.isLoading || followings.isLoading || tweets.isPending ? (
         <Spinner className="mx-auto my-6" />
       ) : (tweets.data?.length ?? 0) === 0 ? (
