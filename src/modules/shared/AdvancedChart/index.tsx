@@ -14,6 +14,8 @@ import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
 import { compressByLabel, toSignificantDigits } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useSupportedPairs } from 'api';
 import {
   type TimeFrameType,
   widget as Widget,
@@ -60,6 +62,9 @@ const AdvancedChart: React.FC<{
   const { data, isLoading } = useCoinPoolInfo(slug);
   const { data: details } = useCoinDetails({ slug });
   const supply = details?.data?.total_supply ?? 1;
+
+  const [, setPageQuote] = useSearchParamAsState<string>('quote', 'tether');
+  const { data: pairs } = useSupportedPairs(slug);
 
   useEffect(() => {
     if (isLoading || !data?.network) return;
@@ -160,8 +165,34 @@ const AdvancedChart: React.FC<{
           widget.activeChart().executeActionById('chartReset');
         });
 
-      // Create button for MarketCap/Price toggle in top toolbar
       await widget.headerReady();
+
+      // Create quote selector
+      const dropDown = await widget.createDropdown({
+        tooltip: 'Quote',
+        items:
+          pairs
+            ?.filter(
+              (x): x is typeof x & { quote: { abbreviation: string } } =>
+                !!x.quote.abbreviation,
+            )
+            ?.map(x => ({
+              title: x.quote.abbreviation,
+              onSelect: () => {
+                setPageQuote(x.quote.slug);
+                dropDown.applyOptions({
+                  title:
+                    pairs?.find(y => y.quote.slug === x.quote.slug)?.quote
+                      .abbreviation ?? '',
+                });
+              },
+            })) ?? [],
+        title:
+          pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
+          '',
+      });
+
+      // Create button for MarketCap/Price toggle in top toolbar
       const button = widget.createButton();
       function setButtonInnerContent() {
         const colorStyle = 'style="color:#00a3ff"';
@@ -194,6 +225,8 @@ const AdvancedChart: React.FC<{
     widgetRef,
     delphinus,
     supply,
+    pairs,
+    setPageQuote,
   ]);
 
   if (isLoading || !data?.network) return null;
