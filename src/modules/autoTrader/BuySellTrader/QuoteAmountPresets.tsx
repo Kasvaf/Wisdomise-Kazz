@@ -5,7 +5,6 @@ import { Button } from 'shared/v1-components/Button';
 import { type Surface } from 'utils/useSurface';
 import { roundSensible } from 'utils/numbers';
 import { useQuotesAmountPresets } from 'modules/autoTrader/BuySellTrader/QuotesAmountPresetsProvider';
-import { type AutoTraderSupportedQuotes } from 'api/chains';
 import Icon from 'shared/Icon';
 
 export default function QuoteAmountPresets({
@@ -29,22 +28,20 @@ export default function QuoteAmountPresets({
   btnClassName?: string;
   enableEdit?: boolean;
   hasEditBtn?: boolean;
-  quote?: string;
+  quote: string;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { presets, update, finalize } = useQuotesAmountPresets();
   const preset = mode === 'buy' ? presets?.buy : presets?.sellPercentage;
-  const presetOptions = preset?.[quote as AutoTraderSupportedQuotes]?.map(
-    v => ({
-      value:
-        mode === 'sell'
-          ? v === '100'
-            ? String(balance)
-            : roundSensible((+v / 100) * (balance ?? 0))
-          : v,
-      label: v,
-    }),
-  );
+  const presetOptions = preset?.[quote]?.map(v => ({
+    value:
+      mode === 'sell'
+        ? v === '100'
+          ? String(balance)
+          : roundSensible((+v / 100) * (balance ?? 0))
+        : v,
+    label: v,
+  }));
 
   useEffect(() => {
     if (enableEdit !== undefined) {
@@ -93,7 +90,7 @@ export default function QuoteAmountPresets({
                 onChange={e => {
                   if (quote && mode) {
                     update(
-                      quote as AutoTraderSupportedQuotes,
+                      quote,
                       mode === 'sell' ? 'sellPercentage' : mode,
                       index,
                       e.target.value,

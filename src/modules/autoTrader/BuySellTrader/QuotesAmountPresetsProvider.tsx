@@ -5,13 +5,12 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { useUserStorage } from 'api/userStorage';
 
 interface QuotesAmountPresets {
-  buy: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
-  sell: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
-  sellPercentage: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
+  buy: Partial<Record<string, string[]>>;
+  sell: Partial<Record<string, string[]>>;
+  sellPercentage: Partial<Record<string, string[]>>;
 }
 
 const DEFAULT_PERCENTAGE_PRESETS = [
@@ -28,7 +27,7 @@ const DEFAULT_PERCENTAGE_PRESETS = [
 const context = createContext<{
   presets: QuotesAmountPresets | null;
   update: (
-    quote: AutoTraderSupportedQuotes,
+    quote: string,
     mode: keyof QuotesAmountPresets,
     index: number,
     newValue: string,
@@ -79,10 +78,9 @@ export function QuotesAmountPresetsProvider({ children }: PropsWithChildren) {
         if (!modeValue) continue;
 
         for (const token in modeValue) {
-          const tokenValue = modeValue[token as keyof typeof modeValue];
+          const tokenValue = modeValue[token];
           if (tokenValue) {
-            merged[mode][token as keyof (typeof merged)[typeof mode]] =
-              tokenValue;
+            merged[mode][token] = tokenValue;
           }
         }
       }
@@ -92,7 +90,7 @@ export function QuotesAmountPresetsProvider({ children }: PropsWithChildren) {
   }, [value]);
 
   const update = (
-    quote: AutoTraderSupportedQuotes,
+    quote: string,
     mode: keyof QuotesAmountPresets,
     index: number,
     newValue: string,
