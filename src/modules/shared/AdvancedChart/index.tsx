@@ -12,7 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
-import { formatNumber } from 'utils/numbers';
+import { compressByLabel, toSignificantDigits } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
 import {
   widget as Widget,
@@ -55,13 +55,6 @@ const AdvancedChart: React.FC<{
 
   const delphinus = useGrpcService('delphinus');
 
-  const [currentResolution, setCurrentResolution] = useState<ResolutionString>(
-    () => {
-      const savedResolution = localStorage.getItem('chart-resolution');
-      return (savedResolution || '30') as ResolutionString;
-    },
-  );
-
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
   const { data: details } = useCoinDetails({ slug });
@@ -70,6 +63,8 @@ const AdvancedChart: React.FC<{
   useEffect(() => {
     if (isLoading || !data?.network) return;
     let isMarketCap = localStorage.getItem('tw-market-cap') !== 'false';
+    let savedResolution = (localStorage.getItem('chart-resolution') ||
+      '30') as ResolutionString;
 
     const widget = new Widget({
       symbol: data.symbolName,
@@ -93,7 +88,7 @@ const AdvancedChart: React.FC<{
       ],
       enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       timeframe: '7D', // initial zoom on chart
-      interval: currentResolution,
+      interval: savedResolution,
       time_frames: [
         { title: '12h/1m', text: '12h', resolution: '1' as ResolutionString },
         { title: '1d/5m', text: '1D', resolution: '5' as ResolutionString },
@@ -110,17 +105,26 @@ const AdvancedChart: React.FC<{
         'mainSeriesProperties.showPriceLine': false,
         'paneProperties.showSymbolLabels': false,
       },
+      favorites: {
+        intervals: ['1', '5', '15', '60', '240'] as ResolutionString[],
+      },
       custom_formatters: {
         priceFormatterFactory: symbolInfo => {
+          const seenVals: number[] = [];
+
           if (symbolInfo && symbolInfo.format === 'volume') {
             return {
-              format: price =>
-                formatNumber(price * (isMarketCap ? supply : 1), {
-                  compactInteger: true,
-                  separateByComma: true,
-                  decimalLength: 2,
-                  minifyDecimalRepeats: true,
-                }),
+              format: price => {
+                // use running average to detect zero value!
+                const val = price * (isMarketCap ? supply : 1);
+                const avg = seenVals.reduce((a, b) => a + b, 0) / 10;
+                seenVals.unshift(val);
+                seenVals.length = 10;
+                if (Math.abs(val) < avg / 1e6) return '0';
+
+                const { value, label } = compressByLabel(val);
+                return String(toSignificantDigits(+value, 3)) + label;
+              },
             };
           }
           return null; // default formatter
@@ -138,9 +142,9 @@ const AdvancedChart: React.FC<{
       // Persist chart resolution
       timer = setInterval(() => {
         const res = widget.activeChart().resolution();
-        if (res !== currentResolution) {
-          setCurrentResolution(res);
+        if (res !== savedResolution) {
           localStorage.setItem('chart-resolution', res);
+          savedResolution = res;
         }
       }, 2000);
 
@@ -178,7 +182,6 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget,
     widgetRef,
     delphinus,
-    currentResolution,
     supply,
   ]);
 
