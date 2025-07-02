@@ -38,7 +38,9 @@ const SubTab: FC<
   />
 );
 
-export const TwitterTrackerEdit: FC = () => {
+export const TwitterTrackerEdit: FC<{ className?: string }> = ({
+  className,
+}) => {
   const [notif, notifContent] = useNotification({});
   const [tab, setTab] =
     useState<NonNullable<ComponentProps<typeof SubTab>['value']>>(
@@ -200,7 +202,7 @@ export const TwitterTrackerEdit: FC = () => {
   );
 
   return (
-    <div className="max-w-xl">
+    <div className={className}>
       <SubTab
         variant="tab"
         size="md"

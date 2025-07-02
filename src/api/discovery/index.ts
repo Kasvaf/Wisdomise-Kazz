@@ -760,7 +760,7 @@ export const useTwitterFollowedAccounts = () => {
 export const useStreamTweets = (config: { userIds: string[] }) => {
   const [tweets, setTweets] = useState<TwitterTweet[]>([]);
   const initialStream = useQuery({
-    queryKey: ['streamed-tweets', config.userIds],
+    queryKey: ['streamed-tweets', JSON.stringify(config.userIds)],
     queryFn: () =>
       resolvePageResponseToArray<TwitterTweet>('delphi/streamed/tweets/', {
         meta: {

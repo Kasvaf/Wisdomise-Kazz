@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
-
-const undefinedSymbol = Symbol('undefined');
 
 export function saveUserMultiKeyValue(obj: Record<string, string>) {
   return Promise.all(
@@ -27,24 +25,20 @@ export function saveUserMultiKeyValue(obj: Record<string, string>) {
 export function useUserStorage(key: string) {
   const queryClient = useQueryClient();
   const userEmail: string | null = (useJwtEmail() as string) ?? null;
-  const [owner, setOwner] = useState<null | string>(null);
 
   const value = useQuery({
     queryKey: ['user-storage', userEmail, key],
     queryFn: async () => {
       try {
-        if (!getJwtToken()) return undefinedSymbol;
+        if (!getJwtToken()) return null;
         const resp = await ofetch<{ value: string }>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         );
-        setOwner(userEmail);
         return typeof resp.value === 'string' ? resp.value : null;
       } catch {
-        setOwner(null);
-        return undefinedSymbol;
+        return null;
       }
     },
-    initialData: undefinedSymbol,
   });
 
   const save = useMutation({
@@ -61,8 +55,12 @@ export function useUserStorage(key: string) {
       );
       return resp.message === 'ok' ? newValue : null;
     },
-    onSuccess: newValue =>
-      queryClient.setQueryData(['user-storage', userEmail, key], newValue),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        exact: true,
+        queryKey: ['user-storage', userEmail, key],
+        refetchType: 'all',
+      }),
   });
 
   const remove = useMutation({
@@ -76,28 +74,27 @@ export function useUserStorage(key: string) {
       );
       return null;
     },
-    onSuccess: () => {
-      queryClient.setQueryData(['user-storage', userEmail, key], null);
-    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        exact: true,
+        queryKey: ['user-storage', userEmail, key],
+        refetchType: 'all',
+      }),
   });
 
   useEffect(() => {
-    setOwner(null);
-  }, [userEmail]);
-
-  const isTrusted =
-    !value.isLoading &&
-    !save.isPending &&
-    !remove.isPending &&
-    !value.isError &&
-    value.isFetched &&
-    !!userEmail &&
-    userEmail === owner &&
-    value.data !== undefinedSymbol;
+    if (!userEmail) {
+      void queryClient.invalidateQueries({
+        exact: false,
+        queryKey: ['user-storage', key],
+        refetchType: 'all',
+      });
+    }
+  }, [key, queryClient, userEmail]);
 
   return {
     isLoading: value.isLoading || save.isPending || remove.isPending,
-    value: isTrusted ? (value.data as string) ?? null : undefined,
+    value: value.data,
     save: save.mutateAsync,
     remove: remove.mutateAsync,
   };

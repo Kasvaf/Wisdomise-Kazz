@@ -1,5 +1,6 @@
 import { useState, type FC } from 'react';
 import { bxPlus } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import {
   type TwitterTweet,
   useStreamTweets,
@@ -12,9 +13,10 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { TweetCard } from './TweetCard';
 
-export const TwitterTrackerView: FC<{ onRequestEdit?: () => void }> = ({
-  onRequestEdit,
-}) => {
+export const TwitterTrackerView: FC<{
+  onRequestEdit?: () => void;
+  className?: string;
+}> = ({ onRequestEdit, className }) => {
   const [openedMedia, setOpenedMedia] = useState<
     TwitterTweet['media'][number] | null
   >(null);
@@ -27,7 +29,12 @@ export const TwitterTrackerView: FC<{ onRequestEdit?: () => void }> = ({
       .map(x => x.user_id),
   });
   return (
-    <div className="mx-auto max-w-xl divide-y divide-v1-content-primary/10">
+    <div
+      className={clsx(
+        'mx-auto divide-y divide-v1-content-primary/10',
+        className,
+      )}
+    >
       {tweets.isLoading || followings.isLoading || tweets.isPending ? (
         <Spinner className="mx-auto my-6" />
       ) : (tweets.data?.length ?? 0) === 0 ? (
