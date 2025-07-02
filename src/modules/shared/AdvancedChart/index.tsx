@@ -15,6 +15,7 @@ import { useGrpcService } from 'api/grpc-utils';
 import { compressByLabel, toSignificantDigits } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
 import {
+  type TimeFrameType,
   widget as Widget,
   type IChartingLibraryWidget,
   type ResolutionString,
@@ -90,12 +91,10 @@ const AdvancedChart: React.FC<{
       timeframe: '7D', // initial zoom on chart
       interval: savedResolution,
       time_frames: [
-        { title: '12h/1m', text: '12h', resolution: '1' as ResolutionString },
-        { title: '1d/5m', text: '1D', resolution: '5' as ResolutionString },
-        { title: '5d/15m', text: '5D', resolution: '15' as ResolutionString },
-        { title: '7d/30m', text: '7D', resolution: '30' as ResolutionString }, // default
-        { title: '14d/1h', text: '14D', resolution: '60' as ResolutionString },
-        { title: '31d/4h', text: '30D', resolution: '240' as ResolutionString },
+        { title: '3m', text: '3m', resolution: '60' as ResolutionString },
+        { title: '1m', text: '1m', resolution: '30' as ResolutionString },
+        { title: '5d', text: '5D', resolution: '5' as ResolutionString },
+        { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
       overrides: {
         'scalesProperties.showSymbolLabels': false,
@@ -106,7 +105,7 @@ const AdvancedChart: React.FC<{
         'paneProperties.showSymbolLabels': false,
       },
       favorites: {
-        intervals: ['1', '5', '15', '60', '240'] as ResolutionString[],
+        intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
       custom_formatters: {
         priceFormatterFactory: symbolInfo => {
@@ -137,16 +136,29 @@ const AdvancedChart: React.FC<{
       theme: 'dark',
     });
 
-    let timer: NodeJS.Timeout;
     widget.onChartReady(async () => {
-      // Persist chart resolution
-      timer = setInterval(() => {
-        const res = widget.activeChart().resolution();
-        if (res !== savedResolution) {
-          localStorage.setItem('chart-resolution', res);
-          savedResolution = res;
-        }
-      }, 2000);
+      widget
+        .activeChart()
+        .onIntervalChanged()
+        .subscribe(null, async (interval, timeframeObj) => {
+          // Persist chart resolution
+          if (interval !== savedResolution) {
+            localStorage.setItem('chart-resolution', interval);
+            savedResolution = interval;
+          }
+
+          const now = Math.floor(Date.now() / 1000);
+          const res =
+            Number.parseInt(interval) * (interval.endsWith('S') ? 1 : 60);
+          const from = now - res * 700;
+          timeframeObj.timeframe = {
+            from,
+            to: now,
+            type: 'time-range' as TimeFrameType.TimeRange,
+          };
+
+          widget.activeChart().executeActionById('chartReset');
+        });
 
       // Create button for MarketCap/Price toggle in top toolbar
       await widget.headerReady();
@@ -170,7 +182,6 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget?.(widget);
 
     return () => {
-      clearInterval(timer);
       setGlobalChartWidget?.(undefined);
       widget.remove();
     };
