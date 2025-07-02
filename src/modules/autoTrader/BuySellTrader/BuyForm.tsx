@@ -1,5 +1,5 @@
 import AmountInputBox from 'shared/AmountInputBox';
-import QuotePresetAmount from 'modules/autoTrader/BuySellTrader/QuotePresetAmount';
+import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
@@ -42,7 +42,7 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
         disabled={balanceLoading || !balance}
       />
 
-      <QuotePresetAmount
+      <QuoteAmountPresets
         className="mb-3"
         quote={quoteSlug}
         mode={dir}

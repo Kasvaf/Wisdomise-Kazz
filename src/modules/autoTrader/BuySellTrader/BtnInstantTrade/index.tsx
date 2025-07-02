@@ -7,7 +7,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
-import QuotePresetAmount from 'modules/autoTrader/BuySellTrader/QuotePresetAmount';
+import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { useActiveWallet } from 'api/chains/wallet';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
@@ -15,7 +15,7 @@ import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/Quote
 import { useAccountBalance, useMarketSwap } from 'api/chains';
 import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
 import { useHasFlag, useSupportedPairs } from 'api';
-import { useQuotesPresets } from 'modules/autoTrader/BuySellTrader/BtnInstantTrade/QuotesPresetsProvider';
+import { useQuotesAmountPresets } from 'modules/autoTrader/BuySellTrader/QuotesAmountPresetsProvider';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -34,7 +34,7 @@ export default function BtnInstantTrade({
   const { data: baseBalance } = useAccountBalance(slug);
   const { data: quoteBalance } = useAccountBalance(quote);
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
-  const { finalize } = useQuotesPresets();
+  const { finalize } = useQuotesAmountPresets();
   const hasFlag = useHasFlag();
 
   const marketSwapHandler = useMarketSwap();
@@ -107,7 +107,7 @@ export default function BtnInstantTrade({
                 Buy
                 <AccountBalance slug={quote} />
               </div>
-              <QuotePresetAmount
+              <QuoteAmountPresets
                 mode="buy"
                 enableEdit={isEditMode}
                 hasEditBtn={false}
@@ -136,7 +136,7 @@ export default function BtnInstantTrade({
                 Sell
                 <AccountBalance slug={slug} />
               </div>
-              <QuotePresetAmount
+              <QuoteAmountPresets
                 mode="sell"
                 quote={quote}
                 enableEdit={isEditMode}

@@ -8,19 +8,28 @@ import {
 import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { useUserStorage } from 'api/userStorage';
 
-interface QuotesPresets {
+interface QuotesAmountPresets {
   buy: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
   sell: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
   sellPercentage: Partial<Record<AutoTraderSupportedQuotes, string[]>>;
 }
 
-const DEFAULT_PERCENTAGE_PRESET = ['10', '25', '50', '100', '0', '0', '0', '0'];
+const DEFAULT_PERCENTAGE_PRESETS = [
+  '10',
+  '25',
+  '50',
+  '100',
+  '0',
+  '0',
+  '0',
+  '0',
+];
 
 const context = createContext<{
-  presets: QuotesPresets | null;
+  presets: QuotesAmountPresets | null;
   update: (
     quote: AutoTraderSupportedQuotes,
-    mode: keyof QuotesPresets,
+    mode: keyof QuotesAmountPresets,
     index: number,
     newValue: string,
   ) => void;
@@ -31,11 +40,13 @@ const context = createContext<{
   finalize: () => null,
 });
 
-export const useQuotesPresets = () => useContext(context);
+export const useQuotesAmountPresets = () => useContext(context);
 
-export function QuotesPresetsProvider({ children }: PropsWithChildren) {
-  const { value, save } = useUserStorage<QuotesPresets>('quotes_presets');
-  const [clientValue, setClientValue] = useState<QuotesPresets>({
+export function QuotesAmountPresetsProvider({ children }: PropsWithChildren) {
+  const { value, save } = useUserStorage<QuotesAmountPresets>(
+    'quotes_amount_presets',
+  );
+  const [clientValue, setClientValue] = useState<QuotesAmountPresets>({
     buy: {
       'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
       'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
@@ -47,9 +58,9 @@ export function QuotesPresetsProvider({ children }: PropsWithChildren) {
       'tether': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sellPercentage: {
-      'wrapped-solana': [...DEFAULT_PERCENTAGE_PRESET],
-      'usd-coin': [...DEFAULT_PERCENTAGE_PRESET],
-      'tether': [...DEFAULT_PERCENTAGE_PRESET],
+      'wrapped-solana': [...DEFAULT_PERCENTAGE_PRESETS],
+      'usd-coin': [...DEFAULT_PERCENTAGE_PRESETS],
+      'tether': [...DEFAULT_PERCENTAGE_PRESETS],
     },
   });
 
@@ -57,7 +68,7 @@ export function QuotesPresetsProvider({ children }: PropsWithChildren) {
     if (!value) return;
 
     setClientValue(prev => {
-      const merged: QuotesPresets = {
+      const merged: QuotesAmountPresets = {
         buy: { ...prev.buy },
         sell: { ...prev.sell },
         sellPercentage: { ...prev.sellPercentage },
@@ -82,7 +93,7 @@ export function QuotesPresetsProvider({ children }: PropsWithChildren) {
 
   const update = (
     quote: AutoTraderSupportedQuotes,
-    mode: keyof QuotesPresets,
+    mode: keyof QuotesAmountPresets,
     index: number,
     newValue: string,
   ) => {
