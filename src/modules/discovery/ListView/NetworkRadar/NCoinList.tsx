@@ -183,7 +183,13 @@ export const NCoinList: FC<{
     >
       {title && (
         <div className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none">
-          {title}
+          <div
+            className={clsx(
+              hovered ? 'pointer-events-none opacity-100' : 'opacity-0',
+              'absolute inset-0 size-full bg-v1-background-brand/10 transition-all',
+            )}
+          />
+          <h3 className="relative">{title}</h3>
           <div
             className={clsx(
               'flex items-center gap-1 text-xs text-v1-content-info transition-all',
@@ -193,7 +199,7 @@ export const NCoinList: FC<{
             <Icon name={bxPauseCircle} size={18} />
           </div>
           {titleSuffix && (
-            <div className="flex w-auto shrink-0 grow items-center justify-end gap-2">
+            <div className="relative flex w-auto shrink-0 grow items-center justify-end gap-2">
               {titleSuffix}
             </div>
           )}
