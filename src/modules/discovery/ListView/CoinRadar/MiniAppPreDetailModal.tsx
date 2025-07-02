@@ -111,6 +111,7 @@ const MiniAppPreDetailModal: React.FC<{
                   <NavLink
                     to={getUrl({
                       detail: 'coin',
+                      view: 'both',
                       slug,
                     })}
                     className="block basis-1/2"

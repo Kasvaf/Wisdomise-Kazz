@@ -7,7 +7,6 @@ import { shortenAddress } from 'utils/shortenAddress';
 import { Button } from 'shared/v1-components/Button';
 import { useShare } from 'shared/useShare';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import useIsMobile from 'utils/useIsMobile';
 
 export const Wallet: FC<{
   wallet: {
@@ -17,10 +16,9 @@ export const Wallet: FC<{
   mode?: 'link' | 'title';
   className?: string;
 }> = ({ className, wallet, mode }) => {
-  const isMobile = useIsMobile();
   const [copy, notificationContent] = useShare('copy');
   const shortAddress = shortenAddress(wallet.address);
-  const { getUrl, params } = useDiscoveryRouteMeta();
+  const { getUrl } = useDiscoveryRouteMeta();
 
   const avatar = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${(
     wallet.network + wallet.address
@@ -57,7 +55,7 @@ export const Wallet: FC<{
           to={getUrl({
             detail: 'whale',
             slug: `${wallet.network}/${wallet.address}`,
-            view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+            view: 'both',
           })}
         >
           <img

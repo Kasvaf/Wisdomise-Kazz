@@ -4,7 +4,6 @@ import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { networkRadarGrpc } from 'api/grpc';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
 import { type NetworkRadarTab } from './lib';
@@ -16,8 +15,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
     {},
   );
   const migrated = networkRadarGrpc.useTrenchMigratedStreamLastValue({});
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
+  const { getUrl } = useDiscoveryRouteMeta();
   const [pageState, setPageState] = usePageState<{
     tab: NetworkRadarTab;
   }>('network-radar', {
@@ -30,7 +28,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
       getUrl({
         detail: 'coin',
         slug,
-        view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+        view: 'both',
       }),
     );
   };

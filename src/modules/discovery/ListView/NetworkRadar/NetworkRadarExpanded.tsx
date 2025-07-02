@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { networkRadarGrpc } from 'api/grpc';
-import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { NCoinList } from './NCoinList';
 import { type NetworkRadarTab } from './lib';
@@ -19,8 +18,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
   );
   const migrated = networkRadarGrpc.useTrenchMigratedStreamLastValue({});
   const navigate = useNavigate();
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
+  const { getUrl } = useDiscoveryRouteMeta();
   // const [, setPageState] = usePageState<{
   //   tab: NetworkRadarTab;
   // }>('network-radar', {
@@ -35,7 +33,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       getUrl({
         detail: 'coin',
         slug,
-        view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+        view: 'both',
       }),
     );
   };

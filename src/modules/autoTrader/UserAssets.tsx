@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -25,8 +26,6 @@ import { useConnectedWallet, useActiveWallet } from 'api/chains/wallet';
 import { useShare } from 'shared/useShare';
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 import { Coin } from 'shared/Coin';
-// eslint-disable-next-line import/max-dependencies
-import useIsMobile from 'utils/useIsMobile';
 
 interface AssetData {
   slug: string;
@@ -36,7 +35,6 @@ interface AssetData {
 }
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
-  const isMobile = useIsMobile();
   const { getUrl, params } = useDiscoveryRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
 
@@ -49,8 +47,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
       to={getUrl({
         detail: 'coin',
         slug: asset.slug,
-        view:
-          params.view === 'list' ? (isMobile ? 'detail' : 'both') : params.view,
+        view: 'both',
       })}
     >
       {baseInfo ? (
