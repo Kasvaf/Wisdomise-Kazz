@@ -18,7 +18,7 @@ import { ReactComponent as Risk } from './risk.svg';
 import { ReactComponent as NewBorn } from './new_born.svg';
 import { ReactComponent as CoinGecko } from './coingecko.svg';
 
-export const trendIcons = {
+const trendIcons = {
   hype: Hype,
   weekly_social_beloved: WeeklySocialBeloved,
   monthly_social_beloved: MonthlySocialBeloved,

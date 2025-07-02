@@ -166,7 +166,7 @@ export function LeaderboardItem({
             $
             {formatNumber(participant.trading_volume, {
               compactInteger: false,
-              seperateByComma: false,
+              separateByComma: false,
               decimalLength: 1,
               minifyDecimalRepeats: false,
             })}

@@ -101,7 +101,7 @@ export function SocialMessageSummary({
   );
 }
 
-export function SocialMessageDetails({
+function SocialMessageDetails({
   message,
   className,
 }: {

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 
-export interface SwapRequest {
+interface SwapRequest {
   network: 'solana';
   pairSlug: string;
   side: 'LONG' | 'SHORT';

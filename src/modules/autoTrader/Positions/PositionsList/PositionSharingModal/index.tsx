@@ -121,7 +121,7 @@ export default function PositionSharingModal({
                     {position.exit_price ??
                       formatNumber(lastPrice ?? 0, {
                         compactInteger: false,
-                        seperateByComma: false,
+                        separateByComma: false,
                         decimalLength: 3,
                         minifyDecimalRepeats: false,
                       })}{' '}

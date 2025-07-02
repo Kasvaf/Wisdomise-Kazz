@@ -12,6 +12,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
+import { formatNumber } from 'utils/numbers';
+import { useCoinDetails } from 'api/discovery';
 import {
   widget as Widget,
   type IChartingLibraryWidget,
@@ -62,8 +64,12 @@ const AdvancedChart: React.FC<{
 
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
+  const { data: details } = useCoinDetails({ slug });
+  const supply = details?.data?.total_supply ?? 1;
+
   useEffect(() => {
     if (isLoading || !data?.network) return;
+    let isMarketCap = localStorage.getItem('tw-market-cap') !== 'false';
 
     const widget = new Widget({
       symbol: data.symbolName,
@@ -102,22 +108,59 @@ const AdvancedChart: React.FC<{
         'scalesProperties.showSeriesPrevCloseValue': false,
         'scalesProperties.seriesLastValueMode': 1,
         'mainSeriesProperties.showPriceLine': false,
-        // 'mainSeriesProperties.minTick': '10000,1,false',
         'paneProperties.showSymbolLabels': false,
       },
+      custom_formatters: {
+        priceFormatterFactory: symbolInfo => {
+          if (symbolInfo && symbolInfo.format === 'volume') {
+            return {
+              format: price =>
+                formatNumber(price * (isMarketCap ? supply : 1), {
+                  compactInteger: true,
+                  separateByComma: true,
+                  decimalLength: 2,
+                  minifyDecimalRepeats: true,
+                }),
+            };
+          }
+          return null; // default formatter
+        },
+      },
+
       fullscreen: false,
       autosize: true,
       studies_overrides: {},
       theme: 'dark',
     });
 
-    const timer = setInterval(() => {
-      const res = widget.activeChart().resolution();
-      if (res !== currentResolution) {
-        setCurrentResolution(res);
-        localStorage.setItem('chart-resolution', res);
+    let timer: NodeJS.Timeout;
+    widget.onChartReady(async () => {
+      // Persist chart resolution
+      timer = setInterval(() => {
+        const res = widget.activeChart().resolution();
+        if (res !== currentResolution) {
+          setCurrentResolution(res);
+          localStorage.setItem('chart-resolution', res);
+        }
+      }, 2000);
+
+      // Create button for MarketCap/Price toggle in top toolbar
+      await widget.headerReady();
+      const button = widget.createButton();
+      function setButtonInnerContent() {
+        const colorStyle = 'style="color:#00a3ff"';
+        button.innerHTML = `<span ${
+          isMarketCap ? colorStyle : ''
+        }>MarketCap</span>/<span ${isMarketCap ? '' : colorStyle}>Price</span>`;
       }
-    }, 2000);
+      setButtonInnerContent();
+      button.addEventListener('click', () => {
+        isMarketCap = !isMarketCap;
+        localStorage.setItem('tw-market-cap', String(isMarketCap));
+        setButtonInnerContent();
+        widget.activeChart().resetData();
+      });
+    });
 
     widgetRef?.(widget);
     setGlobalChartWidget?.(widget);
@@ -136,6 +179,7 @@ const AdvancedChart: React.FC<{
     widgetRef,
     delphinus,
     currentResolution,
+    supply,
   ]);
 
   if (isLoading || !data?.network) return null;
