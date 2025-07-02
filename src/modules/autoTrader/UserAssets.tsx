@@ -11,7 +11,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import Spin from 'shared/Spin';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -40,13 +39,12 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   const isMobile = useIsMobile();
   const { getUrl, params } = useDiscoveryRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
-  const [activeCoinSlug] = useSearchParamAsState('slug');
 
   return (
     <NavLink
       className={clsx(
         'flex items-center justify-between px-4 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4',
-        activeCoinSlug === asset.slug && '!bg-v1-surface-l3',
+        params.slug === asset.slug && '!bg-v1-surface-l3',
       )}
       to={getUrl({
         detail: 'coin',

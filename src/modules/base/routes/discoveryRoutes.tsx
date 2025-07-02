@@ -1,6 +1,10 @@
 import { type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageDiscovery from 'modules/discovery/PageDiscovery';
+import {
+  groupDiscoveryRouteMeta,
+  unGroupDiscoveryRouteMeta,
+} from 'modules/discovery/useDiscoveryRouteMeta';
 import Container from '../Container';
 import { useMenuItems } from '../Layout/MenuItems/useMenuItems';
 import { type RouteHandle } from './types';
@@ -18,46 +22,60 @@ const useDiscoveryRoutes = () => {
           element: <PageDiscovery />,
           handle: {
             crumb: (_p, s) => {
-              const matchedList = s.get('list') ?? 'coin-radar';
-              const matchedListTitle = menuItems.find(
-                x => x.meta.list === matchedList,
-              )?.crumb;
-              const slug = s.get('slug');
-              if (slug) {
+              const { list, slug, detail, view } = unGroupDiscoveryRouteMeta(
+                s.get('ui') ?? '',
+              );
+              const matchedListTitle = menuItems.find(x => x.meta.list === list)
+                ?.crumb;
+              if (slug && view !== 'list') {
                 const readableSlug = slug
                   .split('-')
                   .map(p => `${p[0].toUpperCase()}${p.slice(1)}`)
                   .join(' ');
-                return s.get('detail') === 'whale'
+                return detail === 'whale'
                   ? [
                       {
                         text: t('menu.whale.title'),
-                        href: '/discovery?list=whale-radar',
+                        href: `/discovery?ui=${groupDiscoveryRouteMeta({
+                          list: 'whale-radar',
+                        })}`,
                       },
                       {
                         text: readableSlug,
-                        href: `/discovery?detail=whale&slug=${slug}`,
+                        href: `/discovery?ui=${groupDiscoveryRouteMeta({
+                          list: 'whale-radar',
+                          slug,
+                        })}`,
                       },
                     ]
                   : [
                       {
                         text: t('menu.coin.title'),
-                        href: '/discovery?list=coin-radar',
+                        href: `/discovery?ui=${groupDiscoveryRouteMeta({
+                          list: 'coin-radar',
+                        })}`,
                       },
                       {
                         text: readableSlug,
-                        href: `/discovery?detail=coin&slug=${slug}`,
+                        href: `/discovery?ui=${groupDiscoveryRouteMeta({
+                          list: 'coin-radar',
+                          slug,
+                        })}`,
                       },
                     ];
               }
               return [
                 {
                   text: t('menu.home.title'),
-                  href: '/discovery?list=coin-radar',
+                  href: `/discovery?ui=${groupDiscoveryRouteMeta({
+                    list: 'coin-radar',
+                  })}`,
                 },
                 {
                   text: matchedListTitle,
-                  href: `/discovery?list=${matchedList}`,
+                  href: `/discovery?ui=${groupDiscoveryRouteMeta({
+                    list,
+                  })}`,
                 },
               ];
             },

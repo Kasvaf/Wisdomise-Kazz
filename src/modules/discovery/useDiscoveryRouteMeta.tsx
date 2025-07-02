@@ -11,6 +11,7 @@ export interface DiscoveryRouteMeta {
   list: keyof typeof LISTS;
   detail: keyof typeof DETAILS;
   view: keyof typeof VIEWS;
+  slug?: string;
 }
 
 export const groupDiscoveryRouteMeta = (meta: Partial<DiscoveryRouteMeta>) =>
@@ -18,9 +19,13 @@ export const groupDiscoveryRouteMeta = (meta: Partial<DiscoveryRouteMeta>) =>
     LISTS[meta.list || 'coin-radar'].alias,
     DETAILS[meta.detail || 'coin'].alias,
     VIEWS[meta.view || 'both'].alias,
+    meta.slug ? '-' : '',
+    meta.slug ?? '',
   ].join('');
 
-export const unGroupDiscoveryRouteMeta = (grouped: string) => {
+export const unGroupDiscoveryRouteMeta = (
+  grouped: string,
+): DiscoveryRouteMeta => {
   const list: keyof typeof LISTS =
     (Object.entries(LISTS).find(
       ([, v]) => v.alias === grouped.slice(0, 1),
@@ -36,10 +41,13 @@ export const unGroupDiscoveryRouteMeta = (grouped: string) => {
       ([, v]) => v.alias === grouped.slice(2, 3),
     )?.[0] as keyof typeof VIEWS) ?? 'both';
 
+  const slug = grouped.slice(4) || undefined;
+
   return {
     list,
     detail,
     view,
+    slug,
   };
 };
 
@@ -57,6 +65,7 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
       list,
       detail,
       view,
+      slug,
       ...rest
     }: Partial<DiscoveryRouteMeta> & Record<T, string | undefined>): To => {
       const newSearchParams = createSearchParams(
@@ -75,6 +84,7 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
           list: list ?? params.list,
           detail: detail ?? params.detail,
           view: view ?? params.view,
+          slug: slug ?? params.slug,
         }),
       );
       return {
