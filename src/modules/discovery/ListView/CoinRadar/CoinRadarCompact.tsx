@@ -11,7 +11,7 @@ import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
-import UserAssets from 'modules/autoTrader/UserAssets';
+import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
 import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
@@ -130,7 +130,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
 
   return (
     <>
-      {focus && <UserAssets onlyTradingAssets className="mb-4" />}
+      {focus && <UserTradingAssets className="mb-4" />}
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
