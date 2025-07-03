@@ -32,7 +32,7 @@ export function useUserStorage<T = string>(
   const userEmail: string | null = (useJwtEmail() as string) ?? null;
 
   const rawValue = useQuery({
-    queryKey: ['user-storage', userEmail, key],
+    queryKey: ['user-storage', key],
     queryFn: async () => {
       try {
         if (!getJwtToken()) return null;
@@ -49,42 +49,48 @@ export function useUserStorage<T = string>(
   const rawSave = useMutation({
     mutationFn: async (newValue: string | null) => {
       if (!getJwtToken()) throw new Error('Not logged in');
-      const resp = await ofetch<{ message?: 'ok' }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        newValue === null
-          ? {
-              method: 'delete',
-            }
-          : {
-              body: {
-                value: newValue,
+      try {
+        const resp = await ofetch<{ message?: 'ok' }>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+          newValue === null
+            ? {
+                method: 'delete',
+              }
+            : {
+                body: {
+                  value: newValue,
+                },
+                method: 'post',
               },
-              method: 'post',
-            },
-      );
-      return resp.message === 'ok' ? newValue : null;
+        );
+        return resp.message === 'ok' ? newValue : null;
+      } catch {
+        return null;
+      }
     },
     onSuccess: () =>
       queryClient.invalidateQueries({
-        exact: false,
-        queryKey: ['user-storage', key],
-        refetchType: 'all',
+        predicate: query =>
+          query.queryKey.includes('user-storage') &&
+          query.queryKey.includes(key),
       }),
   });
 
   useEffect(() => {
     if (!userEmail) {
       void queryClient.invalidateQueries({
-        exact: false,
-        queryKey: ['user-storage', key],
-        refetchType: 'all',
+        predicate: query =>
+          query.queryKey.includes('user-storage') &&
+          query.queryKey.includes(key),
       });
     }
-  }, [key, queryClient, userEmail]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userEmail]);
 
   return useMemo(() => {
-    const isLoading =
-      rawValue.isLoading || rawValue.isPending || rawSave.isPending;
+    const isSaving = rawSave.isPending;
+    const isFetching = rawValue.isLoading || rawValue.isPending;
+    const isLoading = isSaving || isFetching;
     let value: T | null = null;
     try {
       if (serializer === 'none') {
@@ -106,13 +112,16 @@ export function useUserStorage<T = string>(
         if (serializer === 'none') {
           newRawValue = newValue as string;
         } else if (serializer === 'json') {
-          newRawValue = JSON.stringify(newRawValue);
+          newRawValue = JSON.stringify(newValue);
         }
       }
+
       return rawSave.mutateAsync(newRawValue);
     };
 
     return {
+      isFetching,
+      isSaving,
       isLoading,
       value,
       save,

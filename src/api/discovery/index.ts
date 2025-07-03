@@ -700,61 +700,39 @@ export const useTwitterSuggestedAccounts = () =>
   });
 
 export const useTwitterFollowedAccounts = () => {
-  const {
-    value: rawValue,
-    isLoading,
-    save,
-  } = useUserStorage('followed_twitter_accounts');
-
-  const [value, setValue] = useState<TwitterFollowedAccount[]>([]);
-  useEffect(() => {
-    try {
-      if (rawValue) {
-        const list: TwitterFollowedAccount[] = JSON.parse(rawValue || '[]');
-        if (
-          Array.isArray(list) &&
-          list.every(
-            item =>
-              typeof item.username === 'string' &&
-              typeof item.hide_from_list === 'boolean' &&
-              typeof item.user_id === 'string',
-          )
-        ) {
-          setValue(list);
-        }
-      }
-    } catch {}
-  }, [rawValue]);
+  const { value, isLoading, isSaving, isFetching, save } = useUserStorage<
+    TwitterFollowedAccount[]
+  >('followed_twitter_accounts', { serializer: 'json' });
 
   return useMemo(() => {
     const follow = (acc: TwitterFollowedAccount) => {
-      const currentIndex = value.findIndex(x => x.user_id === acc.user_id);
+      const currentIndex =
+        value?.findIndex?.(x => x.user_id === acc.user_id) ?? -1;
       if (currentIndex !== -1) {
-        return save(
-          JSON.stringify([
-            ...value.slice(0, currentIndex),
-            acc,
-            ...value.slice(currentIndex + 1),
-          ]),
-        );
+        return save([
+          ...(value?.slice?.(0, currentIndex) ?? []),
+          acc,
+          ...(value?.slice?.(currentIndex + 1) ?? []),
+        ]);
       }
-      return save(JSON.stringify([...value, acc]));
+      return save([...(value ?? []), acc]);
     };
     const unFollow = (acc: TwitterFollowedAccount | true) =>
       save(
-        JSON.stringify(
-          acc === true ? [] : value.filter(x => x.user_id !== acc.user_id),
-        ),
+        acc === true
+          ? []
+          : value?.filter?.(x => x.user_id !== acc.user_id) ?? [],
       );
 
     return {
       isLoading,
+      isSaving,
+      isFetching,
       follow,
       unFollow,
-      value,
-      rawValue,
+      value: value ?? [],
     };
-  }, [isLoading, value, save, rawValue]);
+  }, [isLoading, isSaving, isFetching, value, save]);
 };
 
 export const useStreamTweets = (config: { userIds: string[] }) => {

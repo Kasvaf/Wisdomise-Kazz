@@ -104,7 +104,8 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
             <Button
               fab
               onClick={() =>
-                followed
+                !followings.isLoading &&
+                (followed
                   ? followings.unFollow(asFollowedAccount).then(() =>
                       notif.success({
                         message: `@${asFollowedAccount.username} removed from your list.`,
@@ -114,7 +115,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
                       notif.success({
                         message: `@${asFollowedAccount.username} added to your list.`,
                       }),
-                    )
+                    ))
               }
               size="xs"
               variant="ghost"
@@ -178,7 +179,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
           <>
             <button
               className="text-v1-content-negative hover:underline"
-              onClick={() => followings.unFollow(true)}
+              onClick={() => !followings.isLoading && followings.unFollow(true)}
             >
               {'Remove All'}
             </button>
@@ -188,7 +189,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
         render: row => (
           <Button
             fab
-            onClick={() => followings.unFollow(row)}
+            onClick={() => !followings.isLoading && followings.unFollow(row)}
             size="xs"
             variant="ghost"
             surface={2}
@@ -224,8 +225,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
       )}
       {tab === 'followings' && (
         <>
-          {followings.value.length === 0 &&
-          followings.rawValue !== undefined ? (
+          {followings.value.length === 0 && !followings.isLoading ? (
             <div className="flex flex-col items-center py-10">
               <EmptyIcon />
               <h3 className="mb-2 text-xs font-semibold">
@@ -239,7 +239,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
             <Table
               columns={followingsColumns}
               dataSource={followings.value}
-              loading={!followings.rawValue && followings.value.length === 0}
+              loading={followings.value.length === 0 && followings.isLoading}
               rowKey={r => r.user_id}
               surface={2}
               scrollable={false}

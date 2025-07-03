@@ -35,14 +35,14 @@ export const TwitterTrackerView: FC<{
         className,
       )}
     >
-      {tweets.isLoading || followings.isLoading || tweets.isPending ? (
+      {tweets.isLoading || followings.isFetching ? (
         <Spinner className="mx-auto my-6" />
       ) : (tweets.data?.length ?? 0) === 0 ? (
         <>
           <div className="flex flex-col items-center py-10">
             <h3 className="mb-2 text-xs font-semibold">{'Nothing to Show!'}</h3>
             <p className="mb-4 max-w-[220px] text-center text-xs text-v1-content-secondary">
-              {followings.value.length === 0 && followings.rawValue
+              {followings.value.length === 0 && !followings.isLoading
                 ? 'Follow accounts to see their tweets here'
                 : 'None of your followed accounts have posted tweets in the last 24 hours'}
             </p>
