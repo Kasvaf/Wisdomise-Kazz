@@ -19,7 +19,7 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import WalletPositions from 'modules/base/wallet/WalletDetail/WalletPositions';
 import AccountPnL from 'modules/base/wallet/WalletDetail/AccountPnL';
 import BuySellList from 'modules/base/wallet/WalletDetail/BuySellList';
-import { useBalanceInUSD } from 'api/chains/solana';
+import { useSolanaBalanceInUSD } from 'api/chains/solana';
 import { roundSensible } from 'utils/numbers';
 
 export default function WalletDetail(_: {
@@ -33,7 +33,7 @@ export default function WalletDetail(_: {
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
   const [period, setPeriod] = useState<number | null>(null);
-  const { balance, isPending } = useBalanceInUSD(wallet?.address);
+  const { balance, isPending } = useSolanaBalanceInUSD(wallet?.address);
 
   const items: TabsProps['items'] = [
     {
@@ -137,7 +137,7 @@ export default function WalletDetail(_: {
   ) : null;
 }
 
-export function WalletName({ wallet }: { wallet: Wallet }) {
+function WalletName({ wallet }: { wallet: Wallet }) {
   const [newName, setNewName] = useState(wallet?.name ?? '');
   const [editMode, setEditMode] = useState(false);
   const { mutate } = useUpdateWalletMutation(wallet?.key);

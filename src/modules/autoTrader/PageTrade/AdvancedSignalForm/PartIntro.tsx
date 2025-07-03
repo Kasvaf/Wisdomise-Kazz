@@ -2,7 +2,7 @@
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
 import { useCoinDetails } from 'api/discovery';
-import SensibleSteps from 'modules/autoTrader/BuySellTrader/SensibleSteps';
+import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
 import { type SignalFormState } from './useSignalFormStates';
 import AmountBalanceLabel from './AmountBalanceLabel';
 import QuoteSelector from './QuoteSelector';
@@ -47,16 +47,17 @@ const PartIntro: React.FC<{
             disabled={isUpdate}
           />
         }
-        className="mb-3"
+        className="mb-2"
         disabled={isUpdate || balanceLoading || !quoteBalance}
       />
 
-      {Boolean(quoteBalance) && !isUpdate && (
-        <SensibleSteps
-          token={quote}
-          balance={quoteBalance}
+      {!isUpdate && (
+        <QuoteAmountPresets
+          className="mb-3"
+          quote={quote}
+          mode="buy"
           value={amount}
-          onChange={newAmount => setAmount(newAmount)}
+          onClick={newAmount => setAmount(newAmount)}
         />
       )}
 

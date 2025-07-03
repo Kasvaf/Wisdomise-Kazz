@@ -1,11 +1,8 @@
 import { clsx } from 'clsx';
-import { Select } from 'antd';
 import { useEffect, useState } from 'react';
-import { bxChevronDown } from 'boxicons-quasar';
 import { useSupportedPairs } from 'api';
 import { useAccountBalance } from 'api/chains';
-import Icon from 'shared/Icon';
-const { Option } = Select;
+import { Select } from 'shared/v1-components/Select';
 
 const isDollar = (x: string) => x === 'tether' || x === 'usd-coin';
 const BalanceHandler: React.FC<{
@@ -37,7 +34,9 @@ const QuoteSelector: React.FC<{
   value: string;
   onChange?: (newValue: string) => any;
   disabled?: boolean;
-}> = ({ baseSlug, value, onChange, disabled }) => {
+  className?: string;
+  size?: 'xs' | 'sm' | 'md' | 'xl';
+}> = ({ baseSlug, value, onChange, disabled, className, size }) => {
   const { data } = useSupportedPairs(baseSlug);
 
   const [isManualSelected, setIsManualSelected] = useState(disabled);
@@ -77,25 +76,22 @@ const QuoteSelector: React.FC<{
         ))}
 
       <Select
+        options={data?.map(p => p.quote.slug)}
         value={value}
         onChange={newValue => {
-          setIsManualSelected(true);
-          onChange?.(newValue);
+          if (newValue) {
+            setIsManualSelected(true);
+            onChange?.(newValue);
+          }
         }}
-        className={clsx('bg-transparent', disabled && 'opacity-30')}
-        suffixIcon={
-          Number(data?.length) > 1 && (
-            <Icon name={bxChevronDown} className="mr-2 text-white" />
-          )
-        }
+        size={size}
+        dialogClassName="w-20"
+        className={clsx('!bg-transparent', className)}
         disabled={disabled || !data?.length || data.length <= 1}
-      >
-        {data?.map(({ quote }) => (
-          <Option key={quote.slug} value={quote.slug}>
-            {quote.abbreviation}
-          </Option>
-        ))}
-      </Select>
+        render={value =>
+          data?.find(p => p.quote.slug === value)?.quote?.abbreviation
+        }
+      />
     </>
   );
 };

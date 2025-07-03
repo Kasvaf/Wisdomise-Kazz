@@ -257,17 +257,14 @@ export const queryBatchCandles = async (userConfig: {
         : '1d';
   }
 
-  return await ofetch<BatchCandleResponse>(
-    'https://stage-temple.wisdomise.com/api/v1/delphinus/candles-batch/',
-    {
-      query: {
-        market: 'SPOT',
-        convert_to_usd: true,
-        base: config.bases,
-        quote: config.quotes,
-        ...config,
-      },
-      meta: { auth: false },
+  return await ofetch<BatchCandleResponse>('delphinus/candles-batch/', {
+    query: {
+      market: 'SPOT',
+      convert_to_usd: true,
+      base: config.bases,
+      quote: config.quotes,
+      ...config,
     },
-  );
+    meta: { auth: false },
+  });
 };

@@ -112,9 +112,7 @@ export const useActiveWallet = () => {
   };
 };
 
-export function useAwaitSolanaWalletConnection(
-  net: 'solana' | 'polygon' = 'solana',
-) {
+function useAwaitSolanaWalletConnection(net: 'solana' | 'polygon' = 'solana') {
   const { isConnected } = useAppKitAccount();
   const { open } = useAppKit();
   const { open: isOpen } = useAppKitState();
@@ -140,7 +138,7 @@ export function useAwaitSolanaWalletConnection(
   });
 }
 
-export function useAwaitTonWalletConnection() {
+function useAwaitTonWalletConnection() {
   const [tonConnectUI] = useTonConnectUI();
   const { open } = useTonConnectModal();
 

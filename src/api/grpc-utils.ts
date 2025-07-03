@@ -14,17 +14,16 @@ import { DelphinusServiceClientImpl, GrpcWebImpl } from './proto/delphinus';
 import { NetworkRadarServiceClientImpl } from './proto/network_radar';
 import { PingServiceClientImpl } from './proto/common';
 
-export const grpcServices = {
+const grpcServices = {
   'network-radar': NetworkRadarServiceClientImpl,
   'delphinus': DelphinusServiceClientImpl,
   'ping': PingServiceClientImpl,
 } as const;
 
-export type ServiceKey = keyof typeof grpcServices;
-export type ServiceType<K extends ServiceKey> =
-  K extends keyof typeof grpcServices
-    ? InstanceType<(typeof grpcServices)[K]>
-    : never;
+type ServiceKey = keyof typeof grpcServices;
+type ServiceType<K extends ServiceKey> = K extends keyof typeof grpcServices
+  ? InstanceType<(typeof grpcServices)[K]>
+  : never;
 
 export function useGrpcService<K extends ServiceKey>(svc: K): ServiceType<K> {
   return useMemo(() => {

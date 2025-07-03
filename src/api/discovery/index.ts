@@ -105,7 +105,7 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
 };
 
 /* Social Radar */
-export const MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 3 : 5.9;
+const MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 3 : 5.9;
 
 export const useSocialRadarInfo = () =>
   useQuery({
@@ -282,7 +282,7 @@ export const useSocialRadarSources = () =>
   });
 
 /* Technical Radar */
-export const MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 15 : 18;
+const MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 15 : 18;
 
 export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
   indicator: I;
