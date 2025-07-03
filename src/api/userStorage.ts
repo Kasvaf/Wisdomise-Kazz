@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
@@ -22,11 +22,16 @@ export function saveUserMultiKeyValue(obj: Record<string, string>) {
   );
 }
 
-export function useUserStorage<T = string>(key: string) {
+export function useUserStorage<T = string>(
+  key: string,
+  config?: { serializer?: 'json' | 'none' },
+) {
+  const serializer = config?.serializer ?? 'none';
+
   const queryClient = useQueryClient();
   const userEmail: string | null = (useJwtEmail() as string) ?? null;
 
-  const value = useQuery({
+  const rawValue = useQuery({
     queryKey: ['user-storage', userEmail, key],
     queryFn: async () => {
       try {
@@ -34,59 +39,35 @@ export function useUserStorage<T = string>(key: string) {
         const resp = await ofetch<{ value: string }>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         );
-        if (typeof resp.value !== 'string') return null;
-        try {
-          const parsed: T = JSON.parse(resp.value);
-          return parsed;
-        } catch {
-          return resp.value as T;
-        }
+        return resp.value;
       } catch {
         return null;
       }
     },
   });
 
-  const save = useMutation({
-    mutationFn: async (newValue: T) => {
+  const rawSave = useMutation({
+    mutationFn: async (newValue: string | null) => {
       if (!getJwtToken()) throw new Error('Not logged in');
       const resp = await ofetch<{ message?: 'ok' }>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        {
-          body: {
-            value:
-              typeof newValue === 'object'
-                ? JSON.stringify(newValue)
-                : newValue,
-          },
-          method: 'post',
-        },
+        newValue === null
+          ? {
+              method: 'delete',
+            }
+          : {
+              body: {
+                value: newValue,
+              },
+              method: 'post',
+            },
       );
       return resp.message === 'ok' ? newValue : null;
     },
     onSuccess: () =>
       queryClient.invalidateQueries({
-        exact: true,
-        queryKey: ['user-storage', userEmail, key],
-        refetchType: 'all',
-      }),
-  });
-
-  const remove = useMutation({
-    mutationFn: async () => {
-      if (!getJwtToken()) throw new Error('Not logged in');
-      await ofetch<{ message?: 'ok' }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        {
-          method: 'delete',
-        },
-      );
-      return null;
-    },
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        exact: true,
-        queryKey: ['user-storage', userEmail, key],
+        exact: false,
+        queryKey: ['user-storage', key],
         refetchType: 'all',
       }),
   });
@@ -101,10 +82,46 @@ export function useUserStorage<T = string>(key: string) {
     }
   }, [key, queryClient, userEmail]);
 
-  return {
-    isLoading: value.isLoading || save.isPending || remove.isPending,
-    value: value.data || null,
-    save: save.mutateAsync,
-    remove: remove.mutateAsync,
-  };
+  return useMemo(() => {
+    const isLoading =
+      rawValue.isLoading || rawValue.isPending || rawSave.isPending;
+    let value: T | null = null;
+    try {
+      if (serializer === 'none') {
+        value = (rawValue.data as T) ?? null;
+      } else if (serializer === 'json') {
+        value =
+          typeof rawValue.data === 'string'
+            ? (JSON.parse(rawValue.data) as T)
+            : null;
+      }
+    } catch {
+      value = null;
+    }
+    const save = (newValue: T | null) => {
+      let newRawValue: null | string = null;
+      if (newValue === null) {
+        newRawValue = null;
+      } else {
+        if (serializer === 'none') {
+          newRawValue = newValue as string;
+        } else if (serializer === 'json') {
+          newRawValue = JSON.stringify(newRawValue);
+        }
+      }
+      return rawSave.mutateAsync(newRawValue);
+    };
+
+    return {
+      isLoading,
+      value,
+      save,
+    };
+  }, [
+    rawSave,
+    rawValue.data,
+    rawValue.isLoading,
+    rawValue.isPending,
+    serializer,
+  ]);
 }

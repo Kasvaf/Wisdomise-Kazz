@@ -44,6 +44,9 @@ export const useQuotesAmountPresets = () => useContext(context);
 export function QuotesAmountPresetsProvider({ children }: PropsWithChildren) {
   const { value, save } = useUserStorage<QuotesAmountPresets>(
     'quotes_amount_presets',
+    {
+      serializer: 'json',
+    },
   );
   const [clientValue, setClientValue] = useState<QuotesAmountPresets>({
     buy: {
