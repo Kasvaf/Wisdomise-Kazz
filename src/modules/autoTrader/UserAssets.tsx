@@ -45,7 +45,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   return (
     <NavLink
       className={clsx(
-        'flex items-center justify-between px-4 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4',
+        'flex items-center justify-between px-4 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4 mobile:py-3',
         activeCoinSlug === asset.slug && '!bg-v1-surface-l3',
       )}
       to={getUrl({
@@ -58,8 +58,9 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
       {baseInfo ? (
         <Coin
           coin={baseInfo}
-          className="text-xs"
+          className="text-xs mobile:text-sm"
           imageClassName="size-7"
+          truncate={false}
           nonLink
           abbrevationSuffix={
             <div className="ml-2 text-xxs font-normal text-v1-content-secondary">
@@ -100,7 +101,7 @@ export const UserAssetsInternal: React.FC<
   return (
     <div className={className}>
       {(totalAssets > 0 || title) && showTotal && (
-        <div className="id-title mb-1 flex justify-center gap-2 text-sm">
+        <div className="id-title mb-3 gap-2 text-sm mobile:mb-5">
           {title ? title + (totalAssets > 0 ? ': ' : '') : ' '}
           {totalAssets > 0 && <ReadableNumber value={totalAssets} label="$" />}
         </div>

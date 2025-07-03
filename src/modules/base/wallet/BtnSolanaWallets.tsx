@@ -31,18 +31,20 @@ import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
 export default function BtnSolanaWallets({
   className,
+  showAddress,
 }: {
   className?: string;
+  showAddress?: boolean;
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const { icon, connected } = useConnectedWallet();
-  const { isCustodial } = useActiveWallet();
+  const { address, isCustodial } = useActiveWallet();
 
   if (!isLoggedIn) return null;
 
   return (
-    <ClickableTooltip chevron={false} title={<UserWallets />}>
+    <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
         variant="ghost"
         size={isMobile ? 'md' : 'xs'}
@@ -53,6 +55,7 @@ export default function BtnSolanaWallets({
         ) : (
           <WalletIcon />
         )}
+        {showAddress && (address ? shortenAddress(address) : 'Not Connected')}
       </Button>
     </ClickableTooltip>
   );
