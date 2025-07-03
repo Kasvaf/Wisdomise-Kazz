@@ -15,6 +15,15 @@ export const roundSensible = (value: number | string | null | undefined) => {
     .replaceAll(/\.?0+$/g, '');
 };
 
+export function toSignificantDigits(num: number, digits: number): number {
+  if (num === 0) return 0; // Handle zero case
+
+  const magnitude = Math.floor(Math.log10(Math.abs(num))) + 1;
+  const factor = Math.pow(10, digits - magnitude);
+
+  return Math.round(num * factor) / factor;
+}
+
 export const addComma = (number?: number | bigint) =>
   number?.toLocaleString() ?? 0;
 
@@ -30,7 +39,7 @@ const resolvePower = (number: number) => {
   return number.toLocaleString('en-US').replaceAll(',', '');
 };
 
-const compressByLabel = (number: number) => {
+export const compressByLabel = (number: number) => {
   let label = '';
   let value = '';
   const positiveNumber = Math.abs(number);

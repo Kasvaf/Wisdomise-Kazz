@@ -51,14 +51,13 @@ const useActionHandlers = (state: SwapState) => {
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
-        const swapData = {
-          pairSlug: base.slug + '/' + quote.slug,
-          side: dir === 'buy' ? 'LONG' : 'SHORT',
-          amount: from.amount,
-        } as const;
-
         awaitConfirm(
-          await marketSwapHandler(swapData),
+          await marketSwapHandler(
+            base.slug,
+            quote.slug,
+            dir === 'buy' ? 'LONG' : 'SHORT',
+            from.amount,
+          ),
           'Swap completed successfully',
         );
       } catch (error) {

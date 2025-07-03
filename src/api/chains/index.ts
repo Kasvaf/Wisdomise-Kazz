@@ -1,23 +1,16 @@
 import { useActiveNetwork } from 'modules/base/active-network';
-import { useSymbolsInfo } from 'api/symbol';
 import { type SupportedNetworks } from 'api';
 import {
-  type AutoTraderSolanaSupportedQuotes,
   useSolanaAccountBalance,
   useSolanaMarketSwap,
   useSolanaTransferAssetsMutation,
   useSolanaUserAssets,
 } from './solana';
 import {
-  type AutoTraderTonSupportedQuotes,
   useAccountJettonBalance,
   useTonTransferAssetsMutation,
   useTonUserAssets,
 } from './ton';
-
-export type AutoTraderSupportedQuotes =
-  | AutoTraderTonSupportedQuotes
-  | AutoTraderSolanaSupportedQuotes;
 
 export const useAccountBalance = (
   quote?: string,
@@ -38,7 +31,13 @@ export const useAccountBalance = (
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
-  return { data: null, isLoading: !net };
+  return {
+    data: null,
+    isLoading: !net,
+    refetch: () => {
+      return null;
+    },
+  };
 };
 
 export const useUserWalletAssets = (
@@ -118,18 +117,4 @@ export const useMarketSwap = () => {
   return () => {
     throw new Error('Invalid network');
   };
-};
-
-export const useSupportedQuotesSymbols = () => {
-  const quotes = [
-    'tether',
-    'usd-coin',
-    'wrapped-solana',
-    'the-open-network',
-  ] satisfies AutoTraderSupportedQuotes[];
-  type AssertAllQuotes =
-    AutoTraderSupportedQuotes extends (typeof quotes)[number]
-      ? readonly AutoTraderSupportedQuotes[]
-      : never;
-  return useSymbolsInfo(quotes satisfies AssertAllQuotes);
 };

@@ -17,6 +17,7 @@ import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import logo from 'assets/logo.svg';
 import { useActiveWallet } from 'api/chains/wallet';
+import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
 import gradient from './images/gradient.png';
@@ -91,22 +92,28 @@ export default function PageRewards() {
               </h2>
               <p className="text-xs">Ready to Withdraw</p>
             </div>
-            <Button
-              variant="primary"
-              className="ml-auto w-48 mobile:w-full"
-              size="md"
-              loading={isWithdrawLoading}
-              disabled={unclaimed === 0 || disableWithdraw}
-              onClick={withdraw}
-            >
-              <Withdraw />
-              Withdraw
-            </Button>
-            {disableWithdraw && (
-              <p className="text-xs text-v1-content-secondary">
-                You have Pending Withdraw Request
-              </p>
-            )}
+            <div className="ml-auto flex flex-wrap items-center gap-2">
+              <div className="flex items-center text-xs">
+                Withdraw Wallet:
+                <BtnSolanaWallets showAddress className="!bg-transparent" />
+              </div>
+              <Button
+                variant="primary"
+                className="w-48 mobile:w-full"
+                size="md"
+                loading={isWithdrawLoading}
+                disabled={unclaimed === 0 || disableWithdraw}
+                onClick={withdraw}
+              >
+                <Withdraw />
+                Withdraw
+              </Button>
+              {disableWithdraw && (
+                <p className="text-xs text-v1-content-secondary">
+                  You have Pending Withdraw Request
+                </p>
+              )}
+            </div>
           </div>
         </div>
       )}
