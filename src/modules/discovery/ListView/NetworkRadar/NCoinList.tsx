@@ -28,11 +28,11 @@ const NCoinBasicInfo: FC<{
       {value.symbol?.name ?? ''}
     </p>
     <div className="flex items-center justify-start gap-1 text-xs">
-      <p className="max-w-14 overflow-hidden text-ellipsis text-v1-content-secondary">
+      {/* <p className="max-w-14 overflow-hidden text-ellipsis text-v1-content-secondary">
         {value.symbol?.base ?? ''}
-      </p>
+      </p> */}
       <ContractAddress
-        value={value.symbol?.contractAddress ?? ''}
+        value={value.symbol?.base ?? ''}
         allowCopy
         className="whitespace-nowrap"
       />
