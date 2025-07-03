@@ -107,7 +107,6 @@ const AdvancedChart: React.FC<{
         'scalesProperties.showSeriesPrevCloseValue': false,
         'scalesProperties.seriesLastValueMode': 1,
         'mainSeriesProperties.showPriceLine': false,
-        'paneProperties.showSymbolLabels': false,
       },
       favorites: {
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
