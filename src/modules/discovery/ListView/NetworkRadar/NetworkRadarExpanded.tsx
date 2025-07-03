@@ -5,7 +5,6 @@ import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
 import { NCoinList } from './NCoinList';
@@ -34,20 +33,23 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
   } = useNetworkRadarStream(filters);
 
   const navigate = useNavigate();
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
+  const { getUrl } = useDiscoveryRouteMeta();
+  // const [, setPageState] = usePageState<{
+  //   tab: NetworkRadarTab;
+  // }>('network-radar', {
+  //   tab: 'new_pairs',
+  // });
 
   const onRowClick = (_tab: NetworkRadarTab, slug: string) => {
     navigate(
       getUrl({
         detail: 'coin',
         slug,
-        view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+        view: 'both',
       }),
     );
   };
-  // ['--desktop-header-height' as never]: isMobile ? '0px' : '3rem',
-  // ['--route-details-height' as never]: isMobile ? '0px' : '1.75rem',
+
   return (
     <div
       className={clsx(

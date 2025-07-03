@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
@@ -12,6 +11,7 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { usePageState } from 'shared/usePageState';
 import { TableRank } from 'shared/TableRank';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
@@ -99,8 +99,9 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
-  const [searchParams] = useSearchParams();
-  const activeSlug = searchParams.get('slug');
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
 
   return (
     <>

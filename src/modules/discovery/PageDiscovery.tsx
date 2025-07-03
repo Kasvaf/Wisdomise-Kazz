@@ -32,7 +32,7 @@ export default function PageDiscovery() {
                   ],
             )}
             list={params.list}
-            expanded={params.view === 'list' && !isMobile}
+            expanded={params.view === 'list'}
             focus={params.view === 'list'}
           />
         )}

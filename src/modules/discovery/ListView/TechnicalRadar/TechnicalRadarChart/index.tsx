@@ -323,6 +323,7 @@ export const TechnicalRadarChart: FC<{
                   getUrl({
                     detail: 'coin',
                     slug: parsedData.data[e.dataIndex].raw.symbol.slug,
+                    view: 'both',
                   }),
                 );
               }

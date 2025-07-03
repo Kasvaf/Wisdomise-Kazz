@@ -3,7 +3,6 @@ import { useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
 import {
@@ -15,8 +14,7 @@ import { NCoinList } from './NCoinList';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
+  const { getUrl } = useDiscoveryRouteMeta();
   const [tab, setTab] = useState<NetworkRadarTab>('new_pairs');
   const [filters, setFilters] = usePageState<NetworkRadarStreamFilters>(
     'network-radar',
@@ -39,7 +37,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
       getUrl({
         detail: 'coin',
         slug,
-        view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+        view: 'both',
       }),
     );
   };

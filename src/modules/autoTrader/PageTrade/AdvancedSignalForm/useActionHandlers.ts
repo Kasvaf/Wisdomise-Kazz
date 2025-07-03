@@ -126,7 +126,9 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
           .finally(() => {
             setConfirming(false);
             if (isMobile) {
-              navigate(getUrl({ list: 'positions', slug: baseSlug }));
+              navigate(
+                getUrl({ list: 'positions', slug: baseSlug, view: 'both' }),
+              );
             }
           });
       } catch (error) {
@@ -206,7 +208,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
-      navigate(getUrl({ list: 'positions', slug: baseSlug }));
+      navigate(getUrl({ list: 'positions', slug: baseSlug, view: 'both' }));
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

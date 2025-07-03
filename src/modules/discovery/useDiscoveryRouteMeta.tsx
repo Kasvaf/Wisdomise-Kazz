@@ -5,12 +5,14 @@ import {
   useLocation,
   useSearchParams,
 } from 'react-router-dom';
+import useIsMobile from 'utils/useIsMobile';
 import { DETAILS, LISTS, VIEWS } from './constants';
 
 export interface DiscoveryRouteMeta {
   list: keyof typeof LISTS;
   detail: keyof typeof DETAILS;
   view: keyof typeof VIEWS;
+  slug?: string;
 }
 
 export const groupDiscoveryRouteMeta = (meta: Partial<DiscoveryRouteMeta>) =>
@@ -18,9 +20,13 @@ export const groupDiscoveryRouteMeta = (meta: Partial<DiscoveryRouteMeta>) =>
     LISTS[meta.list || 'coin-radar'].alias,
     DETAILS[meta.detail || 'coin'].alias,
     VIEWS[meta.view || 'both'].alias,
+    meta.slug ? '-' : '',
+    meta.slug ?? '',
   ].join('');
 
-export const unGroupDiscoveryRouteMeta = (grouped: string) => {
+export const unGroupDiscoveryRouteMeta = (
+  grouped: string,
+): DiscoveryRouteMeta => {
   const list: keyof typeof LISTS =
     (Object.entries(LISTS).find(
       ([, v]) => v.alias === grouped.slice(0, 1),
@@ -36,27 +42,38 @@ export const unGroupDiscoveryRouteMeta = (grouped: string) => {
       ([, v]) => v.alias === grouped.slice(2, 3),
     )?.[0] as keyof typeof VIEWS) ?? 'both';
 
+  const slug = grouped.slice(4) || undefined;
+
   return {
     list,
     detail,
     view,
+    slug,
   };
 };
 
 export const useDiscoveryRouteMeta = <T extends string>() => {
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
+  const isMobile = useIsMobile();
 
-  const params = useMemo<DiscoveryRouteMeta>(
-    () => unGroupDiscoveryRouteMeta(searchParams.get('ui') ?? ''),
-    [searchParams],
-  );
+  const params = useMemo<DiscoveryRouteMeta>(() => {
+    const ret = unGroupDiscoveryRouteMeta(searchParams.get('ui') ?? '');
+    if (!ret.slug) {
+      ret.view = 'list';
+    }
+    if (ret.slug && isMobile) {
+      ret.view = 'detail';
+    }
+    return ret;
+  }, [isMobile, searchParams]);
 
   const getUrl = useCallback(
     ({
       list,
       detail,
       view,
+      slug,
       ...rest
     }: Partial<DiscoveryRouteMeta> & Record<T, string | undefined>): To => {
       const newSearchParams = createSearchParams(
@@ -75,6 +92,7 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
           list: list ?? params.list,
           detail: detail ?? params.detail,
           view: view ?? params.view,
+          slug: slug ?? params.slug,
         }),
       );
       return {

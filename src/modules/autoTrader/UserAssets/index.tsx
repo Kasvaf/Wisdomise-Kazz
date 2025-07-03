@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -11,7 +12,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import Spin from 'shared/Spin';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -25,8 +25,6 @@ import { useConnectedWallet, useActiveWallet } from 'api/chains/wallet';
 import { useShare } from 'shared/useShare';
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 import { Coin } from 'shared/Coin';
-import useIsMobile from 'utils/useIsMobile';
-// eslint-disable-next-line import/max-dependencies
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 interface AssetData {
@@ -37,22 +35,19 @@ interface AssetData {
 }
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
-  const isMobile = useIsMobile();
   const { getUrl, params } = useDiscoveryRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
-  const [activeCoinSlug] = useSearchParamAsState('slug');
 
   return (
     <NavLink
       className={clsx(
         'flex items-center justify-between px-4 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4 mobile:py-3',
-        activeCoinSlug === asset.slug && '!bg-v1-surface-l3',
+        params.slug === asset.slug && '!bg-v1-surface-l3',
       )}
       to={getUrl({
         detail: 'coin',
         slug: asset.slug,
-        view:
-          params.view === 'list' ? (isMobile ? 'detail' : 'both') : params.view,
+        view: 'both',
       })}
     >
       {baseInfo ? (

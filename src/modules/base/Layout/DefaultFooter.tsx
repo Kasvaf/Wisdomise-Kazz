@@ -40,7 +40,6 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
             to={getUrl({
               ...item.meta,
               view: 'list',
-              slug: undefined,
             })}
             key={item.link}
             className={clsx(
