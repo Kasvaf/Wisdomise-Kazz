@@ -4,7 +4,7 @@ import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { Button } from 'shared/v1-components/Button';
 import { type Surface } from 'utils/useSurface';
 import { roundSensible } from 'utils/numbers';
-import { useQuotesAmountPresets } from 'modules/autoTrader/BuySellTrader/QuotesAmountPresetsProvider';
+import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import Icon from 'shared/Icon';
 
 export default function QuoteAmountPresets({
@@ -31,8 +31,10 @@ export default function QuoteAmountPresets({
   quote: string;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const { presets, update, finalize } = useQuotesAmountPresets();
-  const preset = mode === 'buy' ? presets?.buy : presets?.sellPercentage;
+  const {
+    quotesAmountPresets: { value, update, persist },
+  } = useTraderSettings();
+  const preset = mode === 'buy' ? value?.buy : value?.sellPercentage;
   const presetOptions = preset?.[quote]?.map(v => ({
     value:
       mode === 'sell'
@@ -112,7 +114,7 @@ export default function QuoteAmountPresets({
           className="!px-1"
           onClick={() => {
             setIsEditMode(prev => !prev);
-            finalize();
+            persist();
           }}
         >
           <Icon name={isEditMode ? bxCheck : bxEditAlt} />

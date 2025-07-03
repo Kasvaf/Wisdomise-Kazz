@@ -15,7 +15,7 @@ import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/Quote
 import { useAccountBalance, useMarketSwap } from 'api/chains';
 import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
 import { useHasFlag, useSupportedPairs } from 'api';
-import { useQuotesAmountPresets } from 'modules/autoTrader/BuySellTrader/QuotesAmountPresetsProvider';
+import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -34,7 +34,9 @@ export default function BtnInstantTrade({
   const { data: baseBalance } = useAccountBalance(slug);
   const { data: quoteBalance } = useAccountBalance(quote);
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
-  const { finalize } = useQuotesAmountPresets();
+  const {
+    quotesAmountPresets: { persist },
+  } = useTraderSettings();
   const hasFlag = useHasFlag();
 
   const marketSwapHandler = useMarketSwap();
@@ -82,7 +84,7 @@ export default function BtnInstantTrade({
               className="ml-auto !px-2"
               onClick={() => {
                 if (isEditMode) {
-                  finalize();
+                  persist();
                 }
                 setIsEditMode(prev => !prev);
               }}

@@ -5,6 +5,7 @@ import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLab
 import { type SwapState } from './useSwapState';
 import MarketField from './MarketField';
 import BtnBuySell from './BtnBuySell';
+import { TraderPresets } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 
 const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
@@ -51,6 +52,8 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
       />
 
       <MarketField state={state} />
+
+      <TraderPresets mode={dir} />
       <BtnBuySell state={state} className="mt-6 w-full" />
     </div>
   );

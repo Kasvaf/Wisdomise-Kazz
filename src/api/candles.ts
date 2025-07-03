@@ -263,7 +263,10 @@ export const queryBatchCandles = async (userConfig: {
       convert_to_usd: true,
       base: config.bases,
       quote: config.quotes,
-      ...config,
+      start: config.start,
+      end: config.end,
+      network: config.network,
+      resolution: config.resolution,
     },
     meta: { auth: false },
   });
