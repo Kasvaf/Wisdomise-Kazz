@@ -19,8 +19,8 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import WalletPositions from 'modules/base/wallet/WalletDetail/WalletPositions';
 import AccountPnL from 'modules/base/wallet/WalletDetail/AccountPnL';
 import BuySellList from 'modules/base/wallet/WalletDetail/BuySellList';
-import { useSolanaBalanceInUSD } from 'api/chains/solana';
 import { roundSensible } from 'utils/numbers';
+import { useSolanaBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 export default function WalletDetail(_: {
   expanded?: boolean;

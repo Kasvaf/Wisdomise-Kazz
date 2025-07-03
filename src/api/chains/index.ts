@@ -1,10 +1,10 @@
 import { useActiveNetwork } from 'modules/base/active-network';
 import { type SupportedNetworks } from 'api';
+import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import {
   useSolanaAccountBalance,
   useSolanaMarketSwap,
   useSolanaTransferAssetsMutation,
-  useSolanaUserAssets,
 } from './solana';
 import {
   useAccountJettonBalance,

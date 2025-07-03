@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { notification } from 'antd';
 import { Select } from 'shared/v1-components/Select';
 import { shortenAddress } from 'utils/shortenAddress';
-import { useSolanaUserAssets } from 'api/chains/solana';
 import { Input } from 'shared/v1-components/Input';
 import { Button } from 'shared/v1-components/Button';
 import {
@@ -12,6 +11,7 @@ import {
 } from 'api/wallets';
 import { useSymbolsInfo } from 'api/symbol';
 import SensibleSteps from 'modules/base/wallet/SensibleSteps';
+import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 export default function Transfer({
   wallet,
