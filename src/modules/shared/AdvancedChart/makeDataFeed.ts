@@ -126,25 +126,31 @@ const makeDataFeed = (
 
       try {
         const dur = resolutionToSeconds[res];
-        const endTime = Math.round(periodParams.to / dur) * dur;
-        const startTime =
-          endTime -
-          Math.min(1000, endTime / dur - Math.round(periodParams.from / dur)) *
-            dur;
+        const start = Math.ceil(periodParams.from / dur);
+        const end = Math.ceil(periodParams.to / dur);
+        const BATCH_SIZE = 999;
 
-        const bars = await getCandlesCached(delphinus, {
-          market: 'SPOT',
-          network,
-          baseSlug,
-          quoteSlug: quote,
-          resolution: res,
-          startTime: new Date(startTime * 1000).toISOString(),
-          endTime: new Date(endTime * 1000).toISOString(),
-          skipEmptyCandles: true,
-        });
+        const all = [];
+        for (let i = start; i <= end; i += BATCH_SIZE) {
+          all.push(
+            getCandlesCached(delphinus, {
+              market: 'SPOT',
+              network,
+              baseSlug,
+              quoteSlug: quote,
+              resolution: res,
+              startTime: new Date(i * dur * 1000).toISOString(),
+              endTime: new Date(
+                Math.min(end, i + BATCH_SIZE) * dur * 1000,
+              ).toISOString(),
+              skipEmptyCandles: true,
+            }),
+          );
+        }
 
+        const bars = (await Promise.all(all)).flat();
         onResult(bars, {
-          noData: !bars?.length,
+          noData: bars.length === 0,
         });
       } catch (error: any) {
         onError(error.message);
