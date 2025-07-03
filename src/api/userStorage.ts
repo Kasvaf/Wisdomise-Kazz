@@ -31,7 +31,11 @@ export function useUserStorage<T = string>(
   const queryClient = useQueryClient();
   const userEmail: string | null = (useJwtEmail() as string) ?? null;
 
-  const rawValue = useQuery({
+  const {
+    data,
+    isLoading: isValueLoading,
+    isPending: isValuePending,
+  } = useQuery({
     queryKey: ['user-storage', key],
     queryFn: async () => {
       try {
@@ -46,7 +50,7 @@ export function useUserStorage<T = string>(
     },
   });
 
-  const rawSave = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: async (newValue: string | null) => {
       if (!getJwtToken()) throw new Error('Not logged in');
       try {
@@ -88,18 +92,15 @@ export function useUserStorage<T = string>(
   }, [userEmail]);
 
   return useMemo(() => {
-    const isSaving = rawSave.isPending;
-    const isFetching = rawValue.isLoading || rawValue.isPending;
+    const isSaving = isPending;
+    const isFetching = isValueLoading || isValuePending;
     const isLoading = isSaving || isFetching;
     let value: T | null = null;
     try {
       if (serializer === 'none') {
-        value = (rawValue.data as T) ?? null;
+        value = (data as T) ?? null;
       } else if (serializer === 'json') {
-        value =
-          typeof rawValue.data === 'string'
-            ? (JSON.parse(rawValue.data) as T)
-            : null;
+        value = typeof data === 'string' ? (JSON.parse(data) as T) : null;
       }
     } catch {
       value = null;
@@ -116,7 +117,7 @@ export function useUserStorage<T = string>(
         }
       }
 
-      return rawSave.mutateAsync(newRawValue);
+      return mutateAsync(newRawValue);
     };
 
     return {
@@ -127,10 +128,11 @@ export function useUserStorage<T = string>(
       save,
     };
   }, [
-    rawSave,
-    rawValue.data,
-    rawValue.isLoading,
-    rawValue.isPending,
+    isPending,
+    isValueLoading,
+    isValuePending,
     serializer,
+    data,
+    mutateAsync,
   ]);
 }
