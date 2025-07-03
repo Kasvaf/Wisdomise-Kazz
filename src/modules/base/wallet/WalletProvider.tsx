@@ -4,6 +4,7 @@ import { THEME, TonConnect, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { WagmiProvider } from 'wagmi';
 import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { wagmiConfig } from 'config/appKit';
+import { SolanaConnectionProvider } from 'api/chains/connection';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
 
@@ -24,9 +25,11 @@ const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       <WagmiProvider config={wagmiConfig}>
-        <LayoutActiveNetworkProvider>
-          <WalletEvents>{children}</WalletEvents>
-        </LayoutActiveNetworkProvider>
+        <SolanaConnectionProvider>
+          <LayoutActiveNetworkProvider>
+            <WalletEvents>{children}</WalletEvents>
+          </LayoutActiveNetworkProvider>
+        </SolanaConnectionProvider>
       </WagmiProvider>
     </TonConnectUIProvider>
   );

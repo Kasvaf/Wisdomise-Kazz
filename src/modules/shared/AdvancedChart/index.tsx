@@ -12,9 +12,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
-import { formatNumber } from 'utils/numbers';
+import { compressByLabel, toSignificantDigits } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useSupportedPairs } from 'api';
 import {
+  type TimeFrameType,
   widget as Widget,
   type IChartingLibraryWidget,
   type ResolutionString,
@@ -55,21 +58,19 @@ const AdvancedChart: React.FC<{
 
   const delphinus = useGrpcService('delphinus');
 
-  const [currentResolution, setCurrentResolution] = useState<ResolutionString>(
-    () => {
-      const savedResolution = localStorage.getItem('chart-resolution');
-      return (savedResolution || '30') as ResolutionString;
-    },
-  );
-
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
   const { data: details } = useCoinDetails({ slug });
   const supply = details?.data?.total_supply ?? 1;
 
+  const [, setPageQuote] = useSearchParamAsState<string>('quote', 'tether');
+  const { data: pairs } = useSupportedPairs(slug);
+
   useEffect(() => {
     if (isLoading || !data?.network) return;
     let isMarketCap = localStorage.getItem('tw-market-cap') !== 'false';
+    let savedResolution = (localStorage.getItem('chart-resolution') ||
+      '30') as ResolutionString;
 
     const widget = new Widget({
       symbol: data.symbolName,
@@ -93,14 +94,12 @@ const AdvancedChart: React.FC<{
       ],
       enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       timeframe: '7D', // initial zoom on chart
-      interval: currentResolution,
+      interval: savedResolution,
       time_frames: [
-        { title: '12h/1m', text: '12h', resolution: '1' as ResolutionString },
-        { title: '1d/5m', text: '1D', resolution: '5' as ResolutionString },
-        { title: '5d/15m', text: '5D', resolution: '15' as ResolutionString },
-        { title: '7d/30m', text: '7D', resolution: '30' as ResolutionString }, // default
-        { title: '14d/1h', text: '14D', resolution: '60' as ResolutionString },
-        { title: '31d/4h', text: '30D', resolution: '240' as ResolutionString },
+        { title: '3m', text: '3m', resolution: '60' as ResolutionString },
+        { title: '1m', text: '1m', resolution: '30' as ResolutionString },
+        { title: '5d', text: '5D', resolution: '5' as ResolutionString },
+        { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
       overrides: {
         'scalesProperties.showSymbolLabels': false,
@@ -110,17 +109,26 @@ const AdvancedChart: React.FC<{
         'mainSeriesProperties.showPriceLine': false,
         'paneProperties.showSymbolLabels': false,
       },
+      favorites: {
+        intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
+      },
       custom_formatters: {
         priceFormatterFactory: symbolInfo => {
+          const seenVals: number[] = [];
+
           if (symbolInfo && symbolInfo.format === 'volume') {
             return {
-              format: price =>
-                formatNumber(price * (isMarketCap ? supply : 1), {
-                  compactInteger: true,
-                  separateByComma: true,
-                  decimalLength: 2,
-                  minifyDecimalRepeats: true,
-                }),
+              format: price => {
+                // use running average to detect zero value!
+                const val = price * (isMarketCap ? supply : 1);
+                const avg = seenVals.reduce((a, b) => a + b, 0) / 10;
+                seenVals.unshift(val);
+                seenVals.length = 10;
+                if (Math.abs(val) < avg / 1e6) return '0';
+
+                const { value, label } = compressByLabel(val);
+                return String(toSignificantDigits(+value, 3)) + label;
+              },
             };
           }
           return null; // default formatter
@@ -133,19 +141,58 @@ const AdvancedChart: React.FC<{
       theme: 'dark',
     });
 
-    let timer: NodeJS.Timeout;
     widget.onChartReady(async () => {
-      // Persist chart resolution
-      timer = setInterval(() => {
-        const res = widget.activeChart().resolution();
-        if (res !== currentResolution) {
-          setCurrentResolution(res);
-          localStorage.setItem('chart-resolution', res);
-        }
-      }, 2000);
+      widget
+        .activeChart()
+        .onIntervalChanged()
+        .subscribe(null, async (interval, timeframeObj) => {
+          // Persist chart resolution
+          if (interval !== savedResolution) {
+            localStorage.setItem('chart-resolution', interval);
+            savedResolution = interval;
+          }
+
+          const now = Math.floor(Date.now() / 1000);
+          const res =
+            Number.parseInt(interval) * (interval.endsWith('S') ? 1 : 60);
+          const from = now - res * 700;
+          timeframeObj.timeframe = {
+            from,
+            to: now,
+            type: 'time-range' as TimeFrameType.TimeRange,
+          };
+
+          widget.activeChart().executeActionById('chartReset');
+        });
+
+      await widget.headerReady();
+
+      // Create quote selector
+      const dropDown = await widget.createDropdown({
+        tooltip: 'Quote',
+        items:
+          pairs
+            ?.filter(
+              (x): x is typeof x & { quote: { abbreviation: string } } =>
+                !!x.quote.abbreviation,
+            )
+            ?.map(x => ({
+              title: x.quote.abbreviation,
+              onSelect: () => {
+                setPageQuote(x.quote.slug);
+                dropDown.applyOptions({
+                  title:
+                    pairs?.find(y => y.quote.slug === x.quote.slug)?.quote
+                      .abbreviation ?? '',
+                });
+              },
+            })) ?? [],
+        title:
+          pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
+          '',
+      });
 
       // Create button for MarketCap/Price toggle in top toolbar
-      await widget.headerReady();
       const button = widget.createButton();
       function setButtonInnerContent() {
         const colorStyle = 'style="color:#00a3ff"';
@@ -166,7 +213,6 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget?.(widget);
 
     return () => {
-      clearInterval(timer);
       setGlobalChartWidget?.(undefined);
       widget.remove();
     };
@@ -178,8 +224,9 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget,
     widgetRef,
     delphinus,
-    currentResolution,
     supply,
+    pairs,
+    setPageQuote,
   ]);
 
   if (isLoading || !data?.network) return null;

@@ -6,7 +6,7 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 
 const useCoinPoolInfo = (slug: string) => {
   const [pageQuote] = useSearchParamAsState<string>('quote', 'tether');
-  const quote = useDebounce(pageQuote, 1000);
+  const quote = useDebounce(pageQuote, 300);
   const lastCandle = useLastCandleQuery({ slug, quote });
   const info = useSymbolInfo(slug);
 

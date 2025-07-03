@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
 import AmountInputBox from 'shared/AmountInputBox';
-import { Button } from 'shared/v1-components/Button';
+import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
@@ -26,13 +26,6 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const targetReady = priceByOther !== undefined;
   const marketToAmount = +baseAmount * Number(priceByOther);
 
-  const steps =
-    baseBalance &&
-    [0.25, 0.5, 0.75, 1].map(p => ({
-      label: `${p * 100}%`,
-      value: p === 1 ? String(baseBalance) : roundSensible(p * baseBalance),
-    }));
-
   const [tempTarget, setTempTarget] = useState('');
   useEffect(() => {
     setTempTarget(quoteAmount);
@@ -50,22 +43,14 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
         disabled={balanceLoading || !baseBalance}
       />
 
-      {!!steps && (
-        <div className="mb-3 flex gap-1.5">
-          {steps.map(({ label, value }) => (
-            <Button
-              key={value}
-              size="xs"
-              variant={value === baseAmount ? 'primary' : 'ghost'}
-              className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
-              onClick={() => setAmount(value)}
-              surface={2}
-            >
-              {label}
-            </Button>
-          ))}
-        </div>
-      )}
+      <QuoteAmountPresets
+        className="mb-3"
+        quote={quoteSlug}
+        balance={baseBalance}
+        mode="sell"
+        value={baseAmount}
+        onClick={newAmount => setAmount(newAmount)}
+      />
 
       <AmountInputBox
         disabled={isMarketPrice}
@@ -95,6 +80,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
           )
         }
         className="mb-3"
+        noSuffixPad
       />
       <MarketField state={state} />
       <BtnBuySell state={state} className="mt-6 w-full" />

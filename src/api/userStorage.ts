@@ -22,7 +22,7 @@ export function saveUserMultiKeyValue(obj: Record<string, string>) {
   );
 }
 
-export function useUserStorage(key: string) {
+export function useUserStorage<T = string>(key: string) {
   const queryClient = useQueryClient();
   const userEmail: string | null = (useJwtEmail() as string) ?? null;
 
@@ -34,7 +34,13 @@ export function useUserStorage(key: string) {
         const resp = await ofetch<{ value: string }>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         );
-        return typeof resp.value === 'string' ? resp.value : null;
+        if (typeof resp.value !== 'string') return null;
+        try {
+          const parsed: T = JSON.parse(resp.value);
+          return parsed;
+        } catch {
+          return resp.value as T;
+        }
       } catch {
         return null;
       }
@@ -42,13 +48,16 @@ export function useUserStorage(key: string) {
   });
 
   const save = useMutation({
-    mutationFn: async (newValue: string) => {
+    mutationFn: async (newValue: T) => {
       if (!getJwtToken()) throw new Error('Not logged in');
       const resp = await ofetch<{ message?: 'ok' }>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         {
           body: {
-            value: newValue,
+            value:
+              typeof newValue === 'object'
+                ? JSON.stringify(newValue)
+                : newValue,
           },
           method: 'post',
         },
@@ -94,7 +103,7 @@ export function useUserStorage(key: string) {
 
   return {
     isLoading: value.isLoading || save.isPending || remove.isPending,
-    value: value.data,
+    value: value.data || null,
     save: save.mutateAsync,
     remove: remove.mutateAsync,
   };

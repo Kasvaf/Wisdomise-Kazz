@@ -45,8 +45,10 @@ export function Filters<T extends object>({
   onChange,
   dialog,
   mini,
+  size: _size,
   className,
   surface = 3,
+  onOpen,
 }: {
   presets?: Array<PresetFilter<T>>;
   sorts?: Array<PresetFilter<T>>;
@@ -59,13 +61,18 @@ export function Filters<T extends object>({
   ) => ReactNode;
   className?: string;
   mini?: boolean;
+  size?: 'xs' | 'sm' | 'md';
   surface?: Surface;
+  onOpen?: () => void;
 }) {
   const { t } = useTranslation('coin-radar');
   const isMobile = useIsMobile();
   const isMini = typeof mini === 'boolean' ? mini : isMobile;
+  const size = _size ?? (isMini ? 'sm' : 'md');
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState(value);
+
+  const showLabels = (presets?.length ?? 0) > 0 || (sorts?.length ?? 0) > 0;
 
   const sortKeys = useMemo(() => {
     return [
@@ -128,72 +135,85 @@ export function Filters<T extends object>({
 
   return (
     <div className={clsx('flex w-full gap-4', isMini && 'flex-col', className)}>
-      <div className={clsx('min-w-64 max-w-max', isMini && 'w-full')}>
-        <p className="mb-1 text-xs">{t('common:filtered-by')}</p>
+      <div className={clsx('max-w-max', isMini ? 'w-full' : 'min-w-64')}>
+        {showLabels && (
+          <p className="mb-1 text-xs">{t('common:filtered-by')}</p>
+        )}
         <div className="flex items-start gap-2">
           {dialog && (
             <Button
               variant={
-                isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'
+                isFiltersApplied && !selectedPreset && showLabels
+                  ? 'primary'
+                  : 'ghost'
               }
-              size={isMini ? 'sm' : 'md'}
-              className={isMini ? 'w-sm' : 'w-md'}
-              onClick={() => setOpen(true)}
+              size={size}
+              fab
+              onClick={() => {
+                onOpen?.();
+                setOpen(true);
+              }}
               surface={isMini ? ((surface + 1) as never) : surface}
             >
               <Icon name={bxSliderAlt} size={16} />
             </Button>
           )}
-          <Button
-            variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
-            size={isMini ? 'sm' : 'md'}
-            onClick={() => {
-              onChange?.(
-                Object.fromEntries(
-                  Object.entries(localValue).filter(
-                    ([k]) =>
-                      sortKeys.includes(k as never) ||
-                      excludeKeys?.includes(k as never),
-                  ),
-                ) as Partial<T>,
-              );
-            }}
-            surface={isMini ? ((surface + 1) as never) : surface}
-          >
-            <Icon name={bxGridAlt} size={16} />
-            {t('common:all')}
-          </Button>
           {(presets?.length ?? 0) > 0 && (
-            <ButtonSelect
-              options={(presets ?? []).map(preset => ({
-                label: preset.label,
-                value: preset.filters,
-              }))}
-              value={
-                isFiltersApplied && !selectedPreset
-                  ? undefined
-                  : selectedPreset?.filters
-              }
-              onChange={newPresetFilter =>
-                onChange?.({
-                  ...(Object.fromEntries(
-                    Object.entries(localValue).filter(([k]) =>
-                      sortKeys.includes(k as never),
-                    ),
-                  ) as Partial<T>),
-                  ...newPresetFilter,
-                })
-              }
-              size={isMini ? 'sm' : 'md'}
-              variant="primary"
-              surface={surface}
-            />
+            <>
+              <Button
+                variant={
+                  !isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'
+                }
+                size={size}
+                onClick={() => {
+                  onChange?.(
+                    Object.fromEntries(
+                      Object.entries(localValue).filter(
+                        ([k]) =>
+                          sortKeys.includes(k as never) ||
+                          excludeKeys?.includes(k as never),
+                      ),
+                    ) as Partial<T>,
+                  );
+                }}
+                surface={isMini ? ((surface + 1) as never) : surface}
+              >
+                <Icon name={bxGridAlt} size={16} />
+                {t('common:all')}
+              </Button>
+              <ButtonSelect
+                options={(presets ?? []).map(preset => ({
+                  label: preset.label,
+                  value: preset.filters,
+                }))}
+                value={
+                  isFiltersApplied && !selectedPreset
+                    ? undefined
+                    : selectedPreset?.filters
+                }
+                onChange={newPresetFilter =>
+                  onChange?.({
+                    ...(Object.fromEntries(
+                      Object.entries(localValue).filter(([k]) =>
+                        sortKeys.includes(k as never),
+                      ),
+                    ) as Partial<T>),
+                    ...newPresetFilter,
+                  })
+                }
+                size={size}
+                variant="primary"
+                surface={surface}
+              />
+            </>
           )}
         </div>
       </div>
       {(sorts?.length ?? 0) > 0 && (
         <div className={clsx('w-1/2 min-w-48 max-w-max', isMini && 'w-full')}>
-          <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
+          {showLabels && (
+            <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
+          )}
           <ButtonSelect
             options={(sorts ?? []).map(sort => ({
               label: sort.label,
@@ -210,7 +230,7 @@ export function Filters<T extends object>({
                 ...newSortFilter,
               })
             }
-            size={isMini ? 'sm' : 'md'}
+            size={size}
             variant="default"
             surface={surface}
           />
