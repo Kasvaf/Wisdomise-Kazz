@@ -17,22 +17,22 @@ export const NCoinLogo: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
 }> = ({ className, value }) => (
-  <div className={clsx('relative size-[54px]', className)}>
+  <div className={clsx('relative size-[48px]', className)}>
     <CoinLogo
       value={value.symbol?.imageUrl}
-      className="!absolute inset-[4px] size-[48px]"
+      className="!absolute left-[4px] top-[4px] size-[40px]"
     />
     <CircularProgress
       className="absolute inset-0"
       color={calcNCoinBCurveColor({
         bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
       })}
-      size={54}
+      size={48}
       strokeWidth={4}
       value={value.networkData?.boundingCurve ?? 0}
     />
     <HoverTooltip
-      className="absolute bottom-[2px] right-[2px] inline-flex size-4 items-center justify-center rounded-full bg-v1-background-primary text-xxs font-bold leading-[12px] text-v1-content-primary [&_img]:size-[75%]"
+      className="absolute bottom-[1px] right-[1px] inline-flex size-4 items-center justify-center rounded-full bg-v1-background-primary text-xxs font-bold leading-[12px] text-v1-content-primary [&_img]:size-[75%]"
       title={value.symbol?.exchange ?? ''}
     >
       {value.symbol?.exchange && value.symbol.exchange in EXCHANGE_LOGOS ? (
