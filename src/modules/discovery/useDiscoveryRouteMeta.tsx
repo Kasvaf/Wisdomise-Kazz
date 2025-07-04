@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import {
   createSearchParams,
   type To,
+  type URLSearchParamsInit,
   useLocation,
   useSearchParams,
 } from 'react-router-dom';
@@ -15,40 +16,51 @@ export interface DiscoveryRouteMeta {
   slug?: string;
 }
 
-export const groupDiscoveryRouteMeta = (meta: Partial<DiscoveryRouteMeta>) =>
-  [
-    LISTS[meta.list || 'coin-radar'].alias,
-    DETAILS[meta.detail || 'coin'].alias,
-    VIEWS[meta.view || 'both'].alias,
-    meta.slug ? '-' : '',
-    meta.slug ?? '',
-  ].join('');
+export const createDiscoverySearchParams = (
+  meta: Partial<DiscoveryRouteMeta>,
+  init?: URLSearchParamsInit,
+) => {
+  const searchParams = createSearchParams(init);
+  searchParams.set(
+    'ui',
+    [
+      LISTS[meta.list || 'coin-radar'].alias,
+      DETAILS[meta.detail || 'coin'].alias,
+      VIEWS[meta.view || 'both'].alias,
+    ].join(''),
+  );
+  if (meta.slug) {
+    searchParams.set('slug', meta.slug);
+  }
+  return searchParams;
+};
 
-export const unGroupDiscoveryRouteMeta = (
-  grouped: string,
+export const parseDiscoverySearchParams = (
+  searchParams: URLSearchParams,
 ): DiscoveryRouteMeta => {
+  const ui = searchParams.get('ui');
+  const slug = searchParams.get('slug') || undefined;
+
   const list: keyof typeof LISTS =
     (Object.entries(LISTS).find(
-      ([, v]) => v.alias === grouped.slice(0, 1),
+      ([, v]) => v.alias === ui?.slice(0, 1),
     )?.[0] as keyof typeof LISTS) ?? 'coin-radar';
 
   const detail: keyof typeof DETAILS =
     (Object.entries(DETAILS).find(
-      ([, v]) => v.alias === grouped.slice(1, 2),
+      ([, v]) => v.alias === ui?.slice(1, 2),
     )?.[0] as keyof typeof DETAILS) ?? 'coin';
 
   const view: keyof typeof VIEWS =
     (Object.entries(VIEWS).find(
-      ([, v]) => v.alias === grouped.slice(2, 3),
+      ([, v]) => v.alias === ui?.slice(2, 3),
     )?.[0] as keyof typeof VIEWS) ?? 'both';
-
-  const slug = grouped.slice(4) || undefined;
 
   return {
     list,
     detail,
     view,
-    slug,
+    ...(slug ? { slug } : {}),
   };
 };
 
@@ -58,11 +70,11 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
   const isMobile = useIsMobile();
 
   const params = useMemo<DiscoveryRouteMeta>(() => {
-    const ret = unGroupDiscoveryRouteMeta(searchParams.get('ui') ?? '');
+    const ret = parseDiscoverySearchParams(searchParams);
     if (!ret.slug) {
       ret.view = 'list';
     }
-    if (ret.slug && isMobile) {
+    if (ret.slug && ret.view === 'both' && isMobile) {
       ret.view = 'detail';
     }
     return ret;
@@ -76,7 +88,13 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
       slug,
       ...rest
     }: Partial<DiscoveryRouteMeta> & Record<T, string | undefined>): To => {
-      const newSearchParams = createSearchParams(
+      const newSearchParams = createDiscoverySearchParams(
+        {
+          list: list ?? params.list,
+          detail: detail ?? params.detail,
+          view: view ?? params.view,
+          slug: slug ?? params.slug,
+        },
         pathname === '/discovery' ? searchParams : undefined,
       );
       for (const [k, v] of Object.entries(rest ?? {})) {
@@ -86,15 +104,6 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
           newSearchParams.delete(k);
         }
       }
-      newSearchParams.set(
-        'ui',
-        groupDiscoveryRouteMeta({
-          list: list ?? params.list,
-          detail: detail ?? params.detail,
-          view: view ?? params.view,
-          slug: slug ?? params.slug,
-        }),
-      );
       return {
         pathname: '/discovery',
         search: newSearchParams.toString(),
