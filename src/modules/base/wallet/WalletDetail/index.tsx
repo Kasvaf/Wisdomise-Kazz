@@ -20,7 +20,7 @@ import AccountPnL from 'modules/base/wallet/WalletDetail/AccountPnL';
 import BuySellList from 'modules/base/wallet/WalletDetail/BuySellList';
 import { roundSensible } from 'utils/numbers';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { useSolanaBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -34,7 +34,7 @@ export default function WalletDetail(_: {
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
   const [period, setPeriod] = useState<number | null>(null);
-  const { balance, isPending } = useSolanaBalanceInUSD(wallet?.address);
+  const { balance, isPending } = useSolanaWalletBalanceInUSD(wallet?.address);
 
   const items: TabsProps['items'] = [
     {
