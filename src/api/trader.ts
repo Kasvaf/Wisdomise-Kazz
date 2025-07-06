@@ -12,7 +12,6 @@ import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { type WhaleCoin, type WhaleCoinsFilter } from 'api/discovery';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
-import { type SwapsStreamResponse } from './proto/delphinus';
 
 export const NETWORK_MAIN_EXCHANGE = {
   'the-open-network': 'STONFI',
@@ -568,62 +567,5 @@ export function useTraderPositionTransactionsQuery({
     staleTime: 10_000,
     refetchInterval: 30_000,
     enabled: isLoggedIn,
-  });
-}
-
-// -----------------------------------------------------------------------------------
-
-export function useHistoricalSwaps({
-  network,
-  asset,
-}: {
-  network?: SupportedNetworks;
-  asset?: string;
-}) {
-  return useQuery({
-    queryKey: ['swap-history', network, asset],
-    queryFn: async () => {
-      const data = await ofetch<
-        Array<{
-          id: string;
-          symbol_id: number;
-          tx_id: string;
-          network: string;
-          wallet: string;
-          from_asset: string;
-          to_asset: string;
-          from_amount: number;
-          to_amount: number;
-          related_at: string;
-          created_at: string;
-          price: number;
-        }>
-      >('delphinus/swaps/', {
-        query: {
-          network,
-          asset,
-          pageSize: 20,
-          page: 1,
-        },
-      });
-      return data.map(
-        x =>
-          ({
-            id: x.id,
-            symbolId: x.symbol_id,
-            txId: x.tx_id,
-            network: x.network,
-            wallet: x.wallet,
-            fromAsset: x.from_asset,
-            toAsset: x.to_asset,
-            fromAmount: String(x.from_amount),
-            toAmount: String(x.to_amount),
-            relatedAt: x.related_at,
-            price: String(x.price),
-          }) satisfies SwapsStreamResponse,
-      );
-    },
-    refetchInterval: 30_000,
-    enabled: Boolean(network && asset),
   });
 }
