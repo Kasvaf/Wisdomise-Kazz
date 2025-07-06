@@ -1,7 +1,7 @@
 import { Pagination } from 'antd';
+import { useEffect, useState } from 'react';
 import Spinner from 'shared/Spinner';
 import { useTraderPositionsQuery } from 'api';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import usePageTour from 'shared/usePageTour';
 import NoPosition from './NoPosition';
 import PositionDetail from './PositionDetail';
@@ -15,13 +15,18 @@ const PositionsList: React.FC<{
   grid?: boolean;
   className?: string;
 }> = ({ slug, isOpen, noEmptyState, noLoadingState, grid, className }) => {
-  const [page, setPage] = useSearchParamAsState<string>('page', '1');
+  const [page, setPage] = useState(1);
   const { data: positions, isLoading } = useTraderPositionsQuery({
     slug,
     isOpen,
     pageSize: PAGE_SIZE,
-    page: +page,
+    page,
   });
+
+  useEffect(() => {
+    setPage(1);
+  }, [isOpen, slug]);
+
   const positionsRes = positions?.positions ?? [];
 
   const someSharable = positionsRes.some(
@@ -70,8 +75,8 @@ const PositionsList: React.FC<{
 
       <div className="mt-3 flex justify-center empty:hidden">
         <Pagination
-          current={+page}
-          onChange={x => setPage(String(x))}
+          current={page}
+          onChange={x => setPage(x)}
           pageSize={PAGE_SIZE}
           total={positions?.count}
           hideOnSinglePage
