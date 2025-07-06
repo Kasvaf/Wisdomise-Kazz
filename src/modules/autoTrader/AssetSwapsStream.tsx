@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useSymbolInfo } from 'api/symbol';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -8,6 +7,7 @@ import { delphinusGrpc } from 'api/grpc';
 import { uniqueBy } from 'utils/uniqueBy';
 import Spin from 'shared/Spin';
 import { type Swap } from 'api/proto/delphinus';
+import { timeAgo } from 'utils/date';
 
 const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   const { data: symbol } = useSymbolInfo(slug);
@@ -49,10 +49,10 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
     <div>
       <table className="w-full">
         <thead className="text-white/50">
-          <td>Amount</td>
-          <td>Price</td>
-          <td>Trader</td>
-          <td>Age</td>
+          <th className="text-left font-normal">Amount</th>
+          <th className="text-left font-normal">Price</th>
+          <th className="text-left font-normal">Trader</th>
+          <th className="text-left font-normal">Age</th>
         </thead>
         <tbody>
           {data?.map(row => {
@@ -90,7 +90,7 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
                     : ''}
                 </td>
                 <td>{row.wallet.replace(/^(\w{3}).*(\w{3})$/, '$1..$2')}</td>
-                <td>{dayjs(+new Date(row.relatedAt)).from(now)}</td>
+                <td>{timeAgo(new Date(row.relatedAt), new Date(now))}</td>
               </tr>
             );
           })}
