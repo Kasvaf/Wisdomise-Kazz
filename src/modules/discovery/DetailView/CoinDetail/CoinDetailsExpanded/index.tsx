@@ -39,9 +39,6 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         />
         <div className="p-3">
           <CoinChart slug={slug} height={420} />
-          <div className="mt-2 flex justify-end">
-            <BtnInstantTrade slug={slug} quote={quote} setQuote={setQuote} />
-          </div>
         </div>
         <CoinDetailsTabs
           options={tabs}
@@ -71,10 +68,13 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Trade + Additional */}
-      <div className="sticky top-[76px] z-20 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink overflow-y-auto scrollbar-none">
+      <div className="sticky top-[76px] z-50 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l1 scrollbar-none">
         <NCoinRisksBanner slug={slug} />
         <CoinPriceWidget slug={slug} className="p-3" hr />
         <div className="space-y-3 p-3">
+          <div className="flex justify-end">
+            <BtnInstantTrade slug={slug} quote={quote} setQuote={setQuote} />
+          </div>
           <TraderSection slug={slug} quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget slug={slug} />

@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PositionsList from 'modules/autoTrader/Positions/PositionsList';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
@@ -18,7 +19,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
     'filter',
     'active',
   );
-  const [slug, setSlug] = useSearchParamAsState('position_slug');
+  const [slug, setSlug] = useState('');
 
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const wallet = useActiveWallet();
