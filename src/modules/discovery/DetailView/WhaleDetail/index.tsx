@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { useState } from 'react';
 import { t } from 'i18next';
-import { useSearchParams } from 'react-router-dom';
 import { type Coin } from 'api/types/shared';
 import { Dialog } from 'shared/v1-components/Dialog';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { WhaleAssetsTreeMapWidget } from './WhaleAssetsTreeMapWidget';
 import { WhaleNetflowChartWidget } from './WhaleNetflowChartWidget';
 import { WhaleCoinsWidget } from './WhaleCoinsWidget';
@@ -15,8 +15,9 @@ export const WhaleDetail: FC<{
   expanded?: boolean;
   focus?: boolean;
 }> = () => {
-  const [searchParams] = useSearchParams();
-  const slug = searchParams.get('slug');
+  const {
+    params: { slug },
+  } = useDiscoveryRouteMeta();
   const [selectedCoinTrx, setSelectedCoinTrx] = useState<Coin | undefined>(
     undefined,
   );

@@ -1,5 +1,6 @@
 import { useState, type FC } from 'react';
 import { bxPlus } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import {
   type TwitterTweet,
   useStreamTweets,
@@ -12,9 +13,10 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { TweetCard } from './TweetCard';
 
-export const TwitterTrackerView: FC<{ onRequestEdit?: () => void }> = ({
-  onRequestEdit,
-}) => {
+export const TwitterTrackerView: FC<{
+  onRequestEdit?: () => void;
+  className?: string;
+}> = ({ onRequestEdit, className }) => {
   const [openedMedia, setOpenedMedia] = useState<
     TwitterTweet['media'][number] | null
   >(null);
@@ -27,15 +29,20 @@ export const TwitterTrackerView: FC<{ onRequestEdit?: () => void }> = ({
       .map(x => x.user_id),
   });
   return (
-    <div className="divide-y divide-v1-content-primary/10">
-      {tweets.isLoading || followings.isLoading || tweets.isPending ? (
+    <div
+      className={clsx(
+        'mx-auto divide-y divide-v1-content-primary/10',
+        className,
+      )}
+    >
+      {tweets.isLoading || followings.isFetching ? (
         <Spinner className="mx-auto my-6" />
       ) : (tweets.data?.length ?? 0) === 0 ? (
         <>
           <div className="flex flex-col items-center py-10">
             <h3 className="mb-2 text-xs font-semibold">{'Nothing to Show!'}</h3>
             <p className="mb-4 max-w-[220px] text-center text-xs text-v1-content-secondary">
-              {followings.value.length === 0 && followings.rawValue
+              {followings.value.length === 0 && !followings.isLoading
                 ? 'Follow accounts to see their tweets here'
                 : 'None of your followed accounts have posted tweets in the last 24 hours'}
             </p>

@@ -8,7 +8,7 @@ import {
 } from 'api/builder';
 import { ofetch } from 'config/ofetch';
 import { uniqueBy } from 'utils/uniqueBy';
-import { useJwtEmail } from 'modules/base/auth/jwt-store';
+import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { type WhaleCoin, type WhaleCoinsFilter } from 'api/discovery';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
@@ -236,6 +236,7 @@ export function useTraderPositionQuery({
 }: {
   positionKey?: string;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['traderPosition', positionKey],
     queryFn: async () => {
@@ -246,7 +247,7 @@ export function useTraderPositionQuery({
     },
     staleTime: Number.POSITIVE_INFINITY,
     refetchInterval: 7000,
-    enabled: !!positionKey,
+    enabled: !!positionKey && isLoggedIn,
   });
 }
 
@@ -263,6 +264,7 @@ export function useTraderPositionsQuery({
   page?: number;
   network?: SupportedNetworks;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['traderPositions', slug, isOpen, pageSize, page],
     queryFn: async () => {
@@ -279,6 +281,7 @@ export function useTraderPositionsQuery({
     },
     staleTime: 10,
     refetchInterval: isOpen ? 7000 : 20_000,
+    enabled: isLoggedIn,
   });
 }
 
@@ -550,6 +553,7 @@ export function useTraderPositionTransactionsQuery({
   positionKey: string;
   network?: SupportedNetworks;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['position-transactions', positionKey],
     queryFn: async () => {
@@ -563,6 +567,7 @@ export function useTraderPositionTransactionsQuery({
     },
     staleTime: 10_000,
     refetchInterval: 30_000,
+    enabled: isLoggedIn,
   });
 }
 

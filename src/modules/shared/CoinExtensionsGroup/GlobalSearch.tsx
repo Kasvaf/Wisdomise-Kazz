@@ -13,7 +13,6 @@ import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import useIsMobile from 'utils/useIsMobile';
 
 export const GlobalSearch: FC<
   Omit<
@@ -33,7 +32,6 @@ export const GlobalSearch: FC<
   >
 > = props => {
   const { t } = useTranslation('common');
-  const isMobile = useIsMobile();
   const [network] = useGlobalNetwork();
   const networkName = network
     ?.split('-')
@@ -41,7 +39,7 @@ export const GlobalSearch: FC<
     .join(' ');
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
-  const { getUrl, params } = useDiscoveryRouteMeta();
+  const { getUrl } = useDiscoveryRouteMeta();
 
   const coins = useDetailedCoins({
     query: debouncedQuery,
@@ -59,7 +57,7 @@ export const GlobalSearch: FC<
             getUrl({
               detail: 'coin',
               slug,
-              view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+              view: 'both',
             }),
           );
       }}

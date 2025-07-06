@@ -24,8 +24,8 @@ import {
 } from 'api/chains/wallet';
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { useSolanaBalanceInUSD } from 'api/chains/solana';
 import { roundSensible } from 'utils/numbers';
+import { useSolanaBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 

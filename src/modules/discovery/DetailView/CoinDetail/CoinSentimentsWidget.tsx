@@ -26,12 +26,7 @@ export const CoinSentimentsWidget: FC<{
 
   return (
     <>
-      <div
-        className={clsx(
-          'grid max-w-full grid-cols-3 items-center gap-3 mobile:grid-cols-1',
-          className,
-        )}
-      >
+      <div className={clsx('flex items-center gap-1', className)}>
         <SocialRadarSentiment
           value={socialRadar.data}
           coin={coin.data?.symbol}

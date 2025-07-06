@@ -2,7 +2,6 @@
 import { useRef, useState } from 'react';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
 import { Tabs, type TabsProps } from 'antd';
-import { useSearchParams } from 'react-router-dom';
 import {
   useUpdateWalletMutation,
   useWalletQuery,
@@ -19,15 +18,17 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import WalletPositions from 'modules/base/wallet/WalletDetail/WalletPositions';
 import AccountPnL from 'modules/base/wallet/WalletDetail/AccountPnL';
 import BuySellList from 'modules/base/wallet/WalletDetail/BuySellList';
-import { useSolanaBalanceInUSD } from 'api/chains/solana';
 import { roundSensible } from 'utils/numbers';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useSolanaBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
   focus?: boolean;
 }) {
-  const [searchParams] = useSearchParams();
-  const slug = searchParams.get('slug');
+  const {
+    params: { slug },
+  } = useDiscoveryRouteMeta();
   if (!slug) throw new Error('unexpected');
   const { data: wallet } = useWalletQuery(slug);
   const [copy, notif] = useShare('copy');

@@ -1,18 +1,22 @@
 import { useEffect, type FC } from 'react';
-import { createSearchParams, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChartWidgetProvider } from 'shared/AdvancedChart';
 import { useDetailedCoins } from 'api/discovery';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsMeta } from './CoinDetailsMeta';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
 const useCoinSlug = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('slug');
+  const {
+    params: { slug: query },
+    getUrl,
+  } = useDiscoveryRouteMeta();
   const [slugOrNetwork, contractAddress] = (query ?? '').split('/');
   const isSlug = !(query ?? '').includes('/');
+  const navigate = useNavigate();
 
   const searchResult = useDetailedCoins({
     network: isSlug ? undefined : slugOrNetwork,
@@ -27,11 +31,12 @@ const useCoinSlug = () => {
             x.contract_address === contractAddress ||
             (!contractAddress && !x.contract_address),
         )?.symbol.slug ?? '';
-      const newSearchParams = createSearchParams(searchParams);
-      newSearchParams.set('slug', calculatedSlug);
-      setSearchParams(newSearchParams);
+      const newUrl = getUrl({
+        slug: calculatedSlug,
+      });
+      navigate(newUrl);
     }
-  }, [contractAddress, isSlug, searchParams, searchResult, setSearchParams]);
+  }, [contractAddress, getUrl, isSlug, navigate, searchResult]);
 
   return {
     slug: isSlug ? slugOrNetwork || undefined : undefined,

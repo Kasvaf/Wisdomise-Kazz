@@ -29,10 +29,11 @@ export default function PageTrade() {
         getUrl({
           detail: 'coin',
           slug,
+          view: 'both',
         }),
       );
     } else if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(getUrl({ list: 'positions', slug }));
+      navigate(getUrl({ list: 'positions', slug, view: 'both' }));
     }
   }, [getUrl, isMobile, navigate, position.data, slug]);
 

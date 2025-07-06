@@ -95,7 +95,7 @@ export default function SocialRadarSharingModal({
           </div>
           {coin?.signals_analysis && (
             <SocialRadarSentiment
-              mode="card"
+              mode="expanded"
               coin={coin.symbol}
               marketData={coin.symbol_market_data}
               value={coin}

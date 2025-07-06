@@ -24,15 +24,15 @@ const NCoinBasicInfo: FC<{
       className,
     )}
   >
-    <p className="max-w-full truncate text-base leading-none">
+    <p className="max-w-full truncate text-sm leading-none">
       {value.symbol?.name ?? ''}
     </p>
-    <div className="flex items-center justify-start gap-1 text-sm">
-      <p className="max-w-24 overflow-hidden text-ellipsis text-v1-content-secondary">
+    <div className="flex items-center justify-start gap-1 text-xs">
+      {/* <p className="max-w-14 overflow-hidden text-ellipsis text-v1-content-secondary">
         {value.symbol?.base ?? ''}
-      </p>
+      </p> */}
       <ContractAddress
-        value={value.symbol?.contractAddress ?? ''}
+        value={value.symbol?.base ?? ''}
         allowCopy
         className="whitespace-nowrap"
       />
@@ -41,7 +41,7 @@ const NCoinBasicInfo: FC<{
     </div>
     <NCoinSecurity
       type="row"
-      imgClassName="size-[18px]"
+      imgClassName="size-[14px]"
       value={{
         freezable: value.securityData?.freezable ?? false,
         mintable: value.securityData?.mintable ?? false,
@@ -91,7 +91,7 @@ const NCoinInsightRow: FC<{
     <NCoinTokenInsight
       value={value.validatedData}
       type="row"
-      imgClassName="size-5"
+      imgClassName="size-4"
       className="text-xs"
     />
   </div>
@@ -103,7 +103,7 @@ const NCoinMarketDataCol: FC<{
 }> = ({ className, value }) => (
   <div
     className={clsx(
-      'flex flex-col items-end justify-between gap-1 py-3 text-xs',
+      'flex flex-col items-end justify-center gap-2 py-3 text-xs',
       className,
     )}
   >
@@ -151,10 +151,18 @@ const NCoinMarketDataCol: FC<{
 export const NCoinList: FC<{
   dataSource: TrenchStreamResponseResult[];
   title?: ReactNode;
+  titleSuffix?: ReactNode;
   className?: string;
   loading?: boolean;
   onRowClick?: (slug: string) => void;
-}> = ({ dataSource: _dataSource, title, loading, className, onRowClick }) => {
+}> = ({
+  dataSource: _dataSource,
+  title,
+  titleSuffix,
+  loading,
+  className,
+  onRowClick,
+}) => {
   const [dataSource, setDataSource] = useState(_dataSource);
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
@@ -166,13 +174,22 @@ export const NCoinList: FC<{
 
   return (
     <div
-      className={clsx('flex flex-col gap-3', className)}
+      className={clsx(
+        'flex flex-col gap-3 overflow-auto rounded-lg scrollbar-none',
+        className,
+      )}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
     >
       {title && (
-        <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-v1-surface-l-next">
-          {title}
+        <div className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none">
+          <div
+            className={clsx(
+              hovered ? 'pointer-events-none opacity-100' : 'opacity-0',
+              'absolute inset-0 size-full bg-v1-background-brand/10 transition-all',
+            )}
+          />
+          <h3 className="relative">{title}</h3>
           <div
             className={clsx(
               'flex items-center gap-1 text-xs text-v1-content-info transition-all',
@@ -180,8 +197,12 @@ export const NCoinList: FC<{
             )}
           >
             <Icon name={bxPauseCircle} size={18} />
-            {'Paused'}
           </div>
+          {titleSuffix && (
+            <div className="relative flex w-auto shrink-0 grow items-center justify-end gap-2">
+              {titleSuffix}
+            </div>
+          )}
         </div>
       )}
       {loading ? (
