@@ -1,7 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxQuestionMark } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
   type MacdConfirmation,
@@ -17,13 +16,11 @@ import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import Icon from 'shared/Icon';
 import { ConfirmationBadge } from '../ConfirmationWidget/ConfirmationBadge';
 import { TRSIcon } from './TRSIcon';
 import { TRSTitle } from './TRSTitle';
 import { useParseTRS } from './useParseTRS';
 import { TRSAnalysis } from './TRSAnalysis';
-import { TRSProgress } from './TRSProgress';
 
 export const TechnicalRadarSentiment: FC<{
   value?:
@@ -41,6 +38,9 @@ export const TechnicalRadarSentiment: FC<{
 
   const isEmpty = !isBearish && !isBullish && !isCheap && !isExpensive;
   const clickable = mode === 'default' || mode === 'card';
+
+  if (isEmpty && mode === 'card') return null;
+
   return (
     <ClickableTooltip
       chevron={false}
@@ -258,49 +258,36 @@ export const TechnicalRadarSentiment: FC<{
           )}
         </div>
       )}
-
       {mode === 'card' && (
         <div
           className={clsx(
             contentClassName,
-            'flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+            'flex h-10 w-full items-center gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
           )}
         >
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex h-full flex-col justify-between gap-1">
-              <p className="text-xs">{t('common.sentiment_title')}</p>
-              <div className="flex items-center justify-start gap-1">
-                {(isBullish || isBearish) && (
-                  <TRSIcon
-                    value={isBullish ? 'bullish' : 'bearish'}
-                    className="size-[20px] shrink-0"
-                  />
-                )}
-                {(isCheap || isExpensive) && (
-                  <TRSIcon
-                    value={isCheap ? 'cheap' : 'expensive'}
-                    className="size-[20px] shrink-0"
-                  />
-                )}
-                {isEmpty && (
-                  <span className="flex size-[20px] shrink-0 items-center justify-center rounded-full bg-v1-background-disabled opacity-80">
-                    <Icon name={bxQuestionMark} size={16} />
-                  </span>
-                )}
-                <TRSTitle
-                  value={value?.technical_sentiment}
-                  green={isGreen}
-                  className="overflow-hidden text-ellipsis text-xs"
-                />
-              </div>
-            </div>
-            <MiniBar
-              value={value?.normalized_score ?? 0}
-              height={28}
-              width={28}
+          {(isBullish || isBearish) && (
+            <TRSIcon
+              value={isBullish ? 'bullish' : 'bearish'}
+              className="size-[18px] shrink-0"
             />
-          </div>
-          <TRSProgress value={value} className="grid-cols-[auto_1fr]" />
+          )}
+          {(isCheap || isExpensive) && (
+            <TRSIcon
+              value={isCheap ? 'cheap' : 'expensive'}
+              className="size-[18px] shrink-0"
+            />
+          )}
+
+          <TRSTitle
+            value={value?.technical_sentiment}
+            green={isGreen}
+            className="max-w-16 grow whitespace-normal text-xs leading-tight"
+          />
+          <MiniBar
+            value={value?.normalized_score ?? 0}
+            height={16}
+            width={16}
+          />
         </div>
       )}
     </ClickableTooltip>

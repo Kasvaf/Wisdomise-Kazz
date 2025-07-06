@@ -3,6 +3,7 @@ import { type PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 import { type SupportedNetworks } from 'api/trader';
 import { useHasFlag } from 'api/feature-flags';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 export interface Wallet {
   key: string;
@@ -13,6 +14,7 @@ export interface Wallet {
 
 export const useWalletsQuery = () => {
   const hasFlag = useHasFlag();
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['wallets'],
     queryFn: async () => {
@@ -22,6 +24,7 @@ export const useWalletsQuery = () => {
       hasFlag('/wallets')
         ? { ...data, results: data.results.toReversed() }
         : { ...data, results: [] },
+    enabled: isLoggedIn,
   });
 };
 

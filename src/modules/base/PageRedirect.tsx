@@ -1,60 +1,65 @@
 import { useLocation, Navigate } from 'react-router-dom';
 import { LISTS } from 'modules/discovery/constants';
-import { groupDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { createDiscoverySearchParams } from 'modules/discovery/useDiscoveryRouteMeta';
 
 const REDIRECT_MAP: Record<string, string> = {
   // Coin Radar
-  '': `/discovery?ui=${groupDiscoveryRouteMeta({})}`,
-  '/coin-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+  '': `/discovery?${createDiscoverySearchParams({}).toString()}`,
+  '/coin-radar': `/discovery?${createDiscoverySearchParams({
     list: 'coin-radar',
-  })}`,
-  '/coin-radar/overview': `/discovery?ui=${groupDiscoveryRouteMeta({
+  }).toString()}`,
+  '/coin-radar/overview': `/discovery?${createDiscoverySearchParams({
     list: 'coin-radar',
-  })}`,
+  }).toString()}`,
   // Social Radar
-  '/coin-radar/social-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+  '/coin-radar/social-radar': `/discovery?${createDiscoverySearchParams({
     list: 'social-radar',
-  })}`,
+  }).toString()}`,
   // Social Radar
-  '/coin-radar/technical-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+  '/coin-radar/technical-radar': `/discovery?${createDiscoverySearchParams({
     list: 'technical-radar',
-  })}`,
+  }).toString()}`,
   // Whale Radar
-  '/coin-radar/whale-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+  '/coin-radar/whale-radar': `/discovery?${createDiscoverySearchParams({
     list: 'whale-radar',
-  })}`,
+  }).toString()}`,
   // Network Radar
-  '/coin-radar/network-radar': `/discovery?ui=${groupDiscoveryRouteMeta({
+  '/coin-radar/network-radar': `/discovery?${createDiscoverySearchParams({
     list: 'network-radar',
-  })}`,
+  }).toString()}`,
   // Alerts
   '/coin-radar/alerts': '/account/alerts',
   // Whale Details
-  '/whale/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta({
+  '/whale/{nework}/{address}': `/discovery?${createDiscoverySearchParams({
     detail: 'whale',
-  })}&slug={nework}/{address}`,
-  '/coin-radar/whale-radar/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta(
+    slug: '{nework}/{address}',
+  }).toString()}`,
+  '/coin-radar/whale-radar/{nework}/{address}': `/discovery?${createDiscoverySearchParams(
     {
       detail: 'whale',
+      slug: '{nework}/{address}',
     },
-  )}&slug={nework}/{address}`,
+  ).toString()}`,
   // Coin Details
-  '/token/{nework}/{address}': `/discovery?ui=${groupDiscoveryRouteMeta({
+  '/token/{nework}/{address}': `/discovery?${createDiscoverySearchParams({
     detail: 'coin',
-  })}&slug={nework}/{address}`,
-  '/token/{nework}': `/discovery?ui=${groupDiscoveryRouteMeta({
+    slug: '{nework}/{address}',
+  }).toString()}`,
+  '/token/{nework}': `/discovery?${createDiscoverySearchParams({
     detail: 'coin',
-  })}&slug={nework}/`,
-  '/coin/{slug}': `/discovery?ui=${groupDiscoveryRouteMeta({
+    slug: '{network}/',
+  }).toString()}`,
+  '/coin/{slug}': `/discovery?${createDiscoverySearchParams({
     detail: 'coin',
-  })}&slug={slug}`,
+    slug: '{slug}',
+  }).toString()}`,
 
   ...Object.fromEntries(
     Object.keys(LISTS).map(list => [
       `/discovery/${list}`,
-      `/discovery?ui=${groupDiscoveryRouteMeta({
+      `/discovery?${createDiscoverySearchParams({
         list: list as never,
-      })}`,
+      }).toString()}`,
     ]),
   ),
 };

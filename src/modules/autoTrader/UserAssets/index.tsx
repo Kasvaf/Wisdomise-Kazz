@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -11,7 +12,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import Spin from 'shared/Spin';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -20,14 +20,12 @@ import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandl
 import Badge from 'shared/Badge';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
-import { useSolanaUserAssets } from 'api/chains/solana';
 import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
 import { useConnectedWallet, useActiveWallet } from 'api/chains/wallet';
 import { useShare } from 'shared/useShare';
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 import { Coin } from 'shared/Coin';
-// eslint-disable-next-line import/max-dependencies
-import useIsMobile from 'utils/useIsMobile';
+import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 interface AssetData {
   slug: string;
@@ -37,22 +35,19 @@ interface AssetData {
 }
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
-  const isMobile = useIsMobile();
   const { getUrl, params } = useDiscoveryRouteMeta();
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
-  const [activeCoinSlug] = useSearchParamAsState('slug');
 
   return (
     <NavLink
       className={clsx(
         'flex items-center justify-between px-4 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4 mobile:py-3',
-        activeCoinSlug === asset.slug && '!bg-v1-surface-l3',
+        params.slug === asset.slug && '!bg-v1-surface-l3',
       )}
       to={getUrl({
         detail: 'coin',
         slug: asset.slug,
-        view:
-          params.view === 'list' ? (isMobile ? 'detail' : 'both') : params.view,
+        view: 'both',
       })}
     >
       {baseInfo ? (
@@ -86,14 +81,12 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
 };
 
 interface Props {
-  noTotal?: boolean;
-  onlyTradingAssets?: boolean;
   className?: string;
   expanded?: boolean;
   containerClassName?: string;
 }
 
-export const UserAssetsInternal: React.FC<
+export const UserAssets: React.FC<
   Props & { title?: string; data?: AssetData[] | null; showTotal?: boolean }
 > = ({ title, data, className, containerClassName, showTotal }) => {
   if (!data?.length) return null;
@@ -127,44 +120,59 @@ export const UserAssetsInternal: React.FC<
   );
 };
 
-export default function UserAssets(props: Props) {
+export const UserTradingAssets = ({ className }: { className?: string }) => {
   const isLoggedIn = useIsLoggedIn();
-  const net = useActiveNetwork();
-
   const { data: tradingAssets } = useUserAssets();
+  if (!isLoggedIn) return null;
+
+  if (!tradingAssets?.length) return null;
+  const totalAssets = tradingAssets?.reduce(
+    (a, b) => a + (b.usd_equity ?? 0),
+    0,
+  );
+
+  return (
+    <div className={className}>
+      <div className="id-title mb-3 gap-2 text-sm mobile:mb-5">
+        {'Trading Assets' + (totalAssets > 0 ? ': ' : '')}
+        {totalAssets > 0 && <ReadableNumber value={totalAssets} label="$" />}
+      </div>
+
+      <UserAssets data={tradingAssets} />
+    </div>
+  );
+};
+
+export const UserWallets = (props: Props) => {
+  const net = useActiveNetwork();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',
   );
 
+  return net === 'the-open-network' ? (
+    <UserAssets title="Wallet Assets" data={walletAssets} {...props} />
+  ) : (
+    <div>
+      <p className="my-3 text-xs text-v1-content-secondary">Wallets</p>
+      <WalletSelector
+        radioClassName="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio]:mt-4 [&_.ant-radio]:self-start"
+        WalletOptionComponent={WalletItem}
+        expanded={props.expanded}
+        className="-mr-2 -mt-3"
+      />
+    </div>
+  );
+};
+
+export default function UserPortfolio(props: Props) {
+  const isLoggedIn = useIsLoggedIn();
   if (!isLoggedIn) return null;
 
   return (
     <div>
       <div className="flex flex-col gap-2">
-        <UserAssetsInternal
-          title="Trading Assets"
-          showTotal
-          data={tradingAssets}
-          {...props}
-        />
-        {!props.onlyTradingAssets &&
-          (net === 'the-open-network' ? (
-            <UserAssetsInternal
-              title="Wallet Assets"
-              data={walletAssets}
-              {...props}
-            />
-          ) : (
-            <div>
-              <p className="my-3 text-xs text-v1-content-secondary">Wallets</p>
-              <WalletSelector
-                radioClassName="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio]:mt-4 [&_.ant-radio]:self-start"
-                WalletOptionComponent={WalletItem}
-                expanded={props.expanded}
-                className="-mr-2 -mt-3"
-              />
-            </div>
-          ))}
+        <UserTradingAssets />
+        <UserWallets {...props} />
       </div>
     </div>
   );
@@ -232,7 +240,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
       {wallet ? (
         <WalletAssets wallet={wallet} />
       ) : (
-        connected && <UserAssetsInternal data={walletAssets} />
+        connected && <UserAssets data={walletAssets} />
       )}
       {notif}
     </div>
@@ -241,13 +249,13 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
 
 function WalletAssets({ wallet }: { wallet: Wallet }) {
   const isLoggedIn = useIsLoggedIn();
-  const { data: custodialWalletAssets } = useSolanaUserAssets(wallet.address);
+  const { data: walletAssets } = useSolanaUserAssets(wallet.address);
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
 
   if (!isLoggedIn) return null;
 
-  return custodialWalletAssets?.length ? (
-    <UserAssetsInternal data={custodialWalletAssets} />
+  return walletAssets?.length ? (
+    <UserAssets data={walletAssets} />
   ) : (
     <div className="flex h-44 flex-col items-center justify-center rounded-xl bg-v1-surface-l2">
       <DepositIcon className="size-8" />

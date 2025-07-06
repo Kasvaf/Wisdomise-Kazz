@@ -1,3 +1,9 @@
+import { networkRadarGrpc } from 'api/grpc';
+import {
+  type TrenchStreamRequest,
+  type TrenchStreamResponse,
+} from 'api/proto/network_radar';
+
 export const doesNCoinHaveSafeTopHolders = ({
   topHolders,
   totalSupply,
@@ -56,3 +62,28 @@ export const convertNCoinSecurityFieldToBool = ({
 };
 
 export type NetworkRadarTab = 'new_pairs' | 'final_stretch' | 'migrated';
+
+export type NetworkRadarStreamFilters = Record<
+  NetworkRadarTab,
+  Partial<TrenchStreamRequest>
+>;
+
+export const useNetworkRadarStream = (
+  filters: NetworkRadarStreamFilters,
+): Record<NetworkRadarTab, TrenchStreamResponse['results']> => {
+  const newPairs = networkRadarGrpc.useTrenchNewBornStreamLastValue(
+    filters.new_pairs,
+  );
+  const finalStretch = networkRadarGrpc.useTrenchFinalStretchStreamLastValue(
+    filters.final_stretch,
+  );
+  const migrated = networkRadarGrpc.useTrenchMigratedStreamLastValue(
+    filters.migrated,
+  );
+
+  return {
+    new_pairs: newPairs.data?.results ?? [],
+    final_stretch: finalStretch.data?.results ?? [],
+    migrated: migrated.data?.results ?? [],
+  };
+};

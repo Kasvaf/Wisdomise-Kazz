@@ -1,28 +1,35 @@
 /* eslint-disable import/max-dependencies */
-import { type FC } from 'react';
+import { useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { networkRadarGrpc } from 'api/grpc';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
-import { type NetworkRadarTab } from './lib';
+import {
+  type NetworkRadarStreamFilters,
+  useNetworkRadarStream,
+  type NetworkRadarTab,
+} from './lib';
 import { NCoinList } from './NCoinList';
+import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
-  const newBorn = networkRadarGrpc.useTrenchNewBornStreamLastValue({});
-  const finalStretch = networkRadarGrpc.useTrenchFinalStretchStreamLastValue(
-    {},
+  const { getUrl } = useDiscoveryRouteMeta();
+  const [tab, setTab] = useState<NetworkRadarTab>('new_pairs');
+  const [filters, setFilters] = usePageState<NetworkRadarStreamFilters>(
+    'network-radar',
+    {
+      final_stretch: {},
+      migrated: {},
+      new_pairs: {},
+    },
   );
-  const migrated = networkRadarGrpc.useTrenchMigratedStreamLastValue({});
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
-  const [pageState, setPageState] = usePageState<{
-    tab: NetworkRadarTab;
-  }>('network-radar', {
-    tab: 'new_pairs',
-  });
+  const {
+    new_pairs: newPairs,
+    final_stretch: finalStretch,
+    migrated,
+  } = useNetworkRadarStream(filters);
+
   const navigate = useNavigate();
 
   const onRowClick = (slug: string) => {
@@ -30,50 +37,64 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
       getUrl({
         detail: 'coin',
         slug,
-        view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+        view: 'both',
       }),
     );
   };
 
   return (
     <>
-      <ButtonSelect
-        value={pageState.tab}
-        onChange={newTab => setPageState({ tab: newTab })}
-        options={[
-          {
-            label: 'New Pairs',
-            value: 'new_pairs' as NetworkRadarTab,
-          },
-          {
-            label: 'Final Stretch',
-            value: 'final_stretch' as NetworkRadarTab,
-          },
-          {
-            label: 'Migrated',
-            value: 'migrated' as NetworkRadarTab,
-          },
-        ]}
-        size="xs"
-        className="mb-3"
-        surface={2}
-      />
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <ButtonSelect
+          value={tab}
+          onChange={setTab}
+          options={[
+            {
+              label: 'New Pairs',
+              value: 'new_pairs',
+            },
+            {
+              label: 'Final Stretch',
+              value: 'final_stretch',
+            },
+            {
+              label: 'Migrated',
+              value: 'migrated',
+            },
+          ]}
+          size="xs"
+          className="w-full"
+          surface={2}
+        />
+        <NetworkRadarFilters
+          initialTab={tab}
+          value={filters}
+          onChange={newFilters =>
+            setFilters({
+              new_pairs: {},
+              final_stretch: {},
+              migrated: {},
+              ...newFilters,
+            })
+          }
+        />
+      </div>
       <NCoinList
-        dataSource={newBorn.data?.results ?? []}
-        loading={newBorn.isLoading}
-        className={clsx(pageState.tab !== 'new_pairs' && 'hidden')}
+        dataSource={newPairs}
+        loading={newPairs.length === 0}
+        className={clsx(tab !== 'new_pairs' && 'hidden')}
         onRowClick={onRowClick}
       />
       <NCoinList
-        dataSource={finalStretch.data?.results ?? []}
-        loading={finalStretch.isLoading}
-        className={clsx(pageState.tab !== 'final_stretch' && 'hidden')}
+        dataSource={finalStretch}
+        loading={finalStretch.length === 0}
+        className={clsx(tab !== 'final_stretch' && 'hidden')}
         onRowClick={onRowClick}
       />
       <NCoinList
-        dataSource={migrated.data?.results ?? []}
-        loading={migrated.isLoading}
-        className={clsx(pageState.tab !== 'migrated' && 'hidden')}
+        dataSource={migrated}
+        loading={migrated.length === 0}
+        className={clsx(tab !== 'migrated' && 'hidden')}
         onRowClick={onRowClick}
       />
     </>

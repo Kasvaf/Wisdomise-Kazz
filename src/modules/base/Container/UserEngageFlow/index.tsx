@@ -18,10 +18,7 @@ const useNavigateToOnboarding = () => {
   const { value } = useUserStorage('onboarding-data');
 
   useEffect(() => {
-    if (value === undefined) return;
-    if (value === null) {
-      // navigate(ONBOARDING_URL);
-    } else {
+    if (value) {
       try {
         void appendTraits({ onboardingData: JSON.parse(value) });
       } catch {}
