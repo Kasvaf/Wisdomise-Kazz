@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode, useRef, type FC, useCallback } from 'react';
-import { useEventListener } from 'usehooks-ts';
+import { type ReactNode, useRef, type FC, useEffect } from 'react';
 
 export const ResizableSides: FC<{
   direction: 'row' | 'col';
@@ -11,51 +10,68 @@ export const ResizableSides: FC<{
   const containerRef = useRef<HTMLDivElement>(null);
   const dividerRef = useRef<HTMLDivElement>(null);
   const sideOneRef = useRef<HTMLDivElement>(null);
-  const initialPosition = useRef<number | null>(null);
-  const initialSize = useRef<number | null>(null);
-  const position = useRef<number>(0);
 
-  const startMovement = useCallback(
-    (e: PointerEvent) => {
-      if (!containerRef.current) return;
-      initialPosition.current = direction === 'col' ? e.clientX : e.clientY;
-      initialSize.current =
-        sideOneRef.current?.getBoundingClientRect()?.[
-          direction === 'col' ? 'width' : 'height'
-        ] ?? null;
-      containerRef.current.style.userSelect = 'none';
-    },
-    [direction],
-  );
+  useEffect(() => {
+    const dividerEl = dividerRef.current;
+    if (!dividerEl) return;
 
-  const endMovement = useCallback(() => {
-    if (initialPosition.current === null || !containerRef.current) return;
-    initialPosition.current = null;
-    initialSize.current = null;
-    containerRef.current.style.userSelect = 'auto';
-  }, []);
+    let initialPosition: number | null = null;
+    let initialSize: number | null = null;
+    let position: number | null = null;
 
-  const midMovement = useCallback(
-    (e: PointerEvent) => {
-      if (initialPosition.current === null || !containerRef.current) return;
-      position.current = direction === 'col' ? e.clientX : e.clientY;
-      if (initialSize.current === null || !sideOneRef.current) return;
-      const movement = position.current - initialPosition.current;
+    const midMovement = (e: PointerEvent) => {
+      if (initialPosition === null || !containerRef.current) return;
+      position = direction === 'col' ? e.clientX : e.clientY;
+      if (initialSize === null || !sideOneRef.current) return;
+      const movement = position - initialPosition;
 
-      const newSize = initialSize.current + movement;
+      const newSize = initialSize + movement;
       sideOneRef.current.style[
         direction === 'col' ? 'width' : 'height'
       ] = `${newSize}px`;
 
       e.preventDefault();
-    },
-    [direction],
-  );
+    };
 
-  useEventListener('pointerdown', startMovement, dividerRef);
-  useEventListener('pointerup', endMovement);
-  useEventListener('pointerleave', endMovement);
-  useEventListener('pointermove', midMovement);
+    const endMovement = () => {
+      if (!containerRef.current) return;
+      initialPosition = null;
+      initialSize = null;
+      containerRef.current.style.userSelect = 'auto';
+      containerRef.current.style.pointerEvents = 'auto';
+      document.body.style.cursor = 'default';
+      window.removeEventListener('pointermove', midMovement);
+      window.removeEventListener('pointerleave', endMovement);
+      window.removeEventListener('pointerup', endMovement);
+    };
+
+    const startMovement = (e: PointerEvent) => {
+      if (!containerRef.current) return;
+      initialPosition = direction === 'col' ? e.clientX : e.clientY;
+      initialSize =
+        sideOneRef.current?.getBoundingClientRect()?.[
+          direction === 'col' ? 'width' : 'height'
+        ] ?? null;
+      containerRef.current.style.userSelect = 'none';
+      containerRef.current.style.pointerEvents = 'none';
+      document.body.style.cursor =
+        direction === 'col' ? 'col-resize' : 'row-resize';
+      e.preventDefault();
+
+      window.addEventListener('pointermove', midMovement);
+      window.addEventListener('pointerleave', endMovement);
+      window.addEventListener('pointerup', endMovement);
+    };
+
+    dividerEl.addEventListener('pointerdown', startMovement);
+
+    return () => {
+      window.removeEventListener('pointerdown', startMovement);
+      window.removeEventListener('pointermove', midMovement);
+      window.removeEventListener('pointerleave', endMovement);
+      window.removeEventListener('pointerup', endMovement);
+    };
+  });
 
   return (
     <div
@@ -66,7 +82,15 @@ export const ResizableSides: FC<{
       )}
       ref={containerRef}
     >
-      <div ref={sideOneRef} className="min-h-[15%] min-w-[15%] shrink">
+      <div
+        ref={sideOneRef}
+        className={clsx(
+          'shrink-0 overflow-hidden',
+          direction === 'row'
+            ? 'max-h-[calc(100%-0.75rem)]'
+            : 'min-w-[calc(100%-0.75rem)]',
+        )}
+      >
         {sideOne}
       </div>
       <div
@@ -95,7 +119,7 @@ export const ResizableSides: FC<{
           )}
         />
       </div>
-      <div className="min-h-[15%] min-w-[15%] shrink">{sideTwo}</div>
+      <div className={clsx('shrink overflow-hidden')}>{sideTwo}</div>
     </div>
   );
 };
