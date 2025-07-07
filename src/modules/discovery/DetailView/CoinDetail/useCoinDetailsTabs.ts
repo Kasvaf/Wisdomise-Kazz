@@ -53,9 +53,9 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
       const newTabs = tabs.map(tab => {
         const newTab = {
           ...tab,
-          disabled: !document.querySelector(`#${tab.value}`),
+          hidden: !document.querySelector(`#${tab.value}`),
         };
-        if (newTab.disabled !== tab.disabled) {
+        if (newTab.hidden !== tab.hidden) {
           updated = true;
         }
         return newTab;

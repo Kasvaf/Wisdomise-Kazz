@@ -34,11 +34,8 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   const tabs = useCoinDetailsTabs(root);
   const [selectedTab, setSelectedTab] = useState<string>();
   useEffect(() => {
-    const selectedTabObj = tabs.find(x => x.value === selectedTab);
-    if (!selectedTab || selectedTabObj?.disabled || selectedTabObj?.hidden) {
-      setSelectedTab(tabs.find(x => !x.disabled && !x.hidden)?.value);
-    }
-  }, [tabs, selectedTab]);
+    setSelectedTab(tabs.find(x => !x.disabled && !x.hidden)?.value);
+  }, [tabs]);
 
   const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
   const [upSideSize, setUpSideSize] = useSessionStorage<
