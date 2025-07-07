@@ -3,11 +3,13 @@ import { useCoinDetails } from 'api/discovery';
 
 export function CoinIntroductionWidget({
   id,
+  title,
   slug,
   hr,
   className,
 }: {
   slug: string;
+  title?: boolean;
   id?: string;
   hr?: string;
   className?: string;
@@ -20,13 +22,15 @@ export function CoinIntroductionWidget({
   return (
     <>
       <div id={id} className={className}>
-        <h3 className="mb-4 text-sm font-semibold">
-          {t('coin-details.tabs.coin_introduction.title', {
-            name: `${coinOverview.data?.symbol.name ?? slug} (${
-              coinOverview.data?.symbol.abbreviation ?? slug
-            })`,
-          })}
-        </h3>
+        {title !== false && (
+          <h3 className="mb-4 text-sm font-semibold">
+            {t('coin-details.tabs.coin_introduction.title', {
+              name: `${coinOverview.data?.symbol.name ?? slug} (${
+                coinOverview.data?.symbol.abbreviation ?? slug
+              })`,
+            })}
+          </h3>
+        )}
         <div
           className="text-sm font-light leading-relaxed text-v1-content-primary mobile:text-xs [&_a]:underline"
           dangerouslySetInnerHTML={{

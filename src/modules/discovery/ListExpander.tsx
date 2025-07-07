@@ -86,7 +86,7 @@ export const ListExpander: FC = () => {
 
   return (
     <div
-      className="fixed z-30 flex scale-90 flex-col items-center gap-1"
+      className="fixed z-30 flex flex-col items-center gap-1"
       ref={ref}
       style={style}
     >
@@ -94,7 +94,7 @@ export const ListExpander: FC = () => {
         <Button
           fab
           variant="white"
-          size="2xs"
+          size="3xs"
           className="rounded-full"
           onClick={handleExpandClick}
         >
@@ -105,7 +105,7 @@ export const ListExpander: FC = () => {
         <Button
           fab
           variant="white"
-          size="2xs"
+          size="3xs"
           className="rounded-full"
           onClick={handleCollapseClick}
         >

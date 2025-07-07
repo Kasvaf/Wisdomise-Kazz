@@ -15,15 +15,19 @@ import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
 import { Wallet } from '../WhaleDetail/Wallet';
 
-function CoinWhalesWidgetWithType({
+export function CoinWhalesWidget({
   type,
   slug,
+  title,
   id,
+  limit: _limit = 6,
   hr,
   className,
 }: {
   type: 'active' | 'holding';
+  title?: boolean;
   slug: string;
+  limit?: number;
   id?: string;
   hr?: boolean;
   className?: string;
@@ -32,7 +36,7 @@ function CoinWhalesWidgetWithType({
   const isMobile = useIsMobile();
   const whales = useCoinWhales({ slug, type });
   const [query, setQuery] = useState('');
-  const [limit, setLimit] = useState<number | undefined>(6);
+  const [limit, setLimit] = useState<number | undefined>(_limit);
 
   const columns = useMemo<Array<TableColumn<CoinWhale>>>(
     () => [
@@ -143,11 +147,13 @@ function CoinWhalesWidgetWithType({
         )}
       >
         <div className="flex items-center justify-between gap-1">
-          <h3 className="text-sm font-semibold">
-            {type === 'active'
-              ? t('coin-radar:whales.active')
-              : t('coin-radar:whales.holding')}
-          </h3>
+          {title !== false && (
+            <h3 className="text-sm font-semibold">
+              {type === 'active'
+                ? t('coin-radar:whales.active')
+                : t('coin-radar:whales.holding')}
+            </h3>
+          )}
           <Input
             type="string"
             size={isMobile ? 'xs' : 'md'}
@@ -167,8 +173,8 @@ function CoinWhalesWidgetWithType({
           surface={2}
           scrollable
           footer={
-            (data?.length ?? 0) > 6 &&
-            limit && (
+            typeof limit === 'number' &&
+            (data?.length ?? 0) > limit && (
               <Button
                 size="xs"
                 onClick={() => setLimit(undefined)}
@@ -181,37 +187,6 @@ function CoinWhalesWidgetWithType({
         />
       </div>
       {hr && <hr className="border-white/10" />}
-    </>
-  );
-}
-
-export function CoinWhalesWidget({
-  slug,
-  id,
-  hr,
-  className,
-}: {
-  slug: string;
-  id?: string;
-  hr?: boolean;
-  className?: string;
-}) {
-  return (
-    <>
-      <CoinWhalesWidgetWithType
-        slug={slug}
-        type="active"
-        id={id}
-        hr={hr}
-        className={className}
-      />
-      <CoinWhalesWidgetWithType
-        slug={slug}
-        type="holding"
-        id={id}
-        hr={hr}
-        className={className}
-      />
     </>
   );
 }

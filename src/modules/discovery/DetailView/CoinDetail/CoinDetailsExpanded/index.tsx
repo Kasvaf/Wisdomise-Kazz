@@ -1,9 +1,14 @@
 /* eslint-disable import/max-dependencies */
-import { type FC, useRef } from 'react';
+import { type FC, Fragment, useRef, useState } from 'react';
+import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { ResizableSides } from 'shared/v1-components/ResizableSides';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { Button } from 'shared/v1-components/Button';
+import Icon from 'shared/Icon';
 import { CoinStatsWidget } from '../CoinStatsWidget';
-import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { NCoinSentimentWidget } from '../NCoinSentimentWidget';
 import { NCoinStatsWidget } from '../NCoinStatsWidget';
@@ -23,49 +28,134 @@ import TraderSection from './TraderSection';
 export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
+  const [selectedTab, setSelectedTab] = useState(
+    tabs.find(x => !x.disabled)?.value,
+  );
   const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
 
   return (
-    <div className="flex w-full min-w-0 max-w-full flex-nowrap justify-between">
+    <div className="flex h-[--desktop-content-height] w-full min-w-0 max-w-full flex-nowrap justify-between overflow-hidden">
       {/* Validate */}
-      <div className="relative w-full min-w-0 shrink grow border-r border-white/10">
-        {/* Sentiment Widgets */}
-        <NCoinSentimentWidget slug={slug} className="p-3" hr />
-        <CoinTitleWidget
-          slug={slug}
-          className="sticky top-[76px] z-20 p-3 bg-v1-surface-l-current"
-          suffix={<CoinSentimentsWidget slug={slug} />}
-          hr
-        />
-        <div className="p-3">
-          <CoinChart slug={slug} height={420} />
-        </div>
-        <CoinDetailsTabs
-          options={tabs}
-          className="sticky top-[144px] z-20 p-3 bg-v1-surface-l-current"
-          hr
-        />
-        <div className="relative space-y-4 p-4" ref={root}>
-          <div className="relative space-y-4">
-            <CoinMessagesWidget
-              id="coinoverview_trading_view"
-              type="technical_ideas"
+      <ResizableSides
+        direction="row"
+        rootClassName="relative h-[--desktop-content-height] max-h-[--desktop-content-height] w-full min-w-0 shrink grow border-r border-white/10"
+        className={['h-full !max-h-[calc(100%-3.5rem)] !min-h-16', '']}
+        saveKey="coin-details-sides"
+      >
+        {[
+          <Fragment key="up-side">
+            <NCoinSentimentWidget slug={slug} className="p-3" hr />
+            <CoinTitleWidget
               slug={slug}
+              className="p-3 bg-v1-surface-l-current"
+              suffix={<CoinSentimentsWidget slug={slug} />}
               hr
             />
-            <CoinMessagesWidget
-              id="coinoverview_socials"
-              type="rest"
-              slug={slug}
-              hr
-            />
-            <CoinPoolsWidget slug={slug} id="coinoverview_pools" hr />
-            <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" hr />
-            <CoinWhalesWidget slug={slug} id="coinoverview_whales" hr />
-            <CoinIntroductionWidget slug={slug} />
-          </div>
-        </div>
-      </div>
+            <div className="p-3">
+              <CoinChart slug={slug} height={420} />
+            </div>
+          </Fragment>,
+          <Fragment key="down-side">
+            <div className="sticky top-0 z-20 flex shrink-0 items-center justify-start gap-1 pe-3">
+              <ButtonSelect
+                options={tabs}
+                value={selectedTab}
+                onChange={setSelectedTab}
+                surface={1}
+                className="max-w-full grow rounded-none"
+                variant="tab"
+                size="md"
+              />
+              <Button
+                fab
+                variant="white"
+                size="3xs"
+                className="shrink-0 rounded-full"
+                onClick={() => alert('NAITODO: collapse')}
+              >
+                <Icon name={bxChevronDown} />
+              </Button>
+              <Button
+                fab
+                variant="white"
+                size="3xs"
+                className="shrink-0 rounded-full"
+                onClick={() => alert('NAITODO: expand')}
+              >
+                <Icon name={bxChevronUp} />
+              </Button>
+            </div>
+            <div ref={root} className="p-3">
+              <CoinIntroductionWidget
+                id="coinoverview_introduction"
+                title={false}
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_introduction' && 'hidden',
+                )}
+              />
+              <CoinMessagesWidget
+                id="coinoverview_trading_view"
+                title={false}
+                limit={false}
+                type="technical_ideas"
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_trading_view' && 'hidden',
+                )}
+              />
+              <CoinMessagesWidget
+                id="coinoverview_socials"
+                title={false}
+                limit={false}
+                type="rest"
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_socials' && 'hidden',
+                )}
+              />
+              <CoinPoolsWidget
+                id="coinoverview_pools"
+                title={false}
+                limit={Number.POSITIVE_INFINITY}
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_pools' && 'hidden',
+                )}
+              />
+              <CoinExchangesWidget
+                id="coinoverview_exchanges"
+                title={false}
+                limit={Number.POSITIVE_INFINITY}
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_exchanges' && 'hidden',
+                )}
+              />
+              <CoinWhalesWidget
+                id="coinoverview_active_whales"
+                type="active"
+                title={false}
+                limit={Number.POSITIVE_INFINITY}
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_active_whales' && 'hidden',
+                )}
+              />
+              <CoinWhalesWidget
+                id="coinoverview_holding_whales"
+                type="holding"
+                title={false}
+                limit={Number.POSITIVE_INFINITY}
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_holding_whales' && 'hidden',
+                )}
+              />
+            </div>
+          </Fragment>,
+        ]}
+      </ResizableSides>
 
       {/* Trade + Additional */}
       <div className="sticky top-[76px] z-50 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l1 scrollbar-none">

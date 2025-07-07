@@ -3,7 +3,7 @@ import { type ReactNode, type FC, useState, type MouseEvent } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
 export interface ButtonProps {
-  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?: '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   fab?: boolean;
   variant?:
     | 'primary'
@@ -51,6 +51,8 @@ export const Button: FC<ButtonProps> = ({
       }}
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
+        size === '3xs' && 'h-5 rounded text-xxs',
+        size === '3xs' && (fab ? 'w-5' : 'px-2'),
         size === '2xs' && 'h-2xs rounded text-xs',
         size === '2xs' && (fab ? 'w-2xs' : 'px-3'),
         size === 'xs' && 'h-xs rounded-md text-xs',

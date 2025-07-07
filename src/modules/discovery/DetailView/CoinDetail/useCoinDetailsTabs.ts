@@ -15,6 +15,10 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
   const initialTabs = useRef<ComponentProps<typeof CoinDetailsTabs>['options']>(
     [
       {
+        value: 'coinoverview_introduction',
+        label: 'Intro',
+      },
+      {
         value: 'coinoverview_trading_view',
         label: t('coin-details.tabs.trading_view.label'),
       },
@@ -31,8 +35,12 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
         label: t('coin-details.tabs.markets.label'),
       },
       {
-        value: 'coinoverview_whales',
-        label: t('coin-details.tabs.whales.label'),
+        value: 'coinoverview_active_whales',
+        label: 'Active Whales',
+      },
+      {
+        value: 'coinoverview_holding_whales',
+        label: 'Holding Whales',
       },
     ],
   );
@@ -45,9 +53,9 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
       const newTabs = tabs.map(tab => {
         const newTab = {
           ...tab,
-          hidden: !document.querySelector(`#${tab.value}`),
+          disabled: !document.querySelector(`#${tab.value}`),
         };
-        if (newTab.hidden !== tab.hidden) {
+        if (newTab.disabled !== tab.disabled) {
           updated = true;
         }
         return newTab;

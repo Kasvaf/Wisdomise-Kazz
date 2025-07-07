@@ -3,17 +3,33 @@ import { type ReactNode, useRef, type FC, useEffect } from 'react';
 
 export const ResizableSides: FC<{
   direction: 'row' | 'col';
-  className?: string;
-  sideOne: ReactNode;
-  sideTwo: ReactNode;
-}> = ({ direction, className, sideOne, sideTwo }) => {
+  rootClassName?: string;
+  className?: [string, string];
+  children: [ReactNode, ReactNode];
+  saveKey?: string;
+}> = ({ direction, rootClassName, className, children, saveKey }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dividerRef = useRef<HTMLDivElement>(null);
   const sideOneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const dividerEl = dividerRef.current;
-    if (!dividerEl) return;
+    if (!dividerEl || !sideOneRef.current) return;
+
+    if (saveKey) {
+      try {
+        const savedValue = localStorage.getItem(
+          `resizable-sides-${saveKey}-${direction}`,
+        );
+        if (
+          typeof savedValue === 'string' &&
+          (savedValue.endsWith('px') || savedValue.endsWith('%'))
+        ) {
+          sideOneRef.current.style[direction === 'col' ? 'width' : 'height'] =
+            savedValue;
+        }
+      } catch {}
+    }
 
     let initialPosition: number | null = null;
     let initialSize: number | null = null;
@@ -34,7 +50,13 @@ export const ResizableSides: FC<{
     };
 
     const endMovement = () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || !sideOneRef.current) return;
+      if (saveKey) {
+        localStorage.setItem(
+          `resizable-sides-${saveKey}-${direction}`,
+          sideOneRef.current.style[direction === 'col' ? 'width' : 'height'],
+        );
+      }
       initialPosition = null;
       initialSize = null;
       containerRef.current.style.userSelect = 'auto';
@@ -76,26 +98,27 @@ export const ResizableSides: FC<{
   return (
     <div
       className={clsx(
-        'flex items-stretch justify-stretch',
+        'flex flex-nowrap items-stretch justify-stretch overflow-hidden',
         direction === 'row' && 'flex-col',
-        className,
+        rootClassName,
       )}
       ref={containerRef}
     >
       <div
         ref={sideOneRef}
         className={clsx(
-          'shrink-0 overflow-hidden',
+          'relative shrink-0 overflow-auto scrollbar-thin',
           direction === 'row'
             ? 'max-h-[calc(100%-0.75rem)]'
-            : 'min-w-[calc(100%-0.75rem)]',
+            : 'max-w-[calc(100%-0.75rem)]',
+          className?.[0],
         )}
       >
-        {sideOne}
+        {children[0]}
       </div>
       <div
         className={clsx(
-          'group relative flex items-center justify-center',
+          'group relative flex shrink-0 items-center justify-center',
           direction === 'row'
             ? 'h-3 max-h-3 min-h-3 w-full cursor-row-resize'
             : 'h-full w-3 min-w-3 max-w-3 cursor-col-resize',
@@ -104,22 +127,29 @@ export const ResizableSides: FC<{
       >
         <div
           className={clsx(
-            'absolute bg-v1-content-primary/10 transition-all',
+            'absolute transition-all bg-v1-surface-l-next',
             direction === 'row'
-              ? 'h-2 w-full group-hover:scale-y-150'
-              : 'h-full w-2 group-hover:scale-x-150',
+              ? 'h-[5px] w-full group-hover:scale-y-[2.5]'
+              : 'h-full w-[5px] group-hover:scale-x-[2.5]',
           )}
         />
         <div
           className={clsx(
             'relative border-v1-content-primary/50 transition-all group-hover:border-v1-content-primary/75',
             direction === 'row'
-              ? 'h-1 w-4 border-x-0 border-y'
-              : 'h-4 w-1 border-x border-y-0',
+              ? 'h-[3px] w-4 border-x-0 border-y'
+              : 'h-4 w-[3px] border-x border-y-0',
           )}
         />
       </div>
-      <div className={clsx('shrink overflow-hidden')}>{sideTwo}</div>
+      <div
+        className={clsx(
+          'relative shrink overflow-auto scrollbar-thin',
+          className?.[1],
+        )}
+      >
+        {children[1]}
+      </div>
     </div>
   );
 };
