@@ -48,8 +48,9 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         rootClassName="relative h-[--desktop-content-height] max-h-[--desktop-content-height] w-full min-w-0 shrink grow border-r border-white/10"
         className={[
           clsx(
+            'overflow-hidden',
             upSideSize === '0%'
-              ? '!h-[60px] overflow-hidden'
+              ? '!h-[60px]'
               : upSideSize === '100%'
               ? '!h-[calc(100%-3.25rem)]'
               : '!max-h-[calc(100%-6rem)] !min-h-[6rem]',
@@ -60,18 +61,18 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         onChange={setUpSideSize}
       >
         {[
-          <Fragment key="up-side">
-            <NCoinSentimentWidget slug={slug} className="p-3" hr />
+          <div key="up-side" className="flex h-full flex-col">
+            <NCoinSentimentWidget slug={slug} className="shrink-0 p-3" hr />
             <CoinTitleWidget
               slug={slug}
-              className="p-3 bg-v1-surface-l-current"
+              className="shrink-0 p-3 bg-v1-surface-l-current"
               suffix={<CoinSentimentsWidget slug={slug} />}
               hr
             />
-            <div className="p-3">
-              <CoinChart slug={slug} height={420} />
+            <div className="grow p-3">
+              <CoinChart slug={slug} />
             </div>
-          </Fragment>,
+          </div>,
           <Fragment key="down-side">
             <div className="sticky top-0 z-20 flex shrink-0 items-center justify-start gap-1 pe-3">
               <ButtonSelect

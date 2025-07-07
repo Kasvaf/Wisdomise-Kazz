@@ -229,9 +229,7 @@ const AdvancedChart: React.FC<{
   ]);
 
   if (isLoading || !data?.network) return null;
-  return (
-    <div ref={chartContainerRef} className={clsx('h-[600px]', className)} />
-  );
+  return <div ref={chartContainerRef} className={clsx(className)} />;
 };
 
 export default AdvancedChart;
