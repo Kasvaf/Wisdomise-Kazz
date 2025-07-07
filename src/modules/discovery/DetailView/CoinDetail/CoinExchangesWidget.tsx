@@ -8,7 +8,6 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
-import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
 
 export function CoinExchangesWidget({
@@ -30,7 +29,6 @@ export function CoinExchangesWidget({
   const coinOverview = useCoinDetails({ slug });
   const [query, setQuery] = useState('');
   const [limit, setLimit] = useState<number | undefined>(_limit);
-  const isMobile = useIsMobile();
 
   const columns = useMemo<Array<TableColumn<CoinExchange>>>(
     () => [
@@ -102,7 +100,7 @@ export function CoinExchangesWidget({
           )}
           <Input
             type="string"
-            size={isMobile ? 'xs' : 'md'}
+            size="xs"
             value={query}
             onChange={setQuery}
             className="w-72 text-sm mobile:w-48"

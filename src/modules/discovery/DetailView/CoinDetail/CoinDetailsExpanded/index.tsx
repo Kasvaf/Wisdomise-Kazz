@@ -54,8 +54,8 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             upSideSize === '0%'
               ? '!h-[60px]'
               : upSideSize === '100%'
-              ? '!h-[calc(100%-3.25rem)]'
-              : '!max-h-[calc(100%-6rem)] !min-h-[6rem]',
+              ? '!h-[calc(100%-4rem)]'
+              : '!max-h-[calc(100%-8rem)] !min-h-[8rem]',
           ),
           clsx(upSideSize === '100%' && 'overflow-hidden'),
         ]}
@@ -76,7 +76,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             </div>
           </div>,
           <Fragment key="down-side">
-            <div className="sticky top-0 z-20 flex shrink-0 items-center justify-start gap-px bg-v1-surface-l1 pe-3">
+            <div className="sticky top-0 z-20 flex shrink-0 items-center justify-start gap-px bg-v1-surface-l1 p-3 pt-2">
               <ButtonSelect
                 options={tabs}
                 value={selectedTab}
@@ -85,9 +85,9 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                   setUpSideSize(p => (p === '100%' ? '60%' : p));
                 }}
                 surface={1}
-                className="max-w-full grow rounded-none"
-                variant="tab"
-                size="sm"
+                className="me-3 max-w-full grow rounded-none"
+                variant="default"
+                size="xs"
               />
               {upSideSize !== '100%' && (
                 <Button
@@ -118,7 +118,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                 </Button>
               )}
             </div>
-            <div ref={root} className="p-3">
+            <div ref={root} className="p-3 pt-0">
               <CoinIntroductionWidget
                 id="coinoverview_introduction"
                 title={false}
