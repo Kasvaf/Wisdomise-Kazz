@@ -20,7 +20,7 @@ export default function PageDiscovery() {
         {(isMobile ? params.view === 'list' : true) && (
           <ListView
             className={clsx(
-              'max-w-full p-3',
+              'max-w-full',
               params.view === 'list'
                 ? 'w-full'
                 : params.view === 'detail'

@@ -44,6 +44,8 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
           !isMobile && sidebar !== null ? '4.25rem' : '0px',
         ['--desktop-header-height' as never]: isMobile ? '0px' : '3rem',
         ['--route-details-height' as never]: isMobile ? '0px' : '1.75rem',
+        ['--desktop-content-height' as never]:
+          'calc(100svh - var(--desktop-header-height) - var(--route-details-height))',
       }}
     >
       {/* Sticky Header */}

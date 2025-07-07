@@ -4,5 +4,5 @@ import PositionsExpandable from 'modules/autoTrader/Positions/PositionsExpandabl
 export const Positions: FC<{ expanded?: boolean; focus?: boolean }> = ({
   expanded,
 }) => {
-  return <PositionsExpandable expanded={expanded} />;
+  return <PositionsExpandable expanded={expanded} className="p-3" />;
 };
