@@ -119,10 +119,8 @@ export const ResizableSides: FC<{
       >
         <div
           className={clsx(
-            'absolute transition-all bg-v1-surface-l-next',
-            direction === 'row'
-              ? 'h-[5px] w-full group-hover:scale-y-[2.5]'
-              : 'h-full w-[5px] group-hover:scale-x-[2.5]',
+            'absolute bg-v1-surface-l2 transition-all group-hover:bg-v1-surface-l3',
+            direction === 'row' ? 'h-[5px] w-full' : 'h-full w-[5px]',
           )}
         />
         <div
