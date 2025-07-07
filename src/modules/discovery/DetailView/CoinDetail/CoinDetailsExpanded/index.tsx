@@ -2,9 +2,13 @@
 import { type FC, Fragment, useRef, useState } from 'react';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useSessionStorage } from 'usehooks-ts';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { ResizableSides } from 'shared/v1-components/ResizableSides';
+import {
+  ResizableSides,
+  type ResizableSidesValue,
+} from 'shared/v1-components/ResizableSides';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
@@ -32,6 +36,9 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
     tabs.find(x => !x.disabled)?.value,
   );
   const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
+  const [upSideSize, setUpSideSize] = useSessionStorage<
+    ResizableSidesValue | undefined
+  >('coin-details-upside-sizes', '60%');
 
   return (
     <div className="flex h-[--desktop-content-height] w-full min-w-0 max-w-full flex-nowrap justify-between overflow-hidden">
@@ -39,8 +46,18 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       <ResizableSides
         direction="row"
         rootClassName="relative h-[--desktop-content-height] max-h-[--desktop-content-height] w-full min-w-0 shrink grow border-r border-white/10"
-        className={['h-full !max-h-[calc(100%-3.5rem)] !min-h-16', '']}
-        saveKey="coin-details-sides"
+        className={[
+          clsx(
+            upSideSize === '0%'
+              ? '!h-[60px] overflow-hidden'
+              : upSideSize === '100%'
+              ? '!h-[calc(100%-3.25rem)]'
+              : '!max-h-[calc(100%-6rem)] !min-h-[6rem]',
+          ),
+          clsx(upSideSize === '100%' && 'overflow-hidden'),
+        ]}
+        value={upSideSize}
+        onChange={setUpSideSize}
       >
         {[
           <Fragment key="up-side">
@@ -66,24 +83,32 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                 variant="tab"
                 size="md"
               />
-              <Button
-                fab
-                variant="white"
-                size="3xs"
-                className="shrink-0 rounded-full"
-                onClick={() => alert('NAITODO: collapse')}
-              >
-                <Icon name={bxChevronDown} />
-              </Button>
-              <Button
-                fab
-                variant="white"
-                size="3xs"
-                className="shrink-0 rounded-full"
-                onClick={() => alert('NAITODO: expand')}
-              >
-                <Icon name={bxChevronUp} />
-              </Button>
+              {upSideSize !== '100%' && (
+                <Button
+                  fab
+                  variant="white"
+                  size="3xs"
+                  className="shrink-0 rounded-full"
+                  onClick={() =>
+                    setUpSideSize(p => (p === '0%' ? '60%' : '100%'))
+                  }
+                >
+                  <Icon name={bxChevronDown} />
+                </Button>
+              )}
+              {upSideSize !== '0%' && (
+                <Button
+                  fab
+                  variant="white"
+                  size="3xs"
+                  className="shrink-0 rounded-full"
+                  onClick={() =>
+                    setUpSideSize(p => (p === '100%' ? '60%' : '0%'))
+                  }
+                >
+                  <Icon name={bxChevronUp} />
+                </Button>
+              )}
             </div>
             <div ref={root} className="p-3">
               <CoinIntroductionWidget

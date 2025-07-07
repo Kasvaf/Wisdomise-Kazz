@@ -1,13 +1,16 @@
 import { clsx } from 'clsx';
 import { type ReactNode, useRef, type FC, useEffect } from 'react';
 
+export type ResizableSidesValue = `${number}px` | `${number}%`;
+
 export const ResizableSides: FC<{
   direction: 'row' | 'col';
   rootClassName?: string;
   className?: [string, string];
   children: [ReactNode, ReactNode];
-  saveKey?: string;
-}> = ({ direction, rootClassName, className, children, saveKey }) => {
+  value?: ResizableSidesValue;
+  onChange?: (newValue: ResizableSidesValue | undefined) => void;
+}> = ({ direction, rootClassName, className, children, value, onChange }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dividerRef = useRef<HTMLDivElement>(null);
   const sideOneRef = useRef<HTMLDivElement>(null);
@@ -16,19 +19,9 @@ export const ResizableSides: FC<{
     const dividerEl = dividerRef.current;
     if (!dividerEl || !sideOneRef.current) return;
 
-    if (saveKey) {
-      try {
-        const savedValue = localStorage.getItem(
-          `resizable-sides-${saveKey}-${direction}`,
-        );
-        if (
-          typeof savedValue === 'string' &&
-          (savedValue.endsWith('px') || savedValue.endsWith('%'))
-        ) {
-          sideOneRef.current.style[direction === 'col' ? 'width' : 'height'] =
-            savedValue;
-        }
-      } catch {}
+    if (value) {
+      sideOneRef.current.style[direction === 'col' ? 'width' : 'height'] =
+        value;
     }
 
     let initialPosition: number | null = null;
@@ -51,12 +44,11 @@ export const ResizableSides: FC<{
 
     const endMovement = () => {
       if (!containerRef.current || !sideOneRef.current) return;
-      if (saveKey) {
-        localStorage.setItem(
-          `resizable-sides-${saveKey}-${direction}`,
-          sideOneRef.current.style[direction === 'col' ? 'width' : 'height'],
-        );
-      }
+      onChange?.(
+        sideOneRef.current.style[
+          direction === 'col' ? 'width' : 'height'
+        ] as never,
+      );
       initialPosition = null;
       initialSize = null;
       containerRef.current.style.userSelect = 'auto';
@@ -93,7 +85,7 @@ export const ResizableSides: FC<{
       window.removeEventListener('pointerleave', endMovement);
       window.removeEventListener('pointerup', endMovement);
     };
-  });
+  }, [direction, onChange, value]);
 
   return (
     <div
