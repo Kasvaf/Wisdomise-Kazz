@@ -1,5 +1,5 @@
 /* eslint-disable import/max-dependencies */
-import { type FC, Fragment, useRef, useState } from 'react';
+import { type FC, Fragment, useEffect, useRef, useState } from 'react';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useSessionStorage } from 'usehooks-ts';
@@ -32,9 +32,14 @@ import TraderSection from './TraderSection';
 export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
-  const [selectedTab, setSelectedTab] = useState(
-    tabs.find(x => !x.disabled)?.value,
-  );
+  const [selectedTab, setSelectedTab] = useState<string>();
+  useEffect(() => {
+    const selectedTabObj = tabs.find(x => x.value === selectedTab);
+    if (!selectedTab || selectedTabObj?.disabled || selectedTabObj?.hidden) {
+      setSelectedTab(tabs.find(x => !x.disabled && !x.hidden)?.value);
+    }
+  }, [tabs, selectedTab]);
+
   const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
   const [upSideSize, setUpSideSize] = useSessionStorage<
     ResizableSidesValue | undefined
@@ -74,22 +79,26 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             </div>
           </div>,
           <Fragment key="down-side">
-            <div className="sticky top-0 z-20 flex shrink-0 items-center justify-start gap-1 pe-3">
+            <div className="sticky top-0 z-20 flex shrink-0 items-center justify-start gap-px bg-v1-surface-l1 pe-3">
               <ButtonSelect
                 options={tabs}
                 value={selectedTab}
-                onChange={setSelectedTab}
+                onChange={newTab => {
+                  setSelectedTab(newTab);
+                  setUpSideSize(p => (p === '100%' ? '60%' : p));
+                }}
                 surface={1}
                 className="max-w-full grow rounded-none"
                 variant="tab"
-                size="md"
+                size="sm"
               />
               {upSideSize !== '100%' && (
                 <Button
                   fab
-                  variant="white"
+                  variant="outline"
                   size="3xs"
                   className="shrink-0 rounded-full"
+                  surface={2}
                   onClick={() =>
                     setUpSideSize(p => (p === '0%' ? '60%' : '100%'))
                   }
@@ -100,9 +109,10 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
               {upSideSize !== '0%' && (
                 <Button
                   fab
-                  variant="white"
+                  variant="outline"
                   size="3xs"
                   className="shrink-0 rounded-full"
+                  surface={2}
                   onClick={() =>
                     setUpSideSize(p => (p === '100%' ? '60%' : '0%'))
                   }
