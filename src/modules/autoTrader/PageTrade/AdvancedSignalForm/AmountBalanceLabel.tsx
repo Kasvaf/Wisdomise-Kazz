@@ -15,7 +15,7 @@ const AmountBalanceLabel: React.FC<{
     <div className="flex items-center justify-between text-xs">
       <span>Amount</span>
       <div className="flex items-center justify-between">
-        <BtnSolanaWallets className="mr-2 !h-auto !bg-transparent !p-0" />
+        <BtnSolanaWallets className="!h-auto scale-[0.8] !bg-transparent !p-0" />
         <AccountBalance slug={slug} disabled={disabled} setAmount={setAmount} />
       </div>
     </div>
@@ -37,13 +37,13 @@ export const AccountBalance: React.FC<{
   return slug ? (
     isLoading ? (
       <div className="flex items-center gap-1 text-v1-content-secondary">
-        <Spin />
+        <Spin size="small" />
         Reading Balance
       </div>
     ) : balance === null ? null : (
       <div
         className={clsx(
-          'flex items-center gap-1 text-white/40',
+          'flex items-center gap-1 text-white/70',
           !disabled &&
             !isNativeQuote &&
             setAmount &&

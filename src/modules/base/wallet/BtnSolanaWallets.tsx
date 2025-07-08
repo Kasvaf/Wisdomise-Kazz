@@ -3,7 +3,7 @@ import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useUserWalletAssets } from 'api/chains';
@@ -33,9 +33,11 @@ import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 export default function BtnSolanaWallets({
   className,
   showAddress,
+  size,
 }: {
   className?: string;
   showAddress?: boolean;
+  size?: ButtonSize;
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
@@ -48,11 +50,11 @@ export default function BtnSolanaWallets({
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
         variant="ghost"
-        size={isMobile ? 'md' : 'xs'}
+        size={isMobile ? 'md' : size ?? 'xs'}
         className={className}
       >
         {!isMobile && connected && !isCustodial && icon ? (
-          <img className="size-4" src={icon} alt="" />
+          <img className="size-5" src={icon} alt="" />
         ) : (
           <WalletIcon />
         )}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
 import AmountInputBox from 'shared/AmountInputBox';
 import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
+import { TraderPresets } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
@@ -83,6 +84,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
         noSuffixPad
       />
       <MarketField state={state} />
+      <TraderPresets mode="sell" />
       <BtnBuySell state={state} className="mt-6 w-full" />
     </div>
   );

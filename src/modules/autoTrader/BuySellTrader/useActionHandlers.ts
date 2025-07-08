@@ -9,6 +9,7 @@ import {
 import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
 import { useActiveWallet } from 'api/chains/wallet';
+import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
 
@@ -26,6 +27,9 @@ const useActionHandlers = (state: SwapState) => {
     confirming: [, setConfirming],
   } = state;
   const { address, isCustodial } = useActiveWallet();
+  const {
+    traderPresets: { activePreset },
+  } = useTraderSettings();
 
   const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
     setConfirming(true);
@@ -68,6 +72,8 @@ const useActionHandlers = (state: SwapState) => {
       return;
     }
 
+    const slippage = activePreset?.[dir]?.slippage;
+    const priorityFee = activePreset?.[dir]?.priorityFee['wrapped-solana'];
     const createData: CreatePositionRequest = {
       network,
       mode: dir === 'buy' ? 'buy_and_hold' : 'sell_and_hold',
@@ -122,6 +128,10 @@ const useActionHandlers = (state: SwapState) => {
                 },
           ],
         },
+        buy_slippage: dir === 'buy' ? +slippage : undefined,
+        sell_slippage: dir === 'sell' ? +slippage : undefined,
+        buy_priority_fee: dir === 'buy' ? +priorityFee : undefined,
+        sell_priority_fee: dir === 'sell' ? +priorityFee : undefined,
       },
       withdraw_address: address,
     } as const;

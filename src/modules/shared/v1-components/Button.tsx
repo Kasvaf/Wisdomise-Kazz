@@ -2,8 +2,10 @@ import { clsx } from 'clsx';
 import { type ReactNode, type FC, useState, type MouseEvent } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
+export type ButtonSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 export interface ButtonProps {
-  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?: ButtonSize;
   fab?: boolean;
   variant?:
     | 'primary'

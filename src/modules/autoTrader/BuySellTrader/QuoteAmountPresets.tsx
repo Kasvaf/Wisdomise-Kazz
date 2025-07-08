@@ -17,6 +17,7 @@ export default function QuoteAmountPresets({
   enableEdit,
   hasEditBtn = true,
   quote,
+  showAll,
 }: {
   token?: string;
   balance?: number | null;
@@ -29,12 +30,13 @@ export default function QuoteAmountPresets({
   enableEdit?: boolean;
   hasEditBtn?: boolean;
   quote: string;
+  showAll?: boolean;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const {
-    quotesAmountPresets: { value, update, persist },
+    quotesAmountPresets: { value: items, update, persist },
   } = useTraderSettings();
-  const preset = mode === 'buy' ? value?.buy : value?.sellPercentage;
+  const preset = mode === 'buy' ? items.buy : items.sellPercentage;
   const presetOptions = preset?.[quote]?.map(v => ({
     value:
       mode === 'sell'
@@ -52,60 +54,62 @@ export default function QuoteAmountPresets({
   }, [enableEdit]);
 
   return (
-    <div className={clsx('flex gap-1.5', className)}>
-      {presetOptions
-        ?.filter((_, index) => index < 4)
-        .map(({ label, value: stepValue }, index) => (
-          <Button
-            key={index}
-            size="2xs"
-            variant="ghost"
-            className={clsx(
-              'w-full',
-              btnClassName,
-              isEditMode &&
-                '!border-v1-border-brand !bg-v1-background-brand/10',
-            )}
-            onClick={() => {
-              if (!isEditMode) {
-                onClick(stepValue);
-              }
-            }}
-            surface={surface}
-          >
-            {isEditMode ? (
-              <input
-                type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                value={label}
-                className="w-full bg-transparent text-center outline-none"
-                onKeyDown={e => {
-                  if (
-                    Number.isNaN(+e.key) &&
-                    e.key !== 'Backspace' &&
-                    e.key !== '.'
-                  ) {
-                    e.preventDefault();
-                  }
-                }}
-                onChange={e => {
-                  if (quote && mode) {
-                    update(
-                      quote,
-                      mode === 'sell' ? 'sellPercentage' : mode,
-                      index,
-                      e.target.value,
-                    );
-                  }
-                }}
-              />
-            ) : (
-              label
-            )}
-            {mode === 'sell' && !isEditMode && '%'}
-          </Button>
-        ))}
+    <div className="flex gap-1.5">
+      <div className={clsx('grid grow grid-cols-4 gap-1.5', className)}>
+        {presetOptions
+          ?.filter((_, index) => showAll || index < 4)
+          .map(({ label, value: stepValue }, index) => (
+            <Button
+              key={index}
+              size="2xs"
+              variant="ghost"
+              className={clsx(
+                'w-full',
+                btnClassName,
+                isEditMode &&
+                  '!border-v1-border-brand !bg-v1-background-brand/10',
+              )}
+              onClick={() => {
+                if (!isEditMode) {
+                  onClick(stepValue);
+                }
+              }}
+              surface={surface}
+            >
+              {isEditMode ? (
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={label}
+                  className="w-full bg-transparent text-center outline-none"
+                  onKeyDown={e => {
+                    if (
+                      Number.isNaN(+e.key) &&
+                      e.key !== 'Backspace' &&
+                      e.key !== '.'
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onChange={e => {
+                    if (quote && mode) {
+                      update(
+                        quote,
+                        mode === 'sell' ? 'sellPercentage' : mode,
+                        index,
+                        e.target.value,
+                      );
+                    }
+                  }}
+                />
+              ) : (
+                label
+              )}
+              {mode === 'sell' && !isEditMode && '%'}
+            </Button>
+          ))}
+      </div>
       {hasEditBtn && (
         <Button
           surface={surface}

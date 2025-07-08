@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { type Position } from 'api';
 import { useCoinDetails } from 'api/discovery';
 import { Button } from 'shared/v1-components/Button';
+import { TraderPresets } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import PartIntro from './PartIntro';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
@@ -60,6 +61,8 @@ const AdvancedSignalForm: React.FC<Props> = ({
           )}
         </div>
       )}
+
+      <TraderPresets />
 
       {isMinimal ? (
         <div className="mt-3 flex items-center gap-2">

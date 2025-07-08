@@ -25,6 +25,7 @@ import { ofetch } from 'config/ofetch';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useSolanaConnection } from 'api/chains/connection';
 import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
+import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import { queryContractSlugs } from './utils';
 
 const useContractInfo = (slug?: string) => {
@@ -336,6 +337,9 @@ export const useSolanaMarketSwap = () => {
   const { address, isCustodial } = useActiveWallet();
   const connection = useSolanaConnection();
   const queryClient = useQueryClient();
+  const {
+    traderPresets: { activePreset },
+  } = useTraderSettings();
 
   const invalidateQueries = () => {
     void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
@@ -353,6 +357,7 @@ export const useSolanaMarketSwap = () => {
     if (!address) throw new Error('Wallet not connected');
     const publicKey = new PublicKey(address);
 
+    const presetValue = activePreset[side === 'LONG' ? 'buy' : 'sell'];
     const swap = ofetch<SwapResponse>('/trader/swap', {
       method: 'post',
       body: {
@@ -361,6 +366,8 @@ export const useSolanaMarketSwap = () => {
         amount,
         network_slug: 'solana',
         wallet_address: publicKey.toString(),
+        slippage: +presetValue.slippage,
+        priority_fee: +presetValue.priorityFee['wrapped-solana'],
       },
     });
     if (isCustodial) {

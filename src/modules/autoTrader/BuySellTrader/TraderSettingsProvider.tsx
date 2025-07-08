@@ -3,8 +3,10 @@ import {
   type PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
+import { useDebounce } from 'usehooks-ts';
 import { useUserStorage } from 'api/userStorage';
 
 interface QuotesAmountPresets {
@@ -18,7 +20,7 @@ type TraderPresets = Array<{
   sell: TraderPreset;
 }>;
 
-interface TraderPreset {
+export interface TraderPreset {
   slippage: string;
   priorityFee: Record<string, string>;
   bribeFee: Record<string, string>;
@@ -35,48 +37,47 @@ const DEFAULT_PERCENTAGE_PRESETS = [
   '0',
 ];
 
-const context = createContext<{
-  quotesAmountPresets: {
-    value: QuotesAmountPresets | null;
-    update: (
-      quote: string,
-      mode: keyof QuotesAmountPresets,
-      index: number,
-      newValue: string,
-    ) => void;
-    persist: () => void;
-  };
-  traderPresets: {
-    value: TraderPresets | null;
-    update: (
-      quote: string,
-      mode: keyof QuotesAmountPresets,
-      index: number,
-      newValue: string,
-    ) => void;
-    persist: () => void;
-    activePreset: {
-      buy: TraderPreset;
-      sell: TraderPreset;
-    } | null;
-    setActivePreset: (newActivePreset: string) => void;
-  };
-}>({
-  quotesAmountPresets: {
-    value: null,
-    update: () => null,
-    persist: () => null,
-  },
-  traderPresets: {
-    value: null,
-    update: () => null,
-    persist: () => null,
-    activePreset: null,
-    setActivePreset: () => null,
-  },
-});
+const context = createContext<
+  | {
+      quotesAmountPresets: {
+        value: QuotesAmountPresets;
+        update: (
+          quote: string,
+          mode: keyof QuotesAmountPresets,
+          index: number,
+          newValue: string,
+        ) => void;
+        persist: () => void;
+      };
+      traderPresets: {
+        value: TraderPresets;
+        update: (
+          presetIndex: number,
+          mode: 'buy' | 'sell',
+          newValue: TraderPreset,
+        ) => void;
+        updateAll: (newValue: TraderPresets) => void;
+        persist: () => void;
+        activePreset: {
+          buy: TraderPreset;
+          sell: TraderPreset;
+        };
+        activeIndex: number;
+        setActive: (index: number) => void;
+      };
+    }
+  | undefined
+>(undefined);
 
-export const useTraderSettings = () => useContext(context);
+export const useTraderSettings = () => {
+  const value = useContext(context);
+  if (!value) {
+    throw new Error(
+      'useTraderSettings must be used within TraderSettingsProvider',
+    );
+  }
+  return value;
+};
 
 export function TraderSettingsProvider({ children }: PropsWithChildren) {
   const quotesAmountPresets = useQuotesAmountPresets();
@@ -176,72 +177,73 @@ const DEFAULT_PRESET = {
 };
 
 function useTraderPresets() {
-  const { value: persistedValue, save } =
-    useUserStorage<TraderPresets>('trader_presets');
-  const { value: activePreset, save: setActivePreset } = useUserStorage(
-    'trader_active_preset',
-  );
+  const {
+    value: persistedValue,
+    save,
+    isFetching,
+  } = useUserStorage<TraderPresets>('trader_presets', { serializer: 'json' });
+  const [activePreset, setActivePreset] = useState('1');
   const [value, setValue] = useState<TraderPresets>(
-    Array.from<{
-      buy: TraderPreset;
-      sell: TraderPreset;
-    }>({ length: 3 }).fill({
-      buy: DEFAULT_PRESET,
-      sell: DEFAULT_PRESET,
-    }),
+    Array.from({ length: 3 }, () => ({
+      buy: { ...DEFAULT_PRESET },
+      sell: { ...DEFAULT_PRESET },
+    })),
   );
+  const [isFetched, setIsFetched] = useState(false);
+  const confirmedValue = useDebounce(value, 2000);
 
-  // useEffect(() => {
-  //   if (!persistedValue) return;
-  //
-  //   setValue(prev => {
-  //     const merged: QuotesAmountPresets = {
-  //       buy: { ...prev.buy },
-  //       sell: { ...prev.sell },
-  //       sellPercentage: { ...prev.sellPercentage },
-  //     };
-  //
-  //     for (const mode of ['buy', 'sell', 'sellPercentage'] as const) {
-  //       const modeValue = persistedValue[mode];
-  //       if (!modeValue) continue;
-  //
-  //       for (const token in modeValue) {
-  //         const tokenValue = modeValue[token];
-  //         if (tokenValue) {
-  //           merged[mode][token] = tokenValue;
-  //         }
-  //       }
-  //     }
-  //
-  //     return merged;
-  //   });
-  // }, [persistedValue]);
+  useEffect(() => {
+    if (!isFetching) {
+      void save(confirmedValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmedValue]);
+
+  useEffect(() => {
+    if (persistedValue && !isFetched) {
+      setValue(persistedValue);
+      setIsFetched(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [persistedValue]);
 
   const update = (
-    quote: string,
-    mode: keyof QuotesAmountPresets,
-    index: number,
-    newValue: string,
-  ) => {
-    // setValue(prev => {
-    //   const preset = { ...prev };
-    //   const quotePreset = preset[mode][quote];
-    //   if (quotePreset) {
-    //     quotePreset[index] = newValue;
-    //   }
-    //   return preset;
-    // });
+    presetIndex: number,
+    mode: 'buy' | 'sell',
+    newValue: TraderPreset,
+  ): void => {
+    setValue(prev => {
+      const newPresets = [...prev];
+      newPresets[presetIndex][mode] = newValue;
+      return newPresets;
+    });
+  };
+
+  const updateAll = (newValue: TraderPresets) => {
+    setValue(newValue);
   };
 
   const persist = () => {
     void save(value);
   };
 
-  return {
-    value,
-    activePreset: value[+(activePreset ?? '0')],
-    setActivePreset,
-    update,
-    persist,
+  const activeIndex = +(activePreset ?? '1') - 1;
+
+  const setActive = (index: number) => {
+    void setActivePreset(String(index + 1));
   };
+
+  return useMemo(
+    () => ({
+      value,
+      activeIndex,
+      activePreset: value[activeIndex],
+      setActive,
+      update,
+      updateAll,
+      persist,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [activeIndex, value],
+  );
 }

@@ -65,4 +65,8 @@ export interface Signal {
   open_orders: {
     items: OpenOrderInput[];
   };
+  buy_slippage?: number;
+  sell_slippage?: number;
+  buy_priority_fee?: number;
+  sell_priority_fee?: number;
 }
