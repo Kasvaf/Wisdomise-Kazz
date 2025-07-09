@@ -54,7 +54,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             upSideSize === '0%'
               ? '!h-[60px]'
               : upSideSize === '100%'
-              ? '!h-[calc(100%-4rem)]'
+              ? '!h-[calc(100%-3rem)]'
               : '!max-h-[calc(100%-8rem)] !min-h-[8rem]',
           ),
           clsx(upSideSize === '100%' && 'overflow-hidden'),
@@ -76,7 +76,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             </div>
           </div>,
           <Fragment key="down-side">
-            <div className="sticky top-0 z-20 flex shrink-0 items-center justify-start gap-px bg-v1-surface-l1 p-3 pt-2">
+            <div className="sticky top-0 z-20 mb-3 flex shrink-0 items-center justify-start gap-px bg-v1-surface-l1 pe-3">
               <ButtonSelect
                 options={tabs}
                 value={selectedTab}
@@ -86,8 +86,8 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                 }}
                 surface={1}
                 className="me-3 max-w-full grow rounded-none"
-                variant="default"
-                size="xs"
+                variant="tab"
+                size="sm"
               />
               {upSideSize !== '100%' && (
                 <Button
