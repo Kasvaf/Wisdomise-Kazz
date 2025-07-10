@@ -3,7 +3,6 @@ import { type FC, Fragment, useEffect, useRef, useState } from 'react';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useSessionStorage } from 'usehooks-ts';
-import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import {
   ResizableSides,
   type ResizableSidesValue,
@@ -195,9 +194,6 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         <NCoinRisksBanner slug={slug} />
         <CoinPriceWidget slug={slug} className="p-3" hr />
         <div className="space-y-3 p-3">
-          <div className="flex justify-end">
-            <BtnInstantTrade slug={slug} quote={quote} setQuote={setQuote} />
-          </div>
           <TraderSection slug={slug} quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget slug={slug} />

@@ -26,19 +26,26 @@ const colorClasses = {
 const StatusItem: React.FC<{
   label: string;
   color: Color;
-}> = ({ label, color }) => {
+  mini?: boolean;
+}> = ({ label, color, mini }) => {
   return (
     <div className="flex w-1/4 flex-col items-center gap-1">
-      <div className={colorClasses[color].text}>{label}</div>
+      {!mini && <div className={colorClasses[color].text}>{label}</div>}
       <div
-        className={clsx('h-1.5 w-full rounded-sm', colorClasses[color].bg)}
+        className={clsx(
+          mini ? 'h-1' : 'h-1.5',
+          'w-full rounded-sm',
+          colorClasses[color].bg,
+        )}
       />
     </div>
   );
 };
 
 const make = (color: Color, label: string) => ({
-  component: <StatusItem label={label} color={color} />,
+  componentGen: (mini?: boolean) => (
+    <StatusItem label={label} color={color} mini={mini} />
+  ),
   key: color + label,
 });
 
@@ -56,61 +63,99 @@ function getItemsByStatus({
   withdraw_status: ws,
 }: Position) {
   if (status === 'CANCELED' || ds === 'EXPIRED' || ds === 'CANCELED') {
-    return [make('red', 'Canceled'), GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
+    const currentLabel = 'Canceled';
+    return {
+      items: [
+        make('red', currentLabel),
+        GREY_OPENED,
+        GREY_CLOSED,
+        GREY_WITHDRAWN,
+      ],
+      currentLabel,
+    };
   }
 
   if (ds === 'PENDING') {
-    return [
-      make('yellow', 'Starting'),
-      GREY_OPENED,
-      GREY_CLOSED,
-      GREY_WITHDRAWN,
-    ];
+    const currentLabel = 'Starting';
+    return {
+      items: [
+        make('yellow', currentLabel),
+        GREY_OPENED,
+        GREY_CLOSED,
+        GREY_WITHDRAWN,
+      ],
+      currentLabel,
+    };
   }
 
   if (status === 'OPENING' || (ds === 'PAID' && status === 'PENDING')) {
-    return [
-      GREEN_STARTED,
-      make('yellow', 'Opening'),
-      GREY_CLOSED,
-      GREY_WITHDRAWN,
-    ];
+    const currentLabel = 'Opening';
+    return {
+      items: [
+        GREEN_STARTED,
+        make('yellow', currentLabel),
+        GREY_CLOSED,
+        GREY_WITHDRAWN,
+      ],
+      currentLabel,
+    };
   }
 
   if (status === 'OPEN') {
-    return [GREEN_STARTED, GREEN_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
+    const currentLabel = 'Opened';
+    return {
+      items: [GREEN_STARTED, GREEN_OPENED, GREY_CLOSED, GREY_WITHDRAWN],
+      currentLabel,
+    };
   }
 
   if (status === 'CLOSING') {
-    return [
-      GREEN_STARTED,
-      GREEN_OPENED,
-      make('yellow', 'Closing'),
-      GREY_WITHDRAWN,
-    ];
+    const currentLabel = 'Closing';
+    return {
+      items: [
+        GREEN_STARTED,
+        GREEN_OPENED,
+        make('yellow', currentLabel),
+        GREY_WITHDRAWN,
+      ],
+      currentLabel,
+    };
   }
 
   if (status === 'CLOSED') {
-    return [
-      GREEN_STARTED,
-      GREEN_OPENED,
-      GREEN_CLOSED,
-      ws === 'PAID'
-        ? make('green', 'Withdrawn')
-        : make('yellow', 'Withdrawing'),
-    ];
+    const currentLabel = ws === 'PAID' ? 'Withdrawn' : 'Withdrawing';
+    return {
+      items: [
+        GREEN_STARTED,
+        GREEN_OPENED,
+        GREEN_CLOSED,
+        ws === 'PAID'
+          ? make('green', currentLabel)
+          : make('yellow', currentLabel),
+      ],
+      currentLabel,
+    };
   }
 
-  return [GREY_STARTED, GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
+  return {
+    items: [GREY_STARTED, GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN],
+    currentLabel: null,
+  };
 }
 
-const StatusWidget: React.FC<{ position: Position }> = ({ position }) => {
-  const items = getItemsByStatus(position);
+const StatusWidget: React.FC<{ position: Position; mini?: boolean }> = ({
+  position,
+  mini,
+}) => {
+  const { items, currentLabel } = getItemsByStatus(position);
   return (
-    <div className="flex items-end gap-1">
-      {items?.map(x => (
-        <React.Fragment key={x.key}>{x.component}</React.Fragment>
-      ))}
+    <div>
+      {mini && <div className="mb-1 text-center">{currentLabel}</div>}
+      <div className="flex items-end gap-1">
+        {items?.map(x => (
+          <React.Fragment key={x.key}>{x.componentGen(mini)}</React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };
