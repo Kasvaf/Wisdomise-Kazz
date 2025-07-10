@@ -256,16 +256,18 @@ export function useTraderPositionsQuery({
   pageSize = 30,
   page = 1,
   network,
+  address,
 }: {
   slug?: string;
   isOpen?: boolean;
   pageSize?: number;
   page?: number;
   network?: SupportedNetworks;
+  address?: string;
 }) {
   const isLoggedIn = useIsLoggedIn();
   return useQuery({
-    queryKey: ['traderPositions', slug, isOpen, pageSize, page],
+    queryKey: ['traderPositions', slug, isOpen, pageSize, page, address],
     queryFn: async () => {
       const data = await ofetch<PositionsResponse>('trader/positions', {
         query: {
@@ -274,6 +276,7 @@ export function useTraderPositionsQuery({
           page_size: pageSize,
           page,
           network_slug: network,
+          wallet_address: address,
         },
       });
       return data;

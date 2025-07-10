@@ -2,7 +2,15 @@ import { clsx } from 'clsx';
 import { type ReactNode, type FC, useState, type MouseEvent } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
-export type ButtonSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type ButtonSize =
+  | '3xs'
+  | '2xs'
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | '2xl';
 
 export interface ButtonProps {
   size?: ButtonSize;
@@ -53,6 +61,8 @@ export const Button: FC<ButtonProps> = ({
       }}
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
+        size === '3xs' && 'h-5 rounded text-xxs',
+        size === '3xs' && (fab ? 'w-5' : 'px-2'),
         size === '2xs' && 'h-2xs rounded text-xs',
         size === '2xs' && (fab ? 'w-2xs' : 'px-3'),
         size === 'xs' && 'h-xs rounded-md text-xs',

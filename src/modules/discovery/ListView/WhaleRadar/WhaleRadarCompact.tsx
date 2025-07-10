@@ -104,7 +104,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   } = useDiscoveryRouteMeta();
 
   return (
-    <>
+    <div className="p-3">
       <WhaleRadarFilters
         value={pageState}
         onChange={newPageState => setPageState(newPageState)}
@@ -155,6 +155,6 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           <WhaleRadarSentiment value={selectedRow} mode="expanded" />
         )}
       </CoinPreDetailModal>
-    </>
+    </div>
   );
 };

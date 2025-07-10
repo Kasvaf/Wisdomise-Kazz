@@ -116,99 +116,104 @@ export function SocialRadarExpanded() {
     [t, isEmbeddedView],
   );
   return (
-    <OverviewWidget
-      className={clsx(
-        'min-h-[670px] shrink-0 xl:min-h-[631px] 2xl:min-h-[640px]',
-      )}
-      title={
-        !isEmbeddedView && (
-          <>
-            <SocialRadarIcon className="size-6" />
-            {t('social-radar.table.title')}
-          </>
-        )
-      }
-      titleSuffix={
-        !isEmbeddedView && (
-          <>
-            <RealtimeBadge />
-            <WinRateBadge value={socialRadarMetrics?.max_average_win_rate} />
-          </>
-        )
-      }
-      info={
-        <p className="[&_b]:text-v1-content-primary [&_b]:underline">
-          <Trans
-            ns="coin-radar"
-            i18nKey="coin-radar:social-radar.table.description"
-            values={{
-              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
-                compactInteger: true,
-                decimalLength: 0,
-                separateByComma: true,
-                minifyDecimalRepeats: false,
-              }),
-            }}
-          />
-        </p>
-      }
-      headerActions={
-        <SearchInput
-          value={pageState.query}
-          onChange={query => setPageState(p => ({ ...p, query }))}
-          placeholder={t('common.search_coin')}
-          size="md"
-        />
-      }
-    >
-      <SocialRadarFilters
-        value={pageState}
-        onChange={newPageState =>
-          setPageState({ query: pageState.query, ...newPageState })
+    <div className="p-3">
+      <OverviewWidget
+        className={clsx(
+          'min-h-[670px] shrink-0 xl:min-h-[631px] 2xl:min-h-[640px]',
+        )}
+        title={
+          !isEmbeddedView && (
+            <>
+              <SocialRadarIcon className="size-6" />
+              {t('social-radar.table.title')}
+            </>
+          )
         }
-        className="mb-4 w-full"
-      />
-      <AccessShield
-        mode="table"
-        sizes={{
-          guest: true,
-          initial: true,
-          free: true,
-          vip: false,
-        }}
-      >
-        <Table
-          columns={columns}
-          dataSource={coins.data}
-          rowKey={r => r.symbol.slug}
-          loading={coins.isLoading}
-          scrollable
-          rowHoverPrefix={row => (
-            <Button
-              variant="secondary"
-              fab
-              size="xs"
-              onClick={async () => {
-                const isLoggedIn = await ensureAuthenticated();
-                if (isLoggedIn) {
-                  setSelectedRow(row);
-                  setOpenShareModal(true);
-                }
+        titleSuffix={
+          !isEmbeddedView && (
+            <>
+              <RealtimeBadge />
+              <WinRateBadge value={socialRadarMetrics?.max_average_win_rate} />
+            </>
+          )
+        }
+        info={
+          <p className="[&_b]:text-v1-content-primary [&_b]:underline">
+            <Trans
+              ns="coin-radar"
+              i18nKey="coin-radar:social-radar.table.description"
+              values={{
+                posts: formatNumber(
+                  marketInfo.data?.analyzed_messages ?? 4000,
+                  {
+                    compactInteger: true,
+                    decimalLength: 0,
+                    separateByComma: true,
+                    minifyDecimalRepeats: false,
+                  },
+                ),
               }}
-            >
-              <Icon name={bxShareAlt} size={6} />
-            </Button>
-          )}
+            />
+          </p>
+        }
+        headerActions={
+          <SearchInput
+            value={pageState.query}
+            onChange={query => setPageState(p => ({ ...p, query }))}
+            placeholder={t('common.search_coin')}
+            size="md"
+          />
+        }
+      >
+        <SocialRadarFilters
+          value={pageState}
+          onChange={newPageState =>
+            setPageState({ query: pageState.query, ...newPageState })
+          }
+          className="mb-4 w-full"
         />
-      </AccessShield>
-      {selectedRow && (
-        <SocialRadarSharingModal
-          open={openShareModal}
-          coin={selectedRow}
-          onClose={() => setOpenShareModal(false)}
-        />
-      )}
-      {LoginModal}
-    </OverviewWidget>
+        <AccessShield
+          mode="table"
+          sizes={{
+            guest: true,
+            initial: true,
+            free: true,
+            vip: false,
+          }}
+        >
+          <Table
+            columns={columns}
+            dataSource={coins.data}
+            rowKey={r => r.symbol.slug}
+            loading={coins.isLoading}
+            scrollable
+            rowHoverPrefix={row => (
+              <Button
+                variant="secondary"
+                fab
+                size="xs"
+                onClick={async () => {
+                  const isLoggedIn = await ensureAuthenticated();
+                  if (isLoggedIn) {
+                    setSelectedRow(row);
+                    setOpenShareModal(true);
+                  }
+                }}
+              >
+                <Icon name={bxShareAlt} size={6} />
+              </Button>
+            )}
+          />
+        </AccessShield>
+        {selectedRow && (
+          <SocialRadarSharingModal
+            open={openShareModal}
+            coin={selectedRow}
+            onClose={() => setOpenShareModal(false)}
+          />
+        )}
+        {LoginModal}
+      </OverviewWidget>
+    </div>
   );
 }

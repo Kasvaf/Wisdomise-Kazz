@@ -13,7 +13,13 @@ import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPair';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
-const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
+const PositionsExpandable = ({
+  expanded,
+  className,
+}: {
+  expanded?: boolean;
+  className?: string;
+}) => {
   const isMobile = useIsMobile();
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
     'filter',
@@ -32,7 +38,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className={className}>
       <div className="mb-4 flex flex-row-reverse flex-wrap justify-between gap-4">
         <ButtonSelect
           options={[

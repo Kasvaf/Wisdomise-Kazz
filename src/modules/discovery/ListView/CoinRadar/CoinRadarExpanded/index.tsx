@@ -122,31 +122,33 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
     enabled: !coins.isLoading,
   });
   return (
-    <OverviewWidget
-      title={
-        <>
-          <Logo className="size-6 shrink-0" />
-          {t('base:menu.coin-radar.full-title')}
-        </>
-      }
-      titleSuffix={
-        <WinRateBadge value={metricNumber === 0 ? null : metricNumber} />
-      }
-      className="min-h-[500px]"
-    >
-      <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
-        <Table
-          rowClassName="id-tour-row"
-          columns={columns}
-          dataSource={coins.data?.slice(0, 10)}
-          chunkSize={10}
-          rowKey={(r, i) => `${r.symbol.slug} ${i}`}
-          surface={3}
-          className={className}
-          scrollable
-          loading={coins.isLoading}
-        />
-      </AccessShield>
-    </OverviewWidget>
+    <div className="p-3">
+      <OverviewWidget
+        title={
+          <>
+            <Logo className="size-6 shrink-0" />
+            {t('base:menu.coin-radar.full-title')}
+          </>
+        }
+        titleSuffix={
+          <WinRateBadge value={metricNumber === 0 ? null : metricNumber} />
+        }
+        className="min-h-[500px]"
+      >
+        <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
+          <Table
+            rowClassName="id-tour-row"
+            columns={columns}
+            dataSource={coins.data?.slice(0, 10)}
+            chunkSize={10}
+            rowKey={(r, i) => `${r.symbol.slug} ${i}`}
+            surface={3}
+            className={className}
+            scrollable
+            loading={coins.isLoading}
+          />
+        </AccessShield>
+      </OverviewWidget>
+    </div>
   );
 }

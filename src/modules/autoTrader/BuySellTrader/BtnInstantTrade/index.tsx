@@ -19,8 +19,7 @@ import { useActiveWallet } from 'api/chains/wallet';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import { useAccountBalance, useMarketSwap } from 'api/chains';
-import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
-import { useHasFlag, useSupportedPairs } from 'api';
+import { useHasFlag } from 'api';
 import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import {
   TraderPresetsSelector,
@@ -43,7 +42,6 @@ export default function BtnInstantTrade({
   const { connected } = useActiveWallet();
   const { data: baseBalance } = useAccountBalance(slug);
   const { data: quoteBalance } = useAccountBalance(quote);
-  const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
   const {
     quotesAmountPresets: { persist },
   } = useTraderSettings();
@@ -151,9 +149,7 @@ export default function BtnInstantTrade({
                 <Icon name={bxX} />
               </Button>
             </div>
-            {!isLoading && !supportedPairs?.length ? (
-              <NotTradable error={error} />
-            ) : connected ? (
+            {connected ? (
               <div className="flex h-full flex-col justify-between p-3">
                 <div className="mb-3 flex items-center justify-between">
                   Buy

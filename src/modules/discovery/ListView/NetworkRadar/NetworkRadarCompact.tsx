@@ -44,7 +44,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
 
   return (
     <>
-      <div className="mb-3 flex items-center justify-between gap-2">
+      <div className="mb-3 flex items-center justify-between gap-2 p-3">
         <ButtonSelect
           value={tab}
           onChange={setTab}

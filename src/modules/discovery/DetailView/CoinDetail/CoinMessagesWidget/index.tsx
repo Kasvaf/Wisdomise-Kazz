@@ -10,11 +10,15 @@ export function CoinMessagesWidget({
   slug,
   className,
   type,
+  title,
+  limit = true,
   hr,
 }: {
   id?: string;
   slug: string;
   className?: string;
+  title?: boolean;
+  limit?: boolean;
   type: 'technical_ideas' | 'rest';
   hr?: boolean;
 }) {
@@ -22,7 +26,7 @@ export function CoinMessagesWidget({
   const messages = useSocialRadarMessages({ slug });
   const { t } = useTranslation('coin-radar');
 
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(!limit);
 
   const msgs = messages.data?.filter(x =>
     type === 'technical_ideas'
@@ -41,11 +45,13 @@ export function CoinMessagesWidget({
           className,
         )}
       >
-        <h3 className="text-sm font-semibold">
-          {type === 'technical_ideas'
-            ? t('coin-details.tabs.trading_view.title')
-            : t('coin-details.tabs.socials.title')}
-        </h3>
+        {title !== false && (
+          <h3 className="text-sm font-semibold">
+            {type === 'technical_ideas'
+              ? t('coin-details.tabs.trading_view.title')
+              : t('coin-details.tabs.socials.title')}
+          </h3>
+        )}
         {msgs
           ?.slice(0, expand ? undefined : 3)
           .map(msg => <SocialMessageSummary message={msg} key={msg.id} />)}

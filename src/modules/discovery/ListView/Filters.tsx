@@ -154,6 +154,7 @@ export function Filters<T extends object>({
                 setOpen(true);
               }}
               surface={isMini ? ((surface + 1) as never) : surface}
+              className="shrink-0"
             >
               <Icon name={bxSliderAlt} size={16} />
             </Button>
@@ -177,6 +178,7 @@ export function Filters<T extends object>({
                   );
                 }}
                 surface={isMini ? ((surface + 1) as never) : surface}
+                className="shrink-0"
               >
                 <Icon name={bxGridAlt} size={16} />
                 {t('common:all')}

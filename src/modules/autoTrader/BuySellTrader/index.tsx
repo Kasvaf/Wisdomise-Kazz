@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
+import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import Trader from '../PageTrade/Trader';
 import { type TraderInputs } from '../PageTrade/types';
 import FiringHolder from '../PageTrade/FiringHolder';
@@ -50,12 +51,15 @@ const BuySellTrader: React.FC<
     loadingClassName?: string;
   }
 > = inputs => {
-  const { positionKey } = inputs;
+  const { positionKey, slug, quote, setQuote } = inputs;
   const [mode, setMode] = useState<TraderModes>(positionKey ? 'auto' : 'buy');
 
   const isMobile = useIsMobile();
   return (
     <div className="[&_.id-input]:bg-v1-surface-l2">
+      <div className="mb-3 flex justify-end">
+        <BtnInstantTrade slug={slug} quote={quote} setQuote={setQuote} />
+      </div>
       {!positionKey && (
         <ModeSelector mode={mode} setMode={setMode} className="mb-4" />
       )}
