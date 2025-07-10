@@ -35,7 +35,7 @@ const TraderSection: React.FC<{
   );
 };
 
-export const NotTradable = ({ error }: { error: Error | null }) => {
+const NotTradable = ({ error }: { error: Error | null }) => {
   return error ? (
     <div className="my-8 flex flex-col items-center gap-3 text-center text-sm">
       <TradingIcon className="size-8" />

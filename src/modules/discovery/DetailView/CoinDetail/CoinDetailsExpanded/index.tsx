@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
-import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
@@ -72,9 +71,6 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         <NCoinRisksBanner slug={slug} />
         <CoinPriceWidget slug={slug} className="p-3" hr />
         <div className="space-y-3 p-3">
-          <div className="flex justify-end">
-            <BtnInstantTrade slug={slug} quote={quote} setQuote={setQuote} />
-          </div>
           <TraderSection slug={slug} quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget slug={slug} />

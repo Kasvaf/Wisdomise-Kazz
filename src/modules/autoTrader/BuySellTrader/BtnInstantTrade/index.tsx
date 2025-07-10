@@ -13,8 +13,7 @@ import { useActiveWallet } from 'api/chains/wallet';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import { useAccountBalance, useMarketSwap } from 'api/chains';
-import { NotTradable } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/TraderSection';
-import { useHasFlag, useSupportedPairs } from 'api';
+import { useHasFlag } from 'api';
 import { useQuotesAmountPresets } from 'modules/autoTrader/BuySellTrader/QuotesAmountPresetsProvider';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
@@ -33,7 +32,6 @@ export default function BtnInstantTrade({
   const { connected } = useActiveWallet();
   const { data: baseBalance } = useAccountBalance(slug);
   const { data: quoteBalance } = useAccountBalance(quote);
-  const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
   const { finalize } = useQuotesAmountPresets();
   const hasFlag = useHasFlag();
 
@@ -99,9 +97,7 @@ export default function BtnInstantTrade({
               <Icon name={bxX} />
             </Button>
           </div>
-          {!isLoading && !supportedPairs?.length ? (
-            <NotTradable error={error} />
-          ) : connected ? (
+          {connected ? (
             <div className="p-3">
               <div className="mb-3 flex items-center justify-between">
                 Buy
