@@ -29,7 +29,7 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     });
 
   return (
-    <>
+    <div className="p-3">
       <TechnicalRadarViewSelect
         className="mb-4 w-full"
         value={tab}
@@ -70,6 +70,6 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           <TechnicalRadarSharingModal open={false} coin={selectedRow} />
         )}
       </CoinPreDetailModal>
-    </>
+    </div>
   );
 };

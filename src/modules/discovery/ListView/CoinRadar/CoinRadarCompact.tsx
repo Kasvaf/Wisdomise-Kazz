@@ -129,7 +129,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   } = useDiscoveryRouteMeta();
 
   return (
-    <>
+    <div className="p-3">
       {focus && <UserTradingAssets className="mb-4" />}
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
@@ -181,6 +181,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           />
         )}
       </CoinPreDetailModal>
-    </>
+    </div>
   );
 };

@@ -108,7 +108,7 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   } = useDiscoveryRouteMeta();
 
   return (
-    <>
+    <div className="p-3">
       <SocialRadarFilters
         value={pageState}
         onChange={newPageState => setPageState(newPageState)}
@@ -164,6 +164,6 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           <SocialRadarSharingModal open={false} coin={selectedRow} />
         )}
       </CoinPreDetailModal>
-    </>
+    </div>
   );
 };

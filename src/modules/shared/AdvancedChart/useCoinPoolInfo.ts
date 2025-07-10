@@ -2,10 +2,10 @@ import { useDebounce } from 'usehooks-ts';
 import { useMemo } from 'react';
 import { useLastCandleQuery } from 'api';
 import { useSymbolInfo } from 'api/symbol';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 
 const useCoinPoolInfo = (slug: string) => {
-  const [pageQuote] = useSearchParamAsState<string>('quote', 'tether');
+  const [pageQuote] = useActiveQuote();
   const quote = useDebounce(pageQuote, 300);
   const lastCandle = useLastCandleQuery({ slug, quote });
   const info = useSymbolInfo(slug);

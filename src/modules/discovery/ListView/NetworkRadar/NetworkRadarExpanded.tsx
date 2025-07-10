@@ -53,13 +53,9 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
-        'grid h-full grid-cols-3 gap-3 overflow-hidden',
+        'grid max-h-[--desktop-content-height] grid-cols-3 gap-3 overflow-hidden p-3',
         className,
       )}
-      style={{
-        maxHeight:
-          'calc(100svh - var(--desktop-header-height) - var(--route-details-height) - 1.5rem)',
-      }}
     >
       <h2 className="col-span-3 flex items-center justify-start gap-1 text-base">
         {t('page.title')}
