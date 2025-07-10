@@ -14,8 +14,8 @@ import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
 import { compressByLabel, toSignificantDigits } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useSupportedPairs } from 'api';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import {
   type TimeFrameType,
   widget as Widget,
@@ -63,7 +63,7 @@ const AdvancedChart: React.FC<{
   const { data: details } = useCoinDetails({ slug });
   const supply = details?.data?.total_supply ?? 1;
 
-  const [, setPageQuote] = useSearchParamAsState<string>('quote', 'tether');
+  const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
 
   useEffect(() => {

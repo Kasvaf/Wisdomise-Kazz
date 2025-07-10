@@ -4,7 +4,6 @@ import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useSessionStorage } from 'usehooks-ts';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import {
   ResizableSides,
   type ResizableSidesValue,
@@ -12,6 +11,7 @@ import {
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { NCoinSentimentWidget } from '../NCoinSentimentWidget';
@@ -37,7 +37,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
     setSelectedTab(tabs.find(x => !x.disabled && !x.hidden)?.value);
   }, [tabs]);
 
-  const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
+  const [quote, setQuote] = useActiveQuote();
   const [upSideSize, setUpSideSize] = useSessionStorage<
     ResizableSidesValue | undefined
   >('coin-details-upside-sizes', '60%');

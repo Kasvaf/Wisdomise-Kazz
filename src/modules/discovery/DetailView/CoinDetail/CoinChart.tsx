@@ -7,8 +7,8 @@ import {
 } from 'api/discovery';
 import useIsMobile from 'utils/useIsMobile';
 import AdvancedChart from 'shared/AdvancedChart';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLastCandleQuery } from 'api';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 
 const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,
@@ -67,7 +67,7 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
 };
 
 const CoinChart: React.FC<{ slug: string }> = ({ slug }) => {
-  const [quote] = useSearchParamAsState<string>('quote', 'tether');
+  const [quote] = useActiveQuote();
   const lastCandle = useLastCandleQuery({ slug, quote });
   if (lastCandle.isLoading) return null;
 
