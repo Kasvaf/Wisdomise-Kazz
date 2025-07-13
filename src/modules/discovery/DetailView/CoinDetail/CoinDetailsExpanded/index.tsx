@@ -26,6 +26,7 @@ import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { CoinPriceWidget } from '../CoinPriceWidget';
+import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
 import TraderSection from './TraderSection';
 
 export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
@@ -75,7 +76,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             </div>
           </div>,
           <Fragment key="down-side">
-            <div className="sticky top-0 z-20 mb-3 flex shrink-0 items-center justify-start gap-px bg-v1-surface-l1 pe-3">
+            <div className="sticky top-0 z-20 mb-3 flex shrink-0 items-center justify-start gap-px border-b border-white/10 bg-v1-surface-l1 pe-3">
               <ButtonSelect
                 options={tabs}
                 value={selectedTab}
@@ -85,6 +86,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                 }}
                 surface={1}
                 className="me-3 max-w-full grow rounded-none"
+                buttonClassName="px-4"
                 variant="tab"
                 size="sm"
               />
@@ -182,6 +184,26 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                 slug={slug}
                 className={clsx(
                   selectedTab !== 'coinoverview_holding_whales' && 'hidden',
+                )}
+              />
+              <CoinTopTraderHoldersWidget
+                id="coinoverview_top_traders"
+                type="trader"
+                title={false}
+                limit={Number.POSITIVE_INFINITY}
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_top_traders' && 'hidden',
+                )}
+              />
+              <CoinTopTraderHoldersWidget
+                id="coinoverview_top_holders"
+                type="holder"
+                title={false}
+                limit={Number.POSITIVE_INFINITY}
+                slug={slug}
+                className={clsx(
+                  selectedTab !== 'coinoverview_top_holders' && 'hidden',
                 )}
               />
             </div>
