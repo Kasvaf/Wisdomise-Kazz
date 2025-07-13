@@ -46,6 +46,7 @@ import {
   type TwitterAccount,
   type TwitterFollowedAccount,
   type TwitterTweet,
+  type CoinTopTraderHolder,
 } from './types';
 
 export * from './types';
@@ -1057,4 +1058,31 @@ export const useTokenInsight = ({
         throw error;
       }
     },
+  });
+
+export const useCoinTopTraderHolders = (config: {
+  type: 'traders' | 'holders';
+  slug?: string;
+}) =>
+  useQuery({
+    queryKey: ['coin-top-trader-holders', config.type, config.slug],
+    queryFn: () => {
+      if (!config.slug) return Promise.resolve([]);
+      return ofetch<CoinTopTraderHolder[]>(
+        `network-radar/top-${config.type}/`,
+        {
+          query: {
+            slug: config.slug,
+            network: 'solana', // TODO: remove this when we support other networks
+            ...(config.type === 'traders' && {
+              resolution: '1h',
+              window: 48,
+            }),
+          },
+          meta: { auth: false },
+        },
+      );
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
