@@ -229,7 +229,7 @@ export default function BtnInstantTrade({
               </div>
             )}
             <div
-              className="absolute bottom-0 flex h-2 w-full cursor-ns-resize items-center justify-center text-white/70 transition-colors hover:bg-v1-surface-l4"
+              className="absolute bottom-0 flex h-[5px] w-full cursor-ns-resize items-center justify-center text-white/70 transition-colors hover:bg-v1-surface-l4"
               onMouseDown={e => startResizing(e, 'bottom')}
             >
               <Icon
