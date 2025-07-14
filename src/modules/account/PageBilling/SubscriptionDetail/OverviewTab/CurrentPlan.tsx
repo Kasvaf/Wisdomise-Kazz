@@ -55,7 +55,7 @@ export default function CurrentPlan() {
   );
 }
 
-export const paymentMethodText: Record<PaymentMethod, string> = {
+const paymentMethodText: Record<PaymentMethod, string> = {
   CRYPTO: 'Crypto',
   FIAT: 'Fiat',
   TOKEN: 'Staked WSDM',

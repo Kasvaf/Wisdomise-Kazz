@@ -8,10 +8,7 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 
-export function useReadAllowance(
-  contract: `0x${string}`,
-  spender: `0x${string}`,
-) {
+function useReadAllowance(contract: `0x${string}`, spender: `0x${string}`) {
   const { address } = useAccount();
 
   return useReadContract({
@@ -25,10 +22,7 @@ export function useReadAllowance(
   });
 }
 
-export function useWriteApprove(
-  contract: `0x${string}`,
-  spender: `0x${string}`,
-) {
+function useWriteApprove(contract: `0x${string}`, spender: `0x${string}`) {
   const mutation = useWriteContract();
   const { resolver, isWaiting } = useWaitResolver(mutation.data);
 

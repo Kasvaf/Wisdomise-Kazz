@@ -160,11 +160,11 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
   };
 };
 
-export const useUSDTLastPrice = () => {
+const useUSDTLastPrice = () => {
   return useLastPriceQuery({ slug: 'tether', quote: 'usd-coin' });
 };
 
-export const useUSDCLastPrice = () => {
+const useUSDCLastPrice = () => {
   return useLastPriceQuery({ slug: 'usd-coin', quote: 'tether' });
 };
 
@@ -206,46 +206,11 @@ const enrichCandleConfig = (userConfig: {
   return config;
 };
 
-export const useCandlesBySlugs = (userConfig: {
-  base?: string;
-  quote?: string;
-  network: 'the-open-network' | 'solana';
-  resolution?: Resolution;
-  start?: string;
-  end?: string;
-  skip_empty_candles?: boolean;
-}) => {
-  const config = enrichCandleConfig(userConfig);
-  const queryKey = [
-    'candles-by-slugs',
-    ...Object.entries(config).filter(([k]) => k !== 'start' && k !== 'end'),
-    dayjs(config.start).format('YYYY-MM-DD HH:mm'),
-    dayjs(config.end).format('YYYY-MM-DD HH:mm'),
-  ];
-
-  return useQuery({
-    queryKey,
-    queryFn: () => {
-      return ofetch<{ candles: Candle[] }>('delphinus/candles-by-slugs/', {
-        query: {
-          market: 'SPOT',
-          ...config,
-        },
-        meta: { auth: false },
-      }).then(resp => resp.candles);
-    },
-    refetchInterval: 10_000,
-    staleTime: 1000,
-    enabled: !!config.base && !!config.quote,
-    placeholderData: p => p,
-  });
-};
-
 export interface BatchCandleResponse {
   responses: Array<{ candles: Candle[]; symbol: LastCandleSymbol }>;
 }
 
-export const useBatchCandlesQuery = (userConfig: {
+const useBatchCandlesQuery = (userConfig: {
   bases?: string[];
   quotes?: string[];
   network: 'the-open-network' | 'solana';

@@ -9,7 +9,7 @@ import {
 import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
 import { useActiveWallet } from 'api/chains/wallet';
-import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
+import { parseDur } from '../PageTrade/AdvancedSignalForm/parseDur';
 import { type SwapState } from './useSwapState';
 
 const useActionHandlers = (state: SwapState) => {
