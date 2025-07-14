@@ -3,6 +3,7 @@ import { useMemo, useRef } from 'react';
 import { useSurface } from 'utils/useSurface';
 import './style.css';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { EmptyCell } from 'shared/v1-components/Table/EmptyCell';
 import { DIALOG_OPENER_CLASS } from '../Dialog';
 import { type TableProps } from './types';
 import { ReactComponent as InfoIcon } from './info.svg';
@@ -218,7 +219,7 @@ export function Table<RecordType extends object>({
                         data-align={td.align ?? 'start'}
                         data-sticky={td.sticky ?? 'none'}
                       >
-                        <div>{td.content}</div>
+                        <div>{td.content ?? <EmptyCell />}</div>
                       </td>
                     ))}
                     {scrollable && (

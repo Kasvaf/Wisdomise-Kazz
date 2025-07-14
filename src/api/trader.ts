@@ -572,3 +572,48 @@ export function useTraderPositionTransactionsQuery({
     enabled: isLoggedIn,
   });
 }
+
+export interface Swap {
+  base_slug: string;
+  created_at: string;
+  from_amount: string;
+  network_slug: string;
+  pnl_quote: null;
+  pnl_quote_percent: null;
+  pnl_usd: null;
+  pnl_usd_percent: null;
+  quote_slug: string;
+  side: 'LONG' | 'SHORT';
+  status: 'PENDING' | 'CONFIRMED';
+  to_amount: string;
+  trading_volume: string;
+  transaction_link: string;
+  wallet_address: string;
+}
+
+export function useTraderBuysSellsQuery({
+  address,
+  page,
+  pageSize,
+}: {
+  address: string;
+  page: number;
+  pageSize: number;
+}) {
+  return useQuery({
+    queryKey: ['buys-sells', page, pageSize, address],
+    queryFn: async () => {
+      return await ofetch<PageResponse<Swap>>('/trader/swap', {
+        method: 'get',
+        query: {
+          network_slug: 'solana',
+          wallet_address: address,
+          page_size: pageSize,
+          page,
+        },
+      });
+    },
+    staleTime: 10,
+    refetchInterval: 20_000,
+  });
+}

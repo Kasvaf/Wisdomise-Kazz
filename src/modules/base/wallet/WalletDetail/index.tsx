@@ -19,6 +19,7 @@ import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { roundSensible } from 'utils/numbers';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import BuysSells from 'modules/autoTrader/BuysSells';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -120,6 +121,11 @@ export default function WalletDetail(_: {
             key: '1',
             label: 'Positions',
             children: <WalletPositions wallet={wallet} />,
+          },
+          {
+            key: '2',
+            label: 'Buys/Sells',
+            children: <BuysSells wallet={wallet} />,
           },
         ]}
       />
