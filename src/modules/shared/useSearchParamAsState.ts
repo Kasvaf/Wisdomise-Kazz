@@ -28,7 +28,8 @@ export default function useSearchParamAsState<T extends string>(
           },
         );
       },
-      [defaultVal, paramName, setSearchParams],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [defaultVal, paramName],
     ),
   ] as const;
 }

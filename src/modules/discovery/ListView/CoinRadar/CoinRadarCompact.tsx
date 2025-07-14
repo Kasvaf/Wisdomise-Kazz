@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
+import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -11,7 +11,9 @@ import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
-import UserAssets from 'modules/autoTrader/UserAssets';
+import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
+import useIsMobile from 'utils/useIsMobile';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
@@ -27,8 +29,9 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const coins = useCoinRadarCoins({});
   useLoadingBadge(coins.isFetching);
 
+  const isMobile = useIsMobile();
   useHotCoinsTour({
-    enabled: !coins.isLoading,
+    enabled: !coins.isLoading && isMobile,
   });
 
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
@@ -77,7 +80,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       },
       {
         key: 'sentiment',
-        className: 'tour-item-sentiment',
+        className: 'id-tour-sentiment',
         render: row => (
           <div className="flex items-center gap-4">
             {row.social_radar_insight && (
@@ -121,14 +124,17 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     ],
     [],
   );
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
 
   return (
-    <>
-      {focus && <UserAssets className="mb-4" />}
+    <div className="p-3">
+      {focus && <UserTradingAssets className="mb-4" />}
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
-          rowClassName="tour-item-row"
+          rowClassName="id-tour-row"
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}
           chunkSize={10}
@@ -137,6 +143,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={2}
           onClick={r => openModal(r)}
           scrollable={false}
+          isActive={r => r.symbol.slug === activeSlug}
         />
       </AccessShield>
 
@@ -174,6 +181,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           />
         )}
       </CoinPreDetailModal>
-    </>
+    </div>
   );
 };

@@ -61,7 +61,7 @@ const PageAccount: FC = () => {
             icon={SubscriptionIcon}
             onClick={trackClick('subscription_menu')}
             badge={
-              subscription.level !== 0 && (
+              subscription.group !== 'free' && (
                 <Badge
                   color={subscription.remaining ? 'white' : 'red'}
                   label={
@@ -96,9 +96,9 @@ const PageAccount: FC = () => {
           badge={
             <Badge
               color="blue"
-              label={`${exchanges?.length || 0} ${t(
-                'accounts:page-accounts.accounts-connected',
-              )}`}
+              label={t('accounts:page-accounts.accounts_connected', {
+                count: exchanges?.length || 0,
+              })}
             />
           }
         />
@@ -111,9 +111,9 @@ const PageAccount: FC = () => {
           badge={
             <Badge
               color="blue"
-              label={`"${referral?.referred_users_count || 0}" ${t(
-                'accounts:page-accounts.users-invited',
-              )}`}
+              label={t('accounts:page-accounts.users_invited', {
+                count: referral?.referred_users_count || 0,
+              })}
             />
           }
         />

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 
-export interface SwapRequest {
+interface SwapRequest {
   network: 'solana';
   pairSlug: string;
   side: 'LONG' | 'SHORT';
@@ -31,9 +31,9 @@ export const useMarketSwapSimulate = (req?: SwapRequest) => {
     },
     staleTime: 50,
     refetchInterval: 7000,
-    enabled: !!req,
     meta: {
       persist: false,
     },
+    enabled: !!req && !!Number(amount),
   });
 };

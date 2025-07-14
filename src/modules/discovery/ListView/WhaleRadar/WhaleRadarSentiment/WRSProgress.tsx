@@ -1,6 +1,6 @@
 import { Fragment, useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
-import { type WhaleAssetLabel, type WhaleRadarSentiment } from 'api';
+import { type WhaleAssetLabel, type WhaleRadarSentiment } from 'api/discovery';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 function Progress({ value }: { value: number }) {

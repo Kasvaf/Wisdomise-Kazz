@@ -1,140 +1,101 @@
 /* eslint-disable import/max-dependencies */
-import { type FC, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Coin } from 'shared/Coin';
-import { AccessShield } from 'shared/AccessShield';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { useState, type FC } from 'react';
+import { clsx } from 'clsx';
+import { useNavigate } from 'react-router-dom';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { usePageState } from 'shared/usePageState';
 import {
-  type NetworkRadarNCoin,
-  useNetworkRadarNCoins,
-} from 'api/insight/network';
-import { useLoadingBadge } from 'shared/LoadingBadge';
-import { useCoinPreDetailModal } from '../CoinPreDetailModal';
-import { NCoinAge } from './NCoinAge';
-import { NCoinBuySell } from './NCoinBuySell';
-import { NCoinTradingVolume } from './NCoinTradingVolume';
-import { NCoinLiquidity } from './NCoinLiquidity';
-import { NCoinSecurity } from './NCoinSecurity';
-import { NCoinPreDetailModal } from './NCoinPreDetailModal';
+  type NetworkRadarStreamFilters,
+  useNetworkRadarStream,
+  type NetworkRadarTab,
+} from './lib';
+import { NCoinList } from './NCoinList';
+import { NetworkRadarFilters } from './NetworkRadarFilters';
 
-export const NetworkRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
-  const { t } = useTranslation('network-radar');
-
-  const [openModal, { closeModal, isModalOpen, selectedRow }] =
-    useCoinPreDetailModal<NetworkRadarNCoin>({
-      directNavigate: !focus,
-      slug: r => r.base_symbol.slug,
-    });
-
-  const nCoins = useNetworkRadarNCoins({});
-  useLoadingBadge(nCoins.isFetching);
-
-  const columns = useMemo<Array<TableColumn<NetworkRadarNCoin>>>(
-    () => [
-      {
-        key: 'rank',
-        render: row => row._rank,
-      },
-      {
-        key: 'coin',
-        render: row => (
-          <Coin
-            coin={row.base_symbol}
-            imageClassName="size-7"
-            className="text-xs"
-            truncate={50}
-            nonLink={true}
-          />
-        ),
-      },
-      {
-        key: 'age',
-        render: row => (
-          <NCoinAge
-            value={row.creation_datetime}
-            imgClassName="size-3"
-            className="mt-[3px] text-xxs"
-          />
-        ),
-      },
-      {
-        key: 'market_data',
-        render: row => (
-          <div className="flex flex-col justify-between">
-            <NCoinTradingVolume
-              value={row}
-              imgClassName="size-3"
-              className="text-xxs"
-            />
-            <NCoinBuySell
-              value={{
-                buys: row.update.total_num_buys,
-                sells: row.update.total_num_sells,
-              }}
-              imgClassName="size-3"
-              className="text-[8px]"
-            />
-          </div>
-        ),
-      },
-      {
-        key: 'liquidity',
-        className: 'max-w-22',
-        render: row => (
-          <NCoinLiquidity
-            value={row}
-            className="text-xxs"
-            imgClassName="size-6"
-            type="update_with_icon"
-          />
-        ),
-      },
-      {
-        key: 'security',
-        align: 'end',
-        render: row => (
-          <NCoinSecurity
-            value={row}
-            className="w-max shrink-0 text-xxs"
-            imgClassName="!size-[12px]"
-            type="grid"
-          />
-        ),
-      },
-    ],
-    [],
+export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
+  const { getUrl } = useDiscoveryRouteMeta();
+  const [tab, setTab] = useState<NetworkRadarTab>('new_pairs');
+  const [filters, setFilters] = usePageState<NetworkRadarStreamFilters>(
+    'network-radar',
+    {
+      final_stretch: {},
+      migrated: {},
+      new_pairs: {},
+    },
   );
+  const {
+    new_pairs: newPairs,
+    final_stretch: finalStretch,
+    migrated,
+  } = useNetworkRadarStream(filters);
+
+  const navigate = useNavigate();
+
+  const onRowClick = (slug: string) => {
+    navigate(
+      getUrl({
+        detail: 'coin',
+        slug,
+        view: 'both',
+      }),
+    );
+  };
 
   return (
     <>
-      {focus && (
-        <div className="mb-2 flex items-center justify-between">
-          <h1 className="text-sm">{t('page.title')}</h1>
-        </div>
-      )}
-      <AccessShield
-        mode="table"
-        sizes={{
-          guest: false,
-          initial: false,
-          free: false,
-          vip: false,
-        }}
-      >
-        <Table
-          columns={columns}
-          dataSource={nCoins.data ?? []}
-          rowKey={r => r.base_contract_address}
-          loading={nCoins.isLoading}
+      <div className="mb-3 flex items-center justify-between gap-2 p-3">
+        <ButtonSelect
+          value={tab}
+          onChange={setTab}
+          options={[
+            {
+              label: 'New Pairs',
+              value: 'new_pairs',
+            },
+            {
+              label: 'Final Stretch',
+              value: 'final_stretch',
+            },
+            {
+              label: 'Migrated',
+              value: 'migrated',
+            },
+          ]}
+          size="xs"
+          className="w-full"
           surface={2}
-          scrollable={false}
-          onClick={r => openModal(r)}
         />
-      </AccessShield>
-      <NCoinPreDetailModal
-        value={selectedRow}
-        open={isModalOpen}
-        onClose={() => closeModal()}
+        <NetworkRadarFilters
+          initialTab={tab}
+          value={filters}
+          onChange={newFilters =>
+            setFilters({
+              new_pairs: {},
+              final_stretch: {},
+              migrated: {},
+              ...newFilters,
+            })
+          }
+        />
+      </div>
+      <NCoinList
+        dataSource={newPairs}
+        loading={newPairs.length === 0}
+        className={clsx(tab !== 'new_pairs' && 'hidden')}
+        onRowClick={onRowClick}
+      />
+      <NCoinList
+        dataSource={finalStretch}
+        loading={finalStretch.length === 0}
+        className={clsx(tab !== 'final_stretch' && 'hidden')}
+        onRowClick={onRowClick}
+      />
+      <NCoinList
+        dataSource={migrated}
+        loading={migrated.length === 0}
+        className={clsx(tab !== 'migrated' && 'hidden')}
+        onRowClick={onRowClick}
       />
     </>
   );

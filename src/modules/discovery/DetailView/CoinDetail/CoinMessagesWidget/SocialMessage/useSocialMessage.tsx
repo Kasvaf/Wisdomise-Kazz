@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SocialMessage } from 'api';
+import { type SocialMessage } from 'api/discovery';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { formatNumber } from 'utils/numbers';
 
@@ -23,7 +23,7 @@ export const useSocialMessage = (message: SocialMessage) => {
             subtitle: t('social-messages.members', {
               size: formatNumber(message.content.num_subscribers ?? 0, {
                 compactInteger: true,
-                seperateByComma: true,
+                separateByComma: true,
                 decimalLength: 0,
                 minifyDecimalRepeats: false,
               }),
@@ -36,7 +36,7 @@ export const useSocialMessage = (message: SocialMessage) => {
             subtitle: t('social-messages.subscribers', {
               size: formatNumber(message.content.participants_count ?? 0, {
                 compactInteger: true,
-                seperateByComma: true,
+                separateByComma: true,
                 decimalLength: 0,
                 minifyDecimalRepeats: false,
               }),

@@ -9,6 +9,7 @@ import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
+import { useActiveQuote } from '../useActiveQuote';
 import Trader from './Trader';
 
 export default function PageTrade() {
@@ -17,7 +18,7 @@ export default function PageTrade() {
   const { getUrl } = useDiscoveryRouteMeta();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
-  const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
+  const [quote, setQuote] = useActiveQuote();
   const [positionKey] = useSearchParamAsState('pos');
 
   useEnsureIsSupportedPair({ slug, nextPage: '/' });
@@ -29,10 +30,11 @@ export default function PageTrade() {
         getUrl({
           detail: 'coin',
           slug,
+          view: 'both',
         }),
       );
     } else if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(`/trader/positions?slug=${slug}`);
+      navigate(getUrl({ list: 'positions', slug, view: 'both' }));
     }
   }, [getUrl, isMobile, navigate, position.data, slug]);
 

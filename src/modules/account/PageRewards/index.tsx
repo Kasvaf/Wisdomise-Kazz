@@ -1,5 +1,5 @@
+/* eslint-disable import/max-dependencies */
 import { notification } from 'antd';
-import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
@@ -15,24 +15,34 @@ import { shortenAddress } from 'utils/shortenAddress';
 import { useHasFlag } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import logo from 'assets/logo.svg';
+import { useActiveWallet } from 'api/chains/wallet';
+import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
 import gradient from './images/gradient.png';
 import dailySrc from './images/daily.png';
 import refSubSrc from './images/ref-sub.png';
 import refFeeSrc from './images/ref-fee.png';
-// eslint-disable-next-line import/max-dependencies
 import leagueSrc from './images/league.png';
+import wiseGold from './images/wise-gold.png';
 
 export default function PageRewards() {
   const isMobile = useIsMobile();
-  const { subReferral, tradeReferral, daily, total, claimed, league } =
-    useGamificationRewards();
+  const {
+    subReferral,
+    tradeReferral,
+    daily,
+    total,
+    claimed,
+    league,
+    tournament,
+    wiseClub,
+  } = useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
-  const { publicKey } = useWallet();
-
+  const { address } = useActiveWallet();
   const disableWithdraw = history?.[0]?.status === 'pending';
   const unclaimed = total - claimed;
   const [activeTab, setActiveTab] = useState('rewards');
@@ -47,21 +57,20 @@ export default function PageRewards() {
   };
 
   const withdraw = () => {
-    if (!publicKey) {
+    if (!address) {
       notification.error({
-        message: 'Please connect your wallet address',
+        message:
+          'Please connect your wallet or use a custodial wallet to continue.',
       });
       return;
     }
-    void mutateAsync({ solana_wallet_address: publicKey.toString() }).then(
-      () => {
-        notification.success({
-          message:
-            'Withdrawal registered! You will get your tokens within few days.',
-        });
-        return null;
-      },
-    );
+    void mutateAsync({ solana_wallet_address: address }).then(() => {
+      notification.success({
+        message:
+          'Withdrawal registered! You will get your tokens within few days.',
+      });
+      return null;
+    });
   };
 
   return (
@@ -83,22 +92,28 @@ export default function PageRewards() {
               </h2>
               <p className="text-xs">Ready to Withdraw</p>
             </div>
-            <Button
-              variant="primary"
-              className="ml-auto w-48 mobile:w-full"
-              size="md"
-              loading={isWithdrawLoading}
-              disabled={unclaimed === 0 || disableWithdraw}
-              onClick={withdraw}
-            >
-              <Withdraw />
-              Withdraw
-            </Button>
-            {disableWithdraw && (
-              <p className="text-xs text-v1-content-secondary">
-                You have Pending Withdraw Request
-              </p>
-            )}
+            <div className="ml-auto flex flex-wrap items-center gap-2">
+              <div className="flex items-center text-xs">
+                Withdraw Wallet:
+                <BtnSolanaWallets showAddress className="!bg-transparent" />
+              </div>
+              <Button
+                variant="primary"
+                className="w-48 mobile:w-full"
+                size="md"
+                loading={isWithdrawLoading}
+                disabled={unclaimed === 0 || disableWithdraw}
+                onClick={withdraw}
+              >
+                <Withdraw />
+                Withdraw
+              </Button>
+              {disableWithdraw && (
+                <p className="text-xs text-v1-content-secondary">
+                  You have Pending Withdraw Request
+                </p>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -129,6 +144,10 @@ export default function PageRewards() {
           {hasFlag('/trader/quests/league') && (
             <RewardItem title="League" image={leagueSrc} amount={league} />
           )}
+          {hasFlag('/trader/quests/tournaments') && (
+            <RewardItem title="Tournaments" image={logo} amount={tournament} />
+          )}
+          <RewardItem title="Wise Club" image={wiseGold} amount={wiseClub} />
         </div>
       )}
 
@@ -181,7 +200,7 @@ function RewardItem({
     <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l2">
       <div className="relative flex h-full items-center">
         <div className="flex grow gap-x-3 p-3 mobile:flex-col">
-          <img src={image} alt="" className="size-10" />
+          <img src={image} alt="" className="size-10 object-contain" />
           <p className="mt-2">{title}</p>
         </div>
         <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled">

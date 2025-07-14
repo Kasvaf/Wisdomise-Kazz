@@ -5,7 +5,7 @@ available-exchanges:
     price: Price
     volume_24h: Volume 24h
 call-change:
-  title: Social Sentiment™
+  title: Social Mindshare™
   analyzed-messages: Analyzed Messages
   biggest-dump: Biggest Dump
   biggest-pump: Biggest Pump
@@ -210,8 +210,6 @@ coin-details:
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
-    whales:
-      label: Whales
 common:
   all_categories: All Categories
   all_exchanges: All Exchanges
@@ -222,6 +220,7 @@ common:
   category: Category
   chain: Chain
   chains: Chains
+  multiple_chain: Multiple Chain
   native_coin: Native Coin
   search_coin: Search Coin...
 pools:
@@ -241,13 +240,6 @@ social-messages:
   read_more: Read More
   subscribers: '{{size}} Subscribers'
 social-radar:
-  sorts:
-    market_cap: Market Cap
-    negative_price_changes: Highest Losers
-    newest: Newest
-    oldest: Oldest
-    positive_price_changes: Highest Gainers
-    rank: Wise Rank™
   table:
     name: Name
     title: Social Radar
@@ -272,9 +264,9 @@ social-radar:
         hours.</p><br/><b>High 24h</b><p>Highest price in the last 24 hours.</p>
     rank: Rank™
     sentiment:
-      title: Social Sentiment™
+      title: Social Mindshare™
       info: |-
-        <b>Social Sentiment™</b> <br /> <br /> <p>
+        <b>Social Mindshare™</b> <br /> <br /> <p>
           Wisdomise AI analyzes social sentiment for each asset (coin or
           token) from Reddit, Telegram, Trading View, X (formerly Twitter),
           and YouTube. The sentiment can be Positive, Neutral, or Negative,

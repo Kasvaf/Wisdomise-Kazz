@@ -298,6 +298,7 @@ common:
   labels: 标签
   load_more: 加载更多
   low_liquidity_warn: 该代币流动性较低，请谨慎交易！
+  multiple_chain: 多链
   native_coin: 原生币
   network: 網絡
   networks: 网络

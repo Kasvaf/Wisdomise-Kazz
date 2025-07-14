@@ -15,7 +15,7 @@ export const NCoinBuySell: FC<{
     <div className={clsx('flex items-center justify-start gap-1', className)}>
       <BuySellIcon className={clsx('shrink-0', imgClassName)} />
       <DirectionalNumber
-        value={value?.buys}
+        value={value?.buys ?? 0}
         direction="up"
         popup="never"
         showIcon={false}
@@ -26,7 +26,7 @@ export const NCoinBuySell: FC<{
       />
       <span className="-mx-px text-v1-content-secondary">/</span>
       <DirectionalNumber
-        value={value?.sells}
+        value={value?.sells ?? 0}
         direction="down"
         popup="never"
         showIcon={false}

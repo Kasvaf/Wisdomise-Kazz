@@ -20,12 +20,12 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { type Coin as CoinType } from 'api/types/shared';
 import {
   type CoinNetwork,
-  type Coin as CoinType,
   type MiniMarketData,
   type NetworkSecurity,
-} from 'api/types/shared';
+} from 'api/discovery';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { usePromise } from 'utils/usePromise';

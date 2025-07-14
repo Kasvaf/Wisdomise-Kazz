@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { type NetworkRadarNCoin } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/discovery';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinLogo } from 'shared/Coin';
@@ -28,7 +28,7 @@ export const NCoinLiquidity: FC<{
         ) : (
           <NegativeIcon className={clsx('shrink-0', imgClassName)} />
         )}
-        <div className="flex flex-col gap-px">
+        <div className="flex max-h-max flex-col justify-center">
           <ReadableNumber
             value={value?.update.liquidity.usd}
             label="$"

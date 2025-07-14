@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SocialMessage } from 'api';
+import { type SocialMessage } from 'api/discovery';
 import useIsMobile from 'utils/useIsMobile';
 import { ReadableDate } from 'shared/ReadableDate';
 import { Dialog } from 'shared/v1-components/Dialog';
@@ -37,9 +37,9 @@ export function SocialMessageSummary({
       >
         <SocialMessageImage
           message={message}
-          className="h-40 w-64 shrink-0 overflow-hidden rounded-lg bg-white mobile:h-40 mobile:w-full"
+          className="h-36 w-60 shrink-0 overflow-hidden rounded-lg bg-white mobile:h-40 mobile:w-full"
         />
-        <div className="flex h-40 grow flex-col justify-between gap-4 py-5">
+        <div className="flex h-36 grow flex-col justify-between gap-4 py-1">
           <div className="grow space-y-4">
             <div className="flex items-center gap-1">
               <ReadableDate
@@ -101,7 +101,7 @@ export function SocialMessageSummary({
   );
 }
 
-export function SocialMessageDetails({
+function SocialMessageDetails({
   message,
   className,
 }: {

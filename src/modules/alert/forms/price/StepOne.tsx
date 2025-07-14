@@ -2,12 +2,12 @@ import { bxRightArrowAlt } from 'boxicons-quasar';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCallback, useMemo, useState } from 'react';
 import { clsx } from 'clsx';
-import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { formatNumber } from 'utils/numbers';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import { PriceInput } from 'modules/alert/components/PriceInput';
+import { Button } from 'shared/v1-components/Button';
 import { CoinPriceInfo } from '../../components/CoinPriceInfo';
 import { CoinSelect } from '../../components/CoinSelect';
 import { OperatorSelect } from '../../components/OperatorSelect';
@@ -137,7 +137,7 @@ export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
                     compactInteger: false,
                     decimalLength: 1,
                     minifyDecimalRepeats: false,
-                    seperateByComma: false,
+                    separateByComma: false,
                   }) as never,
                 );
               }
@@ -148,7 +148,7 @@ export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
 
       <div className="mt-6 flex items-center justify-stretch gap-2">
         <Button
-          variant="primary"
+          variant="white"
           className="grow"
           disabled={!form.threshold || +form.threshold < 0}
         >

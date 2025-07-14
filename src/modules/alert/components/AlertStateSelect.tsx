@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { type AlertState } from 'api';
-import { ButtonSelect } from 'shared/ButtonSelect';
+import { type AlertState } from 'api/alert';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 export function AlertStateSelect({
   value,
@@ -31,6 +31,8 @@ export function AlertStateSelect({
       ]}
       onChange={newValue => onChange?.(newValue)}
       className={className}
+      size="md"
+      surface={2}
     />
   );
 }

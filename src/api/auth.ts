@@ -8,8 +8,8 @@ import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
 import { isLocal } from 'utils/version';
 import { clearPersistCache } from 'config/reactQuery';
+import { useCustodialWallet, useDisconnectAll } from 'api/chains/wallet';
 import { useUserStorage } from './userStorage';
-import { useDisconnectAll } from './chains';
 
 interface SuccessResponse {
   message: 'ok';
@@ -233,6 +233,7 @@ export function useMiniAppWebLoginMutation() {
 export function useLogoutMutation() {
   const queryClient = useQueryClient();
   const disconnectChains = useDisconnectAll();
+  const { delCw } = useCustodialWallet();
 
   return useMutation<boolean, unknown, unknown>({
     mutationFn: async () => {
@@ -241,6 +242,7 @@ export function useLogoutMutation() {
         { credentials: 'include', body: {}, method: 'post' },
       );
       delJwtToken();
+      delCw();
       await Promise.all([
         disconnectChains(),
         clearPersistCache(),

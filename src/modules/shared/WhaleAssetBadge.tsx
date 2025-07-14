@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { type WhaleAssetLabel } from 'api';
+import { type WhaleAssetLabel } from 'api/discovery';
 import { ClickableTooltip } from './ClickableTooltip';
 import { ReadableNumber } from './ReadableNumber';
 

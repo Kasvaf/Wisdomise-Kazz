@@ -2,11 +2,13 @@ import { type FC, useMemo } from 'react';
 import { type DiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
+import { ReactComponent as PositionsIcon } from './icons/positions.svg';
 import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
 import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
 import { ReactComponent as TechnicalRadarIcon } from './icons/technical.svg';
 import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
 import { ReactComponent as NetworkRadarIcon } from './icons/trench.svg';
+import { ReactComponent as TwitterTrackerIcon } from './icons/twitter-tracker.svg';
 interface MenuItem {
   link: string;
   meta: Partial<DiscoveryRouteMeta>;
@@ -22,23 +24,13 @@ export const useMenuItems = () => {
   return useMemo<MenuItem[]>(
     () => [
       {
-        link: '/discovery?list=portfolio',
-        meta: {
-          list: 'portfolio',
-        },
-        icon: PortfolioIcon,
-        text: 'Portfolio',
-        crumb: 'Portfolio',
-        hide: isMobile,
-      },
-      {
         link: '/discovery?list=coin-radar',
         meta: {
           list: 'coin-radar',
         },
         icon: CoinRadarIcon,
-        text: 'Radar+',
-        crumb: 'Radar+',
+        text: 'Bluechips',
+        crumb: 'Bluechips',
       },
       {
         link: '/discovery?list=network-radar',
@@ -48,6 +40,15 @@ export const useMenuItems = () => {
         icon: NetworkRadarIcon,
         text: 'Trench',
         crumb: 'Trench',
+      },
+      {
+        link: '/discovery?list=whale-radar',
+        meta: {
+          list: 'whale-radar',
+        },
+        icon: WhaleRadarIcon,
+        text: 'Whale',
+        crumb: 'Whale Radar',
       },
       {
         link: '/discovery?list=social-radar',
@@ -68,13 +69,33 @@ export const useMenuItems = () => {
         crumb: 'Technical Radar',
       },
       {
-        link: '/discovery?list=whale-radar',
+        link: '/discovery?list=portfolio',
         meta: {
-          list: 'whale-radar',
+          list: 'portfolio',
         },
-        icon: WhaleRadarIcon,
-        text: 'Whale',
-        crumb: 'Whale Radar',
+        icon: PortfolioIcon,
+        text: 'Portfolio',
+        crumb: 'Portfolio',
+      },
+      {
+        link: '/discovery?list=positions',
+        meta: {
+          list: 'positions',
+        },
+        icon: PositionsIcon,
+        text: 'Positions',
+        crumb: 'Positions',
+        hide: isMobile,
+      },
+      {
+        link: '/discovery?list=twitter-tracker',
+        meta: {
+          list: 'twitter-tracker',
+        },
+        icon: TwitterTrackerIcon,
+        text: 'X Tracker',
+        crumb: 'X Tracker',
+        hide: isMobile,
       },
     ],
     [isMobile],

@@ -1,8 +1,8 @@
+/* eslint-disable import/max-dependencies */
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { bxBell } from 'boxicons-quasar';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
@@ -11,19 +11,24 @@ import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSel
 import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
 import { isDebugMode } from 'utils/version';
-import { type AlertMessenger } from 'api';
+import { useSubscription } from 'api';
+import { type AlertMessenger } from 'api/alert';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { FormControlWithLabel } from '../../components/FormControlWithLabel';
+import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
+import { Button } from 'shared/v1-components/Button';
+import { FormControlWithLabel } from 'modules/alert/components/FormControlWithLabel';
 
 export function StepOne({
   onSubmit,
   loading,
   className,
   onDelete,
+  onClose,
 }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
   const setDefaultValue = useRef(true);
-  const [defaultNetwork] = useGlobalNetwork();
+  const [globalNetwork] = useGlobalNetwork();
+  const { group } = useSubscription();
 
   const {
     value: [value, setValue],
@@ -73,9 +78,9 @@ export function StepOne({
   useEffect(() => {
     if (!value.key && setDefaultValue.current) {
       setDefaultValue.current = false;
-      setForm('networks', [defaultNetwork] as never);
+      setForm('networks', (globalNetwork ? [globalNetwork] : []) as never);
     }
-  }, [value, setForm, defaultNetwork]);
+  }, [value, setForm, globalNetwork]);
 
   return (
     <form
@@ -113,24 +118,30 @@ export function StepOne({
           />
         </FormControlWithLabel>
         <div>
-          <Button
-            variant="primary"
-            className={clsx(
-              'mt-6 w-full grow',
-              gtmClass('submit coin-radar-alert'),
-            )}
-            loading={loading}
-            disabled={value.key ? false : (value.messengers ?? []).length === 0}
-            onClick={e => {
-              if (value.key && (value.messengers?.length ?? 0) < 1) {
-                e.preventDefault();
-                onDelete?.();
-              } // else submit the form
-            }}
-          >
-            {t('common.save-alert')}
-            <Icon name={bxBell} className="ms-2" />
-          </Button>
+          {group === 'free' ? (
+            <VipRedirectButton onClick={onClose} label="Upgrade to Set Alert" />
+          ) : (
+            <Button
+              variant="white"
+              className={clsx(
+                'mt-6 w-full grow',
+                gtmClass('submit coin-radar-alert'),
+              )}
+              loading={loading}
+              disabled={
+                value.key ? false : (value.messengers ?? []).length === 0
+              }
+              onClick={e => {
+                if (value.key && (value.messengers?.length ?? 0) < 1) {
+                  e.preventDefault();
+                  onDelete?.();
+                } // else submit the form
+              }}
+            >
+              {t('common.save-alert')}
+              <Icon name={bxBell} className="ms-2" />
+            </Button>
+          )}
         </div>
       </>
     </form>

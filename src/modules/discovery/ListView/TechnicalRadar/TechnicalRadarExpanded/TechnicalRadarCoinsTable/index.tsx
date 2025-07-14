@@ -2,8 +2,7 @@
 import { useMemo, type FC, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
-
-import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
+import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
@@ -14,26 +13,23 @@ import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { TableRank } from 'shared/TableRank';
-import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import TechnicalRadarSharingModal from '../../TechnicalRadarSharingModal';
+import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalRadarCoinsTable: FC = () => {
   const { t } = useTranslation('market-pulse');
-  const [tableState, setTableState] = usePageState<
+  const [pageState, setPageState] = usePageState<
     Parameters<typeof useTechnicalRadarCoins>[0]
-  >('overviewTable', {
+  >('social-radar', {
     sortBy: 'rank',
     sortOrder: 'ascending',
-    query: '',
-    networks: [],
-    categories: [],
   });
-  const coins = useTechnicalRadarCoins(tableState);
+  const coins = useTechnicalRadarCoins(pageState);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<TechnicalRadarCoin>();
   const [LoginModal, ensureAuthenticated] = useEnsureAuthenticated();
@@ -105,12 +101,10 @@ export const TechnicalRadarCoinsTable: FC = () => {
 
   return (
     <div>
-      <RadarFilter
-        radar="technical-radar"
-        value={tableState}
-        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
+      <TechnicalRadarFilters
+        value={pageState}
+        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
-        surface={3}
       />
 
       <AccessShield

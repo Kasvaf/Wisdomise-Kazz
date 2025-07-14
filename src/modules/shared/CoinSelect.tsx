@@ -1,8 +1,8 @@
 import { type ComponentProps, useMemo, useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
 import { clsx } from 'clsx';
-import { useCoins, useCoinDetails } from 'api';
-import type { Coin as CoinType } from 'api/types/shared';
+import { useCoins, useCoinDetails } from 'api/discovery';
+import { type Coin as CoinType } from 'api/types/shared';
 import { CoinLogo } from 'shared/Coin';
 import { Select } from 'shared/v1-components/Select';
 

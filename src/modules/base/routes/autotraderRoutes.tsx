@@ -20,10 +20,6 @@ const PageTournaments = React.lazy(
   () => import('modules/quest/PageTournaments'),
 );
 
-const PagePositions = React.lazy(
-  () => import('modules/autoTrader/PagePositions'),
-);
-
 const PageTransactions = React.lazy(
   () => import('modules/autoTrader/PageTransactions'),
 );
@@ -37,16 +33,10 @@ const useAutoTraderRoutes = () => {
     {
       element: <Container />,
       path: 'trader',
-      handle: {
-        crumb: {
-          text: 'Auto Trader',
-          href: '/trader/positions',
-        },
-      } satisfies RouteHandle,
       children: [
         {
           path: '',
-          element: <Navigate to={'/trader/positions' + qs} replace />,
+          element: <Navigate to={'/' + qs} replace />,
         },
         {
           path: 'claim-reward',
@@ -107,16 +97,6 @@ const useAutoTraderRoutes = () => {
               children: [{ path: '', element: <PageLeague /> }],
             },
           ],
-        },
-        {
-          path: 'positions',
-          element: <PagePositions />,
-          handle: {
-            crumb: {
-              text: 'Positions',
-              href: '/trader/positions',
-            },
-          } satisfies RouteHandle,
         },
         {
           path: 'bot',

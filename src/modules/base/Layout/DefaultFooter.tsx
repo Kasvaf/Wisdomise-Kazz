@@ -7,7 +7,7 @@ import { useHasFlag } from 'api';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
-const TOUR_CLASS = 'tour-item-bottom-navbar';
+const TOUR_CLASS = 'id-tour-bottom-navbar';
 
 const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
   const showLoadingBadge = useLoadingBadge();
@@ -40,7 +40,6 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
             to={getUrl({
               ...item.meta,
               view: 'list',
-              slug: undefined,
             })}
             key={item.link}
             className={clsx(
@@ -50,7 +49,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
             )}
           >
             <item.icon className="size-7" />
-            <div className="mt-1 text-xs font-normal">{item.text}</div>
+            <div className="mt-1 text-xxs font-normal">{item.text}</div>
           </NavLink>
         ))}
       </div>

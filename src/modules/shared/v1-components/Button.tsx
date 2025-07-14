@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
-import { type ReactNode, type FC, type MouseEventHandler } from 'react';
+import { type ReactNode, type FC, useState, type MouseEvent } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
 export interface ButtonProps {
-  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?: '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   fab?: boolean;
   variant?:
     | 'primary'
@@ -21,8 +21,11 @@ export interface ButtonProps {
   block?: boolean;
   children?: ReactNode;
   className?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => unknown | Promise<unknown>;
   surface?: Surface;
+  type?: 'button' | 'submit';
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -36,7 +39,9 @@ export const Button: FC<ButtonProps> = ({
   block,
   onClick,
   surface = 3,
+  type,
 }) => {
+  const [localLoading, setLocalLoading] = useState(false);
   const colors = useSurface(surface);
   return (
     <button
@@ -46,6 +51,8 @@ export const Button: FC<ButtonProps> = ({
       }}
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
+        size === '3xs' && 'h-5 rounded text-xxs',
+        size === '3xs' && (fab ? 'w-5' : 'px-2'),
         size === '2xs' && 'h-2xs rounded text-xs',
         size === '2xs' && (fab ? 'w-2xs' : 'px-3'),
         size === 'xs' && 'h-xs rounded-md text-xs',
@@ -82,7 +89,7 @@ export const Button: FC<ButtonProps> = ({
         variant === 'positive' &&
           'border-v1-border-positive bg-transparent text-v1-content-positive enabled:hover:bg-v1-background-positive/15 enabled:active:bg-transparent',
         /* Loading */
-        loading && 'animate-pulse',
+        (loading || localLoading) && 'animate-pulse',
         /* Disabled */
         'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
         /* Shared */
@@ -92,8 +99,18 @@ export const Button: FC<ButtonProps> = ({
         'items-center justify-center gap-1',
         className,
       )}
-      disabled={disabled || loading}
-      onClick={onClick}
+      disabled={disabled || loading || localLoading}
+      onClick={e => {
+        const ret = onClick?.(e);
+        if (ret && ret instanceof Promise) {
+          setLocalLoading(true);
+          return ret.finally(() => {
+            setLocalLoading(false);
+          });
+        }
+        return ret;
+      }}
+      type={type}
     >
       {children}
     </button>

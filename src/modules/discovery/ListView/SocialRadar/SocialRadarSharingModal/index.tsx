@@ -5,7 +5,7 @@ import SharingModal from 'shared/ShareTools/SharingModal';
 import logo from 'shared/ShareTools/images/logo.png';
 import { Coin } from 'shared/Coin';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
-import { type SocialRadarCoin } from 'api';
+import { type SocialRadarCoin } from 'api/discovery';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -95,7 +95,7 @@ export default function SocialRadarSharingModal({
           </div>
           {coin?.signals_analysis && (
             <SocialRadarSentiment
-              mode="card"
+              mode="expanded"
               coin={coin.symbol}
               marketData={coin.symbol_market_data}
               value={coin}

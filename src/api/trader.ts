@@ -8,8 +8,8 @@ import {
 } from 'api/builder';
 import { ofetch } from 'config/ofetch';
 import { uniqueBy } from 'utils/uniqueBy';
-import { useJwtEmail } from 'modules/base/auth/jwt-store';
-import { type WhaleCoin, type WhaleCoinsFilter } from './insight/whale';
+import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
+import { type WhaleCoin, type WhaleCoinsFilter } from 'api/discovery';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
 
@@ -59,25 +59,35 @@ export const useUserAssets = () => {
   });
 };
 
+interface PairInfo {
+  id: string;
+  name: string; // pair name
+  base: Coin;
+  quote: Coin;
+  network_slugs: string[];
+}
+
+const cachedPairs: Record<string, PairInfo[]> = {};
+export const getPairsCached = async (baseSlug: string) => {
+  if (!cachedPairs[baseSlug]) {
+    const data = await ofetch<{
+      results: PairInfo[];
+    }>('/delphi/market/pairs/', {
+      query: {
+        base_slug: baseSlug,
+      },
+    });
+    cachedPairs[baseSlug] = uniqueBy(data.results, x => x.id);
+  }
+  return cachedPairs[baseSlug];
+};
+
 export const useSupportedPairs = (baseSlug?: string) => {
   return useQuery({
     queryKey: ['supported-pairs', baseSlug],
     queryFn: async () => {
       if (!baseSlug) return [];
-      const data = await ofetch<{
-        results: Array<{
-          id: string;
-          name: string; // pair name
-          base: Coin;
-          quote: Coin;
-          network_slugs: string[];
-        }>;
-      }>('/delphi/market/pairs/', {
-        query: {
-          base_slug: baseSlug,
-        },
-      });
-      return uniqueBy(data.results, x => x.id);
+      return await getPairsCached(baseSlug);
     },
     staleTime: Number.POSITIVE_INFINITY,
   });
@@ -225,6 +235,7 @@ export function useTraderPositionQuery({
 }: {
   positionKey?: string;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['traderPosition', positionKey],
     queryFn: async () => {
@@ -235,25 +246,28 @@ export function useTraderPositionQuery({
     },
     staleTime: Number.POSITIVE_INFINITY,
     refetchInterval: 7000,
-    enabled: !!positionKey,
+    enabled: !!positionKey && isLoggedIn,
   });
 }
 
 export function useTraderPositionsQuery({
   slug,
   isOpen,
-  pageSize,
-  page,
+  pageSize = 30,
+  page = 1,
   network,
+  address,
 }: {
   slug?: string;
   isOpen?: boolean;
   pageSize?: number;
   page?: number;
   network?: SupportedNetworks;
+  address?: string;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
-    queryKey: ['traderPositions', slug, isOpen, pageSize, page],
+    queryKey: ['traderPositions', slug, isOpen, pageSize, page, address],
     queryFn: async () => {
       const data = await ofetch<PositionsResponse>('trader/positions', {
         query: {
@@ -262,12 +276,14 @@ export function useTraderPositionsQuery({
           page_size: pageSize,
           page,
           network_slug: network,
+          wallet_address: address,
         },
       });
       return data;
     },
     staleTime: 10,
     refetchInterval: isOpen ? 7000 : 20_000,
+    enabled: isLoggedIn,
   });
 }
 
@@ -542,6 +558,7 @@ export function useTraderPositionTransactionsQuery({
   positionKey: string;
   network?: SupportedNetworks;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['position-transactions', positionKey],
     queryFn: async () => {
@@ -555,5 +572,6 @@ export function useTraderPositionTransactionsQuery({
     },
     staleTime: 10_000,
     refetchInterval: 30_000,
+    enabled: isLoggedIn,
   });
 }

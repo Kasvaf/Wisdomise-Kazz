@@ -6,15 +6,11 @@ import {
   useTraderFirePositionMutation,
   type CreatePositionRequest,
 } from 'api';
-import {
-  useActiveWallet,
-  useMarketSwap,
-  useTransferAssetsMutation,
-} from 'api/chains';
+import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
+import { useActiveWallet } from 'api/chains/wallet';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/DurationInput';
 import { type SwapState } from './useSwapState';
-import useModalApproval from './useModalApproval';
 
 const useActionHandlers = (state: SwapState) => {
   const {
@@ -29,7 +25,7 @@ const useActionHandlers = (state: SwapState) => {
     firing: [firing, setFiring],
     confirming: [, setConfirming],
   } = state;
-  const { address } = useActiveWallet();
+  const { address, isCustodial } = useActiveWallet();
 
   const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
     setConfirming(true);
@@ -48,29 +44,20 @@ const useActionHandlers = (state: SwapState) => {
   const transferAssetsHandler = useTransferAssetsMutation(from.slug);
   const marketSwapHandler = useMarketSwap();
 
-  const [ModalApproval, showModalApproval] = useModalApproval();
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
 
+    // direct swap
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
-        const swapData = {
-          pairSlug: base.slug + '/' + quote.slug,
-          side: dir === 'buy' ? 'LONG' : 'SHORT',
-          amount: from.amount,
-        } as const;
-
-        if (
-          !(await showModalApproval(state, undefined, {
-            ...swapData,
-            network: 'solana',
-          }))
-        )
-          return;
-
         awaitConfirm(
-          await marketSwapHandler(swapData),
+          await marketSwapHandler(
+            base.slug,
+            quote.slug,
+            dir === 'buy' ? 'LONG' : 'SHORT',
+            from.amount,
+          ),
           'Swap completed successfully',
         );
       } catch (error) {
@@ -106,9 +93,7 @@ const useActionHandlers = (state: SwapState) => {
                     // sell order
                     key: v4(),
                     amount_ratio: 1, // always 1
-                    price_exact: isMarketPrice
-                      ? 0
-                      : +quote.amount / +base.amount, // happens when price >= 123
+                    price_exact: isMarketPrice ? 0 : base.finalPriceDollar, // happens when price >= 123
                   },
                 ]
               : [], // buy = hold -> no take-profit
@@ -125,7 +110,7 @@ const useActionHandlers = (state: SwapState) => {
                         type: 'compare',
                         left: 'price',
                         op: '<=',
-                        right: 100,
+                        right: base.finalPriceDollar,
                       },
                   amount: 1, // buy all at once
                 }
@@ -140,20 +125,20 @@ const useActionHandlers = (state: SwapState) => {
       },
       withdraw_address: address,
     } as const;
-    if (!(await showModalApproval(state, createData))) return;
-
     try {
       setFiring(true);
       const res = await mutateAsync(createData);
 
       try {
         awaitConfirm(
-          await transferAssetsHandler({
-            positionKey: res.position_key,
-            recipientAddress: res.deposit_address,
-            gasFee: res.gas_fee,
-            amount: from.amount,
-          }),
+          isCustodial
+            ? () => Promise.resolve(true)
+            : await transferAssetsHandler({
+                positionKey: res.position_key,
+                recipientAddress: res.deposit_address,
+                gasFee: res.gas_fee,
+                amount: from.amount,
+              }),
           'Position created successfully',
         );
       } catch (error) {
@@ -169,11 +154,11 @@ const useActionHandlers = (state: SwapState) => {
           network,
           positionKey: res.position_key,
         });
-      } finally {
-        setFiring(false);
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
+    } finally {
+      setFiring(false);
     }
   };
 
@@ -181,7 +166,6 @@ const useActionHandlers = (state: SwapState) => {
     isEnabled: !!network && !!base && !!quote && Number(from.amount) > 0,
     isSubmitting: firing || isSubmitting,
     firePosition,
-    ModalApproval,
   };
 };
 

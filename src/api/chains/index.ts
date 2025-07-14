@@ -1,126 +1,66 @@
-import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useDisconnect } from 'wagmi';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { trackClick } from 'config/segment';
-import { useSymbolsInfo } from 'api/symbol';
 import { type SupportedNetworks } from 'api';
+import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import {
-  type AutoTraderSolanaSupportedQuotes,
-  useAwaitSolanaWalletConnection,
   useSolanaAccountBalance,
   useSolanaMarketSwap,
   useSolanaTransferAssetsMutation,
-  useSolanaUserAssets,
 } from './solana';
 import {
-  type AutoTraderTonSupportedQuotes,
   useAccountJettonBalance,
-  useAwaitTonWalletConnection,
   useTonTransferAssetsMutation,
   useTonUserAssets,
 } from './ton';
 
-export const useDisconnectAll = () => {
-  const { disconnect: solDisconnect } = useWallet();
-  const [{ disconnect: tonDisconnect }] = useTonConnectUI();
-  const { disconnectAsync } = useDisconnect();
-
-  return async () => {
-    try {
-      await Promise.all([disconnectAsync(), solDisconnect(), tonDisconnect()]);
-    } catch {
-    } finally {
-      for (const key of Object.keys(localStorage)) {
-        if (/^(wallet|ton)/.test(key)) {
-          localStorage.removeItem(key);
-        }
-      }
-    }
-  };
-};
-
-export const useActiveWallet = () => {
-  const net = useActiveNetwork();
-  const tonAddress = useTonAddress();
-  const [tonConnectUI] = useTonConnectUI();
-  const solanaWallet = useWallet();
-  const awaitSolanaWalletConnect = useAwaitSolanaWalletConnection();
-  const awaitTonWalletConnect = useAwaitTonWalletConnection();
-
-  return {
-    address:
-      net === 'the-open-network'
-        ? tonAddress
-        : net === 'solana'
-        ? solanaWallet.publicKey?.toString()
-        : undefined,
-    name:
-      net === 'the-open-network'
-        ? tonConnectUI.wallet?.device.appName
-        : net === 'solana'
-        ? solanaWallet.wallet?.adapter.name
-        : undefined,
-    connected:
-      net === 'the-open-network'
-        ? tonConnectUI.connected
-        : net === 'solana'
-        ? solanaWallet.connected
-        : false,
-    connect: () => {
-      trackClick('wallet_connect', { network: net })();
-      if (net === 'the-open-network') {
-        return awaitTonWalletConnect();
-      }
-      if (net === 'solana') {
-        return awaitSolanaWalletConnect();
-      }
-      return Promise.resolve();
-    },
-  };
-};
-
-export type AutoTraderSupportedQuotes =
-  | AutoTraderTonSupportedQuotes
-  | AutoTraderSolanaSupportedQuotes;
-
 export const useAccountBalance = (
   quote?: string,
   network?: SupportedNetworks | null,
+  address?: string,
 ) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
 
   const solResult = useSolanaAccountBalance(
     net === 'solana' ? quote : undefined,
+    address,
   );
   const tonResult = useAccountJettonBalance(
     net === 'the-open-network' ? quote : undefined,
+    address,
   );
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
-  return { data: null, isLoading: !net };
+  return {
+    data: null,
+    isLoading: !net,
+    refetch: () => {
+      return null;
+    },
+  };
 };
 
 export const useUserWalletAssets = (
   network?: 'solana' | 'the-open-network' | null,
+  address?: string,
 ) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
 
-  const solResult = useSolanaUserAssets();
-  const tonResult = useTonUserAssets();
+  const solResult = useSolanaUserAssets(address);
+  const tonResult = useTonUserAssets(address);
 
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
   return { data: null, isLoading: false };
 };
 
-export const useAccountNativeBalance = () => {
+export const useAccountNativeBalance = (address?: string) => {
   const net = useActiveNetwork();
   return useAccountBalance(
     net === 'the-open-network' ? 'the-open-network' : 'wrapped-solana',
+    undefined,
+    address,
   );
 };
 
@@ -177,18 +117,4 @@ export const useMarketSwap = () => {
   return () => {
     throw new Error('Invalid network');
   };
-};
-
-export const useSupportedQuotesSymbols = () => {
-  const quotes = [
-    'tether',
-    'usd-coin',
-    'wrapped-solana',
-    'the-open-network',
-  ] satisfies AutoTraderSupportedQuotes[];
-  type AssertAllQuotes =
-    AutoTraderSupportedQuotes extends (typeof quotes)[number]
-      ? readonly AutoTraderSupportedQuotes[]
-      : never;
-  return useSymbolsInfo(quotes satisfies AssertAllQuotes);
 };

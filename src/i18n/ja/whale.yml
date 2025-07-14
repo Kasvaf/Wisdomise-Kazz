@@ -81,6 +81,7 @@ top_coins:
   labels: ラベル
   market_cap: 時価総額
   name: 信号発信者名
+  price: 価格
   rank: "#"
   sell_volume:
     avg: 販売あたりの平均

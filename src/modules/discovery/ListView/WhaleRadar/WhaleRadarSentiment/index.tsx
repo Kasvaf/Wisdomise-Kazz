@@ -3,10 +3,13 @@ import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxDotsHorizontal } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type WhaleRadarSentiment as WhaleRadarSentimentType } from 'api';
+import {
+  type WhaleRadarSentiment as WhaleRadarSentimentType,
+  type MiniMarketData,
+} from 'api/discovery';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type Coin as CoinType, type MiniMarketData } from 'api/types/shared';
+import { type Coin as CoinType } from 'api/types/shared';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
@@ -20,7 +23,6 @@ import WhaleIcon from './whale.png';
 import BuyIcon from './buy.png';
 import SellIcon from './sell.png';
 import { useWRSNums } from './useWRSNums';
-import { WRSProgress } from './WRSProgress';
 
 export const WhaleRadarSentiment: FC<{
   value?: WhaleRadarSentimentType | null;
@@ -28,7 +30,8 @@ export const WhaleRadarSentiment: FC<{
   marketData?: MiniMarketData | null;
   coin?: CoinType | null;
   className?: string;
-}> = ({ value, marketData, coin, className, mode }) => {
+  contentClassName?: string;
+}> = ({ value, marketData, coin, className, mode, contentClassName }) => {
   const { t } = useTranslation('whale');
   const [desktopModal, setDesktopModal] = useState(false);
   const numbers = useWRSNums(value);
@@ -72,6 +75,8 @@ export const WhaleRadarSentiment: FC<{
   }
 
   if (mode === 'card') {
+    if (isAllNumbersZero) return null;
+
     return (
       <ClickableTooltip
         chevron={false}
@@ -136,10 +141,18 @@ export const WhaleRadarSentiment: FC<{
         disabled={isAllNumbersZero}
         className={className}
       >
-        <div className="flex h-36 w-full flex-col justify-between gap-1 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
-          <div className="flex items-start justify-between gap-2">
-            <p className="whitespace-nowrap text-xs">{t('sentiment.title')}</p>
-          </div>
+        <div
+          className={clsx(
+            contentClassName,
+            'flex h-10 w-full items-center gap-3 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+          )}
+        >
+          <img
+            src={WhaleIcon}
+            alt="whale"
+            className="h-[18px] w-auto shrink-0"
+          />
+
           <div className="flex items-center justify-between gap-2 text-xxs">
             {numbers.map(num => (
               <div key={num.label} className="text-start">
@@ -148,7 +161,7 @@ export const WhaleRadarSentiment: FC<{
                     isAllNumbersZero && 'text-v1-content-secondary',
                   )}
                 >
-                  {num.label}
+                  {num.shortLabel}
                 </p>
                 <ReadableNumber
                   value={num.value ?? 0}
@@ -156,7 +169,7 @@ export const WhaleRadarSentiment: FC<{
                   popup="never"
                   format={{
                     compactInteger: true,
-                    decimalLength: 1,
+                    decimalLength: 0,
                     minifyDecimalRepeats: false,
                   }}
                   label="%"
@@ -164,7 +177,6 @@ export const WhaleRadarSentiment: FC<{
               </div>
             ))}
           </div>
-          <WRSProgress value={value?.label_percents ?? []} />
         </div>
       </ClickableTooltip>
     );

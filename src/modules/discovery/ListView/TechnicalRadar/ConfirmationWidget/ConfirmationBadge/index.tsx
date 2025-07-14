@@ -5,7 +5,7 @@ import {
   type Indicator,
   type IndicatorConfirmationCombination,
   type IndicatorConfirmation,
-} from 'api';
+} from 'api/discovery';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as OversoldIcon } from './oversold.svg';
 import { ReactComponent as OverboughtIcon } from './overbought.svg';

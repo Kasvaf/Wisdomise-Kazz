@@ -5,7 +5,7 @@ import {
   type Indicator,
   type IndicatorConfirmation,
   type IndicatorConfirmationCombination,
-} from 'api';
+} from 'api/discovery';
 
 const calculateTimeBadge = (resolutionsList: string[][]) => {
   const badgedResolutionsList = resolutionsList.map(resolutions =>

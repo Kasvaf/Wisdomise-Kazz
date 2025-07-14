@@ -1,58 +1,64 @@
-import { type Candle, type Resolution } from 'api';
-import { type MarketTypes } from 'api/types/shared';
-import { ofetch } from 'config/ofetch';
+import { type DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import { isProduction } from 'utils/version';
 
-const caches: Record<string, Candle[]> = {};
+export type Resolution =
+  | '1s'
+  | '5s'
+  | '15s'
+  | '30s'
+  | '1m'
+  | '5m'
+  | '15m'
+  | '30m'
+  | '1h'
+  | '4h';
 
-const durs: Record<Resolution, number> = {
-  '1m': 1000 * 60,
-  '5m': 1000 * 60 * 5,
-  '15m': 1000 * 60 * 15,
-  '30m': 1000 * 60 * 30,
-  '1h': 1000 * 60 * 60,
-  '4h': 1000 * 60 * 60 * 4,
-  '1d': 1000 * 60 * 60 * 24,
-};
+interface ChartCandle {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  time: number;
+}
 
-const roundDate = (dateString: string | Date, resolution: Resolution) => {
-  const dateMs = +new Date(dateString);
-  const dur = durs[resolution];
-  const roundedDate = new Date(Math.round(dateMs / dur) * dur);
-  return roundedDate.toISOString();
-};
-
-const getCandlesCached = async ({
-  asset,
-  resolution,
-  startDateTime,
-  endDateTime,
-  market,
-}: {
-  asset: string;
-  resolution: Resolution;
-  startDateTime: string;
-  endDateTime: string;
-  market: MarketTypes;
-}) => {
-  const startDate = roundDate(startDateTime, resolution);
-  const endDate = roundDate(endDateTime, resolution);
-
-  const cacheKey = [asset, resolution, startDate, endDate, market].join(',');
-
-  if (caches[cacheKey]) return caches[cacheKey];
-
-  const data = await ofetch<Candle[]>('/delphi/candles', {
-    query: {
-      asset,
-      resolution,
-      start_datetime: startDate,
-      end_datetime: endDate,
-      market_type: market,
-    },
-  });
-
-  caches[cacheKey] = data;
-  return data;
+const caches: Record<string, Promise<ChartCandle[]> | undefined> = {};
+const getCandlesCached = async (
+  delphinus: DelphinusServiceClientImpl,
+  params: {
+    network: string;
+    baseSlug: string;
+    quoteSlug: string;
+    resolution: Resolution;
+    startTime: string;
+    endTime: string;
+    skipEmptyCandles: boolean;
+    market: string;
+  },
+) => {
+  const cacheKey = JSON.stringify(params);
+  if (!caches[cacheKey]) {
+    caches[cacheKey] = delphinus
+      .getCandles(params)
+      .then(data =>
+        data.candles.map(c => ({
+          open: +c.open,
+          high: +c.high,
+          low: +c.low,
+          close: +c.close,
+          volume: +c.volume,
+          time: +new Date(c.relatedAt),
+        })),
+      )
+      .catch(error => {
+        if (!isProduction) {
+          console.error(error);
+        }
+        caches[cacheKey] = undefined;
+        throw error;
+      });
+  }
+  return await caches[cacheKey];
 };
 
 export default getCandlesCached;

@@ -1,17 +1,67 @@
 import { useLocation, Navigate } from 'react-router-dom';
+import { LISTS } from 'modules/discovery/constants';
+import { createDiscoverySearchParams } from 'modules/discovery/useDiscoveryRouteMeta';
 
 const REDIRECT_MAP: Record<string, string> = {
-  '': '/discovery?list=coin-radar',
-  '/coin-radar': '/discovery?list=coin-radar',
-  '/coin-radar/overview': '/discovery?list=coin-radar',
-  '/coin-radar/social-radar': '/discovery?list=social-radar',
-  '/coin-radar/technical-radar': '/discovery?list=technical-radar',
-  '/coin-radar/whale-radar': '/discovery?list=whale-radar',
-  '/coin-radar/network-radar': '/discovery?list=network-radar',
+  // Coin Radar
+  '': `/discovery?${createDiscoverySearchParams({}).toString()}`,
+  '/coin-radar': `/discovery?${createDiscoverySearchParams({
+    list: 'coin-radar',
+  }).toString()}`,
+  '/coin-radar/overview': `/discovery?${createDiscoverySearchParams({
+    list: 'coin-radar',
+  }).toString()}`,
+  // Social Radar
+  '/coin-radar/social-radar': `/discovery?${createDiscoverySearchParams({
+    list: 'social-radar',
+  }).toString()}`,
+  // Social Radar
+  '/coin-radar/technical-radar': `/discovery?${createDiscoverySearchParams({
+    list: 'technical-radar',
+  }).toString()}`,
+  // Whale Radar
+  '/coin-radar/whale-radar': `/discovery?${createDiscoverySearchParams({
+    list: 'whale-radar',
+  }).toString()}`,
+  // Network Radar
+  '/coin-radar/network-radar': `/discovery?${createDiscoverySearchParams({
+    list: 'network-radar',
+  }).toString()}`,
+  // Alerts
   '/coin-radar/alerts': '/account/alerts',
-  '/coin/{slug}': '/discovery?detail=coin&slug={slug}',
-  '/coin-radar/whale-radar/{nework}/{address}':
-    '/discovery?detail=whale&slug={nework}/{address}',
+  // Whale Details
+  '/whale/{nework}/{address}': `/discovery?${createDiscoverySearchParams({
+    detail: 'whale',
+    slug: '{nework}/{address}',
+  }).toString()}`,
+  '/coin-radar/whale-radar/{nework}/{address}': `/discovery?${createDiscoverySearchParams(
+    {
+      detail: 'whale',
+      slug: '{nework}/{address}',
+    },
+  ).toString()}`,
+  // Coin Details
+  '/token/{nework}/{address}': `/discovery?${createDiscoverySearchParams({
+    detail: 'coin',
+    slug: '{nework}/{address}',
+  }).toString()}`,
+  '/token/{nework}': `/discovery?${createDiscoverySearchParams({
+    detail: 'coin',
+    slug: '{network}/',
+  }).toString()}`,
+  '/coin/{slug}': `/discovery?${createDiscoverySearchParams({
+    detail: 'coin',
+    slug: '{slug}',
+  }).toString()}`,
+
+  ...Object.fromEntries(
+    Object.keys(LISTS).map(list => [
+      `/discovery/${list}`,
+      `/discovery?${createDiscoverySearchParams({
+        list: list as never,
+      }).toString()}`,
+    ]),
+  ),
 };
 
 const findMatchingRoute = (

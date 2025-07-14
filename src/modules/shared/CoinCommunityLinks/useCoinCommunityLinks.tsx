@@ -1,7 +1,7 @@
 import { type ReactNode, useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { type CoinCommunityData } from 'api/types/shared';
+import { type CoinCommunityData } from 'api/discovery';
 // https://simpleicons.org
 import { ReactComponent as FacebookIcon } from './facebook.svg';
 import { ReactComponent as RedditIcon } from './reddit.svg';
@@ -9,7 +9,7 @@ import { ReactComponent as TelegramIcon } from './telegram.svg';
 import { ReactComponent as TwitterIcon } from './x.svg';
 import { ReactComponent as TwitterPostIcon } from './x_post.svg';
 
-function extractTwitterInfo(twitterScreenerName: string): {
+export function extractTwitterInfo(twitterScreenerName: string): {
   type: 'profile' | 'post' | 'other';
   value?: string;
 } {

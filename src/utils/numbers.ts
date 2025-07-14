@@ -15,6 +15,15 @@ export const roundSensible = (value: number | string | null | undefined) => {
     .replaceAll(/\.?0+$/g, '');
 };
 
+export function toSignificantDigits(num: number, digits: number): number {
+  if (num === 0) return 0; // Handle zero case
+
+  const magnitude = Math.floor(Math.log10(Math.abs(num))) + 1;
+  const factor = Math.pow(10, digits - magnitude);
+
+  return Math.round(num * factor) / factor;
+}
+
 export const addComma = (number?: number | bigint) =>
   number?.toLocaleString() ?? 0;
 
@@ -30,7 +39,7 @@ const resolvePower = (number: number) => {
   return number.toLocaleString('en-US').replaceAll(',', '');
 };
 
-const compressByLabel = (number: number) => {
+export const compressByLabel = (number: number) => {
   let label = '';
   let value = '';
   const positiveNumber = Math.abs(number);
@@ -98,7 +107,7 @@ const minifyNumberRepeats = (numbStr: string) => {
 
 export interface FormatNumberOptions {
   compactInteger: boolean; /// If true: 1520000 => 1.52M
-  seperateByComma: boolean; // If true: 1234 => 1,234
+  separateByComma: boolean; // If true: 1234 => 1,234
   decimalLength: number; // If 2: 2.001234 => 2.0012, 2.120 => 2.12, 2.100 => 2.1
   minifyDecimalRepeats: boolean; // If true: 1.1000002 => 1.10₍₅₎2
 }
@@ -126,7 +135,7 @@ export const formatNumber = (input: number, options: FormatNumberOptions) => {
   }
 
   // Dividing integer by comma
-  if (options.seperateByComma) {
+  if (options.separateByComma) {
     output = {
       ...output,
       integerPart: output.integerPart.replaceAll(/\B(?=(\d{3})+(?!\d))/g, ','),

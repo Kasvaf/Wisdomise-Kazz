@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import {
   useTournamentQuery,
   useTournamentLeaderboardQuery,
@@ -6,12 +7,14 @@ import {
 } from 'api/tournament';
 import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
-import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
+import empty from 'modules/autoTrader/Positions/PositionsList/empty.svg';
 import Leaderboard, {
   LeaderboardItem,
 } from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useModal from 'shared/useModal';
+import TournamentResultModalContent from 'modules/quest/PageTournaments/PageTournamentDetail/TournamentResultModalContent';
 
 export default function PageTournamentDetail() {
   const { id } = useParams<{ id: string }>();
@@ -21,9 +24,29 @@ export default function PageTournamentDetail() {
   const { data: tournament, isLoading } = useTournamentQuery(id);
   const { data: me } = useTournamentProfileQuery(id);
   const { data: participants } = useTournamentLeaderboardQuery(id);
+  const [tournamentResultModal, openTournamentResultModal] = useModal(
+    TournamentResultModalContent,
+    {
+      closable: false,
+      maskClosable: false,
+      mobileDrawer: true,
+      className:
+        '[&>.ant-drawer-wrapper-body]:!bg-v1-surface-l1 [&>.ant-modal-content]:!bg-v1-surface-l1',
+    },
+  );
+
+  useEffect(() => {
+    if (
+      me?.result &&
+      tournament?.key &&
+      !me.result.is_claimed &&
+      me.result.reward_items.length > 0
+    ) {
+      void openTournamentResultModal({ tournamentKey: tournament.key });
+    }
+  }, [me, openTournamentResultModal, tournament?.key]);
 
   return (
-    // <TournamentsOnboarding>
     <PageWrapper
       footer={null}
       hasBack
@@ -31,7 +54,7 @@ export default function PageTournamentDetail() {
       loading={isLoading}
       extension={!isMobile && <CoinExtensionsGroup />}
     >
-      <div className="grid grid-cols-2 items-start gap-4 pb-10 mobile:grid-cols-1">
+      <div className="grid grid-cols-2 items-start gap-4 mobile:grid-cols-1">
         <div>
           {tournament && (
             <TournamentCard tournament={tournament} hasDetail={true} />
@@ -57,7 +80,7 @@ export default function PageTournamentDetail() {
         )}
         <Leaderboard participants={participants} me={me} />
       </div>
+      {tournamentResultModal}
     </PageWrapper>
-    // </TournamentsOnboarding>
   );
 }

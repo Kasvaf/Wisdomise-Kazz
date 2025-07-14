@@ -2,7 +2,10 @@ import { clsx } from 'clsx';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTimeout } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
-import { type IndicatorHeatmapResolution, type IndicatorHeatmap } from 'api';
+import {
+  type IndicatorHeatmapResolution,
+  type IndicatorHeatmap,
+} from 'api/discovery';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';

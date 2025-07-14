@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { type TreemapConfig } from '@ant-design/plots/es/components/treemap';
 import { Treemap } from '@ant-design/plots';
 import { useTranslation } from 'react-i18next';
-import { useWhaleDetails } from 'api';
+import { useWhaleDetails } from 'api/discovery';
 import { formatNumber } from 'utils/numbers';
 
 export function WhaleAssetsTreeMapWidget({
@@ -63,7 +63,7 @@ export function WhaleAssetsTreeMapWidget({
                 compactInteger: true,
                 decimalLength: 1,
                 minifyDecimalRepeats: true,
-                seperateByComma: true,
+                separateByComma: true,
               },
             )}`,
             name: asset.market_data.id,
@@ -74,7 +74,7 @@ export function WhaleAssetsTreeMapWidget({
                 compactInteger: true,
                 decimalLength: 1,
                 minifyDecimalRepeats: true,
-                seperateByComma: true,
+                separateByComma: true,
               },
             )}`,
           },
@@ -94,7 +94,7 @@ export function WhaleAssetsTreeMapWidget({
               compactInteger: true,
               decimalLength: 1,
               minifyDecimalRepeats: true,
-              seperateByComma: true,
+              separateByComma: true,
             },
           )}`,
           value: Math.log2(otherAssets.reduce((p, c) => p + (c.worth ?? 0), 1)),
@@ -107,7 +107,7 @@ export function WhaleAssetsTreeMapWidget({
                     compactInteger: true,
                     decimalLength: 1,
                     minifyDecimalRepeats: true,
-                    seperateByComma: true,
+                    separateByComma: true,
                   },
                 )}`,
             )

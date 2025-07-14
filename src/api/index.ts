@@ -5,6 +5,4 @@ export * from './subscription';
 export * from './exchange-accounts';
 export * from './billings';
 export * from './candles';
-export * from './insight';
-export * from './alert';
 export * from './trader';

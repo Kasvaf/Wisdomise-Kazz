@@ -16,7 +16,7 @@ export interface SignalItem {
 
 // ----------------------------------------------------------------------------
 
-export interface OpenOrderCondition {
+interface OpenOrderCondition {
   type: 'compare';
   op: '>=' | '<=';
   left: 'price';

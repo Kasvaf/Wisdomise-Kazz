@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
-import { useHasFlag } from 'api';
+import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import Trader from '../PageTrade/Trader';
 import { type TraderInputs } from '../PageTrade/types';
 import FiringHolder from '../PageTrade/FiringHolder';
@@ -21,6 +21,7 @@ const BuySellForms: React.FC<
     setIsMarketPrice,
     firing: [firing],
     confirming: [confirming],
+    setAmount,
   } = swapState;
 
   useEffect(() => {
@@ -30,7 +31,8 @@ const BuySellForms: React.FC<
   useEffect(() => {
     setDir(mode);
     setIsMarketPrice(true);
-  }, [mode, setDir, setIsMarketPrice]);
+    setAmount('0');
+  }, [mode, setAmount, setDir, setIsMarketPrice]);
 
   return (
     <>
@@ -49,20 +51,16 @@ const BuySellTrader: React.FC<
     loadingClassName?: string;
   }
 > = inputs => {
-  const { positionKey } = inputs;
+  const { positionKey, slug, quote, setQuote } = inputs;
   const [mode, setMode] = useState<TraderModes>(positionKey ? 'auto' : 'buy');
-
-  const enabledFlag = useHasFlag()('/quick-swap');
-  useEffect(() => {
-    if (!enabledFlag) {
-      setMode('auto');
-    }
-  }, [enabledFlag]);
 
   const isMobile = useIsMobile();
   return (
     <div className="[&_.id-input]:bg-v1-surface-l2">
-      {!positionKey && enabledFlag && (
+      <div className="mb-3 flex justify-end">
+        <BtnInstantTrade slug={slug} quote={quote} setQuote={setQuote} />
+      </div>
+      {!positionKey && (
         <ModeSelector mode={mode} setMode={setMode} className="mb-4" />
       )}
 

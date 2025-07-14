@@ -1,25 +1,23 @@
 import { type FC } from 'react';
-import { type AVAILABLE_DETAILS } from 'modules/discovery/constants';
+import { type DETAILS } from 'modules/discovery/constants';
+import WalletDetail from 'modules/base/wallet/WalletDetail';
 import { WhaleDetail } from './WhaleDetail';
 import { CoinDetail } from './CoinDetail';
 
 export const DetailView: FC<{
-  detail: (typeof AVAILABLE_DETAILS)[number];
-  slug?: string;
+  detail: keyof typeof DETAILS;
   expanded?: boolean;
   focus?: boolean;
   className?: string;
-}> = ({ detail, slug, focus, expanded, className }) => {
+}> = ({ detail, focus, expanded, className }) => {
   return (
     <div className={className}>
-      {slug ? (
-        detail === 'whale' ? (
-          <WhaleDetail expanded={expanded} focus={focus} slug={slug} />
-        ) : (
-          <CoinDetail expanded={expanded} focus={focus} slug={slug} />
-        )
+      {detail === 'wallet' ? (
+        <WalletDetail expanded={expanded} focus={focus} />
+      ) : detail === 'whale' ? (
+        <WhaleDetail expanded={expanded} focus={focus} />
       ) : (
-        'Empty'
+        <CoinDetail expanded={expanded} focus={focus} />
       )}
     </div>
   );

@@ -8,7 +8,7 @@ import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { ReactComponent as Logo } from 'assets/WisdomiseLogo.svg';
 import ProfileMenu from '../ProfileMenu';
 import BranchSelector from '../BranchSelector';
-import TraderButtons from '../TraderButtons';
+import HeaderNav from '../HeaderNav';
 
 const DesktopHeader: React.FC<{
   extension?: null | false | ReactElement;
@@ -16,7 +16,7 @@ const DesktopHeader: React.FC<{
 }> = ({ extension, className }) => {
   return (
     <div className={clsx('h-full bg-v1-background-primary', className)}>
-      <div className="flex h-full items-center gap-3 bg-v1-surface-l2 px-3">
+      <div className="flex h-full items-center gap-2 bg-v1-surface-l2 px-3">
         <div className="relative flex shrink-0 grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap tablet:gap-3">
           <NavLink to="/discovery" className="pe-4 tablet:pe-3">
             <Logo />
@@ -32,7 +32,7 @@ const DesktopHeader: React.FC<{
 
         {RouterBaseName && <BranchSelector />}
 
-        <TraderButtons />
+        <HeaderNav />
         <BtnWalletConnect />
         <ProfileMenu />
       </div>

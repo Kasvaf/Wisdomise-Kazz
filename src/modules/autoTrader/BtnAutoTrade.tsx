@@ -1,10 +1,10 @@
 import { useHasFlag, useSupportedPairs } from 'api';
-import { useActiveWallet } from 'api/chains';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { useActiveWallet } from 'api/chains/wallet';
 import useTraderDrawer from './BuySellTrader/useTraderDrawer';
 
 export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({

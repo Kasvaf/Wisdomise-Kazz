@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
-
-const undefinedSymbol = Symbol('undefined');
 
 export function saveUserMultiKeyValue(obj: Record<string, string>) {
   return Promise.all(
@@ -24,81 +22,117 @@ export function saveUserMultiKeyValue(obj: Record<string, string>) {
   );
 }
 
-export function useUserStorage(key: string) {
+export function useUserStorage<T = string>(
+  key: string,
+  config?: { serializer?: 'json' | 'none' },
+) {
+  const serializer = config?.serializer ?? 'none';
+
   const queryClient = useQueryClient();
   const userEmail: string | null = (useJwtEmail() as string) ?? null;
-  const [owner, setOwner] = useState<null | string>(null);
 
-  const value = useQuery({
-    queryKey: ['user-storage', userEmail, key],
+  const {
+    data,
+    isLoading: isValueLoading,
+    isPending: isValuePending,
+  } = useQuery({
+    queryKey: ['user-storage', key],
     queryFn: async () => {
       try {
-        if (!getJwtToken()) return undefinedSymbol;
+        if (!getJwtToken()) return null;
         const resp = await ofetch<{ value: string }>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         );
-        setOwner(userEmail);
-        return typeof resp.value === 'string' ? resp.value : null;
+        return resp.value;
       } catch {
-        setOwner(null);
-        return undefinedSymbol;
+        return null;
       }
     },
-    initialData: undefinedSymbol,
   });
 
-  const save = useMutation({
-    mutationFn: async (newValue: string) => {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: async (newValue: string | null) => {
       if (!getJwtToken()) throw new Error('Not logged in');
-      const resp = await ofetch<{ message?: 'ok' }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        {
-          body: {
-            value: newValue,
-          },
-          method: 'post',
-        },
-      );
-      return resp.message === 'ok' ? newValue : null;
+      try {
+        const resp = await ofetch<{ message?: 'ok' }>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+          newValue === null
+            ? {
+                method: 'delete',
+              }
+            : {
+                body: {
+                  value: newValue,
+                },
+                method: 'post',
+              },
+        );
+        return resp.message === 'ok' ? newValue : null;
+      } catch {
+        return null;
+      }
     },
-    onSuccess: newValue =>
-      queryClient.setQueryData(['user-storage', userEmail, key], newValue),
-  });
-
-  const remove = useMutation({
-    mutationFn: async () => {
-      if (!getJwtToken()) throw new Error('Not logged in');
-      await ofetch<{ message?: 'ok' }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        {
-          method: 'delete',
-        },
-      );
-      return null;
-    },
-    onSuccess: () => {
-      queryClient.setQueryData(['user-storage', userEmail, key], null);
-    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        predicate: query =>
+          query.queryKey.includes('user-storage') &&
+          query.queryKey.includes(key),
+      }),
   });
 
   useEffect(() => {
-    setOwner(null);
+    if (!userEmail) {
+      void queryClient.invalidateQueries({
+        predicate: query =>
+          query.queryKey.includes('user-storage') &&
+          query.queryKey.includes(key),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userEmail]);
 
-  const isTrusted =
-    !value.isLoading &&
-    !save.isPending &&
-    !remove.isPending &&
-    !value.isError &&
-    value.isFetched &&
-    !!userEmail &&
-    userEmail === owner &&
-    value.data !== undefinedSymbol;
+  return useMemo(() => {
+    const isSaving = isPending;
+    const isFetching = isValueLoading || isValuePending;
+    const isLoading = isSaving || isFetching;
+    let value: T | null = null;
+    try {
+      if (serializer === 'none') {
+        value = (data as T) ?? null;
+      } else if (serializer === 'json') {
+        value = typeof data === 'string' ? (JSON.parse(data) as T) : null;
+      }
+    } catch {
+      value = null;
+    }
+    const save = (newValue: T | null) => {
+      let newRawValue: null | string = null;
+      if (newValue === null) {
+        newRawValue = null;
+      } else {
+        if (serializer === 'none') {
+          newRawValue = newValue as string;
+        } else if (serializer === 'json') {
+          newRawValue = JSON.stringify(newValue);
+        }
+      }
 
-  return {
-    isLoading: value.isLoading || save.isPending || remove.isPending,
-    value: isTrusted ? (value.data as string) ?? null : undefined,
-    save: save.mutateAsync,
-    remove: remove.mutateAsync,
-  };
+      return mutateAsync(newRawValue);
+    };
+
+    return {
+      isFetching,
+      isSaving,
+      isLoading,
+      value,
+      save,
+    };
+  }, [
+    isPending,
+    isValueLoading,
+    isValuePending,
+    serializer,
+    data,
+    mutateAsync,
+  ]);
 }

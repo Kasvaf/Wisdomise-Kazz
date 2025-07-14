@@ -4,7 +4,7 @@ common:
   buy_sell: 德州新星
   buy_vol: 购买量
   contract_address: 合约地址
-  created: 创建
+  created: 年龄
   initial_liquidity: 初始流动性
   liquidity: 流动性
   marketcap: 市值
@@ -24,9 +24,26 @@ common:
 page:
   info: 此页面显示新推出的 Solana 代币和流动性池，提供有关其市值、创建日期和交易活动的见解。TXNS
     列显示买卖交易的总数，有助于识别每个项目的交易活动和兴趣。
-  title: 沟
+  title: 战壕
 security:
   freeze_auth: 冻结授权<br />已禁用
   lp_burned: LP<br />烧毁
   mint_auth: Mint Auth<br />已禁用
   top_holders: 前 10 名<br />持有人
+token_insight:
+  bundle_holding:
+    full: 捆绑商持股比例
+    mini: 捆绑器
+  dev_holding:
+    full: 开发商持股比例
+    mini: Dev H.
+  insiders_holding:
+    full: 内部人士持股比例
+    mini: 内部人士
+  snipers_holding:
+    full: 狙击手持球率
+    mini: 狙击手 H.
+  title: 代币信息
+  top_10_holders_holding:
+    full: 前十大股东持股比例
+    mini: 前 10 名

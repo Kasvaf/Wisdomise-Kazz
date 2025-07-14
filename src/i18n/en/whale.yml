@@ -49,20 +49,12 @@ top_coins:
       7D.
   labels: Labels
   market_cap: Market Cap
+  price: Price
   rank: '#'
   sell_volume:
     title: Sell Volume
     avg: Avg per sell
     info: The total volume sold from smart wallets and total wallet in the last 7D.
-  sorts:
-    highest_transfer_vol: Highest Transfer Vol
-    market_cap: Market Cap
-    most_bought: Most Bought
-    most_sold: Most Sold
-    negative_price_changes: Highest Losers
-    positive_price_changes: Highest Gainers
-    rank: Index
-    wallet_count: Highest Wallet No
   wallet_number: Wallet Number
 top_whales:
   title: Smart Wallets

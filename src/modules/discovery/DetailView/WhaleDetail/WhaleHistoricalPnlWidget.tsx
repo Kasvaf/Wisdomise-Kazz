@@ -3,7 +3,7 @@ import { Line, type LineConfig } from '@ant-design/plots';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { useWhaleDetails } from 'api';
+import { useWhaleDetails } from 'api/discovery';
 import { formatNumber } from 'utils/numbers';
 
 export function WhaleHistoricalPnlWidget({
@@ -73,7 +73,7 @@ export function WhaleHistoricalPnlWidget({
             compactInteger: true,
             decimalLength: 1,
             minifyDecimalRepeats: true,
-            seperateByComma: true,
+            separateByComma: true,
           })}`,
         }),
         domStyles: {

@@ -1,43 +1,49 @@
 /* eslint-disable import/max-dependencies */
-import { useMemo, type FC } from 'react';
+import { type ReactNode, useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
-import { useCoinDetails, useNCoinDetails } from 'api';
+import {
+  useCoinDetails,
+  useNCoinDetails,
+  type CoinNetwork,
+} from 'api/discovery';
 import { CoinLogo } from 'shared/Coin';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { ContractAddress } from 'shared/ContractAddress';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { type CoinNetwork } from 'api/types/shared';
-import { PriceAlertButton } from './PriceAlertButton';
+import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
+import {
+  calcNCoinRiskLevel,
+  doesNCoinHaveLargeTxns,
+} from 'modules/discovery/ListView/NetworkRadar/lib';
 
 export const CoinTitleWidget: FC<{
   slug: string;
   className?: string;
   hr?: boolean;
-}> = ({ slug, className, hr }) => {
+  suffix?: ReactNode;
+}> = ({ slug, className, hr, suffix }) => {
   const { t } = useTranslation('network-radar');
   const coin = useCoinDetails({ slug });
   const nCoin = useNCoinDetails({ slug });
-  const [globalNetwork] = useGlobalNetwork();
   const isLoading =
     coin.isLoading || nCoin.isLoading || coin.isPending || nCoin.isPending;
   const isNCoin = !!nCoin.data?.base_symbol;
   const symbol = nCoin.data?.base_symbol || coin.data?.symbol;
-
+  const nCoinRiskLevel = calcNCoinRiskLevel({
+    riskPercent: nCoin.data?.risk_percent ?? 0,
+  });
   const networks = useMemo<CoinNetwork[]>(() => {
     const ret: CoinNetwork[] = [];
     if (nCoin.data?.base_contract_address && nCoin.data.network) {
       return [
         {
           contract_address: nCoin.data.base_contract_address,
-          symbol_network_type: 'COIN',
+          symbol_network_type: 'TOKEN',
           network: nCoin.data.network,
         },
       ];
@@ -47,8 +53,6 @@ export const CoinTitleWidget: FC<{
     }
     return ret;
   }, [nCoin.data, coin.data]);
-
-  const matchedNetwork = networks.find(x => x.network.slug === globalNetwork);
 
   useLoadingBadge(isLoading);
 
@@ -63,7 +67,7 @@ export const CoinTitleWidget: FC<{
       >
         {symbol ? (
           <>
-            <div className="flex items-center justify-start gap-2 mobile:w-full mobile:flex-wrap">
+            <div className="flex w-full items-center justify-start gap-2 mobile:w-full mobile:flex-wrap">
               <CoinLogo value={symbol} className="size-10" />
               <div className="flex flex-col justify-between gap-1">
                 <div className="flex items-center gap-1">
@@ -88,20 +92,14 @@ export const CoinTitleWidget: FC<{
                   />
                 </div>
                 <div className="flex items-center gap-1">
-                  {matchedNetwork && (
-                    <>
-                      <ContractAddress
-                        value={
-                          matchedNetwork.symbol_network_type === 'COIN'
-                            ? true
-                            : matchedNetwork.contract_address
-                        }
-                        fallbackAsNativeCoin={false}
-                        className="text-xs text-v1-content-secondary"
-                      />
-                      <span className="size-[2px] rounded-full bg-white" />
-                    </>
-                  )}
+                  <>
+                    <ContractAddress
+                      value={networks}
+                      className="text-xs text-v1-content-secondary"
+                      allowCopy
+                    />
+                    <span className="size-[2px] rounded-full bg-white" />
+                  </>
 
                   {/* Socials */}
                   <CoinCommunityLinks
@@ -116,15 +114,7 @@ export const CoinTitleWidget: FC<{
                   />
 
                   {/* Developer Data */}
-                  {isNCoin && isDebugMode && (
-                    <>
-                      <span className="size-[2px] rounded-full bg-white" />
-                      <span className="text-xs text-v1-content-positive">
-                        {'TODO: Dev'}
-                      </span>
-                    </>
-                  )}
-                  {/* TODO an user icon and his assets history */}
+                  {nCoin.data?.dev && <NCoinDeveloper value={nCoin.data.dev} />}
 
                   {nCoin.data?.creation_datetime && (
                     <>
@@ -132,11 +122,7 @@ export const CoinTitleWidget: FC<{
                       <NCoinAge
                         value={nCoin.data?.creation_datetime}
                         inline
-                        className={clsx(
-                          'text-xs',
-                          nCoin.data._states.isNew &&
-                            'text-v1-background-secondary',
-                        )}
+                        className="text-xs"
                       />
                     </>
                   )}
@@ -149,7 +135,12 @@ export const CoinTitleWidget: FC<{
                     <p className="text-xs text-v1-content-secondary">
                       {t('common.buy_sell')}
                       {' (24h)'}
-                      {nCoin.data._states.hasLargeTxns ? ' 🔥' : ''}
+                      {doesNCoinHaveLargeTxns({
+                        totalNumBuys: nCoin.data.update.total_num_buys ?? 0,
+                        totalNumSells: nCoin.data.update.total_num_sells ?? 0,
+                      })
+                        ? ' 🔥'
+                        : ''}
                     </p>
                     <NCoinBuySell
                       value={{
@@ -167,7 +158,7 @@ export const CoinTitleWidget: FC<{
                       {' (24h)'}
                     </p>
                     <ReadableNumber
-                      value={nCoin.data.update.total_trading_volume.usd}
+                      value={nCoin.data.update.trading_volume.usd}
                       className="text-xs"
                       label="$"
                       popup="never"
@@ -182,9 +173,9 @@ export const CoinTitleWidget: FC<{
                     <span className="text-xs">
                       <span
                         className={clsx(
-                          nCoin.data._states.riskLevel === 'low'
+                          nCoinRiskLevel === 'low'
                             ? 'text-v1-content-positive'
-                            : nCoin.data._states.riskLevel === 'medium'
+                            : nCoinRiskLevel === 'medium'
                             ? 'text-v1-content-notice'
                             : 'text-v1-content-negative',
                         )}
@@ -205,39 +196,11 @@ export const CoinTitleWidget: FC<{
                   )}
                 </div>
               )}
-            </div>
-
-            <div className="flex items-center gap-4 mobile:w-full mobile:justify-between">
-              <div className="flex flex-col items-end justify-between gap-1 mobile:items-start">
-                <DirectionalNumber
-                  value={
-                    nCoin.data?.update.base_market_data.current_price ??
-                    coin.data?.data?.current_price
-                  }
-                  label="$"
-                  direction="up"
-                  className="text-sm mobile:text-lg"
-                  showIcon={false}
-                  showSign={false}
-                />
-                {coin.data?.data?.price_change_percentage_24h && (
-                  <DirectionalNumber
-                    className="text-xs"
-                    value={coin.data?.data?.price_change_percentage_24h}
-                    label="%"
-                    showSign
-                    showIcon
-                    suffix=" (24h)"
-                  />
-                )}
-              </div>
-              <div className="h-8 w-px bg-white/10 mobile:hidden" />
-              <PriceAlertButton
-                slug={slug}
-                variant="outline"
-                surface={1}
-                size="md"
-              />
+              {suffix && (
+                <div className="flex grow items-center justify-end">
+                  {suffix}
+                </div>
+              )}
             </div>
           </>
         ) : (

@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { type Alert } from 'api';
+import { type Alert } from 'api/alert';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useAlertForm } from '../forms';
 import { CoinSelect } from './CoinSelect';
@@ -66,7 +66,7 @@ export function AlertTarget({
                   compactInteger: false,
                   decimalLength: -1,
                   minifyDecimalRepeats: false,
-                  seperateByComma: true,
+                  separateByComma: true,
                 }}
               />
             ),

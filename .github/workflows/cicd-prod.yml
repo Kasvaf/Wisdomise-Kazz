@@ -17,7 +17,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 0
+          submodules: recursive
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -61,7 +63,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp --recursive dist/ s3://app.wisdomise.com/
-          ./cleanup-bucket.sh app.wisdomise.com
+          ./scripts/cleanup-bucket.sh app.wisdomise.com
 
   notify-slack:
     runs-on: ubuntu-latest

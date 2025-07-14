@@ -3,38 +3,31 @@ import { type FC, useMemo } from 'react';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
-import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
+import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { RadarFilter } from 'modules/discovery/ListView/RadarFilter';
 import { usePageState } from 'shared/usePageState';
 import { TableRank } from 'shared/TableRank';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
 } from '../CoinPreDetailModal';
 import { WhaleRadarSentiment } from './WhaleRadarSentiment';
+import { WhaleRadarFilters } from './WhaleRadarFilters';
 
 export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
-  const [tableState, setTableState] = usePageState<
-    Required<Parameters<typeof useWhaleRadarCoins>[0]>
+  const [pageState, setPageState] = usePageState<
+    Parameters<typeof useWhaleRadarCoins>[0]
   >('whale-radar-coins', {
     sortBy: 'rank',
     sortOrder: 'ascending',
-    query: '',
-    categories: [] as string[],
-    networks: [] as string[],
-    trendLabels: [] as string[],
-    securityLabels: [] as string[],
-    days: 7,
-    excludeNativeCoins: false,
-    profitableOnly: false,
   });
 
-  const coins = useWhaleRadarCoins(tableState);
+  const coins = useWhaleRadarCoins(pageState);
   useLoadingBadge(coins.isFetching);
 
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
@@ -106,12 +99,15 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
+  const {
+    params: { slug: activeSlug },
+  } = useDiscoveryRouteMeta();
+
   return (
-    <>
-      <RadarFilter
-        radar="whale-radar"
-        value={tableState}
-        onChange={newState => setTableState(p => ({ ...p, ...newState }))}
+    <div className="p-3">
+      <WhaleRadarFilters
+        value={pageState}
+        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
         surface={1}
         mini
@@ -133,6 +129,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={2}
           onClick={r => openModal(r)}
           scrollable={false}
+          isActive={r => r.symbol.slug === activeSlug}
         />
       </AccessShield>
       <CoinPreDetailModal
@@ -158,6 +155,6 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           <WhaleRadarSentiment value={selectedRow} mode="expanded" />
         )}
       </CoinPreDetailModal>
-    </>
+    </div>
   );
 };

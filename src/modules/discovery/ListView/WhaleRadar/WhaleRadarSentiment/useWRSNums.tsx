@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { type WhaleRadarSentiment } from 'api';
+import { type WhaleRadarSentiment } from 'api/discovery';
 
 export const useWRSNums = (value?: WhaleRadarSentiment | null) => {
   const { t } = useTranslation('whale');
@@ -11,17 +11,20 @@ export const useWRSNums = (value?: WhaleRadarSentiment | null) => {
   return [
     {
       label: t('sentiment.buy'),
+      shortLabel: 'B',
       color: buy > 0 ? 'text-v1-content-positive' : 'text-v1-content-secondary',
       value: buy,
     },
     {
       label: t('sentiment.sell'),
+      shortLabel: 'S',
       color:
         sell > 0 ? 'text-v1-content-negative' : 'text-v1-content-secondary',
       value: sell,
     },
     {
       label: t('sentiment.hold'),
+      shortLabel: 'H',
       color: hold > 0 ? 'text-v1-content-notice' : 'text-v1-content-secondary',
       value: hold,
     },

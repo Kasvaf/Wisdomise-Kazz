@@ -84,7 +84,6 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
           className={clsx(
             'absolute right-0 top-0 flex h-full items-center',
             !isValidElement(suffix) && 'pointer-events-none',
-            disabled && 'text-white/30',
             !noSuffixPad && 'pr-4',
           )}
         >

@@ -2,6 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ofetch } from 'config/ofetch';
 import { useActiveNetwork } from 'modules/base/active-network';
+import {
+  SOLANA_CONTRACT_ADDRESS,
+  USDC_CONTRACT_ADDRESS,
+  USDT_CONTRACT_ADDRESS,
+} from 'api/chains/constants';
 import { type MarketTypes } from './types/shared';
 import { useSupportedPairs } from './trader';
 
@@ -19,64 +24,67 @@ export interface Candle {
 }
 
 export const useCandlesQuery = ({
-  asset,
+  pairName,
   resolution,
-  startDateTime,
-  endDateTime,
-  market,
+  startDateTime = new Date(Date.now() - 1_000_000).toISOString(),
+  endDateTime = new Date().toISOString(),
+  marketName,
 }: {
-  asset?: string;
+  pairName?: string;
   resolution?: Resolution;
   startDateTime?: string | Date;
   endDateTime?: string | Date;
-  market?: MarketTypes;
+  marketName?: string;
 }) =>
   useQuery({
     queryKey: [
       'candles',
-      asset,
+      pairName,
       resolution,
       startDateTime,
       endDateTime,
-      market,
+      marketName,
     ],
     queryFn: async () => {
       const data = await ofetch<Candle[]>('/delphi/candles', {
         query: {
-          asset,
+          pair_name: pairName,
           resolution,
           start_datetime: startDateTime,
           end_datetime: endDateTime,
-          market_type: market,
+          market_name: marketName,
         },
       });
       return data;
     },
     enabled: Boolean(
-      asset &&
+      pairName &&
         resolution &&
         startDateTime &&
         endDateTime &&
-        market !== undefined,
+        marketName !== undefined,
     ),
     staleTime: Number.POSITIVE_INFINITY,
   });
 
 interface LastCandleResponse {
-  symbol: {
-    id: number;
-    name: string;
-    exchange: string;
-    market: string;
-    active: boolean;
-    created_at: string;
-    updated_at: string;
-    deleted_at: null;
-    pool_address: null;
-    base: string;
-    quote: string;
-  };
+  symbol: LastCandleSymbol;
   candle: Candle;
+}
+
+interface LastCandleSymbol {
+  id: number;
+  name: string;
+  exchange: string;
+  market: string;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null;
+  network?: string;
+  pool_address: string | null;
+  base: string;
+  quote: string;
 }
 
 interface LastCandleParams {
@@ -152,7 +160,15 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
   };
 };
 
-export const useCandlesBySlugs = (userConfig: {
+export const useUSDTLastPrice = () => {
+  return useLastPriceQuery({ slug: 'tether', quote: 'usd-coin' });
+};
+
+export const useUSDCLastPrice = () => {
+  return useLastPriceQuery({ slug: 'usd-coin', quote: 'tether' });
+};
+
+const enrichCandleConfig = (userConfig: {
   base?: string;
   quote?: string;
   network: 'the-open-network' | 'solana';
@@ -160,6 +176,8 @@ export const useCandlesBySlugs = (userConfig: {
   start?: string;
   end?: string;
   skip_empty_candles?: boolean;
+  bases?: string[];
+  quotes?: string[];
 }) => {
   const now = Date.now();
   const yesterday = now - 1000 * 60 * 60 * 24;
@@ -185,6 +203,19 @@ export const useCandlesBySlugs = (userConfig: {
         ? '4h'
         : '1d';
   }
+  return config;
+};
+
+export const useCandlesBySlugs = (userConfig: {
+  base?: string;
+  quote?: string;
+  network: 'the-open-network' | 'solana';
+  resolution?: Resolution;
+  start?: string;
+  end?: string;
+  skip_empty_candles?: boolean;
+}) => {
+  const config = enrichCandleConfig(userConfig);
   const queryKey = [
     'candles-by-slugs',
     ...Object.entries(config).filter(([k]) => k !== 'start' && k !== 'end'),
@@ -203,8 +234,93 @@ export const useCandlesBySlugs = (userConfig: {
         meta: { auth: false },
       }).then(resp => resp.candles);
     },
-    staleTime: Number.POSITIVE_INFINITY,
+    refetchInterval: 10_000,
+    staleTime: 1000,
     enabled: !!config.base && !!config.quote,
     placeholderData: p => p,
   });
+};
+
+export interface BatchCandleResponse {
+  responses: Array<{ candles: Candle[]; symbol: LastCandleSymbol }>;
+}
+
+export const useBatchCandlesQuery = (userConfig: {
+  bases?: string[];
+  quotes?: string[];
+  network: 'the-open-network' | 'solana';
+  resolution?: Resolution;
+  start?: string;
+  end?: string;
+}) => {
+  const config = enrichCandleConfig(userConfig);
+  const queryKey = [
+    'candles-batch',
+    ...Object.entries(config).filter(([k]) => k !== 'start' && k !== 'end'),
+    dayjs(config.start).format('YYYY-MM-DD HH:mm'),
+    dayjs(config.end).format('YYYY-MM-DD HH:mm'),
+  ];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => {
+      return ofetch<BatchCandleResponse>('delphinus/candles-batch/', {
+        query: {
+          market: 'SPOT',
+          convert_to_usd: true,
+          base: config.bases,
+          quote: config.quotes,
+          start: config.start,
+          end: config.end,
+          network: config.network,
+          resolution: config.resolution,
+        },
+        meta: { auth: false },
+      }).then(res => res.responses);
+    },
+    placeholderData: p => p,
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled:
+      (config.bases?.length ?? 0) > 0 && (config.quotes?.length ?? 0) > 0,
+  });
+};
+
+export const useBatchLastPriceQuery = ({
+  bases,
+  network,
+}: {
+  bases?: string[];
+  network: 'solana' | 'the-open-network';
+}) => {
+  const { data: usdtPrice, isPending: p1 } = useUSDTLastPrice();
+  const { data: usdcPrice, isPending: p2 } = useUSDCLastPrice();
+
+  const noneUsdBases = bases?.filter(
+    base => ![USDT_CONTRACT_ADDRESS, USDC_CONTRACT_ADDRESS].includes(base),
+  );
+
+  const quotes = noneUsdBases?.map(base =>
+    base === SOLANA_CONTRACT_ADDRESS
+      ? USDC_CONTRACT_ADDRESS
+      : SOLANA_CONTRACT_ADDRESS,
+  );
+
+  const { data: batchCandles, isPending } = useBatchCandlesQuery({
+    bases: noneUsdBases,
+    quotes,
+    network,
+  });
+
+  return {
+    data: bases?.map(
+      base =>
+        (base === USDC_CONTRACT_ADDRESS
+          ? usdcPrice
+          : base === USDT_CONTRACT_ADDRESS
+          ? usdtPrice
+          : batchCandles?.find(res => res.symbol.base === base)?.candles?.[0]
+              ?.close) ?? 0,
+    ),
+    isPending: p1 || p2 || isPending,
+  };
 };

@@ -30,7 +30,7 @@ export default function Leaderboard({
   rewardedUsersMinRank?: number;
 }) {
   return (
-    <div className="rounded-xl bg-v1-surface-l2 p-3">
+    <div className="mb-16 rounded-xl bg-v1-surface-l2 p-3">
       <div className="mb-2 flex gap-3 border-b border-v1-border-primary/20 px-3 pb-2 text-xs text-v1-content-secondary">
         <div>Rank</div>
         <div>Username</div>
@@ -166,7 +166,7 @@ export function LeaderboardItem({
             $
             {formatNumber(participant.trading_volume, {
               compactInteger: false,
-              seperateByComma: false,
+              separateByComma: false,
               decimalLength: 1,
               minifyDecimalRepeats: false,
             })}

@@ -104,10 +104,5 @@ table:
       24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the last 24
       hours.
   rank: Rank™
-  sorts:
-    market_cap: Market Cap
-    negative_price_changes: Highest Losers
-    positive_price_changes: Highest Gainers
-    rank: Wise Rank™
   technical_sentiment:
     title: Technical Sentiment™

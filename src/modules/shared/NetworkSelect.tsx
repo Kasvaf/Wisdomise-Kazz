@@ -1,7 +1,7 @@
 import { type ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useNetworks } from 'api';
+import { useNetworks } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 
 export function NetworkSelect<M extends boolean>({
@@ -42,14 +42,24 @@ export function NetworkSelect<M extends boolean>({
       chevron={!iconOnly}
       className={clsx(className, iconOnly && ['aspect-square !p-0'])}
       render={(val, target) => {
-        if (!val) return t('common.all_networks');
+        if (!val) {
+          return iconOnly && target === 'value' ? (
+            <div className="relative flex size-full items-center justify-center">
+              <div className="inline-flex size-6 items-center justify-center rounded-full bg-white/10 text-[11px]">
+                {'All'}
+              </div>
+            </div>
+          ) : (
+            t('common.all_networks')
+          );
+        }
         const opt = options.data?.find(x => x[valueType] === val);
         if (iconOnly && target === 'value')
           return (
             <div className="relative flex size-full items-center justify-center">
               <img
                 src={opt?.icon_url ?? ''}
-                className="relative size-[80%] overflow-hidden rounded-lg"
+                className="relative size-6 overflow-hidden rounded-lg"
               />
             </div>
           );

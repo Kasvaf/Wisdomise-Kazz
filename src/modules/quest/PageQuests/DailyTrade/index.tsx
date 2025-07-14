@@ -26,7 +26,6 @@ import { ReactComponent as Lock } from './images/lock.svg';
 export default function DailyTrade({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const [RewardModal, openRewardModal] = useRewardModal();
-  const [rewardAmount, setRewardAmount] = useState(0);
   const {
     activeDay,
     currentDay,
@@ -51,13 +50,18 @@ export default function DailyTrade({ className }: { className?: string }) {
   };
 
   const claim = () => {
-    if (data?.profile.customAttributes.boxRewardAmount) {
-      setRewardAmount(+data.profile.customAttributes.boxRewardAmount);
-    }
     void mutateAsync({ event_name: 'claim' }).then(() => {
       setOpen(false);
       setRewardClaimed(true);
-      return openRewardModal({ amount: rewardAmount });
+      const boxReward = +(
+        data?.profile.customAttributes.boxRewardAmount ?? '0'
+      );
+      if (boxReward) {
+        return openRewardModal({
+          amount: boxReward,
+        });
+      }
+      return null;
     });
   };
 
@@ -173,7 +177,7 @@ export default function DailyTrade({ className }: { className?: string }) {
                     size="xs"
                     variant="primary"
                     className="relative w-full"
-                    disabled={!completedAll}
+                    disabled={!completedAll || rewardClaimed}
                     onClick={claim}
                   >
                     {completedAll ? 'Claim' : <Lock />}

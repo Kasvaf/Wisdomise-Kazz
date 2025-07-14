@@ -1,14 +1,15 @@
 import { useSupportedPairs } from 'api';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
-import PositionsList from 'modules/autoTrader/PagePositions/PositionsList';
 import BuySellTrader from 'modules/autoTrader/BuySellTrader';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
-const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
-  const { data: supportedPairs, isLoading } = useSupportedPairs(slug);
-  const [quote, setQuote] = useSearchParamAsState<string>('quote', 'tether');
+const TraderSection: React.FC<{
+  slug: string;
+  quote: string;
+  setQuote: (newVal: string) => void;
+}> = ({ slug, quote, setQuote }) => {
+  const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
 
   return (
     <>
@@ -27,23 +28,24 @@ const TraderSection: React.FC<{ slug: string }> = ({ slug }) => {
             />
           </ActiveNetworkProvider>
         ) : (
-          <div className="my-8 flex flex-col items-center gap-3 text-center text-sm">
-            <TradingIcon className="size-8" />
-            This coin is currently not tradable on our platform.
-          </div>
+          <NotTradable error={error} />
         )}
       </div>
-
-      <hr className="border-white/10 [&:has(+:not(.id-positions-list))]:hidden" />
-
-      <PositionsList
-        slug={slug}
-        isOpen
-        noEmptyState
-        noLoadingState
-        className="id-positions-list [&_.id-position-item]:rounded-md"
-      />
     </>
+  );
+};
+
+const NotTradable = ({ error }: { error: Error | null }) => {
+  return error ? (
+    <div className="my-8 flex flex-col items-center gap-3 text-center text-sm">
+      <TradingIcon className="size-8" />
+      We had an issue contacting our servers. Please try again later.
+    </div>
+  ) : (
+    <div className="my-8 flex flex-col items-center gap-3 text-center text-sm">
+      <TradingIcon className="size-8" />
+      This coin is currently not tradable on our platform.
+    </div>
   );
 };
 

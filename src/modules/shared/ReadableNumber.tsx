@@ -75,7 +75,7 @@ export function ReadableNumber({
       compactInteger: true,
       decimalLength: 3,
       minifyDecimalRepeats: true,
-      seperateByComma: true,
+      separateByComma: true,
       ...format,
     });
   }, [value, format]);
@@ -85,7 +85,7 @@ export function ReadableNumber({
       compactInteger: false,
       decimalLength: Number.POSITIVE_INFINITY,
       minifyDecimalRepeats: false,
-      seperateByComma: true,
+      separateByComma: true,
     });
   }, [value]);
 

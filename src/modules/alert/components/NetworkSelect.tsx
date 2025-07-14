@@ -2,7 +2,7 @@ import { Select, Spin, type SelectProps } from 'antd';
 import { type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { useNetworks } from 'api';
+import { useNetworks } from 'api/discovery';
 
 export const NetworkSelect: FC<SelectProps<string[]>> = ({
   value,

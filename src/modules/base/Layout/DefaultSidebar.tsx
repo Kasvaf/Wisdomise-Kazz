@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 import { type FC } from 'react';
 import { useHasFlag } from 'api';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
@@ -8,9 +8,10 @@ import { useMenuItems } from './MenuItems/useMenuItems';
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const MenuItems = useMenuItems();
   const hasFlag = useHasFlag();
-  const { params } = useDiscoveryRouteMeta();
+  const { params, isMatched, getUrl } = useDiscoveryRouteMeta();
+  const [searchParams] = useSearchParams();
+  const hasSlug = searchParams.has('slug');
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
-  const { isMatched, getUrl } = useDiscoveryRouteMeta();
 
   return (
     <>
@@ -25,7 +26,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
             to={getUrl({
               ...item.meta,
               view:
-                params.view === 'list'
+                params.view === 'list' || !hasSlug
                   ? 'list'
                   : params.view === 'detail'
                   ? 'both'

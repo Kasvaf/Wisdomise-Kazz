@@ -1,4 +1,4 @@
-import { useWhaleDetails } from 'api';
+import { useWhaleDetails } from 'api/discovery';
 import { Wallet } from './Wallet';
 
 export const WhaleTitleWidget = ({

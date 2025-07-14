@@ -6,7 +6,7 @@ import { ReactComponent as Logo } from 'assets/WisdomiseLogo.svg';
 import { useActiveNetwork } from 'modules/base/active-network';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import BtnBack from 'modules/base/BtnBack';
-import TraderButtons from './TraderButtons';
+import HeaderNav from './HeaderNav';
 import ProfileMenu from './ProfileMenu';
 
 const MobileHeader: React.FC<
@@ -41,11 +41,10 @@ const MobileHeader: React.FC<
         )}
       >
         {title === undefined ? (
-          net ? (
+          <div className="flex gap-2">
+            {net === 'solana' && <HeaderNav />}
             <BtnWalletConnect />
-          ) : (
-            <TraderButtons />
-          )
+          </div>
         ) : null}
       </div>
     </>

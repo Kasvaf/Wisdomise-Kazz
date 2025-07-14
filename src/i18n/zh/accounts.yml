@@ -1,6 +1,10 @@
 page-accounts:
   accounts-connected: 帳戶已連接
+  accounts_connected_other: "{{count}} 账户已连接"
+  accounts_connected_zero: 未连接账户
   users-invited: 用戶已邀請
+  users_invited_other: "{{count}} 用户已邀请"
+  users_invited_zero: 未邀请任何用户
 page-profile:
   buttons:
     edit_info: 編輯資訊
@@ -18,6 +22,12 @@ page-profile:
     info: 我的資訊
     overview: 概述
   title: 我的個人資料
+page-public-profile:
+  signalers-table:
+    max_drawdown: 最大回撤<1>每月</1>
+    name: 名稱
+    pair: 一对
+    pl: 盈亏 <1>每月</1>
 profile-header:
   cant-change: 無法更改
   change-header: 更改標題

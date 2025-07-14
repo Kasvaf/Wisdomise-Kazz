@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { formatNumber } from 'utils/numbers';
 import { ECharts } from 'shared/ECharts';
-import { type WhaleRadarCoin, type CoinSignalAnalysis } from 'api';
+import { type WhaleRadarCoin, type CoinSignalAnalysis } from 'api/discovery';
 
 interface PriceRow {
   value: number;
@@ -193,7 +193,7 @@ export const CoinPriceChart: FC<
               compactInteger: true,
               decimalLength: 3,
               minifyDecimalRepeats: true,
-              seperateByComma: true,
+              separateByComma: true,
             })}`,
           ];
           if (dataIndex === socialIndexes?.last) {

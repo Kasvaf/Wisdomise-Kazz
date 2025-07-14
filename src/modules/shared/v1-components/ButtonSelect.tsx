@@ -21,8 +21,8 @@ export function ButtonSelect<T>({
   surface = 3,
   innerScroll = true,
 }: {
-  size?: 'xs' | 'sm' | 'md' | 'xl';
-  variant?: 'default' | 'primary';
+  size?: 'xxs' | 'xs' | 'sm' | 'md' | 'xl';
+  variant?: 'default' | 'primary' | 'white' | 'tab';
   className?: string;
   buttonClassName?: string;
   options: Array<{
@@ -102,10 +102,12 @@ export function ButtonSelect<T>({
         'relative overflow-hidden',
         innerScroll ? 'max-w-full' : 'w-max min-w-max max-w-max',
         /* Size: height, padding, font-size, border-radius */
+        size === 'xxs' && 'h-5 rounded-md text-xxs',
         size === 'xs' && 'h-xs rounded-md text-xxs',
-        size === 'sm' && 'h-sm rounded-lg text-xxs',
+        size === 'sm' && 'h-sm rounded-lg text-xs',
         size === 'md' && 'h-md rounded-lg text-xs',
         size === 'xl' && 'h-xl rounded-xl text-sm',
+        variant === 'tab' && '!rounded-none',
         className,
       )}
       style={{
@@ -133,16 +135,22 @@ export function ButtonSelect<T>({
               aria-checked={value === option.value}
               disabled={option.disabled}
               className={clsx(
-                'relative h-full shrink-0 overflow-hidden rounded-lg text-sm',
+                'relative h-full shrink-0 overflow-hidden',
                 size === 'xl' ? ' px-3' : 'px-2',
+                size === 'xxs' || size === 'xs' ? 'rounded-md' : 'rounded-lg',
+                variant === 'tab' &&
+                  '!rounded-none border-x-0 border-b border-t-0',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
                 'border border-transparent enabled:hover:text-v1-content-primary/80',
                 variant === 'primary'
-                  ? 'enabled:aria-checked:bg-v1-background-brand'
-                  : 'enabled:aria-checked:bg-[--active-color]',
+                  ? 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-v1-background-brand'
+                  : variant === 'white'
+                  ? 'enabled:aria-checked:bg-v1-content-primary enabled:aria-checked:text-v1-content-primary-inverse'
+                  : variant === 'tab'
+                  ? 'border-v1-content-primary/10 enabled:aria-checked:border-v1-background-brand enabled:aria-checked:text-v1-content-brand'
+                  : 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-[--active-color]',
                 'focus-visible:border-v1-border-focus',
-                'aria-checked:!text-v1-content-primary',
                 'disabled:opacity-40',
                 buttonClassName,
               )}

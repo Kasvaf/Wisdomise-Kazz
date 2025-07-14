@@ -1,38 +1,74 @@
-export const AVAILABLE_LISTS = [
-  'portfolio',
-  'coin-radar',
-  'network-radar',
-  'social-radar',
-  'technical-radar',
-  'whale-radar',
-] as const;
+/* note: aliases must be a string with the length of 1 and be unique for each section */
 
-export const LISTS_CONFIG: Record<
-  (typeof AVAILABLE_LISTS)[number],
+export const LISTS: Record<
+  | 'portfolio'
+  | 'coin-radar'
+  | 'network-radar'
+  | 'social-radar'
+  | 'technical-radar'
+  | 'whale-radar'
+  | 'positions'
+  | 'twitter-tracker',
   {
-    expandable: boolean;
+    alias: string;
   }
 > = {
   'coin-radar': {
-    expandable: true,
+    alias: 'c',
   },
   'network-radar': {
-    expandable: true,
+    alias: 'n',
   },
   'portfolio': {
-    expandable: false,
+    alias: 'p',
   },
   'social-radar': {
-    expandable: true,
+    alias: 's',
   },
   'technical-radar': {
-    expandable: true,
+    alias: 't',
   },
   'whale-radar': {
-    expandable: true,
+    alias: 'w',
+  },
+  'positions': {
+    alias: 'z',
+  },
+  'twitter-tracker': {
+    alias: 'x',
+  },
+} as const;
+
+export const DETAILS: Record<
+  'coin' | 'whale' | 'wallet',
+  {
+    alias: string;
+  }
+> = {
+  coin: {
+    alias: 'c',
+  },
+  whale: {
+    alias: 'd',
+  },
+  wallet: {
+    alias: 'w',
   },
 };
 
-export const AVAILABLE_DETAILS = ['coin', 'whale'] as const;
-
-export const AVAILABLE_VIEWS = ['detail', 'list', 'both'] as const;
+export const VIEWS: Record<
+  'list' | 'detail' | 'both',
+  {
+    alias: string;
+  }
+> = {
+  list: {
+    alias: 'l',
+  },
+  detail: {
+    alias: 'd',
+  },
+  both: {
+    alias: 'b',
+  },
+};

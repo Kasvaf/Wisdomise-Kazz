@@ -3,7 +3,7 @@ import { Area, type AreaConfig } from '@ant-design/plots';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { useWhaleDetails } from 'api';
+import { useWhaleDetails } from 'api/discovery';
 import { formatNumber } from 'utils/numbers';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
@@ -56,7 +56,7 @@ export function WhaleBalanceChartWidget({
               compactInteger: true,
               decimalLength: 3,
               minifyDecimalRepeats: true,
-              seperateByComma: true,
+              separateByComma: true,
             }),
         }),
       },

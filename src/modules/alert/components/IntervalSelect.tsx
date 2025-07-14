@@ -1,8 +1,13 @@
-import { Select, type SelectProps } from 'antd';
-import { type DefaultOptionType } from 'antd/es/select';
 import { clsx } from 'clsx';
-import { useMemo, useState, type FC } from 'react';
+import {
+  type ComponentProps,
+  useMemo,
+  useState,
+  type FC,
+  type ReactNode,
+} from 'react';
 import { useTranslation } from 'react-i18next';
+import { Select } from 'shared/v1-components/Select';
 import { formatNumber } from 'utils/numbers';
 
 const useCustomOption = (value?: number, cooldownMode?: boolean) => {
@@ -14,7 +19,7 @@ const useCustomOption = (value?: number, cooldownMode?: boolean) => {
             compactInteger: false,
             decimalLength: Number.POSITIVE_INFINITY,
             minifyDecimalRepeats: false,
-            seperateByComma: true,
+            separateByComma: true,
           })
         : null;
     return formattedNumber
@@ -30,7 +35,7 @@ const useCustomOption = (value?: number, cooldownMode?: boolean) => {
                   })}
             </span>
           ),
-          value,
+          value: value ?? 0,
         }
       : null;
   }, [t, value, cooldownMode]);
@@ -51,8 +56,8 @@ const useIntervalOptions = (
     cooldownMode,
   );
 
-  return useMemo<DefaultOptionType[]>(() => {
-    let options: DefaultOptionType[] = cooldownMode
+  return useMemo(() => {
+    let options: Array<{ label: ReactNode; value: number }> = cooldownMode
       ? [
           {
             label: `1 ${t('common.notifications.invervals.hour')}`,
@@ -123,28 +128,29 @@ const useIntervalOptions = (
 };
 
 export const IntervalSelect: FC<
-  SelectProps<number> & {
+  ComponentProps<typeof Select<number>> & {
     cooldownMode: boolean;
   }
-> = ({ cooldownMode, className, disabled, ...props }) => {
+> = ({ cooldownMode, className, disabled, value, ...props }) => {
   const [query, setQuery] = useState('');
 
-  const options = useIntervalOptions(cooldownMode || false, query, props.value);
+  const options = useIntervalOptions(cooldownMode || false, query, value);
 
   return (
     <Select
+      value={value}
+      options={options.map(option => option.value)}
+      allowClear={false}
       className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
-      showArrow={!disabled}
       disabled={disabled}
       showSearch={!cooldownMode}
       onSearch={cooldownMode ? undefined : setQuery}
       searchValue={cooldownMode ? undefined : query}
-      autoClearSearchValue
-      filterOption={false}
-      options={options.map(option => ({
-        label: option.label,
-        value: option.value,
-      }))}
+      dialogClassName="min-w-[100px]"
+      render={v => {
+        const opt = options.find(x => x.value === v);
+        return opt?.label ?? '---';
+      }}
       {...props}
     />
   );

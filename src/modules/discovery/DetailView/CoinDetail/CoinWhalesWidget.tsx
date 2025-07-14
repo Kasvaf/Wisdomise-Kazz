@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 
 import { clsx } from 'clsx';
 import { bxSearch } from 'boxicons-quasar';
-import { type CoinWhale, useCoinWhales } from 'api';
+import { type CoinWhale, useCoinWhales } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Network } from 'shared/Network';
@@ -11,28 +11,30 @@ import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
 import { Wallet } from '../WhaleDetail/Wallet';
 
-function CoinWhalesWidgetWithType({
+export function CoinWhalesWidget({
   type,
   slug,
+  title,
   id,
+  limit: _limit = 6,
   hr,
   className,
 }: {
   type: 'active' | 'holding';
+  title?: boolean;
   slug: string;
+  limit?: number;
   id?: string;
   hr?: boolean;
   className?: string;
 }) {
   const { t } = useTranslation('whale');
-  const isMobile = useIsMobile();
   const whales = useCoinWhales({ slug, type });
   const [query, setQuery] = useState('');
-  const [limit, setLimit] = useState<number | undefined>(6);
+  const [limit, setLimit] = useState<number | undefined>(_limit);
 
   const columns = useMemo<Array<TableColumn<CoinWhale>>>(
     () => [
@@ -143,17 +145,19 @@ function CoinWhalesWidgetWithType({
         )}
       >
         <div className="flex items-center justify-between gap-1">
-          <h3 className="text-sm font-semibold">
-            {type === 'active'
-              ? t('coin-radar:whales.active')
-              : t('coin-radar:whales.holding')}
-          </h3>
+          {title !== false && (
+            <h3 className="text-sm font-semibold">
+              {type === 'active'
+                ? t('coin-radar:whales.active')
+                : t('coin-radar:whales.holding')}
+            </h3>
+          )}
           <Input
             type="string"
-            size={isMobile ? 'xs' : 'md'}
+            size="xs"
             value={query}
             onChange={setQuery}
-            className="w-72 text-sm mobile:w-48"
+            className="w-72 mobile:w-48"
             prefixIcon={<Icon name={bxSearch} />}
             placeholder={t('coin-radar:whales.search')}
             surface={2}
@@ -167,8 +171,8 @@ function CoinWhalesWidgetWithType({
           surface={2}
           scrollable
           footer={
-            (data?.length ?? 0) > 6 &&
-            limit && (
+            typeof limit === 'number' &&
+            (data?.length ?? 0) > limit && (
               <Button
                 size="xs"
                 onClick={() => setLimit(undefined)}
@@ -181,37 +185,6 @@ function CoinWhalesWidgetWithType({
         />
       </div>
       {hr && <hr className="border-white/10" />}
-    </>
-  );
-}
-
-export function CoinWhalesWidget({
-  slug,
-  id,
-  hr,
-  className,
-}: {
-  slug: string;
-  id?: string;
-  hr?: boolean;
-  className?: string;
-}) {
-  return (
-    <>
-      <CoinWhalesWidgetWithType
-        slug={slug}
-        type="active"
-        id={id}
-        hr={hr}
-        className={className}
-      />
-      <CoinWhalesWidgetWithType
-        slug={slug}
-        type="holding"
-        id={id}
-        hr={hr}
-        className={className}
-      />
     </>
   );
 }

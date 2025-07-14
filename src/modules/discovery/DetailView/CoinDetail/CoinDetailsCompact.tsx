@@ -15,26 +15,33 @@ import { CoinWhalesWidget } from './CoinWhalesWidget';
 import { CoinIntroductionWidget } from './CoinIntroductionWidget';
 import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { useCoinDetailsTabs } from './useCoinDetailsTabs';
+import { NCoinInsightWidget } from './NCoinInsightWidget';
+import { CoinPriceWidget } from './CoinPriceWidget';
 
 export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 p-3">
       <NCoinRisksBanner slug={slug} />
       <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
+      <CoinPriceWidget slug={slug} />
       <BtnAutoTrade slug={slug} block variant="primary" />
       <CoinSentimentsWidget slug={slug} />
       <NCoinSentimentWidget slug={slug} />
       <CoinStatsWidget slug={slug} />
       <NCoinStatsWidget slug={slug} />
-      <CoinChart slug={slug} height={420} />
+      <NCoinInsightWidget slug={slug} />
+      <div className="h-[400px]">
+        <CoinChart slug={slug} />
+      </div>
       <CoinDetailsTabs
         options={tabs}
         className="sticky top-[90px] z-50 py-3 bg-v1-surface-l-current"
       />
       <div className="relative space-y-8" ref={root}>
+        <CoinIntroductionWidget slug={slug} id="coinoverview_introduction" />
         <CoinMessagesWidget
           id="coinoverview_trading_view"
           type="technical_ideas"
@@ -43,8 +50,16 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
         <CoinMessagesWidget id="coinoverview_socials" type="rest" slug={slug} />
         <CoinPoolsWidget slug={slug} id="coinoverview_pools" />
         <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" />
-        <CoinWhalesWidget slug={slug} id="coinoverview_whales" />
-        <CoinIntroductionWidget slug={slug} />
+        <CoinWhalesWidget
+          slug={slug}
+          type="active"
+          id="coinoverview_active_whales"
+        />
+        <CoinWhalesWidget
+          slug={slug}
+          type="holding"
+          id="coinoverview_holding_whales"
+        />
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ const makeOrigin = (name: string) => {
   return `https://${subdomainPrefix}${name}.${DOMAIN}`;
 };
 
+export const GRPC_ORIGIN = makeOrigin('grpc');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const INVESTMENT_ORIGIN = makeOrigin('wsdm-app');
 export const MAIN_LANDING = (lng: string) =>

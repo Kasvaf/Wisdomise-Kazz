@@ -1,0 +1,13 @@
+diff --git a/node_modules/@reown/appkit/dist/types/src/library/react/index.d.ts b/node_modules/@reown/appkit/dist/types/src/library/react/index.d.ts
+index af75591..e288957 100644
+--- a/node_modules/@reown/appkit/dist/types/src/library/react/index.d.ts
++++ b/node_modules/@reown/appkit/dist/types/src/library/react/index.d.ts
+@@ -4,7 +4,7 @@ import type { AppKitBaseClient as AppKit, OpenOptions, Views } from '../../clien
+ import type { AppKitOptions } from '../../utils/TypesUtil.js';
+ type ThemeModeOptions = AppKitOptions['themeMode'];
+ type ThemeVariablesOptions = AppKitOptions['themeVariables'];
+-declare module 'react' {
++declare module global {
+     namespace JSX {
+         interface IntrinsicElements {
+             'appkit-modal': {

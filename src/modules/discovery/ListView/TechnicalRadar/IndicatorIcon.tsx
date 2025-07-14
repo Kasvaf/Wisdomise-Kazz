@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { type Indicator } from 'api';
+import { type Indicator } from 'api/discovery';
 
 export const IndicatorIcon: FC<{
   className?: string;

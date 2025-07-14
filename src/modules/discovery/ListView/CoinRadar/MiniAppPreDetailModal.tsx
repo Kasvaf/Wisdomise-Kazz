@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { bxSlider } from 'boxicons-quasar';
-import { useHasFlag, useCoinDetails } from 'api';
+import { useHasFlag } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { DrawerModal } from 'shared/DrawerModal';
 import { Coin } from 'shared/Coin';
@@ -110,6 +111,7 @@ const MiniAppPreDetailModal: React.FC<{
                   <NavLink
                     to={getUrl({
                       detail: 'coin',
+                      view: 'both',
                       slug,
                     })}
                     className="block basis-1/2"

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Alert } from 'api';
+import { type Alert } from 'api/alert';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { AlertType } from 'modules/alert/components/AlertType';

@@ -11,7 +11,6 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from './useDiscoveryRouteMeta';
-import { LISTS_CONFIG } from './constants';
 
 export const ListExpander: FC = () => {
   const isMobile = useIsMobile();
@@ -42,15 +41,11 @@ export const ListExpander: FC = () => {
         left: (appListRect?.left ?? 68) + (appListRect?.width ?? 384) - 12,
         position: 'fixed',
       });
-    } else if (params.slug) {
+    } else {
       setStyle({
         top: (sidebarRect?.top ?? 74) + 32,
         right: 6,
         position: 'fixed',
-      });
-    } else {
-      setStyle({
-        display: 'none',
       });
     }
   }, [params, isMobile]);
@@ -91,27 +86,26 @@ export const ListExpander: FC = () => {
 
   return (
     <div
-      className="fixed z-30 flex scale-90 flex-col items-center gap-1"
+      className="fixed z-30 flex flex-col items-center gap-1"
       ref={ref}
       style={style}
     >
-      {(params.view === 'detail' ||
-        (params.view === 'both' && LISTS_CONFIG[params.list].expandable)) && (
+      {(params.view === 'detail' || params.view === 'both') && (
         <Button
           fab
           variant="white"
-          size="2xs"
+          size="3xs"
           className="rounded-full"
           onClick={handleExpandClick}
         >
           <Icon name={bxChevronRight} />
         </Button>
       )}
-      {params.view !== 'detail' && (
+      {params.view !== 'detail' && params.slug && (
         <Button
           fab
           variant="white"
-          size="2xs"
+          size="3xs"
           className="rounded-full"
           onClick={handleCollapseClick}
         >

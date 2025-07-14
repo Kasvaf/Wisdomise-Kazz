@@ -5,11 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
 import { bxShareAlt } from 'boxicons-quasar';
-import {
-  useTechnicalRadarCoins,
-  type TechnicalRadarCoin,
-  useSubscription,
-} from 'api';
+import { useTechnicalRadarCoins, type TechnicalRadarCoin } from 'api/discovery';
 import { ECharts } from 'shared/ECharts';
 import { AccessShield } from 'shared/AccessShield';
 import Icon from 'shared/Icon';
@@ -20,6 +16,7 @@ import useIsMobile from 'utils/useIsMobile';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useSubscription } from 'api';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -66,7 +63,7 @@ export const TechnicalRadarChart: FC<{
                 compactInteger: true,
                 decimalLength: 2,
                 minifyDecimalRepeats: true,
-                seperateByComma: true,
+                separateByComma: true,
               },
             )}%</b></div>
           </div>`;
@@ -326,6 +323,7 @@ export const TechnicalRadarChart: FC<{
                   getUrl({
                     detail: 'coin',
                     slug: parsedData.data[e.dataIndex].raw.symbol.slug,
+                    view: 'both',
                   }),
                 );
               }

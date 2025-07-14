@@ -93,7 +93,7 @@ function getSafetyOpens(
   return result;
 }
 
-const useSignalFormStates = ({ quote, setQuote }: TraderInputs) => {
+const useSignalFormStates = ({ slug, quote, setQuote }: TraderInputs) => {
   const isUpdate = useState(false);
   const [amount, setAmount] = useState('0');
   const [leverage, setLeverage] = useState('1');
@@ -139,6 +139,7 @@ const useSignalFormStates = ({ quote, setQuote }: TraderInputs) => {
   const result = {
     isOrderLimitReached: ordersUsed >= maxOrders[0],
     isUpdate,
+    base: slug,
     quote: [quote, setQuote],
     amount: [amount, setAmount],
     leverage: [leverage, setLeverage],

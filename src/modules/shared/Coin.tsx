@@ -2,11 +2,11 @@ import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { useMemo, type ReactNode } from 'react';
 import { useSymbolInfo } from 'api/symbol';
-import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
-import { useNetworks } from 'api';
+import { type Coin as CoinType } from 'api/types/shared';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useNetworks } from 'api/discovery';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
@@ -34,7 +34,7 @@ export function CoinLogo({
   return (
     <div className={clsx('relative inline-block overflow-hidden', className)}>
       <div
-        className="size-full overflow-hidden rounded-full bg-white bg-cover bg-center bg-no-repeat"
+        className="size-full overflow-hidden rounded-full bg-white/10 bg-cover bg-center bg-no-repeat"
         style={{
           ...(url && {
             backgroundImage: `url("${
@@ -95,7 +95,7 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
-  const { getUrl, params } = useDiscoveryRouteMeta();
+  const { getUrl } = useDiscoveryRouteMeta();
 
   useSymbolInfo('the-open-network');
   const content = (
@@ -179,7 +179,7 @@ export function Coin({
           to={getUrl({
             detail: 'coin',
             slug: coin.slug,
-            view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+            view: 'both',
           })}
           title={tooltip}
         >

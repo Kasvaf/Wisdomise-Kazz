@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'usehooks-ts';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { useDetailedCoins } from 'api';
+import { useDetailedCoins } from 'api/discovery';
 import { CoinLogo } from 'shared/Coin';
 import { CoinLabels } from 'shared/CoinLabels';
 import { ContractAddress } from 'shared/ContractAddress';
@@ -13,7 +13,6 @@ import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import useIsMobile from 'utils/useIsMobile';
 
 export const GlobalSearch: FC<
   Omit<
@@ -33,11 +32,14 @@ export const GlobalSearch: FC<
   >
 > = props => {
   const { t } = useTranslation('common');
-  const isMobile = useIsMobile();
   const [network] = useGlobalNetwork();
+  const networkName = network
+    ?.split('-')
+    .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
+    .join(' ');
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
-  const { getUrl, params } = useDiscoveryRouteMeta();
+  const { getUrl } = useDiscoveryRouteMeta();
 
   const coins = useDetailedCoins({
     query: debouncedQuery,
@@ -55,7 +57,7 @@ export const GlobalSearch: FC<
             getUrl({
               detail: 'coin',
               slug,
-              view: isMobile || params.view === 'detail' ? 'detail' : 'both',
+              view: 'both',
             }),
           );
       }}
@@ -84,13 +86,30 @@ export const GlobalSearch: FC<
                     labels={[...(row?.symbol_labels ?? [])].filter(x => !!x)}
                     coin={row.symbol}
                     security={row.symbol_security ? [row.symbol_security] : []}
+                    networks={row.network_bindings}
                     size="xs"
                   />
                 </div>
                 <div className="flex items-center gap-1 text-xs">
+                  {/* Contract Address */}
                   <ContractAddress
-                    value={row.contract_address ?? true}
-                    allowCopy={false}
+                    value={
+                      row.network_bindings ??
+                      (network
+                        ? {
+                            contract_address: row.contract_address ?? '',
+                            symbol_network_type: row.contract_address
+                              ? 'TOKEN'
+                              : 'COIN',
+                            network: {
+                              name: networkName ?? network,
+                              slug: network,
+                              icon_url: '',
+                            },
+                          }
+                        : undefined)
+                    }
+                    allowCopy
                     className="text-v1-content-secondary"
                   />
 
@@ -130,10 +149,9 @@ export const GlobalSearch: FC<
           </div>
         );
       }}
-      searchPlaceholder={`Search in ${network
-        .split('-')
-        .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
-        .join(' ')} Network`}
+      searchPlaceholder={`Search in ${
+        networkName ? `${networkName} Network` : 'All Networks'
+      }`}
       chevron={false}
       showSearch
       loading={coins.isLoading}

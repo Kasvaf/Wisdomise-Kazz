@@ -2,9 +2,10 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { type FC, type SVGProps, type PropsWithChildren } from 'react';
 import { useAccountQuery } from 'api';
-import { Toggle } from 'shared/Toggle';
-import { type AlertMessenger } from 'api';
+import { Toggle } from 'shared//v1-components/Toggle';
+import { type AlertMessenger } from 'api/alert';
 import { isMiniApp } from 'utils/version';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as BellIcon } from './bell.svg';
 import { ReactComponent as EmailIcon } from './email.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
@@ -80,6 +81,7 @@ const AlertChannelRow: FC<
   connectAction,
 }) => {
   const { t } = useTranslation('common');
+
   return (
     <div className={clsx('flex items-center justify-between', className)}>
       <div>
@@ -108,16 +110,16 @@ const AlertChannelRow: FC<
             )}
           </span>
         ) : (
-          <button
-            className="h-8 rounded-lg bg-v1-background-inverse px-4 text-xs text-v1-content-primary-inverse transition-all hover:brightness-90 active:brightness-110"
-            type="button"
+          <Button
+            variant="white"
+            size="sm"
             onClick={e => {
               e.preventDefault();
               connectAction?.();
             }}
           >
             {connectLabel}
-          </button>
+          </Button>
         )}
       </div>
     </div>
@@ -160,7 +162,7 @@ export const AlertChannelsSelect: FC<{
           subtitle={account.data?.email}
         >
           <Toggle
-            checked={(value || []).includes('EMAIL')}
+            value={(value || []).includes('EMAIL')}
             onChange={e => toggleValue('EMAIL', e)}
             loading={loading}
             disabled={disabled}
@@ -176,7 +178,7 @@ export const AlertChannelsSelect: FC<{
           connectAction={connectTelegram}
         >
           <Toggle
-            checked={(value || []).includes('TELEGRAM')}
+            value={(value || []).includes('TELEGRAM')}
             onChange={e => toggleValue('TELEGRAM', e)}
             loading={loading}
             disabled={disabled}
@@ -192,7 +194,7 @@ export const AlertChannelsSelect: FC<{
           connectAction={requestWebPushPermission}
         >
           <Toggle
-            checked={(value || []).includes('WEB_PUSH')}
+            value={(value || []).includes('WEB_PUSH')}
             onChange={e => toggleValue('WEB_PUSH', e)}
             loading={loading}
             disabled={disabled}

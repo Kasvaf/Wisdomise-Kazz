@@ -1,11 +1,14 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { type SocialRadarSentiment as SocialRadarSentimentType } from 'api';
+import {
+  type SocialRadarSentiment as SocialRadarSentimentType,
+  type MiniMarketData,
+} from 'api/discovery';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { MiniBar } from 'shared/MiniBar';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type Coin as CoinType, type MiniMarketData } from 'api/types/shared';
+import { type Coin as CoinType } from 'api/types/shared';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
@@ -26,6 +29,9 @@ export const SocialRadarSentiment: FC<{
 }> = ({ value, marketData, coin, className, mode, contentClassName }) => {
   const { t } = useTranslation('coin-radar');
   const clickable = (mode === 'default' || mode === 'card') && value;
+
+  if (mode === 'card' && !value?.gauge_tag) return null;
+
   return (
     <ClickableTooltip
       chevron={false}
@@ -121,7 +127,12 @@ export const SocialRadarSentiment: FC<{
       )}
 
       {mode === 'expanded' && (
-        <div className="flex h-28 w-full flex-col justify-between gap-2 overflow-hidden rounded-xl p-3 bg-v1-surface-l-next">
+        <div
+          className={clsx(
+            'flex h-28 w-full flex-col justify-between gap-2 overflow-hidden rounded-xl p-3 bg-v1-surface-l-next',
+            contentClassName,
+          )}
+        >
           <div className="flex items-center justify-between gap-2">
             <div className="flex h-full flex-col justify-between gap-1">
               <p className="text-xs">{t('call-change.title')}</p>
@@ -146,32 +157,19 @@ export const SocialRadarSentiment: FC<{
         </div>
       )}
 
-      {mode ===
-        'card' /* TODO https://www.figma.com/design/ZCTwjDdVzZzR0PwfEmuZZW/Mobile-Experience?node-id=5700-8686&t=8WraowNEXuoxiT7l-0 */ && (
+      {mode === 'card' && (
         <div
           className={clsx(
             contentClassName,
-            'flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+            'flex h-10 w-full items-center gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
           )}
         >
-          <div className="flex max-w-full items-center justify-between gap-2">
-            <div className="flex h-full flex-col justify-between gap-1 overflow-hidden">
-              <p className="text-xs">{t('call-change.title')}</p>
-              <div className="flex items-center justify-start gap-px">
-                <SRSIcon
-                  value={value?.gauge_tag ?? 'NEUTRAL'}
-                  className="size-[20px] shrink-0"
-                />
-                <SRSTitle value={value?.gauge_tag} className="text-xs" />
-                <SRSSubtitle
-                  value={value?.gauge_tag}
-                  className="ms-1 truncate text-xxs"
-                />
-              </div>
-            </div>
-            <MiniBar value={value?.gauge_measure ?? 0} height={28} width={28} />
-          </div>
-          <SRSDetails value={value} className="grid-cols-1 text-xxs" />
+          <SRSIcon
+            value={value?.gauge_tag ?? 'NEUTRAL'}
+            className="size-[18px] shrink-0"
+          />
+          <SRSTitle value={value?.gauge_tag} className="grow text-xs" />
+          <MiniBar value={value?.gauge_measure ?? 0} height={16} width={16} />
         </div>
       )}
     </ClickableTooltip>

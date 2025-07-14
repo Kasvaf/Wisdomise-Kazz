@@ -22,11 +22,11 @@ export default function PageDiscovery() {
             className={clsx(
               'max-w-full',
               params.view === 'list'
-                ? 'w-full p-3'
+                ? 'w-full'
                 : params.view === 'detail'
                 ? 'hidden'
                 : [
-                    'sticky top-[4.60rem] z-30 h-[calc(100svh-4.60rem)] w-96 min-w-96 max-w-96 overflow-auto p-3',
+                    'sticky top-[76px] z-30 h-[calc(100svh-76px)] w-96 min-w-96 max-w-96 overflow-auto',
                     'border-r border-white/10 bg-v1-surface-l1 scrollbar-none',
                     'mobile:block tablet:fixed tablet:bg-v1-surface-l1/60 tablet:backdrop-blur-lg',
                   ],
@@ -39,11 +39,13 @@ export default function PageDiscovery() {
 
         {params.view !== 'list' && (
           <DetailView
-            className={clsx('min-w-0 shrink grow p-3')}
+            className={clsx(
+              'min-w-0 shrink grow p-3',
+              params.detail === 'coin' && '!p-0 mobile:p-3',
+            )}
             detail={params.detail}
             expanded={!isMobile}
             focus={true}
-            slug={params.slug}
           />
         )}
       </div>
