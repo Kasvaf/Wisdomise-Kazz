@@ -188,7 +188,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
               />
               <CoinTopTraderHoldersWidget
                 id="coinoverview_top_traders"
-                type="trader"
+                type="traders"
                 title={false}
                 limit={Number.POSITIVE_INFINITY}
                 slug={slug}
@@ -198,7 +198,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
               />
               <CoinTopTraderHoldersWidget
                 id="coinoverview_top_holders"
-                type="holder"
+                type="holders"
                 title={false}
                 limit={Number.POSITIVE_INFINITY}
                 slug={slug}

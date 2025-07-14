@@ -51,12 +51,12 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
         <CoinMessagesWidget id="coinoverview_socials" type="rest" slug={slug} />
         <CoinTopTraderHoldersWidget
           id="coinoverview_top_traders"
-          type="trader"
+          type="traders"
           slug={slug}
         />
         <CoinTopTraderHoldersWidget
           id="coinoverview_top_holders"
-          type="holder"
+          type="holders"
           slug={slug}
         />
         <CoinPoolsWidget slug={slug} id="coinoverview_pools" />

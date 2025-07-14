@@ -1,17 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
-
 import { clsx } from 'clsx';
-import { bxSearch } from 'boxicons-quasar';
-import { type CoinWhale, useCoinWhales } from 'api/discovery';
+import {
+  type CoinTopTraderHolder,
+  useCoinTopTraderHolders,
+  useCoinWhales,
+} from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { Network } from 'shared/Network';
-import Icon from 'shared/Icon';
-import { Input } from 'shared/v1-components/Input';
-import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { Button } from 'shared/v1-components/Button';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { Wallet } from '../WhaleDetail/Wallet';
 
 export function CoinTopTraderHoldersWidget({
@@ -23,7 +21,7 @@ export function CoinTopTraderHoldersWidget({
   hr,
   className,
 }: {
-  type: 'trader' | 'holder';
+  type: Parameters<typeof useCoinTopTraderHolders>[0]['type'];
   title?: boolean;
   slug: string;
   limit?: number;
@@ -33,10 +31,13 @@ export function CoinTopTraderHoldersWidget({
 }) {
   const { t } = useTranslation('whale');
   const whales = useCoinWhales({ slug, type: 'active' });
-  const [query, setQuery] = useState('');
   const [limit, setLimit] = useState<number | undefined>(_limit);
+  const resp = useCoinTopTraderHolders({
+    type,
+    slug,
+  });
 
-  const columns = useMemo<Array<TableColumn<CoinWhale>>>(
+  const columns = useMemo<Array<TableColumn<CoinTopTraderHolder>>>(
     () => [
       {
         title: t('whales_on_coin.address'),
@@ -44,66 +45,89 @@ export function CoinTopTraderHoldersWidget({
         render: row => (
           <Wallet
             wallet={{
-              address: row.holder_address,
-              network: row.network_name,
+              address: row.wallet_address,
+              network: row.network,
             }}
+            noLink
+            whale={false}
           />
         ),
       },
       {
-        title: t('whales_on_coin.badge'),
+        title: 'Bought',
         render: row => (
-          <WhaleAssetBadge
-            value={row.asset.label}
-            date={row.asset.last_label_action_datetime}
-          />
+          <div className="flex flex-col gap-px">
+            <ReadableNumber
+              value={row.volume_inflow}
+              label="$"
+              popup="never"
+              className="text-xs"
+            />
+            <ReadableNumber
+              value={row.num_inflows}
+              label="TXs"
+              popup="never"
+              format={{
+                compactInteger: false,
+              }}
+              className="text-xxs text-v1-content-secondary"
+            />
+          </div>
         ),
       },
       {
-        title: t('whales_on_coin.network'),
+        title: 'Sold',
         render: row => (
-          <Network
-            network={{
-              name: row.network_name,
-              icon_url: row.network_icon_url,
-            }}
-            imageClassName="size-4"
-            className="text-xs"
-          />
+          <div className="flex flex-col gap-px">
+            <ReadableNumber
+              value={row.volume_outflow}
+              label="$"
+              popup="never"
+              className="text-xs"
+            />
+            <ReadableNumber
+              value={row.num_outflows}
+              label="TXs"
+              popup="never"
+              format={{
+                compactInteger: false,
+              }}
+              className="text-xxs text-v1-content-secondary"
+            />
+          </div>
         ),
       },
       {
-        title: t('whales_on_coin.balance'),
-        render: row => (
-          <ReadableNumber
-            value={row.asset.worth}
-            label="$"
-            popup="never"
-            className="text-xs"
-          />
-        ),
-      },
-      {
-        title: t('whales_on_coin.trading_vol'),
-        render: row => (
-          <ReadableNumber
-            value={
-              (row.asset.total_recent_sell_amount ?? 0) +
-              (row.asset.total_recent_buy_amount ?? 0)
-            }
-            label="$"
-            popup="never"
-            className="text-xs"
-          />
-        ),
-      },
-      {
-        title: t('whales_on_coin.total_pnl'),
+        title: 'PnL',
         render: row => (
           <DirectionalNumber
-            value={row.asset.pnl}
-            direction="auto"
+            value={row.pnl}
+            label="$"
+            popup="never"
+            className="text-xs"
             showSign
+            showIcon={false}
+          />
+        ),
+      },
+      {
+        title: 'Realized PnL',
+        render: row => (
+          <DirectionalNumber
+            value={row.realized_pnl}
+            label="$"
+            popup="never"
+            className="text-xs"
+            showSign
+            showIcon={false}
+          />
+        ),
+      },
+      {
+        title: 'Avg Cost',
+        render: row => (
+          <ReadableNumber
+            value={row.average_buy}
             label="$"
             popup="never"
             className="text-xs"
@@ -111,29 +135,33 @@ export function CoinTopTraderHoldersWidget({
         ),
       },
       {
-        title: t('whales_on_coin.returns'),
+        hidden: type === 'traders',
+        title: 'Balance',
         render: row => (
-          <DirectionalNumber
-            value={row.asset.pnl_percent}
-            direction="auto"
-            showSign
-            label="%"
-            popup="never"
-            className="text-xs"
-          />
+          <div className="flex flex-col items-start gap-px">
+            <ReadableNumber
+              value={row.balance}
+              label="$"
+              popup="never"
+              className="text-xs"
+            />
+            <DirectionalNumber
+              value={(row.balance - row.balance_first) / (row.balance / 100)}
+              label="%"
+              suffix="(7D)"
+              popup="never"
+              className="text-xxs"
+              showIcon={false}
+              showSign
+            />
+          </div>
         ),
       },
     ],
-    [t],
+    [t, type],
   );
 
-  const data = useMemo(() => {
-    return whales.data?.filter(
-      x => !query || x.holder_address.includes(query.toLowerCase()),
-    );
-  }, [query, whales.data]);
-
-  if ((whales.data ?? []).length === 0) return null;
+  if ((resp.data ?? []).length === 0) return null;
 
   return (
     <>
@@ -144,35 +172,21 @@ export function CoinTopTraderHoldersWidget({
           className,
         )}
       >
-        <div className="flex items-center justify-between gap-1">
-          {title !== false && (
-            <h3 className="text-sm font-semibold">
-              {type === 'holder'
-                ? t('coin-radar:whales.active')
-                : t('coin-radar:whales.holding')}
-            </h3>
-          )}
-          <Input
-            type="string"
-            size="xs"
-            value={query}
-            onChange={setQuery}
-            className="w-72 mobile:w-48"
-            prefixIcon={<Icon name={bxSearch} />}
-            placeholder={t('coin-radar:whales.search')}
-            surface={2}
-          />
-        </div>
+        {title !== false && (
+          <h3 className="text-sm font-semibold">
+            {type === 'holders' ? 'Top Holders' : 'Top Traders'}
+          </h3>
+        )}
         <Table
           loading={whales.isLoading}
           columns={columns}
-          dataSource={data?.slice(0, limit) ?? []}
-          rowKey={row => `${row.holder_address}${row.network_name ?? ''}`}
+          dataSource={resp.data?.slice(0, limit) ?? []}
+          rowKey={row => `${row.wallet_address}${row.network ?? ''}`}
           surface={2}
           scrollable
           footer={
             typeof limit === 'number' &&
-            (data?.length ?? 0) > limit && (
+            (resp.data?.length ?? 0) > limit && (
               <Button
                 size="xs"
                 onClick={() => setLimit(undefined)}
