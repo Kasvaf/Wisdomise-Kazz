@@ -75,23 +75,25 @@ const QuoteSelector: React.FC<{
           />
         ))}
 
-      <Select
-        options={data?.map(p => p.quote.slug)}
-        value={value}
-        onChange={newValue => {
-          if (newValue) {
-            setIsManualSelected(true);
-            onChange?.(newValue);
-          }
-        }}
-        size={size}
-        dialogClassName="w-20"
-        className={clsx('!bg-transparent', className)}
-        disabled={disabled || !data?.length || data.length <= 1}
-        render={value =>
-          data?.find(p => p.quote.slug === value)?.quote?.abbreviation
-        }
-      />
+      {data && (
+        <Select
+          options={data?.map(p => p.quote.slug)}
+          value={value}
+          onChange={newValue => {
+            if (newValue) {
+              setIsManualSelected(true);
+              onChange?.(newValue);
+            }
+          }}
+          size={size}
+          dialogClassName="w-20"
+          className={clsx('!bg-transparent', className)}
+          disabled={disabled || !data?.length || data.length <= 1}
+          render={value => {
+            return data?.find(p => p.quote.slug === value)?.quote?.abbreviation;
+          }}
+        />
+      )}
     </>
   );
 };

@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { useRef, useState } from 'react';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
-import { Tabs, type TabsProps } from 'antd';
+import { Tabs } from 'antd';
 import {
   useUpdateWalletMutation,
   useWalletQuery,
@@ -15,12 +15,10 @@ import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/com
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import WalletPositions from 'modules/base/wallet/WalletDetail/WalletPositions';
-import AccountPnL from 'modules/base/wallet/WalletDetail/AccountPnL';
-import BuySellList from 'modules/base/wallet/WalletDetail/BuySellList';
+import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { roundSensible } from 'utils/numbers';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { useSolanaBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -34,25 +32,7 @@ export default function WalletDetail(_: {
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
   const [period, setPeriod] = useState<number | null>(null);
-  const { balance, isPending } = useSolanaBalanceInUSD(wallet?.address);
-
-  const items: TabsProps['items'] = [
-    {
-      key: '1',
-      label: 'Account PnL',
-      children: <AccountPnL />,
-    },
-    {
-      key: '2',
-      label: 'Buys/Sells',
-      children: <BuySellList />,
-    },
-    {
-      key: '3',
-      label: 'Positions',
-      children: <WalletPositions />,
-    },
-  ];
+  const { balance, isPending } = useSolanaWalletBalanceInUSD(wallet?.address);
 
   return wallet ? (
     <div>
@@ -132,7 +112,17 @@ export default function WalletDetail(_: {
           </div>
         </div>
       </div>
-      <Tabs className="mt-4 hidden" defaultActiveKey="1" items={items} />
+      <Tabs
+        className="mt-4"
+        defaultActiveKey="1"
+        items={[
+          {
+            key: '1',
+            label: 'Positions',
+            children: <WalletPositions wallet={wallet} />,
+          },
+        ]}
+      />
       {notif}
     </div>
   ) : null;

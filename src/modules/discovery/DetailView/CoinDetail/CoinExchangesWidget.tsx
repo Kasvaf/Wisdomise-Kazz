@@ -8,25 +8,27 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
-import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
 
 export function CoinExchangesWidget({
   slug,
   id,
   hr,
+  title,
+  limit: _limit = 6,
   className,
 }: {
   slug: string;
   id?: string;
   hr?: boolean;
+  title?: boolean;
+  limit?: number;
   className?: string;
 }) {
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinDetails({ slug });
   const [query, setQuery] = useState('');
-  const [limit, setLimit] = useState<number | undefined>(6);
-  const isMobile = useIsMobile();
+  const [limit, setLimit] = useState<number | undefined>(_limit);
 
   const columns = useMemo<Array<TableColumn<CoinExchange>>>(
     () => [
@@ -91,12 +93,14 @@ export function CoinExchangesWidget({
         )}
       >
         <div className="flex items-center justify-between gap-1">
-          <h3 className="text-sm font-semibold">
-            {t('coin-details.tabs.markets.title')}
-          </h3>
+          {title !== false && (
+            <h3 className="text-sm font-semibold">
+              {t('coin-details.tabs.markets.title')}
+            </h3>
+          )}
           <Input
             type="string"
-            size={isMobile ? 'xs' : 'md'}
+            size="xs"
             value={query}
             onChange={setQuery}
             className="w-72 text-sm mobile:w-48"
@@ -113,8 +117,8 @@ export function CoinExchangesWidget({
           surface={2}
           scrollable
           footer={
-            (data?.length ?? 0) > 6 &&
-            limit && (
+            typeof limit === 'number' &&
+            (data?.length ?? 0) > limit && (
               <Button
                 size="xs"
                 onClick={() => setLimit(undefined)}

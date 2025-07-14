@@ -7,12 +7,11 @@ import {
 } from 'api/discovery';
 import useIsMobile from 'utils/useIsMobile';
 import AdvancedChart from 'shared/AdvancedChart';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLastCandleQuery } from 'api';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 
 const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,
-  height,
 }) => {
   const isMobile = useIsMobile();
   const coin = useCoinDetails({ slug });
@@ -33,7 +32,7 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   return chart.type === 'gecko_terminal' ? (
     <iframe
       key={chart.id}
-      height={height}
+      height="100%"
       width="100%"
       id="geckoterminal-embed"
       title="GeckoTerminal Embed"
@@ -43,34 +42,32 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
       allowFullScreen
     />
   ) : chart.type === 'trading_view' ? (
-    <AdvancedRealTimeChart
-      key={chart.id}
-      allow_symbol_change={false}
-      symbol={chart.id}
-      style="1"
-      interval="240"
-      hotlist={false}
-      theme="dark"
-      height={height}
-      width="100%"
-      enabled_features={
-        isMobile
-          ? []
-          : ['side_toolbar_in_fullscreen_mode', 'header_fullscreen_button']
-      }
-      disabled_features={isMobile ? ['timeframes_toolbar'] : []}
-      hide_side_toolbar={isMobile}
-      hide_top_toolbar={isMobile}
-      hide_legend={isMobile}
-    />
+    <div className="size-full [&>div]:!block">
+      <AdvancedRealTimeChart
+        key={chart.id}
+        allow_symbol_change={false}
+        symbol={chart.id}
+        style="1"
+        interval="240"
+        hotlist={false}
+        theme="dark"
+        autosize
+        enabled_features={
+          isMobile
+            ? []
+            : ['side_toolbar_in_fullscreen_mode', 'header_fullscreen_button']
+        }
+        disabled_features={isMobile ? ['timeframes_toolbar'] : []}
+        hide_side_toolbar={isMobile}
+        hide_top_toolbar={isMobile}
+        hide_legend={isMobile}
+      />
+    </div>
   ) : null;
 };
 
-const CoinChart: React.FC<{ slug: string; height?: number }> = ({
-  slug,
-  height,
-}) => {
-  const [quote] = useSearchParamAsState<string>('quote', 'tether');
+const CoinChart: React.FC<{ slug: string }> = ({ slug }) => {
+  const [quote] = useActiveQuote();
   const lastCandle = useLastCandleQuery({ slug, quote });
   if (lastCandle.isLoading) return null;
 
@@ -78,9 +75,9 @@ const CoinChart: React.FC<{ slug: string; height?: number }> = ({
     /^(solana|ton|the-open-network)$/.test(
       lastCandle.data?.symbol.network ?? '',
     ) ? (
-    <AdvancedChart slug={slug} />
+    <AdvancedChart slug={slug} className="size-full" />
   ) : (
-    <DirtyCoinChart slug={slug} height={height} />
+    <DirtyCoinChart slug={slug} />
   );
 };
 

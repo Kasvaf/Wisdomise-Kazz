@@ -25,7 +25,8 @@ import {
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { roundSensible } from 'utils/numbers';
-import { useSolanaBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import TotalBalance from 'modules/base/wallet/TotalBalance';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
@@ -64,6 +65,7 @@ export default function BtnSolanaWallets({
 function UserWallets() {
   return (
     <div>
+      <TotalBalance className="-mx-3 -mt-3 mb-2 mobile:!bg-transparent" />
       <div className="text-xxs text-v1-inverse-overlay-70">Wallets</div>
       <WalletSelector WalletOptionComponent={WalletItem} />
     </div>
@@ -125,7 +127,9 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   const [copy, notif] = useShare('copy');
   const { getUrl } = useDiscoveryRouteMeta();
   const navigate = useNavigate();
-  const { balance } = useSolanaBalanceInUSD(wallet ? wallet?.address : address);
+  const { balance } = useSolanaWalletBalanceInUSD(
+    wallet ? wallet?.address : address,
+  );
 
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 

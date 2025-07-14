@@ -27,7 +27,7 @@ export function TechnicalRadarExpanded() {
   useLoadingBadge(technicalTopCoins.isFetching);
 
   return (
-    <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
+    <div className="grid grid-cols-2 gap-6 p-3 mobile:grid-cols-1">
       <OverviewWidget
         className="col-span-full"
         title={

@@ -71,12 +71,7 @@ const PositionDetail: React.FC<{
             className="text-white/50"
           />
         </div>
-        <div className="flex items-center gap-3">
-          <CancelButton position={position} />
-          <CloseButton position={position} />
-          <EditButton position={position} />
-          <ShareButton position={position} />
-        </div>
+        <PositionActions position={position} />
       </div>
       <hr className="my-4 border-white/10" />
       <div className="flex flex-col gap-4">
@@ -229,6 +224,19 @@ const PositionDetail: React.FC<{
           </Button>
         )}
       </div>
+    </div>
+  );
+};
+
+export const PositionActions: React.FC<{
+  position: Position;
+}> = ({ position }) => {
+  return (
+    <div className="flex items-center gap-3">
+      <CancelButton position={position} />
+      <CloseButton position={position} />
+      <EditButton position={position} />
+      <ShareButton position={position} />
     </div>
   );
 };

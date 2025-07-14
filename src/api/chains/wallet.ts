@@ -11,7 +11,7 @@ import {
   useDisconnect,
   useWalletInfo,
 } from '@reown/appkit/react';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { solana } from '@reown/appkit/networks';
 import { useLocalStorage } from 'usehooks-ts';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -110,6 +110,19 @@ export const useActiveWallet = () => {
     isCustodial: custodialSupported,
     connect,
   };
+};
+
+export const useAllWallets = () => {
+  const { data } = useWalletsQuery();
+  const { address, connected } = useConnectedWallet();
+
+  return useMemo(
+    () => [
+      ...(data?.results?.map(w => w.address) ?? []),
+      ...(address && connected ? [address] : []),
+    ],
+    [data, address, connected],
+  );
 };
 
 function useAwaitSolanaWalletConnection(net: 'solana' | 'polygon' = 'solana') {

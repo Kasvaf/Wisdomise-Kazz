@@ -13,7 +13,7 @@ const badgeColors = {
   pro: 'bg-pro-gradient text-black',
 };
 
-type BadgeColors = keyof typeof badgeColors;
+export type BadgeColors = keyof typeof badgeColors;
 
 const Badge: React.FC<{
   label: string | React.ReactElement;

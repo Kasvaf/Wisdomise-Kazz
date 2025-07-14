@@ -169,7 +169,7 @@ export default function UserPortfolio(props: Props) {
   if (!isLoggedIn) return null;
 
   return (
-    <div>
+    <div className="p-3">
       <div className="flex flex-col gap-2">
         <UserTradingAssets />
         <UserWallets {...props} />

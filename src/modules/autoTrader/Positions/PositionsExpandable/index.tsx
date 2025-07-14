@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PositionsList from 'modules/autoTrader/Positions/PositionsList';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
@@ -12,13 +13,19 @@ import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPair';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
-const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
+const PositionsExpandable = ({
+  expanded,
+  className,
+}: {
+  expanded?: boolean;
+  className?: string;
+}) => {
   const isMobile = useIsMobile();
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
     'filter',
     'active',
   );
-  const [slug, setSlug] = useSearchParamAsState('position_slug');
+  const [slug, setSlug] = useState('');
 
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const wallet = useActiveWallet();
@@ -31,7 +38,7 @@ const PositionsExpandable = ({ expanded }: { expanded?: boolean }) => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className={className}>
       <div className="mb-4 flex flex-row-reverse flex-wrap justify-between gap-4">
         <ButtonSelect
           options={[

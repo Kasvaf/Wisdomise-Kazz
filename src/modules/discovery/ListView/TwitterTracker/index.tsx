@@ -18,7 +18,7 @@ export const TwitterTracker: FC<{
     <>
       {expanded ? (
         <div
-          className="relative mx-auto flex h-full max-w-6xl items-start justify-between gap-3 overflow-hidden"
+          className="relative mx-auto flex h-full max-w-6xl items-start justify-between gap-3 overflow-hidden p-3"
           style={{
             maxHeight:
               'calc(100svh - var(--desktop-header-height) - var(--route-details-height) - 1.5rem)',
@@ -32,7 +32,7 @@ export const TwitterTracker: FC<{
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between gap-2 border-b border-v1-content-primary/10 pb-3">
+          <div className="flex items-center justify-between gap-2 border-b border-v1-content-primary/10 p-3">
             <TwitterTrackerTabSelect
               value={pageState.tab}
               onChange={newTab => setPageState(p => ({ ...p, tab: newTab }))}

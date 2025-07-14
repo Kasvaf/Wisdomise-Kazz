@@ -13,11 +13,15 @@ import { ContractAddress } from 'shared/ContractAddress';
 export function CoinPoolsWidget({
   slug,
   id,
+  title,
+  limit: _limit = 6,
   hr,
   className,
 }: {
   slug: string;
   id?: string;
+  title?: boolean;
+  limit?: number;
   hr?: boolean;
   className?: string;
 }) {
@@ -25,7 +29,7 @@ export function CoinPoolsWidget({
   const coin = useCoinDetails({ slug });
   const nCoin = useNCoinDetails({ slug });
   const pools = nCoin.data?.pools ?? coin.data?.symbol_pools ?? [];
-  const [limit, setLimit] = useState<number | undefined>(6);
+  const [limit, setLimit] = useState<number | undefined>(_limit);
 
   const columns = useMemo<Array<TableColumn<Pool>>>(
     () => [
@@ -92,9 +96,11 @@ export function CoinPoolsWidget({
           className,
         )}
       >
-        <h3 className="text-sm font-semibold">
-          {t('coin-details.tabs.pools.title')}
-        </h3>
+        {title !== false && (
+          <h3 className="text-sm font-semibold">
+            {t('coin-details.tabs.pools.title')}
+          </h3>
+        )}
         <Table
           columns={columns}
           dataSource={pools?.slice(0, limit)}
@@ -102,8 +108,8 @@ export function CoinPoolsWidget({
           surface={2}
           scrollable
           footer={
-            (pools?.length ?? 0) > 6 &&
-            limit && (
+            typeof _limit === 'number' &&
+            (pools?.length ?? 0) > _limit && (
               <Button
                 size="xs"
                 onClick={() => setLimit(undefined)}
