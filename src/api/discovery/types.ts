@@ -1105,3 +1105,12 @@ export interface TokenInsight {
   insiders_holding_percentage: number;
   bundlers_holding_percentage: number;
 }
+
+export interface TwitterRelatedToken {
+  smart_contract: string;
+  name: string;
+  abbreviation: string;
+  slug: string;
+  icon: string;
+  description: string;
+}

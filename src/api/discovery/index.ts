@@ -46,6 +46,7 @@ import {
   type TwitterAccount,
   type TwitterFollowedAccount,
   type TwitterTweet,
+  type TwitterRelatedToken,
 } from './types';
 
 export * from './types';
@@ -814,6 +815,23 @@ export const useStreamTweets = (config: { userIds: string[] }) => {
     [initialStream, tweets],
   );
 };
+
+export const useTweetRelatedTokens = (tweetId?: string) =>
+  useQuery({
+    queryKey: ['twitter-tweet-related-tokens', tweetId],
+    staleTime: Number.POSITIVE_INFINITY,
+    queryFn: () => {
+      if (!tweetId) return [];
+      return resolvePageResponseToArray<TwitterRelatedToken>(
+        'delphi/twitter-tracker/trench-extractor/',
+        {
+          query: {
+            tweet_twitter_id: tweetId,
+          },
+        },
+      );
+    },
+  });
 
 /* Rest */
 export const useNetworks = (config: {
