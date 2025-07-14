@@ -62,7 +62,7 @@ export const Button: FC<ButtonProps> = ({
         size === 'md' && 'h-md rounded-lg text-xs',
         size === 'md' && (fab ? 'w-md' : 'px-3'),
         size === 'lg' && 'h-lg rounded-[10px] text-xs',
-        size === 'md' && (fab ? 'w-lg' : 'px-4'),
+        size === 'lg' && (fab ? 'w-lg' : 'px-4'),
         size === 'xl' && 'h-xl rounded-xl text-sm',
         size === 'xl' && (fab ? 'w-xl' : 'px-4'),
         size === '2xl' && 'h-2xl rounded-2xl text-sm',
