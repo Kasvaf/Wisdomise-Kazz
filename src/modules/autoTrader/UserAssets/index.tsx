@@ -86,7 +86,7 @@ interface Props {
   containerClassName?: string;
 }
 
-export const UserAssets: React.FC<
+const UserAssets: React.FC<
   Props & { title?: string; data?: AssetData[] | null; showTotal?: boolean }
 > = ({ title, data, className, containerClassName, showTotal }) => {
   if (!data?.length) return null;
@@ -143,7 +143,7 @@ export const UserTradingAssets = ({ className }: { className?: string }) => {
   );
 };
 
-export const UserWallets = (props: Props) => {
+const UserWallets = (props: Props) => {
   const net = useActiveNetwork();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',

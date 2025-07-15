@@ -1,4 +1,3 @@
-import { type ScatterConfig } from '@ant-design/plots';
 import { type Tooltip as AntTooltip } from 'antd';
 import { useState, type ComponentProps, type ReactNode } from 'react';
 import { clsx } from 'clsx';
@@ -56,16 +55,3 @@ export function HoverTooltip({
     </>
   );
 }
-
-export const antChartTooltipConfig: ScatterConfig['tooltip'] = {
-  domStyles: {
-    'g2-tooltip': {
-      padding: '0.5rem',
-      borderRadius: '8px',
-      boxShadow: 'none',
-      background: '#282a32', // TODO v1-surface-l4
-      color: '#ffffff', // TODO v1-content-primary
-      lineHeight: 1.4,
-    },
-  },
-};

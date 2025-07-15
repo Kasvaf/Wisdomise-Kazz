@@ -28,6 +28,7 @@ export const TwitterTracker: FC<{
           <TwitterTrackerView
             onRequestEdit={() => setPageState(p => ({ ...p, tab: 'edit' }))}
             className="h-full max-h-full w-full grow overflow-auto scrollbar-thin"
+            expanded
           />
         </div>
       ) : (

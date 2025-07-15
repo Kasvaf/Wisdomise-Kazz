@@ -9,7 +9,7 @@ import { ReactComponent as TelegramIcon } from './telegram.svg';
 import { ReactComponent as TwitterIcon } from './x.svg';
 import { ReactComponent as TwitterPostIcon } from './x_post.svg';
 
-export function extractTwitterInfo(twitterScreenerName: string): {
+function extractTwitterInfo(twitterScreenerName: string): {
   type: 'profile' | 'post' | 'other';
   value?: string;
 } {

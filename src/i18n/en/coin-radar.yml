@@ -198,12 +198,6 @@ coin-details:
     pools:
       title: Pools
       label: Pools
-    price_performance:
-      title: Price Performance
-      ath: All-Time High
-      atl: All-Time Low
-      high: High
-      low: Low
     socials:
       title: Social Feed
       label: Social

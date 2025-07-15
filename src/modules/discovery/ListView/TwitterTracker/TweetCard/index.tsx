@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { clsx } from 'clsx';
 import { type TwitterTweet } from 'api/discovery';
 import { ReadableDate } from 'shared/ReadableDate';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as QuoteIcon } from './quote.svg';
 import { ReactComponent as RetweetIcon } from './retweet.svg';
 import { ReactComponent as ReplyIcon } from './reply.svg';
@@ -70,7 +71,8 @@ const TweetMedia: FC<{
   value: TwitterTweet;
   className?: string;
   onOpen?: (media: TwitterTweet['media'][number]) => void;
-}> = ({ value, className, onOpen }) => {
+  expanded?: boolean;
+}> = ({ value, className, onOpen, expanded }) => {
   if (!value.media?.length) return null;
   return (
     <div
@@ -81,18 +83,33 @@ const TweetMedia: FC<{
       )}
     >
       {value.media.map((m, i, s) => (
-        <img
+        <div
           key={i}
-          src={m.url}
-          alt={`media-${i}`}
-          onClick={() => onOpen?.(m)}
           className={clsx(
-            'h-48 w-full cursor-pointer rounded-lg bg-v1-surface-l2 object-cover',
+            expanded ? 'h-80' : 'h-48',
+            'relative w-full cursor-pointer rounded-lg bg-v1-surface-l2',
             i === s.length - 1 && (i + 1) % 2 === 1
               ? 'col-span-2'
               : 'col-span-1',
           )}
-        />
+          onClick={() => onOpen?.(m)}
+        >
+          {expanded && (
+            <img
+              src={m.url}
+              alt={`media-${i}-bg`}
+              className="absolute inset-0 size-full scale-110 object-cover opacity-75 blur-sm"
+            />
+          )}
+          <img
+            src={m.url}
+            alt={`media-${i}`}
+            className={clsx(
+              expanded ? 'object-contain' : 'object-cover',
+              'relative size-full',
+            )}
+          />
+        </div>
       ))}
     </div>
   );
@@ -101,11 +118,20 @@ const TweetMedia: FC<{
 export const TweetCard: FC<{
   value: TwitterTweet;
   nest?: boolean;
+  expanded?: boolean;
   className?: string;
   onOpenMedia?: (media: TwitterTweet['media'][number]) => void;
-}> = ({ value, nest = true, className, onOpenMedia }) => {
+  onOpenRelatedTokens?: (tweetId: TwitterTweet['tweet_id']) => void;
+}> = ({
+  value,
+  nest = true,
+  className,
+  onOpenMedia,
+  onOpenRelatedTokens,
+  expanded,
+}) => {
   return (
-    <div className={clsx('w-full space-y-2 rounded-lg', className)}>
+    <div className={clsx('w-full space-y-2 rounded-lg p-2', className)}>
       <div className="flex items-center justify-between gap-1">
         <div
           className={clsx(
@@ -119,7 +145,7 @@ export const TweetCard: FC<{
         <TweetType value={value} className="size-4 shrink-0" />
       </div>
 
-      <div className={clsx(nest && 'ps-6', 'space-y-2')}>
+      <div className={clsx(nest && 'ps-6', 'flex flex-col gap-2')}>
         {value.replied_tweet && (
           <div className="text-xs text-v1-content-secondary">
             {'Replying to '}
@@ -144,7 +170,15 @@ export const TweetCard: FC<{
             {value.text}
           </p>
         )}
-        <TweetMedia value={value} onOpen={onOpenMedia} />
+        <TweetMedia value={value} onOpen={onOpenMedia} expanded={expanded} />
+        <Button
+          onClick={() => onOpenRelatedTokens?.(value.tweet_id)}
+          size={expanded ? 'xs' : '2xs'}
+          variant="ghost"
+          className="max-w-max self-end !px-2"
+        >
+          {'Related Tokens'}
+        </Button>
       </div>
 
       {value.retweeted_tweet && (
@@ -154,46 +188,10 @@ export const TweetCard: FC<{
             nest={false}
             className="p-2 bg-v1-surface-l-next"
             onOpenMedia={onOpenMedia}
+            expanded={expanded}
           />
         </div>
       )}
-      {/* <div className="flex items-start gap-3">
-        <img
-          className="size-6 shrink-0 rounded-full bg-gray-700"
-          src={`https://unavatar.io/x/${targetTweet.user.username}`}
-        />
-        <div className="flex w-full flex-col">
-          <div className="text-sm font-semibold">
-            {targetTweet.user.name}{' '}
-            <span className="font-normal text-gray-400">
-              @{targetTweet.user.username}
-            </span>
-          </div>
-          {isReply && (
-            <div className="text-xs text-v1-content-secondary">
-              {'Replying to '}
-              <span className="text-v1-background-brand">
-                @{targetTweet.replied_tweet?.user.username}
-              </span>
-            </div>
-          )}
-          {targetTweet.text && (
-            <div className="mt-2 whitespace-pre-wrap text-sm">
-              {targetTweet.text}
-            </div>
-          )}
-          {renderMedia()}
-
-          {isQuote && depth < 2 && (
-            <div className="mt-3 rounded-xl border border-gray-700 bg-[#101010] p-3">
-              <TweetCard
-                value={targetTweet.quoted_tweet as TwitterTweet}
-                depth={depth + 1}
-              />
-            </div>
-          )}
-        </div>
-      </div> */}
     </div>
   );
 };

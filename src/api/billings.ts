@@ -1,18 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import {
-  type Invoice,
-  type PaymentMethodsResponse,
-} from 'modules/account/models';
+import { type Invoice } from 'modules/account/models';
 import { queryClient } from 'config/reactQuery';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
-import {
-  type PaymentMethod,
-  type PlanPeriod,
-  type SubscriptionPlan,
-} from './types/subscription';
-import { useAccountQuery } from './account';
+import { type PlanPeriod, type SubscriptionPlan } from './types/subscription';
 
 export const usePlansQuery = (periodicity?: PlanPeriod) =>
   useQuery({
@@ -43,39 +35,6 @@ export const useInvoicesQuery = () =>
 
     staleTime: Number.POSITIVE_INFINITY,
   });
-
-interface UpdateSubscriptionRequest {
-  subscription_plan_key: string | null;
-}
-
-export const useSubscriptionMutation = () =>
-  useMutation<unknown, unknown, UpdateSubscriptionRequest>({
-    mutationKey: ['patchSubscription'],
-    mutationFn: async body => {
-      const data = await ofetch(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/subscription-plan`,
-        { body, method: 'patch' },
-      );
-      return data;
-    },
-    onSuccess: () =>
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['account'] }),
-        queryClient.invalidateQueries({ queryKey: ['invoices'] }),
-      ]),
-  });
-
-export const useChangePaymentMethodMutation = () => {
-  return useMutation({
-    mutationFn: async (variables: { payment_method: PaymentMethod }) => {
-      await ofetch(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/payment-method`,
-        { body: variables, method: 'patch' },
-      );
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['account'] }),
-  });
-};
 
 /**
  * *********************** Crypto Payment ***********************
@@ -141,18 +100,3 @@ export const useInstantCancelMutation = () =>
 /**
  * *********************** Fiat Payment ***********************
  */
-
-export const useStripePaymentMethodsQuery = () => {
-  const account = useAccountQuery();
-  return useQuery({
-    queryKey: ['getPaymentMethods'],
-    queryFn: async () => {
-      const data = await ofetch<PaymentMethodsResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/payment-methods`,
-      );
-      return data;
-    },
-    staleTime: Number.POSITIVE_INFINITY,
-    enabled: !!account.data?.stripe_customer_id,
-  });
-};

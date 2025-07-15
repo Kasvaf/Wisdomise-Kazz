@@ -18,6 +18,9 @@ export const useWebPushPermission = () => {
       }
       return 3000;
     },
+    meta: {
+      persist: false,
+    },
   });
 
   const requestPermission = useCallback(async () => {
