@@ -19,7 +19,8 @@ import { TweetCard } from './TweetCard';
 export const TwitterTrackerView: FC<{
   onRequestEdit?: () => void;
   className?: string;
-}> = ({ onRequestEdit, className }) => {
+  expanded?: boolean;
+}> = ({ onRequestEdit, className, expanded }) => {
   const { t } = useTranslation();
   const [openedMedia, setOpenedMedia] = useState<
     TwitterTweet['media'][number] | null
@@ -138,6 +139,7 @@ export const TwitterTrackerView: FC<{
                   setOpenedRelatedTokens(tweetOId);
                   setRelatedTokensModal(true);
                 }}
+                expanded={expanded}
               />
             </div>
           ))}

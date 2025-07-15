@@ -71,7 +71,8 @@ const TweetMedia: FC<{
   value: TwitterTweet;
   className?: string;
   onOpen?: (media: TwitterTweet['media'][number]) => void;
-}> = ({ value, className, onOpen }) => {
+  expanded?: boolean;
+}> = ({ value, className, onOpen, expanded }) => {
   if (!value.media?.length) return null;
   return (
     <div
@@ -82,18 +83,33 @@ const TweetMedia: FC<{
       )}
     >
       {value.media.map((m, i, s) => (
-        <img
+        <div
           key={i}
-          src={m.url}
-          alt={`media-${i}`}
-          onClick={() => onOpen?.(m)}
           className={clsx(
-            'h-48 w-full cursor-pointer rounded-lg bg-v1-surface-l2 object-cover',
+            expanded ? 'h-80' : 'h-48',
+            'relative w-full cursor-pointer rounded-lg bg-v1-surface-l2',
             i === s.length - 1 && (i + 1) % 2 === 1
               ? 'col-span-2'
               : 'col-span-1',
           )}
-        />
+          onClick={() => onOpen?.(m)}
+        >
+          {expanded && (
+            <img
+              src={m.url}
+              alt={`media-${i}-bg`}
+              className="absolute inset-0 size-full scale-110 object-cover opacity-75 blur-sm"
+            />
+          )}
+          <img
+            src={m.url}
+            alt={`media-${i}`}
+            className={clsx(
+              expanded ? 'object-contain' : 'object-cover',
+              'relative size-full',
+            )}
+          />
+        </div>
       ))}
     </div>
   );
@@ -102,10 +118,18 @@ const TweetMedia: FC<{
 export const TweetCard: FC<{
   value: TwitterTweet;
   nest?: boolean;
+  expanded?: boolean;
   className?: string;
   onOpenMedia?: (media: TwitterTweet['media'][number]) => void;
   onOpenRelatedTokens?: (tweetId: TwitterTweet['tweet_id']) => void;
-}> = ({ value, nest = true, className, onOpenMedia, onOpenRelatedTokens }) => {
+}> = ({
+  value,
+  nest = true,
+  className,
+  onOpenMedia,
+  onOpenRelatedTokens,
+  expanded,
+}) => {
   return (
     <div className={clsx('w-full space-y-2 rounded-lg p-2', className)}>
       <div className="flex items-center justify-between gap-1">
@@ -146,7 +170,7 @@ export const TweetCard: FC<{
             {value.text}
           </p>
         )}
-        <TweetMedia value={value} onOpen={onOpenMedia} />
+        <TweetMedia value={value} onOpen={onOpenMedia} expanded={expanded} />
         <Button
           onClick={() => onOpenRelatedTokens?.(value.tweet_id)}
           size="3xs"
@@ -164,6 +188,7 @@ export const TweetCard: FC<{
             nest={false}
             className="p-2 bg-v1-surface-l-next"
             onOpenMedia={onOpenMedia}
+            expanded={expanded}
           />
         </div>
       )}
