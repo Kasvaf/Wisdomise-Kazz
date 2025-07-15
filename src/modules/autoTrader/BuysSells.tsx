@@ -55,9 +55,7 @@ export default function BuysSells({ wallet }: { wallet: Wallet }) {
         key: 'amount',
         title: 'Amount',
         render: row => (
-          <span className="text-xs">
-            {roundSensible(row.from_amount ?? row.to_amount)}
-          </span>
+          <span className="text-xs">${roundSensible(row.trading_volume)}</span>
         ),
       },
       {

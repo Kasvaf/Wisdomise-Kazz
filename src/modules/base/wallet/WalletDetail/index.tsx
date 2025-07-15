@@ -20,6 +20,7 @@ import { roundSensible } from 'utils/numbers';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import BuysSells from 'modules/autoTrader/BuysSells';
+import AccountPnL from 'modules/base/wallet/WalletDetail/AccountPnL';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -32,8 +33,8 @@ export default function WalletDetail(_: {
   const { data: wallet } = useWalletQuery(slug);
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
-  const [period, setPeriod] = useState<number | null>(null);
   const { balance, isPending } = useSolanaWalletBalanceInUSD(wallet?.address);
+  const [window, setWindow] = useState(24);
 
   return wallet ? (
     <div>
@@ -63,7 +64,7 @@ export default function WalletDetail(_: {
         {shortenAddress(wallet.address)}
       </p>
       <div className="mt-4 grid grid-cols-5 gap-3">
-        <div className="col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l2 p-4">
+        <div className="col-span-3 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l2 p-4">
           <p className="text-xs text-v1-content-secondary">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
@@ -72,22 +73,20 @@ export default function WalletDetail(_: {
             <WalletActions wallet={wallet} />
           </div>
         </div>
-        <div className="col-span-2 hidden rounded-xl bg-v1-surface-l2 p-4 pt-3">
+        <div className="col-span-2 rounded-xl bg-v1-surface-l2 p-4 pt-3">
           <div className="mb-7 flex items-center justify-between text-xs text-v1-content-secondary">
             Details
             <ButtonSelect
-              value={period}
+              value={window}
               variant="white"
               buttonClassName="w-12"
               options={[
-                { value: null, label: 'ALL' },
-                { value: 1, label: '1D' },
-                { value: 7, label: '7D' },
-                { value: 3, label: '30D' },
+                { value: 24, label: '1D' },
+                { value: 24 * 7, label: '7D' },
               ]}
               surface={3}
               size="xs"
-              onChange={newValue => setPeriod(newValue)}
+              onChange={newValue => setWindow(newValue)}
             />
           </div>
           <div className="flex items-center justify-between gap-2">
@@ -119,13 +118,18 @@ export default function WalletDetail(_: {
         items={[
           {
             key: '1',
-            label: 'Positions',
-            children: <WalletPositions wallet={wallet} />,
+            label: 'Account PnL',
+            children: <AccountPnL wallet={wallet} window={window} />,
           },
           {
             key: '2',
             label: 'Buys/Sells',
             children: <BuysSells wallet={wallet} />,
+          },
+          {
+            key: '3',
+            label: 'Positions',
+            children: <WalletPositions wallet={wallet} />,
           },
         ]}
       />

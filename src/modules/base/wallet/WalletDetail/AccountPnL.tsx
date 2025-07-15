@@ -1,74 +1,79 @@
 import { useMemo } from 'react';
+import { type TokenRecord, useWalletStatus, type Wallet } from 'api/wallets';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
+import PriceChange from 'shared/PriceChange';
+import { useSymbolsInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 
-export default function AccountPnL() {
-  const coins = useCoinRadarCoins({});
+export default function AccountPnL({
+  wallet,
+  window,
+}: {
+  wallet: Wallet;
+  window: number;
+}) {
+  const { data, isLoading } = useWalletStatus({
+    address: wallet.address,
+    window,
+  });
+  const coins = data
+    ? Object.entries(data).map(([slug, record]) => ({ slug, record }))
+    : undefined;
+  const { data: symbols } = useSymbolsInfo(coins?.map(c => c.slug));
 
-  const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
+  const columns = useMemo<
+    Array<TableColumn<{ slug: string; record: TokenRecord }>>
+  >(
     () => [
       {
-        title: 'Coin',
-        key: 'Coin',
+        key: 'token',
+        title: 'Token',
+        sticky: 'start',
         render: row => (
-          <Coin
-            coin={row.symbol}
-            imageClassName="size-7"
-            className="text-sm"
-            truncate={75}
-            nonLink={true}
-            abbrevationSuffix={
-              <DirectionalNumber
-                className="ms-1"
-                value={row.market_data?.price_change_percentage_24h}
-                label="%"
-                direction="auto"
-                showIcon
-                showSign={false}
-                format={{
-                  decimalLength: 1,
-                  minifyDecimalRepeats: true,
-                }}
-              />
-            }
-          />
+          <div className="text-xs">
+            {(() => {
+              const coin = symbols?.find(s => s.slug === row.slug);
+              return coin ? <Coin coin={coin} /> : null;
+            })()}
+          </div>
         ),
       },
       {
-        title: 'Bought',
         key: 'bought',
-        render: _row => 'yo',
+        title: 'Bought',
+        className: 'text-xs text-v1-content-positive',
+        render: row => `$${row.record.volume_inflow}`,
       },
       {
-        title: 'Sold',
         key: 'sold',
-        render: _row => 'yo',
+        title: 'Sold',
+        className: 'text-xs text-v1-content-negative',
+        render: row => `$${row.record.volume_outflow}`,
       },
       {
-        title: 'PnL',
-        key: 'amount',
-        render: _row => 'yo',
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        align: 'end',
-        render: _row => 'yo',
+        key: 'pnl',
+        title: 'Pnl',
+        render: row =>
+          row.record.realized_pnl ? (
+            <PriceChange
+              className="text-xs"
+              value={Number(row.record.realized_pnl)}
+            />
+          ) : null,
       },
     ],
-    [],
+    [symbols],
   );
 
   return (
     <Table
       columns={columns}
-      dataSource={coins.data?.slice(0, 10) ?? []}
-      chunkSize={10}
-      loading={coins.isLoading}
-      rowKey={r => r.rank}
+      dataSource={coins}
+      chunkSize={5}
+      loading={isLoading}
+      rowKey={r => r.slug}
       surface={2}
+      scrollable
     />
   );
 }
