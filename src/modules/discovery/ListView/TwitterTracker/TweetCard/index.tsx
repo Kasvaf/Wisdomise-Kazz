@@ -173,9 +173,9 @@ export const TweetCard: FC<{
         <TweetMedia value={value} onOpen={onOpenMedia} expanded={expanded} />
         <Button
           onClick={() => onOpenRelatedTokens?.(value.tweet_id)}
-          size="3xs"
+          size={expanded ? 'xs' : '2xs'}
           variant="ghost"
-          className="max-w-max self-end"
+          className="max-w-max self-end !px-2"
         >
           {'Related Tokens'}
         </Button>
