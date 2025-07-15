@@ -89,7 +89,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
       if (!baseSlug) return [];
       return await getPairsCached(baseSlug);
     },
-    staleTime: Number.MAX_VALUE,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 };
 
@@ -358,6 +358,9 @@ export const usePreparePositionQuery = (req?: CreatePositionRequest) => {
     staleTime: 50,
     refetchInterval: 7000,
     enabled: !!req,
+    meta: {
+      persist: false,
+    },
   });
 };
 

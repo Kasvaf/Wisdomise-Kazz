@@ -38,12 +38,15 @@ export const persisterOptions: OmitKeyof<
   }),
   dehydrateOptions: {
     shouldDehydrateQuery: query =>
-      !!query.meta &&
-      'persist' in query.meta &&
-      query.meta.persist === true &&
+      (!query.meta ||
+        !('persist' in query.meta) ||
+        query.meta.persist !== false) &&
       !query.state.error,
     shouldDehydrateMutation: () => false,
     shouldRedactErrors: () => false,
   },
-  maxAge: Number.POSITIVE_INFINITY,
+  // cache for up to 3 days
+  maxAge: 1000 * 60 * 60 * 24 * 3,
 };
+
+export const clearPersistCache = () => cacheStorage.clear();
