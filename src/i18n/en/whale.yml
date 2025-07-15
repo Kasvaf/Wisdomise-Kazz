@@ -88,10 +88,6 @@ top_whales:
 whale_assets:
   title: User Assets
   others: Others
-whale_balance_chart:
-  title: Wallet Balance Chart
-  balance: Balance
-  current_balance: Current Balance
 whale_coins:
   name: Name
   avg_cost: Avg Cost
@@ -107,9 +103,6 @@ whale_coins:
   remaining: Remaining
   total_profit: Total Profit
   trading_title: Active Coins and Tokens
-whale_historical_pnl:
-  title: Historical PNL Chart
-  last_30_trading_pnl: Last 30 Days Trading PnL
 whale_netflow_histogram:
   title: Netflow Histogram
   inflow: In Flow

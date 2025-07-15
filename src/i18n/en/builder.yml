@@ -1,9 +1,3 @@
-duration:
-  day: Day
-  hour: Hour
-  minute: Minute
-  month: Month
-  second: Second
 info:
   safety-open: Adds additional buy orders at lower prices to average down your entry price.
   stop-loss: Sets a minimum price to sell and limit potential losses automatically.
