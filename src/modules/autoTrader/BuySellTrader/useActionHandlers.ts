@@ -72,8 +72,8 @@ const useActionHandlers = (state: SwapState) => {
       return;
     }
 
-    const slippage = activePreset?.[dir]?.slippage;
-    const priorityFee = activePreset?.[dir]?.priorityFee['wrapped-solana'];
+    const slippage = +activePreset?.[dir]?.slippage / 100;
+    const priorityFee = +activePreset?.[dir]?.priorityFee['wrapped-solana'];
     const createData: CreatePositionRequest = {
       network,
       mode: dir === 'buy' ? 'buy_and_hold' : 'sell_and_hold',
@@ -128,10 +128,10 @@ const useActionHandlers = (state: SwapState) => {
                 },
           ],
         },
-        buy_slippage: dir === 'buy' ? +slippage : undefined,
-        sell_slippage: dir === 'sell' ? +slippage : undefined,
-        buy_priority_fee: dir === 'buy' ? +priorityFee : undefined,
-        sell_priority_fee: dir === 'sell' ? +priorityFee : undefined,
+        buy_slippage: dir === 'buy' ? slippage : undefined,
+        sell_slippage: dir === 'sell' ? slippage : undefined,
+        buy_priority_fee: dir === 'buy' ? priorityFee : undefined,
+        sell_priority_fee: dir === 'sell' ? priorityFee : undefined,
       },
       withdraw_address: address,
     } as const;

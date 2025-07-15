@@ -11,6 +11,7 @@ import { type Surface } from 'utils/useSurface';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Input } from 'shared/v1-components/Input';
+import { preventNonNumericInput } from 'utils/numbers';
 import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
 
@@ -287,6 +288,7 @@ function TraderPresetForm({
           onChange={newValue =>
             setValue(prev => ({ ...prev, slippage: newValue }))
           }
+          onKeyDown={preventNonNumericInput}
         />
       </div>
       <div className="flex items-center justify-between">
@@ -303,6 +305,7 @@ function TraderPresetForm({
               priorityFee: { 'wrapped-solana': newValue },
             }))
           }
+          onKeyDown={preventNonNumericInput}
         />
       </div>
     </div>

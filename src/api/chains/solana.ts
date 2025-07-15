@@ -366,7 +366,7 @@ export const useSolanaMarketSwap = () => {
         amount,
         network_slug: 'solana',
         wallet_address: publicKey.toString(),
-        slippage: +presetValue.slippage,
+        slippage: +presetValue.slippage / 100,
         priority_fee: +presetValue.priorityFee['wrapped-solana'],
       },
     });

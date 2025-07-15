@@ -1,3 +1,5 @@
+import type React from 'react';
+
 export const roundDown = (number: number, decimals = 2) => {
   const tens = Math.pow(10, decimals | 0);
   return Math.floor(number * tens) / tens;
@@ -164,4 +166,10 @@ export const formatNumber = (input: number, options: FormatNumberOptions) => {
   ]
     .filter(x => !!x)
     .join(' ');
+};
+
+export const preventNonNumericInput = (e: React.KeyboardEvent) => {
+  if (Number.isNaN(+e.key) && e.key !== 'Backspace' && e.key !== '.') {
+    e.preventDefault();
+  }
 };

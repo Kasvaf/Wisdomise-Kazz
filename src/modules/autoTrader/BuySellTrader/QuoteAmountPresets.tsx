@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { Button } from 'shared/v1-components/Button';
 import { type Surface } from 'utils/useSurface';
-import { roundSensible } from 'utils/numbers';
+import { preventNonNumericInput, roundSensible } from 'utils/numbers';
 import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import Icon from 'shared/Icon';
 
@@ -83,15 +83,7 @@ export default function QuoteAmountPresets({
                   pattern="[0-9]*"
                   value={label}
                   className="w-full bg-transparent text-center outline-none"
-                  onKeyDown={e => {
-                    if (
-                      Number.isNaN(+e.key) &&
-                      e.key !== 'Backspace' &&
-                      e.key !== '.'
-                    ) {
-                      e.preventDefault();
-                    }
-                  }}
+                  onKeyDown={preventNonNumericInput}
                   onChange={e => {
                     if (quote && mode) {
                       update(
