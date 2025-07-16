@@ -1,10 +1,9 @@
-import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import {
   type CoinTopTraderHolder,
   useCoinTopTraderHolders,
-  useCoinWhales,
 } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Button } from 'shared/v1-components/Button';
@@ -29,8 +28,7 @@ export function CoinTopTraderHoldersWidget({
   hr?: boolean;
   className?: string;
 }) {
-  const { t } = useTranslation('whale');
-  const whales = useCoinWhales({ slug, type: 'active' });
+  const { t } = useTranslation();
   const [limit, setLimit] = useState<number | undefined>(_limit);
   const resp = useCoinTopTraderHolders({
     type,
@@ -40,7 +38,7 @@ export function CoinTopTraderHoldersWidget({
   const columns = useMemo<Array<TableColumn<CoinTopTraderHolder>>>(
     () => [
       {
-        title: t('whales_on_coin.address'),
+        title: 'Address',
         sticky: 'start',
         render: row => (
           <Wallet
@@ -158,7 +156,7 @@ export function CoinTopTraderHoldersWidget({
         ),
       },
     ],
-    [t, type],
+    [type],
   );
 
   if ((resp.data ?? []).length === 0) return null;
@@ -178,9 +176,9 @@ export function CoinTopTraderHoldersWidget({
           </h3>
         )}
         <Table
-          loading={whales.isLoading}
+          loading={resp.isLoading}
           columns={columns}
-          dataSource={resp.data?.slice(0, limit) ?? []}
+          dataSource={resp.data?.slice?.(0, limit) ?? []}
           rowKey={row => `${row.wallet_address}${row.network ?? ''}`}
           surface={2}
           scrollable
