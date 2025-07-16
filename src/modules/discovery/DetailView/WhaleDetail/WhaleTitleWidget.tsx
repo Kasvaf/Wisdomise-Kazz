@@ -27,7 +27,8 @@ export const WhaleTitleWidget = ({
             network: networkName,
             address: holderAddress,
           }}
-          mode="title"
+          noLink
+          whale
           className="col-span-2 mobile:col-span-6"
         />
         <div className="flex gap-1 ps-10 text-xs">

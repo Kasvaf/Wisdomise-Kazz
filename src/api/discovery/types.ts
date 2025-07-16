@@ -1,3 +1,4 @@
+import { type Resolution } from 'shared/AdvancedChart/getCandlesCached';
 import { type Coin } from '../types/shared';
 
 export type PricesExchange = 'BINANCE' | 'STONFI' | 'RAYDIUM';
@@ -1106,6 +1107,28 @@ export interface TokenInsight {
   bundlers_holding_percentage: number;
 }
 
+export interface CoinTopTraderHolder {
+  network: string;
+  wallet_address: string;
+  token_address: string;
+  related_at?: string | null;
+  resolution: Resolution;
+  num_buys: number;
+  num_sells: number;
+  num_inflows: number;
+  num_outflows: number;
+  num_win: number;
+  num_loss: number;
+  average_buy: number;
+  volume_buys: number;
+  volume_sells: number;
+  realized_pnl: number;
+  volume_inflow: number;
+  volume_outflow: number;
+  balance: number;
+  balance_first: number;
+  pnl: number;
+}
 export interface TwitterRelatedToken {
   smart_contract: string;
   name: string;
