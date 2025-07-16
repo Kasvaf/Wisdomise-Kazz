@@ -19,7 +19,7 @@ import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useActiveWallet } from 'api/chains/wallet';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
-import { parseDur } from './DurationInput';
+import { parseDur } from './parseDur';
 
 interface Props {
   baseSlug: string;

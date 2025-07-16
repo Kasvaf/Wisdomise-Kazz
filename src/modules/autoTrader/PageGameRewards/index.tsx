@@ -22,7 +22,7 @@ import silver from './images/silver.png';
 // eslint-disable-next-line import/max-dependencies
 import star from './images/star.svg';
 
-export const TON_PER_REFERRAL = 0.01;
+const TON_PER_REFERRAL = 0.01;
 
 export default function PageGameRewards() {
   const address = useTonAddress();

@@ -21,6 +21,9 @@ export function useAccountQuery(config?: { suspense?: boolean }) {
       return data;
     },
     staleTime: Number.POSITIVE_INFINITY,
+    meta: {
+      persist: false,
+    },
   });
 }
 
@@ -198,5 +201,8 @@ export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
     refetchInterval: 60 * 60 * 1000,
     refetchOnMount: true,
     enabled: !!query && !quickLogin,
+    meta: {
+      persist: false,
+    },
   });
 }

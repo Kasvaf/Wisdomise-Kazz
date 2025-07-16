@@ -1129,3 +1129,11 @@ export interface CoinTopTraderHolder {
   balance_first: number;
   pnl: number;
 }
+export interface TwitterRelatedToken {
+  smart_contract: string;
+  name: string;
+  abbreviation: string;
+  slug: string;
+  icon: string;
+  description: string;
+}
