@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
-import PageLeague from 'modules/quest/PageLeague';
+import LeagueMaintenance from 'modules/quest/PageLeague/Maintenance';
 import Container from '../Container';
 import { ActiveNetworkProvider } from '../active-network';
 import { type RouteHandle } from './types';
@@ -94,7 +94,7 @@ const useAutoTraderRoutes = () => {
             },
             {
               path: 'league',
-              children: [{ path: '', element: <PageLeague /> }],
+              children: [{ path: '', element: <LeagueMaintenance /> }],
             },
           ],
         },
