@@ -123,12 +123,13 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
 
   const isMatched = useCallback(
     (meta: Partial<DiscoveryRouteMeta>): boolean => {
+      if (pathname !== '/discovery') return false;
       return Object.entries(meta).every(([key, value]) => {
         if (params[key as never] !== value) return false;
         return true;
       });
     },
-    [params],
+    [params, pathname],
   );
 
   return useMemo(
