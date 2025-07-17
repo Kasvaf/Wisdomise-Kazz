@@ -14,8 +14,8 @@ export default function LeagueMaintenance() {
           We’re making some changes to our gamification system — including the
           League. As part of this, the current League format will be paused.
           We’ll be back soon with a new and improved rewards system that brings
-          even more value and excitement. Thanks for being part of the journey.
-          Stay tuned.
+          even more value and excitement.
+          <br /> Thanks for being part of the journey. Stay tuned.
         </p>
         <Button
           className="mt-10"
