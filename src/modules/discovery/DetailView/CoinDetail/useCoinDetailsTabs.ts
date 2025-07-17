@@ -27,6 +27,14 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
         label: t('coin-details.tabs.socials.label'),
       },
       {
+        value: 'coinoverview_top_traders',
+        label: 'Top Traders',
+      },
+      {
+        value: 'coinoverview_top_holders',
+        label: 'Top Holders',
+      },
+      {
         value: 'coinoverview_pools',
         label: t('coin-details.tabs.pools.label'),
       },
