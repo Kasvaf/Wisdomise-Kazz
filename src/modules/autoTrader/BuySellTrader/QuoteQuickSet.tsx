@@ -4,10 +4,10 @@ import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { Button } from 'shared/v1-components/Button';
 import { type Surface } from 'utils/useSurface';
 import { preventNonNumericInput, roundSensible } from 'utils/numbers';
-import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import Icon from 'shared/Icon';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 
-export default function QuoteAmountPresets({
+export default function QuoteQuickSet({
   balance,
   onClick,
   surface = 2,
@@ -33,10 +33,11 @@ export default function QuoteAmountPresets({
   showAll?: boolean;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const {
-    quotesAmountPresets: { value: items, update, persist },
-  } = useTraderSettings();
-  const preset = mode === 'buy' ? items.buy : items.sellPercentage;
+  const { settings, updateQuotesQuickSet } = useUserSettings();
+  const preset =
+    mode === 'buy'
+      ? settings.quotes_quick_set.buy
+      : settings.quotes_quick_set.sell_percentage;
   const presetOptions = preset?.[quote]?.map(v => ({
     value:
       mode === 'sell'
@@ -86,9 +87,9 @@ export default function QuoteAmountPresets({
                   onKeyDown={preventNonNumericInput}
                   onChange={e => {
                     if (quote && mode) {
-                      update(
+                      updateQuotesQuickSet(
                         quote,
-                        mode === 'sell' ? 'sellPercentage' : mode,
+                        mode === 'sell' ? 'sell_percentage' : mode,
                         index,
                         e.target.value,
                       );
@@ -110,7 +111,6 @@ export default function QuoteAmountPresets({
           className="!px-1"
           onClick={() => {
             setIsEditMode(prev => !prev);
-            persist();
           }}
         >
           <Icon name={isEditMode ? bxCheck : bxEditAlt} />

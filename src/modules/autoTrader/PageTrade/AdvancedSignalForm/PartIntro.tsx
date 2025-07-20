@@ -2,7 +2,7 @@
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
 import { useCoinDetails } from 'api/discovery';
-import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
+import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { type SignalFormState } from './useSignalFormStates';
 import AmountBalanceLabel from './AmountBalanceLabel';
 import QuoteSelector from './QuoteSelector';
@@ -52,7 +52,7 @@ const PartIntro: React.FC<{
       />
 
       {!isUpdate && (
-        <QuoteAmountPresets
+        <QuoteQuickSet
           className="mb-3"
           quote={quote}
           mode="buy"

@@ -17,6 +17,7 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useActiveWallet } from 'api/chains/wallet';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './parseDur';
@@ -57,6 +58,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     convertToUsd: true,
   });
   const { address, isCustodial } = useActiveWallet();
+  const { getActivePreset } = useUserSettings();
 
   const { mutateAsync, isPending: isSubmitting } =
     useTraderFirePositionMutation();
@@ -78,6 +80,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
   const fireHandler = async () => {
     if (!assetPrice || !address || !network) return;
 
+    const preset = getActivePreset('terminal');
     const createData: CreatePositionRequest = {
       network,
       signal: {
@@ -92,6 +95,10 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
         take_profit: getTakeProfits(),
         stop_loss: getStopLosses(),
         open_orders: getOpenOrders(assetPrice),
+        buy_slippage: preset.buy.slippage,
+        sell_slippage: preset.sell.slippage,
+        buy_priority_fee: preset.buy.sol_priority_fee,
+        sell_priority_fee: preset.buy.sol_priority_fee,
       },
       withdraw_address: address,
       quote_slug: quote,

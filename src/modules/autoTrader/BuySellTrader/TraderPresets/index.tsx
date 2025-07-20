@@ -1,10 +1,6 @@
 import { clsx } from 'clsx';
 import { bxChevronDown, bxCog } from 'boxicons-quasar';
 import { useEffect, useState } from 'react';
-import {
-  type TraderPreset,
-  useTraderSettings,
-} from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { type Surface } from 'utils/useSurface';
@@ -12,22 +8,28 @@ import { Dialog } from 'shared/v1-components/Dialog';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Input } from 'shared/v1-components/Input';
 import { preventNonNumericInput } from 'utils/numbers';
+import {
+  type TraderPreset,
+  type TraderPresets,
+  useUserSettings,
+} from 'modules/base/auth/UserSettingsProvider';
 import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
 
-export function TraderPresets({ mode }: { mode?: 'buy' | 'sell' }) {
+export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
   const [isOpen, setIsOpen] = useState(false);
-  const {
-    traderPresets: { value, activeIndex, update },
-  } = useTraderSettings();
   const [visibleForms, setVisibleForms] = useState<boolean[]>(
     Array.from<boolean>({ length: 2 }).fill(false),
   );
+  const { settings, updatePresetPartial } = useUserSettings();
+
+  const activeIndex = settings.quick_buy.terminal.active_preset;
+  const presets = settings.presets;
 
   return (
     <div className="mt-3">
       <div className="flex items-center justify-between">
-        <TraderPresetsSelector surface={2} />
+        <TraderPresetsSelector surface={2} source="terminal" />
         <Button
           size="2xs"
           variant="ghost"
@@ -75,9 +77,9 @@ export function TraderPresets({ mode }: { mode?: 'buy' | 'sell' }) {
               <TraderPresetForm
                 key={String(activeIndex) + m}
                 surface={2}
-                defaultValue={value[activeIndex][m]}
+                defaultValue={presets[activeIndex][m]}
                 onChange={newValue => {
-                  update(activeIndex, m, newValue);
+                  updatePresetPartial(activeIndex, m, newValue);
                 }}
               />
             </div>
@@ -86,26 +88,31 @@ export function TraderPresets({ mode }: { mode?: 'buy' | 'sell' }) {
       <TraderPresetSettingsDialog
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        activeMode={mode}
       />
     </div>
   );
 }
 
-export function TraderPresetsSelector({ surface }: { surface?: Surface }) {
-  const {
-    traderPresets: { activeIndex, setActive, value },
-  } = useTraderSettings();
+export function TraderPresetsSelector({
+  surface,
+  source,
+}: {
+  surface?: Surface;
+  source: 'terminal' | 'new_pairs' | 'final_stretch' | 'migrated';
+}) {
+  const { settings, updateQuickBuyActivePreset } = useUserSettings();
+
+  const activeIndex = settings.quick_buy[source].active_preset;
 
   return (
     <div className="flex items-center">
-      {value?.map((_, index) => (
+      {settings.presets?.map((_, index) => (
         <Button
           key={index}
           variant="ghost"
           size="2xs"
           className={clsx(index !== activeIndex && '!bg-transparent')}
-          onClick={() => setActive(index)}
+          onClick={() => updateQuickBuyActivePreset(source, index)}
           surface={surface}
         >
           P{index + 1}
@@ -124,8 +131,8 @@ export function TraderPresetValues({
   className?: string;
   showMode?: boolean;
 }) {
-  const { traderPresets } = useTraderSettings();
-  const activePreset = traderPresets.activePreset[mode ?? 'buy'];
+  const { getActivePreset } = useUserSettings();
+  const activePreset = getActivePreset('terminal')[mode];
 
   return (
     <div
@@ -146,10 +153,10 @@ export function TraderPresetValues({
         </span>
       )}
       <SlippageIcon />
-      <span>{activePreset.slippage}%</span>
+      <span>{+activePreset.slippage * 100}%</span>
       <div className="mx-1 h-3 border-r border-v1-surface-l4" />
       <PriorityIcon />
-      <span>{activePreset.priorityFee['wrapped-solana']}</span>
+      <span>{activePreset.sol_priority_fee}</span>
     </div>
   );
 }
@@ -157,36 +164,22 @@ export function TraderPresetValues({
 function TraderPresetSettingsDialog({
   isOpen,
   onClose,
-  activeMode,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  activeMode?: 'buy' | 'sell';
 }) {
-  const {
-    traderPresets: { value, activeIndex, updateAll },
-  } = useTraderSettings();
-  const [presets, setPresets] = useState([...value]);
-  const [currentPreset, setCurrentPreset] = useState(activeIndex);
-  const [currentMode, setCurrentMode] = useState<'buy' | 'sell'>(
-    activeMode ?? 'buy',
-  );
+  const { settings, updatePreset } = useUserSettings();
+  const [presets, setPresets] = useState<TraderPresets>();
+  const [currentPreset, setCurrentPreset] = useState(0);
+  const [currentMode, setCurrentMode] = useState<'buy' | 'sell'>('buy');
 
   useEffect(() => {
-    setPresets([...value]);
-  }, [isOpen, value]);
-
-  useEffect(() => {
-    setCurrentPreset(activeIndex ?? 0);
-  }, [activeIndex]);
-
-  useEffect(() => {
-    if (activeMode) {
-      setCurrentMode(activeMode);
+    if (settings) {
+      setPresets([...settings.presets]);
     }
-  }, [activeMode]);
+  }, [isOpen, settings]);
 
-  return (
+  return presets ? (
     <Dialog open={isOpen} mode="modal" contentClassName="p-7" onClose={onClose}>
       <div className="w-96">
         <h1 className="mb-8 text-2xl font-medium">Quick Settings</h1>
@@ -198,7 +191,7 @@ function TraderPresetSettingsDialog({
           surface={4}
           value={currentPreset}
           options={
-            value?.map((_, index) => ({
+            settings.presets?.map((_, index) => ({
               value: index,
               label: `P${index + 1}`,
             })) ?? []
@@ -232,7 +225,7 @@ function TraderPresetSettingsDialog({
           surface={4}
           onChange={newValue => {
             setPresets(prev => {
-              const newPresets = [...prev];
+              const newPresets = [...(prev ?? [])];
               newPresets[currentPreset][currentMode] = newValue;
               return newPresets;
             });
@@ -246,7 +239,7 @@ function TraderPresetSettingsDialog({
           <Button
             className="w-full"
             onClick={() => {
-              updateAll(presets);
+              updatePreset(presets);
               onClose();
             }}
           >
@@ -255,7 +248,7 @@ function TraderPresetSettingsDialog({
         </div>
       </div>
     </Dialog>
-  );
+  ) : null;
 }
 
 function TraderPresetForm({
@@ -282,11 +275,11 @@ function TraderPresetForm({
           surface={surface}
           size="xs"
           type="string"
-          value={value.slippage}
+          value={String(+value.slippage * 100)}
           suffixIcon="%"
           className="w-1/3"
           onChange={newValue =>
-            setValue(prev => ({ ...prev, slippage: newValue }))
+            setValue(prev => ({ ...prev, slippage: String(+newValue / 100) }))
           }
           onKeyDown={preventNonNumericInput}
         />
@@ -297,12 +290,12 @@ function TraderPresetForm({
           surface={surface}
           size="xs"
           type="string"
-          value={value.priorityFee['wrapped-solana']}
+          value={value.sol_priority_fee}
           className="w-1/3"
           onChange={newValue =>
             setValue(prev => ({
               ...prev,
-              priorityFee: { 'wrapped-solana': newValue },
+              sol_priority_fee: newValue,
             }))
           }
           onKeyDown={preventNonNumericInput}

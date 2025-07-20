@@ -9,7 +9,7 @@ import {
 import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
 import { useActiveWallet } from 'api/chains/wallet';
-import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/parseDur';
 import { type SwapState } from './useSwapState';
 
@@ -27,9 +27,7 @@ const useActionHandlers = (state: SwapState) => {
     confirming: [, setConfirming],
   } = state;
   const { address, isCustodial } = useActiveWallet();
-  const {
-    traderPresets: { activePreset },
-  } = useTraderSettings();
+  const { getActivePreset } = useUserSettings();
 
   const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
     setConfirming(true);
@@ -51,6 +49,8 @@ const useActionHandlers = (state: SwapState) => {
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
 
+    const preset = getActivePreset('terminal');
+
     // direct swap
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
@@ -61,6 +61,8 @@ const useActionHandlers = (state: SwapState) => {
             quote.slug,
             dir === 'buy' ? 'LONG' : 'SHORT',
             from.amount,
+            preset[dir].slippage,
+            preset[dir].sol_priority_fee,
           ),
           'Swap completed successfully',
         );
@@ -72,8 +74,6 @@ const useActionHandlers = (state: SwapState) => {
       return;
     }
 
-    const slippage = +activePreset?.[dir]?.slippage / 100;
-    const priorityFee = +activePreset?.[dir]?.priorityFee['wrapped-solana'];
     const createData: CreatePositionRequest = {
       network,
       mode: dir === 'buy' ? 'buy_and_hold' : 'sell_and_hold',
@@ -128,10 +128,10 @@ const useActionHandlers = (state: SwapState) => {
                 },
           ],
         },
-        buy_slippage: dir === 'buy' ? slippage : undefined,
-        sell_slippage: dir === 'sell' ? slippage : undefined,
-        buy_priority_fee: dir === 'buy' ? priorityFee : undefined,
-        sell_priority_fee: dir === 'sell' ? priorityFee : undefined,
+        buy_slippage: preset.buy.slippage,
+        sell_slippage: preset.sell.slippage,
+        buy_priority_fee: preset.buy.sol_priority_fee,
+        sell_priority_fee: preset.sell.sol_priority_fee,
       },
       withdraw_address: address,
     } as const;

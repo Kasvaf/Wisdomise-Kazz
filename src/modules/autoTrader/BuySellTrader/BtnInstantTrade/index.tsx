@@ -13,14 +13,13 @@ import { useLocalStorage } from 'usehooks-ts';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
-import QuoteAmountPresets from 'modules/autoTrader/BuySellTrader/QuoteAmountPresets';
+import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { useActiveWallet } from 'api/chains/wallet';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import { useAccountBalance, useMarketSwap } from 'api/chains';
 import { useHasFlag } from 'api';
-import { useTraderSettings } from 'modules/autoTrader/BuySellTrader/TraderSettingsProvider';
 import {
   TraderPresetsSelector,
   TraderPresetValues,
@@ -42,9 +41,6 @@ export default function BtnInstantTrade({
   const { connected } = useActiveWallet();
   const { data: baseBalance } = useAccountBalance(slug);
   const { data: quoteBalance } = useAccountBalance(quote);
-  const {
-    quotesAmountPresets: { persist },
-  } = useTraderSettings();
   const hasFlag = useHasFlag();
   const [maskIsOpen, setMaskIsOpen] = useState(false);
 
@@ -125,15 +121,12 @@ export default function BtnInstantTrade({
               className="relative flex cursor-move items-center border-b border-white/5 p-3"
             >
               <DragIcon className="absolute left-1/2 top-1 size-3 -translate-x-1/2 cursor-move" />
-              <TraderPresetsSelector surface={5} />
+              <TraderPresetsSelector surface={5} source="terminal" />
               <Button
                 size="2xs"
                 variant="ghost"
                 className="ml-auto !px-2"
                 onClick={() => {
-                  if (isEditMode) {
-                    persist();
-                  }
                   setIsEditMode(prev => !prev);
                 }}
               >
@@ -155,7 +148,7 @@ export default function BtnInstantTrade({
                   Buy
                   <AccountBalance slug={quote} />
                 </div>
-                <QuoteAmountPresets
+                <QuoteQuickSet
                   mode="buy"
                   enableEdit={isEditMode}
                   hasEditBtn={false}
@@ -186,7 +179,7 @@ export default function BtnInstantTrade({
                   Sell
                   <AccountBalance slug={slug} />
                 </div>
-                <QuoteAmountPresets
+                <QuoteQuickSet
                   mode="sell"
                   quote={quote}
                   enableEdit={isEditMode}
