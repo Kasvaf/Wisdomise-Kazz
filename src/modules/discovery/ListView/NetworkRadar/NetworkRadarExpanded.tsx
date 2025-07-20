@@ -7,6 +7,7 @@ import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { NCoinList } from './NCoinList';
 import {
   type NetworkRadarStreamFilters,
@@ -69,63 +70,75 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         loading={newPairs.length === 0}
         title="New Pairs"
         titleSuffix={
-          <NetworkRadarFilters
-            initialTab="new_pairs"
-            searchShortcut
-            value={filters}
-            onChange={newFilters =>
-              setFilters({
-                new_pairs: {},
-                final_stretch: {},
-                migrated: {},
-                ...newFilters,
-              })
-            }
-          />
+          <div className="flex items-center gap-3">
+            <QuickBuySettings source="new_pairs" />
+            <NetworkRadarFilters
+              initialTab="new_pairs"
+              searchShortcut
+              value={filters}
+              onChange={newFilters =>
+                setFilters({
+                  new_pairs: {},
+                  final_stretch: {},
+                  migrated: {},
+                  ...newFilters,
+                })
+              }
+            />
+          </div>
         }
         onRowClick={slug => onRowClick('new_pairs', slug)}
+        source="new_pairs"
       />
       <NCoinList
         dataSource={finalStretch}
         loading={finalStretch.length === 0}
         title="Final Stretch"
         titleSuffix={
-          <NetworkRadarFilters
-            initialTab="final_stretch"
-            searchShortcut
-            value={filters}
-            onChange={newFilters =>
-              setFilters({
-                new_pairs: {},
-                final_stretch: {},
-                migrated: {},
-                ...newFilters,
-              })
-            }
-          />
+          <div className="flex items-center gap-3">
+            <QuickBuySettings source="final_stretch" />
+            <NetworkRadarFilters
+              initialTab="final_stretch"
+              searchShortcut
+              value={filters}
+              onChange={newFilters =>
+                setFilters({
+                  new_pairs: {},
+                  final_stretch: {},
+                  migrated: {},
+                  ...newFilters,
+                })
+              }
+            />
+          </div>
         }
         onRowClick={slug => onRowClick('final_stretch', slug)}
+        source="final_stretch"
       />
       <NCoinList
         dataSource={migrated}
         loading={migrated.length === 0}
         title="Migrated"
         titleSuffix={
-          <NetworkRadarFilters
-            initialTab="migrated"
-            searchShortcut
-            value={filters}
-            onChange={newFilters =>
-              setFilters({
-                new_pairs: {},
-                final_stretch: {},
-                migrated: {},
-                ...newFilters,
-              })
-            }
-          />
+          <div className="flex items-center gap-3">
+            <QuickBuySettings source="migrated" />
+            <NetworkRadarFilters
+              initialTab="migrated"
+              searchShortcut
+              value={filters}
+              onChange={newFilters =>
+                setFilters({
+                  new_pairs: {},
+                  final_stretch: {},
+                  migrated: {},
+                  ...newFilters,
+                })
+              }
+            />
+          </div>
         }
         onRowClick={slug => onRowClick('migrated', slug)}
+        source="migrated"
       />
     </div>
   );

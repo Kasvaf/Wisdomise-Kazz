@@ -21,7 +21,7 @@ interface UserSettings {
 
 interface QuickBuySettings {
   active_preset: number;
-  quick_buy_amount?: string;
+  amount?: string;
 }
 
 interface QuotesQuickSet {
@@ -62,15 +62,15 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
   quick_buy: {
     final_stretch: {
       active_preset: 0,
-      quick_buy_amount: '0',
+      amount: '0',
     },
     migrated: {
       active_preset: 0,
-      quick_buy_amount: '0',
+      amount: '0',
     },
     new_pairs: {
       active_preset: 0,
-      quick_buy_amount: '0',
+      amount: '0',
     },
     terminal: {
       active_preset: 0,
@@ -211,7 +211,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         ...prev.quick_buy,
         [source]: {
           ...prev.quick_buy[source],
-          quick_buy_amount: amount,
+          amount,
         },
       },
     }));

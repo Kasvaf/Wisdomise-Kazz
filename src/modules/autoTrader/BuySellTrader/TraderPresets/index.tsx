@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { bxChevronDown, bxCog } from 'boxicons-quasar';
 import { useEffect, useState } from 'react';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { type Surface } from 'utils/useSurface';
 import { Dialog } from 'shared/v1-components/Dialog';
@@ -96,9 +96,11 @@ export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
 export function TraderPresetsSelector({
   surface,
   source,
+  size = '2xs',
 }: {
   surface?: Surface;
   source: 'terminal' | 'new_pairs' | 'final_stretch' | 'migrated';
+  size?: ButtonSize;
 }) {
   const { settings, updateQuickBuyActivePreset } = useUserSettings();
 
@@ -110,7 +112,7 @@ export function TraderPresetsSelector({
         <Button
           key={index}
           variant="ghost"
-          size="2xs"
+          size={size}
           className={clsx(index !== activeIndex && '!bg-transparent')}
           onClick={() => updateQuickBuyActivePreset(source, index)}
           surface={surface}
