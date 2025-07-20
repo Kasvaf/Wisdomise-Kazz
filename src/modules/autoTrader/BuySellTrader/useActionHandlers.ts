@@ -128,12 +128,12 @@ const useActionHandlers = (state: SwapState) => {
                 },
           ],
         },
-        buy_slippage: preset.buy.slippage,
-        sell_slippage: preset.sell.slippage,
-        buy_priority_fee: preset.buy.sol_priority_fee,
-        sell_priority_fee: preset.sell.sol_priority_fee,
       },
       withdraw_address: address,
+      buy_slippage: preset.buy.slippage,
+      sell_slippage: preset.sell.slippage,
+      buy_priority_fee: preset.buy.sol_priority_fee,
+      sell_priority_fee: preset.sell.sol_priority_fee,
     } as const;
     try {
       setFiring(true);

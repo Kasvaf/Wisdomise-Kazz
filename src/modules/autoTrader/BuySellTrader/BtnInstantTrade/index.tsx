@@ -24,6 +24,7 @@ import {
   TraderPresetsSelector,
   TraderPresetValues,
 } from 'modules/autoTrader/BuySellTrader/TraderPresets';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -43,9 +44,13 @@ export default function BtnInstantTrade({
   const { data: quoteBalance } = useAccountBalance(quote);
   const hasFlag = useHasFlag();
   const [maskIsOpen, setMaskIsOpen] = useState(false);
+  const { getActivePreset } = useUserSettings();
 
   const marketSwapHandler = useMarketSwap();
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
+    const preset =
+      getActivePreset('terminal')[side === 'LONG' ? 'buy' : 'sell'];
+
     if (
       (side === 'LONG' && (quoteBalance ?? 0) < +amount) ||
       (side === 'SHORT' && (baseBalance ?? 0) === 0)
@@ -53,7 +58,14 @@ export default function BtnInstantTrade({
       notification.error({ message: 'Insufficient balance' });
       return;
     }
-    await marketSwapHandler(slug, quote, side, amount);
+    await marketSwapHandler(
+      slug,
+      quote,
+      side,
+      amount,
+      preset.slippage,
+      preset.sol_priority_fee,
+    );
     notification.success({ message: 'Transaction successfully sent' });
   };
 

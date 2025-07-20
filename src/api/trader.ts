@@ -330,6 +330,10 @@ export interface CreatePositionRequest {
   base_slug?: string;
   base_amount?: string;
   network: SupportedNetworks;
+  buy_slippage?: string;
+  sell_slippage?: string;
+  buy_priority_fee?: string;
+  sell_priority_fee?: string;
 }
 
 export const usePreparePositionQuery = (req?: CreatePositionRequest) => {
