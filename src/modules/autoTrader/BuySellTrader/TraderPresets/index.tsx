@@ -102,7 +102,7 @@ export function TraderPresetsSelector({
   showValue,
 }: {
   surface?: Surface;
-  source: 'terminal' | 'new_pairs' | 'final_stretch' | 'migrated';
+  source: QuickBuySource;
   size?: ButtonSize;
   showValue?: boolean;
 }) {
