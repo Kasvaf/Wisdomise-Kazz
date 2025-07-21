@@ -1,40 +1,69 @@
 import { clsx } from 'clsx';
 import { notification } from 'antd';
 import { Button } from 'shared/v1-components/Button';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { useMarketSwap } from 'api/chains';
+import {
+  type QuickBuySource,
+  useUserSettings,
+} from 'modules/base/auth/UserSettingsProvider';
+import { useAccountNativeBalance, useMarketSwap } from 'api/chains';
+import { useSupportedPairs } from 'api';
+import { type CoinNetwork } from 'api/discovery';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function BtnQuickBuy({
   slug,
   source,
   className,
+  networks,
 }: {
   slug: string;
-  source: 'new_pairs' | 'final_stretch' | 'migrated';
+  source: QuickBuySource;
   className?: string;
+  networks?: CoinNetwork[] | null;
 }) {
   const { settings, getActivePreset } = useUserSettings();
   const marketSwapHandler = useMarketSwap();
+  const { data: balance } = useAccountNativeBalance();
+  const { refetch } = useSupportedPairs(slug);
+
+  const isSolana = networks
+    ? networks.find(n => n.network.slug === 'solana')
+    : true;
 
   const swap = async () => {
-    const preset = getActivePreset('terminal').buy;
+    const preset = getActivePreset(source).buy;
+    const amount = settings.quick_buy[source].amount ?? '0';
 
-    // todo add validation
+    const supportedPairs = (await refetch()).data;
+    if (!supportedPairs?.find(p => p.quote.slug === 'wrapped-solana')) {
+      notification.error({
+        message: 'This coin does not have a Solana trading pair.',
+      });
+      return;
+    }
+
+    if (+amount > (balance ?? 0)) {
+      notification.error({ message: 'Insufficient balance' });
+      return;
+    }
+
     await marketSwapHandler(
       slug,
       'wrapped-solana',
       'LONG',
-      settings.quick_buy[source].amount ?? '0',
+      amount,
       preset.slippage,
       preset.sol_priority_fee,
     );
     notification.success({ message: 'Transaction successfully sent' });
   };
 
-  return (
+  return isSolana ? (
     <Button
-      className={clsx(className, 'flex items-center !rounded-3xl')}
+      className={clsx(
+        className,
+        'flex items-center !rounded-3xl disabled:bg-v1-surface-l2',
+      )}
       size="xs"
       onClick={e => {
         e.stopPropagation();
@@ -42,7 +71,7 @@ export default function BtnQuickBuy({
       }}
     >
       <InstantIcon />
-      {settings.quick_buy[source].amount} SOL
+      <span className="shrink-0">{settings.quick_buy[source].amount} SOL</span>
     </Button>
-  );
+  ) : null;
 }

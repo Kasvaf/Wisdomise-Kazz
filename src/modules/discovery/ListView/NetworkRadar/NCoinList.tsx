@@ -221,7 +221,7 @@ export const NCoinList: FC<{
           {dataSource.map(row => (
             <button
               key={row.symbol?.slug}
-              className="group relative flex max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
+              className="group relative flex max-w-full items-end justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
@@ -234,13 +234,13 @@ export const NCoinList: FC<{
               </div>
               <NCoinMarketDataCol
                 value={row}
-                className="absolute end-2 h-full"
+                className="absolute end-2 top-0 h-full"
               />
               {row.symbol && (
                 <BtnQuickBuy
                   slug={row.symbol.slug}
                   source={source}
-                  className="absolute bottom-0 right-0 hidden items-center !rounded-3xl group-hover:flex"
+                  className="absolute bottom-0 right-0 hidden group-hover:flex"
                 />
               )}
             </button>

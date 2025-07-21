@@ -9,10 +9,12 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Input } from 'shared/v1-components/Input';
 import { preventNonNumericInput } from 'utils/numbers';
 import {
+  type QuickBuySource,
   type TraderPreset,
   type TraderPresets,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
 
@@ -97,10 +99,12 @@ export function TraderPresetsSelector({
   surface,
   source,
   size = '2xs',
+  showValue,
 }: {
   surface?: Surface;
   source: 'terminal' | 'new_pairs' | 'final_stretch' | 'migrated';
   size?: ButtonSize;
+  showValue?: boolean;
 }) {
   const { settings, updateQuickBuyActivePreset } = useUserSettings();
 
@@ -109,16 +113,21 @@ export function TraderPresetsSelector({
   return (
     <div className="flex items-center">
       {settings.presets?.map((_, index) => (
-        <Button
+        <HoverTooltip
+          disabled={!showValue}
           key={index}
-          variant="ghost"
-          size={size}
-          className={clsx(index !== activeIndex && '!bg-transparent')}
-          onClick={() => updateQuickBuyActivePreset(source, index)}
-          surface={surface}
+          title={<TraderPresetValues mode="buy" presetIndex={index} />}
         >
-          P{index + 1}
-        </Button>
+          <Button
+            variant="ghost"
+            size={size}
+            className={clsx(index !== activeIndex && '!bg-transparent')}
+            onClick={() => updateQuickBuyActivePreset(source, index)}
+            surface={surface}
+          >
+            P{index + 1}
+          </Button>
+        </HoverTooltip>
       ))}
     </div>
   );
@@ -128,13 +137,21 @@ export function TraderPresetValues({
   mode,
   className,
   showMode,
+  presetIndex,
+  source = 'terminal',
 }: {
   mode: 'buy' | 'sell';
   className?: string;
   showMode?: boolean;
+  presetIndex?: number;
+  source?: QuickBuySource;
 }) {
-  const { getActivePreset } = useUserSettings();
-  const activePreset = getActivePreset('terminal')[mode];
+  const { settings, getActivePreset } = useUserSettings();
+  const activePreset = (
+    presetIndex === undefined
+      ? getActivePreset(source)
+      : settings.presets[presetIndex]
+  )[mode];
 
   return (
     <div

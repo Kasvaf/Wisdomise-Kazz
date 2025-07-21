@@ -14,7 +14,6 @@ import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
-import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { useActiveWallet } from 'api/chains/wallet';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
@@ -25,6 +24,7 @@ import {
   TraderPresetValues,
 } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';

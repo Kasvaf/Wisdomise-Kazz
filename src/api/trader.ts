@@ -82,13 +82,17 @@ export const getPairsCached = async (baseSlug: string) => {
   return cachedPairs[baseSlug];
 };
 
-export const useSupportedPairs = (baseSlug?: string) => {
+export const useSupportedPairs = (
+  baseSlug?: string,
+  config?: { enabled: boolean },
+) => {
   return useQuery({
     queryKey: ['supported-pairs', baseSlug],
     queryFn: async () => {
       if (!baseSlug) return [];
       return await getPairsCached(baseSlug);
     },
+    enabled: config?.enabled === undefined ? true : config.enabled,
     staleTime: Number.POSITIVE_INFINITY,
   });
 };

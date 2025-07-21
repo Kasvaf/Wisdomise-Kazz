@@ -15,6 +15,7 @@ import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { TableRank } from 'shared/TableRank';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import TechnicalRadarSharingModal from '../../TechnicalRadarSharingModal';
@@ -138,6 +139,13 @@ export const TechnicalRadarCoinsTable: FC = () => {
             >
               <Icon name={bxShareAlt} size={6} />
             </Button>
+          )}
+          rowHoverSuffix={row => (
+            <BtnQuickBuy
+              source="technical_radar"
+              slug={row.symbol.slug}
+              networks={row.networks}
+            />
           )}
         />
       </AccessShield>

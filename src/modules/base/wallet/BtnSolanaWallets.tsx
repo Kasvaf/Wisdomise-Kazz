@@ -27,17 +27,22 @@ import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { roundSensible } from 'utils/numbers';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import TotalBalance from 'modules/base/wallet/TotalBalance';
+import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
 export default function BtnSolanaWallets({
   className,
   showAddress,
+  showBalance,
   size,
+  variant = 'ghost',
 }: {
   className?: string;
   showAddress?: boolean;
+  showBalance?: boolean;
   size?: ButtonSize;
+  variant?: 'outline' | 'ghost';
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
@@ -49,7 +54,7 @@ export default function BtnSolanaWallets({
   return (
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
-        variant="ghost"
+        variant={variant}
         size={isMobile ? 'md' : size ?? 'xs'}
         className={className}
       >
@@ -59,6 +64,7 @@ export default function BtnSolanaWallets({
           <WalletIcon />
         )}
         {showAddress && (address ? shortenAddress(address) : 'Not Connected')}
+        {showBalance && <AccountBalance slug="wrapped-solana" />}
       </Button>
     </ClickableTooltip>
   );

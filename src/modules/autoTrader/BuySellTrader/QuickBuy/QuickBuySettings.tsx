@@ -1,20 +1,29 @@
+import { clsx } from 'clsx';
 import { TraderPresetsSelector } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { Input } from 'shared/v1-components/Input';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import {
+  type QuickBuySource,
+  useUserSettings,
+} from 'modules/base/auth/UserSettingsProvider';
 import { useSymbolInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
+import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function QuickBuySettings({
   source,
+  className,
+  showWallet,
 }: {
-  source: 'new_pairs' | 'final_stretch' | 'migrated';
+  source: QuickBuySource;
+  className?: string;
+  showWallet?: boolean;
 }) {
   const { settings, updateQuickBuyAmount } = useUserSettings();
   const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
 
   return (
-    <div className="mr-8 flex items-center gap-1">
+    <div className={clsx(className, 'flex items-center gap-2')}>
       <Input
         size="xs"
         type="string"
@@ -28,7 +37,8 @@ export default function QuickBuySettings({
         }
         onChange={newValue => updateQuickBuyAmount(source, newValue)}
       />
-      <TraderPresetsSelector source={source} size="xs" />
+      <TraderPresetsSelector source={source} size="xs" showValue />
+      {showWallet && <BtnSolanaWallets showBalance={true} />}
     </div>
   );
 }

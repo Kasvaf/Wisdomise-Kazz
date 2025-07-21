@@ -8,15 +8,20 @@ import {
 import { useDebounce } from 'usehooks-ts';
 import { useUserStorage } from 'api/userStorage';
 
+export type QuickBuySource =
+  | 'new_pairs'
+  | 'final_stretch'
+  | 'migrated'
+  | 'terminal'
+  | 'coin_radar'
+  | 'social_radar'
+  | 'technical_radar'
+  | 'whale_radar';
+
 interface UserSettings {
   quotes_quick_set: QuotesQuickSet;
   presets: TraderPresets;
-  quick_buy: {
-    new_pairs: QuickBuySettings;
-    final_stretch: QuickBuySettings;
-    migrated: QuickBuySettings;
-    terminal: QuickBuySettings;
-  };
+  quick_buy: Record<QuickBuySource, QuickBuySettings>;
 }
 
 interface QuickBuySettings {
@@ -75,6 +80,22 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     terminal: {
       active_preset: 0,
     },
+    coin_radar: {
+      active_preset: 0,
+      amount: '0',
+    },
+    social_radar: {
+      active_preset: 0,
+      amount: '0',
+    },
+    technical_radar: {
+      active_preset: 0,
+      amount: '0',
+    },
+    whale_radar: {
+      active_preset: 0,
+      amount: '0',
+    },
   },
   quotes_quick_set: {
     buy: {
@@ -99,7 +120,7 @@ const context = createContext<
   | {
       settings: UserSettings;
       getActivePreset: (
-        source: keyof UserSettings['quick_buy'],
+        source: QuickBuySource,
       ) => Record<TraderPresetMode, TraderPreset>;
       update: (newValue: UserSettings) => void;
       updateQuotesQuickSet: (
@@ -109,13 +130,10 @@ const context = createContext<
         newValue: string,
       ) => void;
       updateQuickBuyActivePreset: (
-        source: keyof UserSettings['quick_buy'],
+        source: QuickBuySource,
         index: number,
       ) => void;
-      updateQuickBuyAmount: (
-        source: keyof UserSettings['quick_buy'],
-        amount: string,
-      ) => void;
+      updateQuickBuyAmount: (source: QuickBuySource, amount: string) => void;
       updatePresetPartial: (
         index: number,
         type: 'buy' | 'sell',
@@ -137,17 +155,19 @@ export const useUserSettings = () => {
 export function UserSettingsProvider({ children }: PropsWithChildren) {
   const [settings, setSettings] = useState<UserSettings>(DEFAULT_USER_SETTINGS);
   const [isFetched, setIsFetched] = useState(false);
-  const { value, save } = useUserStorage<UserSettings>('settings', {
+  const { value, isFetching, save } = useUserStorage<UserSettings>('settings', {
     serializer: 'json',
   });
   const changedSettings = useDebounce(settings, 2000);
 
   useEffect(() => {
-    if (value && !isFetched) {
-      setSettings(value);
+    if (!isFetching && !isFetched) {
+      if (value) {
+        setSettings(value);
+      }
       setIsFetched(true);
     }
-  }, [value, isFetched]);
+  }, [value, isFetched, isFetching]);
 
   useEffect(() => {
     if (isFetched) {
@@ -156,7 +176,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changedSettings, isFetched]);
 
-  const getActivePreset = (source: keyof UserSettings['quick_buy']) => {
+  const getActivePreset = (source: QuickBuySource) => {
     const activeIndex = settings.quick_buy[source].active_preset;
     return settings.presets[activeIndex];
   };
@@ -186,7 +206,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   };
 
   const updateQuickBuyActivePreset = (
-    source: keyof UserSettings['quick_buy'],
+    source: QuickBuySource,
     index: number,
   ) => {
     setSettings(prev => ({
@@ -201,10 +221,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     }));
   };
 
-  const updateQuickBuyAmount = (
-    source: keyof UserSettings['quick_buy'],
-    amount: string,
-  ) => {
+  const updateQuickBuyAmount = (source: QuickBuySource, amount: string) => {
     setSettings(prev => ({
       ...prev,
       quick_buy: {

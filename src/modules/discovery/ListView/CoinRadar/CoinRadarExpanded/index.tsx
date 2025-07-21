@@ -14,6 +14,8 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { EmptySentiment } from '../EmptySentiment';
 import { homeSubscriptionsConfig } from '../constants';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
@@ -133,6 +135,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         titleSuffix={
           <WinRateBadge value={metricNumber === 0 ? null : metricNumber} />
         }
+        headerActions={<QuickBuySettings source="coin_radar" showWallet />}
         className="min-h-[500px]"
       >
         <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
@@ -146,6 +149,13 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             className={className}
             scrollable
             loading={coins.isLoading}
+            rowHoverSuffix={row => (
+              <BtnQuickBuy
+                source="coin_radar"
+                slug={row.symbol.slug}
+                networks={row.networks}
+              />
+            )}
           />
         </AccessShield>
       </OverviewWidget>
