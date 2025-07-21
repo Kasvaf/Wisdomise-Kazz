@@ -20,7 +20,6 @@ import { roundSensible } from 'utils/numbers';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import BuysSells from 'modules/autoTrader/BuysSells';
-import AccountPnL from 'modules/base/wallet/WalletDetail/AccountPnL';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -64,7 +63,7 @@ export default function WalletDetail(_: {
         {shortenAddress(wallet.address)}
       </p>
       <div className="mt-4 grid grid-cols-5 gap-3">
-        <div className="col-span-3 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l2 p-4">
+        <div className="col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l2 p-4">
           <p className="text-xs text-v1-content-secondary">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
@@ -73,7 +72,7 @@ export default function WalletDetail(_: {
             <WalletActions wallet={wallet} />
           </div>
         </div>
-        <div className="col-span-2 rounded-xl bg-v1-surface-l2 p-4 pt-3">
+        <div className="col-span-2 hidden rounded-xl bg-v1-surface-l2 p-4 pt-3">
           <div className="mb-7 flex items-center justify-between text-xs text-v1-content-secondary">
             Details
             <ButtonSelect
@@ -114,13 +113,13 @@ export default function WalletDetail(_: {
       </div>
       <Tabs
         className="mt-4"
-        defaultActiveKey="1"
+        defaultActiveKey="2"
         items={[
-          {
-            key: '1',
-            label: 'Account PnL',
-            children: <AccountPnL wallet={wallet} window={window} />,
-          },
+          // {
+          //   key: '1',
+          //   label: 'Account PnL',
+          //   children: <AccountPnL wallet={wallet} window={window} />,
+          // },
           {
             key: '2',
             label: 'Buys/Sells',
