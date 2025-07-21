@@ -29,6 +29,9 @@ export const createDiscoverySearchParams = (
       VIEWS[meta.view || 'both'].alias,
     ].join(''),
   );
+  searchParams.delete('list');
+  searchParams.delete('detail');
+  searchParams.delete('view');
   if (meta.slug) {
     searchParams.set('slug', meta.slug);
   }
@@ -42,19 +45,25 @@ export const parseDiscoverySearchParams = (
   const slug = searchParams.get('slug') || undefined;
 
   const list: keyof typeof LISTS =
+    (searchParams.get('list') as never) ??
     (Object.entries(LISTS).find(
       ([, v]) => v.alias === ui?.slice(0, 1),
-    )?.[0] as keyof typeof LISTS) ?? 'coin-radar';
+    )?.[0] as keyof typeof LISTS) ??
+    'coin-radar';
 
   const detail: keyof typeof DETAILS =
+    (searchParams.get('detail') as never) ??
     (Object.entries(DETAILS).find(
       ([, v]) => v.alias === ui?.slice(1, 2),
-    )?.[0] as keyof typeof DETAILS) ?? 'coin';
+    )?.[0] as keyof typeof DETAILS) ??
+    'coin';
 
   const view: keyof typeof VIEWS =
+    (searchParams.get('view') as never) ??
     (Object.entries(VIEWS).find(
       ([, v]) => v.alias === ui?.slice(2, 3),
-    )?.[0] as keyof typeof VIEWS) ?? 'both';
+    )?.[0] as keyof typeof VIEWS) ??
+    'both';
 
   return {
     list,
@@ -114,12 +123,13 @@ export const useDiscoveryRouteMeta = <T extends string>() => {
 
   const isMatched = useCallback(
     (meta: Partial<DiscoveryRouteMeta>): boolean => {
+      if (pathname !== '/discovery') return false;
       return Object.entries(meta).every(([key, value]) => {
         if (params[key as never] !== value) return false;
         return true;
       });
     },
-    [params],
+    [params, pathname],
   );
 
   return useMemo(

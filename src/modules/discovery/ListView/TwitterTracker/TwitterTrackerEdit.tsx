@@ -213,40 +213,42 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
         className="mb-3"
       />
       {notifContent}
-      {tab === 'suggestions' && (
-        <Table
-          columns={suggestionsColumns}
-          dataSource={suggestions.data}
-          rowKey={r => r.user_id}
-          loading={suggestions.isLoading}
-          surface={2}
-          scrollable={false}
-        />
-      )}
-      {tab === 'followings' && (
-        <>
-          {followings.value.length === 0 && !followings.isLoading ? (
-            <div className="flex flex-col items-center py-10">
-              <EmptyIcon />
-              <h3 className="mb-2 text-xs font-semibold">
-                {'No Subscription Added'}
-              </h3>
-              <p className="max-w-[220px] text-center text-xs text-v1-content-secondary">
-                {'You can create a Customized List by adding Subscriptions'}
-              </p>
-            </div>
-          ) : (
-            <Table
-              columns={followingsColumns}
-              dataSource={followings.value}
-              loading={followings.value.length === 0 && followings.isLoading}
-              rowKey={r => r.user_id}
-              surface={2}
-              scrollable={false}
-            />
-          )}
-        </>
-      )}
+      <div className="p-3">
+        {tab === 'suggestions' && (
+          <Table
+            columns={suggestionsColumns}
+            dataSource={suggestions.data}
+            rowKey={r => r.user_id}
+            loading={suggestions.isLoading}
+            surface={2}
+            scrollable={false}
+          />
+        )}
+        {tab === 'followings' && (
+          <>
+            {followings.value.length === 0 && !followings.isLoading ? (
+              <div className="flex flex-col items-center py-10">
+                <EmptyIcon />
+                <h3 className="mb-2 text-xs font-semibold">
+                  {'No Subscription Added'}
+                </h3>
+                <p className="max-w-[220px] text-center text-xs text-v1-content-secondary">
+                  {'You can create a Customized List by adding Subscriptions'}
+                </p>
+              </div>
+            ) : (
+              <Table
+                columns={followingsColumns}
+                dataSource={followings.value}
+                loading={followings.value.length === 0 && followings.isLoading}
+                rowKey={r => r.user_id}
+                surface={2}
+                scrollable={false}
+              />
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

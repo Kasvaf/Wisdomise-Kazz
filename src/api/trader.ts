@@ -13,7 +13,7 @@ import { type WhaleCoin, type WhaleCoinsFilter } from 'api/discovery';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
 
-export const NETWORK_MAIN_EXCHANGE = {
+const NETWORK_MAIN_EXCHANGE = {
   'the-open-network': 'STONFI',
   'solana': 'RAYDIUM',
   'polygon': 'UNKOWN',
@@ -89,7 +89,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
       if (!baseSlug) return [];
       return await getPairsCached(baseSlug);
     },
-    staleTime: Number.MAX_VALUE,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 };
 
@@ -358,6 +358,9 @@ export const usePreparePositionQuery = (req?: CreatePositionRequest) => {
     staleTime: 50,
     refetchInterval: 7000,
     enabled: !!req,
+    meta: {
+      persist: false,
+    },
   });
 };
 
@@ -368,7 +371,7 @@ export interface CreatePositionResponse {
   position_key: string;
 }
 
-export const useCreateTraderInstanceMutation = () => {
+const useCreateTraderInstanceMutation = () => {
   return useMutation({
     mutationFn: async ({ network }: { network: SupportedNetworks }) => {
       return await ofetch<null>('trader', {

@@ -39,7 +39,7 @@ const useTransition = (value: boolean, timeout: number) => {
   return state;
 };
 
-export const usePopupPosition = (
+const usePopupPosition = (
   target: RefObject<HTMLDivElement>,
   enabled: boolean,
   calculateBy?: 'target' | 'pointer',

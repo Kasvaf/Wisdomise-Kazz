@@ -43,23 +43,6 @@ export const AlertChannelTitle: FC<
   return <>{title}</>;
 };
 
-export const AlertChannel: FC<{
-  className?: string;
-  name: AlertMessenger;
-}> = ({ className, name }) => {
-  return (
-    <div
-      className={clsx(
-        'inline-flex items-center justify-center gap-2',
-        className,
-      )}
-    >
-      <AlertChannelIcon name={name} />
-      <AlertChannelTitle name={name} />
-    </div>
-  );
-};
-
 const AlertChannelRow: FC<
   PropsWithChildren<{
     className?: string;

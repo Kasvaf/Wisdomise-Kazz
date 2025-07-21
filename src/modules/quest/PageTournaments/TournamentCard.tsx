@@ -114,7 +114,7 @@ export default function TournamentCard({
   );
 }
 
-export function uuidToNumber(uuid: string) {
+function uuidToNumber(uuid: string) {
   let sum = 0;
   for (const char of uuid) {
     sum += char.codePointAt(0) ?? 0;

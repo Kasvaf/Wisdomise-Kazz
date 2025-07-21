@@ -17,6 +17,7 @@ import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { useCoinDetailsTabs } from './useCoinDetailsTabs';
 import { NCoinInsightWidget } from './NCoinInsightWidget';
 import { CoinPriceWidget } from './CoinPriceWidget';
+import { CoinTopTraderHoldersWidget } from './CoinTopTraderHoldersWidget';
 
 export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -48,6 +49,16 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
           slug={slug}
         />
         <CoinMessagesWidget id="coinoverview_socials" type="rest" slug={slug} />
+        <CoinTopTraderHoldersWidget
+          id="coinoverview_top_traders"
+          type="traders"
+          slug={slug}
+        />
+        <CoinTopTraderHoldersWidget
+          id="coinoverview_top_holders"
+          type="holders"
+          slug={slug}
+        />
         <CoinPoolsWidget slug={slug} id="coinoverview_pools" />
         <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" />
         <CoinWhalesWidget

@@ -6,18 +6,21 @@ import {
 } from 'api/discovery';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { AccessShield } from 'shared/AccessShield';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { usePageState } from 'shared/usePageState';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
 
 export function RsiHeatmapWidget({ className }: { className?: string }) {
   const { t } = useTranslation('market-pulse');
-  const [resolution, setResolution] =
-    useSearchParamAsState<IndicatorHeatmapResolution>('rsi-heatmapRes', '1h');
+  const [pageState, setPageState] = usePageState<{
+    resolution: IndicatorHeatmapResolution;
+  }>('rsi-heatmapRes', {
+    resolution: '1h',
+  });
   const heatmap = useIndicatorHeatmap({
     indicator: 'rsi',
-    resolution,
+    resolution: pageState.resolution,
   });
   useLoadingBadge(heatmap.isLoading);
   return (
@@ -46,12 +49,12 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
         <RsiHeatmapChart
           className="h-full py-2"
           data={heatmap.data ?? []}
-          resolution={resolution}
+          resolution={pageState.resolution}
           headerActions={
             <ButtonSelect
               className="mobile:w-full"
-              value={resolution}
-              onChange={setResolution}
+              value={pageState.resolution}
+              onChange={newRes => setPageState({ resolution: newRes })}
               size="sm"
               options={[
                 {

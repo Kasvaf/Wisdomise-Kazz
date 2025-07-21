@@ -49,6 +49,7 @@ export function WhaleRadarWhalesWidget({
               address: row.holder_address,
               network: row.network_name,
             }}
+            whale
           />
         ),
       },

@@ -23,6 +23,9 @@ export const useTelegramConnect = () => {
       }
       return 3000;
     },
+    meta: {
+      persist: false,
+    },
   });
 
   const connect = useCallback(() => {
