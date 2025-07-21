@@ -19,7 +19,6 @@ import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
 
 export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
-  const [isOpen, setIsOpen] = useState(false);
   const [visibleForms, setVisibleForms] = useState<boolean[]>(
     Array.from<boolean>({ length: 2 }).fill(false),
   );
@@ -32,16 +31,7 @@ export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
     <div className="mt-3">
       <div className="flex items-center justify-between">
         <TraderPresetsSelector surface={2} source="terminal" />
-        <Button
-          size="2xs"
-          variant="ghost"
-          className="!bg-transparent !px-0 text-white/70"
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-        >
-          <Icon name={bxCog} />
-        </Button>
+        <BtnTraderPresetsSettings />
       </div>
       {(['buy', 'sell'] as const)
         .filter(m => mode === undefined || mode === m)
@@ -87,10 +77,6 @@ export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
             </div>
           </div>
         ))}
-      <TraderPresetSettingsDialog
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
     </div>
   );
 }
@@ -321,5 +307,27 @@ function TraderPresetForm({
         />
       </div>
     </div>
+  );
+}
+
+export function BtnTraderPresetsSettings() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Button
+      size="2xs"
+      variant="ghost"
+      className="!bg-transparent !px-0 text-white/70"
+      onClick={() => {
+        setIsOpen(!isOpen);
+      }}
+    >
+      <Icon name={bxCog} />
+
+      <TraderPresetSettingsDialog
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
+    </Button>
   );
 }

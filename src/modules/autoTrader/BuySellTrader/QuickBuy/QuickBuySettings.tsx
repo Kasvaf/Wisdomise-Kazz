@@ -1,5 +1,8 @@
 import { clsx } from 'clsx';
-import { TraderPresetsSelector } from 'modules/autoTrader/BuySellTrader/TraderPresets';
+import {
+  BtnTraderPresetsSettings,
+  TraderPresetsSelector,
+} from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { Input } from 'shared/v1-components/Input';
 import {
   type QuickBuySource,
@@ -24,10 +27,13 @@ export default function QuickBuySettings({
 
   return (
     <div className={clsx(className, 'flex items-center gap-2')}>
+      <BtnTraderPresetsSettings />
+      {showWallet && <BtnSolanaWallets showBalance={true} />}
       <Input
         size="xs"
         type="string"
         className="w-28"
+        placeholder="0.0"
         value={settings.quick_buy[source].amount}
         prefixIcon={<InstantIcon className="-ml-1 !size-8" />}
         suffixIcon={
@@ -38,7 +44,6 @@ export default function QuickBuySettings({
         onChange={newValue => updateQuickBuyAmount(source, newValue)}
       />
       <TraderPresetsSelector source={source} size="xs" showValue />
-      {showWallet && <BtnSolanaWallets showBalance={true} />}
     </div>
   );
 }

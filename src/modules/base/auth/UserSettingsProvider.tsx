@@ -67,34 +67,34 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
   quick_buy: {
     final_stretch: {
       active_preset: 0,
-      amount: '0',
+      amount: '',
     },
     migrated: {
       active_preset: 0,
-      amount: '0',
+      amount: '',
     },
     new_pairs: {
       active_preset: 0,
-      amount: '0',
+      amount: '',
     },
     terminal: {
       active_preset: 0,
     },
     coin_radar: {
       active_preset: 0,
-      amount: '0',
+      amount: '',
     },
     social_radar: {
       active_preset: 0,
-      amount: '0',
+      amount: '',
     },
     technical_radar: {
       active_preset: 0,
-      amount: '0',
+      amount: '',
     },
     whale_radar: {
       active_preset: 0,
-      amount: '0',
+      amount: '',
     },
   },
   quotes_quick_set: {

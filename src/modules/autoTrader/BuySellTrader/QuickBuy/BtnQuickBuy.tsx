@@ -30,9 +30,10 @@ export default function BtnQuickBuy({
     ? networks.find(n => n.network.slug === 'solana')
     : true;
 
+  const amount = settings.quick_buy[source].amount || '0';
+
   const swap = async () => {
     const preset = getActivePreset(source).buy;
-    const amount = settings.quick_buy[source].amount ?? '0';
 
     const supportedPairs = (await refetch()).data;
     if (!supportedPairs?.find(p => p.quote.slug === 'wrapped-solana')) {
@@ -71,7 +72,7 @@ export default function BtnQuickBuy({
       }}
     >
       <InstantIcon />
-      <span className="shrink-0">{settings.quick_buy[source].amount} SOL</span>
+      <span className="shrink-0">{amount} SOL</span>
     </Button>
   ) : null;
 }
