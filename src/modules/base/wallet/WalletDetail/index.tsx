@@ -19,6 +19,7 @@ import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { roundSensible } from 'utils/numbers';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import BuysSells from 'modules/autoTrader/BuysSells';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -31,8 +32,8 @@ export default function WalletDetail(_: {
   const { data: wallet } = useWalletQuery(slug);
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
-  const [period, setPeriod] = useState<number | null>(null);
   const { balance, isPending } = useSolanaWalletBalanceInUSD(wallet?.address);
+  const [window, setWindow] = useState(24);
 
   return wallet ? (
     <div>
@@ -75,18 +76,16 @@ export default function WalletDetail(_: {
           <div className="mb-7 flex items-center justify-between text-xs text-v1-content-secondary">
             Details
             <ButtonSelect
-              value={period}
+              value={window}
               variant="white"
               buttonClassName="w-12"
               options={[
-                { value: null, label: 'ALL' },
-                { value: 1, label: '1D' },
-                { value: 7, label: '7D' },
-                { value: 3, label: '30D' },
+                { value: 24, label: '1D' },
+                { value: 24 * 7, label: '7D' },
               ]}
               surface={3}
               size="xs"
-              onChange={newValue => setPeriod(newValue)}
+              onChange={newValue => setWindow(newValue)}
             />
           </div>
           <div className="flex items-center justify-between gap-2">
@@ -114,10 +113,20 @@ export default function WalletDetail(_: {
       </div>
       <Tabs
         className="mt-4"
-        defaultActiveKey="1"
+        defaultActiveKey="2"
         items={[
+          // {
+          //   key: '1',
+          //   label: 'Account PnL',
+          //   children: <AccountPnL wallet={wallet} window={window} />,
+          // },
           {
-            key: '1',
+            key: '2',
+            label: 'Buys/Sells',
+            children: <BuysSells wallet={wallet} />,
+          },
+          {
+            key: '3',
             label: 'Positions',
             children: <WalletPositions wallet={wallet} />,
           },
