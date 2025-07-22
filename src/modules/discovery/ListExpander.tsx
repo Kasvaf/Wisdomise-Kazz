@@ -93,9 +93,10 @@ export const ListExpander: FC = () => {
       {(params.view === 'detail' || params.view === 'both') && (
         <Button
           fab
-          variant="white"
+          variant="outline"
           size="3xs"
           className="rounded-full"
+          surface={2}
           onClick={handleExpandClick}
         >
           <Icon name={bxChevronRight} />
@@ -104,9 +105,10 @@ export const ListExpander: FC = () => {
       {params.view !== 'detail' && params.slug && (
         <Button
           fab
-          variant="white"
+          variant="outline"
           size="3xs"
           className="rounded-full"
+          surface={2}
           onClick={handleCollapseClick}
         >
           <Icon name={bxChevronLeft} />
