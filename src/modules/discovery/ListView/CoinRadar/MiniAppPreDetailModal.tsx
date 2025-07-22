@@ -102,7 +102,6 @@ const MiniAppPreDetailModal: React.FC<{
                   security={coinOverview.data?.security_data?.map(
                     x => x.symbol_security,
                   )}
-                  coin={coinOverview.data?.symbol ?? symbolPlaceholder}
                 />
               </div>
 

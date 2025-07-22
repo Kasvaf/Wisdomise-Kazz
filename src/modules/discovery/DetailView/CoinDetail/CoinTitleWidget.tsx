@@ -81,7 +81,6 @@ export const CoinTitleWidget: FC<{
                     categories={coin.data?.symbol.categories}
                     networks={isNCoin ? [] : coin.data?.networks}
                     labels={coin.data?.symbol_labels?.filter(x => !!x)}
-                    coin={symbol}
                     security={
                       isNCoin
                         ? []

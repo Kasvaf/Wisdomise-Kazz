@@ -137,7 +137,6 @@ const CoinPreDetailsContent: FC<
           labels={labels}
           networks={networks}
           security={security}
-          coin={coin}
           size="md"
         />
       </div>
