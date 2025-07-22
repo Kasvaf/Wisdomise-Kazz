@@ -40,7 +40,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l1"
       style={{
         ['--desktop-sidebar-width' as never]:
-          !isMobile && sidebar !== null ? '4.25rem' : '0px',
+          !isMobile && sidebar !== null ? '3.5rem' : '0px',
         ['--desktop-header-height' as never]: isMobile ? '0px' : '3rem',
         ['--route-details-height' as never]: isMobile
           ? '0px'
