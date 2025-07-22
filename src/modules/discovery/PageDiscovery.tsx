@@ -26,7 +26,7 @@ export default function PageDiscovery() {
                 : params.view === 'detail'
                 ? 'hidden'
                 : [
-                    'sticky top-[76px] z-30 h-[calc(100svh-76px)] w-72 min-w-72 max-w-72 overflow-auto',
+                    'sticky top-[--desktop-content-top] z-30 h-[--desktop-content-height] w-72 min-w-72 max-w-72 overflow-auto',
                     'border-r border-white/10 bg-v1-surface-l1 scrollbar-none',
                     'mobile:block tablet:fixed tablet:bg-v1-surface-l1/60 tablet:backdrop-blur-lg',
                   ],

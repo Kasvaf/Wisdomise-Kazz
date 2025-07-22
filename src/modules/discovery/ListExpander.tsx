@@ -31,19 +31,19 @@ export const ListExpander: FC = () => {
 
     if (params.view === 'detail') {
       setStyle({
-        top: (sidebarRect?.top ?? 74) + 32,
+        top: (sidebarRect?.top ?? 74) + 12,
         left: (sidebarRect?.width ?? 68) - 12,
         position: 'fixed',
       });
     } else if (params.view === 'both') {
       setStyle({
-        top: (sidebarRect?.top ?? 74) + 32,
+        top: (sidebarRect?.top ?? 74) + 12,
         left: (appListRect?.left ?? 68) + (appListRect?.width ?? 384) - 12,
         position: 'fixed',
       });
     } else {
       setStyle({
-        top: (sidebarRect?.top ?? 74) + 32,
+        top: (sidebarRect?.top ?? 74) + 12,
         right: 6,
         position: 'fixed',
       });

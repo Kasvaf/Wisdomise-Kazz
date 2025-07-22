@@ -212,7 +212,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       </ResizableSides>
 
       {/* Trade + Additional */}
-      <div className="sticky top-[76px] z-50 h-[calc(100svh-76px)] w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l1 scrollbar-none">
+      <div className="sticky top-[--desktop-content-top] z-50 h-[--desktop-content-height] w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l1 scrollbar-none">
         <NCoinRisksBanner slug={slug} />
         <CoinPriceWidget slug={slug} className="p-3" hr />
         <div className="space-y-3 p-3">
