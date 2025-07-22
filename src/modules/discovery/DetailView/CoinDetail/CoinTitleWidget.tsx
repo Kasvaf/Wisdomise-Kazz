@@ -9,17 +9,15 @@ import {
   useNCoinDetails,
   type CoinNetwork,
 } from 'api/discovery';
-import { CoinLogo } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
-import { ContractAddress } from 'shared/ContractAddress';
 import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
 import {
   calcNCoinRiskLevel,
   doesNCoinHaveLargeTxns,
 } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { Coin } from 'shared/v1-components/Coin';
 
 export const CoinTitleWidget: FC<{
   slug: string;
@@ -68,66 +66,55 @@ export const CoinTitleWidget: FC<{
         {symbol ? (
           <>
             <div className="flex w-full items-center justify-start gap-2 mobile:w-full mobile:flex-wrap">
-              <CoinLogo value={symbol} className="size-10" />
-              <div className="flex flex-col justify-between gap-1">
-                <div className="flex items-center gap-1">
-                  <p className="text-base font-medium">
-                    {symbol.abbreviation ?? '---'}
-                  </p>
-                  <p className="text-xs text-v1-content-secondary">
-                    {symbol.name ?? '---'}
-                  </p>
-                  <CoinLabels
-                    categories={coin.data?.symbol.categories}
-                    networks={isNCoin ? [] : coin.data?.networks}
-                    labels={coin.data?.symbol_labels?.filter(x => !!x)}
-                    security={
-                      isNCoin
-                        ? []
-                        : coin.data?.security_data?.map(x => x.symbol_security)
-                    }
-                    size="xs"
-                    clickable
-                  />
-                </div>
-                <div className="flex items-center gap-1">
+              <Coin
+                abbreviation={symbol.abbreviation}
+                name={symbol.name}
+                slug={symbol.slug}
+                logo={symbol.logo_url}
+                href={false}
+                categories={coin.data?.symbol.categories}
+                networks={isNCoin ? [] : coin.data?.networks}
+                labels={coin.data?.symbol_labels?.filter(x => !!x)}
+                security={
+                  isNCoin
+                    ? []
+                    : coin.data?.security_data?.map(x => x.symbol_security)
+                }
+                customLabels={
                   <>
-                    <ContractAddress
-                      value={networks}
-                      className="text-xs text-v1-content-secondary"
-                      allowCopy
+                    {/* Socials */}
+                    <CoinCommunityLinks
+                      name={symbol.name}
+                      abbreviation={symbol.abbreviation}
+                      contractAddresses={networks.map(x => x.contract_address)}
+                      value={
+                        nCoin.data?.base_community_data.links ||
+                        coin.data?.community_data?.links
+                      }
+                      size="xs"
+                      includeTwitterSearch
                     />
-                    <span className="size-[2px] rounded-full bg-white" />
+
+                    {/* Developer Data */}
+                    {nCoin.data?.dev && (
+                      <NCoinDeveloper value={nCoin.data.dev} />
+                    )}
+
+                    {nCoin.data?.creation_datetime && (
+                      <>
+                        <span className="size-[2px] rounded-full bg-white" />
+                        <NCoinAge
+                          value={nCoin.data?.creation_datetime}
+                          inline
+                          className="text-xs"
+                        />
+                      </>
+                    )}
                   </>
-
-                  {/* Socials */}
-                  <CoinCommunityLinks
-                    name={symbol.name}
-                    abbreviation={symbol.abbreviation}
-                    contractAddresses={networks.map(x => x.contract_address)}
-                    value={
-                      nCoin.data?.base_community_data.links ||
-                      coin.data?.community_data?.links
-                    }
-                    size="xs"
-                    includeTwitterSearch
-                  />
-
-                  {/* Developer Data */}
-                  {nCoin.data?.dev && <NCoinDeveloper value={nCoin.data.dev} />}
-
-                  {nCoin.data?.creation_datetime && (
-                    <>
-                      <span className="size-[2px] rounded-full bg-white" />
-                      <NCoinAge
-                        value={nCoin.data?.creation_datetime}
-                        inline
-                        className="text-xs"
-                      />
-                    </>
-                  )}
-                </div>
-              </div>
+                }
+                block
+                truncate={false}
+              />
               {nCoin.data && (
                 <div className="flex items-center justify-start gap-4 mobile:w-full mobile:justify-between mobile:gap-2">
                   <div className="h-4 w-px bg-white/10 mobile:hidden" />
@@ -204,7 +191,7 @@ export const CoinTitleWidget: FC<{
             </div>
           </>
         ) : (
-          <p className="w-full animate-pulse text-center text-sm">
+          <p className="w-full animate-pulse py-2 text-center text-sm">
             {t('common:almost-there')}
           </p>
         )}

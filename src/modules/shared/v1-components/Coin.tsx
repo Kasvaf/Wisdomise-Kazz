@@ -47,6 +47,7 @@ export const Coin: FC<{
   href?: string | boolean;
 
   extra?: ReactNode | ReactNode[];
+  truncate?: boolean;
 }> = ({
   slug,
   abbreviation,
@@ -68,6 +69,7 @@ export const Coin: FC<{
   onClick,
 
   extra,
+  truncate = true,
 }) => {
   const [globalNetwork] = useGlobalNetwork();
   const [copy, copyNotif] = useShare('copy');
@@ -196,7 +198,10 @@ export const Coin: FC<{
         <div className="flex items-center gap-1">
           {abbreviation && (
             <p
-              className="max-w-20 overflow-hidden truncate text-sm font-bold"
+              className={clsx(
+                'text-sm font-bold',
+                truncate && 'max-w-20 overflow-hidden truncate',
+              )}
               title={abbreviation}
             >
               {abbreviation}
@@ -213,7 +218,10 @@ export const Coin: FC<{
         <div className="flex items-center gap-1">
           {name && (
             <p
-              className="max-w-16 overflow-hidden truncate text-xs font-light"
+              className={clsx(
+                'text-xs font-light',
+                truncate && 'max-w-16 overflow-hidden truncate',
+              )}
               title={name}
             >
               {name}
