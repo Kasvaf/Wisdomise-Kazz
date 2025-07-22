@@ -1,15 +1,16 @@
 import { bxSearch } from 'boxicons-quasar';
-import { useState, type ComponentProps, type FC } from 'react';
+import { useMemo, useState, type ComponentProps, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'usehooks-ts';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { useDetailedCoins } from 'api/discovery';
+import { useDetailedCoins, useNetworks } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { Coin } from 'shared/v1-components/Coin';
+import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 
 export const GlobalSearch: FC<
   Omit<
@@ -34,6 +35,13 @@ export const GlobalSearch: FC<
     ?.split('-')
     .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
     .join(' ');
+  const networks = useNetworks({
+    query: network,
+  });
+  const networkObj = useMemo(
+    () => networks.data?.find(x => x.slug === network),
+    [networks.data, network],
+  );
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
   const { getUrl } = useDiscoveryRouteMeta();
@@ -71,7 +79,6 @@ export const GlobalSearch: FC<
               slug={row.symbol?.slug}
               logo={row.symbol?.logo_url}
               categories={row.symbol.categories}
-              links={row.symbol_community_links}
               labels={row.symbol_labels}
               networks={
                 row.network_bindings || [
@@ -80,13 +87,25 @@ export const GlobalSearch: FC<
                     symbol_network_type: row.contract_address
                       ? 'TOKEN'
                       : 'COIN',
-                    network: {
+                    network: networkObj ?? {
                       name: networkName || network || '',
                       slug: network || '',
                       icon_url: '',
                     },
                   },
                 ]
+              }
+              extra={
+                <CoinCommunityLinks
+                  abbreviation={row.symbol?.abbreviation}
+                  name={row.symbol?.name}
+                  value={row.symbol_community_links}
+                  contractAddresses={
+                    row.contract_address ? [row.contract_address] : []
+                  }
+                  includeTwitterSearch={false}
+                  size="xs"
+                />
               }
               security={row.symbol_security ? [row.symbol_security] : null}
               href={false}

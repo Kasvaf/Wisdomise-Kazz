@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { bxCategory } from 'boxicons-quasar';
+import { bxCabinet } from 'boxicons-quasar';
 import { type Coin } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
@@ -49,7 +49,11 @@ export function CoinCategoryLabel({
       disabled={!clickable}
       chevron={false}
     >
-      <Icon name={bxCategory} />
+      <Icon
+        name={bxCabinet}
+        className="stroke-v1-content-primary"
+        strokeWidth={0.2}
+      />{' '}
       {size !== 'xs' && (
         <>
           <span className="px-2">{t('common.category')}</span>

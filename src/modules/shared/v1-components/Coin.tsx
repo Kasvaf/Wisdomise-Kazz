@@ -2,11 +2,7 @@ import { type ReactNode, useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { bxsCopy } from 'boxicons-quasar';
 import { Link } from 'react-router-dom';
-import {
-  type CoinCommunityData,
-  type CoinNetwork,
-  type NetworkSecurity,
-} from 'api/discovery';
+import { type CoinNetwork, type NetworkSecurity } from 'api/discovery';
 import { type Coin as CoinType } from 'api/types/shared';
 import { CircularProgress } from 'shared/CircularProgress';
 import { CoinLabels } from 'shared/CoinLabels';
@@ -14,7 +10,6 @@ import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
-import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 
 interface ContractAddressRow {
@@ -43,7 +38,6 @@ export const Coin: FC<{
   networks?: CoinNetwork[] | null;
   security?: NetworkSecurity[] | null;
   labels?: string[] | null;
-  links?: CoinCommunityData['links'] | null;
   customLabels?: ReactNode;
 
   /* Common */
@@ -66,7 +60,6 @@ export const Coin: FC<{
   networks,
   security,
   labels,
-  links,
   customLabels,
 
   className,
@@ -213,16 +206,6 @@ export const Coin: FC<{
             labels={[...(labels ?? [])].filter(x => !!x)}
             security={security ?? []}
             categories={categories}
-            size="xs"
-          />
-          <CoinCommunityLinks
-            abbreviation={abbreviation}
-            name={name}
-            value={links}
-            contractAddresses={networks
-              ?.map(x => x.contract_address)
-              .filter(x => !!x)}
-            includeTwitterSearch={false}
             size="xs"
           />
           {customLabels}

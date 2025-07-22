@@ -200,7 +200,7 @@ export const NCoinList: FC<{
                     <>
                       <NCoinSecurity
                         type="row"
-                        imgClassName="size-[14px]"
+                        imgClassName="size-4"
                         value={{
                           freezable: row.securityData?.freezable ?? false,
                           mintable: row.securityData?.mintable ?? false,
