@@ -2,18 +2,18 @@
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Coin } from 'shared/Coin';
+// import { Coin } from 'shared/Coin';
 import {
   type CoinRadarCoin,
   useCoinRadarCoins,
   useRadarsMetrics,
 } from 'api/discovery';
 import { AccessShield } from 'shared/AccessShield';
-import { CoinLabels } from 'shared/CoinLabels';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { Coin } from 'shared/v1-components/Coin';
 import { EmptySentiment } from '../EmptySentiment';
 import { homeSubscriptionsConfig } from '../constants';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
@@ -48,7 +48,18 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
       {
         title: t('table.name'),
         sticky: 'start',
-        render: row => <Coin coin={row.symbol} />,
+        render: row => (
+          <Coin
+            abbreviation={row.symbol.abbreviation}
+            name={row.symbol.name}
+            slug={row.symbol.slug}
+            logo={row.symbol.logo_url}
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+          />
+        ),
         width: 220,
       },
       {
@@ -101,18 +112,6 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
           ) : (
             <EmptySentiment value="technical_radar" />
           ),
-      },
-      {
-        title: t('table.labels'),
-        render: row => (
-          <CoinLabels
-            categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            coin={row.symbol}
-          />
-        ),
       },
     ],
     [t],

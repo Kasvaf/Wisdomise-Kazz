@@ -3,10 +3,8 @@ import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { CoinLabels } from 'shared/CoinLabels';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
@@ -14,6 +12,7 @@ import { TableRank } from 'shared/TableRank';
 import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
 import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { Coin } from 'shared/v1-components/Coin';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
@@ -48,32 +47,41 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     () => [
       {
         key: 'rank',
-        render: row => (
-          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
-        ),
+        className: 'max-w-2',
+        render: row => <TableRank highlighted={row._highlighted} />,
       },
       {
         key: 'coin',
         render: row => (
           <Coin
-            coin={row.symbol}
-            imageClassName="size-7"
-            className="text-sm"
-            truncate={75}
-            nonLink={true}
-            abbrevationSuffix={
-              <DirectionalNumber
-                className="ms-1"
-                value={row.market_data?.price_change_percentage_24h}
-                label="%"
-                direction="auto"
-                showIcon
-                showSign={false}
-                format={{
-                  decimalLength: 1,
-                  minifyDecimalRepeats: true,
-                }}
-              />
+            abbreviation={row.symbol.abbreviation}
+            // name={row.symbol.name}
+            slug={row.symbol.slug}
+            logo={row.symbol.logo_url}
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            extra={
+              <>
+                <DirectionalNumber
+                  value={row.market_data?.price_change_percentage_24h}
+                  label="%"
+                  direction="auto"
+                  showIcon
+                  showSign={false}
+                  format={{
+                    decimalLength: 1,
+                    minifyDecimalRepeats: true,
+                  }}
+                />
+                .
+                <CoinMarketCap
+                  marketData={row.market_data}
+                  singleLine
+                  className="text-xxs"
+                />
+              </>
             }
           />
         ),
@@ -81,8 +89,9 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       {
         key: 'sentiment',
         className: 'id-tour-sentiment',
+        align: 'end',
         render: row => (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
             {row.social_radar_insight && (
               <SocialRadarSentiment
                 value={row.social_radar_insight}
@@ -95,29 +104,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
                 mode="tiny"
               />
             )}
-          </div>
-        ),
-      },
-      {
-        key: 'labels',
-        align: 'end',
-        render: row => (
-          <div className="flex flex-col items-end justify-center gap-2">
-            <CoinLabels
-              categories={row.symbol.categories}
-              labels={row.symbol_labels}
-              networks={row.networks}
-              security={row.symbol_security?.data}
-              coin={row.symbol}
-              size="xs"
-              truncate
-              clickable={false}
-            />
-            <CoinMarketCap
-              marketData={row.market_data}
-              singleLine
-              className="text-xxs"
-            />
           </div>
         ),
       },

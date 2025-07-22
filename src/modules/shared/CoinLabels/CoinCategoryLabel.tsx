@@ -1,7 +1,9 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { bxCategory } from 'boxicons-quasar';
 import { type Coin } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
+import Icon from 'shared/Icon';
 
 export function CoinCategoryLabel({
   className,
@@ -33,12 +35,13 @@ export function CoinCategoryLabel({
         </div>
       }
       className={clsx(
-        'rounded-full text-center text-xxs',
+        'rounded-full text-center ',
         size === 'xs' &&
-          'flex h-[18px] items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
+          'flex size-4 items-center justify-center text-[9px] leading-none [&_img]:size-[12px] [&_svg]:size-[11px]',
         size === 'sm' &&
-          'flex h-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
-        size === 'md' && 'h-6 [&_img]:size-[16px] [&_svg]:!size-[16px]',
+          'flex h-6 items-center justify-center text-xxs [&_img]:size-[14px] [&_svg]:size-[14px]',
+        size === 'md' &&
+          'h-6 text-xxs [&_img]:size-[16px] [&_svg]:!size-[16px]',
         'bg-v1-content-primary/10 text-v1-content-primary',
         'overflow-hidden',
         className,
@@ -46,13 +49,21 @@ export function CoinCategoryLabel({
       disabled={!clickable}
       chevron={false}
     >
-      <span className={clsx(size === 'xs' ? 'px-1' : 'px-2')}>
-        {size === 'xs' ? 'Cat' : t('common.category')}
-      </span>
-      {value.length > 0 && (
-        <span className="-ms-1 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1">
-          {`+${value.length}`}
-        </span>
+      <Icon name={bxCategory} />
+      {size !== 'xs' && (
+        <>
+          <span className="px-2">{t('common.category')}</span>
+          {value.length > 0 && (
+            <span
+              className={clsx(
+                '-ms-1 flex items-center justify-center self-stretch bg-white/5',
+                'pe-2 ps-1',
+              )}
+            >
+              {`+${value.length}`}
+            </span>
+          )}
+        </>
       )}
     </ClickableTooltip>
   );

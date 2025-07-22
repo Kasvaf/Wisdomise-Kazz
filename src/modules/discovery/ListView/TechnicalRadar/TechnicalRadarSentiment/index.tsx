@@ -162,27 +162,31 @@ export const TechnicalRadarSentiment: FC<{
       )}
 
       {mode === 'tiny' && (
-        <div className="flex items-center gap-1">
+        <div className="flex w-6 min-w-6 flex-col items-center gap-1">
           <TRSIcon
             value={isGreen ? 'bullish' : 'bearish'}
-            className="size-[24px] shrink-0"
+            className="size-6 shrink-0"
           />
-          <MiniBar value={value?.normalized_score ?? 0} />
+          <MiniBar
+            value={value?.normalized_score ?? 0}
+            width={18}
+            height={12}
+          />
         </div>
       )}
 
       {mode === 'mini' && (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1">
           {(isBullish || isBearish) && (
             <TRSIcon
               value={isBullish ? 'bullish' : 'bearish'}
-              className="size-[24px] shrink-0"
+              className="size-5 shrink-0"
             />
           )}
           {(isCheap || isExpensive) && (
             <TRSIcon
               value={isCheap ? 'cheap' : 'expensive'}
-              className="size-[24px] shrink-0"
+              className="size-5 shrink-0"
             />
           )}
         </div>

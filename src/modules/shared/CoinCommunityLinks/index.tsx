@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
 import { Tooltip } from 'antd';
-import { type Coin } from 'api/types/shared';
 import { type CoinCommunityData } from 'api/discovery';
 import { useCoinCommunityLinks } from './useCoinCommunityLinks';
 import { ReactComponent as TwitterIcon } from './x.svg';
 
 export const CoinCommunityLinks: FC<{
-  coin?: Coin;
+  abbreviation?: string | null;
+  name?: string | null;
   contractAddresses?: string[] | null;
   value?: CoinCommunityData['links'] | null;
   className?: string;
@@ -18,7 +18,8 @@ export const CoinCommunityLinks: FC<{
   className,
   size = 'sm',
   includeTwitterSearch,
-  coin,
+  abbreviation,
+  name,
   contractAddresses,
 }) => {
   const socials = useCoinCommunityLinks(value).filter(x => x.type === 'social');
@@ -46,7 +47,7 @@ export const CoinCommunityLinks: FC<{
             className={clsx(
               'shrink-0 rounded-full bg-white/10 text-xxs text-white/60 transition-all hover:text-white/60 hover:brightness-110 active:brightness-90',
               size === 'xs' &&
-                'flex size-[18px] items-center justify-center [&_svg]:size-[10px]',
+                'flex size-4 items-center justify-center [&_svg]:size-[10px]',
               size === 'sm' &&
                 'flex size-6 items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
               size === 'md' &&
@@ -59,17 +60,19 @@ export const CoinCommunityLinks: FC<{
           </a>
         </Tooltip>
       ))}
-      {includeTwitterSearch && coin && (
+      {includeTwitterSearch && (
         <a
           href={`https://x.com/search?q=(${[
-            coin?.abbreviation && `$${coin.abbreviation}`,
-            coin?.name && !coin.name.includes(' ') && `${coin.name}`,
-            ...(contractAddresses || []).filter(x => !!x),
-          ].join('%20OR%20')})&src=typed_query&f=live`}
+            abbreviation && `$${abbreviation}`,
+            name && !name.includes(' ') && `${name}`,
+            ...(contractAddresses || []),
+          ]
+            .filter(x => !!x)
+            .join('%20OR%20')})&src=typed_query&f=live`}
           className={clsx(
-            'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xs text-white/60 transition-all hover:brightness-110 active:brightness-90',
-            'h-[18px] shrink-0 justify-center',
-            '[&_svg]:size-[10px]',
+            'inline-flex items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:brightness-110 active:brightness-90',
+            'h-4 shrink-0 justify-center',
+            '[&_svg]:size-[9px]',
           )}
           target="_blank"
           rel="noreferrer"

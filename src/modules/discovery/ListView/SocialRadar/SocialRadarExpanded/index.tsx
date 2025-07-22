@@ -5,10 +5,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
 
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { formatNumber } from 'utils/numbers';
-import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { SearchInput } from 'shared/SearchInput';
 import {
@@ -65,8 +64,26 @@ export function SocialRadarExpanded() {
       {
         title: t('social-radar.table.name'),
         sticky: 'start',
-        render: row => <Coin coin={row.symbol} nonLink={isEmbeddedView} />,
+        render: row => (
+          <Coin
+            abbreviation={row.symbol.abbreviation}
+            name={row.symbol.name}
+            slug={row.symbol.slug}
+            logo={row.symbol.logo_url}
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            href={isEmbeddedView}
+          />
+        ),
         width: 200,
+      },
+      {
+        title: t('social-radar.table.market_cap.title'),
+        info: t('social-radar.table.market_cap.info'),
+        width: 140,
+        render: row => <CoinMarketCap marketData={row.symbol_market_data} />,
       },
       {
         title: (
@@ -82,12 +99,6 @@ export function SocialRadarExpanded() {
         render: row => <SocialRadarSentiment value={row} mode="default" />,
       },
       {
-        title: t('social-radar.table.market_cap.title'),
-        info: t('social-radar.table.market_cap.info'),
-        width: 140,
-        render: row => <CoinMarketCap marketData={row.symbol_market_data} />,
-      },
-      {
         title: t('social-radar.table.price_info.title'),
         info: (
           <div className="[&_b]:font-medium [&_p]:text-xs [&_p]:text-v1-content-secondary">
@@ -99,18 +110,6 @@ export function SocialRadarExpanded() {
         ),
         width: 240,
         render: row => <CoinPriceInfo marketData={row.symbol_market_data} />,
-      },
-      {
-        title: t('social-radar.table.labels.title'),
-        render: row => (
-          <CoinLabels
-            categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            coin={row.symbol}
-          />
-        ),
       },
     ],
     [t, isEmbeddedView],

@@ -4,10 +4,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
 import { AccessShield } from 'shared/AccessShield';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
-import { CoinLabels } from 'shared/CoinLabels';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
@@ -46,7 +45,18 @@ export const TechnicalRadarCoinsTable: FC = () => {
       {
         sticky: 'start',
         title: t('table.name'),
-        render: row => <Coin coin={row.symbol} />,
+        render: row => (
+          <Coin
+            abbreviation={row.symbol.abbreviation}
+            name={row.symbol.name}
+            slug={row.symbol.slug}
+            logo={row.symbol.logo_url}
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+          />
+        ),
         width: 220,
       },
       {
@@ -78,19 +88,6 @@ export const TechnicalRadarCoinsTable: FC = () => {
         width: 240,
         render: row => (
           <>{row.data && <CoinPriceInfo marketData={row.data} />}</>
-        ),
-      },
-      {
-        title: t('table.labels'),
-        className: 'min-h-16 min-w-72',
-        render: row => (
-          <CoinLabels
-            categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            coin={row.symbol}
-          />
         ),
       },
     ],

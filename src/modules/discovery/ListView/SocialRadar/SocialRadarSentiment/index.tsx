@@ -106,9 +106,9 @@ export const SocialRadarSentiment: FC<{
       )}
 
       {mode === 'tiny' && (
-        <div className="flex items-center gap-1">
-          <SRSIcon value={value?.gauge_tag} className="size-[24px] shrink-0" />
-          <MiniBar value={value?.gauge_measure ?? 0} />
+        <div className="flex w-6 min-w-6 flex-col items-center gap-1">
+          <SRSIcon value={value?.gauge_tag} className="size-6 shrink-0" />
+          <MiniBar value={value?.gauge_measure ?? 0} width={18} height={12} />
         </div>
       )}
 

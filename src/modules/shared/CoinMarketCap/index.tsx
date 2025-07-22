@@ -18,7 +18,13 @@ export function CoinMarketCap({
   const singleLine =
     _singleLine || typeof marketData?.market_cap_category !== 'string';
   return (
-    <span className={clsx('inline-flex flex-col gap-px', className)}>
+    <span
+      className={clsx(
+        'inline-flex flex-col gap-px',
+        singleLine && 'text-xxs [&_svg]:size-3',
+        className,
+      )}
+    >
       {!singleLine && (
         <span className="text-sm text-v1-content-primary">
           {marketData?.market_cap_category ?? '-'}
@@ -27,7 +33,7 @@ export function CoinMarketCap({
       <div
         className={clsx(
           !singleLine && 'text-xs text-v1-content-secondary',
-          'flex items-center gap-1 ',
+          'flex items-center gap-1',
         )}
       >
         <CapIcon />

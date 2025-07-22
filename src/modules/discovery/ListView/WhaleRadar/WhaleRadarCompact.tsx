@@ -1,8 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { AccessShield } from 'shared/AccessShield';
-import { CoinLabels } from 'shared/CoinLabels';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
@@ -10,7 +9,6 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { usePageState } from 'shared/usePageState';
-import { TableRank } from 'shared/TableRank';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   CoinPreDetailModal,
@@ -39,61 +37,45 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
     () => [
       {
-        key: 'rank',
-        render: row => <TableRank>{row.rank}</TableRank>,
-      },
-      {
         key: 'coin',
         render: row => (
           <Coin
-            coin={row.symbol}
-            imageClassName="size-7"
-            className="text-sm"
-            truncate={90}
-            nonLink={true}
-            abbrevationSuffix={
-              <DirectionalNumber
-                className="ms-1"
-                value={row.data?.price_change_percentage_24h}
-                label="%"
-                direction="auto"
-                showIcon
-                showSign={false}
-                format={{
-                  decimalLength: 1,
-                  minifyDecimalRepeats: true,
-                }}
-              />
+            abbreviation={row.symbol.abbreviation}
+            // name={row.symbol.name}
+            slug={row.symbol.slug}
+            logo={row.symbol.logo_url}
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            extra={
+              <>
+                <DirectionalNumber
+                  value={row.data?.price_change_percentage_24h}
+                  label="%"
+                  direction="auto"
+                  showIcon
+                  showSign={false}
+                  format={{
+                    decimalLength: 1,
+                    minifyDecimalRepeats: true,
+                  }}
+                />
+                .
+                <CoinMarketCap
+                  marketData={row.data}
+                  singleLine
+                  className="text-xxs"
+                />
+              </>
             }
           />
         ),
       },
       {
         key: 'sentiment',
-        render: row => <WhaleRadarSentiment value={row} mode="mini" />,
-      },
-      {
-        key: 'labels',
         align: 'end',
-        render: row => (
-          <div className="flex flex-col items-end justify-center gap-2">
-            <CoinLabels
-              categories={row.symbol.categories}
-              labels={row.symbol_labels}
-              networks={row.networks}
-              security={row.symbol_security?.data}
-              coin={row.symbol}
-              size="xs"
-              truncate
-              clickable={false}
-            />
-            <CoinMarketCap
-              marketData={row.data}
-              singleLine
-              className="text-xxs"
-            />
-          </div>
-        ),
+        render: row => <WhaleRadarSentiment value={row} mode="tiny" />,
       },
     ],
     [],

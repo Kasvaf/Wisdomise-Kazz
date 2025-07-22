@@ -1,8 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { AccessShield } from 'shared/AccessShield';
-import { CoinLabels } from 'shared/CoinLabels';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
@@ -31,33 +30,41 @@ export const TechnicalRadarCoinsTable: FC<{
     () => [
       {
         key: 'rank',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => (
-          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
-        ),
+        className: 'max-w-2',
+        render: row => <TableRank highlighted={row._highlighted} />,
       },
       {
         key: 'coin',
         render: row => (
           <Coin
-            coin={row.symbol}
-            imageClassName="size-7"
-            className="text-sm"
-            truncate={85}
-            nonLink={true}
-            abbrevationSuffix={
-              <DirectionalNumber
-                className="ms-1"
-                value={row.data?.price_change_percentage_24h}
-                label="%"
-                direction="auto"
-                showIcon
-                showSign={false}
-                format={{
-                  decimalLength: 1,
-                  minifyDecimalRepeats: true,
-                }}
-              />
+            abbreviation={row.symbol.abbreviation}
+            // name={row.symbol.name}
+            slug={row.symbol.slug}
+            logo={row.symbol.logo_url}
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            extra={
+              <>
+                <DirectionalNumber
+                  value={row.data?.price_change_percentage_24h}
+                  label="%"
+                  direction="auto"
+                  showIcon
+                  showSign={false}
+                  format={{
+                    decimalLength: 1,
+                    minifyDecimalRepeats: true,
+                  }}
+                />
+                .
+                <CoinMarketCap
+                  marketData={row.data}
+                  singleLine
+                  className="text-xxs"
+                />
+              </>
             }
           />
         ),
@@ -65,29 +72,7 @@ export const TechnicalRadarCoinsTable: FC<{
       {
         key: 'sentiment',
         render: row => <TechnicalRadarSentiment value={row} mode="mini" />,
-      },
-      {
-        key: 'labels',
         align: 'end',
-        render: row => (
-          <div className="flex flex-col items-end justify-center gap-2">
-            <CoinLabels
-              categories={row.symbol.categories}
-              labels={row.symbol_labels}
-              networks={row.networks}
-              security={row.symbol_security?.data}
-              coin={row.symbol}
-              size="xs"
-              truncate
-              clickable={false}
-            />
-            <CoinMarketCap
-              marketData={row.data}
-              singleLine
-              className="text-xxs"
-            />
-          </div>
-        ),
       },
     ],
     [],

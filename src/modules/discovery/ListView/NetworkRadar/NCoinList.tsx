@@ -4,80 +4,35 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { bxPauseCircle } from 'boxicons-quasar';
 import { type TrenchStreamResponseResult } from 'api/proto/network_radar';
-import { ContractAddress } from 'shared/ContractAddress';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
+import { Coin } from 'shared/v1-components/Coin';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
 import { calcNCoinBCurveColor, doesNCoinHaveSafeTopHolders } from './lib';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 import { NCoinBuySell } from './NCoinBuySell';
-import { NCoinLogo } from './NCoinLogo';
+import pumpFunLogo from './pumpfun.png';
 
-const NCoinBasicInfo: FC<{
+const EXCHANGE_LOGOS = {
+  pumpfun: pumpFunLogo,
+  PumpSwap: pumpFunLogo,
+};
+
+const NCoinBCurve: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
-}> = ({ className, value }) => (
-  <div
-    className={clsx(
-      'flex flex-col items-start gap-1 overflow-hidden',
-      className,
-    )}
-  >
-    <p className="max-w-full truncate text-sm leading-none">
-      {value.symbol?.name ?? ''}
-    </p>
-    <div className="flex items-center justify-start gap-1 text-xs">
-      {/* <p className="max-w-14 overflow-hidden text-ellipsis text-v1-content-secondary">
-        {value.symbol?.base ?? ''}
-      </p> */}
-      <ContractAddress
-        value={value.symbol?.base ?? ''}
-        allowCopy
-        className="whitespace-nowrap"
-      />
-      .
-      <NCoinAge value={value.symbol?.createdAt} inline imgClassName="hidden" />
-    </div>
-    <NCoinSecurity
-      type="row"
-      imgClassName="size-[14px]"
-      value={{
-        freezable: value.securityData?.freezable ?? false,
-        mintable: value.securityData?.mintable ?? false,
-        lpBurned: value.securityData?.lpBurned ?? false,
-        safeTopHolders: doesNCoinHaveSafeTopHolders({
-          topHolders: value.validatedData?.top10Holding ?? 0,
-          totalSupply: +(value.networkData?.totalSupply ?? '0') || 0,
-        }),
-      }}
-    />
-  </div>
-);
-
-const NCoinInsightRow: FC<{
-  className?: string;
-  value: TrenchStreamResponseResult;
-}> = ({ className, value }) => (
-  <div
-    className={clsx(
-      'flex flex-wrap items-center gap-1 whitespace-nowrap',
-      className,
-    )}
-  >
+}> = ({ className, value }) => {
+  return (
     <div
-      className={clsx(
-        'flex w-[54px] flex-col items-center text-xs',
-        value.networkData?.boundingCurve === 1 &&
-          'pointer-events-none opacity-0',
-      )}
+      className={clsx('flex items-center gap-1 text-xs', className)}
       style={{
         color: calcNCoinBCurveColor({
           bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
         }),
       }}
     >
-      <p className="text-v1-content-secondary">{'B Curve'}</p>
+      <p className="text-v1-content-secondary">{'B Curve:'}</p>
       <ReadableNumber
         popup="never"
         value={(value.networkData?.boundingCurve ?? 0) * 100}
@@ -88,14 +43,8 @@ const NCoinInsightRow: FC<{
         }}
       />
     </div>
-    <NCoinTokenInsight
-      value={value.validatedData}
-      type="row"
-      imgClassName="size-4"
-      className="text-xs"
-    />
-  </div>
-);
+  );
+};
 
 const NCoinMarketDataCol: FC<{
   className?: string;
@@ -154,6 +103,7 @@ export const NCoinList: FC<{
   titleSuffix?: ReactNode;
   className?: string;
   loading?: boolean;
+  mini?: boolean;
   onRowClick?: (slug: string) => void;
 }> = ({
   dataSource: _dataSource,
@@ -161,6 +111,7 @@ export const NCoinList: FC<{
   titleSuffix,
   loading,
   className,
+  mini,
   onRowClick,
 }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
@@ -218,20 +169,75 @@ export const NCoinList: FC<{
           {dataSource.map(row => (
             <button
               key={row.symbol?.slug}
-              className="relative flex max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
+              className="relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
-              <div className="flex w-3/4 flex-col gap-1 overflow-hidden">
-                <div className="flex shrink-0 items-center gap-2">
-                  <NCoinLogo value={row} className="shrink-0" />
-                  <NCoinBasicInfo value={row} />
-                </div>
-                <NCoinInsightRow value={row} />
+              <div className="flex flex-col gap-1 overflow-hidden">
+                <Coin
+                  abbreviation={row.symbol?.name}
+                  // name={row.symbol?.name}
+                  slug={row.symbol?.slug}
+                  logo={row.symbol?.imageUrl}
+                  // categories={row.symbol.categories}
+                  // labels={row.symbol_labels}
+                  marker={
+                    EXCHANGE_LOGOS[(row.symbol?.exchange as never) || 'pumpfun']
+                  }
+                  progress={row.networkData?.boundingCurve ?? 1}
+                  networks={[
+                    {
+                      contract_address: row.symbol?.base ?? '---',
+                      network: {
+                        slug: 'solana',
+                        icon_url: '',
+                        name: 'Solana',
+                      },
+                      symbol_network_type: 'TOKEN',
+                    },
+                  ]}
+                  customLabels={
+                    <>
+                      <NCoinSecurity
+                        type="row"
+                        imgClassName="size-[14px]"
+                        value={{
+                          freezable: row.securityData?.freezable ?? false,
+                          mintable: row.securityData?.mintable ?? false,
+                          lpBurned: row.securityData?.lpBurned ?? false,
+                          safeTopHolders: doesNCoinHaveSafeTopHolders({
+                            topHolders: row.validatedData?.top10Holding ?? 0,
+                            totalSupply:
+                              +(row.networkData?.totalSupply ?? '0') || 0,
+                          }),
+                        }}
+                      />
+                      <NCoinAge
+                        value={row.symbol?.createdAt}
+                        inline
+                        className="ms-1 text-xs"
+                        imgClassName="hidden"
+                      />
+                    </>
+                  }
+                  extra={[
+                    row.networkData?.boundingCurve === 1 ? null : (
+                      <NCoinBCurve key="bc" value={row} className="text-xs" />
+                    ),
+                    <NCoinTokenInsight
+                      key="ins"
+                      value={row.validatedData}
+                      type="row"
+                      imgClassName="size-2"
+                      className="text-xxs"
+                    />,
+                  ]}
+                  href={false}
+                />
               </div>
               <NCoinMarketDataCol
                 value={row}
-                className="absolute end-2 h-full"
+                className={clsx('absolute end-2 h-full', mini && 'hidden')}
               />
             </button>
           ))}

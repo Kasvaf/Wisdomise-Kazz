@@ -103,7 +103,8 @@ export const CoinTitleWidget: FC<{
 
                   {/* Socials */}
                   <CoinCommunityLinks
-                    coin={symbol}
+                    name={symbol.name}
+                    abbreviation={symbol.abbreviation}
                     contractAddresses={networks.map(x => x.contract_address)}
                     value={
                       nCoin.data?.base_community_data.links ||

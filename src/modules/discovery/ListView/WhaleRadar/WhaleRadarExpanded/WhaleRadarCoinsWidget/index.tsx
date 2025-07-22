@@ -4,11 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
-import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
@@ -46,7 +45,18 @@ export function WhaleRadarCoinsWidget({
       {
         title: t('top_coins.name'),
         sticky: 'start',
-        render: row => <Coin coin={row.symbol} imageClassName="size-6" />,
+        render: row => (
+          <Coin
+            abbreviation={row.symbol.abbreviation}
+            name={row.symbol.name}
+            slug={row.symbol.slug}
+            logo={row.symbol.logo_url}
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+          />
+        ),
         width: 220,
       },
       {
@@ -82,18 +92,6 @@ export function WhaleRadarCoinsWidget({
         info: t('top_coins.sell_volume.info'),
         width: 170,
         render: row => <WhaleCoinBuySellInfo value={row} type="sell" />,
-      },
-      {
-        title: t('top_coins.labels'),
-        render: row => (
-          <CoinLabels
-            categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            coin={row.symbol}
-          />
-        ),
       },
     ],
     [t],

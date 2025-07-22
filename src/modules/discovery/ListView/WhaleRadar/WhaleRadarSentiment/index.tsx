@@ -184,14 +184,14 @@ export const WhaleRadarSentiment: FC<{
 
   if (mode === 'mini') {
     return (
-      <div className={clsx('inline-flex items-center gap-6', className)}>
+      <div className={clsx('inline-flex items-center gap-2', className)}>
         <div className="flex h-[24px] flex-col items-center justify-between text-center">
           <img src={WhaleIcon} alt="whale" className="w-[16px]" />
           <p className="text-xxs font-medium">{value?.wallet_count ?? 0}</p>
         </div>
-        <div className="flex flex-col gap-2 text-xxs">
+        <div className="flex flex-col text-xxs">
           <div className="flex items-center gap-1">
-            <img src={BuyIcon} alt="Buys" className="size-[14px]" />
+            <img src={BuyIcon} alt="Buys" className="size-[8px]" />
             <DirectionalNumber
               value={value?.total_buy_volume}
               popup="never"
@@ -205,7 +205,7 @@ export const WhaleRadarSentiment: FC<{
             />
           </div>
           <div className="flex items-center gap-1">
-            <img src={SellIcon} alt="Sells" className="size-[14px]" />
+            <img src={SellIcon} alt="Sells" className="size-[8px]" />
             <DirectionalNumber
               value={value?.total_sell_volume}
               popup="never"
@@ -225,8 +225,8 @@ export const WhaleRadarSentiment: FC<{
 
   if (mode === 'tiny') {
     return (
-      <div className="flex items-center gap-2">
-        <img src={WhaleIcon} alt="whale" className="w-[24px]" />
+      <div className="flex flex-col items-center gap-1">
+        <img src={WhaleIcon} alt="whale" className="w-5" />
         <p className="text-xs font-medium">{value?.wallet_count ?? 0}</p>
       </div>
     );
