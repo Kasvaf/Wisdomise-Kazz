@@ -69,7 +69,6 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
                     minifyDecimalRepeats: true,
                   }}
                 />
-                .
                 <CoinMarketCap
                   marketData={row.symbol_market_data}
                   singleLine

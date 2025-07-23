@@ -75,7 +75,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
                     minifyDecimalRepeats: true,
                   }}
                 />
-                .
                 <CoinMarketCap
                   marketData={row.market_data}
                   singleLine

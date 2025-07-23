@@ -61,7 +61,6 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
                     minifyDecimalRepeats: true,
                   }}
                 />
-                .
                 <CoinMarketCap
                   marketData={row.data}
                   singleLine

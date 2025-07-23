@@ -2,15 +2,20 @@ import { type ReactNode, useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { bxsCopy } from 'boxicons-quasar';
 import { Link } from 'react-router-dom';
-import { type CoinNetwork, type NetworkSecurity } from 'api/discovery';
+import {
+  type CoinCommunityData,
+  type CoinNetwork,
+  type NetworkSecurity,
+} from 'api/discovery';
 import { type Coin as CoinType } from 'api/types/shared';
 import { CircularProgress } from 'shared/CircularProgress';
-import { CoinLabels } from 'shared/CoinLabels';
+import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 
 interface ContractAddressRow {
   value?: string;
@@ -39,6 +44,7 @@ export const Coin: FC<{
   security?: NetworkSecurity[] | null;
   labels?: string[] | null;
   customLabels?: ReactNode;
+  links?: CoinCommunityData['links'] | null;
 
   /* Common */
   className?: string;
@@ -62,6 +68,7 @@ export const Coin: FC<{
   security,
   labels,
   customLabels,
+  links,
 
   className,
   block,
@@ -160,7 +167,7 @@ export const Coin: FC<{
           : '#'
       }
     >
-      <div className="relative size-11 shrink-0 rounded-full bg-v1-surface-l0">
+      <div className="relative size-10 shrink-0 rounded-full bg-v1-surface-l0">
         {logo && (
           <img
             src={logo}
@@ -179,7 +186,7 @@ export const Coin: FC<{
                 ? '#00FFA3'
                 : '#FFDA6C'
             }
-            size={44}
+            size={40}
             strokeWidth={3}
             value={progress}
           />
@@ -211,6 +218,16 @@ export const Coin: FC<{
             labels={[...(labels ?? [])].filter(x => !!x)}
             security={security ?? []}
             categories={categories}
+            size="xs"
+          />
+          <CoinCommunityLinks
+            abbreviation={abbreviation}
+            name={name}
+            value={links}
+            contractAddresses={networks
+              ?.map(x => x.contract_address)
+              .filter(x => !!x)}
+            includeTwitterSearch={!truncate}
             size="xs"
           />
           {customLabels}
@@ -245,9 +262,7 @@ export const Coin: FC<{
               )}
             </div>
           )}
-          {(networks?.length || 0) > 1 && (
-            <CoinLabels networks={networks} size="xs" />
-          )}
+          <CoinNetworksLabel value={networks} size="xs" clickable />
         </div>
         {extra && (
           <>

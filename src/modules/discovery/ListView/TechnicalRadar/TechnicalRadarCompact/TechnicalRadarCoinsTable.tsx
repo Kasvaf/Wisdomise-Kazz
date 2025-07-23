@@ -58,7 +58,6 @@ export const TechnicalRadarCoinsTable: FC<{
                     minifyDecimalRepeats: true,
                   }}
                 />
-                .
                 <CoinMarketCap
                   marketData={row.data}
                   singleLine

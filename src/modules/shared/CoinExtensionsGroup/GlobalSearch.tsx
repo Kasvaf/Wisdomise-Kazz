@@ -10,7 +10,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { Coin } from 'shared/v1-components/Coin';
-import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 
 export const GlobalSearch: FC<
   Omit<
@@ -95,18 +94,7 @@ export const GlobalSearch: FC<
                   },
                 ]
               }
-              extra={
-                <CoinCommunityLinks
-                  abbreviation={row.symbol?.abbreviation}
-                  name={row.symbol?.name}
-                  value={row.symbol_community_links}
-                  contractAddresses={
-                    row.contract_address ? [row.contract_address] : []
-                  }
-                  includeTwitterSearch={false}
-                  size="xs"
-                />
-              }
+              links={row.symbol_community_links}
               security={row.symbol_security ? [row.symbol_security] : null}
               href={false}
             />

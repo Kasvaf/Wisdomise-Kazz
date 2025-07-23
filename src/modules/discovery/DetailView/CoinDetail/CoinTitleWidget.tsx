@@ -1,17 +1,12 @@
 /* eslint-disable import/max-dependencies */
-import { type ReactNode, useMemo, type FC } from 'react';
+import { type ReactNode, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
-import {
-  useCoinDetails,
-  useNCoinDetails,
-  type CoinNetwork,
-} from 'api/discovery';
+import { useCoinDetails, useNCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
 import {
   calcNCoinRiskLevel,
@@ -35,22 +30,6 @@ export const CoinTitleWidget: FC<{
   const nCoinRiskLevel = calcNCoinRiskLevel({
     riskPercent: nCoin.data?.risk_percent ?? 0,
   });
-  const networks = useMemo<CoinNetwork[]>(() => {
-    const ret: CoinNetwork[] = [];
-    if (nCoin.data?.base_contract_address && nCoin.data.network) {
-      return [
-        {
-          contract_address: nCoin.data.base_contract_address,
-          symbol_network_type: 'TOKEN',
-          network: nCoin.data.network,
-        },
-      ];
-    }
-    if (coin?.data?.networks) {
-      return coin?.data?.networks;
-    }
-    return ret;
-  }, [nCoin.data, coin.data]);
 
   useLoadingBadge(isLoading);
 
@@ -80,21 +59,12 @@ export const CoinTitleWidget: FC<{
                     ? []
                     : coin.data?.security_data?.map(x => x.symbol_security)
                 }
+                links={
+                  nCoin.data?.base_community_data.links ||
+                  coin.data?.community_data?.links
+                }
                 customLabels={
                   <>
-                    {/* Socials */}
-                    <CoinCommunityLinks
-                      name={symbol.name}
-                      abbreviation={symbol.abbreviation}
-                      contractAddresses={networks.map(x => x.contract_address)}
-                      value={
-                        nCoin.data?.base_community_data.links ||
-                        coin.data?.community_data?.links
-                      }
-                      size="xs"
-                      includeTwitterSearch
-                    />
-
                     {/* Developer Data */}
                     {nCoin.data?.dev && (
                       <NCoinDeveloper value={nCoin.data.dev} />
