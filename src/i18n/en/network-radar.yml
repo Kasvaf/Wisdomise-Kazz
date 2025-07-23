@@ -2,14 +2,12 @@ common:
   buy: Buy
   buy_sell: TXNS
   buy_vol: Buy Vol
-  contract_address: Contract Address
   initial_liquidity: Initial Liquidity
   liquidity: Liquidity
   marketcap: Market Cap
   risk: Risk
   sell: Sell
   sell_vol: Sell Vol
-  socials: Socials
   validation_insights: Validation Insights
   volume: Volume
 page:

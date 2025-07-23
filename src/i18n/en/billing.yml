@@ -1,10 +1,3 @@
-change-pay-method:
-  title: Change Payment Method
-  crypto: Crypto
-  fiat: Fiat
-  sub-title: 'Choose a payment method for your next plan:'
-  token: Lock $WSDM
-  wsdm: $WSDM Payment
 common:
   remains: Remains
 crypto-modal:
@@ -26,51 +19,19 @@ crypto-modal:
   payment-by-crypto: Payment by Crypto
   subtotal: Subtotal
   total-due-today: Total due today
-features:
-  cancel: Cancel Anytime
-  secure: Secure & Private
-  trust: Trusted by 40,000+ Users
 periodicity:
   month:
-    title: Monthly
     per: per<br>month
-  'off': '{{off}}% Off'
   year:
-    title: Annually
     per: per<br>year
-plans:
-  title: Unlock the Full Potential
-  badge: Pricing Plan
-  subscription-methods: Subscription Methods
 pricing-card:
-  btn-action:
-    activate-now: Activate Now
-    choose: Choose
-    current-plan: Current Plan
-    next-plan: Next Plan
-    start-free-trial: Start Free Trial
-  features: Features
-  forever: Unlimited
-  key_benefits: Key Benefits
-  monthly: Monthly
-  most_popular: Most Popular
   notification-call-support: Call Support
-  notification-upgrade-success: >-
-    Your subscription updated successfully. It might take a few minutes to
-    activate. Please reload this page after some minutes.
-  pay-by-locking: Access For Free by locking <b>{{token}} WSDM</b> Tokens
-  pay-by-locking-in-yearly-only: 'Pay By Locking <b>WSDM</b> Token: Just In Annually'
 stripe:
   change-card-info:
     title: Change Card Info
     order-summary: Order Summary
     total: Total
 subscription-details:
-  invoices:
-    amount: Price
-    issue-date: Issue Date
-    method: Payment Method
-    status: Status
   overview:
     current-plan:
       expire: Your plan will expires on
@@ -78,38 +39,8 @@ subscription-details:
       pending-invoice: <0>You payment status is<1></1></0>
       renew: Your plan renew in
       your-subs: Your subscription plan is<1></1>
-    is-on-the-way:
-      title: Your subscription is on the way
-      description: >-
-        You paid for your subscription via crypto payment, it takes 24-48 hours
-        to verify your transaction. We will email you when your subscription is
-        activated
-    next-plan:
-      automatically-renew: It will automatically renew when the time comes.
-      cancel-btn: Turn Off Auto-Renew
-      card: Future charges will be applied to the card<1></1>
-      in-order-to-renew: In order to renew, you will have to send the transaction again on<1></1>
-      pay-method: Your payment method is
-subscription-modal:
-  title: Subscription Method
-  subtitle: >-
-    You are about to purchase the "{{name}}" plan with a {{periodicity}}
-    subscription. Please select your payment method.
-  btn-crypto: Crypto Payment
-  btn-fiat: Fiat Payment
-  btn-lock: Lock WSDM
-  btn-wsdm: WSDM Payment
-success-modal:
-  title: Thanks for subscribing
-  subtitle: You can continue your journey
-  btn-details: Subscription Details
 token-modal:
   title: Wisdomise
-  confirmed:
-    title: Do not refresh or close your browser
-    description: >-
-      Your transaction has been successfully submitted and is being processed.
-      Please wait for the transaction to complete.
   congratulations: Congratulations!
   done: Done
   refresh: Refresh

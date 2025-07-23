@@ -14,7 +14,7 @@ import { useSymbolInfo } from 'api/symbol';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
-import StatusWidget from './StatusWidget';
+import PositionStatus from './PositionStatus';
 import EditButton from './EditButton';
 import ShareButton from './ShareButton';
 
@@ -75,7 +75,7 @@ const PositionDetail: React.FC<{
       </div>
       <hr className="my-4 border-white/10" />
       <div className="flex flex-col gap-4">
-        <StatusWidget position={position} />
+        <PositionStatus position={position} />
 
         {position.status === 'CANCELED' && (
           <>

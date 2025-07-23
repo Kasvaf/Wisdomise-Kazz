@@ -13,7 +13,7 @@ import { roundSensible } from 'utils/numbers';
 import PriceChange from 'shared/PriceChange';
 import { useSymbolsInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
-import StatusWidget from 'modules/autoTrader/Positions/PositionsList/StatusWidget';
+import PositionStatus from 'modules/autoTrader/Positions/PositionsList/PositionStatus';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { PositionActions } from 'modules/autoTrader/Positions/PositionsList/PositionDetail';
 
@@ -55,7 +55,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
         title: 'Status',
         render: row => (
           <div className="w-20 text-xs">
-            <StatusWidget position={row} mini />
+            <PositionStatus position={row} mini />
           </div>
         ),
       },
@@ -69,9 +69,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
             >
               <span className="text-xs">{dayjs(row.entry_time).fromNow()}</span>
             </HoverTooltip>
-          ) : (
-            '-'
-          ),
+          ) : null,
       },
       {
         key: 'deposit',
@@ -81,9 +79,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
             <span className="flex items-center text-xs">
               {initialQuoteDeposit(row)} {row.quote_name}
             </span>
-          ) : (
-            '-'
-          ),
+          ) : null,
       },
       {
         key: 'pnl',
@@ -91,9 +87,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
         render: row =>
           row.pnl != null && row.mode === 'buy_and_sell' ? (
             <PriceChange className="text-xs" value={Number(row.pnl)} />
-          ) : (
-            '-'
-          ),
+          ) : null,
       },
       {
         key: 'current',
@@ -103,9 +97,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
             <span className="text-xs">
               ${roundSensible(row.current_total_usd_equity)}
             </span>
-          ) : (
-            '-'
-          ),
+          ) : null,
       },
       {
         key: 'actions',
@@ -120,7 +112,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
     <Table
       columns={columns}
       dataSource={positions?.data?.positions ?? []}
-      chunkSize={10}
+      chunkSize={5}
       loading={positions.isLoading}
       rowKey={r => r.key}
       surface={2}
@@ -150,7 +142,10 @@ function PairAssets({ base, quote }: { base: string; quote: string }) {
           key={coin.slug}
           noText
           coin={coin}
-          className={clsx('relative z-10', index !== 0 && 'absolute z-0 -ml-6')}
+          className={clsx(
+            'relative z-10',
+            index !== 0 && 'absolute !z-0 -ml-6',
+          )}
         />
       ))}
       <span className="ml-2">{coins?.map(c => c.abbreviation)?.join('/')}</span>

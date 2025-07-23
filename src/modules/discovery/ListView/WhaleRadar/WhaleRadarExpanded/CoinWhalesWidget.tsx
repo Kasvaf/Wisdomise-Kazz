@@ -32,6 +32,7 @@ export const CoinWhalesWidget: FC<{
               address: row.holder_address,
               network: row.network_name,
             }}
+            whale
           />
         ),
       },

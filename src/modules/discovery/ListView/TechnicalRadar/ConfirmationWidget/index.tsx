@@ -20,10 +20,10 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Lazy } from 'shared/Lazy';
 import Spin from 'shared/Spin';
+import { usePageState } from 'shared/usePageState';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
@@ -137,11 +137,12 @@ export function ConfirmationWidget<I extends Indicator>({
 }) {
   const tabs = useConfirmationTabs(indicator, type);
   const [autoSelect, setAutoSelect] = useState(true);
-  const [selectedTabKey, setSelectedTabKey] = useSearchParamAsState<string>(
-    `${indicator}-${type}`,
-    tabs[0].key,
-  );
-  const selectedTab = tabs.find(row => row.key === selectedTabKey);
+  const [pageState, setPageState] = usePageState<{
+    tab: string;
+  }>(`${indicator}-${type}`, {
+    tab: tabs[0].key,
+  });
+  const selectedTab = tabs.find(row => row.key === pageState.tab);
   if (!selectedTab) throw new Error('unexpected error');
   const confirmations = useIndicatorConfirmations({
     indicator,
@@ -153,14 +154,14 @@ export function ConfirmationWidget<I extends Indicator>({
     if (!autoSelect) return;
     if (confirmations.isFetched && confirmations.data?.results.length === 0) {
       const nextTabKey =
-        tabs[tabs.findIndex(r => r.key === selectedTabKey) + 1]?.key;
+        tabs[tabs.findIndex(r => r.key === pageState.tab) + 1]?.key;
       if (nextTabKey) {
-        setSelectedTabKey(nextTabKey);
+        setPageState({ tab: nextTabKey });
       } else {
         setAutoSelect(false);
       }
     }
-  }, [confirmations, selectedTabKey, setSelectedTabKey, tabs, autoSelect]);
+  }, [confirmations, pageState.tab, setPageState, tabs, autoSelect]);
 
   const list = confirmations.data?.results ?? [];
 
@@ -216,10 +217,10 @@ export function ConfirmationWidget<I extends Indicator>({
           )}
           <ButtonSelect
             className="w-full grow"
-            value={selectedTabKey}
+            value={pageState.tab}
             onChange={newTabKey => {
               setAutoSelect(false);
-              setSelectedTabKey(newTabKey);
+              setPageState({ tab: newTabKey });
             }}
             options={tabs.map(tab => ({
               label: tab.title,

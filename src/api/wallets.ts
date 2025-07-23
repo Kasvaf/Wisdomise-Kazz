@@ -81,3 +81,54 @@ export const useWalletWithdrawMutation = (address?: string) => {
     },
   });
 };
+
+type WalletStatusResponse = Record<string, TokenRecord>;
+
+export interface TokenRecord {
+  network: string;
+  wallet_address: string;
+  token_address: string;
+  related_at: null;
+  resolution: string;
+  num_buys: number;
+  num_sells: number;
+  num_inflows: number;
+  num_outflows: number;
+  num_win: number;
+  num_loss: number;
+  average_buy: number;
+  volume_buys: number;
+  volume_sells: number;
+  realized_pnl: number;
+  volume_inflow: number;
+  volume_outflow: number;
+  balance: number;
+  balance_first: number;
+  pnl: number;
+}
+
+export const useWalletStatus = ({
+  network = 'solana',
+  address,
+  window,
+  resolution = '1h',
+}: {
+  network?: 'solana';
+  address: string;
+  window: number;
+  resolution?: '1h';
+}) => {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery({
+    queryKey: ['wallet-status', network, address, window, resolution],
+    queryFn: async () => {
+      return await ofetch<WalletStatusResponse>(
+        'network-radar/wallet-status/',
+        {
+          query: { network, wallet_address: address, window, resolution },
+        },
+      );
+    },
+    enabled: isLoggedIn,
+  });
+};

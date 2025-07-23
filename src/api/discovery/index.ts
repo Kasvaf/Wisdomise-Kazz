@@ -46,6 +46,8 @@ import {
   type TwitterAccount,
   type TwitterFollowedAccount,
   type TwitterTweet,
+  type CoinTopTraderHolder,
+  type TwitterRelatedToken,
 } from './types';
 
 export * from './types';
@@ -96,9 +98,6 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
 
           return true;
         }),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });
@@ -180,9 +179,6 @@ export const useSocialRadarCoins = (config: {
             );
           return sorter(a.rank, b.rank);
         }),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });
@@ -313,9 +309,6 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
         return true;
       });
     },
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -389,9 +382,6 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         results,
       };
     },
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -449,9 +439,6 @@ export const useTechnicalRadarCoins = (config: {
             return sorter(a.data?.market_cap, b.data?.market_cap);
           return sorter(a.rank, b.rank);
         });
-    },
-    meta: {
-      persist: true,
     },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
@@ -512,9 +499,6 @@ export const useWhaleRadarWhales = (config: {
           return false;
         return true;
       }),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -621,9 +605,6 @@ export const useWhaleRadarCoins = (config: {
             return sorter(a.wallet_count, b.wallet_count);
           return sorter(a.rank, b.rank);
         }),
-    meta: {
-      persist: true,
-    },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -752,9 +733,6 @@ export const useStreamTweets = (config: { userIds: string[] }) => {
     enabled: config.userIds.length > 0,
     refetchInterval: 1000 * 60 * 5,
     refetchOnMount: false,
-    meta: {
-      persist: true,
-    },
   });
 
   useEffect(() => {
@@ -814,6 +792,23 @@ export const useStreamTweets = (config: { userIds: string[] }) => {
     [initialStream, tweets],
   );
 };
+
+export const useTweetRelatedTokens = (tweetId?: string) =>
+  useQuery({
+    queryKey: ['twitter-tweet-related-tokens', tweetId],
+    staleTime: Number.POSITIVE_INFINITY,
+    queryFn: () => {
+      if (!tweetId) return [];
+      return resolvePageResponseToArray<TwitterRelatedToken>(
+        'delphi/twitter-tracker/trench-extractor/',
+        {
+          query: {
+            tweet_twitter_id: tweetId,
+          },
+        },
+      );
+    },
+  });
 
 /* Rest */
 export const useNetworks = (config: {
@@ -1057,4 +1052,31 @@ export const useTokenInsight = ({
         throw error;
       }
     },
+  });
+
+export const useCoinTopTraderHolders = (config: {
+  type: 'traders' | 'holders';
+  slug?: string;
+}) =>
+  useQuery({
+    queryKey: ['coin-top-trader-holders', config.type, config.slug],
+    queryFn: () => {
+      if (!config.slug) return Promise.resolve([]);
+      return ofetch<CoinTopTraderHolder[]>(
+        `network-radar/top-${config.type}/`,
+        {
+          query: {
+            slug: config.slug,
+            network: 'solana', // TODO: remove this when we support other networks
+            ...(config.type === 'traders' && {
+              resolution: '1h',
+              window: 48,
+            }),
+          },
+          meta: { auth: false },
+        },
+      );
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });

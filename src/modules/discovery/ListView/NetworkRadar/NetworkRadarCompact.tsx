@@ -79,24 +79,26 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           }
         />
       </div>
-      <NCoinList
-        dataSource={newPairs}
-        loading={newPairs.length === 0}
-        className={clsx(tab !== 'new_pairs' && 'hidden')}
-        onRowClick={onRowClick}
-      />
-      <NCoinList
-        dataSource={finalStretch}
-        loading={finalStretch.length === 0}
-        className={clsx(tab !== 'final_stretch' && 'hidden')}
-        onRowClick={onRowClick}
-      />
-      <NCoinList
-        dataSource={migrated}
-        loading={migrated.length === 0}
-        className={clsx(tab !== 'migrated' && 'hidden')}
-        onRowClick={onRowClick}
-      />
+      <div className="px-3">
+        <NCoinList
+          dataSource={newPairs}
+          loading={newPairs.length === 0}
+          className={clsx(tab !== 'new_pairs' && 'hidden')}
+          onRowClick={onRowClick}
+        />
+        <NCoinList
+          dataSource={finalStretch}
+          loading={finalStretch.length === 0}
+          className={clsx(tab !== 'final_stretch' && 'hidden')}
+          onRowClick={onRowClick}
+        />
+        <NCoinList
+          dataSource={migrated}
+          loading={migrated.length === 0}
+          className={clsx(tab !== 'migrated' && 'hidden')}
+          onRowClick={onRowClick}
+        />
+      </div>
     </>
   );
 };
