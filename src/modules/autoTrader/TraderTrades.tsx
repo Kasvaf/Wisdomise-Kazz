@@ -1,4 +1,4 @@
-import Tabs from 'shared/Tabs';
+import { Tabs } from 'antd';
 import { type TraderInputs } from './PageTrade/types';
 import BuySellTrader from './BuySellTrader';
 import AssetSwapsStream from './AssetSwapsStream';
