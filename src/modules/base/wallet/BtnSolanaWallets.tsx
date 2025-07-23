@@ -179,7 +179,9 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         {wallet ? (
           <Button
             onClick={() =>
-              navigate(getUrl({ slug: wallet.key, detail: 'wallet' }))
+              navigate(
+                getUrl({ slug: wallet.key, detail: 'wallet', view: 'detail' }),
+              )
             }
             variant="outline"
             size="xs"
