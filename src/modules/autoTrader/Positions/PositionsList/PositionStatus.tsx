@@ -143,7 +143,7 @@ function getItemsByStatus({
   };
 }
 
-const StatusWidget: React.FC<{ position: Position; mini?: boolean }> = ({
+const PositionStatus: React.FC<{ position: Position; mini?: boolean }> = ({
   position,
   mini,
 }) => {
@@ -160,4 +160,4 @@ const StatusWidget: React.FC<{ position: Position; mini?: boolean }> = ({
   );
 };
 
-export default StatusWidget;
+export default PositionStatus;

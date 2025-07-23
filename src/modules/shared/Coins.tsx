@@ -49,7 +49,7 @@ export function Coins({
           <div
             key={JSON.stringify(coin)}
             className={clsx(
-              'inline-flex rounded-full border border-v1-surface-l3 bg-white bg-cover bg-center bg-no-repeat',
+              'inline-flex rounded-full border border-v1-surface-l3 bg-white/10 bg-cover bg-center bg-no-repeat',
               imageClassName ?? 'size-4',
             )}
             style={{

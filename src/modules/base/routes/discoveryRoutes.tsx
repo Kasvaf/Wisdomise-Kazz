@@ -47,6 +47,17 @@ const useDiscoveryRoutes = () => {
                         }).toString()}`,
                       },
                     ]
+                  : detail === 'wallet'
+                  ? [
+                      {
+                        text: 'Wallets',
+                        href: '',
+                      },
+                      {
+                        text: slug,
+                        href: '',
+                      },
+                    ]
                   : [
                       {
                         text: t('menu.coin.title'),

@@ -10,7 +10,7 @@ import { useUserWalletAssets } from 'api/chains';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
 import { isMiniApp } from 'utils/version';
-import { useSymbolInfo } from 'api/symbol';
+import { useSymbolsInfo } from 'api/symbol';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { useWalletsQuery, type Wallet } from 'api/wallets';
 import Badge from 'shared/Badge';
@@ -28,6 +28,7 @@ import { roundSensible } from 'utils/numbers';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
+import { Coins } from 'shared/Coins';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
@@ -178,9 +179,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         {wallet ? (
           <Button
             onClick={() =>
-              navigate(
-                getUrl({ slug: wallet.key, detail: 'wallet', view: 'both' }),
-              )
+              navigate(getUrl({ slug: wallet.key, detail: 'wallet' }))
             }
             variant="outline"
             size="xs"
@@ -198,39 +197,17 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   );
 }
 
-const MAX_ASSETS = 3;
 function UserMiniAssets({ wallet }: { wallet?: Wallet }) {
   const { address } = useConnectedWallet();
   const { data: walletAssets } = useUserWalletAssets(
     isMiniApp ? 'the-open-network' : 'solana',
     wallet?.address ?? address,
   );
+  const { data: symbols } = useSymbolsInfo(walletAssets?.map(a => a.slug));
 
-  return walletAssets?.length && (wallet?.address || address) ? (
-    <div className="flex items-center justify-center rounded-md border border-v1-inverse-overlay-10 pl-5 pr-3">
-      {walletAssets
-        ?.filter((_, index) => index < MAX_ASSETS)
-        .map(walletAsset => (
-          <div key={walletAsset.slug} className="-ml-2">
-            <AssetIcon slug={walletAsset.slug} />
-          </div>
-        ))}
-
-      {walletAssets.length > MAX_ASSETS && (
-        <span className="ml-2 text-xxs">{walletAssets.length}</span>
-      )}
+  return symbols && (wallet?.address || address) ? (
+    <div className="flex items-center justify-center rounded-md border border-v1-inverse-overlay-10 px-2">
+      <Coins coins={symbols} />
     </div>
-  ) : null;
-}
-
-function AssetIcon({ slug }: { slug: string }) {
-  const { data: baseInfo } = useSymbolInfo(slug);
-
-  return baseInfo?.logo_url ? (
-    <img
-      src={baseInfo?.logo_url}
-      alt=""
-      className="size-5 rounded-full bg-v1-surface-l3"
-    />
   ) : null;
 }
