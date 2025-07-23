@@ -248,7 +248,7 @@ export const Coin: FC<{
             <div className="flex items-center gap-1 font-mono text-xs text-v1-content-secondary">
               {contractAddress.label}
               {contractAddress.value && (
-                <button
+                <div
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -258,7 +258,7 @@ export const Coin: FC<{
                 >
                   <Icon name={bxsCopy} size={12} />
                   {copyNotif}
-                </button>
+                </div>
               )}
             </div>
           )}
