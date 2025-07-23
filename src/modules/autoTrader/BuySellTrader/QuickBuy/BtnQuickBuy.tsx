@@ -43,7 +43,7 @@ export default function BtnQuickBuy({
       return;
     }
 
-    if (+amount > (balance ?? 0)) {
+    if (+amount === 0 || +amount > (balance ?? 0)) {
       notification.error({ message: 'Insufficient balance' });
       return;
     }

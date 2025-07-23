@@ -15,6 +15,7 @@ import {
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import useDialog from 'shared/useDialog';
 import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
 
@@ -93,6 +94,7 @@ export function TraderPresetsSelector({
   showValue?: boolean;
 }) {
   const { settings, updateQuickBuyActivePreset } = useUserSettings();
+  const [dialog, open] = useDialog(TraderPresetSettingsDialog);
 
   const activeIndex = settings.quick_buy[source].active_preset;
 
@@ -108,13 +110,20 @@ export function TraderPresetsSelector({
             variant="ghost"
             size={size}
             className={clsx(index !== activeIndex && '!bg-transparent')}
-            onClick={() => updateQuickBuyActivePreset(source, index)}
+            onClick={() => {
+              if (index === activeIndex) {
+                void open({});
+              } else {
+                updateQuickBuyActivePreset(source, index);
+              }
+            }}
             surface={surface}
           >
             P{index + 1}
           </Button>
         </HoverTooltip>
       ))}
+      {dialog}
     </div>
   );
 }
@@ -167,11 +176,11 @@ export function TraderPresetValues({
 }
 
 function TraderPresetSettingsDialog({
-  isOpen,
-  onClose,
+  onResolve,
+  open,
 }: {
-  isOpen: boolean;
-  onClose: () => void;
+  onResolve: () => void;
+  open: boolean;
 }) {
   const { settings, updatePreset } = useUserSettings();
   const [presets, setPresets] = useState<TraderPresets>();
@@ -182,10 +191,10 @@ function TraderPresetSettingsDialog({
     if (settings) {
       setPresets([...settings.presets]);
     }
-  }, [isOpen, settings]);
+  }, [open, settings]);
 
   return presets ? (
-    <Dialog open={isOpen} mode="modal" contentClassName="p-7" onClose={onClose}>
+    <Dialog open={open} mode="modal" contentClassName="p-7" onClose={onResolve}>
       <div className="w-96">
         <h1 className="mb-8 text-2xl font-medium">Quick Settings</h1>
         <p className="mb-3 text-xs">Presets</p>
@@ -238,14 +247,14 @@ function TraderPresetSettingsDialog({
         />
 
         <div className="mt-6 flex items-center justify-between gap-2">
-          <Button className="w-full" variant="outline" onClick={onClose}>
+          <Button className="w-full" variant="outline" onClick={onResolve}>
             Cancel
           </Button>
           <Button
             className="w-full"
             onClick={() => {
               updatePreset(presets);
-              onClose();
+              onResolve();
             }}
           >
             Confirm
@@ -311,7 +320,7 @@ function TraderPresetForm({
 }
 
 export function BtnTraderPresetsSettings() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [dialog, open] = useDialog(TraderPresetSettingsDialog);
 
   return (
     <Button
@@ -319,15 +328,12 @@ export function BtnTraderPresetsSettings() {
       variant="ghost"
       className="!bg-transparent !px-0 text-white/70"
       onClick={() => {
-        setIsOpen(!isOpen);
+        void open({});
       }}
     >
       <Icon name={bxCog} />
 
-      <TraderPresetSettingsDialog
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+      {dialog}
     </Button>
   );
 }
