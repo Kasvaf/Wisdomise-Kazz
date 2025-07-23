@@ -15,15 +15,23 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   const asset = symbol?.networks.find(x => x.network.slug === network)
     ?.contract_address;
 
-  const { data: history, isLoading } = delphinusGrpc.useSwapsHistoryQuery({
-    network,
-    asset,
-  });
+  const enabled = !!network && !!asset;
+  const { data: history, isLoading } = delphinusGrpc.useSwapsHistoryQuery(
+    {
+      network,
+      asset,
+    },
+    { enabled },
+  );
 
-  const { data: recent } = delphinusGrpc.useSwapsStreamAllValues({
-    network,
-    asset,
-  });
+  const { data: recent } = delphinusGrpc.useSwapsStreamAllValues(
+    {
+      network,
+      asset,
+    },
+    { enabled },
+  );
+
   const data = useMemo(
     () =>
       uniqueBy(
