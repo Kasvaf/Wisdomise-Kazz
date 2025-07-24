@@ -6,7 +6,7 @@ const MenuItemLogout = () => {
   const { mutateAsync, isPending: loggingOut } = useLogoutMutation();
   return (
     <Button
-      variant="negative"
+      variant="negative_outline"
       size="sm"
       loading={loggingOut}
       onClick={e => {

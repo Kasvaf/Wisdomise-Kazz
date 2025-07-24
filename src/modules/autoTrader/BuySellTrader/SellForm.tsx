@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import { roundSensible } from 'utils/numbers';
+import { useState } from 'react';
 import AmountInputBox from 'shared/AmountInputBox';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPresets';
+import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
+import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
 import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
 import { type SwapState } from './useSwapState';
@@ -11,78 +12,96 @@ import BtnBuySell from './BtnBuySell';
 
 const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    base: {
-      slug: baseSlug,
-      balance: baseBalance,
-      balanceLoading,
-      amount: baseAmount,
+    base: { coinInfo: baseInfo, slug: baseSlug, balance: baseBalance },
+    quote: {
+      coinInfo: quoteInfo,
+      slug: quoteSlug,
+      setSlug: setQuote,
       priceByOther,
     },
-    isMarketPrice,
-    quote: { slug: quoteSlug, setSlug: setQuote, amount: quoteAmount },
-    setAmount,
-    setPercentage,
+    setAmount: setBaseAmount,
   } = state;
 
-  const targetReady = priceByOther !== undefined;
-  const marketToAmount = +baseAmount * Number(priceByOther);
+  const [amount, setAmount] = useState('0');
+  const handleBaseAmount = (newValue: string) => {
+    setAmount(newValue);
+    setBaseAmount(
+      convertToBaseAmount(newValue, amountType, baseBalance, priceByOther),
+    );
+  };
 
-  const [tempTarget, setTempTarget] = useState('');
-  useEffect(() => {
-    setTempTarget(quoteAmount);
-  }, [quoteAmount]);
+  const [amountType, setAmountType] = useState<'percentage' | 'base' | 'quote'>(
+    'percentage',
+  );
 
   return (
     <div>
       <AmountInputBox
-        max={baseBalance || 0}
-        value={baseAmount}
-        onChange={setAmount}
-        noSuffixPad
-        label={<AmountBalanceLabel slug={baseSlug} setAmount={setAmount} />}
+        value={amount}
+        onChange={handleBaseAmount}
+        label={<AmountBalanceLabel slug={baseSlug} />}
         className="mb-2"
-        disabled={balanceLoading || !baseBalance}
+        suffix={
+          <div className="text-xs">
+            {amountType === 'percentage'
+              ? '%'
+              : amountType === 'base'
+              ? baseInfo?.abbreviation
+              : baseSlug &&
+                quoteInfo && (
+                  <QuoteSelector
+                    className="-mr-4"
+                    value={quoteSlug}
+                    baseSlug={baseSlug}
+                    onChange={setQuote}
+                  />
+                )}
+          </div>
+        }
       />
 
       <QuoteQuickSet
-        className="mb-3"
+        className="mb-5"
         quote={quoteSlug}
         balance={baseBalance}
-        mode="sell"
-        value={baseAmount}
-        onClick={newAmount => setAmount(newAmount)}
-      />
+        mode={amountType === 'percentage' ? 'sell_percentage' : 'sell'}
+        onClick={newAmount => handleBaseAmount(newAmount)}
+        sensible={amountType === 'base'}
+      >
+        <AmountTypeSwitch
+          base={baseSlug}
+          quote={quoteSlug}
+          value={amountType}
+          onChange={newType => {
+            setAmountType(newType);
+            setAmount('0');
+          }}
+        />
+      </QuoteQuickSet>
 
-      <AmountInputBox
-        disabled={isMarketPrice}
-        value={
-          isMarketPrice
-            ? targetReady
-              ? roundSensible(marketToAmount)
-              : '...'
-            : tempTarget
-        }
-        onChange={setTempTarget}
-        onBlur={() =>
-          setPercentage(
-            +tempTarget < marketToAmount
-              ? '0'
-              : roundSensible((+tempTarget / marketToAmount - 1) * 100),
-          )
-        }
-        suffix={
-          baseSlug &&
-          quoteSlug && (
-            <QuoteSelector
-              baseSlug={baseSlug}
-              value={quoteSlug}
-              onChange={setQuote}
-            />
-          )
-        }
-        className="mb-3"
-        noSuffixPad
-      />
+      {/* <AmountInputBox */}
+      {/*   disabled={isMarketPrice} */}
+      {/*   value={ */}
+      {/*     isMarketPrice */}
+      {/*       ? targetReady */}
+      {/*         ? roundSensible(marketToAmount) */}
+      {/*         : '...' */}
+      {/*       : tempTarget */}
+      {/*   } */}
+      {/*   onChange={setTempTarget} */}
+      {/*   suffix={ */}
+      {/*     baseSlug && */}
+      {/*     quoteSlug && ( */}
+      {/*       <QuoteSelector */}
+      {/*         baseSlug={baseSlug} */}
+      {/*         value={quoteSlug} */}
+      {/*         onChange={setQuote} */}
+      {/*       /> */}
+      {/*     ) */}
+      {/*   } */}
+      {/*   className="mb-3" */}
+      {/*   noSuffixPad */}
+      {/* /> */}
       <MarketField state={state} />
       <TraderPresetsSettings mode="sell" />
       <BtnBuySell state={state} className="mt-6 w-full" />

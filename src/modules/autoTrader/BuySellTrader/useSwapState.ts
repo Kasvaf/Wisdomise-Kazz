@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLastPriceQuery, useSupportedNetworks } from 'api';
 import { useAccountBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
 import { roundSensible } from 'utils/numbers';
+import { useCoinDetails } from 'api/discovery';
 import { type TraderInputs } from '../PageTrade/types';
 
 const useSwapState = ({ quote, setQuote }: TraderInputs) => {
@@ -10,10 +11,11 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [dir, setDir] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState('0');
   const [isMarketPrice, setIsMarketPrice] = useState(true);
-  const [p, setPercentage] = useState('10');
+  const [limit, setLimit] = useState('');
+  const [limitType, setLimitType] = useState<'price' | 'market_cap'>('price');
   const confirming = useState(false);
   const firing = useState(false);
-  const percentage = isMarketPrice ? '0' : p;
+  const { data: details } = useCoinDetails({ slug: base });
 
   const { data: baseInfo } = useSymbolInfo(base);
   const { data: quoteInfo } = useSymbolInfo(quote);
@@ -45,6 +47,15 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     slug: quote,
     convertToUsd: true,
   });
+
+  const marketCap = (basePrice ?? 0) * (details?.data?.total_supply ?? 0);
+  const percentage = isMarketPrice
+    ? 0
+    : Math.abs(
+        limitType === 'price'
+          ? (((basePriceByQuote ?? 0) - +limit) * 100) / (basePriceByQuote ?? 1)
+          : ((marketCap - +limit) * 100) / marketCap,
+      );
 
   const quoteFields = {
     slug: quote,
@@ -82,6 +93,27 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     (+amount * Number(from.priceByOther) * (100 + Number(percentage))) / 100,
   );
 
+  const updateLimit = useCallback(() => {
+    if (basePriceByQuote && marketCap) {
+      setLimit(
+        limitType === 'price'
+          ? roundSensible(basePriceByQuote)
+          : String(marketCap),
+      );
+    }
+  }, [basePriceByQuote, limitType, marketCap]);
+
+  useEffect(() => {
+    if (!limit) {
+      updateLimit();
+    }
+  }, [basePriceByQuote, limit, limitType, marketCap, updateLimit]);
+
+  useEffect(() => {
+    updateLimit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quote, limitType, isMarketPrice]);
+
   return {
     selectedNet,
 
@@ -90,7 +122,11 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     setAmount,
 
     percentage,
-    setPercentage,
+
+    limit,
+    setLimit,
+    limitType,
+    setLimitType,
 
     dir,
     setDir,

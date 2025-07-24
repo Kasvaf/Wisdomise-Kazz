@@ -18,13 +18,15 @@ import { useActiveWallet } from 'api/chains/wallet';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import { useAccountBalance, useMarketSwap } from 'api/chains';
-import { useHasFlag } from 'api';
+import { useHasFlag, useLastPriceQuery } from 'api';
 import {
   TraderPresetsSelector,
   TraderPresetValues,
 } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
+import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
+import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -46,8 +48,22 @@ export default function BtnInstantTrade({
   const [maskIsOpen, setMaskIsOpen] = useState(false);
   const { getActivePreset } = useUserSettings();
 
+  const { data: basePriceByQuote } = useLastPriceQuery({
+    slug,
+    quote,
+    convertToUsd: false,
+  });
+
   const marketSwapHandler = useMarketSwap();
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
+    if (side === 'SHORT') {
+      amount = convertToBaseAmount(
+        amount,
+        sellAmountType,
+        baseBalance,
+        1 / (basePriceByQuote ?? 1),
+      );
+    }
     const preset =
       getActivePreset('terminal')[side === 'LONG' ? 'buy' : 'sell'];
 
@@ -77,6 +93,10 @@ export default function BtnInstantTrade({
   const [height, setHeight] = useState(240); // initial height in px
   const minHeight = 240;
   const maxHeight = 300;
+
+  const [sellAmountType, setSellAmountType] = useState<
+    'percentage' | 'base' | 'quote'
+  >('percentage');
 
   const startResizing = (e: React.MouseEvent, direction: 'top' | 'bottom') => {
     setMaskIsOpen(true);
@@ -188,11 +208,24 @@ export default function BtnInstantTrade({
                 </div>
                 <hr className="my-3 border-white/5" />
                 <div className="mb-3 flex items-center justify-between">
-                  Sell
-                  <AccountBalance slug={slug} />
+                  <div className="flex items-center gap-1">
+                    Sell
+                    <AmountTypeSwitch
+                      surface={3}
+                      showIcon
+                      quote={quote}
+                      value={sellAmountType}
+                      onChange={newType => {
+                        setSellAmountType(newType);
+                      }}
+                    />
+                  </div>
+                  <AccountBalance slug={slug} quote={quote} />
                 </div>
                 <QuoteQuickSet
-                  mode="sell"
+                  mode={
+                    sellAmountType === 'percentage' ? 'sell_percentage' : 'sell'
+                  }
                   quote={quote}
                   enableEdit={isEditMode}
                   hasEditBtn={false}

@@ -78,7 +78,7 @@ export default function UnlockModalContent({
         <Button
           className="grow"
           loading={isPending || isWaiting || isCanceling}
-          variant="negative"
+          variant="negative_outline"
           onClick={() => unlock()}
         >
           {isPending

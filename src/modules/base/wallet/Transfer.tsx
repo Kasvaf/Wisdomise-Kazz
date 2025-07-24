@@ -137,7 +137,6 @@ export default function Transfer({
           <SensibleSteps
             className="my-2"
             balance={selectedAsset?.amount ?? 0}
-            value={amount}
             onChange={newAmount => setAmount(newAmount)}
             surface={4}
           />

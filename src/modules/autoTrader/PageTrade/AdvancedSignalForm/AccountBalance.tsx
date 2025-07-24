@@ -4,15 +4,25 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import { useAccountBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
+import { useLastPriceQuery } from 'api';
+import { roundSensible } from 'utils/numbers';
 
 export const AccountBalance: React.FC<{
   slug?: string;
+  quote?: string;
   disabled?: boolean;
   setAmount?: (val: string) => void;
-}> = ({ slug, disabled, setAmount }) => {
+}> = ({ slug, disabled, setAmount, quote }) => {
   const net = useActiveNetwork();
   const { data: balance, isLoading } = useAccountBalance(slug, net);
+  const { data: priceByQuote } = useLastPriceQuery({
+    slug,
+    quote,
+    convertToUsd: false,
+  });
   const { data: symbol } = useSymbolInfo(slug);
+  const { data: quoteSymbol } = useSymbolInfo(quote);
+
   const isNativeQuote =
     (net === 'the-open-network' && slug === 'the-open-network') ||
     (net === 'solana' && slug === 'wrapped-solana');
@@ -41,8 +51,25 @@ export const AccountBalance: React.FC<{
           {symbol && (
             <Coin coin={symbol} mini nonLink noText className="-mr-2 ml-2" />
           )}
-          {String(balance)}
+          {roundSensible(balance)}
         </span>
+        {quote && (
+          <>
+            <div className="ml-1 size-1 rounded-full bg-v1-surface-l4" />
+            <span className="flex items-center gap-2">
+              {quoteSymbol && (
+                <Coin
+                  coin={quoteSymbol}
+                  mini
+                  nonLink
+                  noText
+                  className="-mr-2 ml-1"
+                />
+              )}
+              {roundSensible((priceByQuote ?? 0) * (balance ?? 0))}
+            </span>
+          </>
+        )}
       </div>
     )
   ) : null;

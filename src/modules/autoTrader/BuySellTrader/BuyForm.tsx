@@ -44,7 +44,7 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
       />
 
       <QuoteQuickSet
-        className="mb-3"
+        className="mb-5"
         quote={quoteSlug}
         mode={dir}
         value={amount}

@@ -25,7 +25,9 @@ export interface ButtonProps {
     | 'white'
     | 'link'
     | 'negative'
-    | 'positive';
+    | 'negative_outline'
+    | 'positive'
+    | 'positive_outline';
   disabled?: boolean;
   loading?: boolean;
   block?: boolean;
@@ -95,8 +97,12 @@ export const Button: FC<ButtonProps> = ({
         variant === 'link' &&
           'border-transparent text-v1-content-link enabled:hover:text-v1-content-link-hover enabled:active:text-v1-content-link-pressed',
         variant === 'negative' &&
+          'border-v1-border-negative bg-v1-background-negative text-v1-content-primary-inverse enabled:hover:bg-v1-background-negative/90',
+        variant === 'negative_outline' &&
           'border-v1-border-negative bg-transparent text-v1-content-negative enabled:hover:bg-v1-background-negative/15 enabled:active:bg-transparent',
         variant === 'positive' &&
+          'border-v1-border-positive bg-v1-background-positive text-v1-content-primary-inverse enabled:hover:bg-v1-background-positive',
+        variant === 'positive_outline' &&
           'border-v1-border-positive bg-transparent text-v1-content-positive enabled:hover:bg-v1-background-positive/15 enabled:active:bg-transparent',
         /* Loading */
         (loading || localLoading) && 'animate-pulse',

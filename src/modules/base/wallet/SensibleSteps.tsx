@@ -6,14 +6,12 @@ import { type Surface } from 'utils/useSurface';
 export default function SensibleSteps({
   token,
   balance,
-  value,
   onChange,
   surface = 2,
   className,
 }: {
   token?: string;
   balance?: number | null;
-  value?: string;
   onChange: (value: string) => void;
   surface?: Surface;
   className?: string;
@@ -25,13 +23,13 @@ export default function SensibleSteps({
   const steps = useSensibleSteps(balance, noMax);
 
   return (
-    <div className={clsx('mb-3 flex gap-1.5', className)}>
+    <div className={clsx('flex gap-1', className)}>
       {steps.map(({ label, value: stepValue }) => (
         <Button
           key={stepValue}
-          size="xs"
-          variant={stepValue === value ? 'primary' : 'ghost'}
-          className="!h-6 grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
+          size="2xs"
+          variant="ghost"
+          className="grow"
           onClick={() => onChange(stepValue)}
           surface={surface}
         >

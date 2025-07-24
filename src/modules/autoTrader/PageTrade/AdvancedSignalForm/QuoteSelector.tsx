@@ -36,7 +36,7 @@ const QuoteSelector: React.FC<{
   disabled?: boolean;
   className?: string;
   size?: 'xs' | 'sm' | 'md' | 'xl';
-}> = ({ baseSlug, value, onChange, disabled, className, size }) => {
+}> = ({ baseSlug, value, onChange, disabled, className, size = 'md' }) => {
   const { data } = useSupportedPairs(baseSlug);
 
   const [isManualSelected, setIsManualSelected] = useState(disabled);
