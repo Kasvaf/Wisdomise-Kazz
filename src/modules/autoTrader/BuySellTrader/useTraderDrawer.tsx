@@ -8,7 +8,7 @@ import Spinner from 'shared/Spinner';
 import { Coin } from 'shared/Coin';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { type TraderInputs } from '../PageTrade/types';
-import BuySellTrader from '.';
+import TraderTrades from '../TraderTrades';
 
 type DrawerInputs = Omit<TraderInputs, 'quote' | 'setQuote'>;
 
@@ -47,7 +47,7 @@ export default function useTraderDrawer() {
                   <BtnWalletConnect />
                 </div>
 
-                <BuySellTrader
+                <TraderTrades
                   quote={quote}
                   setQuote={setQuote}
                   {...inputs}
