@@ -36,20 +36,20 @@ export default function AmountTypeSwitch({
       onClick={() => {
         onChange(
           value === 'percentage'
+            ? 'quote'
+            : value === 'quote'
             ? base
               ? 'base'
-              : 'quote'
-            : value === 'base'
-            ? 'quote'
+              : 'percentage'
             : 'percentage',
         );
       }}
     >
-      {value === 'percentage'
-        ? '%'
-        : symbol && (
-            <Coin className="-mr-2" coin={symbol} mini noText nonLink />
-          )}
+      {value === 'percentage' ? (
+        <span className={showIcon ? 'w-4' : ''}>%</span>
+      ) : (
+        symbol && <Coin className="-mr-2" coin={symbol} mini noText nonLink />
+      )}
       {showIcon && (
         <div>
           <Icon name={bxTransfer} className="!text-white/40 [&>svg]:!size-4" />
