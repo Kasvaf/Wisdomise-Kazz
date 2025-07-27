@@ -28,8 +28,8 @@ export const NetworkRadarFilters: FC<
         <Input
           type="string"
           prefixIcon={<Icon name={bxSearch} />}
-          className="w-full max-w-[220px]"
-          placeholder="Search by Name or Address"
+          className="w-full max-w-[280px]"
+          placeholder="Search by Name/Address (2+ chars)"
           value={value[initialTab]?.searchKeywords?.join(',') ?? ''}
           onChange={newVal =>
             onChange?.({
