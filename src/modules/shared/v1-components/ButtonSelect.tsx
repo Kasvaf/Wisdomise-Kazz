@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import Icon from 'shared/Icon';
+import { useMutationObserver } from 'utils/useMutationObserver';
 import { type Surface, useSurface } from 'utils/useSurface';
 
 export function ButtonSelect<T>({
@@ -55,24 +56,27 @@ export function ButtonSelect<T>({
     },
     [],
   );
-  useEffect(() => {
+
+  const updateInnerScrollBtnsLastCall = useRef<number>(-1);
+  const updateInnerScrollBtns = useCallback(() => {
     const el = buttonsRef.current;
-    if (!el || !innerScroll) return;
-    const resizeHandler = () => {
-      setHasOverflow(
-        el
-          ? [el.scrollLeft > 0, el.offsetWidth + el.scrollLeft < el.scrollWidth]
-          : [false, false],
-      );
-    };
-    resizeHandler();
-    window.addEventListener('resize', resizeHandler);
-    el.addEventListener('scroll', resizeHandler);
-    return () => {
-      window.removeEventListener('resize', resizeHandler);
-      el.removeEventListener('scroll', resizeHandler);
-    };
+    if (
+      !el ||
+      !innerScroll ||
+      updateInnerScrollBtnsLastCall.current === el.scrollWidth
+    )
+      return;
+    updateInnerScrollBtnsLastCall.current = el.scrollWidth;
+    setHasOverflow(
+      el
+        ? [el.scrollLeft > 0, el.offsetWidth + el.scrollLeft < el.scrollWidth]
+        : [false, false],
+    );
   }, [innerScroll]);
+
+  useMutationObserver(buttonsRef, updateInnerScrollBtns, {
+    childList: true,
+  });
 
   useEffect(() => {
     const el = buttonsRef.current;
