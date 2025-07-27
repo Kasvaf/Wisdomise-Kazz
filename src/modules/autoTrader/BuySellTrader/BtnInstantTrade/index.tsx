@@ -128,7 +128,7 @@ export default function BtnInstantTrade({
   if (!hasFlag('/trader/instant')) return null;
 
   return (
-    <div className="relative">
+    <div className="relative mobile:hidden">
       {maskIsOpen && <div className="fixed inset-0 z-30" />}
       <Draggable
         handle="#instant-trade-drag-handle"
