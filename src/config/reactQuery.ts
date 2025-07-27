@@ -41,7 +41,8 @@ export const persisterOptions: OmitKeyof<
       (!query.meta ||
         !('persist' in query.meta) ||
         query.meta.persist !== false) &&
-      !query.state.error,
+      !query.state.error &&
+      !!query.state.data,
     shouldDehydrateMutation: () => false,
     shouldRedactErrors: () => false,
   },
