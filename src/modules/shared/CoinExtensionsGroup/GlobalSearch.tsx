@@ -61,10 +61,10 @@ export const GlobalSearch: FC<
             }),
           );
       }}
-      options={coins.data?.map(x => x.symbol.slug)}
+      options={coins.data?.map?.(x => x.symbol.slug)}
       dialogClassName="w-[520px] mobile:w-auto"
       render={opt => {
-        const row = coins.data?.find(x => x.symbol.slug === opt);
+        const row = coins.data?.find?.(x => x.symbol.slug === opt);
         if (!row) return '';
         return (
           <div className="flex items-center justify-between gap-4 px-2 py-3 mobile:px-1">

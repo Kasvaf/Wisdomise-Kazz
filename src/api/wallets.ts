@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 import { type SupportedNetworks } from 'api/trader';
-import { useHasFlag } from 'api/feature-flags';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 export interface Wallet {
@@ -13,17 +12,16 @@ export interface Wallet {
 }
 
 export const useWalletsQuery = () => {
-  const hasFlag = useHasFlag();
   const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['wallets'],
     queryFn: async () => {
       return await ofetch<PageResponse<Wallet>>('/wallets');
     },
-    select: data =>
-      hasFlag('/wallets')
-        ? { ...data, results: data.results.toReversed() }
-        : { ...data, results: [] },
+    meta: {
+      persist: false,
+    },
+    select: data => ({ ...data, results: data.results.toReversed() }),
     enabled: isLoggedIn,
   });
 };
