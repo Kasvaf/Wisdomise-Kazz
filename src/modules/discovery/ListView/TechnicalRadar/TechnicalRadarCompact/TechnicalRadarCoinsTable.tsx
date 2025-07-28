@@ -45,6 +45,7 @@ export const TechnicalRadarCoinsTable: FC<{
             labels={row.symbol_labels}
             networks={row.networks}
             security={row.symbol_security?.data}
+            href={false}
             extra={
               <>
                 <DirectionalNumber

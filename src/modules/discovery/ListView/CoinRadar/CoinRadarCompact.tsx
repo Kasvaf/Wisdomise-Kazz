@@ -62,6 +62,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
             labels={row.symbol_labels}
             networks={row.networks}
             security={row.symbol_security?.data}
+            href={false}
             extra={
               <>
                 <DirectionalNumber
