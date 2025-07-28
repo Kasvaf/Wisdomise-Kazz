@@ -201,7 +201,7 @@ export const Coin: FC<{
         )}
       </div>
 
-      <div className="flex flex-col justify-between gap-1 whitespace-nowrap">
+      <div className="flex max-w-64 flex-col justify-between gap-1 overflow-hidden whitespace-nowrap">
         <div className="flex items-center gap-1">
           {abbreviation && (
             <p
@@ -219,6 +219,7 @@ export const Coin: FC<{
             security={security ?? []}
             categories={categories}
             size="xs"
+            truncate={truncate}
           />
           <CoinCommunityLinks
             abbreviation={abbreviation}
