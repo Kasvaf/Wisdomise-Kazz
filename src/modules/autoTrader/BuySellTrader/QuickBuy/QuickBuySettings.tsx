@@ -8,6 +8,7 @@ import {
 import { useSymbolInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function QuickBuySettings({
@@ -21,8 +22,9 @@ export default function QuickBuySettings({
 }) {
   const { settings, updateQuickBuyAmount } = useUserSettings();
   const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
+  const isLoggedIn = useIsLoggedIn();
 
-  return (
+  return isLoggedIn ? (
     <div className={clsx(className, 'flex items-center gap-2')}>
       {showWallet && <BtnSolanaWallets showBalance={true} />}
       <Input
@@ -41,5 +43,5 @@ export default function QuickBuySettings({
       />
       <TraderPresetsSelector source={source} size="xs" showValue />
     </div>
-  );
+  ) : null;
 }

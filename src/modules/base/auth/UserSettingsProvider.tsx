@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { useDebounce } from 'usehooks-ts';
 import { useUserStorage } from 'api/userStorage';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 export type QuickBuySource =
   | 'new_pairs'
@@ -159,6 +160,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     serializer: 'json',
   });
   const changedSettings = useDebounce(settings, 2000);
+  const isLoggedIn = useIsLoggedIn();
 
   useEffect(() => {
     if (!isFetching && !isFetched) {
@@ -170,11 +172,11 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   }, [value, isFetched, isFetching]);
 
   useEffect(() => {
-    if (isFetched) {
+    if (isFetched && isLoggedIn) {
       void save(changedSettings);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [changedSettings, isFetched]);
+  }, [changedSettings, isFetched, isLoggedIn]);
 
   const getActivePreset = (source: QuickBuySource) => {
     const activeIndex = settings.quick_buy[source].active_preset;

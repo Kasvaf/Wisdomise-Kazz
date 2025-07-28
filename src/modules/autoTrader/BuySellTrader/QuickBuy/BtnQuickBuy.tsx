@@ -8,6 +8,8 @@ import {
 import { useAccountNativeBalance, useMarketSwap } from 'api/chains';
 import { useSupportedPairs } from 'api';
 import { type CoinNetwork } from 'api/discovery';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function BtnQuickBuy({
@@ -25,6 +27,8 @@ export default function BtnQuickBuy({
   const marketSwapHandler = useMarketSwap();
   const { data: balance } = useAccountNativeBalance();
   const { refetch } = useSupportedPairs(slug);
+  const isLoggedIn = useIsLoggedIn();
+  const [modal, ensureAuthenticated] = useEnsureAuthenticated();
 
   const isSolana = networks
     ? networks.find(n => n.network.slug === 'solana')
@@ -66,13 +70,19 @@ export default function BtnQuickBuy({
         'flex items-center !rounded-3xl disabled:bg-v1-surface-l2',
       )}
       size="xs"
-      onClick={e => {
+      onClick={async e => {
         e.stopPropagation();
-        void swap();
+        const isLoggedIn = await ensureAuthenticated();
+        if (isLoggedIn) {
+          void swap();
+        }
       }}
     >
       <InstantIcon />
-      <span className="shrink-0">{amount} SOL</span>
+      <span className="shrink-0">
+        {isLoggedIn ? `${amount} SOL` : 'Quick Buy'}
+      </span>
+      {modal}
     </Button>
   ) : null;
 }
