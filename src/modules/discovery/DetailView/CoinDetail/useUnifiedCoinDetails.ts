@@ -29,12 +29,7 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
   const data2 = resp2.data;
   const data3 = network.length > 0 && base.length > 0 ? resp3.data : null;
 
-  const isLoading =
-    resp1.isLoading ||
-    resp1.isPending ||
-    resp2.isLoading ||
-    resp2.isPending ||
-    resp3.isLoading;
+  const isLoading = !data1 && !data2 && !data3;
 
   const symbol = useMemo<Coin>(() => {
     return {
