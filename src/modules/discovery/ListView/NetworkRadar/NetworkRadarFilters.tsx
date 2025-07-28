@@ -29,7 +29,7 @@ export const NetworkRadarFilters: FC<
           type="string"
           prefixIcon={<Icon name={bxSearch} />}
           className="absolute right-9 z-10 w-9 !px-2 focus-within:w-80 focus-within:px-3"
-          placeholder="Search by Name or Address"
+          placeholder="Search by Name/Address (2+ chars)"
           value={value[initialTab]?.searchKeywords?.join(',') ?? ''}
           onChange={newVal =>
             onChange?.({

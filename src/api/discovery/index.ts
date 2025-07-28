@@ -85,8 +85,13 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
           )
             return false;
 
+          const userNetworks = [
+            ...(globalNetwork ? [globalNetwork] : []),
+            ...(config.networks ?? []),
+          ];
+
           /* remove zero pools tokens if config.network contains solana */
-          if (config.networks?.includes('solana')) {
+          if (userNetworks?.includes('solana')) {
             const solana = row.networks?.find(x => x.network.slug === 'solana');
             if (
               solana &&
