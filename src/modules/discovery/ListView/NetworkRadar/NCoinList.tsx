@@ -118,10 +118,10 @@ export const NCoinList: FC<{
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
   useEffect(() => {
-    if (!hovered) {
+    if (!hovered || dataSource.length === 0) {
       setDataSource(_dataSource);
     }
-  }, [_dataSource, hovered]);
+  }, [_dataSource, dataSource.length, hovered]);
 
   return (
     <div
