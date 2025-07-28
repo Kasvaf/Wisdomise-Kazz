@@ -8,10 +8,11 @@ export const NCoinInsightWidget: FC<{ className?: string; slug: string }> = ({
   slug,
 }) => {
   const { data: coin } = useUnifiedCoinDetails({ slug });
+  const contractAddress = coin?.networks?.[0]?.contract_address;
   const { data } = useTokenInsight({
-    contractAddress: coin?.networks[0].contract_address,
+    contractAddress,
   });
-  if (!coin?.networks[0].contract_address) return null;
+  if (!contractAddress) return null;
   return (
     <NCoinTokenInsight
       value={{
