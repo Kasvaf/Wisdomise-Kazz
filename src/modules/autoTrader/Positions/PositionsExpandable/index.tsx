@@ -70,7 +70,7 @@ const PositionsExpandable = ({
         grid={!isMobile && expanded}
       />
 
-      {filter === 'active' && slug && (expanded || isMobile) && (
+      {filter === 'active' && slug && (
         <div
           className={clsx(
             isMobile ? 'fixed end-4 start-4 z-50' : 'mt-6 flex justify-center',
