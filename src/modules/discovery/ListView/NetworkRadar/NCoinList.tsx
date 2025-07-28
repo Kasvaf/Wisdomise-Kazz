@@ -175,8 +175,8 @@ export const NCoinList: FC<{
             >
               <div className="flex flex-col gap-1 overflow-hidden">
                 <Coin
-                  abbreviation={row.symbol?.name}
-                  // name={row.symbol?.name}
+                  abbreviation={row.symbol?.abbreviation}
+                  name={row.symbol?.name}
                   slug={row.symbol?.slug}
                   logo={row.symbol?.imageUrl}
                   // categories={row.symbol.categories}
@@ -233,6 +233,7 @@ export const NCoinList: FC<{
                     />,
                   ]}
                   href={false}
+                  truncate={!!mini}
                 />
               </div>
               <NCoinMarketDataCol
