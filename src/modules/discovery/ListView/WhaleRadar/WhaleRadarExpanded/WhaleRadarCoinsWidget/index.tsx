@@ -55,6 +55,7 @@ export function WhaleRadarCoinsWidget({
             labels={row.symbol_labels}
             networks={row.networks}
             security={row.symbol_security?.data}
+            truncate={false}
           />
         ),
         width: 220,

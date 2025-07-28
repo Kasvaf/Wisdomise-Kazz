@@ -75,6 +75,7 @@ export function SocialRadarExpanded() {
             networks={row.networks}
             security={row.symbol_security?.data}
             href={isEmbeddedView}
+            truncate={false}
           />
         ),
         width: 200,
