@@ -27,11 +27,11 @@ export const CoinTitleWidget: FC<{
       <div
         className={clsx(
           'flex items-center gap-1 overflow-auto whitespace-nowrap mobile:flex-col',
-          data.symbol ? 'justify-between' : 'justify-center',
+          data?.symbol ? 'justify-between' : 'justify-center',
           className,
         )}
       >
-        {data.symbol ? (
+        {data?.symbol ? (
           <>
             <div className="flex w-full items-center justify-start gap-2 mobile:w-full mobile:flex-wrap">
               <Coin
@@ -148,7 +148,7 @@ export const CoinTitleWidget: FC<{
           </p>
         )}
       </div>
-      {hr && data.symbol && !isLoading && <hr className="border-white/10" />}
+      {hr && data?.symbol && !isLoading && <hr className="border-white/10" />}
     </>
   );
 };

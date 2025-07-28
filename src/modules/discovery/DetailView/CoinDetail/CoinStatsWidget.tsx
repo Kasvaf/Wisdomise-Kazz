@@ -2,11 +2,11 @@ import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxInfoCircle } from 'boxicons-quasar';
-import { useCoinDetails, useNCoinDetails } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 function StatRow({
   className,
@@ -54,27 +54,26 @@ export function CoinStatsWidget({
   className?: string;
   slug: string;
 }) {
-  const coinDetails = useCoinDetails({ slug });
-  const nCoinDetails = useNCoinDetails({ slug });
+  const { data } = useUnifiedCoinDetails({ slug });
   const { t } = useTranslation('coin-radar');
 
   const marketCapPercentage =
-    ((coinDetails.data?.data?.total_volume ?? 0) /
-      (coinDetails.data?.data?.market_cap ?? 1)) *
+    ((data?.marketData.total_volume ?? 0) /
+      (data?.marketData.market_cap ?? 1)) *
     100;
   const circulationPercentage =
-    (typeof coinDetails.data?.data?.max_supply !== 'number' &&
-      typeof coinDetails.data?.data?.total_supply !== 'number') ||
-    typeof coinDetails.data?.data?.circulating_supply !== 'number'
+    (typeof data?.marketData?.max_supply !== 'number' &&
+      typeof data?.marketData?.total_supply !== 'number') ||
+    typeof data?.marketData?.circulating_supply !== 'number'
       ? null
-      : ((coinDetails.data?.data?.circulating_supply ?? 0) /
+      : ((data?.marketData?.circulating_supply ?? 0) /
           Math.max(
-            coinDetails.data?.data?.max_supply ?? 0,
-            coinDetails.data?.data?.total_supply ?? 0,
+            data?.marketData?.max_supply ?? 0,
+            data?.marketData?.total_supply ?? 0,
           )) *
         100;
 
-  if (nCoinDetails.data || !coinDetails.data?.data?.current_price) return null;
+  if (data?.marketData) return null;
 
   return (
     <div
@@ -82,7 +81,7 @@ export function CoinStatsWidget({
     >
       <StatRow label={t('coin-details.tabs.coin_stats.volume')}>
         <DirectionalNumber
-          value={coinDetails.data?.data?.volume_change_percentage_24h}
+          value={data?.marketData.total_volume_change_percentage_24h}
           suffix=" (24h)"
           showIcon
           showSign
@@ -91,14 +90,11 @@ export function CoinStatsWidget({
             decimalLength: 1,
           }}
         />
-        <ReadableNumber
-          value={coinDetails.data?.data?.total_volume}
-          label="$"
-        />
+        <ReadableNumber value={data?.marketData.total_volume} label="$" />
       </StatRow>
       <StatRow label={t('coin-details.tabs.coin_stats.market_cap')}>
         <DirectionalNumber
-          value={coinDetails.data?.data?.market_cap_change_percentage_24h}
+          value={data?.marketData.market_cap_change_percentage_24h}
           suffix=" (24h)"
           showIcon
           showSign
@@ -107,7 +103,7 @@ export function CoinStatsWidget({
             decimalLength: 1,
           }}
         />
-        <ReadableNumber value={coinDetails.data?.data?.market_cap} label="$" />
+        <ReadableNumber value={data?.marketData.market_cap} label="$" />
       </StatRow>
       <StatRow
         label={t('coin-details.tabs.coin_stats.volume_market_cap')}
@@ -123,15 +119,15 @@ export function CoinStatsWidget({
       </StatRow>
       <StatRow label={t('coin-details.tabs.coin_stats.fdv')}>
         <ReadableNumber
-          value={coinDetails.data?.data?.fully_diluted_valuation}
+          value={data?.marketData.fully_diluted_valuation}
           label="$"
         />
       </StatRow>
       <div className="space-y-2">
         <StatRow label={t('coin-details.tabs.coin_stats.circulating_supply')}>
           <ReadableNumber
-            value={coinDetails.data?.data?.circulating_supply}
-            label={coinDetails.data?.symbol.abbreviation}
+            value={data?.marketData.circulating_supply}
+            label={data?.symbol.abbreviation}
           />
         </StatRow>
         <StatRow>
@@ -158,16 +154,16 @@ export function CoinStatsWidget({
       </div>
       <StatRow label={t('coin-details.tabs.coin_stats.total_supply')}>
         <ReadableNumber
-          value={coinDetails.data?.data?.total_supply}
-          label={coinDetails.data?.symbol.abbreviation}
+          value={data?.marketData?.total_supply}
+          label={data?.symbol.abbreviation}
         />
       </StatRow>
       <StatRow
         label={t('coin-details.tabs.coin_stats.fully_diluted_valuation')}
       >
         <ReadableNumber
-          value={coinDetails.data?.data?.fully_diluted_valuation}
-          label={coinDetails.data?.symbol.abbreviation}
+          value={data?.marketData?.fully_diluted_valuation}
+          label={data?.symbol.abbreviation}
         />
       </StatRow>
     </div>

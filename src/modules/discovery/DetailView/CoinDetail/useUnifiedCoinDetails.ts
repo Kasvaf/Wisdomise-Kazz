@@ -29,10 +29,12 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
   const data2 = resp2.data;
   const data3 = network.length > 0 && base.length > 0 ? resp3.data : null;
 
-  console.log(data3, {
-    network,
-    base,
-  });
+  const isLoading =
+    resp1.isLoading ||
+    resp1.isPending ||
+    resp2.isLoading ||
+    resp2.isPending ||
+    resp3.isLoading;
 
   const symbol = useMemo<Coin>(() => {
     return {
@@ -104,14 +106,16 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
         ? (currentPrice / (currentPrice + priceChange24h)) * 100 - 100
         : null;
     const marketCap =
-      data3?.networkData?.marketCap ??
+      (data3?.networkData?.marketCap
+        ? +data3?.networkData?.marketCap
+        : undefined) ??
       data2?.update.base_market_data.market_cap ??
       data1?.data?.market_cap;
     const marketCapChangePercentage24h =
       data1?.data?.market_cap_change_percentage_24h ?? null;
 
     const totalVolume =
-      data3?.networkData?.volume ??
+      (data3?.networkData?.volume ? +data3?.networkData?.volume : undefined) ??
       data2?.update.base_market_data.total_volume ??
       data1?.data?.total_volume;
     const totalVolumeChangePercentage24h =
@@ -242,31 +246,33 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
       : null;
   }, [data2, data3]);
 
+  const pools = useMemo(() => {
+    return data2?.pools ?? data1?.symbol_pools ?? [];
+  }, [data1, data2]);
+
   return {
-    data: {
-      symbol,
-      labels,
-      networks,
-      marketData,
-      goPlusSecurity,
-      rugCheckSecurity,
-      validatedData,
-      links,
-      risks,
-      createdAt,
-      developer,
-      tradesData,
-    },
+    data: isLoading
+      ? undefined
+      : {
+          symbol,
+          labels,
+          networks,
+          marketData,
+          goPlusSecurity,
+          rugCheckSecurity,
+          validatedData,
+          links,
+          risks,
+          createdAt,
+          developer,
+          tradesData,
+          pools,
+        },
     rawData: {
       data1,
       data2,
       data3,
     },
-    isLoading:
-      resp1.isLoading ||
-      resp1.isPending ||
-      resp2.isLoading ||
-      resp2.isPending ||
-      resp3.isLoading,
+    isLoading,
   };
 };

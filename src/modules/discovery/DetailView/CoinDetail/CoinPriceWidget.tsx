@@ -3,11 +3,7 @@ import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
-import {
-  useCoinDetails,
-  useNCoinDetails,
-  type CoinNetwork,
-} from 'api/discovery';
+
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Button } from 'shared/v1-components/Button';
@@ -16,6 +12,7 @@ import { useShare } from 'shared/useShare';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { PriceAlertButton } from './PriceAlertButton';
+import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 export const CoinPriceWidget: FC<{
   slug: string;
@@ -24,39 +21,19 @@ export const CoinPriceWidget: FC<{
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
   const [globalNetwork] = useGlobalNetwork();
-  const coin = useCoinDetails({ slug });
-  const nCoin = useNCoinDetails({ slug });
-  const [share, shareNotif] = useShare('copy');
-  const isLoading =
-    coin.isLoading || nCoin.isLoading || coin.isPending || nCoin.isPending;
-  const symbol = nCoin.data?.base_symbol || coin.data?.symbol;
+  const { isLoading, data } = useUnifiedCoinDetails({ slug });
 
-  const networks = useMemo<CoinNetwork[]>(() => {
-    const ret: CoinNetwork[] = [];
-    if (nCoin.data?.base_contract_address && nCoin.data.network) {
-      return [
-        {
-          contract_address: nCoin.data.base_contract_address,
-          symbol_network_type: 'TOKEN',
-          network: nCoin.data.network,
-        },
-      ];
-    }
-    if (coin?.data?.networks) {
-      return coin?.data?.networks;
-    }
-    return ret;
-  }, [nCoin.data, coin.data]);
+  const [share, shareNotif] = useShare('copy');
 
   const pageUrl = useMemo(() => {
     const network = globalNetwork
-      ? networks.find(n => n.network.slug === globalNetwork)
-      : networks[0];
+      ? data?.networks.find(n => n.network.slug === globalNetwork)
+      : data?.networks[0];
     if (network?.contract_address) {
       return `${window.location.origin}/token/${network.network.slug}/${network.contract_address}`;
     }
     return `${window.location.origin}/coin/${slug}`;
-  }, [globalNetwork, networks, slug]);
+  }, [globalNetwork, data, slug]);
 
   useLoadingBadge(isLoading);
 
@@ -68,15 +45,12 @@ export const CoinPriceWidget: FC<{
           className,
         )}
       >
-        {symbol ? (
+        {data?.symbol ? (
           <>
             <div className="grid grow grid-flow-col grid-rows-[1rem_auto] gap-px">
               <p className="text-xxs text-v1-content-secondary">{'Price'}</p>
               <DirectionalNumber
-                value={
-                  nCoin.data?.update.base_market_data.current_price ??
-                  coin.data?.data?.current_price
-                }
+                value={data?.marketData.current_price}
                 label="$"
                 direction="up"
                 className="text-sm"
@@ -86,10 +60,7 @@ export const CoinPriceWidget: FC<{
 
               <p className="text-xxs text-v1-content-secondary">{'MC'}</p>
               <ReadableNumber
-                value={
-                  nCoin.data?.update.base_market_data.market_cap ??
-                  coin.data?.data?.market_cap
-                }
+                value={data?.marketData.market_cap}
                 label="$"
                 className="text-base"
                 format={{
@@ -123,7 +94,7 @@ export const CoinPriceWidget: FC<{
           </p>
         )}
       </div>
-      {hr && symbol && <hr className="border-white/10" />}
+      {hr && data?.symbol && <hr className="border-white/10" />}
     </>
   );
 };
