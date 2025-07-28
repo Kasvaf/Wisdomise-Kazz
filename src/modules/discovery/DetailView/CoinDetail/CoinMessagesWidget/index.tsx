@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import { useNCoinDetails, useSocialRadarMessages } from 'api/discovery';
+import { useSocialRadarMessages } from 'api/discovery';
 import { Button } from 'shared/v1-components/Button';
+import { useUnifiedCoinDetails } from '../useUnifiedCoinDetails';
 import { SocialMessageSummary } from './SocialMessage';
 
 export function CoinMessagesWidget({
@@ -22,7 +23,7 @@ export function CoinMessagesWidget({
   type: 'technical_ideas' | 'rest';
   hr?: boolean;
 }) {
-  const nCoin = useNCoinDetails({ slug });
+  const { rawData } = useUnifiedCoinDetails({ slug });
   const messages = useSocialRadarMessages({ slug });
   const { t } = useTranslation('coin-radar');
 
@@ -34,7 +35,7 @@ export function CoinMessagesWidget({
       : x.social_type !== 'trading_view',
   );
 
-  if (!msgs?.length || !!nCoin.data) return null;
+  if (!msgs?.length || !!rawData.data2) return null;
 
   return (
     <>

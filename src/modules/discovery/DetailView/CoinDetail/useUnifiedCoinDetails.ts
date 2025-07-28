@@ -191,6 +191,12 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
     };
   }, [data2, data3, marketData]);
 
+  const charts = useMemo(() => {
+    return [...(data2?.charts ?? []), ...(data1?.charts ?? [])].filter(
+      (x, i, s) => s.findIndex(y => y.id === x.id) === i,
+    );
+  }, [data2, data1]);
+
   const risks = useMemo<{
     level: 'low' | 'medium' | 'high';
     list: NonNullable<NetworkRadarNCoinDetails['risks']>;
@@ -250,6 +256,8 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
     return data2?.pools ?? data1?.symbol_pools ?? [];
   }, [data1, data2]);
 
+  const exchanges = useMemo(() => data1?.exchanges ?? [], [data1]);
+
   return {
     data: isLoading
       ? undefined
@@ -267,6 +275,8 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
           developer,
           tradesData,
           pools,
+          charts,
+          exchanges,
         },
     rawData: {
       data1,

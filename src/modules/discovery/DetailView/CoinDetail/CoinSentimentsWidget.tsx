@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 import { clsx } from 'clsx';
 import {
-  useCoinDetails,
   useSocialRadarSentiment,
   useTechnicalRadarSentiment,
   useWhaleRadarSentiment,
@@ -9,13 +8,14 @@ import {
 import { SocialRadarSentiment } from '../../ListView/SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../../ListView/TechnicalRadar/TechnicalRadarSentiment';
 import { WhaleRadarSentiment } from '../../ListView/WhaleRadar/WhaleRadarSentiment';
+import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 export const CoinSentimentsWidget: FC<{
   slug: string;
   className?: string;
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
-  const coin = useCoinDetails({ slug });
+  const { data, isLoading } = useUnifiedCoinDetails({ slug });
   const technicalRadar = useTechnicalRadarSentiment({ slug });
   const socialRadar = useSocialRadarSentiment({ slug });
   const whaleRadar = useWhaleRadarSentiment({ slug });
@@ -29,11 +29,11 @@ export const CoinSentimentsWidget: FC<{
       <div className={clsx('flex items-center gap-1', className)}>
         <SocialRadarSentiment
           value={socialRadar.data}
-          coin={coin.data?.symbol}
-          marketData={coin.data?.data}
+          coin={data?.symbol}
+          marketData={data?.marketData}
           mode="card"
           className={clsx(
-            (coin.isLoading || socialRadar.isLoading) && 'animate-pulse',
+            (isLoading || socialRadar.isLoading) && 'animate-pulse',
           )}
         />
 
@@ -45,21 +45,21 @@ export const CoinSentimentsWidget: FC<{
                 socialRadar.data?.signals_analysis?.sparkline?.prices ?? [],
             },
           }}
-          coin={coin.data?.symbol}
-          marketData={coin.data?.data}
+          coin={data?.symbol}
+          marketData={data?.marketData}
           mode="card"
           className={clsx(
-            (coin.isLoading || technicalRadar.isLoading) && 'animate-pulse',
+            (isLoading || technicalRadar.isLoading) && 'animate-pulse',
           )}
         />
 
         <WhaleRadarSentiment
           value={whaleRadar.data}
-          coin={coin.data?.symbol}
-          marketData={coin.data?.data}
+          coin={data?.symbol}
+          marketData={data?.marketData}
           mode="card"
           className={clsx(
-            (coin.isLoading || whaleRadar.isLoading) && 'animate-pulse',
+            (isLoading || whaleRadar.isLoading) && 'animate-pulse',
           )}
         />
       </div>

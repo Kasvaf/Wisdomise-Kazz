@@ -158,14 +158,6 @@ export function CoinStatsWidget({
           label={data?.symbol.abbreviation}
         />
       </StatRow>
-      <StatRow
-        label={t('coin-details.tabs.coin_stats.fully_diluted_valuation')}
-      >
-        <ReadableNumber
-          value={data?.marketData?.fully_diluted_valuation}
-          label={data?.symbol.abbreviation}
-        />
-      </StatRow>
     </div>
   );
 }
