@@ -9,6 +9,7 @@ const TraderSection: React.FC<{
   quote: string;
   setQuote: (newVal: string) => void;
 }> = ({ slug, quote, setQuote }) => {
+  slug = slug === 'solana' ? 'wrapped-solana' : slug;
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
 
   return (
