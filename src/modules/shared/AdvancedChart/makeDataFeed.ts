@@ -94,7 +94,7 @@ const makeDataFeed = (
         timezone: 'Etc/UTC',
         exchange: '',
         listed_exchange: '',
-        format: 'volume',
+        format: 'price',
 
         minmov: 1,
         fractional: false,

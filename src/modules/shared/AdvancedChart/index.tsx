@@ -101,13 +101,7 @@ const AdvancedChart: React.FC<{
         { title: '5d', text: '5D', resolution: '5' as ResolutionString },
         { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
-      overrides: {
-        'scalesProperties.showSymbolLabels': false,
-        'scalesProperties.showSeriesLastValue': false,
-        'scalesProperties.showSeriesPrevCloseValue': false,
-        'scalesProperties.seriesLastValueMode': 1,
-        'mainSeriesProperties.showPriceLine': false,
-      },
+      overrides: {},
       favorites: {
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
@@ -115,7 +109,7 @@ const AdvancedChart: React.FC<{
         priceFormatterFactory: symbolInfo => {
           const seenVals: number[] = [];
 
-          if (symbolInfo && symbolInfo.format === 'volume') {
+          if (symbolInfo) {
             return {
               format: price => {
                 // use running average to detect zero value!
