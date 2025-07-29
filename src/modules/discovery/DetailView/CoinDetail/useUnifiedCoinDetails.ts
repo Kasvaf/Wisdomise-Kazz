@@ -117,7 +117,9 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
       data2?.update.base_market_data.volume_change_1d ?? null;
 
     const tradingVolume24h =
-      data2?.update.trading_volume.usd ?? data3?.networkData?.volume ?? null;
+      data2?.update.trading_volume.usd ??
+      (data3?.networkData?.volume ? +data3?.networkData?.volume : null) ??
+      null;
 
     const fullyDilutedValuation = data1?.data?.fully_diluted_valuation ?? null;
 
