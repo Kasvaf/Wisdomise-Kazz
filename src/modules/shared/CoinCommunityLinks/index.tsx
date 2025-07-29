@@ -24,6 +24,8 @@ export const CoinCommunityLinks: FC<{
 }) => {
   const socials = useCoinCommunityLinks(value).filter(x => x.type === 'social');
 
+  const go = (href: string) => window.open(href, '_blank');
+
   return (
     <div
       className={clsx(
@@ -41,11 +43,14 @@ export const CoinCommunityLinks: FC<{
           rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-arrow]:hidden"
           placement="bottom"
         >
-          <a
-            key={social.href}
-            href={social.href}
+          <span
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              go(social.href);
+            }}
             className={clsx(
-              'shrink-0 rounded-full bg-white/10 text-xxs text-white/60 transition-all hover:text-white/60 hover:brightness-110 active:brightness-90',
+              'shrink-0 rounded-full bg-white/10 text-xxs text-white/60 transition-all hover:text-white/60 active:brightness-90',
               size === 'xs' &&
                 'flex size-4 items-center justify-center [&_svg]:size-[10px]',
               size === 'sm' &&
@@ -53,33 +58,35 @@ export const CoinCommunityLinks: FC<{
               size === 'md' &&
                 'flex h-6 items-center justify-center gap-1 px-3 [&_img]:size-[12px] [&_svg]:!size-[12px]',
             )}
-            target="_blank"
-            rel="noreferrer"
           >
             {social.icon} {size === 'md' ? social.label : ''}
-          </a>
+          </span>
         </Tooltip>
       ))}
       {includeTwitterSearch && (
-        <a
-          href={`https://x.com/search?q=(${[
-            abbreviation && `$${abbreviation}`,
-            name && !name.includes(' ') && `${name}`,
-            ...(contractAddresses || []),
-          ]
-            .filter(x => !!x)
-            .join('%20OR%20')})&src=typed_query&f=live`}
+        <span
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            go(
+              `https://x.com/search?q=(${[
+                abbreviation && `$${abbreviation}`,
+                name && !name.includes(' ') && `${name}`,
+                ...(contractAddresses || []),
+              ]
+                .filter(x => !!x)
+                .join('%20OR%20')})&src=typed_query&f=live`,
+            );
+          }}
           className={clsx(
-            'inline-flex items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:brightness-110 active:brightness-90',
+            'inline-flex cursor-pointer items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:bg-white/5 active:brightness-90',
             'h-4 shrink-0 justify-center',
             '[&_svg]:size-[9px]',
           )}
-          target="_blank"
-          rel="noreferrer"
         >
           <TwitterIcon />
           {'Search'}
-        </a>
+        </span>
       )}
     </div>
   );
