@@ -110,6 +110,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         dataSource={migrated}
         loading={migrated.length === 0}
         title="Migrated"
+        hideBCurve
         titleSuffix={
           <NetworkRadarFilters
             initialTab="migrated"

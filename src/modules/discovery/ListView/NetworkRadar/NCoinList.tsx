@@ -25,19 +25,19 @@ const NCoinBCurve: FC<{
 }> = ({ className, value }) => {
   return (
     <div
-      className={clsx('flex items-center gap-1 text-xs', className)}
+      className={clsx('text-center text-xxs leading-snug', className)}
       style={{
         color: calcNCoinBCurveColor({
           bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
         }),
       }}
     >
-      <p className="text-v1-content-secondary">{'B Curve:'}</p>
+      <p className="text-[8px] text-v1-content-secondary">{'B Curve:'}</p>
       <ReadableNumber
         popup="never"
         value={(value.networkData?.boundingCurve ?? 0) * 100}
         label="%"
-        className="font-semibold"
+        className="font-medium"
         format={{
           decimalLength: 1,
         }}
@@ -105,6 +105,7 @@ export const NCoinList: FC<{
   loading?: boolean;
   mini?: boolean;
   onRowClick?: (slug: string) => void;
+  hideBCurve?: boolean;
 }> = ({
   dataSource: _dataSource,
   title,
@@ -113,6 +114,7 @@ export const NCoinList: FC<{
   className,
   mini,
   onRowClick,
+  hideBCurve,
 }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
   const [hovered, setHovered] = useState(false);
@@ -220,18 +222,22 @@ export const NCoinList: FC<{
                       />
                     </>
                   }
-                  extra={[
-                    row.networkData?.boundingCurve === 1 ? null : (
-                      <NCoinBCurve key="bc" value={row} className="text-xs" />
-                    ),
+                  underLogo={
+                    <NCoinBCurve
+                      key="bc"
+                      value={row}
+                      className={clsx(hideBCurve && 'invisible')}
+                    />
+                  }
+                  extra={
                     <NCoinTokenInsight
                       key="ins"
                       value={row.validatedData}
                       type="row"
                       imgClassName="size-2"
                       className="text-xxs"
-                    />,
-                  ]}
+                    />
+                  }
                   href={false}
                   truncate={!!mini}
                 />

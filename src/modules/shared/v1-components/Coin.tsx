@@ -43,7 +43,6 @@ export const Coin: FC<{
   networks?: CoinNetwork[] | null;
   security?: NetworkSecurity[] | null;
   labels?: string[] | null;
-  customLabels?: ReactNode;
   links?: CoinCommunityData['links'] | null;
 
   /* Common */
@@ -52,8 +51,11 @@ export const Coin: FC<{
   onClick?: () => void;
   href?: string | boolean;
 
-  extra?: ReactNode | ReactNode[];
   truncate?: boolean;
+
+  customLabels?: ReactNode;
+  extra?: ReactNode | ReactNode[];
+  underLogo?: ReactNode;
 }> = ({
   slug,
   abbreviation,
@@ -67,7 +69,6 @@ export const Coin: FC<{
   networks,
   security,
   labels,
-  customLabels,
   links,
 
   className,
@@ -75,8 +76,10 @@ export const Coin: FC<{
   href = true,
   onClick,
 
-  extra,
   truncate = true,
+  customLabels,
+  underLogo,
+  extra,
 }) => {
   const [globalNetwork] = useGlobalNetwork();
   const [copy, copyNotif] = useShare('copy');
@@ -151,7 +154,7 @@ export const Coin: FC<{
     <RootComponent
       className={clsx(
         block ? 'flex' : 'inline-flex',
-        'items-center justify-start gap-2 leading-normal',
+        'relative items-stretch justify-start gap-2 leading-normal',
         className,
       )}
       onClick={onClick}
@@ -167,41 +170,44 @@ export const Coin: FC<{
           : '#'
       }
     >
-      <div className="relative size-10 shrink-0 rounded-full bg-v1-surface-l0">
-        {logo && (
-          <img
-            src={logo}
-            className="absolute inset-0 size-full overflow-hidden rounded-full bg-v1-surface-l0 object-cover"
-          />
-        )}
-        {typeof progress === 'number' && (
-          <CircularProgress
-            className="absolute inset-0"
-            color={
-              progress <= 0.33
-                ? '#FFF'
-                : progress <= 0.66
-                ? '#00A3FF'
-                : progress <= 0.99
-                ? '#00FFA3'
-                : '#FFDA6C'
-            }
-            size={40}
-            strokeWidth={3}
-            value={progress}
-          />
-        )}
-        {(marker || contractAddress?.network?.logo) && (
-          <div className="absolute bottom-[-1px] right-[-1px] inline-flex size-[14px] items-center justify-center overflow-hidden rounded-full bg-v1-surface-l0">
+      <div className="relative flex w-11 shrink-0 flex-col items-center justify-center gap-1">
+        <div className="relative size-11 shrink-0 rounded-full bg-v1-surface-l0">
+          {logo && (
             <img
-              src={marker || contractAddress?.network?.logo}
-              className="size-full object-cover"
+              src={logo}
+              className="absolute inset-0 size-full overflow-hidden rounded-full bg-v1-surface-l0 object-cover"
             />
-          </div>
-        )}
+          )}
+          {typeof progress === 'number' && (
+            <CircularProgress
+              className="absolute inset-0"
+              color={
+                progress <= 0.33
+                  ? '#FFF'
+                  : progress <= 0.66
+                  ? '#00A3FF'
+                  : progress <= 0.99
+                  ? '#00FFA3'
+                  : '#FFDA6C'
+              }
+              size={44}
+              strokeWidth={3}
+              value={progress}
+            />
+          )}
+          {(marker || contractAddress?.network?.logo) && (
+            <div className="absolute bottom-[-1px] right-[-1px] inline-flex size-[14px] items-center justify-center overflow-hidden rounded-full bg-v1-surface-l0">
+              <img
+                src={marker || contractAddress?.network?.logo}
+                className="size-full object-cover"
+              />
+            </div>
+          )}
+        </div>
+        {underLogo}
       </div>
 
-      <div className="flex max-w-64 flex-col justify-between gap-1 overflow-hidden whitespace-nowrap">
+      <div className="relative flex max-w-64 grow flex-col justify-between gap-[6px] overflow-hidden whitespace-nowrap">
         <div className="flex items-center gap-1">
           {abbreviation && (
             <p
