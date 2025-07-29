@@ -47,7 +47,6 @@ top_coins:
     info: >-
       The total volume bought from smart wallets and total wallet in the last
       7D.
-  labels: Labels
   market_cap: Market Cap
   price: Price
   rank: '#'

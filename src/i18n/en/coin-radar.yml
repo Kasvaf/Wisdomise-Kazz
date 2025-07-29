@@ -183,7 +183,6 @@ coin-details:
     coin_stats:
       circulating_supply: Circulating Supply
       fdv: FDV
-      fully_diluted_valuation: Fully Diluted Market Cap
       market_cap: Market Cap
       total_supply: Total Supply
       volume: Volume
@@ -212,7 +211,6 @@ common:
   all_sources: All Sources
   categories: Categories
   category: Category
-  chain: Chain
   chains: Chains
   multiple_chain: Multiple Chain
   native_coin: Native Coin
@@ -240,8 +238,6 @@ social-radar:
     description: >-
       Wisdomise Social Radar <b>Scanned {{posts}} Posts from Alpha Groups</b> in
       The Last 24 Hours for Accurate, Data-Driven Insights.
-    labels:
-      title: Labels
     market_cap:
       title: Market Cap
       info: >-
