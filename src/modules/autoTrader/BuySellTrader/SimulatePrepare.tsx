@@ -59,7 +59,7 @@ export const SimulatePrepare: React.FC<{
           </InfoLine>
         )}
 
-        <hr className="my-2 border-white/10" />
+        <hr className="my-1 border-white/10" />
 
         {to.coinInfo && <Coin nonLink coin={to.coinInfo} mini />}
 
@@ -108,11 +108,9 @@ export const SimulatePrepare: React.FC<{
           conditions and slippage.
         </div>
 
-        <hr className="my-2 border-white/10" />
-
         {data?.trade_fee && (
           <>
-            <InfoLine label="Fee" className="text-xs">
+            <InfoLine label="Fee" className="mt-2 text-xs">
               {Number(data?.trade_fee) * 100}% of transactions + network gas fee
             </InfoLine>
 

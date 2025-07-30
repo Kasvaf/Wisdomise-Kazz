@@ -34,6 +34,7 @@ const getCandlesCached = async (
     endTime: string;
     skipEmptyCandles: boolean;
     market: string;
+    convertToUsd: boolean;
   },
 ) => {
   const cacheKey = JSON.stringify(params);

@@ -67,11 +67,11 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             <NCoinSentimentWidget slug={slug} className="shrink-0 p-3" hr />
             <CoinTitleWidget
               slug={slug}
-              className="shrink-0 p-3 bg-v1-surface-l-current"
+              className="h-16 shrink-0 px-3 bg-v1-surface-l-current"
               suffix={<CoinSentimentsWidget slug={slug} />}
               hr
             />
-            <div className="grow p-3">
+            <div className="grow">
               <CoinChart slug={slug} />
             </div>
           </div>,
@@ -214,8 +214,8 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       {/* Trade + Additional */}
       <div className="sticky top-[--desktop-content-top] z-50 h-[--desktop-content-height] w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l1 scrollbar-none">
         <NCoinRisksBanner slug={slug} />
-        <CoinPriceWidget slug={slug} className="p-3" hr />
-        <div className="space-y-3 p-3">
+        <CoinPriceWidget slug={slug} className="h-16 px-3" hr />
+        <div className="space-y-3 px-3 pb-3 pt-1">
           <TraderSection slug={slug} quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget slug={slug} />
