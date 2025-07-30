@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { isMiniApp } from 'utils/version';
-import { useDebugMode } from 'shared/useDebugMode';
+import { useCustomVersion } from 'shared/useCustomVersion';
 import AuthGuard from '../auth/AuthGuard';
 import WalletProvider from '../wallet/WalletProvider';
 import TelegramAuthGuard from '../mini-app/TelegramAuthGuard';
@@ -12,7 +12,7 @@ import { GeneralMeta } from './GeneralMeta';
 const Guard = isMiniApp ? TelegramAuthGuard : AuthGuard;
 
 const Container = () => {
-  useDebugMode();
+  useCustomVersion();
 
   const result = (
     <TrackersContainer>
