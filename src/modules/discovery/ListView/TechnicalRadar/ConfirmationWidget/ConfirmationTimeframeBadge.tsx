@@ -58,7 +58,7 @@ export function ConfirmationTimeframeBadge<I extends Indicator>({
         timeBadge === 'long'
           ? 'bg-v1-background-positive/20 text-v1-background-positive'
           : 'bg-v1-background-accent/20 text-v1-background-accent',
-        'rounded-xl p-1 px-3 text-xxs',
+        'inline-flex h-4 items-center justify-center rounded-xl px-2 text-[9px]',
       )}
     >
       {timeBadge === 'long' ? t('common.long_term') : t('common.short_term')}

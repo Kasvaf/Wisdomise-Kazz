@@ -132,7 +132,7 @@ export const NCoinSecurity: FC<{
                     imgClassName,
                   )}
                 >
-                  <item.icon className={clsx('size-[85%]')} />
+                  <item.icon className={clsx('size-full scale-75')} />
                 </div>
                 {type !== 'row' && (
                   <p

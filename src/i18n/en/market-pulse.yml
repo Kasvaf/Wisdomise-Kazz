@@ -87,7 +87,6 @@ keywords:
 not-available: ''
 table:
   name: Name
-  labels: Labels
   market_cap:
     title: Market Cap
     info: >-

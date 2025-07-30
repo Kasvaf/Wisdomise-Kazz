@@ -109,7 +109,7 @@ export const NCoinTokenInsight: FC<{
       {type === 'row' ? (
         <div
           className={clsx(
-            'flex items-center gap-px',
+            'flex items-center gap-1',
             !value && 'animate-pulse',
             className,
           )}
@@ -119,7 +119,6 @@ export const NCoinTokenInsight: FC<{
               <div
                 className={clsx(
                   'relative flex shrink-0 items-center justify-start gap-px',
-                  'rounded-full border border-v1-border-primary/20 p-px pe-2',
                   item.color === 'green'
                     ? 'text-v1-content-primary'
                     : item.color === 'red'
@@ -138,11 +137,11 @@ export const NCoinTokenInsight: FC<{
                 />{' '}
                 <ReadableNumber
                   value={item.value}
-                  label="%"
                   format={{ decimalLength: 1 }}
                   popup="never"
                   emptyText=""
                 />
+                %
               </div>
             </HoverTooltip>
           ))}

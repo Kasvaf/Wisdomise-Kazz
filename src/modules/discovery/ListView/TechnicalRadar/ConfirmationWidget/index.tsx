@@ -17,9 +17,8 @@ import {
 } from 'api/discovery';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { AccessShield } from 'shared/AccessShield';
-import { CoinLabels } from 'shared/CoinLabels';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Lazy } from 'shared/Lazy';
 import Spin from 'shared/Spin';
@@ -88,25 +87,22 @@ function ConfirmationRow<I extends Indicator>({
       <div className="flex flex-nowrap items-center justify-start gap-4 mobile:flex-wrap">
         <div className="w-32">
           <Coin
-            coin={value.symbol}
-            className="text-xs"
-            imageClassName="size-6"
-            truncate={90}
+            abbreviation={value.symbol.abbreviation}
+            name={value.symbol.name}
+            slug={value.symbol.slug}
+            logo={value.symbol.logo_url}
+            categories={value.symbol.categories}
+            labels={value.symbol_labels}
+            networks={value.networks}
+            security={value.symbol_security?.data}
+            customLabels={
+              <ConfirmationTimeframeBadge
+                combination={combination}
+                value={value}
+              />
+            }
           />
         </div>
-        <CoinLabels
-          categories={value.symbol.categories}
-          labels={value.symbol_labels}
-          networks={value.networks}
-          security={value.symbol_security?.data}
-          coin={value.symbol}
-          suffix={
-            <ConfirmationTimeframeBadge
-              combination={combination}
-              value={value}
-            />
-          }
-        />
         <div className="flex grow items-center justify-end gap-2 2xl:gap-3">
           {infoBadges.map((badgeProps, i) => (
             <ConfirmationBadge

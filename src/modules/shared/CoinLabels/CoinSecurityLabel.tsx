@@ -1,17 +1,14 @@
 import { type NetworkSecurity } from 'api/discovery';
-import { type Coin } from 'api/types/shared';
 import { CoinSecurityDetails } from './CoinSecurityDetails';
 import { CoinLabel } from './CoinLabel';
 
 export function CoinSecurityLabel({
   className,
-  coin,
   value,
   size,
   clickable,
 }: {
   className?: string;
-  coin: Coin;
   value?: NetworkSecurity[] | null;
   size: 'xs' | 'sm' | 'md';
   clickable?: boolean;
@@ -30,7 +27,7 @@ export function CoinSecurityLabel({
       value={securityStatus}
       size={size}
       clickable={clickable}
-      title={<CoinSecurityDetails coin={coin} value={value} />}
+      title={<CoinSecurityDetails value={value} />}
       className={className}
     />
   );

@@ -627,7 +627,7 @@ export const useCoinWhales = (config: {
           slug: config.slug,
           page_size: 99,
         },
-      }),
+      }).catch(() => []),
     select: data =>
       data.filter(x => {
         if (config.type === 'active' && x.asset.label === 'holding')
@@ -1080,7 +1080,7 @@ export const useCoinTopTraderHolders = (config: {
           },
           meta: { auth: false },
         },
-      );
+      ).catch(() => []);
     },
     refetchInterval: 1000 * 60,
     refetchOnMount: true,

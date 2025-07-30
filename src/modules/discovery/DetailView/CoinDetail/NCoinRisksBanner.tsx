@@ -1,19 +1,19 @@
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { bxError, bxXCircle } from 'boxicons-quasar';
-import { useNCoinDetails } from 'api/discovery';
 import Icon from 'shared/Icon';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { isDebugMode } from 'utils/version';
+import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 export const NCoinRisksBanner: FC<{
   slug: string;
   className?: string;
 }> = ({ slug, className }) => {
-  const nCoin = useNCoinDetails({ slug });
+  const { data } = useUnifiedCoinDetails({ slug });
 
   const risks = useMemo(() => {
-    const raw = nCoin.data?.risks ?? [];
+    const raw = data?.risks?.list ?? [];
     return [...raw]
       .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
       .sort(
@@ -33,7 +33,7 @@ export const NCoinRisksBanner: FC<{
             ? clsx('bg-v1-background-negative/20')
             : clsx('bg-v1-background-notice/15'),
       }));
-  }, [nCoin]);
+  }, [data]);
 
   if (risks.length === 0) return null;
 

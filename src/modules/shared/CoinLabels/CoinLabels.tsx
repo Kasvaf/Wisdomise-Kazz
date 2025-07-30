@@ -10,7 +10,6 @@ import { icons } from './icons';
 
 export function CoinLabels({
   className,
-  coin,
   categories,
   networks,
   security,
@@ -22,7 +21,6 @@ export function CoinLabels({
   truncate = false,
 }: {
   className?: string;
-  coin: Coin;
   categories?: Coin['categories'] | null;
   networks?: CoinNetwork[] | null;
   security?: NetworkSecurity[] | null;
@@ -58,18 +56,13 @@ export function CoinLabels({
   return (
     <div
       className={clsx(
-        'flex items-start justify-start gap-1',
+        'flex items-start justify-start gap-[2px]',
         size === 'xs' ? 'flex-nowrap overflow-hidden text-xxs' : 'flex-wrap',
         className,
       )}
     >
       {prefix}
-      <CoinSecurityLabel
-        coin={coin}
-        value={security}
-        size={size}
-        clickable={clickable}
-      />
+      <CoinSecurityLabel value={security} size={size} clickable={clickable} />
       {labels.map(label => (
         <CoinLabel
           key={label}

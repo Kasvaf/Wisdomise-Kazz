@@ -1,32 +1,17 @@
-import { useMemo } from 'react';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
-import {
-  type CoinChart as CoinChartType,
-  useCoinDetails,
-  useNCoinDetails,
-} from 'api/discovery';
+
 import useIsMobile from 'utils/useIsMobile';
 import AdvancedChart from 'shared/AdvancedChart';
 import { useLastCandleQuery } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,
 }) => {
   const isMobile = useIsMobile();
-  const coin = useCoinDetails({ slug });
-  const nCoin = useNCoinDetails({ slug });
-  const charts = useMemo(() => {
-    let charts: CoinChartType[] = [];
-    if (nCoin.data?.charts) {
-      charts = [...charts, ...nCoin.data?.charts];
-    } else if (coin.data?.charts) {
-      charts = [...charts, ...coin.data.charts];
-    }
-    return charts;
-  }, [coin, nCoin]);
-
-  const chart = charts.length > 0 ? charts[0] : null;
+  const { data } = useUnifiedCoinDetails({ slug });
+  const chart = data?.charts ? data?.charts[0] : null;
   if (!chart) return null;
 
   return chart.type === 'gecko_terminal' ? (

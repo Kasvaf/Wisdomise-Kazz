@@ -123,6 +123,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         dataSource={migrated}
         loading={migrated.length === 0}
         title="Migrated"
+        hideBCurve
         titleSuffix={
           <div className="flex items-center">
             <QuickBuySettings source="migrated" className="mr-11" />

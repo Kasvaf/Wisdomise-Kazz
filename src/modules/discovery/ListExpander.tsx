@@ -31,19 +31,19 @@ export const ListExpander: FC = () => {
 
     if (params.view === 'detail') {
       setStyle({
-        top: (sidebarRect?.top ?? 74) + 32,
+        top: (sidebarRect?.top ?? 74) + 12,
         left: (sidebarRect?.width ?? 68) - 12,
         position: 'fixed',
       });
     } else if (params.view === 'both') {
       setStyle({
-        top: (sidebarRect?.top ?? 74) + 32,
+        top: (sidebarRect?.top ?? 74) + 12,
         left: (appListRect?.left ?? 68) + (appListRect?.width ?? 384) - 12,
         position: 'fixed',
       });
     } else {
       setStyle({
-        top: (sidebarRect?.top ?? 74) + 32,
+        top: (sidebarRect?.top ?? 74) + 12,
         right: 6,
         position: 'fixed',
       });
@@ -93,9 +93,10 @@ export const ListExpander: FC = () => {
       {(params.view === 'detail' || params.view === 'both') && (
         <Button
           fab
-          variant="white"
+          variant="outline"
           size="3xs"
           className="rounded-full"
+          surface={2}
           onClick={handleExpandClick}
         >
           <Icon name={bxChevronRight} />
@@ -104,9 +105,10 @@ export const ListExpander: FC = () => {
       {params.view !== 'detail' && params.slug && (
         <Button
           fab
-          variant="white"
+          variant="outline"
           size="3xs"
           className="rounded-full"
+          surface={2}
           onClick={handleCollapseClick}
         >
           <Icon name={bxChevronLeft} />

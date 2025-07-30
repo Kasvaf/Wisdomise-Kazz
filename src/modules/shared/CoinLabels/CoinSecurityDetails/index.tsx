@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Coin } from 'api/types/shared';
 import { type NetworkSecurity } from 'api/discovery';
 import { securityIcons } from '../icons';
 import { SecurityRow } from './SecurityRow';
@@ -8,10 +7,8 @@ import { TaxesRow } from './TaxesRow';
 
 export function CoinSecurityDetails({
   value,
-  coin,
 }: {
   value?: NetworkSecurity[] | null;
-  coin: Coin;
 }) {
   const { t } = useTranslation('coin-radar');
   const defaultNetwork = useMemo(() => {
@@ -63,7 +60,7 @@ export function CoinSecurityDetails({
           {activeNetwork?.network_name}
         </p>
         <div className="max-w-64 overflow-auto whitespace-nowrap text-base text-v1-content-primary">
-          {coin.name} - {t('coin_security.security_detection')}
+          {t('coin_security.security_detection')}
         </div>
         <div className="mt-2 flex flex-wrap items-center gap-4">
           {activeNetwork?.label.trusted && (

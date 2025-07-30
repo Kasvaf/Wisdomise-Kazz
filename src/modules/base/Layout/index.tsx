@@ -9,7 +9,6 @@ import MobileHeader from './MobileHeader';
 import DesktopHeader from './DesktopHeader';
 import DefaultSidebar from './DefaultSidebar';
 import DefaultFooter from './DefaultFooter';
-import RouteDetails from './RouteDetails';
 
 export interface LayoutProps {
   hasBack?: boolean;
@@ -41,11 +40,15 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l1"
       style={{
         ['--desktop-sidebar-width' as never]:
-          !isMobile && sidebar !== null ? '4.25rem' : '0px',
+          !isMobile && sidebar !== null ? '3.5rem' : '0px',
         ['--desktop-header-height' as never]: isMobile ? '0px' : '3rem',
-        ['--route-details-height' as never]: isMobile ? '0px' : '1.75rem',
+        ['--route-details-height' as never]: isMobile
+          ? '0px'
+          : '0px' /* '1.75rem' */,
         ['--desktop-content-height' as never]:
           'calc(100svh - var(--desktop-header-height) - var(--route-details-height))',
+        ['--desktop-content-top' as never]:
+          'calc(var(--desktop-header-height) + var(--route-details-height))',
       }}
     >
       {/* Sticky Header */}
@@ -60,12 +63,12 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       <div id="cio-inline-banner" />
 
       {/* Route details - only for desktop */}
-      {!isMobile && (
+      {/* {!isMobile && (
         <RouteDetails
           hasBack={hasBack}
           className="sticky end-0 top-[--desktop-header-height] z-20 ms-[--desktop-sidebar-width] h-[--route-details-height] w-auto"
         />
-      )}
+      )} */}
 
       <div className="flex grow items-start justify-start">
         {/* Sidebar - only for desktop */}

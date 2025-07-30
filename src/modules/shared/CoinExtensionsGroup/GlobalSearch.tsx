@@ -1,18 +1,15 @@
 import { bxSearch } from 'boxicons-quasar';
-import { useState, type ComponentProps, type FC } from 'react';
+import { useMemo, useState, type ComponentProps, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'usehooks-ts';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { useDetailedCoins } from 'api/discovery';
-import { CoinLogo } from 'shared/Coin';
-import { CoinLabels } from 'shared/CoinLabels';
-import { ContractAddress } from 'shared/ContractAddress';
-import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
+import { useDetailedCoins, useNetworks } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { Coin } from 'shared/v1-components/Coin';
 
 export const GlobalSearch: FC<
   Omit<
@@ -37,6 +34,13 @@ export const GlobalSearch: FC<
     ?.split('-')
     .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
     .join(' ');
+  const networks = useNetworks({
+    query: network,
+  });
+  const networkObj = useMemo(
+    () => networks.data?.find(x => x.slug === network),
+    [networks.data, network],
+  );
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
   const { getUrl } = useDiscoveryRouteMeta();
@@ -68,64 +72,32 @@ export const GlobalSearch: FC<
         if (!row) return '';
         return (
           <div className="flex items-center justify-between gap-4 px-2 py-3 mobile:px-1">
-            <div className="flex items-center justify-start gap-2">
-              <CoinLogo
-                value={row.symbol}
-                className="size-7"
-                network={network}
-              />
-              <div className="flex flex-col justify-between gap-px whitespace-nowrap">
-                <div className="flex items-center gap-1">
-                  <p className="text-sm font-medium">
-                    {row?.symbol.abbreviation ?? '---'}
-                  </p>
-                  <p className="max-w-14 overflow-hidden truncate text-xxs text-v1-content-secondary">
-                    {row?.symbol.name ?? '---'}
-                  </p>
-                  <CoinLabels
-                    labels={[...(row?.symbol_labels ?? [])].filter(x => !!x)}
-                    coin={row.symbol}
-                    security={row.symbol_security ? [row.symbol_security] : []}
-                    networks={row.network_bindings}
-                    size="xs"
-                  />
-                </div>
-                <div className="flex items-center gap-1 text-xs">
-                  {/* Contract Address */}
-                  <ContractAddress
-                    value={
-                      row.network_bindings ??
-                      (network
-                        ? {
-                            contract_address: row.contract_address ?? '',
-                            symbol_network_type: row.contract_address
-                              ? 'TOKEN'
-                              : 'COIN',
-                            network: {
-                              name: networkName ?? network,
-                              slug: network,
-                              icon_url: '',
-                            },
-                          }
-                        : undefined)
-                    }
-                    allowCopy
-                    className="text-v1-content-secondary"
-                  />
-
-                  {/* Socials */}
-                  <CoinCommunityLinks
-                    coin={row.symbol}
-                    value={row.symbol_community_links}
-                    contractAddresses={
-                      row.contract_address ? [row.contract_address] : []
-                    }
-                    includeTwitterSearch={false}
-                    size="xs"
-                  />
-                </div>
-              </div>
-            </div>
+            <Coin
+              abbreviation={row.symbol?.abbreviation}
+              name={row.symbol?.name}
+              slug={row.symbol?.slug}
+              logo={row.symbol?.logo_url}
+              categories={row.symbol.categories}
+              labels={row.symbol_labels}
+              networks={
+                row.network_bindings || [
+                  {
+                    contract_address: row.contract_address || '',
+                    symbol_network_type: row.contract_address
+                      ? 'TOKEN'
+                      : 'COIN',
+                    network: networkObj ?? {
+                      name: networkName || network || '',
+                      slug: network || '',
+                      icon_url: '',
+                    },
+                  },
+                ]
+              }
+              links={row.symbol_community_links}
+              security={row.symbol_security ? [row.symbol_security] : null}
+              href={false}
+            />
             <div className="flex grow items-center justify-end gap-4 justify-self-end whitespace-nowrap text-xs mobile:gap-2 [&_label]:text-v1-content-secondary">
               <p>
                 <label>{'MC: '}</label>
