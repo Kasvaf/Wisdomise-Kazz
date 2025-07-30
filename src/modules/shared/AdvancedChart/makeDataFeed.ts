@@ -98,7 +98,7 @@ const makeDataFeed = (
 
         minmov: 1,
         fractional: false,
-        pricescale: 100_000,
+        pricescale: 1_000_000,
         has_seconds: true,
         seconds_multipliers: ['1', '5', '15', '30'],
 

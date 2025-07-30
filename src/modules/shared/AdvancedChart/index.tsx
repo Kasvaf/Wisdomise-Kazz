@@ -12,7 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
-import { compressByLabel, toSignificantDigits } from 'utils/numbers';
+import { formatNumber } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
 import { useSupportedPairs } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
@@ -101,30 +101,22 @@ const AdvancedChart: React.FC<{
         { title: '5d', text: '5D', resolution: '5' as ResolutionString },
         { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
-      overrides: {},
       favorites: {
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
       custom_formatters: {
-        priceFormatterFactory: symbolInfo => {
-          const seenVals: number[] = [];
-
-          if (symbolInfo) {
-            return {
-              format: price => {
-                // use running average to detect zero value!
-                const val = price * (isMarketCap ? supply : 1);
-                const avg = seenVals.reduce((a, b) => a + b, 0) / 10;
-                seenVals.unshift(val);
-                seenVals.length = 10;
-                if (Math.abs(val) < avg / 1e6) return '0';
-
-                const { value, label } = compressByLabel(val);
-                return String(toSignificantDigits(+value, 3)) + label;
-              },
-            };
-          }
-          return null; // default formatter
+        priceFormatterFactory: () => {
+          return {
+            format: price => {
+              const val = price * (isMarketCap ? supply : 1);
+              return formatNumber(val, {
+                decimalLength: 4,
+                minifyDecimalRepeats: true,
+                compactInteger: isMarketCap,
+                separateByComma: false,
+              });
+            },
+          };
         },
       },
 
