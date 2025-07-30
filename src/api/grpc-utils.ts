@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { type Observable } from 'rxjs';
 import {
+  type QueryKey,
   type UndefinedInitialDataOptions,
   useQuery,
 } from '@tanstack/react-query';
@@ -38,7 +39,7 @@ const generateSvcMethodKey = (
   service: ServiceKey,
   methodName: string,
   params: unknown,
-) => ['grpc', service, methodName, JSON.stringify(params)].join('-');
+) => ['grpc', service, methodName.split(' ')[1], params] as QueryKey;
 
 export function useSvcMethodQuery<K extends ServiceKey, V, P>(
   {
@@ -53,8 +54,10 @@ export function useSvcMethodQuery<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
+  const key = useRef(generateSvcMethodKey(svc, method.name, params));
+
   return useQuery({
-    queryKey: [generateSvcMethodKey(svc, method.name, params)],
+    queryKey: key.current,
     queryFn: () => method.call(service, params),
     ...queryOptions,
   });
@@ -74,6 +77,7 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
+  const key = useRef(generateSvcMethodKey(svc, method.name, params));
 
   return useObservableLastValue({
     observable: useMemo(
@@ -82,7 +86,7 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
       [service, method, JSON.stringify(params)],
     ),
     enabled,
-    key: generateSvcMethodKey(svc, method.name, params),
+    key: key.current,
   });
 }
 
@@ -100,6 +104,7 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
+  const key = useRef(generateSvcMethodKey(svc, method.name, params));
 
   return useObservableAllValues({
     observable: useMemo(
@@ -108,7 +113,7 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
       [service, method, JSON.stringify(params)],
     ),
     enabled,
-    key: generateSvcMethodKey(svc, method.name, params),
+    key: key.current,
   });
 }
 
