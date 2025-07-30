@@ -39,6 +39,12 @@ const config: DatafeedConfiguration = {
   symbols_types: [{ name: 'crypto', value: 'crypto' }],
 };
 
+const checkConvertToUsd = (quote: string) => {
+  return quote !== 'tether' && quote !== 'usd-coin'
+    ? localStorage.getItem('tv-convert-to-usd') === 'true'
+    : false;
+};
+
 const makeDataFeed = (
   delphinus: DelphinusServiceClientImpl,
   {
@@ -98,7 +104,7 @@ const makeDataFeed = (
 
         minmov: 1,
         fractional: false,
-        pricescale: 100_000,
+        pricescale: 1_000_000,
         has_seconds: true,
         seconds_multipliers: ['1', '5', '15', '30'],
 
@@ -144,6 +150,7 @@ const makeDataFeed = (
                 Math.min(end, i + BATCH_SIZE) * dur * 1000,
               ).toISOString(),
               skipEmptyCandles: true,
+              convertToUsd: checkConvertToUsd(quote),
             }),
           );
         }
@@ -162,6 +169,7 @@ const makeDataFeed = (
         network,
         baseSlug,
         quoteSlug: quote,
+        convertToUsd: checkConvertToUsd(quote),
       });
 
       function doSub() {

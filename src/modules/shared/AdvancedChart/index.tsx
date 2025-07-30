@@ -10,9 +10,10 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalStorage } from 'usehooks-ts';
 import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
-import { compressByLabel, toSignificantDigits } from 'utils/numbers';
+import { formatNumber } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
 import { useSupportedPairs } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
@@ -61,6 +62,10 @@ const AdvancedChart: React.FC<{
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
   const { data: details } = useCoinDetails({ slug });
+  const [convertToUsd, setConvertToUsd] = useLocalStorage(
+    'tv-convert-to-usd',
+    false,
+  );
   const supply = details?.data?.total_supply ?? 1;
 
   const [, setPageQuote] = useActiveQuote();
@@ -101,30 +106,22 @@ const AdvancedChart: React.FC<{
         { title: '5d', text: '5D', resolution: '5' as ResolutionString },
         { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
-      overrides: {},
       favorites: {
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
       custom_formatters: {
-        priceFormatterFactory: symbolInfo => {
-          const seenVals: number[] = [];
-
-          if (symbolInfo) {
-            return {
-              format: price => {
-                // use running average to detect zero value!
-                const val = price * (isMarketCap ? supply : 1);
-                const avg = seenVals.reduce((a, b) => a + b, 0) / 10;
-                seenVals.unshift(val);
-                seenVals.length = 10;
-                if (Math.abs(val) < avg / 1e6) return '0';
-
-                const { value, label } = compressByLabel(val);
-                return String(toSignificantDigits(+value, 3)) + label;
-              },
-            };
-          }
-          return null; // default formatter
+        priceFormatterFactory: () => {
+          return {
+            format: price => {
+              const val = price * (isMarketCap ? supply : 1);
+              return formatNumber(val, {
+                decimalLength: 4,
+                minifyDecimalRepeats: true,
+                compactInteger: isMarketCap,
+                separateByComma: false,
+              });
+            },
+          };
         },
       },
 
@@ -162,6 +159,7 @@ const AdvancedChart: React.FC<{
 
       // Create quote selector
       const dropDown = await widget.createDropdown({
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
         tooltip: 'Quote',
         items:
           pairs
@@ -184,6 +182,25 @@ const AdvancedChart: React.FC<{
           pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
           '',
       });
+
+      if (data.quote !== 'tether' && data.quote !== 'usd-coin') {
+        const convertToUsdButton = widget.createButton();
+        function setConvertButtonInnerContent() {
+          const colorStyle = 'style="color:#00a3ff"';
+          convertToUsdButton.innerHTML = `<span ${
+            convertToUsd ? '' : colorStyle
+          }>${
+            pairs?.find(x => x.quote.slug === data?.quote)?.quote
+              .abbreviation ?? ''
+          }</span>/<span ${convertToUsd ? colorStyle : ''}>USD</span>`;
+        }
+        setConvertButtonInnerContent();
+        convertToUsdButton.addEventListener('click', () => {
+          setConvertToUsd(!convertToUsd);
+          setConvertButtonInnerContent();
+          widget.activeChart().resetData();
+        });
+      }
 
       // Create button for MarketCap/Price toggle in top toolbar
       const button = widget.createButton();
@@ -219,7 +236,9 @@ const AdvancedChart: React.FC<{
     delphinus,
     supply,
     pairs,
+    convertToUsd,
     setPageQuote,
+    setConvertToUsd,
   ]);
 
   if (isLoading || !data?.network) return null;

@@ -35,10 +35,12 @@ export default function BtnInstantTrade({
   slug,
   quote,
   setQuote,
+  className,
 }: {
   slug: string;
   quote: string;
   setQuote: (newVal: string) => void;
+  className?: string;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { connected } = useActiveWallet();
@@ -128,168 +130,173 @@ export default function BtnInstantTrade({
   if (!hasFlag('/trader/instant')) return null;
 
   return (
-    <div className="relative mobile:hidden">
-      {maskIsOpen && <div className="fixed inset-0 z-30" />}
-      <Draggable
-        handle="#instant-trade-drag-handle"
-        cancel="button"
-        defaultClassName={isOpen ? 'border border-transparent' : 'hidden'}
-        defaultClassNameDragging="opacity-60 border-v1-border-primary"
-        defaultPosition={position}
-        onStart={() => setMaskIsOpen(true)}
-        onStop={(_, data) => {
-          setPosition({ x: data.x, y: data.y });
-          setMaskIsOpen(false);
-        }}
-        bounds="body"
-      >
-        <div className="fixed left-0 top-0 z-50 m-4 w-[20rem] rounded-xl bg-v1-surface-l3 text-xs">
-          <div
-            className="relative min-h-max overflow-hidden rounded-xl"
-            style={{ height }}
-          >
+    <>
+      <div className="relative mobile:hidden">
+        {maskIsOpen && <div className="fixed inset-0 z-30" />}
+        <Draggable
+          handle="#instant-trade-drag-handle"
+          cancel="button"
+          defaultClassName={isOpen ? 'border border-transparent' : 'hidden'}
+          defaultClassNameDragging="opacity-60 border-v1-border-primary"
+          defaultPosition={position}
+          onStart={() => setMaskIsOpen(true)}
+          onStop={(_, data) => {
+            setPosition({ x: data.x, y: data.y });
+            setMaskIsOpen(false);
+          }}
+          bounds="body"
+        >
+          <div className="fixed left-0 top-0 z-50 m-4 w-[20rem] rounded-xl bg-v1-surface-l3 text-xs">
             <div
-              id="instant-trade-drag-handle"
-              className="relative flex cursor-move items-center border-b border-white/5 p-3"
+              className="relative min-h-max overflow-hidden rounded-xl"
+              style={{ height }}
             >
-              <DragIcon className="absolute left-1/2 top-1 size-3 -translate-x-1/2 cursor-move" />
-              <TraderPresetsSelector surface={5} source="terminal" />
-              <Button
-                size="2xs"
-                variant="ghost"
-                className="ml-auto !px-2"
-                onClick={() => {
-                  setIsEditMode(prev => !prev);
-                }}
+              <div
+                id="instant-trade-drag-handle"
+                className="relative flex cursor-move items-center border-b border-white/5 p-3"
               >
-                <Icon name={isEditMode ? bxCheck : bxEditAlt} size={20} />
-              </Button>
-              <BtnSolanaWallets className="!px-2" size="2xs" />
-              <Button
-                variant="ghost"
-                size="2xs"
-                className="!px-2 text-v1-content-secondary"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <Icon name={bxX} />
-              </Button>
-            </div>
-            {connected ? (
-              <div className="flex h-full flex-col justify-between p-3">
-                <div className="mb-3 flex items-center justify-between">
-                  Buy
-                  <AccountBalance slug={quote} />
-                </div>
-                <QuoteQuickSet
-                  mode="buy"
-                  enableEdit={isEditMode}
-                  hasEditBtn={false}
-                  quote={quote}
-                  btnClassName={clsx(
-                    '!border-[0.5px]',
-                    !isEditMode &&
-                      '!border-v1-border-positive !text-v1-content-positive enabled:hover:!bg-v1-background-positive-subtle/40',
-                  )}
-                  className="mb-1"
-                  onClick={value => swap(value, 'LONG')}
-                  surface={3}
-                  showAll={height === maxHeight}
-                />
-                <div className="flex items-center">
-                  <TraderPresetValues mode="buy" />
-                  <span className="ml-auto text-white/70">Pay:</span>
-                  <QuoteSelector
-                    className="-mr-3"
-                    baseSlug={slug}
-                    value={quote}
-                    onChange={setQuote}
-                    size="xs"
+                <DragIcon className="absolute left-1/2 top-1 size-3 -translate-x-1/2 cursor-move" />
+                <TraderPresetsSelector surface={5} source="terminal" />
+                <Button
+                  size="2xs"
+                  variant="ghost"
+                  className="ml-auto !px-2"
+                  onClick={() => {
+                    setIsEditMode(prev => !prev);
+                  }}
+                >
+                  <Icon name={isEditMode ? bxCheck : bxEditAlt} size={20} />
+                </Button>
+                <BtnSolanaWallets className="!px-2" size="2xs" />
+                <Button
+                  variant="ghost"
+                  size="2xs"
+                  className="!px-2 text-v1-content-secondary"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  <Icon name={bxX} />
+                </Button>
+              </div>
+              {connected ? (
+                <div className="flex h-full flex-col justify-between p-3">
+                  <div className="mb-3 flex items-center justify-between">
+                    Buy
+                    <AccountBalance slug={quote} />
+                  </div>
+                  <QuoteQuickSet
+                    mode="buy"
+                    enableEdit={isEditMode}
+                    hasEditBtn={false}
+                    quote={quote}
+                    btnClassName={clsx(
+                      '!border-[0.5px]',
+                      !isEditMode &&
+                        '!border-v1-border-positive !text-v1-content-positive enabled:hover:!bg-v1-background-positive-subtle/40',
+                    )}
+                    className="mb-1"
+                    onClick={value => swap(value, 'LONG')}
+                    surface={3}
+                    showAll={height === maxHeight}
                   />
-                </div>
-                <hr className="my-3 border-white/5" />
-                <div className="mb-3 flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    Sell
-                    <AmountTypeSwitch
-                      surface={3}
-                      showIcon
-                      quote={quote}
-                      value={sellAmountType}
-                      onChange={newType => {
-                        setSellAmountType(newType);
-                      }}
+                  <div className="flex items-center">
+                    <TraderPresetValues mode="buy" />
+                    <span className="ml-auto text-white/70">Pay:</span>
+                    <QuoteSelector
+                      className="-mr-3"
+                      baseSlug={slug}
+                      value={quote}
+                      onChange={setQuote}
+                      size="xs"
                     />
                   </div>
-                  <AccountBalance slug={slug} quote={quote} />
+                  <hr className="my-3 border-white/5" />
+                  <div className="mb-3 flex items-center justify-between">
+                    <div className="flex items-center gap-1">
+                      Sell
+                      <AmountTypeSwitch
+                        surface={3}
+                        showIcon
+                        quote={quote}
+                        value={sellAmountType}
+                        onChange={newType => {
+                          setSellAmountType(newType);
+                        }}
+                      />
+                    </div>
+                    <AccountBalance slug={slug} quote={quote} />
+                  </div>
+                  <QuoteQuickSet
+                    mode={
+                      sellAmountType === 'percentage'
+                        ? 'sell_percentage'
+                        : 'sell'
+                    }
+                    quote={quote}
+                    enableEdit={isEditMode}
+                    hasEditBtn={false}
+                    className="mb-1"
+                    balance={baseBalance}
+                    btnClassName={clsx(
+                      '!border-[0.5px]',
+                      !isEditMode &&
+                        '!border-v1-border-negative !text-v1-content-negative enabled:hover:!bg-v1-background-negative-subtle/40',
+                    )}
+                    onClick={amount => swap(amount, 'SHORT')}
+                    surface={3}
+                    showAll={height === maxHeight}
+                  />
+                  <div className="flex items-center">
+                    <TraderPresetValues mode="sell" />
+                    <span className="ml-auto text-xs text-white/70">
+                      Receive:
+                    </span>
+                    <QuoteSelector
+                      className="-mr-3"
+                      baseSlug={slug}
+                      value={quote}
+                      onChange={setQuote}
+                      size="xs"
+                    />
+                  </div>
                 </div>
-                <QuoteQuickSet
-                  mode={
-                    sellAmountType === 'percentage' ? 'sell_percentage' : 'sell'
-                  }
-                  quote={quote}
-                  enableEdit={isEditMode}
-                  hasEditBtn={false}
-                  className="mb-1"
-                  balance={baseBalance}
-                  btnClassName={clsx(
-                    '!border-[0.5px]',
-                    !isEditMode &&
-                      '!border-v1-border-negative !text-v1-content-negative enabled:hover:!bg-v1-background-negative-subtle/40',
-                  )}
-                  onClick={amount => swap(amount, 'SHORT')}
-                  surface={3}
-                  showAll={height === maxHeight}
-                />
-                <div className="flex items-center">
-                  <TraderPresetValues mode="sell" />
-                  <span className="ml-auto text-xs text-white/70">
-                    Receive:
-                  </span>
-                  <QuoteSelector
-                    className="-mr-3"
-                    baseSlug={slug}
-                    value={quote}
-                    onChange={setQuote}
-                    size="xs"
+              ) : (
+                <div className="p-3">
+                  <p>
+                    Connect your wallet or switch to a custodial one in order to
+                    trade
+                  </p>
+                  <BtnAppKitWalletConnect
+                    network="solana"
+                    className="mt-3 w-full"
                   />
                 </div>
-              </div>
-            ) : (
-              <div className="p-3">
-                <p>
-                  Connect your wallet or switch to a custodial one in order to
-                  trade
-                </p>
-                <BtnAppKitWalletConnect
-                  network="solana"
-                  className="mt-3 w-full"
+              )}
+              <div
+                className="absolute bottom-0 flex h-[5px] w-full cursor-ns-resize items-center justify-center text-white/70 transition-colors hover:bg-v1-surface-l4"
+                onMouseDown={e => startResizing(e, 'bottom')}
+              >
+                <Icon
+                  name={height === maxHeight ? bxChevronUp : bxChevronDown}
+                  size={12}
                 />
               </div>
-            )}
-            <div
-              className="absolute bottom-0 flex h-[5px] w-full cursor-ns-resize items-center justify-center text-white/70 transition-colors hover:bg-v1-surface-l4"
-              onMouseDown={e => startResizing(e, 'bottom')}
-            >
-              <Icon
-                name={height === maxHeight ? bxChevronUp : bxChevronDown}
-                size={12}
-              />
             </div>
           </div>
-        </div>
-      </Draggable>
+        </Draggable>
+      </div>
       <Button
         variant="outline"
-        size="sm"
+        size="xs"
         className={clsx(
           '!border-v1-border-brand !bg-transparent !text-v1-content-brand',
           isOpen && '!bg-v1-background-hover',
+          className,
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
         <InstantIcon />
         Instant Trade
       </Button>
-    </div>
+    </>
   );
 }

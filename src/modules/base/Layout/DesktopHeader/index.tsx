@@ -23,12 +23,7 @@ const DesktopHeader: React.FC<{
           </NavLink>
         </div>
 
-        {extension && (
-          <>
-            {extension}
-            <div className="h-full w-px bg-white/10" />
-          </>
-        )}
+        {extension && <>{extension}</>}
 
         {RouterBaseName && <BranchSelector />}
 
