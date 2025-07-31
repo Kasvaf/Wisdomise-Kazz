@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { type Observable } from 'rxjs';
 import {
+  type QueryKey,
   type UndefinedInitialDataOptions,
   useQuery,
 } from '@tanstack/react-query';
@@ -34,6 +35,12 @@ export function useGrpcService<K extends ServiceKey>(svc: K): ServiceType<K> {
   }, [svc]);
 }
 
+const generateSvcMethodKey = (
+  service: ServiceKey,
+  methodName: string,
+  params: unknown,
+) => ['grpc', service, methodName.split(' ')[1], params] as QueryKey;
+
 export function useSvcMethodQuery<K extends ServiceKey, V, P>(
   {
     service: svc,
@@ -47,9 +54,10 @@ export function useSvcMethodQuery<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
-  const paramsJson = JSON.stringify(params);
+  const key = useRef(generateSvcMethodKey(svc, method.name, params));
+
   return useQuery({
-    queryKey: ['grpc', svc, method.name, paramsJson],
+    queryKey: key.current,
     queryFn: () => method.call(service, params),
     ...queryOptions,
   });
@@ -69,6 +77,8 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
+  const key = useRef(generateSvcMethodKey(svc, method.name, params));
+
   return useObservableLastValue({
     observable: useMemo(
       () => method.call(service, params),
@@ -76,6 +86,7 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
       [service, method, JSON.stringify(params)],
     ),
     enabled,
+    key: key.current,
   });
 }
 
@@ -93,6 +104,8 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
+  const key = useRef(generateSvcMethodKey(svc, method.name, params));
+
   return useObservableAllValues({
     observable: useMemo(
       () => method.call(service, params),
@@ -100,6 +113,7 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
       [service, method, JSON.stringify(params)],
     ),
     enabled,
+    key: key.current,
   });
 }
 
