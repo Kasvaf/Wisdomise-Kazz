@@ -16,7 +16,7 @@ const rounder = (val: number) => {
 const useSensibleSteps = (balance?: number | null, noMax?: boolean) => {
   return useMemo(() => {
     if (!balance) return [];
-    return [0.1, 0.25, 0.5, 0.75, 1]
+    return [0.1, 0.25, 0.5, 1]
       .filter(p => !noMax || p < 1)
       .map(p => {
         const value = String(p === 1 ? balance : rounder(p * balance));

@@ -177,9 +177,7 @@ const ModalApproval: React.FC<{
           onClick={() => onResolve?.(true)}
           variant="brand"
           className="grow"
-          disabled={
-            isLoading || !hasEnoughGas || impact > 0.05 || !!data?.error
-          }
+          disabled={isLoading || !hasEnoughGas || !!data?.error}
           loading={isLoading}
         >
           Fire Position

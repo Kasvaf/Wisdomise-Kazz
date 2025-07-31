@@ -91,7 +91,7 @@ const BtnFireSignal: React.FC<{
             {t('signal-form.btn-update')}
           </Button>
           <Button
-            variant="negative"
+            variant="negative_outline"
             onClick={closeHandler}
             loading={isSubmitting}
             disabled={!isEnabled}

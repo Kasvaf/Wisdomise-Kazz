@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { usePageState } from 'shared/usePageState';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import {
   type NetworkRadarStreamFilters,
   useNetworkRadarStream,
@@ -44,7 +45,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
 
   return (
     <>
-      <div className="mb-3 flex items-center justify-between gap-2 p-3">
+      <div className="flex items-center justify-between gap-2 p-3">
         <ButtonSelect
           value={tab}
           onChange={setTab}
@@ -79,6 +80,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           }
         />
       </div>
+      <QuickBuySettings source={tab} className="mb-3 px-3" />
       <div className="px-3">
         <NCoinList
           dataSource={newPairs}
@@ -86,6 +88,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           className={clsx(tab !== 'new_pairs' && 'hidden')}
           onRowClick={onRowClick}
           mini
+          source="new_pairs"
         />
         <NCoinList
           dataSource={finalStretch}
@@ -93,6 +96,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           className={clsx(tab !== 'final_stretch' && 'hidden')}
           onRowClick={onRowClick}
           mini
+          source="final_stretch"
         />
         <NCoinList
           dataSource={migrated}
@@ -101,6 +105,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           onRowClick={onRowClick}
           hideBCurve
           mini
+          source="migrated"
         />
       </div>
     </>

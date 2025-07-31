@@ -32,6 +32,7 @@ export function ButtonSelect<T>({
     disabled?: boolean;
     hidden?: boolean;
     onClickCapture?: () => void;
+    className?: string;
   }>;
   value?: T;
   onChange?: (newValue: T) => void;
@@ -157,6 +158,7 @@ export function ButtonSelect<T>({
                 'focus-visible:border-v1-border-focus',
                 'disabled:opacity-40',
                 buttonClassName,
+                option.className,
               )}
             >
               {option.label}

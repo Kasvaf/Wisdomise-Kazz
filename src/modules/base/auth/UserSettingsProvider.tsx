@@ -1,0 +1,284 @@
+import {
+  createContext,
+  type PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { useDebounce } from 'usehooks-ts';
+import { useUserStorage } from 'api/userStorage';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+
+export type QuickBuySource =
+  | 'new_pairs'
+  | 'final_stretch'
+  | 'migrated'
+  | 'terminal'
+  | 'coin_radar'
+  | 'social_radar'
+  | 'technical_radar'
+  | 'whale_radar';
+
+interface UserSettings {
+  quotes_quick_set: QuotesQuickSet;
+  presets: TraderPresets;
+  quick_buy: Record<QuickBuySource, QuickBuySettings>;
+}
+
+interface QuickBuySettings {
+  active_preset: number;
+  amount?: string;
+}
+
+interface QuotesQuickSet {
+  buy: Record<string, string[]>;
+  sell: Record<string, string[]>;
+  sell_percentage: Record<string, string[]>;
+}
+
+type TraderPresetMode = 'buy' | 'sell';
+export type TraderPresets = Array<Record<TraderPresetMode, TraderPreset>>;
+
+export interface TraderPreset {
+  slippage: string;
+  sol_priority_fee: string;
+  sol_bribe_fee: string;
+}
+
+const DEFAULT_PERCENTAGE_PRESETS = [
+  '10',
+  '25',
+  '50',
+  '100',
+  '0',
+  '0',
+  '0',
+  '0',
+];
+
+const DEFAULT_USER_SETTINGS: UserSettings = {
+  presets: Array.from({ length: 3 }, () => ({
+    buy: { slippage: '0.2', sol_priority_fee: '0.001', sol_bribe_fee: '0.001' },
+    sell: {
+      slippage: '0.4',
+      sol_priority_fee: '0.001',
+      sol_bribe_fee: '0.001',
+    },
+  })),
+  quick_buy: {
+    final_stretch: {
+      active_preset: 0,
+      amount: '',
+    },
+    migrated: {
+      active_preset: 0,
+      amount: '',
+    },
+    new_pairs: {
+      active_preset: 0,
+      amount: '',
+    },
+    terminal: {
+      active_preset: 0,
+    },
+    coin_radar: {
+      active_preset: 0,
+      amount: '',
+    },
+    social_radar: {
+      active_preset: 0,
+      amount: '',
+    },
+    technical_radar: {
+      active_preset: 0,
+      amount: '',
+    },
+    whale_radar: {
+      active_preset: 0,
+      amount: '',
+    },
+  },
+  quotes_quick_set: {
+    buy: {
+      'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      'tether': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+    },
+    sell: {
+      'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      'tether': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+    },
+    sell_percentage: {
+      'wrapped-solana': [...DEFAULT_PERCENTAGE_PRESETS],
+      'usd-coin': [...DEFAULT_PERCENTAGE_PRESETS],
+      'tether': [...DEFAULT_PERCENTAGE_PRESETS],
+    },
+  },
+};
+
+const context = createContext<
+  | {
+      settings: UserSettings;
+      getActivePreset: (
+        source: QuickBuySource,
+      ) => Record<TraderPresetMode, TraderPreset>;
+      update: (newValue: UserSettings) => void;
+      updateQuotesQuickSet: (
+        quote: string,
+        type: keyof QuotesQuickSet,
+        index: number,
+        newValue: string,
+      ) => void;
+      updateQuickBuyActivePreset: (
+        source: QuickBuySource,
+        index: number,
+      ) => void;
+      updateQuickBuyAmount: (source: QuickBuySource, amount: string) => void;
+      updatePresetPartial: (
+        index: number,
+        type: 'buy' | 'sell',
+        patch: Partial<TraderPreset>,
+      ) => void;
+      updatePreset: (newValue: TraderPresets) => void;
+    }
+  | undefined
+>(undefined);
+
+export const useUserSettings = () => {
+  const value = useContext(context);
+  if (!value) {
+    throw new Error('useUserSettings must be used within UserSettingsProvider');
+  }
+  return value;
+};
+
+export function UserSettingsProvider({ children }: PropsWithChildren) {
+  const [settings, setSettings] = useState<UserSettings>(DEFAULT_USER_SETTINGS);
+  const [isFetched, setIsFetched] = useState(false);
+  const { value, isFetching, save } = useUserStorage<UserSettings>('settings', {
+    serializer: 'json',
+  });
+  const changedSettings = useDebounce(settings, 2000);
+  const isLoggedIn = useIsLoggedIn();
+
+  useEffect(() => {
+    if (!isFetching && !isFetched) {
+      if (value) {
+        setSettings(value);
+      }
+      setIsFetched(true);
+    }
+  }, [value, isFetched, isFetching]);
+
+  useEffect(() => {
+    if (isFetched && isLoggedIn) {
+      void save(changedSettings);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changedSettings, isFetched, isLoggedIn]);
+
+  const getActivePreset = (source: QuickBuySource) => {
+    const activeIndex = settings.quick_buy[source].active_preset;
+    return settings.presets[activeIndex];
+  };
+
+  const update = (newValue: UserSettings) => {
+    setSettings(newValue);
+  };
+
+  const updateQuotesQuickSet = (
+    quote: string,
+    type: keyof QuotesQuickSet,
+    index: number,
+    newValue: string,
+  ) => {
+    setSettings(prev => ({
+      ...prev,
+      quotes_quick_set: {
+        ...prev.quotes_quick_set,
+        [type]: {
+          ...prev.quotes_quick_set[type],
+          [quote]: prev.quotes_quick_set[type][quote].map((v, i) =>
+            i === index ? newValue : v,
+          ),
+        },
+      },
+    }));
+  };
+
+  const updateQuickBuyActivePreset = (
+    source: QuickBuySource,
+    index: number,
+  ) => {
+    setSettings(prev => ({
+      ...prev,
+      quick_buy: {
+        ...prev.quick_buy,
+        [source]: {
+          ...prev.quick_buy[source],
+          active_preset: index,
+        },
+      },
+    }));
+  };
+
+  const updateQuickBuyAmount = (source: QuickBuySource, amount: string) => {
+    setSettings(prev => ({
+      ...prev,
+      quick_buy: {
+        ...prev.quick_buy,
+        [source]: {
+          ...prev.quick_buy[source],
+          amount,
+        },
+      },
+    }));
+  };
+
+  const updatePreset = (newValue: TraderPresets) => {
+    setSettings(prev => ({
+      ...prev,
+      presets: newValue,
+    }));
+  };
+
+  const updatePresetPartial = (
+    index: number,
+    type: 'buy' | 'sell',
+    patch: Partial<TraderPreset>,
+  ) => {
+    setSettings(prev => {
+      const updatedPresets = [...prev.presets];
+      updatedPresets[index] = {
+        ...updatedPresets[index],
+        [type]: {
+          ...updatedPresets[index][type],
+          ...patch,
+        },
+      };
+
+      return {
+        ...prev,
+        presets: updatedPresets,
+      };
+    });
+  };
+
+  return (
+    <context.Provider
+      value={{
+        settings,
+        getActivePreset,
+        update,
+        updatePresetPartial,
+        updatePreset,
+        updateQuickBuyActivePreset,
+        updateQuickBuyAmount,
+        updateQuotesQuickSet,
+      }}
+    >
+      {children}
+    </context.Provider>
+  );
+}

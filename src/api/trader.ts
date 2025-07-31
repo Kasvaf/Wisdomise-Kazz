@@ -82,7 +82,10 @@ export const getPairsCached = async (baseSlug: string) => {
   return cachedPairs[baseSlug];
 };
 
-export const useSupportedPairs = (baseSlug?: string) => {
+export const useSupportedPairs = (
+  baseSlug?: string,
+  config?: { enabled: boolean },
+) => {
   baseSlug = baseSlug === 'solana' ? 'wrapped-solana' : baseSlug;
   return useQuery({
     queryKey: ['supported-pairs', baseSlug],
@@ -90,6 +93,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
       if (!baseSlug) return [];
       return await getPairsCached(baseSlug);
     },
+    enabled: config?.enabled === undefined ? true : config.enabled,
     staleTime: Number.POSITIVE_INFINITY,
   });
 };
@@ -331,6 +335,10 @@ export interface CreatePositionRequest {
   base_slug?: string;
   base_amount?: string;
   network: SupportedNetworks;
+  buy_slippage?: string;
+  sell_slippage?: string;
+  buy_priority_fee?: string;
+  sell_priority_fee?: string;
 }
 
 export const usePreparePositionQuery = (req?: CreatePositionRequest) => {

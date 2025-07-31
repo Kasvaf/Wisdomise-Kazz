@@ -349,6 +349,8 @@ export const useSolanaMarketSwap = () => {
     quote: string,
     side: 'LONG' | 'SHORT',
     amount: string,
+    slippage?: string,
+    priorityFee?: string,
   ) => {
     if (!address) throw new Error('Wallet not connected');
     const publicKey = new PublicKey(address);
@@ -361,6 +363,8 @@ export const useSolanaMarketSwap = () => {
         amount,
         network_slug: 'solana',
         wallet_address: publicKey.toString(),
+        slippage,
+        priority_fee: priorityFee,
       },
     });
     if (isCustodial) {

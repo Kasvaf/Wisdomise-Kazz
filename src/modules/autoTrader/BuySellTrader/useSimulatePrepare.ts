@@ -42,7 +42,7 @@ export const useSimulatePrepare = ({
   const impact = Number(data?.price_impact);
 
   return {
-    ready: !(isLoading || !hasEnoughGas || impact > 0.05 || !!data?.error),
+    ready: !(isLoading || !hasEnoughGas || !!data?.error),
     isLoading,
     hasEnoughGas,
     impact,

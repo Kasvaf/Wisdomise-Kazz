@@ -9,6 +9,7 @@ import {
 import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
 import { unwrapErrorMessage } from 'utils/error';
 import { useActiveWallet } from 'api/chains/wallet';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/parseDur';
 import { type SwapState } from './useSwapState';
 
@@ -26,6 +27,7 @@ const useActionHandlers = (state: SwapState) => {
     confirming: [, setConfirming],
   } = state;
   const { address, isCustodial } = useActiveWallet();
+  const { getActivePreset } = useUserSettings();
 
   const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
     setConfirming(true);
@@ -47,6 +49,8 @@ const useActionHandlers = (state: SwapState) => {
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
 
+    const preset = getActivePreset('terminal');
+
     // direct swap
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
@@ -57,6 +61,8 @@ const useActionHandlers = (state: SwapState) => {
             quote.slug,
             dir === 'buy' ? 'LONG' : 'SHORT',
             from.amount,
+            preset[dir].slippage,
+            preset[dir].sol_priority_fee,
           ),
           'Swap completed successfully',
         );
@@ -124,6 +130,10 @@ const useActionHandlers = (state: SwapState) => {
         },
       },
       withdraw_address: address,
+      buy_slippage: preset.buy.slippage,
+      sell_slippage: preset.sell.slippage,
+      buy_priority_fee: preset.buy.sol_priority_fee,
+      sell_priority_fee: preset.sell.sol_priority_fee,
     } as const;
     try {
       setFiring(true);

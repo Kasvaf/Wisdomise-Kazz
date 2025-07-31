@@ -48,6 +48,9 @@ export function useUserStorage<T = string>(
         return null;
       }
     },
+    meta: {
+      persist: false,
+    },
   });
 
   const { mutateAsync, isPending } = useMutation({

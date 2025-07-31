@@ -120,7 +120,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
           </Button>
         ) : (
           <Button
-            variant="primary"
+            variant={dir === 'buy' ? 'positive' : 'negative'}
             onClick={isLoggedIn ? firePosition : showModalLogin}
             loading={isSubmitting || isLoading}
             disabled={!isEnabled || !ready || !balance}

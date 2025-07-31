@@ -3,7 +3,7 @@ import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useUserWalletAssets } from 'api/chains';
@@ -27,6 +27,7 @@ import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { roundSensible } from 'utils/numbers';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import TotalBalance from 'modules/base/wallet/TotalBalance';
+import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import { Coins } from 'shared/Coins';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
@@ -34,9 +35,15 @@ import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 export default function BtnSolanaWallets({
   className,
   showAddress,
+  showBalance,
+  size,
+  variant = 'ghost',
 }: {
   className?: string;
   showAddress?: boolean;
+  showBalance?: boolean;
+  size?: ButtonSize;
+  variant?: 'outline' | 'ghost';
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
@@ -48,16 +55,17 @@ export default function BtnSolanaWallets({
   return (
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
-        variant="ghost"
-        size={isMobile ? 'md' : 'xs'}
+        variant={variant}
+        size={isMobile ? 'md' : size ?? 'xs'}
         className={className}
       >
         {!isMobile && connected && !isCustodial && icon ? (
-          <img className="size-4" src={icon} alt="" />
+          <img className="size-5" src={icon} alt="" />
         ) : (
           <WalletIcon />
         )}
         {showAddress && (address ? shortenAddress(address) : 'Not Connected')}
+        {showBalance && <AccountBalance slug="wrapped-solana" />}
       </Button>
     </ClickableTooltip>
   );
@@ -171,7 +179,9 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         {wallet ? (
           <Button
             onClick={() =>
-              navigate(getUrl({ slug: wallet.key, detail: 'wallet' }))
+              navigate(
+                getUrl({ slug: wallet.key, detail: 'wallet', view: 'detail' }),
+              )
             }
             variant="outline"
             size="xs"

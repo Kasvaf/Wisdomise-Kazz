@@ -7,6 +7,7 @@ import { type TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { Coin } from 'shared/v1-components/Coin';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
 import { calcNCoinBCurveColor, doesNCoinHaveSafeTopHolders } from './lib';
@@ -106,6 +107,7 @@ export const NCoinList: FC<{
   mini?: boolean;
   onRowClick?: (slug: string) => void;
   hideBCurve?: boolean;
+  source: 'new_pairs' | 'final_stretch' | 'migrated';
 }> = ({
   dataSource: _dataSource,
   title,
@@ -115,6 +117,7 @@ export const NCoinList: FC<{
   mini,
   onRowClick,
   hideBCurve,
+  source,
 }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
   const [hovered, setHovered] = useState(false);
@@ -171,7 +174,7 @@ export const NCoinList: FC<{
           {dataSource.map(row => (
             <button
               key={row.symbol?.slug}
-              className="relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
+              className="group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
@@ -246,6 +249,13 @@ export const NCoinList: FC<{
                 value={row}
                 className={clsx('absolute end-2 h-full', mini && 'hidden')}
               />
+              {row.symbol && (
+                <BtnQuickBuy
+                  slug={row.symbol.slug}
+                  source={source}
+                  className="absolute bottom-0 right-0 hidden group-hover:flex"
+                />
+              )}
             </button>
           ))}
         </div>

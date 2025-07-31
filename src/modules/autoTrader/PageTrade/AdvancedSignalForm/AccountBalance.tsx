@@ -1,0 +1,76 @@
+import { clsx } from 'clsx';
+import { Spin } from 'antd';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { useAccountBalance } from 'api/chains';
+import { useSymbolInfo } from 'api/symbol';
+import { Coin } from 'shared/Coin';
+import { useLastPriceQuery } from 'api';
+import { roundSensible } from 'utils/numbers';
+
+export const AccountBalance: React.FC<{
+  slug?: string;
+  quote?: string;
+  disabled?: boolean;
+  setAmount?: (val: string) => void;
+}> = ({ slug, disabled, setAmount, quote }) => {
+  const net = useActiveNetwork();
+  const { data: balance, isLoading } = useAccountBalance(slug, net);
+  const { data: priceByQuote } = useLastPriceQuery({
+    slug,
+    quote,
+    convertToUsd: false,
+  });
+  const { data: symbol } = useSymbolInfo(slug);
+  const { data: quoteSymbol } = useSymbolInfo(quote);
+
+  const isNativeQuote =
+    (net === 'the-open-network' && slug === 'the-open-network') ||
+    (net === 'solana' && slug === 'wrapped-solana');
+
+  return slug ? (
+    isLoading ? (
+      <div className="flex items-center gap-1 text-v1-content-secondary">
+        <Spin size="small" />
+        Reading Balance
+      </div>
+    ) : balance === null ? null : (
+      <div
+        className={clsx(
+          'flex items-center gap-1 text-white/70',
+          !disabled &&
+            !isNativeQuote &&
+            setAmount &&
+            'cursor-pointer hover:text-white',
+        )}
+        onClick={e => {
+          e.preventDefault();
+          !disabled && !isNativeQuote && setAmount?.(String(balance));
+        }}
+      >
+        <span className="flex items-center gap-2">
+          {symbol && (
+            <Coin coin={symbol} mini nonLink noText className="-mr-2 ml-2" />
+          )}
+          {roundSensible(balance)}
+        </span>
+        {quote && (
+          <>
+            <div className="ml-1 size-1 rounded-full bg-v1-surface-l4" />
+            <span className="flex items-center gap-2">
+              {quoteSymbol && (
+                <Coin
+                  coin={quoteSymbol}
+                  mini
+                  nonLink
+                  noText
+                  className="-mr-2 ml-1"
+                />
+              )}
+              {roundSensible((priceByQuote ?? 0) * (balance ?? 0))}
+            </span>
+          </>
+        )}
+      </div>
+    )
+  ) : null;
+};

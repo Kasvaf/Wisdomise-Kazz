@@ -25,6 +25,8 @@ import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarSharingModal from '../SocialRadarSharingModal';
@@ -157,12 +159,15 @@ export function SocialRadarExpanded() {
           </p>
         }
         headerActions={
-          <SearchInput
-            value={pageState.query}
-            onChange={query => setPageState(p => ({ ...p, query }))}
-            placeholder={t('common.search_coin')}
-            size="md"
-          />
+          <div className="flex gap-2">
+            <QuickBuySettings source="social_radar" showWallet />
+            <SearchInput
+              value={pageState.query}
+              onChange={query => setPageState(p => ({ ...p, query }))}
+              placeholder={t('common.search_coin')}
+              size="xs"
+            />
+          </div>
         }
       >
         <SocialRadarFilters
@@ -202,6 +207,13 @@ export function SocialRadarExpanded() {
               >
                 <Icon name={bxShareAlt} size={6} />
               </Button>
+            )}
+            rowHoverSuffix={row => (
+              <BtnQuickBuy
+                source="social_radar"
+                slug={row.symbol.slug}
+                networks={row.networks}
+              />
             )}
           />
         </AccessShield>

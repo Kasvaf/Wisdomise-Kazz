@@ -8,6 +8,7 @@ export const Toggle: FC<SwitchProps & { variant?: 'brand' | 'secondary' }> = ({
   ...props
 }) => (
   <Switch
+    size="small"
     className={clsx(
       '!duration-0',
       variant === 'secondary' &&

@@ -217,7 +217,7 @@ export function WhaleRadarWhalesWidget({
                 onChange={query => setTableState({ query })}
                 placeholder={t('top_whales.search')}
                 className="w-64 mobile:grow"
-                size="md"
+                size="xs"
               />
             </div>
           )}

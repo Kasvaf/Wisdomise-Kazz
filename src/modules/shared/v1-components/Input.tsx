@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import type React from 'react';
 import {
   type ChangeEventHandler,
   useCallback,
@@ -11,6 +12,7 @@ export function Input<T extends 'number' | 'string'>({
   size = 'xl',
   value,
   onChange,
+  onKeyDown,
   type,
   min,
   max,
@@ -34,6 +36,7 @@ export function Input<T extends 'number' | 'string'>({
   onChange?: (
     newValue: T extends 'number' ? number | undefined : string,
   ) => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
 
   disabled?: boolean;
   readOnly?: boolean;
@@ -99,6 +102,7 @@ export function Input<T extends 'number' | 'string'>({
         max={max}
         min={min}
         onChange={handleChange}
+        onKeyDown={onKeyDown}
         disabled={disabled}
         readOnly={readOnly}
         placeholder={placeholder}

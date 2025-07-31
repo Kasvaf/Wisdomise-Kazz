@@ -4,6 +4,7 @@ import { useRadarsMetrics, useTechnicalRadarCoins } from 'api/discovery';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 import {
   type TechnicalRadarView,
@@ -45,12 +46,15 @@ export function TechnicalRadarExpanded() {
           </p>
         }
         headerActions={
-          <TechnicalRadarViewSelect
-            className="w-min"
-            value={tab}
-            onChange={setTab}
-            size="md"
-          />
+          <div className="flex gap-2">
+            <QuickBuySettings source="technical_radar" showWallet />
+            <TechnicalRadarViewSelect
+              className="w-min"
+              value={tab}
+              onChange={setTab}
+              size="xs"
+            />
+          </div>
         }
         contentClassName="!min-h-[450px]"
         loading={technicalTopCoins.isLoading}

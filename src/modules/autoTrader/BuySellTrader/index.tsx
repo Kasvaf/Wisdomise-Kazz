@@ -29,7 +29,6 @@ const BuySellForms: React.FC<
 
   useEffect(() => {
     setDir(mode);
-    setIsMarketPrice(true);
     setAmount('0');
   }, [mode, setAmount, setDir, setIsMarketPrice]);
 

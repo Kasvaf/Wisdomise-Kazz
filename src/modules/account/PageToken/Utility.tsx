@@ -34,7 +34,7 @@ export default function Utility() {
       {utilityStatus === 'locked' ? (
         <div className="flex justify-end">
           {/* todo: check revenue reward */}
-          <Button size="md" variant="negative" onClick={unlock}>
+          <Button size="md" variant="negative_outline" onClick={unlock}>
             Unlock & Exit Wise Club
           </Button>
         </div>

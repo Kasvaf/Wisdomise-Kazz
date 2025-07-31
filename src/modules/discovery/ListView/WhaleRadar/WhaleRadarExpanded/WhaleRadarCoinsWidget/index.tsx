@@ -13,6 +13,8 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import { RealtimeBadge } from 'modules/discovery/ListView/RealtimeBadge';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
@@ -112,17 +114,18 @@ export function WhaleRadarCoinsWidget({
       headerClassName="flex-wrap"
       headerActions={
         headerActions || (
-          <>
+          <div className="flex gap-2">
+            <QuickBuySettings source="whale_radar" showWallet />
             <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
               <SearchInput
                 value={pageState.query}
                 onChange={query => setPageState(p => ({ ...p, query }))}
                 placeholder={t('coin-radar:common.search_coin')}
                 className="w-64 mobile:grow"
-                size="md"
+                size="xs"
               />
             </div>
-          </>
+          </div>
         )
       }
     >
@@ -150,6 +153,13 @@ export function WhaleRadarCoinsWidget({
           className="max-h-[470px]"
           rowKey={r => r.symbol.slug}
           scrollable
+          rowHoverSuffix={row => (
+            <BtnQuickBuy
+              source="whale_radar"
+              slug={row.symbol.slug}
+              networks={row.networks}
+            />
+          )}
         />
       </AccessShield>
     </OverviewWidget>
