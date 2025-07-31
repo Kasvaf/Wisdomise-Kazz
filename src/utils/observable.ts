@@ -1,10 +1,88 @@
 import { useEffect, useRef, useState } from 'react';
-import { type Subscription, type Observable } from 'rxjs';
+import { type Subscription, type Observable, type TeardownLogic } from 'rxjs';
 import { type QueryKey } from '@tanstack/react-query';
 import { isDebugMode } from './version';
 
 const subscriptions = new Map<string, Subscription>();
 const listeners = new Map<string, Array<(value: never) => void>>();
+
+function createGrpcConnection<V>(key: QueryKey, observable: Observable<V>) {
+  const strKey = JSON.stringify(key);
+
+  const log = (title: string, body: any) => {
+    const logPrefix = '[grpc]';
+    const logIndentifier = `${(key?.[1] as string) ?? 'unknown'}/${
+      (key?.[2] as string) ?? 'unknwon'
+    }`;
+    if (isDebugMode) {
+      console.groupCollapsed(`${logPrefix} [${title}] ${logIndentifier}`);
+      console.log(body);
+      console.groupEnd();
+    }
+  };
+
+  const getListeners = () => listeners.get(strKey) ?? [];
+
+  const handleMessage = (msg: V) => {
+    log('message', msg);
+    for (const fn of getListeners()) fn(msg as never);
+  };
+
+  const handleError = (err: any) => {
+    log('error', err);
+  };
+
+  const onMessage = (handler: (msg: V) => void) => {
+    listeners.set(strKey, [...getListeners(), handler]);
+  };
+
+  const offMessage = (handler: (msg: V) => void) => {
+    const currentListenerIdx = getListeners().indexOf(handler);
+    if (currentListenerIdx !== -1) {
+      listeners.set(strKey, [
+        ...getListeners().slice(0, currentListenerIdx),
+        ...getListeners().slice(currentListenerIdx + 1),
+      ]);
+      if (getListeners().length === 0) {
+        listeners.delete(strKey);
+        subscription.unsubscribe();
+        subscriptions.delete(strKey);
+      }
+    }
+  };
+
+  const teardown: TeardownLogic = {
+    unsubscribe: () => {
+      log('disconect', '');
+      if (getListeners().length > 0) {
+        subscriptions.delete(strKey);
+        subscription = subscribe();
+      }
+    },
+  };
+
+  const subscribe = () => {
+    const subscription =
+      subscriptions.get(strKey) ??
+      observable.subscribe(handleMessage, handleError);
+
+    if (!subscriptions.has(strKey)) {
+      log('connect', key[3]);
+      subscriptions.set(strKey, subscription);
+
+      subscription.add(teardown);
+    }
+
+    return subscription;
+  };
+
+  let subscription = subscribe();
+
+  return {
+    onMessage,
+    offMessage,
+  };
+}
 
 function useObservable<V>({
   observable,
@@ -20,66 +98,12 @@ function useObservable<V>({
   const handlerRef = useRef(h);
   useEffect(() => {
     if (enabled === false) return;
-    const strKey = JSON.stringify(key);
-    const logPrefix = '[grpc]';
-    const logIndentifier = `${(key?.[1] as string) ?? 'unknown'}/${
-      (key?.[2] as string) ?? 'unknwon'
-    }`;
-
     const handler = handlerRef.current;
-    const getListeners = () => listeners.get(strKey) ?? [];
-
-    listeners.set(strKey, [...getListeners(), handlerRef.current]);
-
-    const subscription =
-      subscriptions.get(strKey) ??
-      observable.subscribe(
-        item => {
-          if (isDebugMode) {
-            console.groupCollapsed(`${logPrefix} [msg] ${logIndentifier}`);
-            console.log(item);
-            console.groupEnd();
-          }
-          for (const fn of getListeners()) fn(item as never);
-        },
-        e => {
-          if (isDebugMode) {
-            console.groupCollapsed(`${logPrefix} [err] ${logIndentifier}`);
-            console.log(e);
-            console.groupEnd();
-          }
-        },
-        () => {
-          if (isDebugMode) {
-            console.groupCollapsed(`${logPrefix} [end] ${logIndentifier}`);
-            console.log(key[3]);
-            console.groupEnd();
-          }
-        },
-      );
-    if (!subscriptions.has(strKey)) {
-      console.log('HEREEEEEEEEEE', subscriptions);
-      if (isDebugMode) {
-        console.groupCollapsed(`${logPrefix} [con] ${logIndentifier}`);
-        console.log(key[3]);
-        console.groupEnd();
-      }
-      subscriptions.set(strKey, subscription);
-    }
+    const connection = createGrpcConnection(key, observable);
+    connection.onMessage(handler);
 
     return () => {
-      const currentListenerIdx = getListeners().indexOf(handler);
-      if (currentListenerIdx !== -1) {
-        listeners.set(strKey, [
-          ...getListeners().slice(0, currentListenerIdx),
-          ...getListeners().slice(currentListenerIdx + 1),
-        ]);
-      }
-
-      if (getListeners().length === 0) {
-        subscription.unsubscribe();
-        subscriptions.delete(strKey);
-      }
+      connection.offMessage(handler);
     };
   }, [enabled, key, observable]);
 }
