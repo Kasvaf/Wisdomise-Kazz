@@ -73,7 +73,7 @@ const AdvancedChart: React.FC<{
 
   useEffect(() => {
     if (isLoading || !data?.network) return;
-    let isMarketCap = localStorage.getItem('tw-market-cap') !== 'false';
+    let isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
     let savedResolution = (localStorage.getItem('chart-resolution') ||
       '30') as ResolutionString;
 
@@ -213,7 +213,7 @@ const AdvancedChart: React.FC<{
       setButtonInnerContent();
       button.addEventListener('click', () => {
         isMarketCap = !isMarketCap;
-        localStorage.setItem('tw-market-cap', String(isMarketCap));
+        localStorage.setItem('tv-market-cap', String(isMarketCap));
         setButtonInnerContent();
         widget.activeChart().resetData();
       });

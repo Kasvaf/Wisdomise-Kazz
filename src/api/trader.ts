@@ -86,6 +86,7 @@ export const useSupportedPairs = (
   baseSlug?: string,
   config?: { enabled: boolean },
 ) => {
+  baseSlug = baseSlug === 'solana' ? 'wrapped-solana' : baseSlug;
   return useQuery({
     queryKey: ['supported-pairs', baseSlug],
     queryFn: async () => {
