@@ -288,7 +288,7 @@ export default function BtnInstantTrade({
         variant="outline"
         size="xs"
         className={clsx(
-          '!border-v1-border-brand !bg-transparent !text-v1-content-brand',
+          '!border-v1-border-brand !bg-transparent !text-v1-content-brand mobile:hidden',
           isOpen && '!bg-v1-background-hover',
           className,
         )}

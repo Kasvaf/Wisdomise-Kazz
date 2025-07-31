@@ -9,6 +9,7 @@ import { useSymbolInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function QuickBuySettings({
@@ -26,21 +27,27 @@ export default function QuickBuySettings({
 
   return isLoggedIn ? (
     <div className={clsx(className, 'flex items-center gap-2')}>
-      {showWallet && <BtnSolanaWallets showBalance={true} />}
-      <Input
-        size="xs"
-        type="string"
-        className="w-28"
-        placeholder="0.0"
-        value={settings.quick_buy[source].amount}
-        prefixIcon={<InstantIcon className="-ml-1 !size-8" />}
-        suffixIcon={
-          solanaSymbol && (
-            <Coin className="-mr-3" coin={solanaSymbol} mini noText nonLink />
-          )
-        }
-        onChange={newValue => updateQuickBuyAmount(source, newValue)}
-      />
+      {showWallet && (
+        <HoverTooltip title="Balance">
+          <BtnSolanaWallets showBalance={true} />
+        </HoverTooltip>
+      )}
+      <HoverTooltip title="Quick Buy Amount" ignoreFocus>
+        <Input
+          size="xs"
+          type="string"
+          className="!flex w-28"
+          placeholder="0.0"
+          value={settings.quick_buy[source].amount}
+          prefixIcon={<InstantIcon className="-ml-1 !size-8" />}
+          suffixIcon={
+            solanaSymbol && (
+              <Coin className="-mr-3" coin={solanaSymbol} mini noText nonLink />
+            )
+          }
+          onChange={newValue => updateQuickBuyAmount(source, newValue)}
+        />
+      </HoverTooltip>
       <TraderPresetsSelector source={source} size="xs" showValue />
     </div>
   ) : null;
