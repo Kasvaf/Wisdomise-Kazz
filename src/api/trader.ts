@@ -83,6 +83,7 @@ export const getPairsCached = async (baseSlug: string) => {
 };
 
 export const useSupportedPairs = (baseSlug?: string) => {
+  baseSlug = baseSlug === 'solana' ? 'wrapped-solana' : baseSlug;
   return useQuery({
     queryKey: ['supported-pairs', baseSlug],
     queryFn: async () => {
