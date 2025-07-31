@@ -81,11 +81,7 @@ const makeDataFeed = (
     },
     resolveSymbol: async (symbolName, onResolve, onError) => {
       const pairs = await getPairsCached(baseSlug);
-      const pair = pairs.find(
-        x =>
-          x.name === symbolName ||
-          (x.base.name === symbolName && x.quote.slug === quote),
-      );
+      const pair = pairs.find(x => x.quote.slug === quote);
       if (!pair) {
         onError('Not found');
         return;

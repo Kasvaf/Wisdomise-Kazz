@@ -52,6 +52,7 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
 };
 
 const CoinChart: React.FC<{ slug: string }> = ({ slug }) => {
+  slug = slug === 'solana' ? 'wrapped-solana' : slug;
   const [quote] = useActiveQuote();
   const lastCandle = useLastCandleQuery({ slug, quote });
   if (lastCandle.isLoading) return null;
