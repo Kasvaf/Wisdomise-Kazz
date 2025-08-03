@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
+import { useDebounce } from 'usehooks-ts';
 import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
@@ -28,11 +29,14 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       new_pairs: {},
     },
   );
+
+  const lazyFilters = useDebounce(filters, 150);
+
   const {
     new_pairs: newPairs,
     final_stretch: finalStretch,
     migrated,
-  } = useNetworkRadarStream(filters);
+  } = useNetworkRadarStream(lazyFilters);
 
   const navigate = useNavigate();
   const { getUrl } = useDiscoveryRouteMeta();
@@ -70,8 +74,8 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       </div>
 
       <NCoinList
-        dataSource={newPairs}
-        loading={newPairs.length === 0}
+        dataSource={newPairs.data?.results ?? []}
+        loading={newPairs.isLoading}
         title="New Pairs"
         titleSuffix={
           <div className="flex items-center">
@@ -95,8 +99,8 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         source="new_pairs"
       />
       <NCoinList
-        dataSource={finalStretch}
-        loading={finalStretch.length === 0}
+        dataSource={finalStretch.data?.results ?? []}
+        loading={finalStretch.isLoading}
         title="Final Stretch"
         titleSuffix={
           <div className="flex items-center">
@@ -120,8 +124,8 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         source="final_stretch"
       />
       <NCoinList
-        dataSource={migrated}
-        loading={migrated.length === 0}
+        dataSource={migrated.data?.results ?? []}
+        loading={migrated.isLoading}
         title="Migrated"
         hideBCurve
         titleSuffix={

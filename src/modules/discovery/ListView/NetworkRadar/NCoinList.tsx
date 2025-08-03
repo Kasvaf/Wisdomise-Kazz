@@ -134,8 +134,6 @@ export const NCoinList: FC<{
         'flex flex-col gap-3 overflow-auto rounded-lg scrollbar-none',
         className,
       )}
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
     >
       {title && (
         <div className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none">
@@ -166,11 +164,15 @@ export const NCoinList: FC<{
           {t('common:almost-there')}
         </p>
       ) : dataSource.length === 0 ? (
-        <p className="p-3 text-center text-xs text-v1-content-secondary">
-          {t('common:data-incoming')}
+        <p className="p-3 text-center text-xs leading-relaxed text-v1-content-secondary">
+          {t('common:nothing-to-show')}
         </p>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div
+          className="flex flex-col gap-3"
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
+        >
           {dataSource.map(row => (
             <button
               key={row.symbol?.slug}

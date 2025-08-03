@@ -120,7 +120,7 @@ export const NCoinTokenInsight: FC<{
                 className={clsx(
                   'relative flex shrink-0 items-center justify-start gap-px',
                   item.color === 'green'
-                    ? 'text-v1-content-primary'
+                    ? 'text-v1-background-positive'
                     : item.color === 'red'
                     ? 'text-v1-background-negative'
                     : 'opacity-80',
@@ -129,8 +129,10 @@ export const NCoinTokenInsight: FC<{
                 <item.icon
                   className={clsx(
                     item.color === 'green'
-                      ? 'stroke-v1-background-inverse'
-                      : 'stroke-v1-background-negative-subtle',
+                      ? 'stroke-v1-background-positive-subtle'
+                      : item.color === 'red'
+                      ? 'stroke-v1-background-negative-subtle'
+                      : '',
                     'size-4',
                     imgClassName,
                   )}
@@ -178,7 +180,9 @@ export const NCoinTokenInsight: FC<{
                       className={clsx(
                         item.color === 'green'
                           ? 'stroke-v1-background-positive-subtle'
-                          : 'stroke-v1-background-negative-subtle',
+                          : item.color === 'red'
+                          ? 'stroke-v1-background-negative-subtle'
+                          : '',
                         'size-5',
                         imgClassName,
                       )}

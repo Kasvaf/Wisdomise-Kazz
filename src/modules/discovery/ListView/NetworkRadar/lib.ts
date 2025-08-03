@@ -1,8 +1,5 @@
 import { networkRadarGrpc } from 'api/grpc';
-import {
-  type TrenchStreamRequest,
-  type TrenchStreamResponse,
-} from 'api/proto/network_radar';
+import { type TrenchStreamRequest } from 'api/proto/network_radar';
 
 export const doesNCoinHaveSafeTopHolders = ({
   topHolders,
@@ -70,7 +67,10 @@ export type NetworkRadarStreamFilters = Record<
 
 export const useNetworkRadarStream = (
   filters: NetworkRadarStreamFilters,
-): Record<NetworkRadarTab, TrenchStreamResponse['results']> => {
+): Record<
+  NetworkRadarTab,
+  ReturnType<typeof networkRadarGrpc.useTrenchNewBornStreamLastValue>
+> => {
   const newPairs = networkRadarGrpc.useTrenchNewBornStreamLastValue(
     filters.new_pairs,
   );
@@ -82,8 +82,8 @@ export const useNetworkRadarStream = (
   );
 
   return {
-    new_pairs: newPairs.data?.results ?? [],
-    final_stretch: finalStretch.data?.results ?? [],
-    migrated: migrated.data?.results ?? [],
+    new_pairs: newPairs,
+    final_stretch: finalStretch,
+    migrated,
   };
 };
