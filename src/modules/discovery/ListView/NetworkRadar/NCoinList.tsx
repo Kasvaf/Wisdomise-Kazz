@@ -189,7 +189,9 @@ export const NCoinList: FC<{
                   marker={
                     EXCHANGE_LOGOS[(row.symbol?.exchange as never) || 'pumpfun']
                   }
-                  progress={row.networkData?.boundingCurve ?? 1}
+                  progress={
+                    hideBCurve ? undefined : row.networkData?.boundingCurve ?? 1
+                  }
                   networks={[
                     {
                       contract_address: row.symbol?.base ?? '---',
