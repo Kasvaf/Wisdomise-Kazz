@@ -24,7 +24,7 @@ import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
 import { useConnectedWallet, useActiveWallet } from 'api/chains/wallet';
 import { useShare } from 'shared/useShare';
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 interface AssetData {
@@ -41,7 +41,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   return (
     <NavLink
       className={clsx(
-        'flex items-center justify-between px-4 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4 mobile:py-3',
+        'flex items-center justify-between px-3 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4 mobile:py-3',
         params.slug === asset.slug && '!bg-v1-surface-l3',
       )}
       to={getUrl({
@@ -52,13 +52,14 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
     >
       {baseInfo ? (
         <Coin
-          coin={baseInfo}
+          abbreviation={baseInfo.abbreviation}
+          name={baseInfo.name}
+          networks={baseInfo.networks}
+          href={false}
           className="text-xs mobile:text-sm"
-          imageClassName="size-7"
-          truncate={false}
-          nonLink
-          abbrevationSuffix={
-            <div className="ml-2 text-xxs font-normal text-v1-content-secondary">
+          truncate
+          extra={
+            <div className="text-xxs font-normal text-v1-content-secondary">
               ${roundSensible((asset.usd_equity ?? 0) / asset.amount)}
             </div>
           }
