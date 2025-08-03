@@ -52,10 +52,11 @@ function createGrpcConnection<V>(key: QueryKey, observable: Observable<V>) {
   };
 
   const teardown: TeardownLogic = {
-    unsubscribe: () => {
+    unsubscribe: async () => {
       log('disconect', '');
       if (getListeners().length > 0) {
         subscriptions.delete(strKey);
+        await new Promise(resolve => setTimeout(resolve, 5000));
         subscription = subscribe();
       }
     },
