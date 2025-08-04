@@ -2,6 +2,7 @@ name: Deploy to S3 (Staging)
 
 on:
   push:
+  workflow_dispatch:
 
 env:
   github-cicd-role: arn:aws:iam::398880522319:role/github-cicd-goatx-front
