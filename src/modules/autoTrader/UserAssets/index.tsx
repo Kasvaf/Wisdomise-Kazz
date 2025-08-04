@@ -6,7 +6,6 @@ import { bxCopy } from 'boxicons-quasar';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useUserWalletAssets } from 'api/chains';
-import { roundSensible } from 'utils/numbers';
 import { isMiniApp } from 'utils/version';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -54,14 +53,15 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
         <Coin
           abbreviation={baseInfo.abbreviation}
           name={baseInfo.name}
-          networks={baseInfo.networks}
+          // networks={baseInfo.networks}
           href={false}
-          className="text-xs mobile:text-sm"
           truncate
           extra={
-            <div className="text-xxs font-normal text-v1-content-secondary">
-              ${roundSensible((asset.usd_equity ?? 0) / asset.amount)}
-            </div>
+            <ReadableNumber
+              className="text-v1-content-secondary"
+              value={(asset.usd_equity ?? 0) / asset.amount}
+              label="$"
+            />
           }
         />
       ) : baseLoading ? (
@@ -69,12 +69,17 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
       ) : (
         <div />
       )}
-      <div className="text-end">
-        <div className="text-xs font-medium">{roundSensible(asset.amount)}</div>
+      <div className="flex flex-col items-end">
+        <ReadableNumber
+          className="flex text-xs font-medium"
+          value={asset.amount}
+        />
         {asset.usd_equity !== 0 && (
-          <div className="text-xxs font-normal text-v1-content-secondary">
-            ${roundSensible(asset.usd_equity)}
-          </div>
+          <ReadableNumber
+            className="text-xxs text-v1-content-secondary"
+            value={asset.usd_equity}
+            label="$"
+          />
         )}
       </div>
     </NavLink>
