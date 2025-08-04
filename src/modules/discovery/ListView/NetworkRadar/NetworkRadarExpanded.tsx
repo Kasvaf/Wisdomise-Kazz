@@ -102,7 +102,6 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         dataSource={finalStretch.data?.results ?? []}
         loading={finalStretch.isLoading}
         title="Final Stretch"
-        highlightFullBCurve
         titleSuffix={
           <div className="flex items-center">
             <QuickBuySettings source="final_stretch" className="mr-11" />

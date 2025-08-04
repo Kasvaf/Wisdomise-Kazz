@@ -100,7 +100,6 @@ export const NCoinList: FC<{
   loading?: boolean;
   mini?: boolean;
   onRowClick?: (slug: string) => void;
-  highlightFullBCurve?: boolean;
   source: 'new_pairs' | 'final_stretch' | 'migrated';
 }> = ({
   dataSource: _dataSource,
@@ -115,9 +114,21 @@ export const NCoinList: FC<{
   const [dataSource, setDataSource] = useState(_dataSource);
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
+
   useEffect(() => {
     if (!hovered || dataSource.length === 0) {
-      setDataSource(_dataSource);
+      setDataSource(p => {
+        const ret: typeof p = [];
+        const seen = new Set<string>();
+        for (const element of _dataSource) {
+          const key = element.symbol?.slug ?? '';
+          if (!seen.has(key)) {
+            ret.push(element);
+            seen.add(key);
+          }
+        }
+        return ret;
+      });
     }
   }, [_dataSource, dataSource.length, hovered]);
 
@@ -166,9 +177,9 @@ export const NCoinList: FC<{
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={() => setHovered(false)}
         >
-          {dataSource.map((row, index) => (
+          {dataSource.map(row => (
             <button
-              key={`${row.symbol?.slug ?? ''}${row.symbol?.base ?? ''}${index}`}
+              key={row.symbol?.slug ?? ''}
               className="group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
