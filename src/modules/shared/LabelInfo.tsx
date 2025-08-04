@@ -13,7 +13,7 @@ const LabelInfo: React.FC<PropsWithChildren<{ url: string }>> = ({
         target="_blank"
         href={url}
         rel="noreferrer"
-        className="text-warning/70 hover:text-warning"
+        className="text-v1-content-notice/70 hover:text-v1-content-notice"
       >
         <Icon name={bxInfoCircle} />
       </a>

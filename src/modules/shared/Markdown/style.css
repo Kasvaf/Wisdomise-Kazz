@@ -1,4 +1,5 @@
 /* @import '@mdxeditor/editor/style.css'; */
+@reference "tailwindcss";
 
 .wsdm-markdown {
   @apply text-sm text-white;

@@ -65,7 +65,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           ]}
           size="xs"
           className="w-full"
-          surface={2}
+          surface={1}
         />
         <NetworkRadarFilters
           initialTab={tab}

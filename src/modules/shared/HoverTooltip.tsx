@@ -41,7 +41,7 @@ export function HoverTooltip({
         mode="popup"
         className="!max-w-[400px]"
         contentClassName="p-3 text-sm text-v1-content-primary"
-        surface={4}
+        surface={3}
         onClose={() => onOpenChange?.(false)}
         onOpen={() => onOpenChange?.(true)}
         popupConfig={{

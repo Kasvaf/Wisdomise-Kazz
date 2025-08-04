@@ -20,7 +20,7 @@ const BtnTelegramProfile: React.FC<{ className?: string }> = ({
         className,
       )}
     >
-      <div className="relative shrink-0 rounded-lg bg-wsdm-gradient p-px">
+      <div className="relative shrink-0 rounded-lg bg-brand-gradient p-px">
         <div className="relative">
           {profile?.photo_url ? (
             <img

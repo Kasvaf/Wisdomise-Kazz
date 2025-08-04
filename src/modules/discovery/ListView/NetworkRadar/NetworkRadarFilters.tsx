@@ -41,6 +41,7 @@ export const NetworkRadarFilters: FC<
             })
           }
           size="xs"
+          surface={2}
         />
       )}
       <Filters

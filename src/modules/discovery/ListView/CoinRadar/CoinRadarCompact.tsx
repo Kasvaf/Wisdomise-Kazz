@@ -126,7 +126,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           chunkSize={10}
           loading={coins.isLoading}
           rowKey={r => r.rank}
-          surface={2}
+          surface={1}
           onClick={r => openModal(r)}
           scrollable={false}
           isActive={r => r.symbol.slug === activeSlug}

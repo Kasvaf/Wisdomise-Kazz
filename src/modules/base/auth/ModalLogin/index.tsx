@@ -223,15 +223,15 @@ const LoginModalContent: React.FC<{
           placeholder=" "
           classNames={{
             character: clsx(
-              'rounded-lg border-transparent bg-v1-surface-l3 text-white',
+              'rounded-lg !border-transparent !bg-v1-surface-l3 !text-white',
             ),
-            characterSelected: clsx('border border-white outline-none'),
-            container: clsx('w-full gap-4'),
+            characterSelected: clsx('border !outline-v1-border-brand outline-none'),
+            container: clsx('!w-full gap-4'),
           }}
           value={nonce}
           onChange={setNonce}
         />
-        {fieldError && <div className="ml-1 mt-3 text-error">{fieldError}</div>}
+        {fieldError && <div className="ml-1 mt-3 text-v1-content-negative">{fieldError}</div>}
         <Button
           variant="primary"
           onClick={submitCode}

@@ -10,7 +10,7 @@ export const ModeSelector: React.FC<{
   return (
     <div
       className={clsx(
-        'flex items-stretch gap-1 rounded-lg bg-v1-surface-l2 p-1',
+        'flex items-stretch rounded-lg bg-v1-surface-l1 p-1 gap-1',
         className,
       )}
     >
@@ -22,7 +22,7 @@ export const ModeSelector: React.FC<{
             '!bg-v1-content-positive text-v1-content-secondary-inverse',
         )}
         size="xs"
-        surface={2}
+        surface={1}
         onClick={() => setMode('buy')}
       >
         Buy
@@ -36,7 +36,7 @@ export const ModeSelector: React.FC<{
             '!bg-v1-content-negative text-v1-content-secondary-inverse',
         )}
         size="xs"
-        surface={2}
+        surface={1}
         onClick={() => setMode('sell')}
       >
         Sell
@@ -50,7 +50,7 @@ export const ModeSelector: React.FC<{
             '!bg-v1-content-info text-v1-content-secondary-inverse',
         )}
         size="xs"
-        surface={2}
+        surface={1}
         onClick={() => setMode('auto')}
       >
         Auto Trade

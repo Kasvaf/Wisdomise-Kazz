@@ -11,7 +11,7 @@ import SensibleSteps from 'modules/base/wallet/SensibleSteps';
 export default function QuoteQuickSet({
   balance,
   onClick,
-  surface = 2,
+  surface = 1,
   className,
   btnClassName,
   mode,

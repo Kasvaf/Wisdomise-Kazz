@@ -17,7 +17,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
     <>
       <div
         className={clsx(
-          'flex h-full w-full flex-col items-center justify-start text-v1-content-primary',
+          'flex h-full w-full flex-col items-center justify-start',
           className,
         )}
       >
@@ -38,7 +38,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
             className={clsx(
               'group flex w-full flex-col items-center justify-center py-3 transition-all',
               isMatched(item.meta) &&
-                'bg-v1-surface-l1/50 font-bold text-v1-content-brand',
+                'bg-v1-surface-l1 font-bold text-v1-content-brand',
               'hover:text-v1-content-link-hover',
             )}
           >

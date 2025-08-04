@@ -165,7 +165,7 @@ export const Dialog: FC<{
   className,
   contentClassName,
 
-  surface = 3,
+  surface = 1,
 
   header,
   footer,
@@ -264,10 +264,10 @@ export const Dialog: FC<{
                 // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
                 tabIndex={1}
                 className={clsx(
-                  'fixed z-[1000] overflow-auto bg-[--current-color] transition-[transform,opacity] duration-100 ease-in-out scrollbar-thin mobile:duration-300',
+                  'bg-(--current-color) fixed z-[1000] overflow-auto transition-[translate,opacity] duration-100 ease-in-out scrollbar-thin mobile:duration-300',
                   mode === 'drawer' && [
                     drawerConfig.position === 'bottom' && [
-                      'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
+                      'min-h-32 inset-x-0 bottom-0 h-auto max-h-[90svh] w-full rounded-t-2xl',
                       state ? 'translate-y-0' : 'translate-y-full',
                     ],
                     drawerConfig.position === 'start' && [
@@ -297,12 +297,12 @@ export const Dialog: FC<{
                   e.stopPropagation();
                 }}
               >
-                <div className="sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-[--current-color] bg-gradient-to-b empty:hidden">
+                <div className="bg-(--current-color) sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-gradient-to-b empty:hidden">
                   {mode === 'drawer' &&
                     drawerConfig.closeButton &&
                     drawerConfig.position === 'bottom' && (
                       <div
-                        className="mt-3 h-[6px] w-full max-w-12 shrink-0 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
+                        className="max-w-12 mt-3 h-[6px] w-full shrink-0 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
                         onClick={e => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -317,7 +317,7 @@ export const Dialog: FC<{
                       drawerConfig.closeButton)) && (
                     <button
                       className={clsx(
-                        'absolute end-3 top-3 z-50 flex size-5 items-center justify-center rounded-full opacity-60 backdrop-blur backdrop-brightness-75 hover:opacity-100 active:opacity-100',
+                        'size-5 absolute end-3 top-3 z-50 flex items-center justify-center rounded-full opacity-60 backdrop-blur backdrop-brightness-75 hover:opacity-100 active:opacity-100',
                       )}
                       onClick={() => {
                         onCancel?.();
@@ -331,7 +331,7 @@ export const Dialog: FC<{
                 </div>
                 <div className={contentClassName}>{children}</div>
                 {footer && (
-                  <div className="sticky bottom-0 z-10 w-full bg-[--current-color] p-3 empty:hidden">
+                  <div className="bg-(--current-color) sticky bottom-0 z-10 w-full p-3 empty:hidden">
                     {footer}
                   </div>
                 )}

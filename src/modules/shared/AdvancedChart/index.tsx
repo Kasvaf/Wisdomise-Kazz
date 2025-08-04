@@ -87,7 +87,7 @@ const AdvancedChart: React.FC<{
       locale: language as any,
       // enabled_features: ['study_templates'],
       disabled_features: [
-        // 'use_localstorage_for_settings',
+        'use_localstorage_for_settings',
         'symbol_search_hot_key',
         'hide_price_scale_global_last_bar_value',
         'chart_style_hilo_last_price',
@@ -97,7 +97,7 @@ const AdvancedChart: React.FC<{
         'header_compare',
         // 'header_resolutions',
       ],
-      enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
+      enabled_features: ['seconds_resolution'],
       timeframe: '7D', // initial zoom on chart
       interval: savedResolution,
       time_frames: [
@@ -106,6 +106,10 @@ const AdvancedChart: React.FC<{
         { title: '5d', text: '5D', resolution: '5' as ResolutionString },
         { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
+      overrides: {
+        'paneProperties.backgroundType': 'solid',
+        'paneProperties.background': '#0c0c0c',
+      },
       favorites: {
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
@@ -186,7 +190,7 @@ const AdvancedChart: React.FC<{
       if (data.quote !== 'tether' && data.quote !== 'usd-coin') {
         const convertToUsdButton = widget.createButton();
         function setConvertButtonInnerContent() {
-          const colorStyle = 'style="color:#00a3ff"';
+          const colorStyle = 'style="color:#beff21"';
           convertToUsdButton.innerHTML = `<span ${
             convertToUsd ? '' : colorStyle
           }>${
@@ -205,7 +209,7 @@ const AdvancedChart: React.FC<{
       // Create button for MarketCap/Price toggle in top toolbar
       const button = widget.createButton();
       function setButtonInnerContent() {
-        const colorStyle = 'style="color:#00a3ff"';
+        const colorStyle = 'style="color:#beff21"';
         button.innerHTML = `<span ${
           isMarketCap ? colorStyle : ''
         }>MarketCap</span>/<span ${isMarketCap ? '' : colorStyle}>Price</span>`;

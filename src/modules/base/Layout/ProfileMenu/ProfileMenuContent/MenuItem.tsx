@@ -15,10 +15,10 @@ const MenuItem: React.FC<
 > = ({ className, children, to, href, noArrow, ...props }) => {
   const { pathname } = useLocation();
   const classes = clsx(
-    'cursor-pointer bg-v1-surface-l3 !text-v1-content-primary hover:bg-v1-surface-l2',
+    'cursor-pointer bg-v1-surface-l4 !text-v1-content-primary hover:bg-v1-surface-l5',
     'flex h-12 items-center justify-between py-2 pl-3 pr-4',
     'select-none rounded-xl',
-    to && pathname.startsWith(to) && '!bg-v1-surface-l2',
+    to && pathname.startsWith(to) && '!bg-v1-surface-l5',
     className,
   );
 

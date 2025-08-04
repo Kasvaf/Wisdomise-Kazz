@@ -145,7 +145,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             dataSource={coins.data?.slice(0, 10)}
             chunkSize={10}
             rowKey={(r, i) => `${r.symbol.slug} ${i}`}
-            surface={3}
+            surface={2}
             className={className}
             scrollable
             loading={coins.isLoading}

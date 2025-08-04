@@ -77,7 +77,7 @@ export function ClickableTooltip({
         }}
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        surface={4}
+        surface={3}
       >
         {title}
       </Dialog>

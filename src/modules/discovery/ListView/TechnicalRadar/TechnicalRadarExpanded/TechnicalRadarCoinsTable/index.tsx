@@ -121,6 +121,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
           rowKey={r => r.symbol.slug}
           loading={coins.isLoading}
           scrollable
+          surface={2}
           className="max-h-[477px]"
           rowHoverPrefix={row => (
             <Button

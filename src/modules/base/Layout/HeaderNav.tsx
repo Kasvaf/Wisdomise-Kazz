@@ -76,7 +76,7 @@ const HeaderNav = () => {
               '!text-v1-content-brand',
             'id-tour-trades-btn',
           )}
-          surface={2}
+          surface={1}
         >
           <IconTrades />
           Trades
@@ -101,9 +101,9 @@ const HeaderNav = () => {
           className={clsx(
             '!px-2',
             pathname.startsWith('/account/billing') &&
-              '!text-v1-content-notice',
+              '!text-v1-content-brand',
           )}
-          surface={isMobile ? 2 : 3}
+          surface={1}
         >
           <SubscriptionIcon />
           Wise Club
@@ -116,9 +116,9 @@ const HeaderNav = () => {
         variant="ghost"
         className={clsx(
           isMobile ? '!px-4' : '!px-2',
-          pathname.startsWith('/trader/quests') && '!text-v1-content-notice',
+          pathname.startsWith('/trader/quests') && '!text-v1-content-brand',
         )}
-        surface={isMobile ? 2 : 3}
+        surface={1}
       >
         <IconQuests />
         Earn & Win

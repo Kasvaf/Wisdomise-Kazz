@@ -231,7 +231,7 @@ export function Select<V, M extends boolean = false>({
   suffixIcon,
   chevron = true,
   disabled,
-  surface = 3,
+  surface = 1,
   dialogSurface = 3,
   dialogClassName,
   searchPlaceholder = 'Search Here',
@@ -388,7 +388,7 @@ export function Select<V, M extends boolean = false>({
           showSearch && (
             <input
               placeholder={searchPlaceholder}
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l5 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
+              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l4 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
               value={searchValue ?? ''}
               onChange={e => onSearch?.(e.target.value)}
               ref={searchRef}

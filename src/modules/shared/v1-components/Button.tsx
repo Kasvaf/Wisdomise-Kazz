@@ -50,7 +50,7 @@ export const Button: FC<ButtonProps> = ({
   loading,
   block,
   onClick,
-  surface = 3,
+  surface = 1,
   type,
 }) => {
   const [localLoading, setLocalLoading] = useState(false);
@@ -81,36 +81,36 @@ export const Button: FC<ButtonProps> = ({
         size === '2xl' && (fab ? 'w-2xl' : 'px-5'),
         /* Variant: background-color, color, :hover, :active */
         variant === 'primary' &&
-          'border-v1-background-brand bg-v1-background-brand text-v1-content-primary enabled:hover:bg-v1-background-brand-hover enabled:active:bg-v1-background-brand-pressed',
+          'border-v1-background-brand bg-v1-background-brand text-v1-content-primary-inverse enabled:hover:bg-v1-background-brand-hover enabled:active:bg-v1-background-brand-pressed',
         variant === 'secondary' &&
           'border-v1-background-secondary bg-v1-background-secondary text-v1-content-primary enabled:hover:bg-v1-background-secondary-hover enabled:active:bg-v1-background-secondary-pressed',
         variant === 'outline' &&
-          'border-white/5 bg-[--ghost-color] text-v1-content-primary enabled:hover:border-white/50 enabled:active:border-white/100',
+          'bg-(--ghost-color) text-v1-content-primary border-white/5 enabled:hover:border-white/50 enabled:active:border-white/100',
         variant === 'ghost' &&
-          'border-transparent bg-[--ghost-color] text-v1-content-primary enabled:hover:bg-[--ghost-hover-color] enabled:active:bg-[--ghost-color]',
+          'bg-(--ghost-color) text-v1-content-primary enabled:hover:bg-(--ghost-hover-color) enabled:active:bg-(--ghost-color) border-transparent',
         variant === 'pro' &&
-          'border-transparent bg-pro-gradient text-v1-content-primary-inverse enabled:hover:brightness-[1.15] enabled:active:brightness-125',
+          'text-v1-content-primary-inverse border-transparent bg-pro-gradient enabled:hover:brightness-[1.15] enabled:active:brightness-125',
         variant === 'wsdm' &&
-          'border-transparent bg-wsdm-gradient text-v1-content-primary enabled:hover:brightness-[1.15] enabled:active:brightness-125',
+          'text-v1-content-primary border-transparent bg-brand-gradient enabled:hover:brightness-[1.15] enabled:active:brightness-125',
         variant === 'white' &&
-          'border-white bg-white text-v1-content-primary-inverse enabled:hover:bg-white/90 enabled:active:bg-white/100',
+          'text-v1-content-primary-inverse border-white bg-white enabled:hover:bg-white/90 enabled:active:bg-white/100',
         variant === 'link' &&
-          'border-transparent text-v1-content-link enabled:hover:text-v1-content-link-hover enabled:active:text-v1-content-link-pressed',
+          'text-v1-content-link enabled:hover:text-v1-content-link-hover enabled:active:text-v1-content-link-pressed border-transparent',
         variant === 'negative' &&
           'border-v1-border-negative bg-v1-background-negative text-v1-content-primary-inverse enabled:hover:bg-v1-background-negative/90',
         variant === 'negative_outline' &&
-          'border-v1-border-negative bg-transparent text-v1-content-negative enabled:hover:bg-v1-background-negative/15 enabled:active:bg-transparent',
+          'border-v1-border-negative text-v1-content-negative enabled:hover:bg-v1-background-negative/15 bg-transparent enabled:active:bg-transparent',
         variant === 'positive' &&
           'border-v1-border-positive bg-v1-background-positive text-v1-content-primary-inverse enabled:hover:bg-v1-background-positive',
         variant === 'positive_outline' &&
-          'border-v1-border-positive bg-transparent text-v1-content-positive enabled:hover:bg-v1-background-positive/15 enabled:active:bg-transparent',
+          'border-v1-border-positive text-v1-content-positive enabled:hover:bg-v1-background-positive/15 bg-transparent enabled:active:bg-transparent',
         /* Loading */
         (loading || localLoading) && 'animate-pulse',
         /* Disabled */
         'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
         /* Shared */
-        'outline-none enabled:focus-visible:border-v1-border-focus',
-        'relative select-none border font-normal transition-all [&_svg]:size-5 [&_svg]:shrink-0',
+        'enabled:focus-visible:border-v1-border-focus outline-none',
+        '[&_svg]:size-5 relative select-none border font-normal transition-all [&_svg]:shrink-0',
         block ? 'flex' : 'inline-flex',
         'items-center justify-center gap-1',
         className,

@@ -14,7 +14,7 @@ export const TRSAnalysis: FC<{ value?: string | null; className?: string }> = ({
         className,
       )}
     >
-      <div className="flex size-6 shrink-0 items-center justify-center rounded bg-wsdm-gradient">
+      <div className="flex size-6 shrink-0 items-center justify-center rounded bg-brand-gradient">
         <ShineStar />
       </div>
       <p>{value}</p>

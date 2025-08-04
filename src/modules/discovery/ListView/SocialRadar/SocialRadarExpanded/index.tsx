@@ -192,6 +192,7 @@ export function SocialRadarExpanded() {
             rowKey={r => r.symbol.slug}
             loading={coins.isLoading}
             scrollable
+            surface={2}
             rowHoverPrefix={row => (
               <Button
                 variant="secondary"

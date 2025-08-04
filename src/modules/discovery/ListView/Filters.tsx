@@ -47,7 +47,7 @@ export function Filters<T extends object>({
   mini,
   size: _size,
   className,
-  surface = 3,
+  surface = 2,
   onOpen,
 }: {
   presets?: Array<PresetFilter<T>>;

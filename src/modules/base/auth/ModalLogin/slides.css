@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .login-slides .swiper-pagination {
   /* -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); */
   mask-image: linear-gradient(
