@@ -246,7 +246,7 @@ export const NCoinList: FC<{
                     />
                   }
                   href={false}
-                  truncate={!!mini}
+                  truncate
                 />
               </div>
               <NCoinMarketDataCol
