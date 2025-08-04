@@ -3,6 +3,11 @@ on:
   push:
     branches: [main]
 
+env:
+  github-cicd-role: arn:aws:iam::398880522319:role/github-cicd-goatx-front
+  region: us-east-1
+  s3-bucket: goatx.trade
+
 jobs:
   Lint-Build-Prod:
     name: Lint-Build-Prod
@@ -15,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
@@ -56,14 +61,17 @@ jobs:
           export NODE_OPTIONS=--max-old-space-size=8192
           yarn build:prod
           find dist | grep -E ".*\.map$" | tr '\n' '\0' | xargs -0 -n1 rm -rf
+      
+      - name: Configure AWS credentials for ECR
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.github-cicd-role }}
+          aws-region: ${{ env.region }}
 
       - name: Upload to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp --recursive dist/ s3://app.wisdomise.com/
-          ./scripts/cleanup-bucket.sh app.wisdomise.com
+          aws s3 cp --recursive dist/ s3://${{ env.s3-bucket }}/
+          ./scripts/cleanup-bucket.sh ${{ env.s3-bucket }}
 
   notify-slack:
     runs-on: ubuntu-latest
