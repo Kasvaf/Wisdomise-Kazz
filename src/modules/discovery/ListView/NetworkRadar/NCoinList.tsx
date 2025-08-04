@@ -100,7 +100,7 @@ export const NCoinList: FC<{
   loading?: boolean;
   mini?: boolean;
   onRowClick?: (slug: string) => void;
-  hideBCurve?: boolean;
+  highlightFullBCurve?: boolean;
   source: 'new_pairs' | 'final_stretch' | 'migrated';
 }> = ({
   dataSource: _dataSource,
@@ -110,7 +110,6 @@ export const NCoinList: FC<{
   className,
   mini,
   onRowClick,
-  hideBCurve,
   source,
 }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
@@ -167,14 +166,20 @@ export const NCoinList: FC<{
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={() => setHovered(false)}
         >
-          {dataSource.map(row => (
+          {dataSource.map((row, index) => (
             <button
-              key={row.symbol?.slug}
+              key={`${row.symbol?.slug ?? ''}${row.symbol?.base ?? ''}${index}`}
               className="group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
-              <div className="flex flex-col gap-1 overflow-hidden">
+              {source === 'final_stretch' &&
+                row.networkData?.boundingCurve === 1 && (
+                  <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
+                    <div className="-mt-28 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-[#00FFA3] to-[#00A3FF]  opacity-45 blur-2xl" />
+                  </div>
+                )}
+              <div className="relative flex flex-col gap-1 overflow-hidden">
                 <Coin
                   abbreviation={row.symbol?.abbreviation}
                   name={row.symbol?.name}
@@ -184,7 +189,9 @@ export const NCoinList: FC<{
                   // labels={row.symbol_labels}
                   marker={row.validatedData?.protocol?.logo}
                   progress={
-                    hideBCurve ? undefined : row.networkData?.boundingCurve ?? 1
+                    source === 'migrated'
+                      ? undefined
+                      : row.networkData?.boundingCurve ?? 1
                   }
                   networks={[
                     {
@@ -225,7 +232,7 @@ export const NCoinList: FC<{
                     <NCoinBCurve
                       key="bc"
                       value={row}
-                      className={clsx(hideBCurve && 'invisible')}
+                      className={clsx(source === 'migrated' && 'invisible')}
                     />
                   }
                   extra={

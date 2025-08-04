@@ -103,7 +103,6 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           loading={migrated.isLoading}
           className={clsx(tab !== 'migrated' && 'hidden')}
           onRowClick={onRowClick}
-          hideBCurve
           mini
           source="migrated"
         />
