@@ -84,7 +84,7 @@ export const NetworkRadarFilters: FC<
                 variant="white"
               />
             </div>
-            <div className="border-b border-white/10" />
+            {/* <div className="border-b border-white/10" /> */}
 
             {/* Protocols */}
             {currentTabProtocols.length > 0 && (
@@ -98,13 +98,13 @@ export const NetworkRadarFilters: FC<
                         size="md"
                         block
                         label={
-                          <span className="relative flex items-center justify-center gap-2 overflow-hidden">
-                            {/* <img
-                            src={protocol.logo}
-                            className="absolute w-full scale-125 blur-sm"
-                          /> */}
-                            <span className="relative">{protocol.name}</span>
-                          </span>
+                          // <span className="relative flex items-center justify-center gap-2 overflow-hidden">
+                          //   {/* <img
+                          //   src={protocol.logo}
+                          //   className="absolute w-full scale-125 blur-sm"
+                          // /> */}
+                          // </span>
+                          <span className="relative">{protocol.name}</span>
                         }
                         value={state[tab]?.protocols?.includes(protocol.name)}
                         onChange={val =>
