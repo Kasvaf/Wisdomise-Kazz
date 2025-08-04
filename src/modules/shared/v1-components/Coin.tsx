@@ -207,7 +207,7 @@ export const Coin: FC<{
         {underLogo}
       </div>
 
-      <div className="relative flex max-w-64 grow flex-col justify-between gap-[6px] overflow-hidden whitespace-nowrap">
+      <div className="relative flex max-w-64 grow flex-col justify-between gap-1 overflow-hidden whitespace-nowrap">
         <div className="flex items-center gap-1">
           {abbreviation && (
             <p
