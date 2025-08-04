@@ -76,7 +76,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
           <aside
             id="sidebar"
             // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
-            className="top-(--desktop-header-height) -mt-(--route-details-height) w-(--desktop-sidebar-width) bg-v1-surface-l0 scrollbar-none sticky start-0 z-20 h-[calc(100svh-var(--desktop-header-height))] shrink-0 overflow-auto border-r border-white/5"
+            className="top-(--desktop-header-height) -mt-(--route-details-height) w-(--desktop-sidebar-width) bg-v1-surface-l0 scrollbar-none sticky start-0 z-20 h-[calc(100svh-var(--desktop-header-height))] shrink-0 overflow-auto border-r border-white/10"
           >
             {sidebar || <DefaultSidebar />}
           </aside>

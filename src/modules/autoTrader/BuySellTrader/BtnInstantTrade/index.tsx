@@ -136,8 +136,8 @@ export default function BtnInstantTrade({
         <Draggable
           handle="#instant-trade-drag-handle"
           cancel="button"
-          defaultClassName={isOpen ? 'border border-transparent' : 'hidden'}
-          defaultClassNameDragging="opacity-60 border-v1-border-primary"
+          defaultClassName={isOpen ? 'border border-white/10' : 'hidden'}
+          defaultClassNameDragging="opacity-60 !border-v1-border-primary"
           defaultPosition={position}
           onStart={() => setMaskIsOpen(true)}
           onStop={(_, data) => {
@@ -156,7 +156,7 @@ export default function BtnInstantTrade({
                 className="relative flex cursor-move items-center border-b border-white/5 p-3"
               >
                 <DragIcon className="absolute left-1/2 top-1 size-3 -translate-x-1/2 cursor-move" />
-                <TraderPresetsSelector surface={1} source="terminal" />
+                <TraderPresetsSelector surface={2} source="terminal" />
                 <Button
                   size="2xs"
                   variant="ghost"

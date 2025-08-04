@@ -39,9 +39,9 @@ export function HoverTooltip({
       <Dialog
         open={open}
         mode="popup"
-        className="!max-w-[400px]"
+        className="!max-w-[400px] md:border border-white/10"
         contentClassName="p-3 text-sm text-v1-content-primary"
-        surface={3}
+        surface={1}
         onClose={() => onOpenChange?.(false)}
         onOpen={() => onOpenChange?.(true)}
         popupConfig={{

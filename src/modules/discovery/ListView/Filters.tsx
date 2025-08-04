@@ -212,7 +212,7 @@ export function Filters<T extends object>({
         </div>
       </div>
       {(sorts?.length ?? 0) > 0 && (
-        <div className={clsx('w-1/2 min-w-48 max-w-max', isMini && 'w-full')}>
+        <div className={clsx('min-w-48 w-1/2 max-w-max', isMini && 'w-full')}>
           {showLabels && (
             <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
           )}
@@ -251,7 +251,6 @@ export function Filters<T extends object>({
           modalConfig={{
             closeButton: true,
           }}
-          surface={2}
           header={<h2 className="p-2 text-lg">{t('common:filters')}</h2>}
           footer={
             <div className="flex items-center gap-2">
@@ -259,6 +258,7 @@ export function Filters<T extends object>({
                 variant="ghost"
                 size="lg"
                 block
+                surface={2}
                 onClick={() => {
                   onChange?.(
                     Object.fromEntries(

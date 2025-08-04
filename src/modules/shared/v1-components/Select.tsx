@@ -232,7 +232,7 @@ export function Select<V, M extends boolean = false>({
   chevron = true,
   disabled,
   surface = 1,
-  dialogSurface = 3,
+  dialogSurface = 1,
   dialogClassName,
   searchPlaceholder = 'Search Here',
 }: SelectProps<V, M>) {
@@ -380,7 +380,7 @@ export function Select<V, M extends boolean = false>({
         onClose={() => setIsOpen(false)}
         surface={dialogSurface}
         className={clsx(
-          '!max-h-96 mobile:!max-h-[90svh]',
+          '!max-h-96 mobile:!max-h-[90svh] md:border border-white/10',
           showSearch && 'mobile:!min-h-[90svh]',
           dialogClassName,
         )}
@@ -388,7 +388,7 @@ export function Select<V, M extends boolean = false>({
           showSearch && (
             <input
               placeholder={searchPlaceholder}
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l4 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
+              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
               value={searchValue ?? ''}
               onChange={e => onSearch?.(e.target.value)}
               ref={searchRef}

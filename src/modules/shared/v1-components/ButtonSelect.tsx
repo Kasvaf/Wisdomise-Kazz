@@ -19,7 +19,7 @@ export function ButtonSelect<T>({
   options,
   value,
   onChange,
-  surface = 3,
+  surface = 2,
   innerScroll = true,
 }: {
   size?: 'xxs' | 'xs' | 'sm' | 'md' | 'xl';

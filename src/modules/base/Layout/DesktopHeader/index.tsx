@@ -15,11 +15,11 @@ const DesktopHeader: React.FC<{
   className?: string;
 }> = ({ extension, className }) => {
   return (
-    <div className={clsx('h-full bg-v1-background-primary', className)}>
-      <div className="flex h-full items-center gap-2 bg-v1-surface-l0 px-3 border border-white/5">
+    <div className={clsx('bg-v1-background-primary h-full', className)}>
+      <div className="bg-v1-surface-l0 flex h-full items-center gap-2 border border-white/10 px-3">
         <div className="relative flex shrink-0 grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap tablet:gap-3">
           <NavLink to="/discovery" className="pe-4 tablet:pe-3">
-            <Logo className='pl-2 h-10 w-auto' />
+            <Logo className="h-10 w-auto" />
           </NavLink>
         </div>
 
