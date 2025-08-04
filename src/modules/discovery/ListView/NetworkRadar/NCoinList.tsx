@@ -13,12 +13,6 @@ import { NCoinSecurity } from './NCoinSecurity';
 import { calcNCoinBCurveColor, doesNCoinHaveSafeTopHolders } from './lib';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 import { NCoinBuySell } from './NCoinBuySell';
-import pumpFunLogo from './pumpfun.png';
-
-const EXCHANGE_LOGOS = {
-  pumpfun: pumpFunLogo,
-  PumpSwap: pumpFunLogo,
-};
 
 const NCoinBCurve: FC<{
   className?: string;
@@ -188,9 +182,7 @@ export const NCoinList: FC<{
                   logo={row.symbol?.imageUrl}
                   // categories={row.symbol.categories}
                   // labels={row.symbol_labels}
-                  marker={
-                    EXCHANGE_LOGOS[(row.symbol?.exchange as never) || 'pumpfun']
-                  }
+                  marker={row.validatedData?.protocol?.logo}
                   progress={
                     hideBCurve ? undefined : row.networkData?.boundingCurve ?? 1
                   }

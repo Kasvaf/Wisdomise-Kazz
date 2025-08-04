@@ -1,9 +1,10 @@
-import { useState, type ComponentProps, type FC } from 'react';
+import { useMemo, useState, type ComponentProps, type FC } from 'react';
 import { bxSearch } from 'boxicons-quasar';
 import { Input } from 'shared/v1-components/Input';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import Icon from 'shared/Icon';
+import { networkRadarGrpc } from 'api/grpc';
 import { Filters } from '../Filters';
 import { type NetworkRadarTab, type NetworkRadarStreamFilters } from './lib';
 
@@ -21,6 +22,17 @@ export const NetworkRadarFilters: FC<
   const [subTab, setSubTab] = useState<'audit' | 'metrics' | 'socials'>(
     'audit',
   );
+
+  const { data: protocols } = networkRadarGrpc.useTrenchProtocolsQuery({});
+  const currentTabProtocols = useMemo(() => {
+    return (
+      (tab === 'final_stretch'
+        ? protocols?.finalStretchProtocols
+        : tab === 'migrated'
+        ? protocols?.migratedProtocols
+        : protocols?.newBornProtocols) ?? []
+    );
+  }, [tab, protocols]);
 
   return (
     <>
@@ -71,6 +83,42 @@ export const NetworkRadarFilters: FC<
                 size="md"
                 variant="white"
               />
+            </div>
+            <div className="border-b border-white/10" />
+
+            {/* Protocols */}
+            <div className="flex items-center gap-2">
+              <p className="text-xxs">{'Protocols'}</p>
+              <div className="flex flex-wrap gap-3">
+                {currentTabProtocols.map(protocol => (
+                  <Checkbox
+                    key={protocol.name}
+                    size="lg"
+                    block
+                    label={
+                      <span className="flex justify-center gap-1">
+                        <img src={protocol.logo} className="size-3" />
+                        {protocol.name}
+                      </span>
+                    }
+                    value={state[tab]?.protocols?.includes(protocol.name)}
+                    onChange={val =>
+                      setState(p => ({
+                        ...p,
+                        [tab]: {
+                          ...p[tab],
+                          protocols: [
+                            ...(p[tab]?.protocols?.filter(
+                              x => x !== protocol.name,
+                            ) ?? []),
+                            ...(val ? [protocol.name] : []),
+                          ],
+                        },
+                      }))
+                    }
+                  />
+                ))}
+              </div>
             </div>
             <div className="border-b border-white/10" />
 
