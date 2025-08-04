@@ -19,7 +19,7 @@ import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBad
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import TechnicalRadarSharingModal from '../../TechnicalRadarSharingModal';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 
 export const TechnicalRadarCoinsTable: FC = () => {
   const { t } = useTranslation('market-pulse');

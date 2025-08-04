@@ -33,7 +33,7 @@ import SocialRadarSharingModal from '../SocialRadarSharingModal';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { RealtimeBadge } from '../../RealtimeBadge';
 import { WinRateBadge } from '../../WinRateBadge';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 
 export function SocialRadarExpanded() {
   const marketInfo = useSocialRadarInfo();
@@ -90,8 +90,8 @@ export function SocialRadarExpanded() {
       },
       {
         title: (
-          <span className="flex items-center gap-1 text-v1-content-primary">
-            <Logo className="inline-block size-4 grayscale" />
+          <span className="text-v1-content-primary flex items-center gap-1">
+            <Logo className="size-4 inline-block grayscale" />
             {t('social-radar.table.sentiment.title')}
           </span>
         ),
@@ -104,7 +104,7 @@ export function SocialRadarExpanded() {
       {
         title: t('social-radar.table.price_info.title'),
         info: (
-          <div className="[&_b]:font-medium [&_p]:text-xs [&_p]:text-v1-content-secondary">
+          <div className="[&_p]:text-v1-content-secondary [&_b]:font-medium [&_p]:text-xs">
             <Trans
               ns="coin-radar"
               i18nKey="social-radar.table.price_info.info"

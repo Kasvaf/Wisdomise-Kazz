@@ -8,7 +8,6 @@ import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useLockingRequirementQuery } from 'api/defi';
 import { Button } from 'shared/v1-components/Button';
 import { useVipAccessFlow } from 'modules/account/PageBilling/useVipAccessFlow';
-import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 import { ReactComponent as Done } from '../../images/done.svg';
 import { ReactComponent as ClockIcon } from './clock.svg';
 import ConnectWalletGuard from './ConnectWalletGuard';
@@ -79,7 +78,7 @@ export default function TokenPaymentModalContent({
         <div className="col-span-12 flex h-full flex-col items-center justify-center lg:col-span-6">
           <div className="mb-8 mobile:w-full mobile:px-8">
             <div className="flex items-center gap-4">
-              <WisdomiseLogo />
+              {/* <WisdomiseLogo /> */}
               <div>
                 <p className="text-xl text-white mobile:text-base">
                   {t('token-modal.title')}

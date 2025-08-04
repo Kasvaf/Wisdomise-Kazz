@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
-import Logo from 'assets/logo.png';
+import Logo from 'assets/logo-white.svg';
 import blurBg from './blur.png';
 import box from './box.png';
 
@@ -29,14 +29,14 @@ const BtnTelegramProfile: React.FC<{ className?: string }> = ({
               alt=""
             />
           ) : (
-            <div className="flex size-[40px] items-center justify-center rounded-lg bg-v1-surface-l3">
+            <div className="size-[40px] bg-v1-surface-l3 flex items-center justify-center rounded-lg">
               {(profile?.first_name ?? profile.username)[0].toUpperCase()}
             </div>
           )}
         </div>
         <img
           src={blurBg}
-          className="pointer-events-none absolute -bottom-10 -right-10 h-20 min-w-20"
+          className="min-w-20 pointer-events-none absolute -bottom-10 -right-10 h-20"
           alt=""
         />
         <img
@@ -48,10 +48,10 @@ const BtnTelegramProfile: React.FC<{ className?: string }> = ({
       </div>
 
       <div className="ml-2 w-[calc(100%-44px)]">
-        <div className="w-full overflow-hidden text-ellipsis text-nowrap text-sm">
+        <div className="text-nowrap w-full overflow-hidden text-ellipsis text-sm">
           {profile?.first_name} {profile?.last_name}
         </div>
-        <div className="w-full overflow-hidden text-ellipsis text-nowrap text-xs text-v1-content-secondary">
+        <div className="text-nowrap text-v1-content-secondary w-full overflow-hidden text-ellipsis text-xs">
           {profile.username}
         </div>
       </div>

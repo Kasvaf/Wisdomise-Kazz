@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { type SubscriptionPlan } from 'api/types/subscription';
-import { ReactComponent as LogoWithText } from 'assets/logo-horizontal-beta.svg';
-import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 import Periodicity from '../../Periodicity';
 
 interface Props {
@@ -12,13 +10,13 @@ export default function LeftSection({ plan }: Props) {
   const { t } = useTranslation('billing');
 
   return (
-    <div className="flex h-full shrink grow basis-0 flex-col items-center justify-center bg-v1-background-primary">
+    <div className="bg-v1-background-primary flex h-full shrink grow basis-0 flex-col items-center justify-center">
       <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
         <div className="flex items-center gap-3 mobile:hidden">
           <p className="text-xl text-white">{t('crypto-modal.title')}</p>
         </div>
 
-        <LogoWithText className="hidden mobile:block" />
+        {/* <LogoWithText className="hidden mobile:block" /> */}
 
         <p className="mt-14 text-xl text-white/50 mobile:mt-10">
           {t('crypto-modal.subtitle', { plan: plan.name ?? '' })}
@@ -35,7 +33,7 @@ export default function LeftSection({ plan }: Props) {
 
         <div className="mt-12 flex gap-6 mobile:mt-8 mobile:gap-4">
           <div className="h-14 w-14  basis-14 mobile:hidden">
-            <WisdomiseLogo />
+            {/* <WisdomiseLogo /> */}
           </div>
           <div className="flex flex-col gap-7 text-lg mobile:text-base [&>*]:pb-7 mobile:[&>*]:pb-4">
             <div className="border-b border-white/20">
