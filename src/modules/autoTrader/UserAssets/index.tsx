@@ -6,7 +6,6 @@ import { bxCopy } from 'boxicons-quasar';
 import { useUserAssets } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useUserWalletAssets } from 'api/chains';
-import { roundSensible } from 'utils/numbers';
 import { isMiniApp } from 'utils/version';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -24,7 +23,7 @@ import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
 import { useConnectedWallet, useActiveWallet } from 'api/chains/wallet';
 import { useShare } from 'shared/useShare';
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
-import { Coin } from 'shared/Coin';
+import { Coin } from 'shared/v1-components/Coin';
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 
 interface AssetData {
@@ -52,15 +51,17 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
     >
       {baseInfo ? (
         <Coin
-          coin={baseInfo}
-          className="text-xs mobile:text-sm"
-          imageClassName="size-7"
-          truncate={false}
-          nonLink
-          abbrevationSuffix={
-            <div className="text-v1-content-secondary ml-2 text-xxs font-normal">
-              ${roundSensible((asset.usd_equity ?? 0) / asset.amount)}
-            </div>
+          abbreviation={baseInfo.abbreviation}
+          name={baseInfo.name}
+          // networks={baseInfo.networks}
+          href={false}
+          truncate
+          extra={
+            <ReadableNumber
+              className="text-v1-content-secondary"
+              value={(asset.usd_equity ?? 0) / asset.amount}
+              label="$"
+            />
           }
         />
       ) : baseLoading ? (
@@ -68,12 +69,17 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
       ) : (
         <div />
       )}
-      <div className="text-end">
-        <div className="text-xs font-medium">{roundSensible(asset.amount)}</div>
+      <div className="flex flex-col items-end">
+        <ReadableNumber
+          className="flex text-xs font-medium"
+          value={asset.amount}
+        />
         {asset.usd_equity !== 0 && (
-          <div className="text-v1-content-secondary text-xxs font-normal">
-            ${roundSensible(asset.usd_equity)}
-          </div>
+          <ReadableNumber
+            className="text-xxs text-v1-content-secondary"
+            value={asset.usd_equity}
+            label="$"
+          />
         )}
       </div>
     </NavLink>

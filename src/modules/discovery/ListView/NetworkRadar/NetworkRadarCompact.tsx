@@ -83,27 +83,26 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
       <QuickBuySettings source={tab} className="mb-3 px-3" />
       <div className="px-3">
         <NCoinList
-          dataSource={newPairs}
-          loading={newPairs.length === 0}
+          dataSource={newPairs.data?.results ?? []}
+          loading={newPairs.isLoading}
           className={clsx(tab !== 'new_pairs' && 'hidden')}
           onRowClick={onRowClick}
           mini
           source="new_pairs"
         />
         <NCoinList
-          dataSource={finalStretch}
-          loading={finalStretch.length === 0}
+          dataSource={finalStretch.data?.results ?? []}
+          loading={finalStretch.isLoading}
           className={clsx(tab !== 'final_stretch' && 'hidden')}
           onRowClick={onRowClick}
           mini
           source="final_stretch"
         />
         <NCoinList
-          dataSource={migrated}
-          loading={migrated.length === 0}
+          dataSource={migrated.data?.results ?? []}
+          loading={migrated.isLoading}
           className={clsx(tab !== 'migrated' && 'hidden')}
           onRowClick={onRowClick}
-          hideBCurve
           mini
           source="migrated"
         />
