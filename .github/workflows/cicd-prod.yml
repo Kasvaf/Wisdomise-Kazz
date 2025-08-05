@@ -8,6 +8,12 @@ env:
   region: us-east-1
   s3-bucket: goatx.trade
 
+permissions:
+  id-token: write
+  actions: read
+  packages: read
+  contents: read
+
 jobs:
   Lint-Build-Prod:
     name: Lint-Build-Prod

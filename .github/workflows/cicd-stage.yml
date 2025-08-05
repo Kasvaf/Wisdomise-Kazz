@@ -9,6 +9,12 @@ env:
   region: us-east-1
   s3-bucket: stage.goatx.trade
 
+permissions:
+  id-token: write
+  actions: read
+  packages: read
+  contents: read
+
 jobs:
   Lint-Build-Stage:
     name: Lint-Build-Stage
