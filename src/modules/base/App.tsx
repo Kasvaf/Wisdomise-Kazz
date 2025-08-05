@@ -4,7 +4,6 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { RouterBaseName } from 'config/constants';
-import 'tw-elements';
 import useConfig from 'config/useConfig';
 import useRoutes from './routes';
 import './styles/App.css';

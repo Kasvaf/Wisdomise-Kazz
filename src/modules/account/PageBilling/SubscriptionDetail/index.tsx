@@ -203,7 +203,7 @@ export default function SubscriptionDetail() {
                 className="absolute bottom-0 right-0 h-full"
               />
               <div className="relative">
-                <h2 className="mb-3 w-max bg-wsdm-gradient bg-clip-text font-medium text-transparent">
+                <h2 className="mb-3 w-max bg-brand-gradient bg-clip-text font-medium text-transparent">
                   Boost Your Earnings!
                 </h2>
                 <p className="mb-5 text-xs">

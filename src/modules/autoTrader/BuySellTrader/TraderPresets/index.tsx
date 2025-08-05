@@ -31,7 +31,7 @@ export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
   return (
     <div className="mt-3">
       <div className="flex items-center justify-between">
-        <TraderPresetsSelector surface={2} source="terminal" />
+        <TraderPresetsSelector surface={1} source="terminal" />
         <BtnTraderPresetsSettings />
       </div>
       {(['buy', 'sell'] as const)
@@ -69,7 +69,7 @@ export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
             <div className={visibleForms[index] ? '' : 'hidden'}>
               <TraderPresetForm
                 key={String(activeIndex) + m}
-                surface={2}
+                surface={1}
                 defaultValue={presets[activeIndex][m]}
                 onChange={newValue => {
                   updatePresetPartial(activeIndex, m, newValue);
@@ -168,7 +168,7 @@ export function TraderPresetValues({
       )}
       <SlippageIcon />
       <span>{+activePreset.slippage * 100}%</span>
-      <div className="mx-1 h-3 border-r border-v1-surface-l4" />
+      <div className="mx-1 h-3 border-r border-v1-surface-l3" />
       <PriorityIcon />
       <span>{activePreset.sol_priority_fee}</span>
     </div>
@@ -202,7 +202,7 @@ function TraderPresetSettingsDialog({
           variant="white"
           className="mb-3"
           size="md"
-          surface={4}
+          surface={2}
           value={currentPreset}
           options={
             settings.presets?.map((_, index) => ({
@@ -216,7 +216,7 @@ function TraderPresetSettingsDialog({
           value={currentMode}
           className="mb-6"
           size="md"
-          surface={4}
+          surface={2}
           options={[
             {
               value: 'buy',
@@ -236,7 +236,7 @@ function TraderPresetSettingsDialog({
         <TraderPresetForm
           key={currentMode + String(currentPreset)}
           defaultValue={presets[currentPreset][currentMode]}
-          surface={4}
+          surface={2}
           onChange={newValue => {
             setPresets(prev => {
               const newPresets = [...(prev ?? [])];

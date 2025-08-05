@@ -140,7 +140,7 @@ const PartTpSl: React.FC<{
             {!item.applied && (
               <>
                 {dir === 1 && +item.priceExact <= effectivePrice && (
-                  <div className="px-2 pb-2 text-error">
+                  <div className="px-2 pb-2 text-v1-content-negative">
                     {t('signal-form.error-max', {
                       type,
                       market: t('common:market.long'),
@@ -149,7 +149,7 @@ const PartTpSl: React.FC<{
                 )}
 
                 {dir === -1 && +item.priceExact >= effectivePrice && (
-                  <div className="px-2 pb-2 text-error">
+                  <div className="px-2 pb-2 text-v1-content-negative">
                     {t('signal-form.error-min', {
                       type,
                       market: t('common:market.long'),
@@ -163,7 +163,7 @@ const PartTpSl: React.FC<{
               (x, ind0) =>
                 !x.removed && ind0 < ind && x.priceExact === item.priceExact,
             ) && (
-              <div className="px-2 pb-2 text-error">
+              <div className="px-2 pb-2 text-v1-content-negative">
                 {t('signal-form.error-dup', { type })}
               </div>
             )}
@@ -171,7 +171,7 @@ const PartTpSl: React.FC<{
         ))}
 
         {volSum > 100.1 && (
-          <div className="px-2 pb-2 text-error">
+          <div className="px-2 pb-2 text-v1-content-negative">
             {t('signal-form.error-bg-100', { type })}
           </div>
         )}

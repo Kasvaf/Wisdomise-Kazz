@@ -25,7 +25,7 @@ import { WinRateBadge } from '../../WinRateBadge';
 import useHotCoinsTour from '../useHotCoinsTour';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 
 export function CoinRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('insight');
@@ -75,7 +75,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         key: 'social_radar_sentiment',
         title: (
           <span className="flex items-center gap-1">
-            <SocialRadarIcon className="inline-block size-4 grayscale" />
+            <SocialRadarIcon className="size-4 inline-block grayscale" />
             {t('table.social_radar_sentiment')}
           </span>
         ),
@@ -100,7 +100,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         key: 'technical_radar_sentiment',
         title: (
           <span className="flex items-center gap-1">
-            <TechnicalRadarIcon className="inline-block size-4 grayscale" />
+            <TechnicalRadarIcon className="size-4 inline-block grayscale" />
             {t('table.technical_radar_sentiment')}
           </span>
         ),
@@ -145,7 +145,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             dataSource={coins.data?.slice(0, 10)}
             chunkSize={10}
             rowKey={(r, i) => `${r.symbol.slug} ${i}`}
-            surface={3}
+            surface={2}
             className={className}
             scrollable
             loading={coins.isLoading}

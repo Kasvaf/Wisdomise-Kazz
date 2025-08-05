@@ -12,7 +12,7 @@ import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
 import { useMutationObserver } from 'utils/useMutationObserver';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
 const calcSize = (size: number | boolean) =>

@@ -1,4 +1,4 @@
-import logo from 'assets/logo.png';
+import logo from 'assets/logo-white.svg';
 import { NavigateButtons } from 'modules/account/PageOnboarding/components/NavigateButtons';
 import qrCode from './images/qr-code.png';
 import num1 from './images/1.png';

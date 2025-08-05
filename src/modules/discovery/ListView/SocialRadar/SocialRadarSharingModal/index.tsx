@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import SharingModal from 'shared/ShareTools/SharingModal';
-import logo from 'shared/ShareTools/images/logo.png';
+import logo from 'assets/logo-white.svg';
 import { Coin } from 'shared/Coin';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { type SocialRadarCoin } from 'api/discovery';

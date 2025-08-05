@@ -1,7 +1,7 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { clsx } from 'clsx';
 import line from 'shared/ShareTools/images/line.svg';
-import logo from 'shared/ShareTools/images/logo.png';
+import logo from 'assets/logo-white.svg';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import ready from './images/ready.png';
 

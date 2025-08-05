@@ -23,7 +23,7 @@ export function AlertModal({
       }}
       className="w-[400px] mobile:w-full"
       contentClassName="mobile:p-3 p-4"
-      surface={4}
+      surface={1}
     >
       {children}
     </Dialog>

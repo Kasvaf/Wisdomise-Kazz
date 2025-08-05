@@ -13,7 +13,7 @@ export const TechnicalRadarCoinsCharts: FC<{
       'cheap_bullish',
     );
   return (
-    <div className="rounded-xl bg-v1-surface-l2 p-2">
+    <div className="rounded-xl bg-v1-surface-l1 p-2">
       <ButtonSelect
         value={view}
         onChange={setView}

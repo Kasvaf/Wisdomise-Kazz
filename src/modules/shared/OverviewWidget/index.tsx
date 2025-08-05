@@ -40,7 +40,7 @@ export function OverviewWidget({
   onRefresh,
   refreshing,
   empty,
-  surface = 1,
+  surface = 0,
 }: {
   id?: string;
   title?: ReactNode;
@@ -96,7 +96,7 @@ export function OverviewWidget({
         ['--widget-color' as never]: colors.next,
       }}
       className={clsx(
-        'relative flex flex-col overflow-hidden rounded-2xl bg-[--widget-color]',
+        'relative flex flex-col overflow-hidden rounded-2xl bg-(--widget-color)',
         gapClassName,
         paddingClassName,
         className,

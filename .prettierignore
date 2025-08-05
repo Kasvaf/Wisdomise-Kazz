@@ -2,7 +2,6 @@
 .github/*
 package.json
 index.html
-.vscode/*
 src/i18n/*
 public/*
 src/modules/shared/AdvancedChart/charting_library/*

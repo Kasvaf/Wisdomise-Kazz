@@ -96,7 +96,7 @@ export const ListExpander: FC = () => {
           variant="outline"
           size="3xs"
           className="rounded-full"
-          surface={2}
+          surface={1}
           onClick={handleExpandClick}
         >
           <Icon name={bxChevronRight} />
@@ -108,7 +108,7 @@ export const ListExpander: FC = () => {
           variant="outline"
           size="3xs"
           className="rounded-full"
-          surface={2}
+          surface={1}
           onClick={handleCollapseClick}
         >
           <Icon name={bxChevronLeft} />
