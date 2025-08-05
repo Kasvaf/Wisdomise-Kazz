@@ -3,6 +3,7 @@ import { bxRightArrowAlt } from 'boxicons-quasar';
 import { type MouseEventHandler, type PropsWithChildren } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Icon from 'shared/Icon';
+import { useHasFlag } from 'api';
 
 const MenuItem: React.FC<
   PropsWithChildren<{
@@ -21,6 +22,7 @@ const MenuItem: React.FC<
     to && pathname.startsWith(to) && '!bg-v1-surface-l2',
     className,
   );
+  const hasFlag = useHasFlag();
 
   const content = (
     <>
@@ -28,6 +30,8 @@ const MenuItem: React.FC<
       {!noArrow && <Icon name={bxRightArrowAlt} />}
     </>
   );
+
+  if (to && !hasFlag(to)) return null;
 
   return to ? (
     <NavLink {...props} to={to} className={classes}>
