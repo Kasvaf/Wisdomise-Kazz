@@ -10,36 +10,9 @@ import { Coin } from 'shared/v1-components/Coin';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
-import { calcNCoinBCurveColor, doesNCoinHaveSafeTopHolders } from './lib';
+import { doesNCoinHaveSafeTopHolders } from './lib';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 import { NCoinBuySell } from './NCoinBuySell';
-
-const NCoinBCurve: FC<{
-  className?: string;
-  value: TrenchStreamResponseResult;
-}> = ({ className, value }) => {
-  return (
-    <div
-      className={clsx('text-center text-xxs leading-snug', className)}
-      style={{
-        color: calcNCoinBCurveColor({
-          bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
-        }),
-      }}
-    >
-      <p className="text-[8px] text-v1-content-secondary">{'B Curve:'}</p>
-      <ReadableNumber
-        popup="never"
-        value={(value.networkData?.boundingCurve ?? 0) * 100}
-        label="%"
-        className="font-medium"
-        format={{
-          decimalLength: 1,
-        }}
-      />
-    </div>
-  );
-};
 
 const NCoinMarketDataCol: FC<{
   className?: string;
@@ -116,7 +89,19 @@ export const NCoinList: FC<{
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (!hovered || dataSource.length === 0) {
+    if (hovered) {
+      setDataSource(p => {
+        const ret: typeof p = [];
+        const seen = new Set<string>(p.map(x => x.symbol?.slug ?? ''));
+        for (const element of _dataSource) {
+          const key = element.symbol?.slug ?? '';
+          if (seen.has(key)) {
+            ret.push(element);
+          }
+        }
+        return ret;
+      });
+    } else {
       setDataSource(p => {
         const ret: typeof p = [];
         const seen = new Set<string>();
@@ -196,6 +181,7 @@ export const NCoinList: FC<{
                   name={row.symbol?.name}
                   slug={row.symbol?.slug}
                   logo={row.symbol?.imageUrl}
+                  size={mini ? 'md' : 'lg'}
                   // categories={row.symbol.categories}
                   // labels={row.symbol_labels}
                   marker={row.validatedData?.protocol?.logo}
@@ -204,6 +190,7 @@ export const NCoinList: FC<{
                       ? undefined
                       : row.networkData?.boundingCurve ?? 1
                   }
+                  progressTitle="Bounding Curve: "
                   networks={[
                     {
                       contract_address: row.symbol?.base ?? '---',
@@ -239,21 +226,16 @@ export const NCoinList: FC<{
                       />
                     </>
                   }
-                  underLogo={
-                    <NCoinBCurve
-                      key="bc"
-                      value={row}
-                      className={clsx(source === 'migrated' && 'invisible')}
-                    />
-                  }
                   extra={
-                    <NCoinTokenInsight
-                      key="ins"
-                      value={row.validatedData}
-                      type="row"
-                      imgClassName="size-2"
-                      className="text-xxs"
-                    />
+                    <>
+                      <NCoinTokenInsight
+                        key="ins"
+                        value={row.validatedData}
+                        type="row"
+                        imgClassName="size-2"
+                        className={mini ? 'text-xxs ' : 'text-xs'}
+                      />
+                    </>
                   }
                   href={false}
                   truncate
