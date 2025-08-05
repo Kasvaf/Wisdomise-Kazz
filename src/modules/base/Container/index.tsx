@@ -15,15 +15,15 @@ const Container = () => {
   useCustomVersion();
 
   const result = (
-    <TrackersContainer>
-      <Guard>
-        <WalletProvider>
-          <GeneralMeta />
-          <Outlet />
-          <UserEngageFlow />
-        </WalletProvider>
-      </Guard>
-    </TrackersContainer>
+    // <TrackersContainer>
+    <Guard>
+      <WalletProvider>
+        <GeneralMeta />
+        <Outlet />
+        <UserEngageFlow />
+      </WalletProvider>
+    </Guard>
+    // </TrackersContainer>
   );
 
   return isMiniApp ? <TelegramProvider>{result}</TelegramProvider> : result;

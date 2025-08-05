@@ -53,7 +53,7 @@ export default defineConfig(config => ({
       ['temple', 'account-panel', 'chatapp'].map(name => [
         `/${name}-proxy`,
         {
-          target: `https://stage-${name}.wisdomise.com`,
+          target: `https://stage-${name}.goatx.trade`,
           changeOrigin: true,
           secure: false,
           rewrite: p => p.replace(`/${name}-proxy`, ''),

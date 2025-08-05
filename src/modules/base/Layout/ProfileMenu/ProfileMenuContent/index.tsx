@@ -71,9 +71,9 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
           Rewards
         </MenuItem>
 
-        <div className="my-2 border-t border-t-v1-surface-l4" />
+        <div className="border-t-v1-surface-l4 my-2 border-t" />
 
-        <MenuItemLang />
+        {/* <MenuItemLang /> */}
         <MenuItemSupport />
       </div>
     </div>

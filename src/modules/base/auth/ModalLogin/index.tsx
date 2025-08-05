@@ -115,7 +115,7 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
   const notice = (
-    <p className="text-v1-content-secondary [&_a]:text-v1-content-brand text-xs">
+    <p className="text-v1-content-secondary [&_a]:text-v1-content-brand hidden text-xs">
       <Trans ns="auth" i18nKey="login.notice">
         By continuing, you agree to our
         <a
@@ -180,14 +180,14 @@ const LoginModalContent: React.FC<{
         </Button>
       </div>
 
-      <div className="bg-v1-border-disabled my-6 flex h-px w-full items-center justify-center overflow-visible">
+      <div className="bg-v1-border-disabled my-6 flex h-px w-full items-center justify-center overflow-visible opacity-0">
         <span className="text-v1-content-secondary px-2 text-xs backdrop-blur-lg">
           {t('common:or')}
         </span>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-4">
-        <div className="h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
+        <div className="hidden h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
           <GoogleLogin
             onSuccess={googleHandler}
             use_fedcm_for_prompt
@@ -277,7 +277,7 @@ const LoginModalContent: React.FC<{
   return (
     <div className="max-h-svh relative grid h-[590px] w-full grid-cols-2 items-stretch justify-between overflow-hidden mobile:flex mobile:h-full mobile:flex-col-reverse">
       <div className="absolute left-8 top-8 mobile:hidden">
-        <Logo />
+        <Logo className="h-16 w-auto" />
       </div>
       <div className="relative flex min-h-min grow flex-col items-stretch justify-center p-8 mobile:h-auto mobile:grow-0 mobile:justify-end">
         {emailLoginLoading || verifyEmailLoading || isConnecting ? (

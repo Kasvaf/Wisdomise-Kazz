@@ -7,12 +7,12 @@ export function GeneralMeta() {
 
   return (
     <Helmet>
-      <title>{'Dashboard | Wisdomise'}</title>
+      <title>GoatX</title>
       <link rel="canonical" href={`${APP_PANEL}${pathname}?${search}`} />
-      <meta
-        name="description"
-        content="Wisdomise is an AI-powered auto trading and portfolio management solution"
-      />
+      {/* <meta */}
+      {/*   name="description" */}
+      {/*   content="Wisdomise is an AI-powered auto trading and portfolio management solution" */}
+      {/* /> */}
     </Helmet>
   );
 }

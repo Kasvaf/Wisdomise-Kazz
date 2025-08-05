@@ -3,13 +3,8 @@ import './style.css';
 
 const Spinner: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <div className={clsx('brand-spinner', 'size-60 mobile:size-40', className)}>
-      <div>
-        <span />
-      </div>
-      <div>
-        <span />
-      </div>
+    <div className={clsx('brand-spinner', 'size-20 mobile:size-16', className)}>
+      <div />
     </div>
   );
 };
