@@ -1,9 +1,10 @@
-import { useState, type ComponentProps, type FC } from 'react';
+import { useMemo, useState, type ComponentProps, type FC } from 'react';
 import { bxSearch } from 'boxicons-quasar';
 import { Input } from 'shared/v1-components/Input';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import Icon from 'shared/Icon';
+import { networkRadarGrpc } from 'api/grpc';
 import { Filters } from '../Filters';
 import { type NetworkRadarTab, type NetworkRadarStreamFilters } from './lib';
 
@@ -21,6 +22,17 @@ export const NetworkRadarFilters: FC<
   const [subTab, setSubTab] = useState<'audit' | 'metrics' | 'socials'>(
     'audit',
   );
+
+  const { data: protocols } = networkRadarGrpc.useTrenchProtocolsQuery({});
+  const currentTabProtocols = useMemo(() => {
+    return (
+      (tab === 'final_stretch'
+        ? protocols?.finalStretchProtocols
+        : tab === 'migrated'
+        ? protocols?.migratedProtocols
+        : protocols?.newBornProtocols) ?? []
+    );
+  }, [tab, protocols]);
 
   return (
     <>
@@ -72,12 +84,55 @@ export const NetworkRadarFilters: FC<
                 variant="white"
               />
             </div>
-            <div className="border-b border-white/10" />
+            {/* <div className="border-b border-white/10" /> */}
+
+            {/* Protocols */}
+            {currentTabProtocols.length > 0 && (
+              <>
+                <div className="flex flex-col gap-2">
+                  <p className="text-xs">{'Protocols'}</p>
+                  <div className="grid grid-cols-3 gap-3">
+                    {currentTabProtocols.map(protocol => (
+                      <Checkbox
+                        key={protocol.name}
+                        size="md"
+                        block
+                        label={
+                          // <span className="relative flex items-center justify-center gap-2 overflow-hidden">
+                          //   {/* <img
+                          //   src={protocol.logo}
+                          //   className="absolute w-full scale-125 blur-sm"
+                          // /> */}
+                          // </span>
+                          <span className="relative">{protocol.name}</span>
+                        }
+                        value={state[tab]?.protocols?.includes(protocol.name)}
+                        onChange={val =>
+                          setState(p => ({
+                            ...p,
+                            [tab]: {
+                              ...p[tab],
+                              protocols: [
+                                ...(p[tab]?.protocols?.filter(
+                                  x => x !== protocol.name,
+                                ) ?? []),
+                                ...(val ? [protocol.name] : []),
+                              ],
+                            },
+                          }))
+                        }
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="border-b border-white/10" />
+              </>
+            )}
 
             {/* Search */}
             <div className="flex items-center gap-2">
               <div className="flex flex-col gap-2">
-                <p className="text-xxs">{'Search Keywords'}</p>
+                <p className="text-xs">{'Search Keywords'}</p>
                 <Input
                   type="string"
                   value={state[tab]?.searchKeywords?.join(',') ?? ''}
@@ -96,7 +151,7 @@ export const NetworkRadarFilters: FC<
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <p className="text-xxs">{'Exclude Keywords'}</p>
+                <p className="text-xs">{'Exclude Keywords'}</p>
                 <Input
                   type="string"
                   value={state[tab]?.excludeKeywords?.join(',') ?? ''}

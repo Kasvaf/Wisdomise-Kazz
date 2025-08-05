@@ -8,7 +8,6 @@ import {
   type NetworkSecurity,
 } from 'api/discovery';
 import { type Coin as CoinType } from 'api/types/shared';
-import { CircularProgress } from 'shared/CircularProgress';
 import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { shortenAddress } from 'utils/shortenAddress';
@@ -16,6 +15,7 @@ import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
+import { formatNumber } from 'utils/numbers';
 
 interface ContractAddressRow {
   value?: string;
@@ -37,6 +37,7 @@ export const Coin: FC<{
   /* Custom Props */
   marker?: string;
   progress?: number;
+  progressTitle?: string;
 
   /* Labels */
   categories?: CoinType['categories'] | null;
@@ -54,8 +55,9 @@ export const Coin: FC<{
   truncate?: boolean;
 
   customLabels?: ReactNode;
-  extra?: ReactNode | ReactNode[];
+  extra?: ReactNode;
   underLogo?: ReactNode;
+  size?: 'md' | 'lg';
 }> = ({
   slug,
   abbreviation,
@@ -64,6 +66,7 @@ export const Coin: FC<{
 
   marker,
   progress,
+  progressTitle,
 
   categories,
   networks,
@@ -80,6 +83,7 @@ export const Coin: FC<{
   customLabels,
   underLogo,
   extra,
+  size = 'md',
 }) => {
   const [globalNetwork] = useGlobalNetwork();
   const [copy, copyNotif] = useShare('copy');
@@ -170,33 +174,80 @@ export const Coin: FC<{
           : '#'
       }
     >
-      <div className="relative flex w-11 shrink-0 flex-col items-center justify-center gap-1">
-        <div className="relative size-11 shrink-0 rounded-full bg-v1-surface-l0">
+      <div
+        className={clsx(
+          'relative flex shrink-0 flex-col items-center justify-center gap-1',
+          size === 'md' ? 'w-11' : 'w-20',
+        )}
+      >
+        <div
+          className={clsx(
+            'relative shrink-0 overflow-visible rounded-md bg-v1-surface-l0',
+            size === 'md' ? 'size-11' : 'size-20',
+          )}
+          title={
+            typeof progress === 'number'
+              ? `${progressTitle ?? ''}${formatNumber(progress * 100, {
+                  compactInteger: true,
+                  decimalLength: 2,
+                  minifyDecimalRepeats: true,
+                  separateByComma: true,
+                })}%`
+              : undefined
+          }
+        >
           {logo && (
             <img
               src={logo}
-              className="absolute inset-0 size-full overflow-hidden rounded-full bg-v1-surface-l0 object-cover"
+              className={clsx(
+                'absolute inset-0 size-full overflow-hidden rounded-md bg-v1-surface-l0 object-cover',
+              )}
+              loading="lazy"
             />
           )}
           {typeof progress === 'number' && (
-            <CircularProgress
-              className="absolute inset-0"
-              color={
-                progress <= 0.33
-                  ? '#FFF'
-                  : progress <= 0.66
-                  ? '#00A3FF'
-                  : progress <= 0.99
-                  ? '#00FFA3'
-                  : '#FFDA6C'
-              }
-              size={44}
-              strokeWidth={3}
-              value={progress}
-            />
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 40 40"
+              className="absolute inset-0 rounded-md"
+              style={{ ['--value' as never]: progress * 100 }}
+            >
+              <path
+                d="M1 1 H39 V39 H1 V1 Z"
+                fill="none"
+                stroke="rgba(0,0,0,0.5)"
+                strokeWidth={2}
+              />
+              <path
+                d="M1 1 H39 V39 H1 V1 Z"
+                fill="none"
+                stroke={
+                  progress <= 0.33
+                    ? '#FFF'
+                    : progress <= 0.66
+                    ? '#00A3FF'
+                    : progress <= 0.99
+                    ? '#00FFA3'
+                    : '#FFDA6C'
+                }
+                strokeWidth={1.5}
+                strokeDasharray={152}
+                strokeDashoffset={152 - progress * 100 * 1.52}
+                strokeLinejoin="round"
+                strokeLinecap="round"
+              />
+            </svg>
           )}
           {(marker || contractAddress?.network?.logo) && (
-            <div className="absolute bottom-[-1px] right-[-1px] inline-flex size-[14px] items-center justify-center overflow-hidden rounded-full bg-v1-surface-l0">
+            <div
+              className={clsx(
+                'absolute inline-flex items-center justify-center overflow-hidden rounded-md border bg-v1-surface-l0 backdrop-invert',
+                size === 'md'
+                  ? 'bottom-[-1px] right-[-1px] size-4'
+                  : 'bottom-[0px] right-[-4px] size-5',
+              )}
+            >
               <img
                 src={marker || contractAddress?.network?.logo}
                 className="size-full object-cover"
@@ -207,13 +258,17 @@ export const Coin: FC<{
         {underLogo}
       </div>
 
-      <div className="relative flex max-w-64 grow flex-col justify-between gap-[6px] overflow-hidden whitespace-nowrap">
+      <div className="relative flex max-w-64 grow flex-col justify-between gap-1 overflow-hidden whitespace-nowrap">
         <div className="flex items-center gap-1">
           {abbreviation && (
             <p
               className={clsx(
-                'text-sm font-bold',
-                truncate && 'max-w-20 overflow-hidden truncate',
+                'font-bold',
+                size === 'md' ? 'text-sm' : 'text-base',
+                truncate && [
+                  size === 'md' ? 'max-w-32' : 'max-w-20',
+                  'overflow-hidden truncate',
+                ],
               )}
               title={abbreviation}
             >
@@ -243,8 +298,12 @@ export const Coin: FC<{
           {name && (
             <p
               className={clsx(
-                'text-xs font-light',
-                truncate && 'max-w-16 overflow-hidden truncate',
+                'font-light',
+                size === 'md' ? 'text-xs' : 'text-sm',
+                truncate && [
+                  size === 'md' ? 'max-w-16' : 'max-w-32',
+                  'overflow-hidden truncate',
+                ],
               )}
               title={name}
             >
@@ -252,7 +311,12 @@ export const Coin: FC<{
             </p>
           )}
           {contractAddress && !!contractAddress.value && (
-            <div className="flex items-center gap-1 font-mono text-xs text-v1-content-secondary">
+            <div
+              className={clsx(
+                'flex items-center gap-1 font-mono text-v1-content-secondary',
+                size === 'md' ? 'text-xs' : 'text-sm',
+              )}
+            >
               {contractAddress.label}
               {contractAddress.value && (
                 <div
@@ -269,18 +333,12 @@ export const Coin: FC<{
               )}
             </div>
           )}
-          <CoinNetworksLabel value={networks} size="xs" clickable />
+          {(networks?.length ?? 0) > 1 && (
+            <CoinNetworksLabel value={networks} size="xs" clickable />
+          )}
         </div>
         {extra && (
-          <>
-            {(Array.isArray(extra) ? extra : [extra])
-              .filter(row => !!row)
-              .map((row, index) => (
-                <div key={index} className="flex items-center gap-1 text-xxs">
-                  {row}
-                </div>
-              ))}
-          </>
+          <div className="flex items-center gap-1 text-xxs">{extra}</div>
         )}
       </div>
     </RootComponent>
