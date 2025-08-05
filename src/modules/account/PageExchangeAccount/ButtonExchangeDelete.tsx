@@ -13,7 +13,9 @@ const ButtonExchangeDelete: React.FC<{ account: ExchangeAccount }> = ({
 }) => {
   const { t } = useTranslation('external-accounts');
   const [ModalDeleteConfirm, openDeleteConfirm] = useConfirm({
-    icon: <Icon name={bxTrash} className="text-error" size={52} />,
+    icon: (
+      <Icon name={bxTrash} className="text-v1-content-negative" size={52} />
+    ),
     message: (
       <div className="text-center">
         <h1 className="text-white">{t('delete-account.title')}</h1>

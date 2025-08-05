@@ -18,7 +18,7 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useSubscription } from 'api';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'assets/logo-white.svg';
 
 export const TechnicalRadarChart: FC<{
   type: 'cheap_bullish' | 'expensive_bearish';

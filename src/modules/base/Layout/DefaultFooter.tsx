@@ -23,14 +23,14 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
         <LoadingBadge
           value={showLoadingBadge}
           animation="slide-down"
-          className="fixed bottom-16 left-1/2 z-50 mb-2 -translate-x-1/2"
+          className="fixed bottom-16 left-1/2 z-50 z-[-1] mb-2 -translate-x-1/2"
         />
       )}
 
       <div
         className={clsx(
-          'flex w-full items-stretch justify-between gap-2 text-white',
-          'h-16 bg-v1-surface-l2',
+          'flex w-full items-stretch justify-between gap-2 border-t border-white/5 text-white',
+          'bg-v1-surface-l1 h-16',
           TOUR_CLASS,
           className,
         )}
@@ -44,7 +44,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
             key={item.link}
             className={clsx(
               'group flex flex-1 flex-col items-center justify-center',
-              isMatched(item.meta) && 'font-bold text-v1-content-brand',
+              isMatched(item.meta) && 'text-v1-content-brand font-bold',
               'hover:text-v1-content-link-hover',
             )}
           >

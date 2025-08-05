@@ -24,7 +24,7 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
 
   return (
     <div className="text-xs">
-      <div className="flex items-center justify-between rounded-lg bg-v1-surface-l2 p-3">
+      <div className="bg-v1-surface-l-next flex items-center justify-between rounded-lg p-3">
         <div className="text-v1-content-secondary">
           {from.priceByOther ? (
             <>
@@ -52,7 +52,7 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
           <Tooltip
             trigger="hover"
             placement="bottom"
-            overlayClassName="[&_.ant-tooltip-inner]:bg-v1-surface-l2"
+            overlayClassName="[&_.ant-tooltip-inner]:bg-v1-surface-l1"
             arrow={false}
             title={
               <div className="flex gap-1">
@@ -85,13 +85,13 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
                 type="string"
                 className="mt-2 w-full pl-px"
                 size="md"
-                surface={2}
+                surface={1}
                 value={limit}
                 onKeyDown={preventNonNumericInput}
                 onChange={newValue => setLimit(newValue)}
                 prefixIcon={
                   <Select
-                    surface={2}
+                    surface={1}
                     size="sm"
                     className="w-48"
                     dialogClassName="w-32"

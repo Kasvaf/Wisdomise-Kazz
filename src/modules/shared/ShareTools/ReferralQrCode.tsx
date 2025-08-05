@@ -1,7 +1,7 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { clsx } from 'clsx';
 import line from 'shared/ShareTools/images/line.svg';
-import logo from 'shared/ShareTools/images/logo.png';
+import logo from 'assets/logo-white.svg';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import ready from './images/ready.png';
 
@@ -17,7 +17,7 @@ export default function ReferralQrCode({ className }: { className?: string }) {
       <div>
         {/* used image because of text gradient limit in screenshot */}
         <img src={ready} alt="ready" className="mb-2 h-4" />
-        <p>Scan the QR Code or Use the Link to Join the Wisdomise Adventure!</p>
+        <p>Scan the QR Code or Use the Link to Join the GoatX Adventure!</p>
         <img src={line} alt="" className="my-3" />
         <img src={logo} className="h-5" alt="" />
       </div>

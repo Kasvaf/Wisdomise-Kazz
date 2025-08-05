@@ -4,7 +4,6 @@ import { clsx } from 'clsx';
 import type * as Sentry from '@sentry/react';
 import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
-import { ReactComponent as ErrorUndraw } from './undraw.svg';
 
 export default function PageError({
   errorObject,
@@ -32,10 +31,10 @@ export default function PageError({
   };
 
   return (
-    <div className="flex h-screen w-screen select-none flex-col items-center justify-center gap-4 text-v1-content-primary">
-      <ErrorUndraw className="mb-10 h-auto w-full max-w-sm px-6" />
+    <div className="text-v1-content-primary flex h-screen w-screen select-none flex-col items-center justify-center gap-4">
+      <div className="mb-6 text-8xl">:(</div>
       <div className="text-center">{t('error-page.title')}</div>
-      <div className="text-center text-sm text-v1-content-secondary">
+      <div className="text-v1-content-secondary text-center text-sm">
         {t('error-page.subtitle')}
       </div>
       <button

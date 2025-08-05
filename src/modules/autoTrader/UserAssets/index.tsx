@@ -40,8 +40,8 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   return (
     <NavLink
       className={clsx(
-        'flex items-center justify-between px-3 py-2 !text-v1-content-primary hover:!bg-v1-surface-l4 mobile:py-3',
-        params.slug === asset.slug && '!bg-v1-surface-l3',
+        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-4 py-2 mobile:py-3',
+        params.slug === asset.slug && '!bg-v1-surface-l2',
       )}
       to={getUrl({
         detail: 'coin',
@@ -108,7 +108,7 @@ const UserAssets: React.FC<
 
       <div
         className={clsx(
-          'flex flex-col overflow-hidden rounded-xl bg-v1-surface-l2',
+          'flex flex-col overflow-hidden rounded-xl bg-v1-surface-l1',
           containerClassName,
         )}
       >
@@ -159,9 +159,9 @@ const UserWallets = (props: Props) => {
     <UserAssets title="Wallet Assets" data={walletAssets} {...props} />
   ) : (
     <div>
-      <p className="my-3 text-xs text-v1-content-secondary">Wallets</p>
+      <p className="text-v1-content-secondary my-3 text-xs">Wallets</p>
       <WalletSelector
-        radioClassName="w-full [&.ant-radio-wrapper]:items-start [&_.ant-radio]:mt-4 [&_.ant-radio]:self-start"
+        radioClassName="w-full [&.ant-radio-wrapper]:!items-start [&_.ant-radio]:!mt-4 [&_.ant-radio]:!self-start"
         WalletOptionComponent={WalletItem}
         expanded={props.expanded}
         className="-mr-2 -mt-3"
@@ -198,7 +198,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
   return (
-    <div className="w-full border-b border-v1-inverse-overlay-10 py-3">
+    <div className="border-v1-inverse-overlay-10 w-full border-b py-3">
       <div className="mb-2 flex items-center justify-between">
         <div
           className={clsx(
@@ -211,7 +211,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
             {(wallet?.address || address) && (
               <HoverTooltip title="Copy Wallet Address">
                 <button
-                  className="mt-1 text-v1-content-secondary"
+                  className="text-v1-content-secondary mt-1"
                   onClick={() => copy(wallet?.address ?? address ?? '')}
                 >
                   <Icon name={bxCopy} size={16} />
@@ -263,7 +263,7 @@ function WalletAssets({ wallet }: { wallet: Wallet }) {
   return walletAssets?.length ? (
     <UserAssets data={walletAssets} />
   ) : (
-    <div className="flex h-44 flex-col items-center justify-center rounded-xl bg-v1-surface-l2">
+    <div className="bg-v1-surface-l1 flex h-44 flex-col items-center justify-center rounded-xl">
       <DepositIcon className="size-8" />
       <p className="my-2 text-xxs">Deposit and start your trade journey</p>
       <Button size="xs" onClick={() => deposit(wallet.address)}>

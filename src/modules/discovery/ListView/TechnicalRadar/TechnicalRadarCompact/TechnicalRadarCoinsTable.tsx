@@ -105,7 +105,7 @@ export const TechnicalRadarCoinsTable: FC<{
           dataSource={coins.data ?? []}
           rowKey={r => r.symbol.slug}
           loading={coins.isLoading}
-          surface={2}
+          surface={1}
           onClick={r => onClick?.(r)}
           isActive={r => r.symbol.slug === activeSlug}
         />

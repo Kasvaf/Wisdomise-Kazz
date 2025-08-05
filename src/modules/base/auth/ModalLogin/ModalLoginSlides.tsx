@@ -81,10 +81,10 @@ export const ModalLoginSlides: FC<{
             '[&.swiper-slide-active_span]:opacity-100 [&_span]:transition-all [&_span]:duration-[1200ms] [&_span]:will-change-transform',
           )}
         >
-          <span className="absolute bottom-[-20%] left-[15%] size-[70%] bg-wsdm-gradient opacity-0 blur-[70px]" />
+          <span className="absolute bottom-[-20%] left-[15%] size-[70%] bg-brand-gradient opacity-0 blur-[70px]" />
           <div className="flex h-full max-h-full flex-col items-center justify-between overflow-hidden px-8">
             <div className="flex w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-v1-surface-l1 to-transparent py-8 mobile:pb-3">
-              <h3 className="-translate-y-4 text-2xl font-bold [&_b]:bg-wsdm-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
+              <h3 className="-translate-y-4 text-2xl font-bold [&_b]:bg-brand-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
                 {img.title}
               </h3>
               <p className="scale-x-125 text-sm font-medium opacity-0">

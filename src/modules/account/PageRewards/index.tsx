@@ -15,7 +15,7 @@ import { shortenAddress } from 'utils/shortenAddress';
 import { useHasFlag } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
-import logo from 'assets/logo.svg';
+import logo from 'assets/monogram-green.svg';
 import { useActiveWallet } from 'api/chains/wallet';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as Usdc } from './images/usdc.svg';
@@ -109,7 +109,7 @@ export default function PageRewards() {
                 Withdraw
               </Button>
               {disableWithdraw && (
-                <p className="text-xs text-v1-content-secondary">
+                <p className="text-v1-content-secondary text-xs">
                   You have Pending Withdraw Request
                 </p>
               )}
@@ -156,7 +156,7 @@ export default function PageRewards() {
           {history?.map((item, index) => (
             <div
               key={index}
-              className="mb-3 flex flex-col gap-2 rounded-xl bg-v1-surface-l2 p-3 text-xs"
+              className="bg-v1-surface-l2 mb-3 flex flex-col gap-2 rounded-xl p-3 text-xs"
             >
               <div className="flex justify-between">
                 <div className="text-v1-content-secondary">Wallet Address</div>
@@ -197,13 +197,13 @@ function RewardItem({
   amount: number;
 }) {
   return (
-    <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l2">
+    <div className="bg-v1-surface-l2 relative mb-3 h-24 overflow-hidden rounded-xl">
       <div className="relative flex h-full items-center">
         <div className="flex grow gap-x-3 p-3 mobile:flex-col">
           <img src={image} alt="" className="size-10 object-contain" />
           <p className="mt-2">{title}</p>
         </div>
-        <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled">
+        <div className="border-v1-border-disabled flex h-full w-32 items-center justify-center gap-2 border-l border-dashed">
           <Usdc className="size-6" /> {amount}
         </div>
       </div>

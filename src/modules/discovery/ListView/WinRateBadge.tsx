@@ -16,7 +16,7 @@ export const WinRateBadge: FC<{
       rel="noreferrer"
       className={clsx('transition-all hover:brightness-110', className)}
     >
-      <Badge variant="wsdm">
+      <Badge variant="brand">
         <span className="opacity-70">{'Winrate:'}</span>
         <ReadableNumber
           value={value * 100}

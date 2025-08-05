@@ -10,7 +10,7 @@ import Spin from 'shared/Spin';
 import InfoLine from 'modules/autoTrader/components/InfoLine';
 import MessageBox from 'modules/autoTrader/components/MessageBox';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { ReactComponent as ProIcon } from 'assets/Pro.svg';
+import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { isMiniApp } from 'utils/version';
 import { type SignalFormState } from './useSignalFormStates';
 

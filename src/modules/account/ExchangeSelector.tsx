@@ -1,19 +1,17 @@
 import type React from 'react';
 import ComboBox from 'shared/ComboBox';
-import { ReactComponent as WisdomiseLogoSvg } from 'assets/logo-horizontal-beta.svg';
-import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance.svg';
 import { type ExchangeTypes } from 'api';
 
-const exchangeIcons = {
-  WISDOMISE: WisdomiseLogoSvg,
-  BINANCE: BinanceLogoSvg,
-};
+// const exchangeIcons = {
+//   WISDOMISE: WisdomiseLogoSvg,
+//   BINANCE: BinanceLogoSvg,
+// };
 
 const ExchangeOptionItem = (item: ExchangeTypes) => {
-  const Icon = exchangeIcons[item];
+  // const Icon = exchangeIcons[item];
   return (
     <div>
-      <Icon />
+      {/* <Icon /> */}
     </div>
   );
 };

@@ -2,13 +2,13 @@
 import { useMemo } from 'react';
 
 const surfaces = [
-  '#090c10',
-  '#131920',
-  '#1d262f',
-  '#28323e',
-  '#333f4d',
-  '#3f4b5a',
-  '#4b5868',
+  'var(--color-v1-surface-l0)',
+  'var(--color-v1-surface-l1)',
+  'var(--color-v1-surface-l2)',
+  'var(--color-v1-surface-l3)',
+  'var(--color-v1-surface-l4)',
+  'var(--color-v1-surface-l5)',
+  'var(--color-v1-surface-l6)',
 ];
 
 export type Surface = 0 | 1 | 2 | 3 | 4 | 5 | 6;

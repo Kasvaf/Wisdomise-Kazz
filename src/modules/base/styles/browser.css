@@ -1,18 +1,4 @@
-::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  @apply text-nodata opacity-50;
-  /* Firefox */
-}
-
-:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  @apply text-nodata opacity-50;
-}
-
-::-ms-input-placeholder {
-  /* Microsoft Edge */
-  @apply text-nodata opacity-50;
-}
+@reference 'tailwindcss';
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

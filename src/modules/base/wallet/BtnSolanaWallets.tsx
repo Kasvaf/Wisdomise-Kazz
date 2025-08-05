@@ -31,6 +31,7 @@ import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/
 import { Coins } from 'shared/Coins';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
+import { Surface } from 'utils/useSurface';
 
 export default function BtnSolanaWallets({
   className,
@@ -38,12 +39,14 @@ export default function BtnSolanaWallets({
   showBalance,
   size,
   variant = 'ghost',
+  surface = 1
 }: {
   className?: string;
   showAddress?: boolean;
   showBalance?: boolean;
   size?: ButtonSize;
   variant?: 'outline' | 'ghost';
+  surface?: Surface;
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
@@ -58,6 +61,7 @@ export default function BtnSolanaWallets({
         variant={variant}
         size={isMobile ? 'md' : size ?? 'xs'}
         className={className}
+        surface={surface}
       >
         {!isMobile && connected && !isCustodial && icon ? (
           <img className="size-5" src={icon} alt="" />

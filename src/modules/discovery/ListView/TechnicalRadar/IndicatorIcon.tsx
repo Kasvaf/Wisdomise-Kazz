@@ -8,7 +8,7 @@ export const IndicatorIcon: FC<{
 }> = ({ className, value }) => (
   <div
     className={clsx(
-      'inline-flex size-6 items-center justify-center rounded-full bg-wsdm-gradient',
+      'inline-flex size-6 items-center justify-center rounded-full bg-brand-gradient',
       value === 'rsi' ? 'text-[10px]' : 'text-[6px]',
       className,
     )}

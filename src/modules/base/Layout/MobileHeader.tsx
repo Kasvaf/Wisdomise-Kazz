@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { type ReactElement, type PropsWithChildren } from 'react';
 import { isMiniApp } from 'utils/version';
-import { ReactComponent as Logo } from 'assets/WisdomiseLogo.svg';
+import { ReactComponent as Logo } from 'assets/monogram-white.svg';
 import { useActiveNetwork } from 'modules/base/active-network';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import BtnBack from 'modules/base/BtnBack';
