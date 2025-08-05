@@ -114,13 +114,14 @@ const AdvancedChart: React.FC<{
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
       custom_formatters: {
-        priceFormatterFactory: () => {
+        priceFormatterFactory: (symbolInfo, minTick) => {
+          console.log(symbolInfo, minTick);
           return {
             format: price => {
               const val = price * (isMarketCap ? supply : 1);
               return formatNumber(val, {
-                decimalLength: 4,
-                minifyDecimalRepeats: true,
+                decimalLength: isMarketCap ? 1 : 3,
+                minifyDecimalRepeats: !isMarketCap,
                 compactInteger: isMarketCap,
                 separateByComma: false,
               });

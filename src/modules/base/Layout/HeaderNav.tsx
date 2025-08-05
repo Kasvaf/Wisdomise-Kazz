@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
-import { useTraderPositionsQuery } from 'api';
+import { useHasFlag, useTraderPositionsQuery } from 'api';
 import usePageTour from 'shared/usePageTour';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { SubscriptionIcon } from 'modules/account/PageAccount/icons';
@@ -21,6 +21,7 @@ const HeaderNav = () => {
     data?.positions.filter(x => x.deposit_status !== 'PENDING').length ?? 0;
   const [searchParams] = useSearchParams();
   const { getUrl } = useDiscoveryRouteMeta<'filter'>();
+  const hasFlag = useHasFlag();
 
   const [maxOpenTrades, setMaxOpenTrade] = useLocalStorage(
     'max-open-trades',
@@ -57,7 +58,7 @@ const HeaderNav = () => {
 
   return (
     <div className="flex items-center gap-2">
-      {isMobile && (
+      {isMobile && hasFlag('/discovery?positions') && (
         <Button
           onClick={() => {
             const to = getUrl({
@@ -93,7 +94,7 @@ const HeaderNav = () => {
         </Button>
       )}
 
-      {!isMobile && (
+      {!isMobile && hasFlag('/account/billing') && (
         <Button
           onClick={() => navigate('/account/billing')}
           size="xs"
@@ -110,19 +111,21 @@ const HeaderNav = () => {
         </Button>
       )}
 
-      <Button
-        onClick={() => navigate('/trader/quests')}
-        size={isMobile ? 'md' : 'xs'}
-        variant="ghost"
-        className={clsx(
-          isMobile ? '!px-4' : '!px-2',
-          pathname.startsWith('/trader/quests') && '!text-v1-content-brand',
-        )}
-        surface={1}
-      >
-        <IconQuests />
-        Earn & Win
-      </Button>
+      {hasFlag('/trader/quests') && (
+        <Button
+          onClick={() => navigate('/trader/quests')}
+          size={isMobile ? 'md' : 'xs'}
+          variant="ghost"
+          className={clsx(
+            isMobile ? '!px-4' : '!px-2',
+            pathname.startsWith('/trader/quests') && '!text-v1-content-notice',
+          )}
+          surface={1}
+        >
+          <IconQuests />
+          Earn & Win
+        </Button>
+      )}
     </div>
   );
 };
