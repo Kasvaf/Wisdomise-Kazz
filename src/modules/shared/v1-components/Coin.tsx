@@ -54,7 +54,7 @@ export const Coin: FC<{
   truncate?: boolean;
 
   customLabels?: ReactNode;
-  extra?: ReactNode | ReactNode[];
+  extra?: ReactNode;
   underLogo?: ReactNode;
 }> = ({
   slug,
@@ -272,15 +272,7 @@ export const Coin: FC<{
           <CoinNetworksLabel value={networks} size="xs" clickable />
         </div>
         {extra && (
-          <>
-            {(Array.isArray(extra) ? extra : [extra])
-              .filter(row => !!row)
-              .map((row, index) => (
-                <div key={index} className="flex items-center gap-1 text-xxs">
-                  {row}
-                </div>
-              ))}
-          </>
+          <div className="flex items-center gap-1 text-xxs">{extra}</div>
         )}
       </div>
     </RootComponent>
