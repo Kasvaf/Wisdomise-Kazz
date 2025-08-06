@@ -91,12 +91,13 @@ export const NCoinList: FC<{
   useEffect(() => {
     if (hovered) {
       setDataSource(p => {
-        const ret: typeof p = [];
+        let ret: typeof p = [...p];
         const seen = new Set<string>(p.map(x => x.symbol?.slug ?? ''));
         for (const element of _dataSource) {
           const key = element.symbol?.slug ?? '';
           if (seen.has(key)) {
-            ret.push(element);
+            const idx = ret.findIndex(x => x.symbol?.slug === key);
+            ret = [...ret.slice(0, idx), element, ...ret.slice(idx + 1)];
           }
         }
         return ret;
