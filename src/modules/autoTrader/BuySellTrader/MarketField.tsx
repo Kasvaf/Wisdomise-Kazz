@@ -24,7 +24,7 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
 
   return (
     <div className="text-xs">
-      <div className="bg-v1-surface-l-next flex items-center justify-between rounded-lg p-3">
+      <div className="bg-v1-surface-l1 flex items-center justify-between rounded-lg p-3">
         <div className="text-v1-content-secondary">
           {from.priceByOther ? (
             <>

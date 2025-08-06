@@ -293,14 +293,10 @@ div[data-tc-modal] {
 /* ------------------------------------------------- */
 
 .ant-switch {
-  @apply !bg-white/20;
+  @apply !bg-v1-surface-l3;
 
-  &-handle::before {
-    @apply !bg-[#1F242D];
-  }
-
-  &-checked {
-    @apply !bg-v1-background-positive;
+  .ant-switch-handle::before {
+    @apply !bg-v1-surface-l0;
   }
 }
 
