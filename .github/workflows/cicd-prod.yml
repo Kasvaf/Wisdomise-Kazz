@@ -92,4 +92,4 @@ jobs:
           steps: ${{ toJson(steps) }}
           channel: '#alert-production'
           message: >-
-            Deploy Dashboard: ${{ github.event.head_commit.message }}.
+            Deploy App: ${{ github.event.head_commit.message }}.

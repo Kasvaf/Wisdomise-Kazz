@@ -105,9 +105,9 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       <AccessShield
         mode="table"
         sizes={{
-          guest: true,
-          initial: true,
-          free: true,
+          guest: false,
+          initial: false,
+          free: false,
           vip: false,
         }}
       >
