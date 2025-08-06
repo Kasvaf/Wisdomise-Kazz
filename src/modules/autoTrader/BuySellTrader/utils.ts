@@ -6,11 +6,11 @@ export const convertToBaseAmount = (
   baseBalance?: number | null,
   priceByOther?: number | null,
 ) => {
-  if (amountType === 'percentage')
-    return roundSensible(
-      amount === '100' ? baseBalance : ((baseBalance ?? 0) * +amount) / 100,
-    );
-  else if (amountType === 'base') {
+  if (amountType === 'percentage') {
+    return amount === '100'
+      ? String(baseBalance)
+      : roundSensible(((baseBalance ?? 0) * +amount) / 100);
+  } else if (amountType === 'base') {
     return amount;
   } else {
     return roundSensible((priceByOther ?? 0) * +amount);
