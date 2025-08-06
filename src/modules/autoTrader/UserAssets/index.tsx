@@ -203,7 +203,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         <div
           className={clsx(
             'flex items-center gap-2 text-xs font-medium',
-            isActive && 'bg-pro-gradient bg-clip-text text-transparent',
+            isActive && 'bg-brand-gradient bg-clip-text text-transparent',
           )}
         >
           <div className="flex items-center gap-1">
@@ -220,7 +220,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
             )}
           </div>
 
-          {isActive && <Badge color="pro" label="Active" />}
+          {isActive && <Badge color="gradient" label="Active" />}
         </div>
         {wallet ? (
           <Button

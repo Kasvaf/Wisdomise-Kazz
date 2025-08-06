@@ -32,7 +32,7 @@ export const SocialRadarSourceSelect: FC<{
         return (
           <span>
             <SocialLogo
-              className="me-2 inline-block size-4 rounded-full align-middle"
+              className="size-4 me-2 inline-block rounded-full align-middle"
               type={
                 source.value.includes('telegram')
                   ? 'telegram'
@@ -45,6 +45,7 @@ export const SocialRadarSourceSelect: FC<{
           </span>
         );
       }}
+      surface={2}
       options={
         sources.data
           ?.filter(x => x.name.toLowerCase().includes(query.toLowerCase()))

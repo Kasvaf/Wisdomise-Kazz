@@ -46,6 +46,7 @@ export function ExchangeSelect<M extends boolean>({
           ?.map(x => x.name)
           .filter(x => !!x) ?? []
       }
+      surface={2}
       {...props}
     />
   );

@@ -14,13 +14,8 @@ export default function HowStep({
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-full grow flex-col items-center overflow-auto px-6">
-        <img src={logo} alt="logo" className="h-6 w-auto" />
-        <img
-          src={qrCode}
-          alt="users"
-          className="w-auto mobile:w-full md:-mt-24 md:h-[36rem]"
-        />
-        <h1 className="-mt-10 mb-4 text-4xl font-semibold mobile:text-xl md:-mt-32 md:mb-10">
+        <img src={logo} alt="logo" className="w-auto" />
+        <h1 className="mt-10 mb-4 text-4xl font-semibold mobile:text-xl md:mb-10">
           How It Works
         </h1>
         <p className="mb-6 max-w-xl text-xl mobile:text-sm">

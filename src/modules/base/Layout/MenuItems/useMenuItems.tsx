@@ -24,15 +24,6 @@ export const useMenuItems = () => {
   return useMemo<MenuItem[]>(
     () => [
       {
-        link: '/discovery?list=coin-radar',
-        meta: {
-          list: 'coin-radar',
-        },
-        icon: CoinRadarIcon,
-        text: 'Bluechips',
-        crumb: 'Bluechips',
-      },
-      {
         link: '/discovery?list=network-radar',
         meta: {
           list: 'network-radar',
@@ -40,6 +31,15 @@ export const useMenuItems = () => {
         icon: NetworkRadarIcon,
         text: 'Trench',
         crumb: 'Trench',
+      },
+      {
+        link: '/discovery?list=coin-radar',
+        meta: {
+          list: 'coin-radar',
+        },
+        icon: CoinRadarIcon,
+        text: 'Bluechips',
+        crumb: 'Bluechips',
       },
       {
         link: '/discovery?list=whale-radar',

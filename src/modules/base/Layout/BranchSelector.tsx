@@ -31,13 +31,13 @@ const BranchSelector = () => {
     <Select
       className="text-v1-content-primary mobile:w-xl"
       chevron={false}
-      size="xl"
+      size="xs"
       value={value}
       loading={branches.isLoading}
       onChange={gotoBranch}
       allowClear={false}
       block
-      surface={2}
+      surface={1}
       options={branches.data}
       prefixIcon={<Icon name={bxGitBranch} />}
       render={(opt, target) => {

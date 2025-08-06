@@ -32,7 +32,6 @@ import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarSharingModal from '../SocialRadarSharingModal';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { RealtimeBadge } from '../../RealtimeBadge';
-import { WinRateBadge } from '../../WinRateBadge';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 
 export function SocialRadarExpanded() {
@@ -131,14 +130,7 @@ export function SocialRadarExpanded() {
             </>
           )
         }
-        titleSuffix={
-          !isEmbeddedView && (
-            <>
-              <RealtimeBadge />
-              <WinRateBadge value={socialRadarMetrics?.max_average_win_rate} />
-            </>
-          )
-        }
+        titleSuffix={!isEmbeddedView && <RealtimeBadge />}
         info={
           <p className="[&_b]:text-v1-content-primary [&_b]:underline">
             <Trans

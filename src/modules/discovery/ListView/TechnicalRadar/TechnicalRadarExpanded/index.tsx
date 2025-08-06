@@ -13,7 +13,6 @@ import {
 import { ReactComponent as TechnicalRadarIcon } from '../technical-radar.svg';
 import { ConfirmationWidget } from '../ConfirmationWidget';
 import { RsiHeatmapWidget } from '../RsiHeatmapWidget';
-import { WinRateBadge } from '../../WinRateBadge';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 
 export function TechnicalRadarExpanded() {
@@ -36,9 +35,6 @@ export function TechnicalRadarExpanded() {
             <TechnicalRadarIcon className="size-6" />
             {t('base:menu.ai-indicators.title')}
           </>
-        }
-        titleSuffix={
-          <WinRateBadge value={technicalRadarMetrics?.max_average_win_rate} />
         }
         info={
           <p className="[&_b]:text-v1-content-primary [&_b]:underline">
@@ -65,7 +61,7 @@ export function TechnicalRadarExpanded() {
             <div>
               <div
                 className={clsx(
-                  'text-base font-medium text-v1-content-primary [&_b]:font-medium',
+                  'text-v1-content-primary text-base font-medium [&_b]:font-medium',
                   '[&_b]:text-v1-content-positive',
                 )}
               >
@@ -83,7 +79,7 @@ export function TechnicalRadarExpanded() {
             <div>
               <div
                 className={clsx(
-                  'text-base font-medium text-v1-content-primary [&_b]:font-medium',
+                  'text-v1-content-primary text-base font-medium [&_b]:font-medium',
                   '[&_b]:text-v1-content-negative',
                 )}
               >

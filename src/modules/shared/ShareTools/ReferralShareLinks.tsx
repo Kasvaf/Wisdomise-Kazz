@@ -45,7 +45,7 @@ export function ReferralShareLinks({
           />
         }
         value={myReferralLink}
-        surface={4}
+        surface={2}
       />
       <div className="flex flex-wrap gap-2">
         <div className="flex gap-2 [&>*]:bg-transparent [&>*]:px-2">

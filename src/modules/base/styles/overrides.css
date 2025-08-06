@@ -55,7 +55,7 @@ div[data-tc-modal] {
 }
 
 .ant-modal-content {
-  @apply !bg-v1-surface-l2 overflow-hidden;
+  @apply !bg-v1-surface-l1 overflow-hidden;
   border-radius: 10px !important;
   .anticon-close {
     color: white;

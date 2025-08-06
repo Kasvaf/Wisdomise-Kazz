@@ -16,7 +16,9 @@ export default function ReferralQrCode({ className }: { className?: string }) {
     >
       <div>
         {/* used image because of text gradient limit in screenshot */}
-        <img src={ready} alt="ready" className="mb-2 h-4" />
+        <p className="mb-3 w-max bg-brand-gradient bg-clip-text text-lg font-semibold text-transparent">
+          Ready To Dive In?
+        </p>
         <p>Scan the QR Code or Use the Link to Join the GoatX Adventure!</p>
         <img src={line} alt="" className="my-3" />
         <img src={logo} className="h-5" alt="" />

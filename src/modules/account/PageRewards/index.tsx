@@ -130,24 +130,30 @@ export default function PageRewards() {
 
       {activeTab === 'rewards' && (
         <div>
-          <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
+          {hasFlag('/trader/quests/daily') && (
+            <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
+          )}
           <RewardItem
             title="Referral Trade"
             image={refFeeSrc}
             amount={tradeReferral}
           />
-          <RewardItem
-            title="Referral Wise Club"
-            image={refSubSrc}
-            amount={subReferral}
-          />
+          {hasFlag('/account/billing') && (
+            <RewardItem
+              title="Referral Wise Club"
+              image={refSubSrc}
+              amount={subReferral}
+            />
+          )}
           {hasFlag('/trader/quests/league') && (
             <RewardItem title="League" image={leagueSrc} amount={league} />
           )}
           {hasFlag('/trader/quests/tournaments') && (
             <RewardItem title="Tournaments" image={logo} amount={tournament} />
           )}
-          <RewardItem title="Wise Club" image={wiseGold} amount={wiseClub} />
+          {hasFlag('/account/billing') && (
+            <RewardItem title="Wise Club" image={wiseGold} amount={wiseClub} />
+          )}
         </div>
       )}
 

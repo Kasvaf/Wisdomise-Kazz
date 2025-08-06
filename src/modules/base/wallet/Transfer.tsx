@@ -78,7 +78,7 @@ export default function Transfer({
 
       <p className="my-4">From</p>
       <Select
-        surface={4}
+        surface={2}
         className="!h-16 w-full"
         dialogClassName="w-80"
         value={fromWallet}
@@ -97,7 +97,7 @@ export default function Transfer({
       {walletAssets?.length ? (
         <>
           <Select
-            surface={4}
+            surface={2}
             placeholder="Select Asset"
             className="mt-5 w-full"
             dialogClassName="w-80"
@@ -128,7 +128,7 @@ export default function Transfer({
             onChange={newAmount => setAmount(String(newAmount))}
             placeholder="Enter Withdrawal Amount"
             className="mt-3 w-full"
-            surface={4}
+            surface={2}
             suffixIcon={
               selectedAsset && assetToSymbol(selectedAsset?.slug)?.abbreviation
             }
@@ -138,7 +138,7 @@ export default function Transfer({
             className="my-2"
             balance={selectedAsset?.amount ?? 0}
             onChange={newAmount => setAmount(newAmount)}
-            surface={4}
+            surface={2}
           />
         </>
       ) : (
@@ -152,7 +152,7 @@ export default function Transfer({
           <p className="mb-4">To</p>
           <Select
             placeholder="Select Your Destination Wallet"
-            surface={4}
+            surface={2}
             className="!h-16 w-full"
             dialogClassName="w-80"
             value={internalToWallet}
@@ -181,7 +181,7 @@ export default function Transfer({
           onChange={value => setToWallet(value)}
           placeholder="Type Your Wallet Address"
           className="w-full"
-          surface={4}
+          surface={2}
         />
       )}
 

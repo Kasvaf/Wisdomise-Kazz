@@ -98,7 +98,7 @@ export default function BuysSells({ wallet }: { wallet: Wallet }) {
       chunkSize={5}
       loading={isLoading}
       rowKey={r => r.transaction_link}
-      surface={2}
+      surface={1}
       scrollable
       footer={
         <Pagination

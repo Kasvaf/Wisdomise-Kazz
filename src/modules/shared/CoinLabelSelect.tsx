@@ -40,6 +40,7 @@ export function CoinLabelSelect<M extends boolean>({
         );
       }}
       options={options.data?.[type] ?? []}
+      surface={2}
       {...props}
     />
   );

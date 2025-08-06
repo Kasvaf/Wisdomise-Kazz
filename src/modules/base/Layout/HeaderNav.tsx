@@ -9,7 +9,11 @@ import usePageTour from 'shared/usePageTour';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { SubscriptionIcon } from 'modules/account/PageAccount/icons';
 import { useIsLoggedIn } from '../auth/jwt-store';
-import { IconQuests, IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
+import {
+  IconQuests,
+  IconReferral,
+  IconTrades,
+} from './ProfileMenu/ProfileMenuContent/icons';
 
 const HeaderNav = () => {
   const isMobile = useIsMobile();
@@ -84,46 +88,13 @@ const HeaderNav = () => {
           {openTrades > 0 && (
             <div
               className={clsx(
-                'rounded-full bg-v1-background-negative text-xxs text-white',
+                'bg-v1-background-negative rounded-full text-xxs text-white',
                 openTrades >= 10 ? 'size-2' : 'size-4',
               )}
             >
               {openTrades >= 10 ? '' : openTrades}
             </div>
           )}
-        </Button>
-      )}
-
-      {!isMobile && hasFlag('/account/billing') && (
-        <Button
-          onClick={() => navigate('/account/billing')}
-          size="xs"
-          variant="ghost"
-          className={clsx(
-            '!px-2',
-            pathname.startsWith('/account/billing') &&
-              '!text-v1-content-brand',
-          )}
-          surface={1}
-        >
-          <SubscriptionIcon />
-          Wise Club
-        </Button>
-      )}
-
-      {hasFlag('/trader/quests') && (
-        <Button
-          onClick={() => navigate('/trader/quests')}
-          size={isMobile ? 'md' : 'xs'}
-          variant="ghost"
-          className={clsx(
-            isMobile ? '!px-4' : '!px-2',
-            pathname.startsWith('/trader/quests') && '!text-v1-content-notice',
-          )}
-          surface={1}
-        >
-          <IconQuests />
-          Earn & Win
         </Button>
       )}
     </div>

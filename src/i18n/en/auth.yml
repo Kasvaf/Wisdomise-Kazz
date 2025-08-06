@@ -32,7 +32,7 @@ login:
 page-referral:
   title: Invite Your Friends and Earn Rewards!
   subtitle: >-
-    Share Your Referral Code and Earn Exclusive Bonuses When Your Friends Join
+    Share Your Referral Link and Earn Exclusive Bonuses When Your Friends Join
     and Trade.
   bonus:
     title: Bonus Bag
@@ -42,7 +42,7 @@ page-referral:
   earned-subscription: Earned From Wise Club Until Now
   earned-trader: Earned From Trade Fees Until Now
   friends-list:
-    title: My Friends List
+    title: Your Referral List
   how:
     button: How it Works?
   referral-link: Your Referral Link

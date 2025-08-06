@@ -43,7 +43,7 @@ export const TwitterTrackerView: FC<{
   return (
     <div
       className={clsx(
-        'mx-auto h-full divide-y divide-v1-content-primary/10 bg-v1-surface-l1',
+        'mx-auto h-full divide-y divide-v1-content-primary/10 bg-v1-surface-l0',
         className,
       )}
     >

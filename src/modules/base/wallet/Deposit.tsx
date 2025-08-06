@@ -18,7 +18,7 @@ export default function Deposit({ wallet }: { wallet: Wallet }) {
         Deposit To Your{' '}
         <span className="text-v1-content-primary">{wallet.name}</span> Wallet
       </p>
-      <div className="justify-between rounded-xl bg-v1-surface-l4 p-3">
+      <div className="justify-between rounded-xl bg-v1-surface-l2 p-3">
         <div className="flex items-end justify-between">
           <div>
             <h2 className="text-sm text-v1-content-primary">{wallet.name}</h2>

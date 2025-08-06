@@ -21,7 +21,6 @@ import { homeSubscriptionsConfig } from '../constants';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
 import { ConfirmationBadgesInfo } from '../../TechnicalRadar/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadar/TechnicalRadarSentiment';
-import { WinRateBadge } from '../../WinRateBadge';
 import useHotCoinsTour from '../useHotCoinsTour';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
@@ -131,9 +130,6 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             <Logo className="size-6 shrink-0" />
             {t('base:menu.coin-radar.full-title')}
           </>
-        }
-        titleSuffix={
-          <WinRateBadge value={metricNumber === 0 ? null : metricNumber} />
         }
         headerActions={<QuickBuySettings source="coin_radar" showWallet />}
         className="min-h-[500px]"
