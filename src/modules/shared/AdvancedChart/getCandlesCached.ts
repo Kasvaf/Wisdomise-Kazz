@@ -30,7 +30,8 @@ const getCandlesCached = async (
     baseSlug: string;
     quoteSlug: string;
     resolution: Resolution;
-    startTime: string;
+    startTime?: string;
+    limit?: number;
     endTime: string;
     skipEmptyCandles: boolean;
     market: string;
@@ -38,19 +39,21 @@ const getCandlesCached = async (
   },
 ) => {
   const cacheKey = JSON.stringify(params);
+  console.log(params);
   if (!caches[cacheKey]) {
     caches[cacheKey] = delphinus
       .getCandles(params)
-      .then(data =>
-        data.candles.map(c => ({
+      .then(data => {
+        console.log(data);
+        return data.candles.map(c => ({
           open: +c.open,
           high: +c.high,
           low: +c.low,
           close: +c.close,
           volume: +c.volume,
           time: +new Date(c.relatedAt),
-        })),
-      )
+        }));
+      })
       .catch(error => {
         if (!isProduction) {
           console.error(error);
