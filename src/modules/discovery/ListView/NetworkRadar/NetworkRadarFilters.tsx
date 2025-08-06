@@ -1,5 +1,6 @@
 import { useMemo, useState, type ComponentProps, type FC } from 'react';
 import { bxSearch } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { Input } from 'shared/v1-components/Input';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
@@ -97,14 +98,32 @@ export const NetworkRadarFilters: FC<
                         key={protocol.name}
                         size="md"
                         block
+                        variant="button"
+                        surface={3}
                         label={
-                          // <span className="relative flex items-center justify-center gap-2 overflow-hidden">
-                          //   {/* <img
-                          //   src={protocol.logo}
-                          //   className="absolute w-full scale-125 blur-sm"
-                          // /> */}
-                          // </span>
-                          <span className="relative">{protocol.name}</span>
+                          <>
+                            <img
+                              src={protocol.logo}
+                              className={clsx(
+                                'size-4 rounded-sm',
+                                !state[tab]?.protocols?.includes(
+                                  protocol.name,
+                                ) && 'opacity-75',
+                              )}
+                            />
+                            <img
+                              src={protocol.logo}
+                              className={clsx(
+                                'absolute w-full blur-2xl brightness-100 contrast-200 saturate-200',
+                                state[tab]?.protocols?.includes(protocol.name)
+                                  ? 'opacity-30'
+                                  : 'opacity-0',
+                              )}
+                            />
+                            <span className="relative truncate">
+                              {protocol.name}
+                            </span>
+                          </>
                         }
                         value={state[tab]?.protocols?.includes(protocol.name)}
                         onChange={val =>
