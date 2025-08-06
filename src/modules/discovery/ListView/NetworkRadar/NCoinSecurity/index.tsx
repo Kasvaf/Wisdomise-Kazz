@@ -11,10 +11,10 @@ export const NCoinSecurity: FC<{
   className?: string;
   imgClassName?: string;
   value?: {
-    mintable: boolean;
-    freezable: boolean;
-    lpBurned: boolean;
-    safeTopHolders: boolean;
+    mintable?: boolean;
+    freezable?: boolean;
+    lpBurned?: boolean;
+    safeTopHolders?: boolean;
   } | null;
   type: 'grid' | 'row' | 'row2' | 'card';
 }> = ({ className, imgClassName, value, type }) => {
@@ -29,48 +29,56 @@ export const NCoinSecurity: FC<{
     }> = [];
 
     // Mintable
-    ret = [
-      ...ret,
-      {
-        key: 'mint_auth',
-        value: !value?.mintable,
-        icon: MintIcon,
-        title: <Trans i18nKey="security.mint_auth" ns="network-radar" />,
-      },
-    ];
+    if (typeof value?.mintable === 'boolean') {
+      ret = [
+        ...ret,
+        {
+          key: 'mint_auth',
+          value: !value?.mintable,
+          icon: MintIcon,
+          title: <Trans i18nKey="security.mint_auth" ns="network-radar" />,
+        },
+      ];
+    }
 
     // Freezable
-    ret = [
-      ...ret,
-      {
-        key: 'freeze_auth',
-        value: !value?.freezable,
-        icon: FreezeIcon,
-        title: <Trans i18nKey="security.freeze_auth" ns="network-radar" />,
-      },
-    ];
+    if (typeof value?.freezable === 'boolean') {
+      ret = [
+        ...ret,
+        {
+          key: 'freeze_auth',
+          value: !value?.freezable,
+          icon: FreezeIcon,
+          title: <Trans i18nKey="security.freeze_auth" ns="network-radar" />,
+        },
+      ];
+    }
 
     // Lp Is Burned
-    ret = [
-      ...ret,
-      {
-        key: 'lp_is_burned',
-        value: !!value?.lpBurned,
-        icon: FireIcon,
-        title: <Trans i18nKey="security.lp_burned" ns="network-radar" />,
-      },
-    ];
+    if (typeof value?.lpBurned === 'boolean') {
+      ret = [
+        ...ret,
+        {
+          key: 'lp_is_burned',
+          value: !!value?.lpBurned,
+          icon: FireIcon,
+          title: <Trans i18nKey="security.lp_burned" ns="network-radar" />,
+        },
+      ];
+    }
 
     // Top 10 Holders
-    ret = [
-      ...ret,
-      {
-        key: 'top_holders_auth',
-        value: !!value?.safeTopHolders,
-        icon: UserIcon,
-        title: <Trans i18nKey="security.top_holders" ns="network-radar" />,
-      },
-    ];
+    if (typeof value?.safeTopHolders === 'boolean') {
+      ret = [
+        ...ret,
+        {
+          key: 'top_holders_auth',
+          value: !!value?.safeTopHolders,
+          icon: UserIcon,
+          title: <Trans i18nKey="security.top_holders" ns="network-radar" />,
+        },
+      ];
+    }
     return ret;
   }, [value]);
 

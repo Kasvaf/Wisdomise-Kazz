@@ -10,9 +10,9 @@ import { Coin } from 'shared/v1-components/Coin';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
-import { doesNCoinHaveSafeTopHolders } from './lib';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 import { NCoinBuySell } from './NCoinBuySell';
+import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 
 const NCoinMarketDataCol: FC<{
   className?: string;
@@ -20,23 +20,31 @@ const NCoinMarketDataCol: FC<{
 }> = ({ className, value }) => (
   <div
     className={clsx(
-      'flex flex-col items-end justify-center gap-2 py-3 text-xs',
+      'flex flex-col items-end justify-center gap-1 py-3 text-xs',
       className,
     )}
   >
-    <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'MC: '}</p>
+    <div
+      className="flex items-center gap-1"
+      style={{
+        color: calcNCoinMarketCapColor(
+          +(value.networkData?.marketCap ?? '0') || 0,
+        ),
+      }}
+    >
+      <p className="text-v1-content-secondary">{'MC'}</p>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.marketCap ?? '0') || 0}
         label="$"
+        className="text-sm font-medium"
         format={{
           decimalLength: 2,
         }}
       />
     </div>
     <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'VOL: '}</p>
+      <p className="text-v1-content-secondary">{'V'}</p>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.volume ?? '0') || 0}
@@ -47,7 +55,7 @@ const NCoinMarketDataCol: FC<{
       />
     </div>
     <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'TXNS: '}</p>
+      <p className="text-v1-content-secondary">{'TX'}</p>
       <NCoinBuySell
         value={{
           buys: value.networkData?.totalBuy,
@@ -56,7 +64,7 @@ const NCoinMarketDataCol: FC<{
       />
     </div>
     <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'# of Holders: '}</p>
+      <p className="text-v1-content-secondary">{'# of Holders'}</p>
       <ReadableNumber
         popup="never"
         value={value.validatedData?.numberOfHolders}
@@ -64,6 +72,33 @@ const NCoinMarketDataCol: FC<{
     </div>
   </div>
 );
+
+const NCoinBCurve: FC<{
+  className?: string;
+  value: TrenchStreamResponseResult;
+}> = ({ className, value }) => {
+  return (
+    <div
+      className={clsx('flex items-center gap-1 text-center text-xs', className)}
+      style={{
+        color: calcNCoinBCurveColor({
+          bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
+        }),
+      }}
+    >
+      <p className="text-xxs text-v1-content-secondary">{'B Curve:'}</p>
+      <ReadableNumber
+        popup="never"
+        value={(value.networkData?.boundingCurve ?? 0) * 100}
+        label="%"
+        className="font-medium"
+        format={{
+          decimalLength: 1,
+        }}
+      />
+    </div>
+  );
+};
 
 export const NCoinList: FC<{
   dataSource: TrenchStreamResponseResult[];
@@ -85,18 +120,22 @@ export const NCoinList: FC<{
   source,
 }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
+  const [shown, setShown] = useState<Set<string>>(
+    new Set(dataSource.map(x => x.symbol?.slug ?? '')),
+  );
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
     if (hovered) {
       setDataSource(p => {
-        const ret: typeof p = [];
+        let ret: typeof p = [...p];
         const seen = new Set<string>(p.map(x => x.symbol?.slug ?? ''));
         for (const element of _dataSource) {
           const key = element.symbol?.slug ?? '';
           if (seen.has(key)) {
-            ret.push(element);
+            const idx = ret.findIndex(x => x.symbol?.slug === key);
+            ret = [...ret.slice(0, idx), element, ...ret.slice(idx + 1)];
           }
         }
         return ret;
@@ -116,6 +155,10 @@ export const NCoinList: FC<{
       });
     }
   }, [_dataSource, dataSource.length, hovered]);
+
+  useEffect(() => {
+    setShown(new Set(dataSource.map(x => x.symbol?.slug ?? '')));
+  }, [dataSource]);
 
   return (
     <div
@@ -165,7 +208,12 @@ export const NCoinList: FC<{
           {dataSource.map(row => (
             <button
               key={row.symbol?.slug ?? ''}
-              className="group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
+              className={clsx(
+                'group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110',
+                shown.has(row.symbol?.slug ?? '')
+                  ? 'translate-y-0 opacity-100'
+                  : '-translate-y-14 opacity-0',
+              )}
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
@@ -184,6 +232,13 @@ export const NCoinList: FC<{
                   size={mini ? 'md' : 'lg'}
                   // categories={row.symbol.categories}
                   // labels={row.symbol_labels}
+                  links={{
+                    twitter_screen_name: row.socials?.twitter,
+                    telegram_channel_identifier: row.socials?.telegram,
+                    homepage: row.socials?.website
+                      ? [row.socials?.website]
+                      : [],
+                  }}
                   marker={row.validatedData?.protocol?.logo}
                   progress={
                     source === 'migrated'
@@ -208,14 +263,14 @@ export const NCoinList: FC<{
                         type="row"
                         imgClassName="size-4"
                         value={{
-                          freezable: row.securityData?.freezable ?? false,
-                          mintable: row.securityData?.mintable ?? false,
+                          // freezable: row.securityData?.freezable ?? false,
+                          // mintable: row.securityData?.mintable ?? false,
                           lpBurned: row.securityData?.lpBurned ?? false,
-                          safeTopHolders: doesNCoinHaveSafeTopHolders({
-                            topHolders: row.validatedData?.top10Holding ?? 0,
-                            totalSupply:
-                              +(row.networkData?.totalSupply ?? '0') || 0,
-                          }),
+                          // safeTopHolders: doesNCoinHaveSafeTopHolders({
+                          //   topHolders: row.validatedData?.top10Holding ?? 0,
+                          //   totalSupply:
+                          //     +(row.networkData?.totalSupply ?? '0') || 0,
+                          // }),
                         }}
                       />
                       <NCoinAge
@@ -228,6 +283,12 @@ export const NCoinList: FC<{
                   }
                   extra={
                     <>
+                      {source !== 'migrated' && (
+                        <>
+                          <NCoinBCurve value={row} />
+                          <span className="w-1" />
+                        </>
+                      )}
                       <NCoinTokenInsight
                         key="ins"
                         value={row.validatedData}
@@ -238,7 +299,7 @@ export const NCoinList: FC<{
                     </>
                   }
                   href={false}
-                  truncate
+                  truncate={!!mini}
                 />
               </div>
               <NCoinMarketDataCol
