@@ -21,6 +21,7 @@ export const TechnicalRadarViewSelect: FC<
       {...props}
       value={value}
       onChange={onChange}
+      surface={props.surface}
       options={[
         {
           label: (

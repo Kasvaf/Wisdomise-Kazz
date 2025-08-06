@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { type ReactNode, type FC } from 'react';
 
 export const Badge: FC<{
-  variant?: 'wsdm' | 'positive';
+  variant?: 'brand' | 'positive';
   ticking?: boolean;
   children?: ReactNode;
   className?: string;
@@ -12,13 +12,13 @@ export const Badge: FC<{
       className={clsx(
         'h-2xs rounded-full p-px text-xxs font-normal tracking-wider',
         variant === 'positive' && 'bg-v1-content-positive',
-        variant === 'wsdm' && 'bg-wsdm-gradient',
+        variant === 'brand' && 'bg-brand-gradient',
         className,
       )}
     >
       <div
         className={clsx(
-          'flex size-full items-center justify-center gap-1 rounded-full bg-v1-surface-l2/90 px-3',
+          'flex size-full items-center justify-center gap-1 rounded-full bg-v1-surface-l1/90 px-3',
         )}
       >
         {children}
@@ -27,7 +27,7 @@ export const Badge: FC<{
             className={clsx(
               'ms-px size-[6px] animate-pulse rounded-full',
               variant === 'positive' && 'bg-v1-content-positive',
-              variant === 'wsdm' && 'bg-wsdm-gradient',
+              variant === 'brand' && 'bg-brand-gradient',
             )}
           />
         )}

@@ -13,7 +13,7 @@ import ProfileMenuContent from './ProfileMenuContent';
 
 const DebugBadge = () =>
   isDebugMode ? (
-    <div className="absolute -right-1 -top-1 size-2 rounded-full bg-v1-background-negative" />
+    <div className="size-2 bg-v1-background-negative absolute -right-1 -top-1 rounded-full" />
   ) : null;
 
 const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
@@ -35,7 +35,7 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
           variant="ghost"
           size={isMobile ? 'md' : 'xs'}
           className={isMobile ? 'w-md' : 'w-xs'}
-          surface={isMobile ? 2 : 3}
+          surface={1}
         >
           <UserIcon className="size-4 shrink-0" />
           <DebugBadge />

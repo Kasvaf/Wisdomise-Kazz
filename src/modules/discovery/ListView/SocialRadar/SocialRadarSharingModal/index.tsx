@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import SharingModal from 'shared/ShareTools/SharingModal';
-import logo from 'shared/ShareTools/images/logo.png';
+import logo from 'assets/logo-white.svg';
 import { Coin } from 'shared/Coin';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { type SocialRadarCoin } from 'api/discovery';
@@ -12,7 +12,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinLabels } from 'shared/CoinLabels';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
-import gradient from './images/gradient.png';
 import sparkle from './images/sparkle.png';
 import radar from './images/radar.png';
 
@@ -39,7 +38,7 @@ export default function SocialRadarSharingModal({
     >
       <div
         ref={el}
-        className="pointer-events-none relative mb-2 overflow-hidden rounded-2xl bg-v1-surface-l1 p-5"
+        className="bg-v1-surface-l1 pointer-events-none relative mb-2 overflow-hidden rounded-2xl p-5"
       >
         <img
           src={sparkle}
@@ -47,7 +46,6 @@ export default function SocialRadarSharingModal({
           className="absolute left-0 top-0 w-full opacity-50"
         />
         <img src={radar} alt="" className="absolute left-0 top-0 w-full" />
-        <img src={gradient} alt="" className="absolute left-0 top-0 w-full" />
         <div className="relative">
           <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-1">
@@ -56,8 +54,8 @@ export default function SocialRadarSharingModal({
             </div>
             <div className="relative">
               <img src={logo} alt="logo" className="h-7" />
-              <span className="absolute -bottom-3 right-0 text-xxs font-light">
-                wisdomise.com
+              <span className="absolute -bottom-3 right-2 text-xxs font-light">
+                goatx.trade
               </span>
             </div>
           </div>
@@ -82,14 +80,14 @@ export default function SocialRadarSharingModal({
           </div>
           <div className="mt-4 flex items-center gap-2">
             <div className="w-1/2 rounded-xl bg-white/5 px-3 py-2 text-xs">
-              <p className="mb-1 text-v1-content-secondary">Market Cap</p>
+              <p className="text-v1-content-secondary mb-1">Market Cap</p>
               <ReadableNumber
                 value={coin.symbol_market_data?.market_cap}
                 label="$"
               />
             </div>
             <div className="w-1/2 rounded-xl bg-white/5 px-3 py-2 text-xs">
-              <p className="mb-1 text-v1-content-secondary">Timestamp (UTC)</p>
+              <p className="text-v1-content-secondary mb-1">Timestamp (UTC)</p>
               <p>{dayjs(new Date()).utc().format('D MMMM YYYY h:mm A')}</p>
             </div>
           </div>

@@ -105,7 +105,7 @@ export function CoinPoolsWidget({
           columns={columns}
           dataSource={pools?.slice(0, limit)}
           rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
-          surface={2}
+          surface={1}
           scrollable
           footer={
             typeof _limit === 'number' &&

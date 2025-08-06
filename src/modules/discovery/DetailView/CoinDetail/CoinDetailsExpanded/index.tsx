@@ -43,11 +43,11 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
   >('coin-details-upside-sizes', '60%');
 
   return (
-    <div className="flex h-[--desktop-content-height] w-full min-w-0 max-w-full flex-nowrap justify-between overflow-hidden">
+    <div className="flex h-(--desktop-content-height) w-full min-w-0 max-w-full flex-nowrap justify-between overflow-hidden">
       {/* Validate */}
       <ResizableSides
         direction="row"
-        rootClassName="relative h-[--desktop-content-height] max-h-[--desktop-content-height] w-full min-w-0 shrink grow border-r border-white/10"
+        rootClassName="relative h-(--desktop-content-height) max-h-(--desktop-content-height) w-full min-w-0 shrink grow border-r border-white/10"
         className={[
           clsx(
             'overflow-hidden',
@@ -76,7 +76,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             </div>
           </div>,
           <Fragment key="down-side">
-            <div className="sticky top-0 z-20 mb-3 flex shrink-0 items-center justify-start gap-px border-b border-white/10 bg-v1-surface-l1 pe-3">
+            <div className="sticky top-0 z-20 mb-3 flex shrink-0 items-center justify-start gap-px border-b border-white/10 bg-v1-surface-l0 pe-3">
               <ButtonSelect
                 options={tabs}
                 value={selectedTab}
@@ -84,7 +84,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                   setSelectedTab(newTab);
                   setUpSideSize(p => (p === '100%' ? '60%' : p));
                 }}
-                surface={1}
+                surface={0}
                 className="me-3 max-w-full grow rounded-none"
                 buttonClassName="px-4"
                 variant="tab"
@@ -96,7 +96,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                   variant="outline"
                   size="3xs"
                   className="shrink-0 rounded-full"
-                  surface={2}
+                  surface={1}
                   onClick={() =>
                     setUpSideSize(p => (p === '0%' ? '60%' : '100%'))
                   }
@@ -110,7 +110,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
                   variant="outline"
                   size="3xs"
                   className="shrink-0 rounded-full"
-                  surface={2}
+                  surface={1}
                   onClick={() =>
                     setUpSideSize(p => (p === '100%' ? '60%' : '0%'))
                   }
@@ -212,7 +212,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       </ResizableSides>
 
       {/* Trade + Additional */}
-      <div className="sticky top-[--desktop-content-top] z-50 h-[--desktop-content-height] w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l1 scrollbar-none">
+      <div className="sticky top-(--desktop-content-top) z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0 scrollbar-none">
         <NCoinRisksBanner slug={slug} />
         <CoinPriceWidget slug={slug} className="h-16 px-3" hr />
         <div className="space-y-3 px-3 pb-3 pt-1">

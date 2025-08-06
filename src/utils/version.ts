@@ -1,7 +1,7 @@
 export const isLocal = /^([\w-]+\.)*localhost$/.test(window.location.hostname);
 
 export const isProduction =
-  (!window.location.hostname.startsWith('stage-') && !isLocal) ||
+  (!window.location.hostname.startsWith('stage') && !isLocal) ||
   localStorage.getItem('production') === 'true';
 
 export const isMiniApp =

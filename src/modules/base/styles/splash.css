@@ -16,12 +16,7 @@
   left: -50%;
   height: 4px;
   width: 40%;
-  background: linear-gradient(
-    87.05deg,
-    #00fff0 -8.37%,
-    #13def2 -8.36%,
-    #e26cff 87.66%
-  );
+  @apply bg-brand-gradient;
   -webkit-animation: lineAnim 1s linear infinite;
   -moz-animation: lineAnim 1s linear infinite;
   animation: lineAnim 2s linear infinite;

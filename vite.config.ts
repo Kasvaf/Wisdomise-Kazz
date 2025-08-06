@@ -1,15 +1,16 @@
-import linaria from '@linaria/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { Mode, plugin as mdPlugin } from 'vite-plugin-markdown';
 import i18nextLoader from 'vite-plugin-i18next-loader';
 import svgr from 'vite-plugin-svgr';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig(config => ({
   base: '/' + (process.env.VITE_BRANCH || ''),
   plugins: [
+    tailwindcss(),
     i18nextLoader({
       paths: ['./src/i18n'],
       namespaceResolution: 'relativePath',
@@ -19,12 +20,6 @@ export default defineConfig(config => ({
     }),
     react(),
     svgr(),
-    linaria({
-      include: ['**/*.{ts,tsx}'],
-      babelOptions: {
-        presets: ['@babel/preset-typescript', '@babel/preset-react'],
-      },
-    }),
     createHtmlPlugin({
       minify: config.mode === 'production',
       entry: '/src/main.tsx',
@@ -58,7 +53,7 @@ export default defineConfig(config => ({
       ['temple', 'account-panel', 'chatapp'].map(name => [
         `/${name}-proxy`,
         {
-          target: `https://stage-${name}.wisdomise.com`,
+          target: `https://stage-${name}.goatx.trade`,
           changeOrigin: true,
           secure: false,
           rewrite: p => p.replace(`/${name}-proxy`, ''),

@@ -180,7 +180,7 @@ export function CoinTopTraderHoldersWidget({
           columns={columns}
           dataSource={resp.data?.slice?.(0, limit) ?? []}
           rowKey={row => `${row.wallet_address}${row.network ?? ''}`}
-          surface={2}
+          surface={1}
           scrollable
           footer={
             typeof limit === 'number' &&

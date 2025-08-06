@@ -23,7 +23,7 @@ import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
 import TelegramLogin from './TelegramLogin';
 import { useModalLoginTexts } from './useModalLoginTexts';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'assets/logo-white.svg';
 import { ModalLoginSlides } from './ModalLoginSlides';
 
 const LoginModalContent: React.FC<{
@@ -115,7 +115,7 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
   const notice = (
-    <p className="text-xs text-v1-content-secondary [&_a]:text-v1-content-brand">
+    <p className="text-v1-content-secondary [&_a]:text-v1-content-brand hidden text-xs">
       <Trans ns="auth" i18nKey="login.notice">
         By continuing, you agree to our
         <a
@@ -143,7 +143,7 @@ const LoginModalContent: React.FC<{
       <h1 className="mb-4 pr-12 text-xl font-medium leading-normal mobile:hidden">
         {title}
       </h1>
-      <p className="mb-6 text-xs leading-normal text-v1-content-secondary mobile:hidden">
+      <p className="text-v1-content-secondary mb-6 text-xs leading-normal mobile:hidden">
         {subtitle}
       </p>
 
@@ -180,14 +180,14 @@ const LoginModalContent: React.FC<{
         </Button>
       </div>
 
-      <div className="my-6 flex h-px w-full items-center justify-center overflow-visible bg-v1-border-disabled">
-        <span className="px-2 text-xs text-v1-content-secondary backdrop-blur-lg">
+      <div className="bg-v1-border-disabled my-6 flex h-px w-full items-center justify-center overflow-visible opacity-0">
+        <span className="text-v1-content-secondary px-2 text-xs backdrop-blur-lg">
           {t('common:or')}
         </span>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-4">
-        <div className="h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
+        <div className="hidden h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
           <GoogleLogin
             onSuccess={googleHandler}
             use_fedcm_for_prompt
@@ -211,7 +211,7 @@ const LoginModalContent: React.FC<{
       <h1 className="mb-5 pr-12 text-xl font-medium leading-normal mobile:hidden">
         {t('login.step-2.title')}
       </h1>
-      <p className="mb-9 text-xs leading-normal text-v1-content-secondary mobile:mb-4">
+      <p className="text-v1-content-secondary mb-9 text-xs leading-normal mobile:mb-4">
         {t('login.step-2.subtitle', { email })}
       </p>
 
@@ -223,15 +223,19 @@ const LoginModalContent: React.FC<{
           placeholder=" "
           classNames={{
             character: clsx(
-              'rounded-lg border-transparent bg-v1-surface-l3 text-white',
+              'rounded-lg !border-transparent !bg-v1-surface-l3 !text-white',
             ),
-            characterSelected: clsx('border border-white outline-none'),
-            container: clsx('w-full gap-4'),
+            characterSelected: clsx(
+              'border !outline-v1-border-brand outline-none',
+            ),
+            container: clsx('!w-full gap-4'),
           }}
           value={nonce}
           onChange={setNonce}
         />
-        {fieldError && <div className="ml-1 mt-3 text-error">{fieldError}</div>}
+        {fieldError && (
+          <div className="text-v1-content-negative ml-1 mt-3">{fieldError}</div>
+        )}
         <Button
           variant="primary"
           onClick={submitCode}
@@ -271,9 +275,9 @@ const LoginModalContent: React.FC<{
   );
 
   return (
-    <div className="relative grid h-[590px] max-h-svh w-full grid-cols-2 items-stretch justify-between overflow-hidden mobile:flex mobile:h-full mobile:flex-col-reverse">
+    <div className="max-h-svh relative grid h-[590px] w-full grid-cols-2 items-stretch justify-between overflow-hidden mobile:flex mobile:h-full mobile:flex-col-reverse">
       <div className="absolute left-8 top-8 mobile:hidden">
-        <Logo />
+        <Logo className="h-16 w-auto" />
       </div>
       <div className="relative flex min-h-min grow flex-col items-stretch justify-center p-8 mobile:h-auto mobile:grow-0 mobile:justify-end">
         {emailLoginLoading || verifyEmailLoading || isConnecting ? (

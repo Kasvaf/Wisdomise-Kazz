@@ -21,7 +21,7 @@ export const AlertButton: FC<
   return (
     <>
       {hasFlag('/account/alerts') && (
-        <Button {...props} variant="outline" onClick={() => openAlert()} fab>
+        <Button {...props} variant="ghost" onClick={() => openAlert()} fab>
           <DebugPin title="/account/alerts" color="orange" />
           <Icon name={bxBell} />
           {isUsedAlertBefore && (

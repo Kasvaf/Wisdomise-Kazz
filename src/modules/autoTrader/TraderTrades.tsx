@@ -27,7 +27,7 @@ const TraderTrades: React.FC<
       <Tabs
         defaultActiveKey="terminal"
         items={items}
-        className="[&_.ant-tabs-nav]:-mx-3 [&_.ant-tabs-nav]:mb-3 [&_.ant-tabs-tab]:px-4 [&_.ant-tabs-tab]:text-xs"
+        className="[&_.ant-tabs-nav]:!-mx-3 [&_.ant-tabs-nav]:mb-3 [&_.ant-tabs-tab]:!px-4 [&_.ant-tabs-tab]:!text-xs"
       />
       <BtnInstantTrade
         className="!absolute right-0 top-0"

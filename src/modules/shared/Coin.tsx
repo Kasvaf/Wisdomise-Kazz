@@ -34,7 +34,7 @@ export function CoinLogo({
   return (
     <div className={clsx('relative inline-block overflow-hidden', className)}>
       <div
-        className="size-full overflow-hidden rounded-full bg-white/10 bg-cover bg-center bg-no-repeat"
+        className="size-full overflow-hidden rounded-full bg-black bg-cover bg-center bg-no-repeat"
         style={{
           ...(url && {
             backgroundImage: `url("${

@@ -25,7 +25,7 @@ export function Input<T extends 'number' | 'string'>({
   className,
   prefixIcon,
   suffixIcon,
-  surface = 3,
+  surface = 2,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
 

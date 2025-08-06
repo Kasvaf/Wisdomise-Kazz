@@ -65,7 +65,7 @@ export function ClickableTooltip({
         )}
       </span>
       <Dialog
-        className="min-w-[150px] !max-w-[410px] mobile:!max-w-full"
+        className="min-w-[150px] !max-w-[410px] mobile:!max-w-full md:border border-white/10"
         contentClassName="p-3"
         mode={isMobile ? 'drawer' : 'popup'}
         popupConfig={{
@@ -77,7 +77,7 @@ export function ClickableTooltip({
         }}
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        surface={4}
+        surface={1}
       >
         {title}
       </Dialog>

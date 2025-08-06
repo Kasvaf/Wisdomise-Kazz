@@ -17,7 +17,7 @@ export const TableRank: FC<{
         <div
           className={clsx(
             'absolute left-0 top-0 h-full w-1 opacity-90 mobile:w-[3px]',
-            'bg-wsdm-gradient-vertical',
+            'bg-brand-gradient-vertical',
           )}
         />
       </>

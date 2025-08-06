@@ -5,7 +5,6 @@ import Card from 'shared/Card';
 import Badge from 'shared/Badge';
 import Button from 'shared/Button';
 import Spinner from 'shared/Spinner';
-import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance.svg';
 import useModalAddExchangeAccount from '../useModalAddExchangeAccount';
 import ButtonExchangeDelete from './ButtonExchangeDelete';
 
@@ -46,7 +45,7 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
                 {t('account.exchange')}
               </div>
               <div className="flex h-full items-center">
-                <BinanceLogoSvg />
+                {/* <BinanceLogoSvg /> */}
               </div>
             </div>
 

@@ -59,7 +59,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
-        'grid h-full max-h-[--desktop-content-height] grid-cols-3 gap-3 overflow-hidden p-3',
+        'grid h-full max-h-(--desktop-content-height) grid-cols-3 gap-3 overflow-hidden p-3',
         className,
       )}
     >

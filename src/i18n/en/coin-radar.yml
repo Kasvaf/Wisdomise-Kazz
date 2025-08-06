@@ -236,7 +236,7 @@ social-radar:
     name: Name
     title: Social Radar
     description: >-
-      Wisdomise Social Radar <b>Scanned {{posts}} Posts from Alpha Groups</b> in
+      Goatx Social Radar <b>Scanned {{posts}} Posts from Alpha Groups</b> in
       The Last 24 Hours for Accurate, Data-Driven Insights.
     market_cap:
       title: Market Cap
@@ -257,7 +257,7 @@ social-radar:
       title: Social Mindshare™
       info: |-
         <b>Social Mindshare™</b> <br /> <br /> <p>
-          Wisdomise AI analyzes social sentiment for each asset (coin or
+          GoatX AI analyzes social sentiment for each asset (coin or
           token) from Reddit, Telegram, Trading View, X (formerly Twitter),
           and YouTube. The sentiment can be Positive, Neutral, or Negative,
           showing how the community feels.

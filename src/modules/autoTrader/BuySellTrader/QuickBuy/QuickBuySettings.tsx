@@ -29,7 +29,7 @@ export default function QuickBuySettings({
     <div className={clsx(className, 'flex items-center gap-2')}>
       {showWallet && (
         <HoverTooltip title="Balance">
-          <BtnSolanaWallets showBalance={true} />
+          <BtnSolanaWallets showBalance={true} surface={2} />
         </HoverTooltip>
       )}
       <HoverTooltip title="Quick Buy Amount" ignoreFocus>
@@ -38,6 +38,7 @@ export default function QuickBuySettings({
           type="string"
           className="!flex w-28"
           placeholder="0.0"
+          surface={2}
           value={settings.quick_buy[source].amount}
           prefixIcon={<InstantIcon className="-ml-1 !size-8" />}
           suffixIcon={
@@ -48,7 +49,7 @@ export default function QuickBuySettings({
           onChange={newValue => updateQuickBuyAmount(source, newValue)}
         />
       </HoverTooltip>
-      <TraderPresetsSelector source={source} size="xs" showValue />
+      <TraderPresetsSelector source={source} size="xs" showValue surface={2} />
     </div>
   ) : null;
 }

@@ -31,6 +31,7 @@ import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/
 import { Coins } from 'shared/Coins';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
+import { Surface } from 'utils/useSurface';
 
 export default function BtnSolanaWallets({
   className,
@@ -38,12 +39,14 @@ export default function BtnSolanaWallets({
   showBalance,
   size,
   variant = 'ghost',
+  surface = 1,
 }: {
   className?: string;
   showAddress?: boolean;
   showBalance?: boolean;
   size?: ButtonSize;
   variant?: 'outline' | 'ghost';
+  surface?: Surface;
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
@@ -58,6 +61,7 @@ export default function BtnSolanaWallets({
         variant={variant}
         size={isMobile ? 'md' : size ?? 'xs'}
         className={className}
+        surface={surface}
       >
         {!isMobile && connected && !isCustodial && icon ? (
           <img className="size-5" src={icon} alt="" />
@@ -75,7 +79,7 @@ function UserWallets() {
   return (
     <div>
       <TotalBalance className="-mx-3 -mt-3 mb-2 mobile:!bg-transparent" />
-      <div className="text-xxs text-v1-inverse-overlay-70">Wallets</div>
+      <div className="text-v1-inverse-overlay-70 text-xxs">Wallets</div>
       <WalletSelector WalletOptionComponent={WalletItem} />
     </div>
   );
@@ -143,18 +147,20 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
   return (
-    <div className="-mr-2 flex items-center justify-between gap-4 border-b border-v1-inverse-overlay-10 py-2 text-xs">
+    <div className="border-v1-inverse-overlay-10 -mr-2 flex items-center justify-between gap-4 border-b py-2 text-xs">
       <div>
         <div
           className={clsx(
             'flex items-center gap-2 font-medium',
-            isActive && 'bg-pro-gradient bg-clip-text text-transparent',
+            isActive && 'bg-brand-gradient bg-clip-text text-transparent',
           )}
         >
           {wallet ? wallet.name : 'Connected Wallet'}
-          {isActive && <Badge color="pro" label="Active" className="!h-3" />}
+          {isActive && (
+            <Badge color="gradient" label="Active" className="!h-3" />
+          )}
         </div>
-        <div className="flex items-center gap-1 text-xxs text-v1-inverse-overlay-50">
+        <div className="text-v1-inverse-overlay-50 flex items-center gap-1 text-xxs">
           {wallet ? (
             <>
               {shortenAddress(wallet.address)}
@@ -208,7 +214,7 @@ function UserMiniAssets({ wallet }: { wallet?: Wallet }) {
   const { data: symbols } = useSymbolsInfo(walletAssets?.map(a => a.slug));
 
   return symbols && (wallet?.address || address) ? (
-    <div className="flex items-center justify-center rounded-md border border-v1-inverse-overlay-10 px-2">
+    <div className="border-v1-inverse-overlay-10 flex items-center justify-center rounded-md border px-2">
       <Coins coins={symbols} />
     </div>
   ) : null;

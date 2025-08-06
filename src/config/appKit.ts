@@ -8,11 +8,10 @@ import { isProduction } from 'utils/version';
 // 1. Get projectId from https://cloud.reown.com
 export const projectId = '5e4e2382e0dc5e93ebe35ff869d05c4d';
 const metadata = {
-  name: 'Wisdomise AutoTrader',
-  description:
-    'Track whales, spot moonshots, and auto-trade like a true degen — all in a few clicks. 🚀👀',
-  url: 'https://app.wisdomise.com',
-  icons: ['http://wisdomise.com/icon.svg'],
+  name: 'GoatX',
+  description: '',
+  url: 'https://goatx.trade',
+  icons: ['https://goatx.trade/logo-white.svg'],
 };
 
 const solanaWeb3JsAdapter = new SolanaAdapter();

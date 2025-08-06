@@ -4,7 +4,7 @@ import { Coin } from 'shared/Coin';
 import { initialQuoteAsset, type Position, useLastPriceQuery } from 'api';
 import { useCoinDetails } from 'api/discovery';
 import PriceChange from 'shared/PriceChange';
-import logo from 'shared/ShareTools/images/logo.png';
+import logo from 'assets/logo-white.svg';
 import SharingModal from 'shared/ShareTools/SharingModal';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { formatNumber } from 'utils/numbers';

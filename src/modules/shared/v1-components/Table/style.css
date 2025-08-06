@@ -1,3 +1,5 @@
+@reference "../../../base/styles/App.css";
+
 /* Base Table Styles */
 .wsdm-table {
   @apply relative w-full rounded-lg scrollbar-none;
@@ -46,7 +48,7 @@
 
 /* Row Styles */
 .wsdm-table tr {
-  @apply relative rounded-lg bg-[--current-color];
+  @apply bg-(--current-color) relative rounded-lg;
 
   &[data-placeholder] {
     @apply bg-transparent;
@@ -57,17 +59,17 @@
 
     &:hover,
     &:active {
-      @apply bg-[--next-color];
+      @apply bg-(--next-color);
     }
   }
 
   &[data-active='true'] {
-    @apply bg-[--next-color];
+    @apply bg-(--next-color);
     --current-color: var(--next-color);
   }
 
   &[data-skeleton='true'] div::after {
-    @apply absolute left-[-150%] top-0 h-full w-[150%] bg-gradient-to-r from-transparent via-[--next-color] to-transparent;
+    @apply via-(--next-color) absolute left-[-150%] top-0 h-full w-[150%] bg-gradient-to-r from-transparent to-transparent;
     animation: wsdm-table-shimmer 1.5s infinite;
     content: '';
     pointer-events: none;
@@ -100,12 +102,12 @@
 
     &:hover,
     &:active {
-      @apply bg-[--next-color];
+      @apply bg-(--next-color);
     }
   }
 
   & > div {
-    @apply flex size-full max-h-full items-center py-2;
+    @apply size-full flex max-h-full items-center py-2;
   }
 
   &[data-align='center'] > div {
@@ -124,12 +126,12 @@
 /* Sticky Columns */
 .wsdm-table tr td[data-sticky='start'],
 .wsdm-table tr th[data-sticky='start'] {
-  @apply sticky start-0 z-10 bg-gradient-to-r from-[--current-color] via-[--current-color] to-transparent;
+  @apply from-(--current-color) via-(--current-color) sticky start-0 z-10 bg-gradient-to-r to-transparent;
 }
 
 .wsdm-table tr td[data-sticky='end'],
 .wsdm-table tr th[data-sticky='end'] {
-  @apply sticky end-0 z-10 bg-gradient-to-l from-[--current-color] via-[--current-color] to-transparent;
+  @apply from-(--current-color) via-(--current-color) sticky end-0 z-10 bg-gradient-to-l to-transparent;
 }
 
 /* Hover Effects */
@@ -161,7 +163,7 @@
   @apply pointer-events-auto overflow-visible opacity-100;
 
   & > div {
-    @apply translate-x-0 blur-0;
+    @apply translate-x-0 blur-none;
   }
 }
 
@@ -175,7 +177,7 @@
   @apply whitespace-nowrap text-xs font-light;
 
   & > div {
-    @apply gap-1 py-2 text-v1-content-primary/60;
+    @apply text-v1-content-primary/60 gap-1 py-2;
 
     & > [data-info] {
       @apply size-4;

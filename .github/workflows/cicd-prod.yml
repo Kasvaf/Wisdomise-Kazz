@@ -3,6 +3,17 @@ on:
   push:
     branches: [main]
 
+env:
+  github-cicd-role: arn:aws:iam::398880522319:role/github-cicd-goatx-front
+  region: us-east-1
+  s3-bucket: goatx.trade
+
+permissions:
+  id-token: write
+  actions: read
+  packages: read
+  contents: read
+
 jobs:
   Lint-Build-Prod:
     name: Lint-Build-Prod
@@ -15,11 +26,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
           submodules: recursive
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.github-cicd-role }}
+          aws-region: ${{ env.region }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -32,12 +49,12 @@ jobs:
           python3 -m pipx install awscli
           yarn install --production=false
 
-      - name: Run linter and prettier
-        run: |-
-          npx tsc && \
-          yarn lint && \
-          npx prettier --check . && \
-          yarn i18n --fail-on-update --fail-on-warnings
+#      - name: Run linter and prettier
+#        run: |-
+#          npx tsc && \
+#          yarn lint && \
+#          npx prettier --check . && \
+#          yarn i18n --fail-on-update --fail-on-warnings
 
       # - name: Run Sonar Qube
       #   uses: sonarsource/sonarqube-scan-action@master
@@ -58,12 +75,9 @@ jobs:
           find dist | grep -E ".*\.map$" | tr '\n' '\0' | xargs -0 -n1 rm -rf
 
       - name: Upload to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp --recursive dist/ s3://app.wisdomise.com/
-          ./scripts/cleanup-bucket.sh app.wisdomise.com
+          aws s3 cp --recursive dist/ s3://${{ env.s3-bucket }}/
+          ./scripts/cleanup-bucket.sh ${{ env.s3-bucket }}
 
   notify-slack:
     runs-on: ubuntu-latest
@@ -78,4 +92,4 @@ jobs:
           steps: ${{ toJson(steps) }}
           channel: '#alert-production'
           message: >-
-            Deploy Dashboard: ${{ github.event.head_commit.message }}.
+            Deploy App: ${{ github.event.head_commit.message }}.

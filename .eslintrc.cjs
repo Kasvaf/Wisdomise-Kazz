@@ -129,10 +129,7 @@ module.exports = {
     'import/no-duplicates': 'error',
     'import/no-named-default': 'error',
     'import/no-unresolved': ['error', { ignore: ['\\.svg$'] }],
-    'import/no-unassigned-import': [
-      'error',
-      { allow: ['**/*.css', 'tw-elements'] },
-    ],
+    'import/no-unassigned-import': ['error', { allow: ['**/*.css'] }],
     'import/no-anonymous-default-export': [
       'error',
       {

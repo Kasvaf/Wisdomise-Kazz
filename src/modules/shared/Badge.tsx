@@ -9,7 +9,7 @@ const badgeColors = {
   grey: clsx('bg-white/5 text-white/40'),
   purple: clsx('bg-[#B634DA4D] text-[#C968E4]'),
   orange: clsx('bg-[#C371114D] text-[#EBA24C]'),
-  wsdm: 'bg-wsdm-gradient text-white',
+  gradient: 'bg-brand-gradient text-black',
   pro: 'bg-pro-gradient text-black',
 };
 

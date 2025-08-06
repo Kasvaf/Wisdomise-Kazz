@@ -42,6 +42,7 @@ export function CategorySelect<M extends boolean>({
           ?.map(x => x.slug)
           .filter(x => !!x) ?? []
       }
+      surface={2}
       {...props}
     />
   );

@@ -26,7 +26,7 @@ export default function WiseClub() {
       <div className="relative flex flex-col items-center">
         <h1 className="mt-10 text-center text-3xl font-semibold mobile:text-2xl">
           Join{' '}
-          <span className="bg-wsdm-gradient bg-clip-text text-transparent">
+          <span className="bg-brand-gradient bg-clip-text text-transparent">
             Wise
           </span>{' '}
           Club for{' '}
