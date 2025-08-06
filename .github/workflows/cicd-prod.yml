@@ -32,12 +32,12 @@ jobs:
           python3 -m pipx install awscli
           yarn install --production=false
 
-#      - name: Run linter and prettier
-#        run: |-
-#          npx tsc && \
-#          yarn lint && \
-#          npx prettier --check . && \
-#          yarn i18n --fail-on-update --fail-on-warnings
+      - name: Run linter and prettier
+        run: |-
+          npx tsc && \
+          yarn lint && \
+          npx prettier --check . && \
+          yarn i18n --fail-on-update --fail-on-warnings
 
       # - name: Run Sonar Qube
       #   uses: sonarsource/sonarqube-scan-action@master
