@@ -10,9 +10,9 @@ import { Coin } from 'shared/v1-components/Coin';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
-import { doesNCoinHaveSafeTopHolders } from './lib';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 import { NCoinBuySell } from './NCoinBuySell';
+import { calcNCoinBCurveColor } from './lib';
 
 const NCoinMarketDataCol: FC<{
   className?: string;
@@ -65,6 +65,33 @@ const NCoinMarketDataCol: FC<{
   </div>
 );
 
+const NCoinBCurve: FC<{
+  className?: string;
+  value: TrenchStreamResponseResult;
+}> = ({ className, value }) => {
+  return (
+    <div
+      className={clsx('flex items-center gap-1 text-center text-xs', className)}
+      style={{
+        color: calcNCoinBCurveColor({
+          bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
+        }),
+      }}
+    >
+      <p className="text-xxs text-v1-content-secondary">{'B Curve:'}</p>
+      <ReadableNumber
+        popup="never"
+        value={(value.networkData?.boundingCurve ?? 0) * 100}
+        label="%"
+        className="font-medium"
+        format={{
+          decimalLength: 1,
+        }}
+      />
+    </div>
+  );
+};
+
 export const NCoinList: FC<{
   dataSource: TrenchStreamResponseResult[];
   title?: ReactNode;
@@ -85,6 +112,9 @@ export const NCoinList: FC<{
   source,
 }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
+  const [shown, setShown] = useState<Set<string>>(
+    new Set(dataSource.map(x => x.symbol?.slug ?? '')),
+  );
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
 
@@ -117,6 +147,10 @@ export const NCoinList: FC<{
       });
     }
   }, [_dataSource, dataSource.length, hovered]);
+
+  useEffect(() => {
+    setShown(new Set(dataSource.map(x => x.symbol?.slug ?? '')));
+  }, [dataSource]);
 
   return (
     <div
@@ -166,7 +200,12 @@ export const NCoinList: FC<{
           {dataSource.map(row => (
             <button
               key={row.symbol?.slug ?? ''}
-              className="group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
+              className={clsx(
+                'group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110',
+                shown.has(row.symbol?.slug ?? '')
+                  ? 'opacity-100'
+                  : '-translate-y-7 opacity-0',
+              )}
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
             >
@@ -185,6 +224,13 @@ export const NCoinList: FC<{
                   size={mini ? 'md' : 'lg'}
                   // categories={row.symbol.categories}
                   // labels={row.symbol_labels}
+                  links={{
+                    twitter_screen_name: row.socials?.twitter,
+                    telegram_channel_identifier: row.socials?.telegram,
+                    homepage: row.socials?.website
+                      ? [row.socials?.website]
+                      : [],
+                  }}
                   marker={row.validatedData?.protocol?.logo}
                   progress={
                     source === 'migrated'
@@ -209,14 +255,14 @@ export const NCoinList: FC<{
                         type="row"
                         imgClassName="size-4"
                         value={{
-                          freezable: row.securityData?.freezable ?? false,
-                          mintable: row.securityData?.mintable ?? false,
+                          // freezable: row.securityData?.freezable ?? false,
+                          // mintable: row.securityData?.mintable ?? false,
                           lpBurned: row.securityData?.lpBurned ?? false,
-                          safeTopHolders: doesNCoinHaveSafeTopHolders({
-                            topHolders: row.validatedData?.top10Holding ?? 0,
-                            totalSupply:
-                              +(row.networkData?.totalSupply ?? '0') || 0,
-                          }),
+                          // safeTopHolders: doesNCoinHaveSafeTopHolders({
+                          //   topHolders: row.validatedData?.top10Holding ?? 0,
+                          //   totalSupply:
+                          //     +(row.networkData?.totalSupply ?? '0') || 0,
+                          // }),
                         }}
                       />
                       <NCoinAge
@@ -229,6 +275,7 @@ export const NCoinList: FC<{
                   }
                   extra={
                     <>
+                      {source !== 'migrated' && <NCoinBCurve value={row} />}
                       <NCoinTokenInsight
                         key="ins"
                         value={row.validatedData}
@@ -239,7 +286,7 @@ export const NCoinList: FC<{
                     </>
                   }
                   href={false}
-                  truncate
+                  truncate={!!mini}
                 />
               </div>
               <NCoinMarketDataCol
