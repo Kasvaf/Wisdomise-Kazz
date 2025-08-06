@@ -211,8 +211,8 @@ export const NCoinList: FC<{
               className={clsx(
                 'group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110',
                 shown.has(row.symbol?.slug ?? '')
-                  ? 'opacity-100 blur-0'
-                  : '-translate-y-10 opacity-0 blur-xl',
+                  ? 'translate-y-0 opacity-100'
+                  : '-translate-y-14 opacity-0',
               )}
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
