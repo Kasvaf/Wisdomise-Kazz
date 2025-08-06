@@ -26,6 +26,13 @@ export const doesNCoinHaveLargeTxns = ({
 export const calcNCoinRiskLevel = ({ riskPercent }: { riskPercent: number }) =>
   riskPercent < 15 ? 'low' : riskPercent < 50 ? 'medium' : 'high';
 
+export const calcNCoinMarketCapColor = (mc: number) =>
+  mc <= 30_000
+    ? '#0edcdc' /* cyan */
+    : mc <= 150_000
+    ? '#f3d525' /* yellow */
+    : '#00ffa3'; /* green */
+
 export const calcNCoinBCurveColor = ({
   bCurvePercent,
 }: {

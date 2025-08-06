@@ -12,7 +12,7 @@ import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 import { NCoinBuySell } from './NCoinBuySell';
-import { calcNCoinBCurveColor } from './lib';
+import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 
 const NCoinMarketDataCol: FC<{
   className?: string;
@@ -20,23 +20,31 @@ const NCoinMarketDataCol: FC<{
 }> = ({ className, value }) => (
   <div
     className={clsx(
-      'flex flex-col items-end justify-center gap-2 py-3 text-xs',
+      'flex flex-col items-end justify-center gap-1 py-3 text-xs',
       className,
     )}
   >
-    <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'MC: '}</p>
+    <div
+      className="flex items-center gap-1"
+      style={{
+        color: calcNCoinMarketCapColor(
+          +(value.networkData?.marketCap ?? '0') || 0,
+        ),
+      }}
+    >
+      <p className="text-v1-content-secondary">{'MC'}</p>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.marketCap ?? '0') || 0}
         label="$"
+        className="text-sm font-medium"
         format={{
           decimalLength: 2,
         }}
       />
     </div>
     <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'VOL: '}</p>
+      <p className="text-v1-content-secondary">{'V'}</p>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.volume ?? '0') || 0}
@@ -47,7 +55,7 @@ const NCoinMarketDataCol: FC<{
       />
     </div>
     <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'TXNS: '}</p>
+      <p className="text-v1-content-secondary">{'TX'}</p>
       <NCoinBuySell
         value={{
           buys: value.networkData?.totalBuy,
@@ -56,7 +64,7 @@ const NCoinMarketDataCol: FC<{
       />
     </div>
     <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'# of Holders: '}</p>
+      <p className="text-v1-content-secondary">{'# of Holders'}</p>
       <ReadableNumber
         popup="never"
         value={value.validatedData?.numberOfHolders}
@@ -203,8 +211,8 @@ export const NCoinList: FC<{
               className={clsx(
                 'group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110',
                 shown.has(row.symbol?.slug ?? '')
-                  ? 'opacity-100'
-                  : '-translate-y-7 opacity-0',
+                  ? 'opacity-100 blur-0'
+                  : '-translate-y-10 opacity-0 blur-xl',
               )}
               type="button"
               onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
@@ -275,7 +283,12 @@ export const NCoinList: FC<{
                   }
                   extra={
                     <>
-                      {source !== 'migrated' && <NCoinBCurve value={row} />}
+                      {source !== 'migrated' && (
+                        <>
+                          <NCoinBCurve value={row} />
+                          <span className="w-1" />
+                        </>
+                      )}
                       <NCoinTokenInsight
                         key="ins"
                         value={row.validatedData}
