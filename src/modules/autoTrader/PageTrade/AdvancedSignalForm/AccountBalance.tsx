@@ -51,7 +51,7 @@ export const AccountBalance: React.FC<{
           {symbol && (
             <Coin coin={symbol} mini nonLink noText className="-mr-2 ml-2" />
           )}
-          {roundSensible(balance)}
+          {balance}
         </span>
         {quote && (
           <>

@@ -53,6 +53,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
         <Coin
           abbreviation={baseInfo.abbreviation}
           name={baseInfo.name}
+          logo={baseInfo.logo_url}
           // networks={baseInfo.networks}
           href={false}
           truncate

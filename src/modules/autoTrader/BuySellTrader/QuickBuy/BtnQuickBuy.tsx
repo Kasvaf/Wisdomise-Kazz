@@ -26,7 +26,7 @@ export default function BtnQuickBuy({
   const { settings, getActivePreset } = useUserSettings();
   const marketSwapHandler = useMarketSwap();
   const { data: balance } = useAccountNativeBalance();
-  const { refetch } = useSupportedPairs(slug);
+  const { refetch } = useSupportedPairs(slug, { enabled: false });
   const isLoggedIn = useIsLoggedIn();
   const [modal, ensureAuthenticated] = useEnsureAuthenticated();
 

@@ -12,7 +12,12 @@ export const NCoinBuySell: FC<{
   } | null;
 }> = ({ className, imgClassName, value }) => {
   return (
-    <div className={clsx('flex items-center justify-start gap-1', className)}>
+    <div
+      className={clsx(
+        'inline-flex items-center justify-start gap-1',
+        className,
+      )}
+    >
       <BuySellIcon className={clsx('shrink-0', imgClassName)} />
       <DirectionalNumber
         value={value?.buys ?? 0}
@@ -24,7 +29,7 @@ export const NCoinBuySell: FC<{
           decimalLength: 1,
         }}
       />
-      <span className="-mx-px text-v1-content-secondary">/</span>
+      <span className="-mx-1 scale-50 text-v1-content-secondary">/</span>
       <DirectionalNumber
         value={value?.sells ?? 0}
         direction="down"
