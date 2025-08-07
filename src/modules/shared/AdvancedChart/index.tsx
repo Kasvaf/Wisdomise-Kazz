@@ -113,7 +113,9 @@ const AdvancedChart: React.FC<{
         priceFormatterFactory: () => {
           return {
             format: price => {
-              const val = price * (isMarketCap ? supply : 1);
+              let val = price * (isMarketCap ? supply : 1);
+              val = isMarketCap ? Number(val.toFixed(0)) : val;
+
               return formatNumber(val, {
                 decimalLength: isMarketCap ? 1 : 3,
                 minifyDecimalRepeats: !isMarketCap,
