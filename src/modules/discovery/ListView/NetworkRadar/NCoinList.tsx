@@ -10,33 +10,43 @@ import { Coin } from 'shared/v1-components/Coin';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
-import { doesNCoinHaveSafeTopHolders } from './lib';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 import { NCoinBuySell } from './NCoinBuySell';
+import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 
 const NCoinMarketDataCol: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
-}> = ({ className, value }) => (
+  row?: boolean;
+}> = ({ className, value, row }) => (
   <div
     className={clsx(
-      'flex flex-col items-end justify-center gap-2 py-3 text-xs',
+      'flex gap-1',
+      !row && 'flex-col items-end justify-center',
+      row && 'flex-row-reverse items-center justify-start',
       className,
     )}
   >
-    <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'MC: '}</p>
+    <div
+      style={{
+        color: calcNCoinMarketCapColor(
+          +(value.networkData?.marketCap ?? '0') || 0,
+        ),
+      }}
+    >
+      <span className="text-[0.9em] text-v1-content-secondary">{'MC '}</span>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.marketCap ?? '0') || 0}
         label="$"
+        className="align-middle text-[1.35em] font-medium"
         format={{
           decimalLength: 2,
         }}
       />
     </div>
-    <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'VOL: '}</p>
+    <div>
+      <span className="text-[0.9em] text-v1-content-secondary">{'V '}</span>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.volume ?? '0') || 0}
@@ -46,24 +56,59 @@ const NCoinMarketDataCol: FC<{
         }}
       />
     </div>
-    <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'TXNS: '}</p>
-      <NCoinBuySell
-        value={{
-          buys: value.networkData?.totalBuy,
-          sells: value.networkData?.totalSell,
+    {!row && (
+      <>
+        <div>
+          <span className="text-[0.9em] text-v1-content-secondary">
+            {'TX '}
+          </span>
+          <NCoinBuySell
+            value={{
+              buys: value.networkData?.totalBuy,
+              sells: value.networkData?.totalSell,
+            }}
+          />
+        </div>
+        <div>
+          <span className="text-[0.9em] text-v1-content-secondary">
+            {'# of Holders '}
+          </span>
+          <ReadableNumber
+            popup="never"
+            value={value.validatedData?.numberOfHolders}
+          />
+        </div>
+      </>
+    )}
+  </div>
+);
+
+const NCoinBCurve: FC<{
+  value: TrenchStreamResponseResult;
+}> = ({ value }) => {
+  return (
+    <div
+      style={{
+        color: calcNCoinBCurveColor({
+          bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
+        }),
+      }}
+    >
+      <span className="text-[0.9em] text-v1-content-secondary">
+        {'B Curve '}
+      </span>
+      <ReadableNumber
+        popup="never"
+        value={(value.networkData?.boundingCurve ?? 0) * 100}
+        label="%"
+        className="font-medium"
+        format={{
+          decimalLength: 1,
         }}
       />
     </div>
-    <div className="flex items-center gap-1">
-      <p className="text-v1-content-secondary">{'# of Holders: '}</p>
-      <ReadableNumber
-        popup="never"
-        value={value.validatedData?.numberOfHolders}
-      />
-    </div>
-  </div>
-);
+  );
+};
 
 export const NCoinList: FC<{
   dataSource: TrenchStreamResponseResult[];
@@ -85,18 +130,22 @@ export const NCoinList: FC<{
   source,
 }) => {
   const [dataSource, setDataSource] = useState(_dataSource);
+  const [shown, setShown] = useState<Set<string>>(
+    new Set(dataSource.map(x => x.symbol?.slug ?? '')),
+  );
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
     if (hovered) {
       setDataSource(p => {
-        const ret: typeof p = [];
+        let ret: typeof p = [...p];
         const seen = new Set<string>(p.map(x => x.symbol?.slug ?? ''));
         for (const element of _dataSource) {
           const key = element.symbol?.slug ?? '';
           if (seen.has(key)) {
-            ret.push(element);
+            const idx = ret.findIndex(x => x.symbol?.slug === key);
+            ret = [...ret.slice(0, idx), element, ...ret.slice(idx + 1)];
           }
         }
         return ret;
@@ -116,6 +165,10 @@ export const NCoinList: FC<{
       });
     }
   }, [_dataSource, dataSource.length, hovered]);
+
+  useEffect(() => {
+    setShown(new Set(dataSource.map(x => x.symbol?.slug ?? '')));
+  }, [dataSource]);
 
   return (
     <div
@@ -162,98 +215,124 @@ export const NCoinList: FC<{
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={() => setHovered(false)}
         >
-          {dataSource.map(row => (
-            <button
-              key={row.symbol?.slug ?? ''}
-              className="group relative flex h-28 max-w-full items-center justify-between rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110"
-              type="button"
-              onClick={() => row.symbol?.slug && onRowClick?.(row.symbol.slug)}
-            >
-              {source === 'final_stretch' &&
-                row.networkData?.boundingCurve === 1 && (
-                  <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
-                    <div className="-mt-28 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-[#00FFA3] to-[#00A3FF]  opacity-45 blur-2xl" />
-                  </div>
+          {dataSource.map(row => {
+            const ageAndSecurity = (
+              <>
+                <NCoinSecurity
+                  type="row"
+                  imgClassName="size-4"
+                  value={{
+                    lpBurned: row.securityData?.lpBurned ?? false,
+                  }}
+                />
+                <NCoinAge
+                  value={row.symbol?.createdAt}
+                  inline
+                  className="ms-1 text-xs"
+                  imgClassName="hidden"
+                />
+              </>
+            );
+
+            const bCurve = (
+              <>{source !== 'migrated' && <NCoinBCurve value={row} />}</>
+            );
+            return (
+              <button
+                key={row.symbol?.slug ?? ''}
+                className={clsx(
+                  'group relative flex max-w-full rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110',
+                  mini
+                    ? 'flex-col justify-start gap-2'
+                    : 'items-center justify-between',
+                  shown.has(row.symbol?.slug ?? '')
+                    ? 'translate-y-0 opacity-100'
+                    : '-translate-y-14 opacity-0',
                 )}
-              <div className="relative flex flex-col gap-1 overflow-hidden">
-                <Coin
-                  abbreviation={row.symbol?.abbreviation}
-                  name={row.symbol?.name}
-                  slug={row.symbol?.slug}
-                  logo={row.symbol?.imageUrl}
-                  size={mini ? 'md' : 'lg'}
-                  // categories={row.symbol.categories}
-                  // labels={row.symbol_labels}
-                  marker={row.validatedData?.protocol?.logo}
-                  progress={
-                    source === 'migrated'
-                      ? undefined
-                      : row.networkData?.boundingCurve ?? 1
-                  }
-                  progressTitle="Bounding Curve: "
-                  networks={[
-                    {
-                      contract_address: row.symbol?.base ?? '---',
-                      network: {
-                        slug: 'solana',
-                        icon_url: '',
-                        name: 'Solana',
+                type="button"
+                onClick={() =>
+                  row.symbol?.slug && onRowClick?.(row.symbol.slug)
+                }
+              >
+                {source === 'final_stretch' &&
+                  row.networkData?.boundingCurve === 1 && (
+                    <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
+                      <div className="-mt-28 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-[#00FFA3] to-[#00A3FF]  opacity-45 blur-2xl" />
+                    </div>
+                  )}
+                <div className="relative flex flex-col gap-1 overflow-hidden">
+                  <Coin
+                    abbreviation={row.symbol?.abbreviation}
+                    name={row.symbol?.name}
+                    slug={row.symbol?.slug}
+                    logo={row.symbol?.imageUrl}
+                    size={mini ? 'md' : 'lg'}
+                    links={{
+                      twitter_screen_name: row.socials?.twitter,
+                      telegram_channel_identifier: row.socials?.telegram,
+                      homepage: row.socials?.website
+                        ? [row.socials?.website]
+                        : [],
+                    }}
+                    marker={row.validatedData?.protocol?.logo}
+                    progress={
+                      source === 'migrated'
+                        ? undefined
+                        : row.networkData?.boundingCurve ?? 1
+                    }
+                    progressTitle="Bounding Curve: "
+                    networks={[
+                      {
+                        contract_address: row.symbol?.base ?? '---',
+                        network: {
+                          slug: 'solana',
+                          icon_url: '',
+                          name: 'Solana',
+                        },
+                        symbol_network_type: 'TOKEN',
                       },
-                      symbol_network_type: 'TOKEN',
-                    },
-                  ]}
-                  customLabels={
-                    <>
-                      <NCoinSecurity
-                        type="row"
-                        imgClassName="size-4"
-                        value={{
-                          freezable: row.securityData?.freezable ?? false,
-                          mintable: row.securityData?.mintable ?? false,
-                          lpBurned: row.securityData?.lpBurned ?? false,
-                          safeTopHolders: doesNCoinHaveSafeTopHolders({
-                            topHolders: row.validatedData?.top10Holding ?? 0,
-                            totalSupply:
-                              +(row.networkData?.totalSupply ?? '0') || 0,
-                          }),
-                        }}
-                      />
-                      <NCoinAge
-                        value={row.symbol?.createdAt}
-                        inline
-                        className="ms-1 text-xs"
-                        imgClassName="hidden"
-                      />
-                    </>
-                  }
-                  extra={
-                    <>
-                      <NCoinTokenInsight
-                        key="ins"
-                        value={row.validatedData}
-                        type="row"
-                        imgClassName="size-2"
-                        className={mini ? 'text-xxs ' : 'text-xs'}
-                      />
-                    </>
-                  }
-                  href={false}
-                  truncate
-                />
-              </div>
-              <NCoinMarketDataCol
-                value={row}
-                className={clsx('absolute end-2 h-full', mini && 'hidden')}
-              />
-              {row.symbol && (
-                <BtnQuickBuy
-                  slug={row.symbol.slug}
-                  source={source}
-                  className="absolute bottom-0 right-0 hidden group-hover:flex"
-                />
-              )}
-            </button>
-          ))}
+                    ]}
+                    customLabels={ageAndSecurity}
+                    extra={
+                      <>
+                        {!mini && bCurve}
+                        <NCoinTokenInsight
+                          key="ins"
+                          value={row.validatedData}
+                          type="row"
+                          imgClassName="size-2"
+                          className={mini ? 'text-xxs ' : 'text-xs'}
+                        />
+                      </>
+                    }
+                    href={false}
+                    truncate={!!mini}
+                  />
+                </div>
+                <div
+                  className={clsx(
+                    mini
+                      ? 'flex items-center justify-between text-xxs'
+                      : 'absolute end-2 flex h-full flex-col justify-center text-xs',
+                  )}
+                >
+                  {mini && bCurve}
+                  <NCoinMarketDataCol
+                    value={row}
+                    className={clsx()}
+                    row={mini}
+                  />
+                </div>
+                {row.symbol && (
+                  <BtnQuickBuy
+                    slug={row.symbol.slug}
+                    source={source}
+                    className="absolute bottom-0 right-0 hidden group-hover:flex"
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
