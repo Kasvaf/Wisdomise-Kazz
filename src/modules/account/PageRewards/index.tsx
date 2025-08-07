@@ -20,7 +20,6 @@ import { useActiveWallet } from 'api/chains/wallet';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
-import gradient from './images/gradient.png';
 import dailySrc from './images/daily.png';
 import refSubSrc from './images/ref-sub.png';
 import refFeeSrc from './images/ref-fee.png';
@@ -82,8 +81,7 @@ export default function PageRewards() {
       />
 
       {hasFlag('/account/rewards?withdraw') && (
-        <div className="relative mb-6 overflow-hidden rounded-xl">
-          <img src={gradient} alt="" className="absolute h-full w-full" />
+        <div className="bg-v1-surface-l1 relative mb-6 overflow-hidden rounded-xl">
           <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
             <Usdc className="size-8" />
             <div>
@@ -126,6 +124,7 @@ export default function PageRewards() {
         value={activeTab}
         onChange={newValue => setActiveTab(newValue)}
         className="mb-4"
+        surface={1}
       />
 
       {activeTab === 'rewards' && (
@@ -162,7 +161,7 @@ export default function PageRewards() {
           {history?.map((item, index) => (
             <div
               key={index}
-              className="bg-v1-surface-l2 mb-3 flex flex-col gap-2 rounded-xl p-3 text-xs"
+              className="bg-v1-surface-l1 mb-3 flex flex-col gap-2 rounded-xl p-3 text-xs"
             >
               <div className="flex justify-between">
                 <div className="text-v1-content-secondary">Wallet Address</div>
@@ -203,7 +202,7 @@ function RewardItem({
   amount: number;
 }) {
   return (
-    <div className="bg-v1-surface-l2 relative mb-3 h-24 overflow-hidden rounded-xl">
+    <div className="bg-v1-surface-l1 relative mb-3 h-24 overflow-hidden rounded-xl">
       <div className="relative flex h-full items-center">
         <div className="flex grow gap-x-3 p-3 mobile:flex-col">
           <img src={image} alt="" className="size-10 object-contain" />

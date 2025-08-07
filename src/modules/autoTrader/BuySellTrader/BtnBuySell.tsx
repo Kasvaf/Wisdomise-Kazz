@@ -61,17 +61,17 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
                 : 'Supports Solana wallets like Phantom, Solflare, and Trust Wallet.'}
             </p>
 
-            <div>
-              <a
-                href="https://wisdomise.gitbook.io/auto-trade-guidance/readme-1"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center text-v1-content-link hover:text-v1-content-link-hover"
-              >
-                <Icon name={bxLink} size={16} className="mr-1" />
-                Read more about supported wallets
-              </a>
-            </div>
+            {/* <div> */}
+            {/*   <a */}
+            {/*     href="https://wisdomise.gitbook.io/auto-trade-guidance/readme-1" */}
+            {/*     target="_blank" */}
+            {/*     rel="noreferrer" */}
+            {/*     className="flex items-center text-v1-content-link hover:text-v1-content-link-hover" */}
+            {/*   > */}
+            {/*     <Icon name={bxLink} size={16} className="mr-1" /> */}
+            {/*     Read more about supported wallets */}
+            {/*   </a> */}
+            {/* </div> */}
           </>
         ),
       },
@@ -90,17 +90,17 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
                 : 'You’ll need SOL for network fees.'}
             </p>
 
-            <div>
-              <a
-                href="https://wisdomise.gitbook.io/auto-trade-guidance/readme-1"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center text-v1-content-link hover:text-v1-content-link-hover"
-              >
-                <Icon name={bxLink} size={16} className="mr-1" />
-                Read more about wallet requirements
-              </a>
-            </div>
+            {/* <div> */}
+            {/*   <a */}
+            {/*     href="https://wisdomise.gitbook.io/auto-trade-guidance/readme-1" */}
+            {/*     target="_blank" */}
+            {/*     rel="noreferrer" */}
+            {/*     className="text-v1-content-link hover:text-v1-content-link-hover flex items-center" */}
+            {/*   > */}
+            {/*     <Icon name={bxLink} size={16} className="mr-1" /> */}
+            {/*     Read more about wallet requirements */}
+            {/*   </a> */}
+            {/* </div> */}
           </>
         ),
       },

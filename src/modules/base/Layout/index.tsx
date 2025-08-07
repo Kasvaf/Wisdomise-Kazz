@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { type ReactElement, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
-import { useHubSpot } from 'config/hubSpot';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import ScrollToTop from './ScrollToTop';
 import MobileHeader from './MobileHeader';
@@ -31,7 +30,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   mainClassName,
   children,
 }) => {
-  useHubSpot();
+  // useHubSpot();
   const isMobile = useIsMobile();
   const Header = isMobile ? MobileHeader : DesktopHeader;
 

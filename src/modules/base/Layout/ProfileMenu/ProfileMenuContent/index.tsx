@@ -6,9 +6,7 @@ import { RewardIcon, WsdmTokenIcon } from 'modules/account/PageAccount/icons';
 import BranchSelector from '../../BranchSelector';
 import MenuItem from './MenuItem';
 import BoxedIcon from './BoxedIcon';
-import MenuItemLang from './MenuItemLang';
 import MenuItemLogout from './MenuItemLogout';
-import MenuItemSupport from './MenuItemSupport';
 import MenuItemReferral from './MenuItemReferral';
 import MenuItemSubscription from './MenuItemSubscription';
 import { IconAccount, IconAlerts, IconQuests, IconTrades } from './icons';
@@ -71,10 +69,8 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
           Rewards
         </MenuItem>
 
-        <div className="border-t-v1-surface-l4 my-2 border-t" />
-
         {/* <MenuItemLang /> */}
-        <MenuItemSupport />
+        {/* <MenuItemSupport /> */}
       </div>
     </div>
   );
