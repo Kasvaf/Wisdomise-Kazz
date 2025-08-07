@@ -74,12 +74,14 @@ export const compressByLabel = (number: number) => {
   };
 };
 
-const cutEndOfNumber = (decimalStr: string, length: number) => {
+const cutEndOfNumber = (decimalStr: string, length: number, exact = false) => {
   let value = decimalStr;
   if (length < 0 || !decimalStr) return value;
   if (length < Number.POSITIVE_INFINITY) {
     const numStrs = [...decimalStr];
-    const firstNonZeroIndex = numStrs.findIndex(numStr => numStr !== '0');
+    const firstNonZeroIndex = exact
+      ? 0
+      : numStrs.findIndex(numStr => numStr !== '0');
     value = decimalStr.slice(0, firstNonZeroIndex + length);
   }
   return value.replaceAll(/0*$/g, '');
@@ -112,6 +114,7 @@ export interface FormatNumberOptions {
   separateByComma: boolean; // If true: 1234 => 1,234
   decimalLength: number; // If 2: 2.001234 => 2.0012, 2.120 => 2.12, 2.100 => 2.1
   minifyDecimalRepeats: boolean; // If true: 1.1000002 => 1.10₍₅₎2
+  exactDecimal?: boolean;
 }
 export const formatNumber = (input: number, options: FormatNumberOptions) => {
   let output = {
@@ -147,7 +150,11 @@ export const formatNumber = (input: number, options: FormatNumberOptions) => {
   // Cutting unnecessary decimal
   output = {
     ...output,
-    decimalPart: cutEndOfNumber(output.decimalPart, options.decimalLength),
+    decimalPart: cutEndOfNumber(
+      output.decimalPart,
+      options.decimalLength,
+      options.exactDecimal,
+    ),
   };
 
   // Minify decimal

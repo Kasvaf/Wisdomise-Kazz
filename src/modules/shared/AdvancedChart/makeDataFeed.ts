@@ -100,7 +100,10 @@ const makeDataFeed = (
 
         minmov: 1,
         fractional: false,
-        pricescale: 10_000_000,
+        pricescale:
+          localStorage.getItem('tv-market-cap') === 'true'
+            ? 100_000_000
+            : 10_000_000,
         has_seconds: true,
         seconds_multipliers: ['1', '5', '15', '30'],
 

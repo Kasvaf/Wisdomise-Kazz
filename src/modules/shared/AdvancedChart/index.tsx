@@ -14,9 +14,9 @@ import { useLocalStorage } from 'usehooks-ts';
 import { RouterBaseName } from 'config/constants';
 import { useGrpcService } from 'api/grpc-utils';
 import { formatNumber } from 'utils/numbers';
-import { useCoinDetails } from 'api/discovery';
 import { useSupportedPairs } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
 import {
   type TimeFrameType,
   widget as Widget,
@@ -61,19 +61,20 @@ const AdvancedChart: React.FC<{
 
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
   const { data, isLoading } = useCoinPoolInfo(slug);
-  const { data: details } = useCoinDetails({ slug });
+  const { data: details } = useUnifiedCoinDetails({ slug });
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
     'tv-convert-to-usd',
     false,
   );
-  const supply = details?.data?.total_supply ?? 1;
+  const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
+  const supply = details?.marketData.total_supply ?? 0;
+  console.log('totalSupply', supply);
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
 
   useEffect(() => {
     if (isLoading || !data?.network) return;
-    let isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
     let savedResolution = (localStorage.getItem('chart-resolution') ||
       '30') as ResolutionString;
 
@@ -87,7 +88,6 @@ const AdvancedChart: React.FC<{
       locale: language as any,
       // enabled_features: ['study_templates'],
       disabled_features: [
-        'use_localstorage_for_settings',
         'symbol_search_hot_key',
         'hide_price_scale_global_last_bar_value',
         'chart_style_hilo_last_price',
@@ -97,7 +97,7 @@ const AdvancedChart: React.FC<{
         'header_compare',
         // 'header_resolutions',
       ],
-      enabled_features: ['seconds_resolution'],
+      enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       timeframe: '7D', // initial zoom on chart
       interval: savedResolution,
       time_frames: [
@@ -110,8 +110,7 @@ const AdvancedChart: React.FC<{
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
       custom_formatters: {
-        priceFormatterFactory: (symbolInfo, minTick) => {
-          console.log(symbolInfo, minTick);
+        priceFormatterFactory: () => {
           return {
             format: price => {
               const val = price * (isMarketCap ? supply : 1);
@@ -120,6 +119,7 @@ const AdvancedChart: React.FC<{
                 minifyDecimalRepeats: !isMarketCap,
                 compactInteger: isMarketCap,
                 separateByComma: false,
+                exactDecimal: isMarketCap,
               });
             },
           };
@@ -213,8 +213,7 @@ const AdvancedChart: React.FC<{
       }
       setButtonInnerContent();
       button.addEventListener('click', () => {
-        isMarketCap = !isMarketCap;
-        localStorage.setItem('tv-market-cap', String(isMarketCap));
+        setIsMarketCap(!isMarketCap);
         setButtonInnerContent();
         widget.activeChart().resetData();
       });
@@ -238,6 +237,8 @@ const AdvancedChart: React.FC<{
     supply,
     pairs,
     convertToUsd,
+    isMarketCap,
+    setIsMarketCap,
     setPageQuote,
     setConvertToUsd,
   ]);
