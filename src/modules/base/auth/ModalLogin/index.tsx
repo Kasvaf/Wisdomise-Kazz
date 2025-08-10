@@ -180,14 +180,14 @@ const LoginModalContent: React.FC<{
         </Button>
       </div>
 
-      <div className="bg-v1-border-disabled my-6 flex h-px w-full items-center justify-center overflow-visible opacity-0">
+      <div className="bg-v1-border-disabled my-6 flex h-px w-full items-center justify-center overflow-visible">
         <span className="text-v1-content-secondary px-2 text-xs backdrop-blur-lg">
           {t('common:or')}
         </span>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-4">
-        <div className="hidden h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
+        <div className="h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
           <GoogleLogin
             onSuccess={googleHandler}
             use_fedcm_for_prompt

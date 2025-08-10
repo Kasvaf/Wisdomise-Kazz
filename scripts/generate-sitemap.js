@@ -8,8 +8,7 @@ import {
 import { resolve } from 'path';
 import { SitemapAndIndexStream, SitemapStream } from 'sitemap';
 
-const domain = 'https://app.wisdomise.com';
-const apiBaseUrl = 'https://temple.wisdomise.com';
+const domain = 'https://goatx.trade';
 const publicDir = './public';
 
 const sms = new SitemapAndIndexStream({
@@ -42,27 +41,8 @@ const start = async () => {
   [
     { url: '/', changefreq: 'weekly' },
     { url: '/discovery?list=coin-radar', changefreq: 'always' },
-    { url: '/discovery?list=social-radar', changefreq: 'always' },
-    { url: '/discovery?list=technical-radar', changefreq: 'always' },
-    { url: '/discovery?list=whale-radar', changefreq: 'always' },
     { url: '/discovery?list=network-radar', changefreq: 'always' },
   ].forEach(item => sms.write(item));
-
-  console.log('[4/6] Fetch all supported tokens...');
-  const { slugs } = await fetch(
-    `${apiBaseUrl}/api/v1/delphi/market/token-review/supported-tokens`,
-    {
-      method: 'GET',
-    },
-  ).then(resp => resp.json());
-
-  console.log('[5/6] Write tokens urls...');
-  slugs.forEach(slug =>
-    sms.write({
-      url: `/discovery?detail=coin&slug=${slug}`,
-      changefreq: 'always',
-    }),
-  );
 
   console.log('[6/6] Close sitemap write stream...');
   sms.end();

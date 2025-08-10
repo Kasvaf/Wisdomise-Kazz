@@ -11,7 +11,7 @@ import WalletEvents from './WalletEvents';
 const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [tonConnector] = useState(
     new TonConnect({
-      manifestUrl: 'https://wisdomise.com/tonconnect-manifest.json',
+      manifestUrl: 'https://goatx.trade/tonconnect-manifest.json',
       walletsListSource: '/ton-wallets.json',
     }),
   );
