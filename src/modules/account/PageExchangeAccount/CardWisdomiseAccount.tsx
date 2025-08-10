@@ -26,9 +26,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
           <div className="mb-3 text-xs text-white/60">
             {t('account.account')}
           </div>
-          <div className="h-full">
-            {/* <LogoSvg /> */}
-          </div>
+          <div className="h-full">{/* <LogoSvg /> */}</div>
         </div>
 
         <div className="flex flex-col">

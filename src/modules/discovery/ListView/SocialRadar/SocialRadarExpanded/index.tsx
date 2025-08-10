@@ -12,7 +12,6 @@ import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { SearchInput } from 'shared/SearchInput';
 import {
   type SocialRadarCoin,
-  useRadarsMetrics,
   useSocialRadarCoins,
   useSocialRadarInfo,
 } from 'api/discovery';
@@ -27,12 +26,12 @@ import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarSharingModal from '../SocialRadarSharingModal';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { RealtimeBadge } from '../../RealtimeBadge';
-import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 
 export function SocialRadarExpanded() {
   const marketInfo = useSocialRadarInfo();
@@ -46,8 +45,6 @@ export function SocialRadarExpanded() {
   });
 
   const coins = useSocialRadarCoins(pageState);
-  const metrics = useRadarsMetrics();
-  const socialRadarMetrics = metrics.data?.social_radar;
   useLoadingBadge(coins.isFetching);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();

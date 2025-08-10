@@ -60,9 +60,7 @@ export function ReferralShareLinks({
             variant="outline"
             size="sm"
             onClick={() =>
-              shareOnTwitter(SHARE_TEXT, myReferralLink, [
-                'GoatX',
-              ])
+              shareOnTwitter(SHARE_TEXT, myReferralLink, ['GoatX'])
             }
           >
             <XIcon />

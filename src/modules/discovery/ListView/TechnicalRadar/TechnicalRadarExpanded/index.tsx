@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useRadarsMetrics, useTechnicalRadarCoins } from 'api/discovery';
+import { useTechnicalRadarCoins } from 'api/discovery';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
@@ -22,8 +22,6 @@ export function TechnicalRadarExpanded() {
     'chart',
   );
   const technicalTopCoins = useTechnicalRadarCoins({});
-  const metrics = useRadarsMetrics();
-  const technicalRadarMetrics = metrics.data?.technical_radar;
   useLoadingBadge(technicalTopCoins.isFetching);
 
   return (

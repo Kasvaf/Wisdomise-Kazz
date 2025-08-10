@@ -14,9 +14,10 @@ function makeOrigin(serviceName: string): string {
   }
 
   const subdomainParts = [subdomainPrefix, serviceName].filter(Boolean);
-  const fullDomain = subdomainParts.length
-    ? `${subdomainParts.join('-')}.${DOMAIN}`
-    : DOMAIN;
+  const fullDomain =
+    subdomainParts.length > 0
+      ? `${subdomainParts.join('-')}.${DOMAIN}`
+      : DOMAIN;
 
   return `https://${fullDomain}`;
 }

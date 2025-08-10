@@ -7,13 +7,8 @@ import useIsMobile from 'utils/useIsMobile';
 import { useHasFlag, useTraderPositionsQuery } from 'api';
 import usePageTour from 'shared/usePageTour';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { SubscriptionIcon } from 'modules/account/PageAccount/icons';
 import { useIsLoggedIn } from '../auth/jwt-store';
-import {
-  IconQuests,
-  IconReferral,
-  IconTrades,
-} from './ProfileMenu/ProfileMenuContent/icons';
+import { IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
 const HeaderNav = () => {
   const isMobile = useIsMobile();

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery, useHasFlag } from 'api';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import { useIsLoggedIn } from './jwt-store';
 import { Button } from 'shared/v1-components/Button';
+import { useIsLoggedIn } from './jwt-store';
 
 const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation('auth');

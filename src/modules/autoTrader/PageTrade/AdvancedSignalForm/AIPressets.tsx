@@ -9,10 +9,9 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import usePageTour from 'shared/usePageTour';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as LogoIcon } from 'assets/monogram-green.svg';
+import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
-import GradientBG from './GradientBG.svg';
 
 const orderToOrder = (x: OrderPresetItem, ind?: number) => ({
   amountRatio: roundSensible(x.amount * 100),

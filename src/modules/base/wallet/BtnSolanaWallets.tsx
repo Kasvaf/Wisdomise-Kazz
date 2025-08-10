@@ -29,9 +29,9 @@ import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSo
 import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import { Coins } from 'shared/Coins';
+import { type Surface } from 'utils/useSurface';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
-import { Surface } from 'utils/useSurface';
 
 export default function BtnSolanaWallets({
   className,

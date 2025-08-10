@@ -5,7 +5,6 @@ import AuthGuard from '../auth/AuthGuard';
 import WalletProvider from '../wallet/WalletProvider';
 import TelegramAuthGuard from '../mini-app/TelegramAuthGuard';
 import { TelegramProvider } from '../mini-app/TelegramProvider';
-import TrackersContainer from './TrackersContainer';
 import { UserEngageFlow } from './UserEngageFlow';
 import { GeneralMeta } from './GeneralMeta';
 

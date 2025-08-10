@@ -21,9 +21,9 @@ import Icon from 'shared/Icon';
 import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
+import { ReactComponent as Logo } from 'assets/logo-white.svg';
 import TelegramLogin from './TelegramLogin';
 import { useModalLoginTexts } from './useModalLoginTexts';
-import { ReactComponent as Logo } from 'assets/logo-white.svg';
 import { ModalLoginSlides } from './ModalLoginSlides';
 
 const LoginModalContent: React.FC<{

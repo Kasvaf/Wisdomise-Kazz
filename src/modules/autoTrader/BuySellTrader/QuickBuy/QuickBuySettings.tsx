@@ -10,8 +10,8 @@ import { Coin } from 'shared/Coin';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 import { preventNonNumericInput } from 'utils/numbers';
+import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function QuickBuySettings({
   source,

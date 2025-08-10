@@ -24,7 +24,7 @@ function StatRow({
       {label && (
         <div
           className={
-            'inline-flex items-center gap-1 text-xxs font-normal text-v1-content-secondary'
+            'text-v1-content-secondary text-xxs inline-flex items-center gap-1 font-normal'
           }
         >
           {label}{' '}
@@ -37,7 +37,7 @@ function StatRow({
       )}
       <div
         className={clsx(
-          'flex grow items-center justify-end gap-2 text-xs font-normal text-v1-content-primary',
+          'text-v1-content-primary flex grow items-center justify-end gap-2 text-xs font-normal',
           className,
         )}
       >
@@ -77,7 +77,7 @@ export function CoinStatsWidget({
 
   return (
     <div
-      className={clsx('space-y-4 rounded-md bg-v1-surface-l2 p-3', className)}
+      className={clsx('bg-v1-surface-l1 space-y-4 rounded-md p-3', className)}
     >
       <StatRow label={t('coin-details.tabs.coin_stats.volume')}>
         <DirectionalNumber
@@ -132,9 +132,9 @@ export function CoinStatsWidget({
         </StatRow>
         <StatRow>
           {typeof circulationPercentage === 'number' && (
-            <div className="relative h-1 w-full max-w-full grow overflow-hidden rounded bg-v1-background-disabled">
+            <div className="bg-v1-background-disabled relative h-1 w-full max-w-full grow overflow-hidden rounded">
               <div
-                className="absolute left-0 top-0 h-full rounded bg-v1-content-tertiary-inverse"
+                className="bg-v1-content-tertiary-inverse absolute left-0 top-0 h-full rounded"
                 style={{
                   width: `${circulationPercentage}%`,
                 }}

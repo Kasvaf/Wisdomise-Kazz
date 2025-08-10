@@ -6,13 +6,13 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { RouterBaseName } from 'config/constants';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { ReactComponent as Logo } from 'assets/logo-white.svg';
-import ProfileMenu from '../ProfileMenu';
-import BranchSelector from '../BranchSelector';
-import HeaderNav from '../HeaderNav';
 import { Button } from 'shared/v1-components/Button';
 import { IconReferral } from 'modules/base/Layout/ProfileMenu/ProfileMenuContent/icons';
 import { useHasFlag } from 'api';
 import useIsMobile from 'utils/useIsMobile';
+import BranchSelector from '../BranchSelector';
+import ProfileMenu from '../ProfileMenu';
+import HeaderNav from '../HeaderNav';
 
 const DesktopHeader: React.FC<{
   extension?: null | false | ReactElement;

@@ -8,6 +8,10 @@ module.exports = {
         project: __dirname,
       },
     },
+    'tailwindcss': {
+      config: false,
+      cssFiles: ['**/*.css'], // make sure your theme.css is scanned
+    },
   },
   env: {
     browser: true,
@@ -177,12 +181,8 @@ module.exports = {
       },
     ],
 
-    'tailwindcss/no-custom-classname': [
-      'error',
-      {
-        whitelist: ['id-.*', '.custom-*'],
-      },
-    ],
+    'tailwindcss/no-custom-classname': 'off',
+    'tailwindcss/classnames-order': 'off',
     'prettier/prettier': [
       'error',
       {

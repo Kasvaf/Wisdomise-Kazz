@@ -7,13 +7,9 @@ import { type ExchangeTypes } from 'api';
 //   BINANCE: BinanceLogoSvg,
 // };
 
-const ExchangeOptionItem = (item: ExchangeTypes) => {
+const ExchangeOptionItem = () => {
   // const Icon = exchangeIcons[item];
-  return (
-    <div>
-      {/* <Icon /> */}
-    </div>
-  );
+  return <div>{/* <Icon /> */}</div>;
 };
 
 interface Props {

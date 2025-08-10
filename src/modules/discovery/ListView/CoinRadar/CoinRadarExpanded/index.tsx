@@ -3,11 +3,7 @@ import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 // import { Coin } from 'shared/Coin';
-import {
-  type CoinRadarCoin,
-  useCoinRadarCoins,
-  useRadarsMetrics,
-} from 'api/discovery';
+import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useLoadingBadge } from 'shared/LoadingBadge';
@@ -16,6 +12,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { Coin } from 'shared/v1-components/Coin';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { EmptySentiment } from '../EmptySentiment';
 import { homeSubscriptionsConfig } from '../constants';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
@@ -24,17 +21,11 @@ import { TechnicalRadarSentiment } from '../../TechnicalRadar/TechnicalRadarSent
 import useHotCoinsTour from '../useHotCoinsTour';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
-import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 
 export function CoinRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('insight');
 
   const coins = useCoinRadarCoins({});
-  const metrics = useRadarsMetrics();
-  const metricNumber =
-    ((metrics.data?.social_radar.max_average_win_rate ?? 0) +
-      (metrics.data?.technical_radar.max_average_win_rate ?? 0)) /
-    2;
   useLoadingBadge(coins.isFetching);
   const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [
