@@ -2,7 +2,7 @@
 import { type ReactNode, type FC, useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { bxGroup, bxPauseCircle } from 'boxicons-quasar';
+import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
 import { type TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
@@ -189,7 +189,10 @@ export const NCoinList: FC<{
       )}
     >
       {title && (
-        <div className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none">
+        <div
+          className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none"
+          onPointerEnter={() => setHovered(false)}
+        >
           <div
             className={clsx(
               hovered ? 'pointer-events-none opacity-100' : 'opacity-0',
@@ -199,8 +202,16 @@ export const NCoinList: FC<{
           <h3 className="relative">{title}</h3>
           <div
             className={clsx(
+              'flex animate-spin items-center gap-1 text-xs text-v1-content-secondary',
+              !loading && 'hidden',
+            )}
+          >
+            <Icon name={bxLoader} size={18} />
+          </div>
+          <div
+            className={clsx(
               'flex items-center gap-1 text-xs text-v1-content-info transition-all',
-              !hovered && 'pointer-events-none opacity-0',
+              !hovered && 'hidden',
             )}
           >
             <Icon name={bxPauseCircle} size={18} />
@@ -212,11 +223,7 @@ export const NCoinList: FC<{
           )}
         </div>
       )}
-      {loading ? (
-        <p className="animate-pulse p-3 text-center text-xs text-v1-content-secondary">
-          {t('common:almost-there')}
-        </p>
-      ) : dataSource.length === 0 ? (
+      {dataSource.length === 0 && !loading ? (
         <p className="p-3 text-center text-xs leading-relaxed text-v1-content-secondary">
           {t('common:nothing-to-show')}
         </p>

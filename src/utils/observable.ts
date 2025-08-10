@@ -120,6 +120,11 @@ export function useObservableLastValue<V>({
 }) {
   const [data, setLastData] = useState<V>();
   const [receivedOnce, setReceivedOnce] = useState(false);
+
+  useEffect(() => {
+    setReceivedOnce(false);
+  }, [key]);
+
   useObservable({
     observable,
     handler: val => {

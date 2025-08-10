@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { type Observable } from 'rxjs';
 import {
   type QueryKey,
@@ -35,11 +35,22 @@ export function useGrpcService<K extends ServiceKey>(svc: K): ServiceType<K> {
   }, [svc]);
 }
 
-const generateSvcMethodKey = (
+const useSvgMethodKey = (
   service: ServiceKey,
   methodName: string,
   params: unknown,
-) => ['grpc', service, methodName.split(' ')[1], params] as QueryKey;
+) => {
+  const generateKey = useCallback(() => {
+    return ['grpc', service, methodName.split(' ')[1], params] as QueryKey;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [service, methodName, JSON.stringify(params)]);
+  const [key, setKey] = useState(generateKey());
+
+  useEffect(() => {
+    setKey(generateKey());
+  }, [generateKey]);
+  return key;
+};
 
 export function useSvcMethodQuery<K extends ServiceKey, V, P>(
   {
@@ -54,10 +65,10 @@ export function useSvcMethodQuery<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
-  const key = useRef(generateSvcMethodKey(svc, method.name, params));
+  const key = useSvgMethodKey(svc, method.name, params);
 
   return useQuery({
-    queryKey: key.current,
+    queryKey: key,
     queryFn: () => method.call(service, params),
     ...queryOptions,
   });
@@ -77,7 +88,7 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
-  const key = useRef(generateSvcMethodKey(svc, method.name, params));
+  const key = useSvgMethodKey(svc, method.name, params);
 
   return useObservableLastValue({
     observable: useMemo(
@@ -86,7 +97,7 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
       [service, method, JSON.stringify(params)],
     ),
     enabled,
-    key: key.current,
+    key,
   });
 }
 
@@ -104,7 +115,7 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
 ) {
   const service = useGrpcService(svc);
   const method = methodSelector(service);
-  const key = useRef(generateSvcMethodKey(svc, method.name, params));
+  const key = useSvgMethodKey(svc, method.name, params);
 
   return useObservableAllValues({
     observable: useMemo(
@@ -113,7 +124,7 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
       [service, method, JSON.stringify(params)],
     ),
     enabled,
-    key: key.current,
+    key,
   });
 }
 
