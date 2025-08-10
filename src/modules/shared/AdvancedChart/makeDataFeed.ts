@@ -100,7 +100,10 @@ const makeDataFeed = (
 
         minmov: 1,
         fractional: false,
-        pricescale: 10_000_000,
+        pricescale:
+          localStorage.getItem('tv-market-cap') === 'true'
+            ? 1_000_000_000_000
+            : 10_000_000,
         has_seconds: true,
         seconds_multipliers: ['1', '5', '15', '30'],
 
@@ -128,32 +131,28 @@ const makeDataFeed = (
 
       try {
         const dur = resolutionToSeconds[res];
-        const start = Math.ceil(periodParams.from / dur);
+        const _start = Math.ceil(periodParams.from / dur);
         const end = Math.ceil(periodParams.to / dur);
-        const BATCH_SIZE = 999;
 
-        const all = [];
-        for (let i = start; i <= end; i += BATCH_SIZE) {
-          all.push(
-            getCandlesCached(delphinus, {
-              market: 'SPOT',
-              network,
-              baseSlug,
-              quoteSlug: quote,
-              resolution: res,
-              startTime: new Date(i * dur * 1000).toISOString(),
-              endTime: new Date(
-                Math.min(end, i + BATCH_SIZE) * dur * 1000,
-              ).toISOString(),
-              skipEmptyCandles: true,
-              convertToUsd: checkConvertToUsd(quote),
-            }),
-          );
+        if (periodParams.countBack > 1000) {
+          onResult([]);
+          return;
         }
 
-        const bars = (await Promise.all(all)).flat();
+        const bars = await getCandlesCached(delphinus, {
+          market: 'SPOT',
+          network,
+          baseSlug,
+          quoteSlug: quote,
+          resolution: res,
+          endTime: new Date(end * dur * 1000).toISOString(),
+          limit: periodParams.countBack,
+          skipEmptyCandles: true,
+          convertToUsd: checkConvertToUsd(quote),
+        });
+
         onResult(bars, {
-          noData: bars.length === 0,
+          noData: bars.length < periodParams.countBack,
         });
       } catch (error: any) {
         onError(error.message);
