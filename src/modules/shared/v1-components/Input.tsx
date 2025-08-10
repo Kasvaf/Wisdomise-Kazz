@@ -13,6 +13,7 @@ export function Input<T extends 'number' | 'string'>({
   value,
   onChange,
   onKeyDown,
+  onBlur,
   type,
   min,
   max,
@@ -37,6 +38,7 @@ export function Input<T extends 'number' | 'string'>({
     newValue: T extends 'number' ? number | undefined : string,
   ) => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 
   disabled?: boolean;
   readOnly?: boolean;
@@ -84,7 +86,7 @@ export function Input<T extends 'number' | 'string'>({
         /* Disabled */
         'aria-disabled::cursor-not-allowed aria-disabled:border-transparent aria-disabled:bg-white/5 aria-disabled:bg-none aria-disabled:text-white/50 aria-disabled:grayscale',
         /* Shared */
-        'border border-transparent font-normal transition-all focus-within:border-v1-border-focus [&_svg]:size-5',
+        'focus-within:border-v1-border-focus [&_svg]:size-5 border border-transparent font-normal transition-all',
         block ? 'flex' : 'inline-flex',
         'items-center justify-between gap-1',
         className,
@@ -109,6 +111,7 @@ export function Input<T extends 'number' | 'string'>({
         ref={inputRef}
         type={type === 'number' ? 'number' : 'text'}
         pattern={pattern}
+        onBlur={onBlur}
       />
       {suffixIcon}
     </div>

@@ -198,7 +198,7 @@ export const SOCIAL_RADAR_SORTS: Array<
   PresetFilter<Partial<Parameters<typeof useSocialRadarCoins>[0]>>
 > = [
   {
-    label: 'Wise Rank™',
+    label: 'GoatX Ladder™',
     filters: {
       sortBy: 'rank',
       sortOrder: 'ascending',
@@ -260,7 +260,7 @@ export const TECHNICAL_RADAR_SORTS: Array<
   PresetFilter<Partial<Parameters<typeof useTechnicalRadarCoins>[0]>>
 > = [
   {
-    label: 'Wise Rank™',
+    label: 'GoatX Ladder™',
     filters: {
       sortBy: 'rank',
       sortOrder: 'ascending',

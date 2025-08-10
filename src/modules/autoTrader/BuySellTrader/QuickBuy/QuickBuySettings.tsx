@@ -11,6 +11,7 @@ import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
+import { preventNonNumericInput } from 'utils/numbers';
 
 export default function QuickBuySettings({
   source,
@@ -40,12 +41,13 @@ export default function QuickBuySettings({
           placeholder="0.0"
           surface={2}
           value={settings.quick_buy[source].amount}
-          prefixIcon={<InstantIcon className="-ml-1 !size-8" />}
+          prefixIcon={<InstantIcon className="!size-8 -ml-1" />}
           suffixIcon={
             solanaSymbol && (
               <Coin className="-mr-3" coin={solanaSymbol} mini noText nonLink />
             )
           }
+          onKeyDown={preventNonNumericInput}
           onChange={newValue => updateQuickBuyAmount(source, newValue)}
         />
       </HoverTooltip>

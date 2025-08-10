@@ -168,7 +168,7 @@ export function TraderPresetValues({
       )}
       <SlippageIcon />
       <span>{+activePreset.slippage * 100}%</span>
-      <div className="mx-1 h-3 border-r border-v1-surface-l3" />
+      <div className="border-v1-surface-l3 mx-1 h-3 border-r" />
       <PriorityIcon />
       <span>{activePreset.sol_priority_fee}</span>
     </div>
@@ -312,6 +312,13 @@ function TraderPresetForm({
               sol_priority_fee: newValue,
             }))
           }
+          onBlur={() => {
+            value.sol_priority_fee === '' &&
+              setValue(prev => ({
+                ...prev,
+                sol_priority_fee: '0',
+              }));
+          }}
           onKeyDown={preventNonNumericInput}
         />
       </div>
