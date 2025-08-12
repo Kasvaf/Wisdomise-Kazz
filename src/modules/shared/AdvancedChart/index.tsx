@@ -17,6 +17,7 @@ import { formatNumber } from 'utils/numbers';
 import { useSupportedPairs } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
+import { type Timezone } from '../../../../public/charting_library';
 import {
   type TimeFrameType,
   widget as Widget,
@@ -68,7 +69,6 @@ const AdvancedChart: React.FC<{
   );
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
   const supply = details?.marketData.total_supply ?? 0;
-  console.log('totalSupply', supply);
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
@@ -80,7 +80,7 @@ const AdvancedChart: React.FC<{
 
     const widget = new Widget({
       symbol: data.symbolName,
-      datafeed: makeDataFeed(delphinus, data),
+      datafeed: makeDataFeed(delphinus, { ...data, isMarketCap, supply }),
       container: chartContainerRef.current,
       library_path:
         (RouterBaseName ? '/' + RouterBaseName : '') + '/charting_library/',
@@ -97,6 +97,7 @@ const AdvancedChart: React.FC<{
         'header_compare',
         // 'header_resolutions',
       ],
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
       enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       timeframe: '7D', // initial zoom on chart
       interval: savedResolution,
@@ -117,11 +118,8 @@ const AdvancedChart: React.FC<{
         priceFormatterFactory: () => {
           return {
             format: price => {
-              let val = price * (isMarketCap ? supply : 1);
-              val = isMarketCap ? Number(val.toFixed(0)) : val;
-
-              return formatNumber(val, {
-                decimalLength: isMarketCap ? 1 : 3,
+              return formatNumber(price, {
+                decimalLength: 3,
                 minifyDecimalRepeats: !isMarketCap,
                 compactInteger: isMarketCap,
                 separateByComma: false,
