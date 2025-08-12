@@ -19,7 +19,6 @@ import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
 import { type Timezone } from '../../../../public/charting_library';
 import {
-  type TimeFrameType,
   widget as Widget,
   type IChartingLibraryWidget,
   type ResolutionString,
@@ -75,8 +74,9 @@ const AdvancedChart: React.FC<{
 
   useEffect(() => {
     if (isLoading || !data?.network) return;
-    let savedResolution = (localStorage.getItem('chart-resolution') ||
-      '30') as ResolutionString;
+    const savedResolution = (localStorage.getItem(
+      'tradingview.chart.lastUsedTimeBasedResolution',
+    ) || '30') as ResolutionString;
 
     const widget = new Widget({
       symbol: data.symbolName,
@@ -137,29 +137,6 @@ const AdvancedChart: React.FC<{
     });
 
     widget.onChartReady(async () => {
-      widget
-        .activeChart()
-        .onIntervalChanged()
-        .subscribe(null, async (interval, timeframeObj) => {
-          // Persist chart resolution
-          if (interval !== savedResolution) {
-            localStorage.setItem('chart-resolution', interval);
-            savedResolution = interval;
-          }
-
-          const now = Math.floor(Date.now() / 1000);
-          const res =
-            Number.parseInt(interval) * (interval.endsWith('S') ? 1 : 60);
-          const from = now - res * 700;
-          timeframeObj.timeframe = {
-            from,
-            to: now,
-            type: 'time-range' as TimeFrameType.TimeRange,
-          };
-
-          widget.activeChart().executeActionById('chartReset');
-        });
-
       await widget.headerReady();
 
       // Create quote selector
