@@ -13,7 +13,7 @@ export type Resolution =
   | '1h'
   | '4h';
 
-interface ChartCandle {
+export interface ChartCandle {
   open: number;
   high: number;
   low: number;

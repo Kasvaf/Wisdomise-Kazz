@@ -9,10 +9,9 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import usePageTour from 'shared/usePageTour';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { ReactComponent as LogoIcon } from 'assets/monogram-green.svg';
 import { type TpSlData, type SignalFormState } from './useSignalFormStates';
-import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
-import GradientBG from './GradientBG.svg';
 
 const orderToOrder = (x: OrderPresetItem, ind?: number) => ({
   amountRatio: roundSensible(x.amount * 100),
@@ -124,15 +123,14 @@ const AIPresets: React.FC<{
   return (
     <div
       className={clsx(
-        'overflow-hidden rounded-xl bg-v1-surface-l2 bg-cover p-3',
+        'bg-v1-surface-l1 overflow-hidden rounded-xl bg-cover p-3',
         tourSelector,
       )}
-      style={{ backgroundImage: `url(${GradientBG})` }}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <LogoIcon className="h-6 w-6" />
-          <div className="text-xs font-normal">Wisdomise AI Preset</div>
+          <LogoIcon className="h-4 w-4" />
+          <div className="text-xs font-normal">GoatX AI Preset</div>
         </div>
 
         <Button
@@ -165,7 +163,7 @@ const AIPresets: React.FC<{
                   Reset
                 </Button>
               )}
-              Wisdomise AI Preset
+              GoatX AI Preset
             </div>
           }
           open={isOpen}

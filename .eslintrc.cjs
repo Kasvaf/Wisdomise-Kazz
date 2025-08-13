@@ -8,6 +8,10 @@ module.exports = {
         project: __dirname,
       },
     },
+    'tailwindcss': {
+      config: false,
+      cssFiles: ['**/*.css'], // make sure your theme.css is scanned
+    },
   },
   env: {
     browser: true,
@@ -129,10 +133,7 @@ module.exports = {
     'import/no-duplicates': 'error',
     'import/no-named-default': 'error',
     'import/no-unresolved': ['error', { ignore: ['\\.svg$'] }],
-    'import/no-unassigned-import': [
-      'error',
-      { allow: ['**/*.css', 'tw-elements'] },
-    ],
+    'import/no-unassigned-import': ['error', { allow: ['**/*.css'] }],
     'import/no-anonymous-default-export': [
       'error',
       {
@@ -180,12 +181,8 @@ module.exports = {
       },
     ],
 
-    'tailwindcss/no-custom-classname': [
-      'error',
-      {
-        whitelist: ['id-.*', '.custom-*'],
-      },
-    ],
+    'tailwindcss/no-custom-classname': 'off',
+    'tailwindcss/classnames-order': 'off',
     'prettier/prettier': [
       'error',
       {

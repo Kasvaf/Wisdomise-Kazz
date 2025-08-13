@@ -4,7 +4,7 @@ import { type CreatePositionRequest } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
 import Spin from 'shared/Spin';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { ReactComponent as ProIcon } from 'assets/Pro.svg';
+import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { isMiniApp } from 'utils/version';
 import { Coin } from 'shared/Coin';
 import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulatePrepare';

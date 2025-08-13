@@ -1,15 +1,14 @@
 import { bxPlus } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { useCreateWalletMutation, useWalletsQuery } from 'api/wallets';
-import { useHasFlag, useSubscription } from 'api';
+import { useHasFlag } from 'api';
 
+const MAX_WALLETS = 5;
 export default function CreateWalletBtn({ className }: { className?: string }) {
   const { data: wallets } = useWalletsQuery();
   const { mutateAsync, isPending } = useCreateWalletMutation();
-  const { group } = useSubscription();
   const hasFlag = useHasFlag();
 
   const createWallet = () => {
@@ -19,34 +18,25 @@ export default function CreateWalletBtn({ className }: { className?: string }) {
     });
   };
 
-  const firstLimitReached =
-    group === 'free' && (wallets?.results?.length ?? 0) >= 5;
-  const secondLimitReached = (wallets?.results?.length ?? 0) >= 10;
+  const limitReached = (wallets?.count ?? 0) >= MAX_WALLETS;
 
   return hasFlag('/wallets') ? (
-    firstLimitReached ? (
-      <VipRedirectButton className="mt-3" label="Join Wise Club to Add More" />
-    ) : (
-      <Button
-        className={clsx(
-          className,
-          !firstLimitReached && 'bg-transparent',
-          secondLimitReached && 'w-full',
-        )}
-        variant={firstLimitReached ? 'pro' : 'ghost'}
-        loading={isPending}
-        disabled={secondLimitReached}
-        onClick={createWallet}
-      >
-        {secondLimitReached ? (
-          'Max Number of Wallets Reached'
-        ) : (
-          <>
-            <Icon name={bxPlus} />
-            Add Wallet
-          </>
-        )}
-      </Button>
-    )
+    <Button
+      size="sm"
+      className={clsx(className, 'mt-3', limitReached && 'w-full')}
+      variant="ghost"
+      loading={isPending}
+      disabled={limitReached}
+      onClick={createWallet}
+    >
+      {limitReached ? (
+        'Max Number of Wallets Reached'
+      ) : (
+        <>
+          <Icon name={bxPlus} />
+          Add Wallet
+        </>
+      )}
+    </Button>
   ) : null;
 }

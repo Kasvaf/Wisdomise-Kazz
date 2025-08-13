@@ -21,19 +21,19 @@ export function CoinMarketCap({
     <span
       className={clsx(
         'inline-flex flex-col gap-px',
-        singleLine && 'text-xxs [&_svg]:size-3',
+        singleLine && '[&_svg]:size-3 text-xxs',
         className,
       )}
     >
       {!singleLine && (
-        <span className="text-sm text-v1-content-primary">
+        <span className="text-v1-content-secondary text-sm">
           {marketData?.market_cap_category ?? '-'}
         </span>
       )}
       <div
         className={clsx(
-          !singleLine && 'text-xs text-v1-content-secondary',
-          'flex items-center gap-1',
+          !singleLine && 'text-xs',
+          'flex items-center gap-1 font-medium',
         )}
       >
         <CapIcon />

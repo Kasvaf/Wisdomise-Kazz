@@ -165,9 +165,8 @@ export const CoinPreDetailModal: FC<
         closeButton: true,
       }}
       onClose={onClose}
-      className="bg-v1-surface-l4"
+      className="bg-v1-surface-l1"
       contentClassName="p-3"
-      surface={4}
       footer={
         coin && (
           <div className="flex flex-col items-stretch gap-4">

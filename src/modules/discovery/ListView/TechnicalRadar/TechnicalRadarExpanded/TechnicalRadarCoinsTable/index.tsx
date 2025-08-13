@@ -15,11 +15,11 @@ import { TableRank } from 'shared/TableRank';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import TechnicalRadarSharingModal from '../../TechnicalRadarSharingModal';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
-import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalRadarCoinsTable: FC = () => {
   const { t } = useTranslation('market-pulse');
@@ -121,6 +121,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
           rowKey={r => r.symbol.slug}
           loading={coins.isLoading}
           scrollable
+          surface={2}
           className="max-h-[477px]"
           rowHoverPrefix={row => (
             <Button

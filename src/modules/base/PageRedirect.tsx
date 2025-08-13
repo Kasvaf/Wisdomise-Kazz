@@ -3,8 +3,11 @@ import { LISTS } from 'modules/discovery/constants';
 import { createDiscoverySearchParams } from 'modules/discovery/useDiscoveryRouteMeta';
 
 const REDIRECT_MAP: Record<string, string> = {
+  // Home
+  '': `/discovery?${createDiscoverySearchParams({
+    list: 'network-radar',
+  }).toString()}`,
   // Coin Radar
-  '': `/discovery?${createDiscoverySearchParams({}).toString()}`,
   '/coin-radar': `/discovery?${createDiscoverySearchParams({
     list: 'coin-radar',
   }).toString()}`,

@@ -24,7 +24,9 @@ interface ButtonOptions {
 
 const ConfirmModal: React.FC<Props> = ({
   title,
-  icon = <Icon name={bxInfoCircle} className="text-warning" size={52} />,
+  icon = (
+    <Icon name={bxInfoCircle} className="text-v1-content-notice/70" size={52} />
+  ),
   message,
   yesTitle,
   noTitle,

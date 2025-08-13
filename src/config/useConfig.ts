@@ -7,7 +7,6 @@ import configDayjs from './dayjs';
 import configI18n from './i18n';
 import configSentry from './sentry';
 import { queryClient } from './reactQuery';
-import oneSignal from './oneSignal';
 import { configOfetch } from './ofetch';
 
 let lang = 'en';
@@ -21,7 +20,7 @@ configOfetch({
   getLang: () => lang,
   refreshAccessToken,
 });
-void oneSignal.init();
+// void oneSignal.init();
 
 export default function useConfig() {
   const { i18n } = useTranslation();

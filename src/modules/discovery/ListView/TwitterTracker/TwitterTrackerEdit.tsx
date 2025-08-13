@@ -207,7 +207,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
       <SubTab
         variant="tab"
         size="md"
-        surface={1}
+        surface={0}
         value={tab}
         onChange={setTab}
         className="mb-3"
@@ -220,7 +220,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
             dataSource={suggestions.data}
             rowKey={r => r.user_id}
             loading={suggestions.isLoading}
-            surface={2}
+            surface={1}
             scrollable={false}
           />
         )}

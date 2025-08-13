@@ -2,8 +2,8 @@ import { useEffect, type PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery, useHasFlag } from 'api';
-import Button from 'shared/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { Button } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from './jwt-store';
 
 const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
@@ -24,9 +24,11 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   return isAuthorized ? (
     <>{children}</>
   ) : (
-    <div className="mt-12 flex h-full flex-col items-center justify-center gap-4 text-v1-content-primary">
+    <div className="text-v1-content-primary mt-12 flex h-full flex-col items-center justify-center gap-4">
       <div>{t('error-not-authorized')}</div>
-      <Button onClick={ensureAuthenticated}>{t('base:user.sign-in')}</Button>
+      <Button size="md" onClick={ensureAuthenticated}>
+        {t('base:user.sign-in')}
+      </Button>
       {ModalLogin}
     </div>
   );

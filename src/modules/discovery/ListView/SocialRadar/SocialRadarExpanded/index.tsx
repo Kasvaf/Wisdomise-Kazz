@@ -12,7 +12,6 @@ import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { SearchInput } from 'shared/SearchInput';
 import {
   type SocialRadarCoin,
-  useRadarsMetrics,
   useSocialRadarCoins,
   useSocialRadarInfo,
 } from 'api/discovery';
@@ -27,13 +26,12 @@ import { type TableColumn, Table } from 'shared/v1-components/Table';
 import { usePageState } from 'shared/usePageState';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarSharingModal from '../SocialRadarSharingModal';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { RealtimeBadge } from '../../RealtimeBadge';
-import { WinRateBadge } from '../../WinRateBadge';
-import { ReactComponent as Logo } from './logo.svg';
 
 export function SocialRadarExpanded() {
   const marketInfo = useSocialRadarInfo();
@@ -47,8 +45,6 @@ export function SocialRadarExpanded() {
   });
 
   const coins = useSocialRadarCoins(pageState);
-  const metrics = useRadarsMetrics();
-  const socialRadarMetrics = metrics.data?.social_radar;
   useLoadingBadge(coins.isFetching);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();
@@ -90,8 +86,8 @@ export function SocialRadarExpanded() {
       },
       {
         title: (
-          <span className="flex items-center gap-1 text-v1-content-primary">
-            <Logo className="inline-block size-4 grayscale" />
+          <span className="text-v1-content-primary flex items-center gap-1">
+            <Logo className="size-4 inline-block grayscale" />
             {t('social-radar.table.sentiment.title')}
           </span>
         ),
@@ -104,7 +100,7 @@ export function SocialRadarExpanded() {
       {
         title: t('social-radar.table.price_info.title'),
         info: (
-          <div className="[&_b]:font-medium [&_p]:text-xs [&_p]:text-v1-content-secondary">
+          <div className="[&_p]:text-v1-content-secondary [&_b]:font-medium [&_p]:text-xs">
             <Trans
               ns="coin-radar"
               i18nKey="social-radar.table.price_info.info"
@@ -131,14 +127,7 @@ export function SocialRadarExpanded() {
             </>
           )
         }
-        titleSuffix={
-          !isEmbeddedView && (
-            <>
-              <RealtimeBadge />
-              <WinRateBadge value={socialRadarMetrics?.max_average_win_rate} />
-            </>
-          )
-        }
+        titleSuffix={!isEmbeddedView && <RealtimeBadge />}
         info={
           <p className="[&_b]:text-v1-content-primary [&_b]:underline">
             <Trans
@@ -180,9 +169,9 @@ export function SocialRadarExpanded() {
         <AccessShield
           mode="table"
           sizes={{
-            guest: true,
-            initial: true,
-            free: true,
+            guest: false,
+            initial: false,
+            free: false,
             vip: false,
           }}
         >
@@ -192,6 +181,7 @@ export function SocialRadarExpanded() {
             rowKey={r => r.symbol.slug}
             loading={coins.isLoading}
             scrollable
+            surface={2}
             rowHoverPrefix={row => (
               <Button
                 variant="secondary"

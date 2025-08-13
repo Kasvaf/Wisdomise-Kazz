@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { type ReactElement, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
-import { useHubSpot } from 'config/hubSpot';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import ScrollToTop from './ScrollToTop';
 import MobileHeader from './MobileHeader';
@@ -31,16 +30,16 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   mainClassName,
   children,
 }) => {
-  useHubSpot();
+  // useHubSpot();
   const isMobile = useIsMobile();
   const Header = isMobile ? MobileHeader : DesktopHeader;
 
   return (
     <div
-      className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l1"
+      className="bg-v1-surface-l0 relative flex min-h-screen max-w-full flex-col"
       style={{
         ['--desktop-sidebar-width' as never]:
-          !isMobile && sidebar !== null ? '3.5rem' : '0px',
+          !isMobile && sidebar !== null ? '4rem' : '0px',
         ['--desktop-header-height' as never]: isMobile ? '0px' : '3rem',
         ['--route-details-height' as never]: isMobile
           ? '0px'
@@ -52,7 +51,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       }}
     >
       {/* Sticky Header */}
-      <header className="sticky top-0 z-30 h-[--desktop-header-height] w-full max-w-full mobile:h-auto">
+      <header className="h-(--desktop-header-height) sticky top-0 z-30 w-full max-w-full mobile:h-auto">
         {header === null
           ? null
           : header || (
@@ -66,7 +65,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       {/* {!isMobile && (
         <RouteDetails
           hasBack={hasBack}
-          className="sticky end-0 top-[--desktop-header-height] z-20 ms-[--desktop-sidebar-width] h-[--route-details-height] w-auto"
+          className="sticky end-0 top-(--desktop-header-height) z-20 ms-(--desktop-sidebar-width) h-(--route-details-height) w-auto"
         />
       )} */}
 
@@ -76,7 +75,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
           <aside
             id="sidebar"
             // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
-            className="sticky start-0 top-[--desktop-header-height] z-20 -mt-[--route-details-height] h-[calc(100svh-var(--desktop-header-height))] w-[--desktop-sidebar-width] shrink-0 overflow-auto bg-v1-surface-l2 scrollbar-none"
+            className="top-(--desktop-header-height) -mt-(--route-details-height) w-(--desktop-sidebar-width) bg-v1-surface-l0 scrollbar-none sticky start-0 z-20 h-[calc(100svh-var(--desktop-header-height))] shrink-0 overflow-auto border-r border-white/10"
           >
             {sidebar || <DefaultSidebar />}
           </aside>
@@ -95,7 +94,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
       {/* Sticky footer - only for mobile */}
       {isMobile && footer !== null && (
-        <footer className="sticky inset-y-0 z-50 w-full overflow-auto scrollbar-none empty:hidden">
+        <footer className="scrollbar-none sticky inset-y-0 z-50 w-full overflow-auto empty:hidden">
           {footer || <DefaultFooter />}
         </footer>
       )}

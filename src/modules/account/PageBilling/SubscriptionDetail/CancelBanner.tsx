@@ -6,7 +6,6 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { useInstantCancelMutation } from 'api';
 import useConfirm from 'shared/useConfirm';
-import { ReactComponent as Logo } from 'assets/logo-pro.svg';
 
 export default function CancelBanner() {
   const { mutateAsync, isPending } = useInstantCancelMutation();
@@ -30,13 +29,13 @@ export default function CancelBanner() {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-[#090C10] p-12 mobile:p-6 md:mr-10">
+    <div className="mobile:p-6 relative overflow-hidden rounded-xl bg-[#090C10] p-12 md:mr-10">
       <img src={gradient2} alt="" className="absolute left-0 top-0" />
       <div className="relative">
         <img src={wiseClub} alt="wise-club" className="h-6" />
         <h2 className="mt-4 flex items-center text-2xl font-medium">
-          <Logo className="-mr-[3px] h-4" />
-          ise Club is Here!
+          {/* <Logo className="-mr-[3px] h-4" /> */}
+          {/* Wise Club is Here! */}
         </h2>
         <h3 className="mt-8 text-xl font-medium">
           Important Subscription Update

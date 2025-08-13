@@ -1,7 +1,7 @@
 beta: Beta
 beta-version: Beta Version
 error-page:
-  title: Something went wrong and we don't know how :(
+  title: Something went wrong and we don't know how
   subtitle: But we'll try our best so that it won't happen again
   btn-reload: Reload
   throw: Throw
@@ -54,4 +54,4 @@ menu:
 new: New
 user:
   sign-in: Sign In
-wisdomise-is-loading: Wisdomise is loading ...
+wisdomise-is-loading: Loading...

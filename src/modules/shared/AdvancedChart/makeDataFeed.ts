@@ -7,7 +7,10 @@ import {
   type IBasicDataFeed,
   type DatafeedConfiguration,
 } from './charting_library/charting_library';
-import getCandlesCached, { type Resolution } from './getCandlesCached';
+import getCandlesCached, {
+  type ChartCandle,
+  type Resolution,
+} from './getCandlesCached';
 
 const resolutionToSeconds: Record<Resolution, number> = {
   '1s': 1,
@@ -45,16 +48,30 @@ const checkConvertToUsd = (quote: string) => {
     : false;
 };
 
+const convertToMarketCapCandles = (candles: ChartCandle[], supply: number) => {
+  return candles.map(bar => ({
+    ...bar,
+    open: Number(bar.open) * supply,
+    high: Number(bar.high) * supply,
+    low: Number(bar.low) * supply,
+    close: Number(bar.close) * supply,
+  }));
+};
+
 const makeDataFeed = (
   delphinus: DelphinusServiceClientImpl,
   {
     slug: baseSlug,
     quote,
     network,
+    supply,
+    isMarketCap,
   }: {
     slug: string;
     quote: string;
     network: string;
+    supply: number;
+    isMarketCap: boolean;
   },
 ): IBasicDataFeed => {
   return {
@@ -100,10 +117,7 @@ const makeDataFeed = (
 
         minmov: 1,
         fractional: false,
-        pricescale:
-          localStorage.getItem('tv-market-cap') === 'true'
-            ? 1_000_000_000_000
-            : 10_000_000,
+        pricescale: isMarketCap ? 10_000 : 10_000_000,
         has_seconds: true,
         seconds_multipliers: ['1', '5', '15', '30'],
 
@@ -139,7 +153,7 @@ const makeDataFeed = (
           return;
         }
 
-        const bars = await getCandlesCached(delphinus, {
+        let bars = await getCandlesCached(delphinus, {
           market: 'SPOT',
           network,
           baseSlug,
@@ -150,6 +164,10 @@ const makeDataFeed = (
           skipEmptyCandles: true,
           convertToUsd: checkConvertToUsd(quote),
         });
+
+        if (isMarketCap && supply) {
+          bars = convertToMarketCapCandles(bars, supply);
+        }
 
         onResult(bars, {
           noData: bars.length < periodParams.countBack,
@@ -172,10 +190,10 @@ const makeDataFeed = (
           ({ candle }) => {
             if (!candle) return;
             onTick({
-              open: +candle.open,
-              high: +candle.high,
-              low: +candle.low,
-              close: +candle.close,
+              open: +candle.open * (isMarketCap ? supply : 1),
+              high: +candle.high * (isMarketCap ? supply : 1),
+              low: +candle.low * (isMarketCap ? supply : 1),
+              close: +candle.close * (isMarketCap ? supply : 1),
               volume: +candle.volume,
               time: +new Date(candle.relatedAt),
             });

@@ -115,7 +115,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
       chunkSize={5}
       loading={positions.isLoading}
       rowKey={r => r.key}
-      surface={2}
+      surface={1}
       scrollable
       footer={
         <Pagination

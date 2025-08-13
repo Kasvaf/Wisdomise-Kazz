@@ -107,14 +107,14 @@ export function CoinExchangesWidget({
             className="w-72 text-sm mobile:w-48"
             prefixIcon={<Icon name={bxSearch} />}
             placeholder={t('available-exchanges.search')}
-            surface={2}
+            surface={1}
           />
         </div>
         <Table
           columns={columns}
           dataSource={data.slice(0, limit)}
           rowKey={row => row.exchange.id}
-          surface={2}
+          surface={1}
           scrollable
           footer={
             typeof limit === 'number' &&

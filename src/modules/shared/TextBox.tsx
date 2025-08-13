@@ -68,7 +68,9 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
             'flex h-10 w-full rounded-lg',
             'items-center justify-between',
             'border bg-v1-surface-l3 pl-3 pr-2 outline-none',
-            error ? 'border-error text-error' : 'border-transparent',
+            error
+              ? 'border-error text-v1-content-negative'
+              : 'border-transparent',
             disabled ? 'text-white/30' : '',
             suffix && 'pr-[56px]',
             inputClassName,
@@ -94,7 +96,7 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
       {(hasErrorMessage || hint) && (
         <div className="ml-5 mt-2">
           {hasErrorMessage ? (
-            <div className="text-xs text-error">{error}</div>
+            <div className="text-xs text-v1-content-negative">{error}</div>
           ) : (
             Boolean(hint) && <div className="text-xs text-white/60">{hint}</div>
           )}

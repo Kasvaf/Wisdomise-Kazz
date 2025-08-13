@@ -5,7 +5,6 @@ import AuthGuard from '../auth/AuthGuard';
 import WalletProvider from '../wallet/WalletProvider';
 import TelegramAuthGuard from '../mini-app/TelegramAuthGuard';
 import { TelegramProvider } from '../mini-app/TelegramProvider';
-import TrackersContainer from './TrackersContainer';
 import { UserEngageFlow } from './UserEngageFlow';
 import { GeneralMeta } from './GeneralMeta';
 
@@ -15,15 +14,15 @@ const Container = () => {
   useCustomVersion();
 
   const result = (
-    <TrackersContainer>
-      <Guard>
-        <WalletProvider>
-          <GeneralMeta />
-          <Outlet />
-          <UserEngageFlow />
-        </WalletProvider>
-      </Guard>
-    </TrackersContainer>
+    // <TrackersContainer>
+    <Guard>
+      <WalletProvider>
+        <GeneralMeta />
+        <Outlet />
+        <UserEngageFlow />
+      </WalletProvider>
+    </Guard>
+    // </TrackersContainer>
   );
 
   return isMiniApp ? <TelegramProvider>{result}</TelegramProvider> : result;

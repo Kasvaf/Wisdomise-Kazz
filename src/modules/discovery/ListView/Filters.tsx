@@ -1,4 +1,4 @@
-import { bxGridAlt, bxSliderAlt } from 'boxicons-quasar';
+import { bxGridAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
   type Dispatch,
@@ -16,6 +16,7 @@ import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface } from 'utils/useSurface';
 import { type PresetFilter } from './presetFilters';
+import { ReactComponent as FilterIcon } from './filter.svg';
 
 function areEqual<T = Array<string | number> | string | number | boolean>(
   first: T | undefined,
@@ -47,7 +48,7 @@ export function Filters<T extends object>({
   mini,
   size: _size,
   className,
-  surface = 3,
+  surface = 2,
   onOpen,
 }: {
   presets?: Array<PresetFilter<T>>;
@@ -156,7 +157,7 @@ export function Filters<T extends object>({
               surface={isMini ? ((surface + 1) as never) : surface}
               className="shrink-0"
             >
-              <Icon name={bxSliderAlt} size={16} />
+              <FilterIcon className="!size-4" />
             </Button>
           )}
           {(presets?.length ?? 0) > 0 && (
@@ -212,7 +213,7 @@ export function Filters<T extends object>({
         </div>
       </div>
       {(sorts?.length ?? 0) > 0 && (
-        <div className={clsx('w-1/2 min-w-48 max-w-max', isMini && 'w-full')}>
+        <div className={clsx('min-w-48 w-1/2 max-w-max', isMini && 'w-full')}>
           {showLabels && (
             <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
           )}
@@ -251,7 +252,6 @@ export function Filters<T extends object>({
           modalConfig={{
             closeButton: true,
           }}
-          surface={2}
           header={<h2 className="p-2 text-lg">{t('common:filters')}</h2>}
           footer={
             <div className="flex items-center gap-2">
@@ -259,6 +259,7 @@ export function Filters<T extends object>({
                 variant="ghost"
                 size="lg"
                 block
+                surface={2}
                 onClick={() => {
                   onChange?.(
                     Object.fromEntries(

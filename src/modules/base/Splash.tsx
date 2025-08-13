@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as Logo } from 'assets/logo-vertical.svg';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 
 const Splash = () => {

@@ -54,7 +54,7 @@ const BuySellTrader: React.FC<
 
   const isMobile = useIsMobile();
   return (
-    <div className="[&_.id-input]:bg-v1-surface-l2">
+    <div className="[&_.id-input]:bg-v1-surface-l1">
       {!positionKey && (
         <ModeSelector mode={mode} setMode={setMode} className="mb-4" />
       )}

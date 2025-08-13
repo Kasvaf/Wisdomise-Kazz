@@ -17,8 +17,8 @@ import { formatNumber } from 'utils/numbers';
 import { useSupportedPairs } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
+import { type Timezone } from '../../../../public/charting_library';
 import {
-  type TimeFrameType,
   widget as Widget,
   type IChartingLibraryWidget,
   type ResolutionString,
@@ -68,19 +68,19 @@ const AdvancedChart: React.FC<{
   );
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
   const supply = details?.marketData.total_supply ?? 0;
-  console.log('totalSupply', supply);
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
 
   useEffect(() => {
     if (isLoading || !data?.network) return;
-    let savedResolution = (localStorage.getItem('chart-resolution') ||
-      '30') as ResolutionString;
+    const savedResolution = (localStorage.getItem(
+      'tradingview.chart.lastUsedTimeBasedResolution',
+    ) || '30') as ResolutionString;
 
     const widget = new Widget({
       symbol: data.symbolName,
-      datafeed: makeDataFeed(delphinus, data),
+      datafeed: makeDataFeed(delphinus, { ...data, isMarketCap, supply }),
       container: chartContainerRef.current,
       library_path:
         (RouterBaseName ? '/' + RouterBaseName : '') + '/charting_library/',
@@ -97,6 +97,7 @@ const AdvancedChart: React.FC<{
         'header_compare',
         // 'header_resolutions',
       ],
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
       enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       timeframe: '7D', // initial zoom on chart
       interval: savedResolution,
@@ -106,6 +107,10 @@ const AdvancedChart: React.FC<{
         { title: '5d', text: '5D', resolution: '5' as ResolutionString },
         { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
+      overrides: {
+        'paneProperties.backgroundType': 'solid',
+        'paneProperties.background': '#0c0c0c',
+      },
       favorites: {
         intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
       },
@@ -113,11 +118,8 @@ const AdvancedChart: React.FC<{
         priceFormatterFactory: () => {
           return {
             format: price => {
-              let val = price * (isMarketCap ? supply : 1);
-              val = isMarketCap ? Number(val.toFixed(0)) : val;
-
-              return formatNumber(val, {
-                decimalLength: isMarketCap ? 1 : 3,
+              return formatNumber(price, {
+                decimalLength: 3,
                 minifyDecimalRepeats: !isMarketCap,
                 compactInteger: isMarketCap,
                 separateByComma: false,
@@ -135,29 +137,6 @@ const AdvancedChart: React.FC<{
     });
 
     widget.onChartReady(async () => {
-      widget
-        .activeChart()
-        .onIntervalChanged()
-        .subscribe(null, async (interval, timeframeObj) => {
-          // Persist chart resolution
-          if (interval !== savedResolution) {
-            localStorage.setItem('chart-resolution', interval);
-            savedResolution = interval;
-          }
-
-          const now = Math.floor(Date.now() / 1000);
-          const res =
-            Number.parseInt(interval) * (interval.endsWith('S') ? 1 : 60);
-          const from = now - res * 700;
-          timeframeObj.timeframe = {
-            from,
-            to: now,
-            type: 'time-range' as TimeFrameType.TimeRange,
-          };
-
-          widget.activeChart().executeActionById('chartReset');
-        });
-
       await widget.headerReady();
 
       // Create quote selector
@@ -189,7 +168,7 @@ const AdvancedChart: React.FC<{
       if (data.quote !== 'tether' && data.quote !== 'usd-coin') {
         const convertToUsdButton = widget.createButton();
         function setConvertButtonInnerContent() {
-          const colorStyle = 'style="color:#00a3ff"';
+          const colorStyle = 'style="color:#beff21"';
           convertToUsdButton.innerHTML = `<span ${
             convertToUsd ? '' : colorStyle
           }>${
@@ -208,7 +187,7 @@ const AdvancedChart: React.FC<{
       // Create button for MarketCap/Price toggle in top toolbar
       const button = widget.createButton();
       function setButtonInnerContent() {
-        const colorStyle = 'style="color:#00a3ff"';
+        const colorStyle = 'style="color:#beff21"';
         button.innerHTML = `<span ${
           isMarketCap ? colorStyle : ''
         }>MarketCap</span>/<span ${isMarketCap ? '' : colorStyle}>Price</span>`;

@@ -63,7 +63,7 @@ export default function WalletDetail(_: {
         {shortenAddress(wallet.address)}
       </p>
       <div className="mt-4 grid grid-cols-5 gap-3">
-        <div className="col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l2 p-4">
+        <div className="col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4">
           <p className="text-xs text-v1-content-secondary">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
@@ -72,7 +72,7 @@ export default function WalletDetail(_: {
             <WalletActions wallet={wallet} />
           </div>
         </div>
-        <div className="col-span-2 hidden rounded-xl bg-v1-surface-l2 p-4 pt-3">
+        <div className="col-span-2 hidden rounded-xl bg-v1-surface-l1 p-4 pt-3">
           <div className="mb-7 flex items-center justify-between text-xs text-v1-content-secondary">
             Details
             <ButtonSelect

@@ -105,9 +105,9 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       <AccessShield
         mode="table"
         sizes={{
-          guest: true,
-          initial: true,
-          free: true,
+          guest: false,
+          initial: false,
+          free: false,
           vip: false,
         }}
       >
@@ -116,7 +116,7 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           dataSource={coins.data ?? []}
           rowKey={r => r.symbol.slug}
           loading={coins.isLoading}
-          surface={2}
+          surface={1}
           onClick={r => openModal(r)}
           scrollable={false}
           isActive={r => r.symbol.slug === activeSlug}

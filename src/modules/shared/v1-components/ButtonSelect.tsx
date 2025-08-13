@@ -19,7 +19,7 @@ export function ButtonSelect<T>({
   options,
   value,
   onChange,
-  surface = 3,
+  surface = 2,
   innerScroll = true,
 }: {
   size?: 'xxs' | 'xs' | 'sm' | 'md' | 'xl';
@@ -123,7 +123,7 @@ export function ButtonSelect<T>({
     >
       <div
         className={clsx(
-          'flex h-full flex-nowrap items-center gap-0  whitespace-nowrap text-v1-content-primary ',
+          'text-v1-content-primary flex h-full flex-nowrap items-center  gap-0 whitespace-nowrap ',
           innerScroll
             ? ['scrollbar-none', 'w-full overflow-auto']
             : 'w-max min-w-max shrink-0',
@@ -147,14 +147,14 @@ export function ButtonSelect<T>({
                   '!rounded-none border-x-0 border-b border-t-0',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'border border-transparent enabled:hover:text-v1-content-primary/80',
+                'enabled:hover:text-v1-content-primary/80 border border-transparent',
                 variant === 'primary'
-                  ? 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-v1-background-brand'
+                  ? 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-v1-background-brand enabled:aria-checked:text-v1-content-primary-inverse'
                   : variant === 'white'
                   ? 'enabled:aria-checked:bg-v1-content-primary enabled:aria-checked:text-v1-content-primary-inverse'
                   : variant === 'tab'
                   ? 'border-v1-content-primary/10 enabled:aria-checked:border-v1-background-brand enabled:aria-checked:text-v1-content-brand'
-                  : 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-[--active-color]',
+                  : 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-(--active-color)',
                 'focus-visible:border-v1-border-focus',
                 'disabled:opacity-40',
                 buttonClassName,
@@ -172,8 +172,8 @@ export function ButtonSelect<T>({
                 'group absolute top-0 flex h-full w-10 cursor-pointer items-center',
                 '!bg-gradient-to-r',
                 i === 0
-                  ? 'left-0 justify-start from-[--current-color] to-transparent'
-                  : 'right-0 justify-end from-transparent to-[--current-color]',
+                  ? 'from-(--current-color) left-0 justify-start to-transparent'
+                  : 'to-(--current-color) right-0 justify-end from-transparent',
                 !x && 'hidden',
               )}
               onClick={scroll(i === 0 ? 'left' : 'right')}

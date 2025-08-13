@@ -6,6 +6,7 @@ import { clsx } from 'clsx';
 import {
   useClaimReferralBonusBag,
   useFriendsQuery,
+  useHasFlag,
   useReferralStatusQuery,
 } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -24,11 +25,8 @@ import { ReactComponent as Users } from './images/users.svg';
 import { ReactComponent as IconUser } from './images/user.svg';
 import { ReactComponent as Bag } from './images/bag.svg';
 import { ReactComponent as Gift } from './images/gift.svg';
-import coin from './images/coin.png';
-import logoOutline from './images/logo-outline.png';
-import gradient1 from './images/gradient-1.png';
 // eslint-disable-next-line import/max-dependencies
-import gradient2 from './images/gradient-2.png';
+import coin from './images/coin.png';
 
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
@@ -42,6 +40,7 @@ export default function ReferralPage() {
     { fullscreen: true, closable: false },
   );
   const [done] = useLocalStorage('referral-onboarding', false);
+  const hasFlag = useHasFlag();
 
   const { mutateAsync: claimBonusBag, isPending: claimIsLoading } =
     useClaimReferralBonusBag();
@@ -67,13 +66,13 @@ export default function ReferralPage() {
       extension={!isMobile && <CoinExtensionsGroup />}
     >
       <h1 className="mb-2">{t('page-referral.title')}</h1>
-      <p className="mb-2 text-sm text-v1-content-secondary">
+      <p className="text-v1-content-secondary mb-2 text-sm">
         {t('page-referral.subtitle')}
       </p>
 
       <Button
         variant="link"
-        className="mb-3 !p-0 !text-v1-content-link"
+        className="!text-v1-content-link mb-3 !p-0"
         onClick={() => openReferralOnboardingModal({})}
       >
         {t('page-referral.how.button')}
@@ -81,7 +80,7 @@ export default function ReferralPage() {
 
       <div className="grid grid-cols-5 gap-4">
         <div className="col-span-2 flex flex-col-reverse gap-4 mobile:col-span-5 mobile:flex-col">
-          <div className="rounded-xl bg-v1-surface-l2 p-4 mobile:bg-transparent mobile:p-0">
+          <div className="bg-v1-surface-l1 rounded-xl p-4 mobile:bg-transparent mobile:p-0">
             <h2 className="mb-2">{t('page-referral.referral-link')}</h2>
             <Referral className="mobile:p-4" />
           </div>
@@ -99,7 +98,7 @@ export default function ReferralPage() {
             >
               <div className="grow p-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
+                  <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                     <Bag />
                   </div>
                   <div>
@@ -107,7 +106,7 @@ export default function ReferralPage() {
                     <p className="text-xs">{t('page-referral.bonus.ready')}</p>
                   </div>
                 </div>
-                <hr className="my-3  border-v1-border-primary/30" />
+                <hr className="border-v1-border-primary/30  my-3" />
                 <p className="mb-3 text-xs">
                   {t('page-referral.bonus.description')}{' '}
                   <button
@@ -133,24 +132,26 @@ export default function ReferralPage() {
             </div>
           </div>
 
-          <div className="flex h-16 items-center gap-3 rounded-xl bg-v1-surface-l2 p-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
+          <div className="bg-v1-surface-l1 flex h-16 items-center gap-3 rounded-xl p-3">
+            <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 items-center justify-center rounded-lg">
               <Users />
             </div>
             <div>
               <h2>{referral?.referred_users_count}</h2>
-              <p className="text-xs text-v1-content-secondary">
+              <p className="text-v1-content-secondary text-xs">
                 {t('page-referral.total-referrals')}
               </p>
             </div>
-            <div className="ml-8 h-full border border-v1-border-primary/10"></div>
-            <div className="flex h-full max-w-64 grow flex-col justify-between">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-v1-content-secondary">
-                  {t('page-referral.subscription')}
-                </span>
-                <span>{referral?.active_referred_users_count}</span>
-              </div>
+            <div className="border-v1-border-primary/10 ml-8 h-full border"></div>
+            <div className="max-w-64 flex h-full grow flex-col justify-between">
+              {hasFlag('/account/billing') && (
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-v1-content-secondary">
+                    {t('page-referral.subscription')}
+                  </span>
+                  <span>{referral?.active_referred_users_count}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between text-xs">
                 <span className="text-v1-content-secondary">
                   {t('page-referral.trader')}
@@ -160,26 +161,32 @@ export default function ReferralPage() {
             </div>
           </div>
 
-          <div className="rounded-xl bg-v1-surface-l2 p-3">
+          <div className="bg-v1-surface-l1 rounded-xl p-3">
+            {hasFlag('/account/billing') && (
+              <>
+                <div className="flex items-center gap-3">
+                  <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 items-center justify-center rounded-lg">
+                    <WiseClub />
+                  </div>
+                  <div>
+                    <h2>
+                      ${referral?.referral_subscription_revenue.toFixed(2)}
+                    </h2>
+                    <p className="text-v1-content-secondary text-xs">
+                      {t('page-referral.earned-subscription')}
+                    </p>
+                  </div>
+                </div>
+                <hr className="border-v1-border-primary/10 my-3" />
+              </>
+            )}
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
-                <WiseClub />
-              </div>
-              <div>
-                <h2>${referral?.referral_subscription_revenue.toFixed(2)}</h2>
-                <p className="text-xs text-v1-content-secondary">
-                  {t('page-referral.earned-subscription')}
-                </p>
-              </div>
-            </div>
-            <hr className="my-3 border-v1-border-primary/10" />
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
+              <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 items-center justify-center rounded-lg">
                 <img src={trader} className="h-6 w-6 rounded-full" alt="" />
               </div>
               <div>
                 <h2>${referral?.referral_trade_revenue.toFixed(2)}</h2>
-                <p className="text-xs text-v1-content-secondary">
+                <p className="text-v1-content-secondary text-xs">
                   {t('page-referral.earned-trader')}
                 </p>
               </div>
@@ -187,10 +194,10 @@ export default function ReferralPage() {
           </div>
         </div>
 
-        <div className="col-span-3 rounded-xl bg-v1-surface-l2 p-3 mobile:col-span-5">
+        <div className="bg-v1-surface-l1 col-span-3 rounded-xl p-3 mobile:col-span-5">
           <div className="mb-2 flex items-center gap-3">
             <h2>{t('page-referral.friends-list.title')}</h2>
-            <div className="flex h-6 w-6 items-center justify-center rounded-xl bg-v1-surface-l3 text-xs">
+            <div className="bg-v1-surface-l3 flex h-6 w-6 items-center justify-center rounded-xl text-xs">
               {referredUsers?.count ?? 0}
             </div>
           </div>
@@ -198,28 +205,30 @@ export default function ReferralPage() {
           {referredUsers?.results.map(user => (
             <div
               key={user.created_at}
-              className="mb-3 flex items-center gap-3 rounded-xl bg-v1-surface-l2 p-3"
+              className="bg-v1-surface-l1 mb-3 flex items-center gap-3 rounded-xl p-3"
             >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
+              <div className="bg-v1-surface-l4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
                 <IconUser />
               </div>
               <div>
                 <h3 className="w-28 truncate text-sm">{user.name}</h3>
-                <p className="text-xxs text-v1-content-secondary">
+                <p className="text-v1-content-secondary text-xxs">
                   {new Date(user.created_at).toLocaleString()}
                 </p>
               </div>
               <div className="ml-auto flex items-center gap-3">
-                <Badge
-                  className={user.is_subscribed ? '' : 'grayscale'}
-                  label={
-                    <span className="-ml-3">
-                      <WiseClub className="inline h-4" />
-                      {t('page-referral.subscription')}
-                    </span>
-                  }
-                  color="orange"
-                />
+                {hasFlag('/account/billing') && (
+                  <Badge
+                    className={user.is_subscribed ? '' : 'grayscale'}
+                    label={
+                      <span className="-ml-3">
+                        <WiseClub className="inline h-4" />
+                        {t('page-referral.subscription')}
+                      </span>
+                    }
+                    color="orange"
+                  />
+                )}
 
                 <Badge
                   className={user.is_trader ? '' : 'grayscale'}
@@ -250,22 +259,11 @@ export function Referral({ className }: { className?: string }) {
   const el = useRef<HTMLDivElement>(null);
 
   return (
-    <div className={clsx(className, 'rounded-xl bg-v1-surface-l2')}>
+    <div className={clsx(className, 'bg-v1-surface-l1 rounded-xl')}>
       <div
         ref={el}
-        className="relative mb-3 overflow-hidden rounded-xl bg-v1-surface-l2 p-4"
+        className="bg-v1-surface-l2 relative mb-3 overflow-hidden rounded-xl p-4"
       >
-        <img src={logoOutline} alt="" className="absolute left-0 top-0 w-4/5" />
-        <img
-          src={gradient1}
-          alt=""
-          className="absolute left-0 top-0 h-[200%] w-full opacity-50"
-        />
-        <img
-          src={gradient2}
-          alt=""
-          className="absolute left-0 top-0 size-full opacity-50"
-        />
         <ReferralQrCode className="relative !text-xs" />
       </div>
       <ReferralShareLinks screenshotTarget={el} fileName="referral" />

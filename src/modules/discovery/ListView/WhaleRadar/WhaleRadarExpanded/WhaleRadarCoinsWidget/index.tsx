@@ -135,7 +135,7 @@ export function WhaleRadarCoinsWidget({
           setPageState({ query: pageState.query, ...newState })
         }
         className="mb-4 w-full"
-        surface={3}
+        surface={2}
       />
       <AccessShield
         mode="table"

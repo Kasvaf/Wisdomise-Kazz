@@ -10,7 +10,7 @@ export const Toggle: FC<SwitchProps & { variant?: 'brand' | 'secondary' }> = ({
   <Switch
     size="small"
     className={clsx(
-      '!duration-0',
+      '!duration-0 [&.ant-switch-handle::before]:!bg-black',
       variant === 'secondary' &&
         '[&.ant-switch-checked_.ant-switch-inner]:!bg-v1-background-secondary',
       variant === 'brand' &&

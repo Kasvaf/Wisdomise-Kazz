@@ -1,27 +1,37 @@
 import { isLocal, isProduction } from 'utils/version';
 
-const { hostname } = window.location;
+const { hostname, origin } = window.location;
+
 const DOMAIN = isLocal
-  ? 'wisdomise.com'
+  ? 'goatx.trade'
   : hostname.replace(/^(?:[\w-]+\.)*([\w-]+\.\w+)$/, '$1');
-const subdomainPrefix = isProduction ? '' : 'stage-';
 
-export const SUPPORT_EMAIL = 'support@wisdomise.com';
+const subdomainPrefix = isProduction ? '' : 'stage';
 
-const makeOrigin = (name: string) => {
+function makeOrigin(serviceName: string): string {
   if (import.meta.env.VITE_STAGE_API_PROXY === 'true') {
-    return `${window.location.origin}/${name}-proxy`;
+    return new URL(`/${serviceName}-proxy`, origin).toString();
   }
-  return `https://${subdomainPrefix}${name}.${DOMAIN}`;
-};
 
+  const subdomainParts = [subdomainPrefix, serviceName].filter(Boolean);
+  const fullDomain =
+    subdomainParts.length > 0
+      ? `${subdomainParts.join('-')}.${DOMAIN}`
+      : DOMAIN;
+
+  return `https://${fullDomain}`;
+}
+
+export const APP_PANEL = makeOrigin('');
 export const GRPC_ORIGIN = makeOrigin('grpc');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const INVESTMENT_ORIGIN = makeOrigin('wsdm-app');
-export const MAIN_LANDING = (lng: string) =>
-  `https://${isProduction ? '' : 'stage.'}${DOMAIN}/${lng}`;
-export const APP_PANEL = makeOrigin('app');
 export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
+
+export const MAIN_LANDING = (lng: string) => {
+  const subdomain = isProduction ? '' : 'stage.';
+  return `https://${subdomain}${DOMAIN}/${lng}`;
+};
 
 export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
 

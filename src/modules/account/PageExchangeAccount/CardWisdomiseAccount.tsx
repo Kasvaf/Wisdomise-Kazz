@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LogoSvg } from 'assets/logo-horizontal-beta.svg';
 import Card from 'shared/Card';
 import { useSubscription } from 'api';
 
@@ -27,9 +26,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
           <div className="mb-3 text-xs text-white/60">
             {t('account.account')}
           </div>
-          <div className="h-full">
-            <LogoSvg />
-          </div>
+          <div className="h-full">{/* <LogoSvg /> */}</div>
         </div>
 
         <div className="flex flex-col">

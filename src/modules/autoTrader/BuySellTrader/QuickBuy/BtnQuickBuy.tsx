@@ -47,7 +47,14 @@ export default function BtnQuickBuy({
       return;
     }
 
-    if (+amount === 0 || +amount > (balance ?? 0)) {
+    if (+amount === 0) {
+      notification.error({
+        message: 'Minimum amount should be greater than 0.0001 SOL',
+      });
+      return;
+    }
+
+    if (+amount > (balance ?? 0)) {
       notification.error({ message: 'Insufficient balance' });
       return;
     }
@@ -67,7 +74,7 @@ export default function BtnQuickBuy({
     <Button
       className={clsx(
         className,
-        'flex items-center !rounded-3xl disabled:bg-v1-surface-l2',
+        'disabled:bg-v1-surface-l2 flex items-center !rounded-3xl',
       )}
       size="xs"
       onClick={async e => {

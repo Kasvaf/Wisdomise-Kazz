@@ -176,7 +176,7 @@ const PartOpen: React.FC<{
                 (x, ind0) =>
                   !x.removed && ind0 < ind && x.priceExact === item.priceExact,
               ) && (
-                <div className="px-2 pb-2 text-error">
+                <div className="px-2 pb-2 text-v1-content-negative">
                   {t('signal-form.error-dup', { type: 'Open Order' })}
                 </div>
               )}
@@ -184,7 +184,7 @@ const PartOpen: React.FC<{
           ))}
 
         {!!remainingVolume && (
-          <div className="text-center text-xs text-error">
+          <div className="text-center text-xs text-v1-content-negative">
             {t('signal-form.error-total-open')}
           </div>
         )}
