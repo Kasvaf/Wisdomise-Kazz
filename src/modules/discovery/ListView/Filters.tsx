@@ -1,4 +1,4 @@
-import { bxGridAlt, bxSliderAlt } from 'boxicons-quasar';
+import { bxGridAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
   type Dispatch,
@@ -16,6 +16,7 @@ import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface } from 'utils/useSurface';
 import { type PresetFilter } from './presetFilters';
+import { ReactComponent as FilterIcon } from './filter.svg';
 
 function areEqual<T = Array<string | number> | string | number | boolean>(
   first: T | undefined,
@@ -156,7 +157,7 @@ export function Filters<T extends object>({
               surface={isMini ? ((surface + 1) as never) : surface}
               className="shrink-0"
             >
-              <Icon name={bxSliderAlt} size={16} />
+              <FilterIcon className="!size-4" />
             </Button>
           )}
           {(presets?.length ?? 0) > 0 && (
