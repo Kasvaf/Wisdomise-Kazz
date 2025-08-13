@@ -2,7 +2,7 @@
 import { type ReactNode, type FC, useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { bxPauseCircle } from 'boxicons-quasar';
+import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
 import { type TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
@@ -33,8 +33,11 @@ const NCoinMarketDataCol: FC<{
           +(value.networkData?.marketCap ?? '0') || 0,
         ),
       }}
+      title="Market Cap"
     >
-      <span className="text-[0.9em] text-v1-content-secondary">{'MC '}</span>
+      <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+        {'MC'}
+      </span>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.marketCap ?? '0') || 0}
@@ -45,8 +48,10 @@ const NCoinMarketDataCol: FC<{
         }}
       />
     </div>
-    <div>
-      <span className="text-[0.9em] text-v1-content-secondary">{'V '}</span>
+    <div title="Volume">
+      <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
+        {'V'}
+      </span>
       <ReadableNumber
         popup="never"
         value={+(value.networkData?.volume ?? '0') || 0}
@@ -54,28 +59,34 @@ const NCoinMarketDataCol: FC<{
         format={{
           decimalLength: 2,
         }}
+        className="align-middle"
       />
     </div>
     {!row && (
       <>
-        <div>
-          <span className="text-[0.9em] text-v1-content-secondary">
-            {'TX '}
+        <div title="Transactions">
+          <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+            {'TX'}
           </span>
           <NCoinBuySell
             value={{
               buys: value.networkData?.totalBuy,
               sells: value.networkData?.totalSell,
             }}
+            className="align-middle"
           />
         </div>
-        <div>
-          <span className="text-[0.9em] text-v1-content-secondary">
-            {'# of Holders '}
-          </span>
+        <div title="Number of Holders">
+          <Icon
+            name={bxGroup}
+            className="me-1 inline-block align-middle text-v1-content-secondary"
+            size={16}
+            strokeWidth={0.1}
+          />
           <ReadableNumber
             popup="never"
             value={value.validatedData?.numberOfHolders}
+            className="align-middle"
           />
         </div>
       </>
@@ -85,7 +96,8 @@ const NCoinMarketDataCol: FC<{
 
 const NCoinBCurve: FC<{
   value: TrenchStreamResponseResult;
-}> = ({ value }) => {
+  className?: string;
+}> = ({ value, className }) => {
   return (
     <div
       style={{
@@ -93,10 +105,9 @@ const NCoinBCurve: FC<{
           bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
         }),
       }}
+      className={className}
+      title="Bonding Curve"
     >
-      <span className="text-[0.9em] text-v1-content-secondary">
-        {'B Curve '}
-      </span>
       <ReadableNumber
         popup="never"
         value={(value.networkData?.boundingCurve ?? 0) * 100}
@@ -178,7 +189,10 @@ export const NCoinList: FC<{
       )}
     >
       {title && (
-        <div className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none">
+        <div
+          className="sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm shadow-xl bg-v1-surface-l-next scrollbar-none"
+          onPointerEnter={() => setHovered(false)}
+        >
           <div
             className={clsx(
               hovered ? 'pointer-events-none opacity-100' : 'opacity-0',
@@ -188,8 +202,16 @@ export const NCoinList: FC<{
           <h3 className="relative">{title}</h3>
           <div
             className={clsx(
+              'flex animate-spin items-center gap-1 text-xs text-v1-content-secondary',
+              !loading && 'hidden',
+            )}
+          >
+            <Icon name={bxLoader} size={18} />
+          </div>
+          <div
+            className={clsx(
               'flex items-center gap-1 text-xs text-v1-content-info transition-all',
-              !hovered && 'pointer-events-none opacity-0',
+              !hovered && 'hidden',
             )}
           >
             <Icon name={bxPauseCircle} size={18} />
@@ -201,11 +223,7 @@ export const NCoinList: FC<{
           )}
         </div>
       )}
-      {loading ? (
-        <p className="animate-pulse p-3 text-center text-xs text-v1-content-secondary">
-          {t('common:almost-there')}
-        </p>
-      ) : dataSource.length === 0 ? (
+      {dataSource.length === 0 && !loading ? (
         <p className="p-3 text-center text-xs leading-relaxed text-v1-content-secondary">
           {t('common:nothing-to-show')}
         </p>
@@ -235,7 +253,11 @@ export const NCoinList: FC<{
             );
 
             const bCurve = (
-              <>{source !== 'migrated' && <NCoinBCurve value={row} />}</>
+              <>
+                {source !== 'migrated' && (
+                  <NCoinBCurve value={row} className="pe-1 text-xs" />
+                )}
+              </>
             );
             return (
               <button
@@ -327,7 +349,7 @@ export const NCoinList: FC<{
                   <BtnQuickBuy
                     slug={row.symbol.slug}
                     source={source}
-                    className="!absolute bottom-2 right-2 !hidden group-hover:!flex"
+                    className="!absolute bottom-2 right-2 hidden group-hover:flex"
                   />
                 )}
               </button>

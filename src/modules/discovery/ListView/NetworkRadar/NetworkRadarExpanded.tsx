@@ -40,11 +40,6 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
 
   const navigate = useNavigate();
   const { getUrl } = useDiscoveryRouteMeta();
-  // const [, setPageState] = usePageState<{
-  //   tab: NetworkRadarTab;
-  // }>('network-radar', {
-  //   tab: 'new_pairs',
-  // });
 
   const onRowClick = (_tab: NetworkRadarTab, slug: string) => {
     navigate(
