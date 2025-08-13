@@ -7111,6 +7111,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/youtube-player@^5.5.5":
+  version "5.5.11"
+  resolved "https://registry.yarnpkg.com/@types/youtube-player/-/youtube-player-5.5.11.tgz#cc297e27151db946596d92fb7cfb837627e83be0"
+  integrity sha512-pM41CDBqJqBmTeJWnF7NOGz82IQoYOhqzMYXv5vKCXBqGiYSLldxMtpCk6KAEtADTy49S45AriYaCaZyeUX38Q==
+
 "@typescript-eslint/eslint-plugin@^5.52.0":
   version "5.62.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.62.0.tgz#aeef0328d172b9e37d9bab6dbc13b87ed88977db"
@@ -9127,6 +9132,11 @@ classnames@2.x, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classna
   version "2.3.2"
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.3.2.tgz"
   integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
+
+classnames@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
+  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
 
 clean-css@^5.2.2:
   version "5.3.2"
@@ -15550,6 +15560,11 @@ react-hook-form@^7.51.4:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.51.4.tgz#c3a47aeb22b699c45de9fc12b58763606cb52f0c"
   integrity sha512-V14i8SEkh+V1gs6YtD0hdHYnoL4tp/HX/A45wWQN15CYr9bFRmmRdYStSO5L65lCCZRF+kYiSKhm9alqbcdiVA==
 
+react-html-props@^2.0.3:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-html-props/-/react-html-props-2.1.1.tgz#0fded09fab434e17a7dd0ed25515b93dc0f565a6"
+  integrity sha512-tM+YCYlr90m3JontKUAa+gNVU2zkyprlCS7OQ9aa3z2MfyJjAioJzrSmi1Vef/+UCTE6CQlPqLX4ebdLIJDKxw==
+
 react-i18next@^13.3.1:
   version "13.3.1"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.3.1.tgz#9b072bf4dd4cafb028e92315a8a1415f8034bdca"
@@ -15652,6 +15667,18 @@ react-router@6.9.0:
   dependencies:
     "@remix-run/router" "1.4.0"
 
+react-social-media-embed@^2.5.18:
+  version "2.5.18"
+  resolved "https://registry.yarnpkg.com/react-social-media-embed/-/react-social-media-embed-2.5.18.tgz#b1e798bdf580113ca3a1b239e20fee16dd2472ea"
+  integrity sha512-+PkzLRGAwnySkxKajaiK5VD+EjOhlFsh/vjNxgHsDfKBTseDpFxPrMXXQWkk6BRCwFBNVWX+V1HZ9AU0y54Wgw==
+  dependencies:
+    "@types/youtube-player" "^5.5.5"
+    classnames "^2.5.1"
+    react-html-props "^2.0.3"
+    react-sub-unsub "^2.2.1"
+    react-twitter-embed "^4.0.4"
+    react-youtube "^10.1.0"
+
 react-style-singleton@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-style-singleton/-/react-style-singleton-2.2.1.tgz#f99e420492b2d8f34d38308ff660b60d0b1205b4"
@@ -15661,10 +15688,22 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
+react-sub-unsub@^2.2.1:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/react-sub-unsub/-/react-sub-unsub-2.2.8.tgz#35319c9bf1d1d25429b164c94c9ecb6c6f83699a"
+  integrity sha512-o3tmiOOZPdQUCmRhkdCHXRFLOHnCwdz/N3QZ1JQ14fQGA2HysKMF0kWu56ERnQUCK7wYVCQzI8pFbnivAYNQ+A==
+
 react-ts-tradingview-widgets@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/react-ts-tradingview-widgets/-/react-ts-tradingview-widgets-1.2.3.tgz#8b73199058412ebf6dcab3e13eb4ef66d9063845"
   integrity sha512-PEQeU2RI6AF+TOH5GPHaAKxpPlficps8EFWdHRbLwqTua2NYmsgC8VdffAiLzeWlfCpKQR/Ukx+z7zagpPT9lw==
+
+react-twitter-embed@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/react-twitter-embed/-/react-twitter-embed-4.0.4.tgz#4a6b8354acc266876ff1110b9f648518ea20db6d"
+  integrity sha512-2JIL7qF+U62zRzpsh6SZDXNI3hRNVYf5vOZ1WRcMvwKouw+xC00PuFaD0aEp2wlyGaZ+f4x2VvX+uDadFQ3HVA==
+  dependencies:
+    scriptjs "^2.5.9"
 
 react-verification-input@^4.1.2:
   version "4.1.2"
@@ -16191,6 +16230,11 @@ scheduler@^0.23.0:
   integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
   dependencies:
     loose-envify "^1.1.0"
+
+scriptjs@^2.5.9:
+  version "2.5.9"
+  resolved "https://registry.yarnpkg.com/scriptjs/-/scriptjs-2.5.9.tgz#343915cd2ec2ed9bfdde2b9875cd28f59394b35f"
+  integrity sha512-qGVDoreyYiP1pkQnbnFAUIS5AjenNwwQBdl7zeos9etl+hYKWahjRTfzAZZYBv5xNHx7vNKCmaLDQZ6Fr2AEXg==
 
 scroll-into-view-if-needed@^3.0.3:
   version "3.0.10"

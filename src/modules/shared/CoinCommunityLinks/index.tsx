@@ -38,7 +38,7 @@ export const CoinCommunityLinks: FC<{
       {socials?.map(social => (
         <Tooltip
           open={social.preview ? undefined : false}
-          key={social.href}
+          key={social.url.href}
           title={social.preview}
           rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-arrow]:hidden"
           placement="bottom"
@@ -47,7 +47,7 @@ export const CoinCommunityLinks: FC<{
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
-              go(social.href);
+              go(social.url.href);
             }}
             className={clsx(
               'shrink-0 rounded-full bg-white/10 text-xxs text-white/60 transition-all hover:text-white/60 active:brightness-90',
