@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { Mode, plugin as mdPlugin } from 'vite-plugin-markdown';
 import i18nextLoader from 'vite-plugin-i18next-loader';
@@ -8,6 +9,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig(config => ({
+  build: {
+    sourcemap: true,
+  },
   base: '/' + (process.env.VITE_BRANCH || ''),
   plugins: [
     tailwindcss(),
@@ -29,6 +33,12 @@ export default defineConfig(config => ({
         },
       },
     }),
+    sentryVitePlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: 'sentry',
+      project: 'dashboard',
+      url: 'https://sentry.wisdomise.com/',
+    }),
   ],
   resolve: {
     alias: [
@@ -44,9 +54,6 @@ export default defineConfig(config => ({
   },
   esbuild: {
     drop: config.mode === 'production' ? ['debugger'] : [],
-  },
-  build: {
-    sourcemap: config.mode !== 'production',
   },
   server: {
     proxy: Object.fromEntries(
