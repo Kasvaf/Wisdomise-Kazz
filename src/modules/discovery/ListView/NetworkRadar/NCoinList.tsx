@@ -349,7 +349,7 @@ export const NCoinList: FC<{
                   <BtnQuickBuy
                     slug={row.symbol.slug}
                     source={source}
-                    className="!absolute bottom-2 right-2 hidden group-hover:flex"
+                    className="!absolute bottom-2 right-2 !hidden group-hover:!flex"
                   />
                 )}
               </button>
