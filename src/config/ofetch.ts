@@ -1,4 +1,5 @@
 import { ofetch as originalOfetch } from 'ofetch';
+import * as Sentry from '@sentry/react';
 import { isDebugMode } from 'utils/version';
 import { TEMPLE_ORIGIN } from './constants';
 
@@ -37,6 +38,13 @@ export const ofetch = originalOfetch.create({
           } catch {}
         }
       }
+    } else {
+      Sentry.withScope(scope => {
+        scope.setExtra('url', response.url);
+        scope.setExtra('status', response.status);
+
+        Sentry.captureException(new Error(`API error: ${response.status}`));
+      });
     }
   },
   retry: 2,

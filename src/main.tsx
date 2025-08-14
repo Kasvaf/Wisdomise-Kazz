@@ -38,7 +38,6 @@ function Root() {
       mutations: {
         onError(error) {
           showError(error);
-          throw error;
         },
       },
     });
