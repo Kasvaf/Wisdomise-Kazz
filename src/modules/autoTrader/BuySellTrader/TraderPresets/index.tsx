@@ -16,6 +16,7 @@ import {
 } from 'modules/base/auth/UserSettingsProvider';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import useDialog from 'shared/useDialog';
+import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
 
@@ -186,6 +187,7 @@ function TraderPresetSettingsDialog({
   const [presets, setPresets] = useState<TraderPresets>();
   const [currentPreset, setCurrentPreset] = useState(0);
   const [currentMode, setCurrentMode] = useState<'buy' | 'sell'>('buy');
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (settings) {
@@ -194,8 +196,13 @@ function TraderPresetSettingsDialog({
   }, [open, settings]);
 
   return presets ? (
-    <Dialog open={open} mode="modal" contentClassName="p-7" onClose={onResolve}>
-      <div className="w-96">
+    <Dialog
+      open={open}
+      mode={isMobile ? 'drawer' : 'modal'}
+      contentClassName="p-7"
+      onClose={onResolve}
+    >
+      <div className="md:w-96">
         <h1 className="mb-8 text-2xl font-medium">Quick Settings</h1>
         <p className="mb-3 text-xs">Presets</p>
         <ButtonSelect

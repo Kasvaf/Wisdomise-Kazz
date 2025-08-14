@@ -27,6 +27,7 @@ import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
+import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import { ReactComponent as InstantIcon } from './instant.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -273,6 +274,7 @@ export default function BtnInstantTrade({
                   />
                 </div>
               )}
+              <CoinSwapActivity mini />
               <div
                 className="absolute bottom-0 flex h-[5px] w-full cursor-ns-resize items-center justify-center text-white/70 transition-colors hover:bg-v1-surface-l4"
                 onMouseDown={e => startResizing(e, 'bottom')}

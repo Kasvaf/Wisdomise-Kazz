@@ -59,6 +59,39 @@ export const useUserAssets = () => {
   });
 };
 
+interface TraderAssetActivity {
+  balance: string;
+  hold: string;
+  hold_usd: string;
+  pnl: string;
+  pnl_percent: string;
+  total_bought: string;
+  total_bought_usd: string;
+  total_sold: string;
+  total_sold_usd: string;
+  usd_pnl: string;
+  usd_pnl_percent: string;
+}
+
+export const useTraderAssetActivity = (slug?: string) => {
+  const email = useJwtEmail();
+  slug = slug === 'solana' ? 'wrapped-solana' : slug;
+
+  return useQuery({
+    queryKey: ['trader-asset', email],
+    queryFn: async () => {
+      if (!email) return;
+
+      return await ofetch<TraderAssetActivity>('/trader/asset', {
+        query: { symbol_slug: slug },
+      });
+    },
+    enabled: !!slug,
+    staleTime: Number.POSITIVE_INFINITY,
+    refetchInterval: 30_000,
+  });
+};
+
 interface PairInfo {
   id: string;
   name: string; // pair name

@@ -33,7 +33,7 @@ export default function useTraderDrawer() {
         }}
         className={clsx(!isMobile && 'w-[400px]')}
         contentClassName="p-4"
-        surface={2}
+        surface={0}
       >
         {inputs && open && (
           <ActiveNetworkProvider base={inputs.slug} quote={quote}>

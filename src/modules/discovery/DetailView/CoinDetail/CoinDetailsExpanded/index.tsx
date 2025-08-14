@@ -215,7 +215,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
       <div className="sticky top-(--desktop-content-top) z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0 scrollbar-none">
         <NCoinRisksBanner slug={slug} />
         <CoinPriceWidget slug={slug} className="h-16 px-3" hr />
-        <div className="space-y-3 px-3 pb-3 pt-1">
+        <div className="space-y-3 px-3 pb-3">
           <TraderSection slug={slug} quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget slug={slug} />

@@ -2,6 +2,7 @@ import { useSupportedPairs } from 'api';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
 import TraderTrades from 'modules/autoTrader/TraderTrades';
+import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
 const TraderSection: React.FC<{
@@ -14,13 +15,14 @@ const TraderSection: React.FC<{
 
   return (
     <>
-      <div className="relative space-y-4 [&_.id-line]:hidden">
+      <div className="relative [&_.id-line]:hidden">
         {isLoading ? (
           <div className="m-3 flex justify-center">
             <Spinner />
           </div>
         ) : supportedPairs?.length ? (
           <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
+            <CoinSwapActivity />
             <TraderTrades
               quote={quote}
               setQuote={setQuote}
