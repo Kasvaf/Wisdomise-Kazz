@@ -11,7 +11,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useSupportedPairs } from 'api';
 
 const context = createContext<
-  [string, Dispatch<SetStateAction<string>>] | undefined
+  | [string, Dispatch<SetStateAction<string>>, Dispatch<SetStateAction<string>>]
+  | undefined
 >(undefined);
 
 export const useActiveQuote = () => {
@@ -25,7 +26,8 @@ export const useActiveQuote = () => {
 export const ActiveQuoteProvider = ({ children }: PropsWithChildren) => {
   const [activeQuote, setActiveQuote] = useState('wrapped-solana');
   const [searchParams] = useSearchParams();
-  const { data } = useSupportedPairs(searchParams.get('slug') ?? undefined);
+  const [baseSlug, setBaseSlug] = useState<string>('');
+  const { data } = useSupportedPairs(searchParams.get('slug') || baseSlug);
 
   const firstSupported = data?.[0]?.quote?.slug;
   const isValueSupported = data
@@ -39,7 +41,7 @@ export const ActiveQuoteProvider = ({ children }: PropsWithChildren) => {
   }, [firstSupported, isValueSupported, setActiveQuote]);
 
   return (
-    <context.Provider value={[activeQuote, setActiveQuote]}>
+    <context.Provider value={[activeQuote, setActiveQuote, setBaseSlug]}>
       {children}
     </context.Provider>
   );
