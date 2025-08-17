@@ -40,7 +40,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
         )}
       >
         {!mini && <p className="mb-4">Your Activity on This Token</p>}
-        <div className="flex items-center gap-2">
+        <div className={clsx('flex gap-2', mini && 'items-center')}>
           <div className="grow">
             {!mini && <p className="text-v1-content-secondary mb-2">Bought</p>}
             <p
