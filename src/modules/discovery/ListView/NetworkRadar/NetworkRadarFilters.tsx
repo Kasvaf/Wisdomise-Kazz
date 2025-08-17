@@ -151,7 +151,7 @@ export const NetworkRadarFilters: FC<
 
             {/* Search */}
             <div className="flex items-center gap-2">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 basis-1/2">
                 <p className="text-xs">{'Search Keywords'}</p>
                 <Input
                   type="string"
@@ -168,9 +168,10 @@ export const NetworkRadarFilters: FC<
                   block
                   placeholder="Keyword 1, Keyword 2..."
                   size="md"
+                  className="w-full"
                 />
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 basis-1/2">
                 <p className="text-xs">{'Exclude Keywords'}</p>
                 <Input
                   type="string"
@@ -187,6 +188,7 @@ export const NetworkRadarFilters: FC<
                   block
                   placeholder="Keyword 1, Keyword 2..."
                   size="md"
+                  className="w-full"
                 />
               </div>
             </div>
@@ -391,7 +393,7 @@ export const NetworkRadarFilters: FC<
                 </div>
 
                 <div className="flex flex-col items-start gap-2">
-                  <p className="text-xs">{'B Curve %'}</p>
+                  <p className="text-xs">{'Risk %'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
                       className="basis-1/2"
