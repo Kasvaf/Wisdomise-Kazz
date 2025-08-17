@@ -40,7 +40,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
         )}
       >
         {!mini && <p className="mb-4">Your Activity on This Token</p>}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <div className="grow">
             {!mini && <p className="text-v1-content-secondary mb-2">Bought</p>}
             <p
@@ -97,7 +97,13 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 </Button>
               </div>
             )}
-            <p className="text-v1-content-positive">
+            <p
+              className={
+                pnlSign === '+'
+                  ? 'text-v1-content-positive'
+                  : 'text-v1-content-negative'
+              }
+            >
               {showUsd ? (
                 <span
                   className={clsx(
@@ -110,8 +116,8 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                   {`${Math.abs(
                     Number(data?.usd_pnl ?? 0) ?? 0,
                   )} (${pnlSign}${Math.abs(
-                    Number(data?.usd_pnl_percent ?? 0) * 100,
-                  )}%)`}
+                    Number(data?.usd_pnl_percent ?? 0),
+                  ).toFixed(0)}%)`}
                 </span>
               ) : (
                 <span
@@ -125,8 +131,8 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                   {`${Math.abs(
                     Number(data?.pnl ?? 0) ?? 0,
                   )} (${pnlSign}${Math.abs(
-                    Number(data?.pnl_percent ?? 0) * 100,
-                  )}%)`}
+                    Number(data?.pnl_percent ?? 0),
+                  ).toFixed(0)}%)`}
                 </span>
               )}
             </p>

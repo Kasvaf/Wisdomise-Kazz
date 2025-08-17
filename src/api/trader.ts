@@ -78,7 +78,7 @@ export const useTraderAssetActivity = (slug?: string) => {
   slug = slug === 'solana' ? 'wrapped-solana' : slug;
 
   return useQuery({
-    queryKey: ['trader-asset', email],
+    queryKey: ['trader-asset', email, slug],
     queryFn: async () => {
       if (!email) return;
 
