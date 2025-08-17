@@ -121,10 +121,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 </span>
               ) : (
                 <span
-                  className={clsx(
-                    'flex items-center',
-                    mini && 'justify-center',
-                  )}
+                  className={clsx('flex items-start', mini && 'justify-center')}
                 >
                   {unit}
                   {pnlSign}
