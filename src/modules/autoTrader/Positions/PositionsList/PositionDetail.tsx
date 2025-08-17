@@ -48,7 +48,7 @@ const PositionDetail: React.FC<{
       )}
       key={position.key}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap gap-3 items-center justify-between">
         <div className="flex items-center gap-1">
           <span className="text-white/30">#{position.id}</span>
           {!!position.mode && position.mode !== 'buy_and_sell' && (

@@ -9,11 +9,11 @@ import {
   type TransactionStatus,
   type SupportedNetworks,
 } from 'api';
-import Button from 'shared/Button';
 import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
 import { useSymbolInfo } from 'api/symbol';
 import { roundSensible } from 'utils/numbers';
+import { Button } from 'shared/v1-components/Button';
 
 export const Box: React.FC<
   PropsWithChildren<{
@@ -29,7 +29,7 @@ export const Box: React.FC<
   return (
     <div
       className={clsx(
-        'whitespace-pre rounded-xl bg-v1-surface-l2 px-4 py-6 text-xs',
+        'whitespace-pre rounded-xl bg-v1-surface-l1 px-4 py-6 text-xs',
         className,
       )}
     >
@@ -112,11 +112,10 @@ export const TonViewer: React.FC<{
   return (
     <div className="mt-6 flex justify-center">
       <Button
-        variant="secondary"
-        size="small"
+        variant="outline"
+        size="sm"
         className="!text-xs"
-        to={link}
-        target="_blank"
+        onClick={() => window.open(link, '_blank')}
       >
         <Icon name={bxGlobe} className="mr-2" size={16} />
         View
