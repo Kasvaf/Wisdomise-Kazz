@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AmountInputBox from 'shared/AmountInputBox';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPresets';
@@ -33,6 +33,12 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const [amountType, setAmountType] = useState<'percentage' | 'base' | 'quote'>(
     'percentage',
   );
+
+  useEffect(() => {
+    setBaseAmount(
+      convertToBaseAmount(amount, amountType, baseBalance, priceByOther),
+    );
+  }, [amount, amountType, baseBalance, priceByOther, setBaseAmount]);
 
   return (
     <div>
