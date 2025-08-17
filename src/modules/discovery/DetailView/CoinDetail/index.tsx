@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { ChartWidgetProvider } from 'shared/AdvancedChart';
 import { useDetailedCoins } from 'api/discovery';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsMeta } from './CoinDetailsMeta';
@@ -58,13 +57,11 @@ export const CoinDetail: FC<{
         <>
           {focus && <CoinDetailsMeta slug={slug} />}
           <ChartWidgetProvider>
-            <ActiveQuoteProvider>
-              {expanded ? (
-                <CoinDetailsExpanded slug={slug} />
-              ) : (
-                <CoinDetailsCompact slug={slug} />
-              )}
-            </ActiveQuoteProvider>
+            {expanded ? (
+              <CoinDetailsExpanded slug={slug} />
+            ) : (
+              <CoinDetailsCompact slug={slug} />
+            )}
           </ChartWidgetProvider>
         </>
       ) : isLoading ? (

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { isDebugMode, isLocal } from 'utils/version';
+import { isDebugMode } from 'utils/version';
 import { useAccountQuery } from './account';
 
 // hasFlag('?xyz') -> [current-pathname]?xyz
@@ -48,7 +48,7 @@ export function useHasFlag() {
 
     if (flag[0] === '/') {
       const result = flag === '/' || Boolean(flagsObj[flag]);
-      if (!result && (isDebugMode || isLocal)) {
+      if (!result && isDebugMode) {
         if (flagsObj['//all']) {
           console.log('🚩', flag, '(enabled by //all)');
         } else {

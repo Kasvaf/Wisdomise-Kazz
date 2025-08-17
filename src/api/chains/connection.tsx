@@ -6,7 +6,9 @@ import { projectId } from 'config/appKit';
 
 const chainId = 'solana';
 const clusterPublicKey = '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'; // mainnet-beta
-const primaryRpc = `https://rpc.walletconnect.org/v1/?chainId=${chainId}:${clusterPublicKey}&projectId=${projectId}`;
+const rpc = `rpc.walletconnect.org/v1/?chainId=${chainId}:${clusterPublicKey}&projectId=${projectId}`;
+const httpsRpc = `https://${rpc}`;
+const wsRpc = `https://${rpc}`;
 
 const backupRpc =
   'https://young-old-tree.solana-mainnet.quiknode.pro/ca99ef43426d07e0838047552f4ad5fe58a1dd6a/';
@@ -23,7 +25,7 @@ export const SolanaConnectionProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [connection, setConnection] = useState(
-    new Connection(primaryRpc, 'confirmed'),
+    new Connection(httpsRpc, { commitment: 'confirmed', wsEndpoint: wsRpc }),
   );
 
   useEffect(() => {

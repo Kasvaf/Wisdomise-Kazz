@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSymbolInfo } from 'api/symbol';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
@@ -7,6 +7,7 @@ import useIsMobile from 'utils/useIsMobile';
 import Spinner from 'shared/Spinner';
 import { Coin } from 'shared/Coin';
 import { Dialog } from 'shared/v1-components/Dialog';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { type TraderInputs } from '../PageTrade/types';
 import TraderTrades from '../TraderTrades';
 
@@ -16,10 +17,16 @@ export default function useTraderDrawer() {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState<DrawerInputs>();
-  const [quote, setQuote] = useState('tether');
+  const [quote, setQuote, setBaseSlug] = useActiveQuote();
 
   const normSlug = inputs?.slug === 'solana' ? 'wrapped-solana' : inputs?.slug;
   const { data: coin, isLoading: coinLoading } = useSymbolInfo(normSlug);
+
+  useEffect(() => {
+    if (normSlug) {
+      setBaseSlug(normSlug);
+    }
+  }, [normSlug, setBaseSlug]);
 
   const component = (
     <div onClick={e => e.stopPropagation()}>
