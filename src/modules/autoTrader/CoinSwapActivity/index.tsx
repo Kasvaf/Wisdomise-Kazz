@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { useTraderAssetActivity } from 'api';
-import { roundSensible } from 'utils/numbers';
+import { formatNumber } from 'utils/numbers';
 import { Button } from 'shared/v1-components/Button';
 import { useSymbolInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
@@ -23,6 +23,15 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
         <Coin coin={solanaSymbol} mini noText nonLink className="-mr-1" />
       );
   const pnlSign = Number(data?.pnl ?? 0) >= 0 ? '+' : '-';
+
+  const formatter = (value?: string | number) => {
+    return formatNumber(Number(value ?? '0'), {
+      decimalLength: 1,
+      minifyDecimalRepeats: true,
+      compactInteger: false,
+      separateByComma: false,
+    });
+  };
 
   return (
     <div
@@ -50,9 +59,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
               )}
             >
               {unit}
-              {roundSensible(
-                (showUsd ? data?.total_bought_usd : data?.total_bought) ?? 0,
-              )}
+              {formatter(showUsd ? data?.total_bought_usd : data?.total_bought)}
             </p>
           </div>
           <div className="h-7 border-r border-white/5" />
@@ -65,9 +72,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
               )}
             >
               {unit}
-              {roundSensible(
-                (showUsd ? data?.total_sold_usd : data?.total_sold) ?? 0,
-              )}
+              {formatter(showUsd ? data?.total_sold_usd : data?.total_sold)}
             </p>
           </div>
           <div className="h-7 border-r border-white/5" />
@@ -75,7 +80,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
             {!mini && <p className="text-v1-content-secondary mb-2">Holding</p>}
             <p className={clsx('flex', mini && 'justify-center')}>
               {unit}
-              {roundSensible((showUsd ? data?.hold_usd : data?.hold) ?? 0)}
+              {formatter(showUsd ? data?.hold_usd : data?.hold)}
             </p>
           </div>
           <div className="h-7 border-r border-white/5" />
@@ -113,8 +118,8 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 >
                   {pnlSign}
                   {unit}
-                  {`${Math.abs(
-                    Number(data?.usd_pnl ?? 0) ?? 0,
+                  {`${formatter(
+                    Math.abs(Number(data?.usd_pnl ?? 0) ?? 0),
                   )} (${pnlSign}${Math.abs(
                     Number(data?.usd_pnl_percent ?? 0),
                   ).toFixed(0)}%)`}
@@ -125,8 +130,8 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 >
                   {unit}
                   {pnlSign}
-                  {`${Math.abs(
-                    Number(data?.pnl ?? 0) ?? 0,
+                  {`${formatter(
+                    Math.abs(Number(data?.pnl ?? 0) ?? 0),
                   )} (${pnlSign}${Math.abs(
                     Number(data?.pnl_percent ?? 0),
                   ).toFixed(0)}%)`}
