@@ -8,7 +8,6 @@ import {
   useTwitterFollowedAccounts,
   useTwitterSuggestedAccounts,
 } from 'api/discovery';
-import { TableRank } from 'shared/TableRank';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -53,21 +52,15 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
   const suggestionsColumns = useMemo<Array<TableColumn<TwitterAccount>>>(
     () => [
       {
-        key: 'index',
-        title: '',
-        width: 40,
-        render: (_, index) => <TableRank>{index + 1}</TableRank>,
-      },
-      {
         key: 'username',
         title: 'Handle',
-        width: 150,
         render: row => (
           <a
             href={`https://x.com/${row.username}`}
             target="_blank"
             referrerPolicy="no-referrer"
             rel="noreferrer"
+            className="overflow-hidden max-w-32 truncate"
           >
             @{row.username}
           </a>
@@ -136,15 +129,8 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
   const followingsColumns = useMemo<Array<TableColumn<TwitterFollowedAccount>>>(
     () => [
       {
-        key: 'index',
-        title: '',
-        width: 40,
-        render: (_, index) => <TableRank>{index + 1}</TableRank>,
-      },
-      {
         key: 'username',
         title: 'Handle',
-        width: 150,
         render: row => (
           <a
             href={`https://x.com/${row.username}`}
@@ -207,7 +193,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
       <SubTab
         variant="tab"
         size="md"
-        surface={0}
+        surface={1}
         value={tab}
         onChange={setTab}
         className="mb-3"
@@ -220,7 +206,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
             dataSource={suggestions.data}
             rowKey={r => r.user_id}
             loading={suggestions.isLoading}
-            surface={1}
+            surface={2}
             scrollable={false}
           />
         )}
