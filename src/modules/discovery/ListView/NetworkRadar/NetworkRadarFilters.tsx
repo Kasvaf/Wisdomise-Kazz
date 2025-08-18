@@ -1,5 +1,13 @@
-import { useMemo, useState, type ComponentProps, type FC } from 'react';
-import { bxSearch } from 'boxicons-quasar';
+import {
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  useMemo,
+  useState,
+  type ComponentProps,
+  type FC,
+} from 'react';
+import { bxRotateLeft, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { Input } from 'shared/v1-components/Input';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
@@ -8,6 +16,37 @@ import Icon from 'shared/Icon';
 import { networkRadarGrpc } from 'api/grpc';
 import { Filters } from '../Filters';
 import { type NetworkRadarTab, type NetworkRadarStreamFilters } from './lib';
+
+const TabLabel: FC<{
+  state?: Partial<NetworkRadarStreamFilters>;
+  onReset: Dispatch<SetStateAction<Partial<NetworkRadarStreamFilters>>>;
+  label: ReactNode;
+  value: NetworkRadarTab;
+}> = ({ state, onReset, label, value }) => {
+  const hasCustomFilters = useMemo(
+    () =>
+      Object.entries(state?.[value] ?? {}).some(([, val]) =>
+        typeof val === 'object' && Array.isArray(val)
+          ? val.length > 0 && val.every(x => !!x)
+          : !!val,
+      ),
+    [state, value],
+  );
+  return (
+    <div className="flex gap-2 items-center">
+      {label}
+      {hasCustomFilters && '*'}{' '}
+      {hasCustomFilters && (
+        <button
+          onClick={() => onReset(p => ({ ...p, [value]: {} }))}
+          type="button"
+        >
+          <Icon size={18} name={bxRotateLeft} />
+        </button>
+      )}
+    </div>
+  );
+};
 
 export const NetworkRadarFilters: FC<
   Pick<
@@ -71,15 +110,36 @@ export const NetworkRadarFilters: FC<
                 options={[
                   {
                     value: 'new_pairs',
-                    label: 'New Pairs',
+                    label: (
+                      <TabLabel
+                        label="New Pairs"
+                        value="new_pairs"
+                        state={state}
+                        onReset={setState}
+                      />
+                    ),
                   },
                   {
                     value: 'final_stretch',
-                    label: 'Final Stretch',
+                    label: (
+                      <TabLabel
+                        label="Final Stretch"
+                        value="final_stretch"
+                        state={state}
+                        onReset={setState}
+                      />
+                    ),
                   },
                   {
                     value: 'migrated',
-                    label: 'Migrated',
+                    label: (
+                      <TabLabel
+                        label="Migrated"
+                        value="migrated"
+                        state={state}
+                        onReset={setState}
+                      />
+                    ),
                   },
                 ]}
                 size="md"
