@@ -1,6 +1,5 @@
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Sentry from '@sentry/react';
 import { useAccountQuery } from 'api';
 import { saveUserMultiKeyValue } from 'api/userStorage';
 import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
@@ -95,9 +94,8 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
         ...getUtmParams(),
       });
       void saveUserMultiKeyValue(getUtmParams());
-      Sentry.setUser({ email, wallet_address: account.wallet_address });
     }
-  }, [account?.email, account?.wallet_address, isLoggedIn]);
+  }, [account?.email, isLoggedIn]);
 
   // one-signal
   useEffect(() => {

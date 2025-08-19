@@ -10,9 +10,6 @@ import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { formatNumber } from 'utils/numbers';
 import autoTrader from './images/auto-trader.png';
 import spaceship from './images/spaceship.png';
-import gradient1 from './images/gradient-1.png';
-import gradient2 from './images/gradient-2.png';
-import logoOutline from './images/logo-outline.png';
 
 export default function PositionSharingModal({
   open,
@@ -49,21 +46,6 @@ export default function PositionSharingModal({
           className="relative mb-2 overflow-hidden rounded-2xl bg-v1-surface-l1 p-5"
         >
           <img src={spaceship} alt="" className="absolute left-0 mt-10 px-10" />
-          <img
-            src={logoOutline}
-            alt=""
-            className="absolute left-0 top-0 w-4/5"
-          />
-          <img
-            src={gradient1}
-            alt=""
-            className="absolute left-0 top-0 h-full w-full"
-          />
-          <img
-            src={gradient2}
-            alt=""
-            className="absolute left-0 top-0 h-full w-full"
-          />
           <div className="relative">
             <div className="flex items-center justify-between">
               <img src={autoTrader} alt="autoTrader" className="h-6" />
@@ -81,7 +63,7 @@ export default function PositionSharingModal({
               )}
               <div className="my-6">
                 <PriceChange
-                  className="!flex text-3xl"
+                  className="!flex justify-start text-3xl"
                   value={Number(position.pnl)}
                 />
                 {showExtra && (

@@ -39,11 +39,7 @@
 
 /* Table Structure */
 .wsdm-table table {
-  @apply min-w-full table-auto border-separate border-spacing-x-0 border-spacing-y-2 text-sm;
-
-  &:has(thead) {
-    @apply -mt-2;
-  }
+  @apply min-w-full table-auto border-separate border-spacing-x-0 border-spacing-y-2 text-sm -mt-2;
 }
 
 /* Row Styles */

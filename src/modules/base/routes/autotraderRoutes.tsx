@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
 import LeagueMaintenance from 'modules/quest/PageLeague/Maintenance';
+import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
 import Container from '../Container';
 import { ActiveNetworkProvider } from '../active-network';
 import { type RouteHandle } from './types';
@@ -103,7 +104,11 @@ const useAutoTraderRoutes = () => {
           children: [
             {
               path: ':slug',
-              element: <PageTrade />,
+              element: (
+                <ActiveQuoteProvider>
+                  <PageTrade />
+                </ActiveQuoteProvider>
+              ),
               handle: {
                 crumb: p => ({
                   text: 'Trade',

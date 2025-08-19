@@ -39,12 +39,10 @@ const getCandlesCached = async (
   },
 ) => {
   const cacheKey = JSON.stringify(params);
-  console.log(params);
   if (!caches[cacheKey]) {
     caches[cacheKey] = delphinus
       .getCandles(params)
       .then(data => {
-        console.log(data);
         return data.candles.map(c => ({
           open: +c.open,
           high: +c.high,

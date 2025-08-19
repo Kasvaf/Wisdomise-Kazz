@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { type FC } from 'react';
 
 export const Toggle: FC<SwitchProps & { variant?: 'brand' | 'secondary' }> = ({
-  variant = 'secondary',
+  variant = 'brand',
   className,
   ...props
 }) => (

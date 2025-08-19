@@ -69,6 +69,8 @@ jobs:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Build
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |-
           export NODE_OPTIONS=--max-old-space-size=8192
           yarn build:prod
@@ -76,7 +78,7 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp --recursive dist/ s3://${{ env.s3-bucket }}/
+          aws s3 cp --recursive dist/ s3://${{ env.s3-bucket }}/ --exclude "*.map"
           ./scripts/cleanup-bucket.sh ${{ env.s3-bucket }}
 
   notify-slack:

@@ -4,6 +4,7 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
+import * as Sentry from '@sentry/react';
 import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
 import { setGameJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
@@ -18,6 +19,7 @@ export function useAccountQuery(config?: { suspense?: boolean }) {
       const data = await ofetch<Account>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
       );
+      Sentry.setUser({ email: data.email });
       return data;
     },
     staleTime: Number.POSITIVE_INFINITY,

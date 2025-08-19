@@ -64,7 +64,7 @@ const TransactionAnyOrderBox: React.FC<{
           <div className="flex w-full justify-center border-b border-dashed border-v1-content-secondary">
             {!!+price && Number.isFinite(totalPrice) && (
               <div className="h-0 -translate-y-[7px] overflow-visible text-xs">
-                <div className="bg-v1-surface-l2 px-1 text-white/70">
+                <div className="bg-v1-surface-l1 px-1 text-white/70">
                   {roundSensible(totalPrice)} $
                 </div>
               </div>

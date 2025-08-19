@@ -12,7 +12,7 @@ export default function AmountTypeSwitch({
   value,
   onChange,
   showIcon,
-  surface,
+  surface = 1,
 }: {
   base?: string;
   quote?: string;
@@ -31,7 +31,7 @@ export default function AmountTypeSwitch({
       variant="ghost"
       size="2xs"
       className={clsx('shrink-0', showIcon && '!px-1')}
-      surface={surface ?? 2}
+      surface={surface}
       fab={!showIcon}
       onClick={() => {
         onChange(
