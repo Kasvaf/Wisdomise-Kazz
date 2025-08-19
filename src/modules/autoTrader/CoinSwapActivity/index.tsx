@@ -6,6 +6,8 @@ import { Button } from 'shared/v1-components/Button';
 import { useSymbolInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { delphinusGrpc } from 'api/grpc';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { ReactComponent as UsdIcon } from './usd.svg';
 
 export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
@@ -14,19 +16,42 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const { data } = useTraderAssetActivity(
     searchParams.get('slug') ?? undefined,
   );
-  const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
 
+  const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
+  const network = useActiveNetwork();
   const showUsd = settings.showActivityInUsd;
+
+  const lastCandle = delphinusGrpc.useLastCandleStreamLastValue({
+    market: 'SPOT',
+    network,
+    baseSlug: searchParams.get('slug') ?? '',
+    quoteSlug: 'wrapped-solana',
+    convertToUsd: showUsd,
+  });
+
   const unit = showUsd
     ? '$'
     : solanaSymbol && (
         <Coin coin={solanaSymbol} mini noText nonLink className="-mr-1" />
       );
-  const pnlSign = Number(data?.pnl ?? 0) >= 0 ? '+' : '-';
+
+  const totalBought = Number(
+    (showUsd ? data?.total_bought_usd : data?.total_bought) ?? '0',
+  );
+  const totalSold = Number(
+    (showUsd ? data?.total_sold_usd : data?.total_sold) ?? '0',
+  );
+  const hold =
+    Number(data?.balance ?? '0') *
+    Number(lastCandle.data?.candle?.close ?? '0');
+
+  const pnl = totalSold + hold - totalBought;
+  const pnlPercent = totalBought === 0 ? 0 : (pnl / totalBought) * 100;
+  const pnlSign = pnl >= 0 ? '+' : '-';
 
   const formatter = (value?: string | number) => {
     return formatNumber(Number(value ?? '0'), {
-      decimalLength: 1,
+      decimalLength: 2,
       minifyDecimalRepeats: true,
       compactInteger: false,
       separateByComma: false,
@@ -59,7 +84,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
               )}
             >
               {unit}
-              {formatter(showUsd ? data?.total_bought_usd : data?.total_bought)}
+              {formatter(totalBought)}
             </p>
           </div>
           <div className="h-7 border-r border-white/5" />
@@ -72,7 +97,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
               )}
             >
               {unit}
-              {formatter(showUsd ? data?.total_sold_usd : data?.total_sold)}
+              {formatter(totalSold)}
             </p>
           </div>
           <div className="h-7 border-r border-white/5" />
@@ -80,7 +105,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
             {!mini && <p className="text-v1-content-secondary mb-2">Holding</p>}
             <p className={clsx('flex', mini && 'justify-center')}>
               {unit}
-              {formatter(showUsd ? data?.hold_usd : data?.hold)}
+              {formatter(hold)}
             </p>
           </div>
           <div className="h-7 border-r border-white/5" />
@@ -118,10 +143,8 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 >
                   {pnlSign}
                   {unit}
-                  {`${formatter(
-                    Math.abs(Number(data?.usd_pnl ?? 0) ?? 0),
-                  )} (${pnlSign}${Math.abs(
-                    Number(data?.usd_pnl_percent ?? 0),
+                  {`${formatter(Math.abs(pnl))} (${pnlSign}${Math.abs(
+                    pnlPercent,
                   ).toFixed(0)}%)`}
                 </span>
               ) : (
@@ -130,10 +153,8 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 >
                   {unit}
                   {pnlSign}
-                  {`${formatter(
-                    Math.abs(Number(data?.pnl ?? 0) ?? 0),
-                  )} (${pnlSign}${Math.abs(
-                    Number(data?.pnl_percent ?? 0),
+                  {`${formatter(Math.abs(pnl))} (${pnlSign}${Math.abs(
+                    pnlPercent,
                   ).toFixed(0)}%)`}
                 </span>
               )}

@@ -11,14 +11,14 @@ const useCoinPoolInfo = (slug: string) => {
   const info = useSymbolInfo(slug);
 
   const net = info.data?.networks.find(
-    x => x.network.slug === lastCandle.data?.symbol.network,
+    x => x.network.slug === lastCandle.data?.symbol?.network,
   );
 
   return useMemo(
     () => ({
       isLoading: lastCandle.isLoading || info.isLoading,
       data:
-        net && info.data?.name && lastCandle.data?.symbol.pool_address
+        net && info.data?.name && lastCandle.data?.symbol?.poolAddress
           ? {
               slug,
               quote,
@@ -34,7 +34,7 @@ const useCoinPoolInfo = (slug: string) => {
       info.isLoading,
       info.data?.name,
       lastCandle.isLoading,
-      lastCandle.data?.symbol.pool_address,
+      lastCandle.data?.symbol?.poolAddress,
     ],
   );
 };

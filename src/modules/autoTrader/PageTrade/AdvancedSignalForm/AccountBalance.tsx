@@ -5,7 +5,7 @@ import { useAccountBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
 import { Coin } from 'shared/Coin';
 import { useLastPriceQuery } from 'api';
-import { roundSensible } from 'utils/numbers';
+import { formatNumber } from 'utils/numbers';
 
 export const AccountBalance: React.FC<{
   slug?: string;
@@ -51,7 +51,12 @@ export const AccountBalance: React.FC<{
           {symbol && (
             <Coin coin={symbol} mini nonLink noText className="-mr-2 ml-2" />
           )}
-          {balance}
+          {formatNumber(balance ?? 0, {
+            decimalLength: 2,
+            minifyDecimalRepeats: true,
+            compactInteger: false,
+            separateByComma: false,
+          })}
         </span>
         {quote && (
           <>
@@ -66,7 +71,12 @@ export const AccountBalance: React.FC<{
                   className="-mr-2 ml-1"
                 />
               )}
-              {roundSensible((priceByQuote ?? 0) * (balance ?? 0))}
+              {formatNumber((priceByQuote ?? 0) * (balance ?? 0), {
+                decimalLength: 2,
+                minifyDecimalRepeats: true,
+                compactInteger: false,
+                separateByComma: false,
+              })}
             </span>
           </>
         )}
