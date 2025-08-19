@@ -72,16 +72,16 @@ export default {
       );
       addUtilities({
         '.scrollbar-none': {
-          'scrollbarWidth': 'none',
-          '-webkit-scrollbar-width': 'none',
+          'scrollbarWidth': 'none !important',
+          '-webkit-scrollbar-width': 'none !important',
         },
         '.scrollbar-thin': {
-          'scrollbarWidth': 'thin',
-          '-webkit-scrollbar-width': 'thin',
+          'scrollbarWidth': 'thin !important',
+          '-webkit-scrollbar-width': 'thin !important',
         },
         '.scrollbar-auto': {
-          'scrollbarWidth': 'auto',
-          '-webkit-scrollbar-width': 'auto',
+          'scrollbarWidth': 'auto !important',
+          '-webkit-scrollbar-width': 'auto !important',
         },
       });
     },

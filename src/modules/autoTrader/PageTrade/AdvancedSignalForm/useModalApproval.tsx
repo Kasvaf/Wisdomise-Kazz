@@ -5,13 +5,13 @@ import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
 import useModal from 'shared/useModal';
-import Button from 'shared/Button';
 import Spin from 'shared/Spin';
 import InfoLine from 'modules/autoTrader/components/InfoLine';
 import MessageBox from 'modules/autoTrader/components/MessageBox';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { isMiniApp } from 'utils/version';
+import { Button } from 'shared/v1-components/Button';
 import { type SignalFormState } from './useSignalFormStates';
 
 const PriceVol: React.FC<{
@@ -170,12 +170,12 @@ const ModalApproval: React.FC<{
       </div>
 
       <div className="mt-6 flex items-center gap-2">
-        <Button onClick={() => onResolve?.(false)} variant="alternative">
+        <Button onClick={() => onResolve?.(false)} variant="ghost">
           Edit
         </Button>
         <Button
           onClick={() => onResolve?.(true)}
-          variant="brand"
+          variant="primary"
           className="grow"
           disabled={isLoading || !hasEnoughGas || !!data?.error}
           loading={isLoading}

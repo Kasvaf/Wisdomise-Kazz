@@ -13,6 +13,7 @@ import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
 import useIsMobile from 'utils/useIsMobile';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { Coin } from 'shared/v1-components/Coin';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
@@ -130,6 +131,13 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           onClick={r => openModal(r)}
           scrollable={false}
           isActive={r => r.symbol.slug === activeSlug}
+          rowHoverSuffix={row => (
+            <BtnQuickBuy
+              source="coin_radar"
+              slug={row.symbol.slug}
+              networks={row.networks}
+            />
+          )}
         />
       </AccessShield>
 
