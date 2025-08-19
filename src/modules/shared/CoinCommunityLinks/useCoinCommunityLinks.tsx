@@ -1,6 +1,7 @@
 import { type ReactNode, useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { FacebookEmbed, XEmbed } from 'react-social-media-embed';
 import { type CoinCommunityData } from 'api/discovery';
 // https://simpleicons.org
 import { ReactComponent as FacebookIcon } from './facebook.svg';
@@ -13,17 +14,18 @@ function extractTwitterInfo(twitterScreenerName: string): {
   type: 'profile' | 'post' | 'other';
   value?: string;
 } {
+  const lastPart = twitterScreenerName.slice(
+    twitterScreenerName.lastIndexOf('/') + 1,
+  );
   if (twitterScreenerName.includes('/status/')) {
     return {
       type: 'post',
-      value: twitterScreenerName.slice(
-        twitterScreenerName.lastIndexOf('/') + 1,
-      ),
+      value: lastPart,
     };
   } else if (!twitterScreenerName.includes('?')) {
     return {
       type: 'profile',
-      value: twitterScreenerName,
+      value: lastPart,
     };
   }
   return { type: 'other' };
@@ -40,7 +42,7 @@ export const useCoinCommunityLinks = (
       preview?: ReactNode;
       icon: ReactNode;
       label: ReactNode;
-      href: string;
+      url: URL;
     }> = [];
     if (value?.subreddit_url) {
       ret = [
@@ -50,13 +52,18 @@ export const useCoinCommunityLinks = (
           name: 'reddit',
           icon: <RedditIcon />,
           label: t('coin-details.tabs.coin_links.reddit'),
-          href: value?.subreddit_url,
+          url: new URL(value?.subreddit_url, 'https://reddit.com'),
         },
       ];
     }
     if (value?.twitter_screen_name) {
       const twitterInfo = extractTwitterInfo(value.twitter_screen_name);
       const isPost = twitterInfo.type === 'post' && twitterInfo.value;
+      const isProfile = twitterInfo.type === 'profile' && twitterInfo.value;
+      const url = new URL(
+        value?.twitter_screen_name.replace('x.com', 'twitter.com'),
+        'https://twitter.com',
+      );
       ret = [
         ...ret,
         {
@@ -64,23 +71,39 @@ export const useCoinCommunityLinks = (
           name: isPost ? 'twitter-post' : 'twitter-profile',
           icon: isPost ? <TwitterPostIcon /> : <TwitterIcon />,
           preview: isPost ? (
-            <>
-              {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
-              <iframe
-                title="twitter-preview"
-                src={`https://platform.twitter.com/embed/Tweet.html?dnt=false&frame=false&hideCard=true&hideThread=true&id=${
-                  twitterInfo?.value ?? '0'
-                }&lang=en&&theme=dark&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=350px`}
-                className="h-64 w-[450px]"
+            <XEmbed
+              twitterTweetEmbedProps={{
+                tweetId: twitterInfo.value as never,
+                options: {
+                  theme: 'dark',
+                },
+              }}
+              url={url.href}
+              width={350}
+              id={url.href}
+            />
+          ) : isProfile ? (
+            <a
+              href={url.href}
+              target="_blank"
+              rel="noreferrer"
+              referrerPolicy="no-referrer"
+              className="p-3 flex items-center gap-1 rounded-xl border border-white/10 text-xs !bg-[#17222e] !text-white"
+            >
+              <img
+                className="size-8 rounded-full"
+                src={`https://unavatar.io/x/${twitterInfo.value ?? ''}`}
               />
-            </>
+              @{twitterInfo.value}
+            </a>
           ) : null,
           label: t('coin-details.tabs.coin_links.twitter'),
-          href: `https://x.com/${value?.twitter_screen_name}`,
+          url,
         },
       ];
     }
     if (value?.facebook_username) {
+      const url = new URL(value?.facebook_username, 'https://facebook.com');
       ret = [
         ...ret,
         {
@@ -88,7 +111,8 @@ export const useCoinCommunityLinks = (
           name: 'facebook',
           icon: <FacebookIcon />,
           label: t('coin-details.tabs.coin_links.facebook'),
-          href: `https://facebook.com/${value?.facebook_username}`,
+          preview: <FacebookEmbed url={url.href} width={350} />,
+          url,
         },
       ];
     }
@@ -100,7 +124,7 @@ export const useCoinCommunityLinks = (
           name: 'telegram',
           icon: <TelegramIcon />,
           label: t('coin-details.tabs.coin_links.telegram'),
-          href: `https://t.me/${value?.telegram_channel_identifier}`,
+          url: new URL(value?.telegram_channel_identifier, 'https://t.me'),
         },
       ];
     }

@@ -48,8 +48,8 @@ const PositionDetail: React.FC<{
       )}
       key={position.key}
     >
-      <div className="flex flex-wrap gap-3 items-center justify-between">
-        <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between max-w-full">
+        <div className="flex items-center gap-1 shrink overflow-auto scrollbar-none">
           <span className="text-white/30">#{position.id}</span>
           {!!position.mode && position.mode !== 'buy_and_sell' && (
             <span className="rounded-full bg-white/10 px-2">Swap</span>
