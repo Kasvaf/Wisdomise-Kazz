@@ -35,8 +35,8 @@ const AmountInputBox: React.FC<Props> = ({ min, max, ...props }) => {
           min !== undefined && +props.value < min
             ? String(min)
             : max !== undefined && +props.value > max
-            ? String(max)
-            : props.value,
+              ? String(max)
+              : props.value,
         );
         props.onBlur?.();
       }}

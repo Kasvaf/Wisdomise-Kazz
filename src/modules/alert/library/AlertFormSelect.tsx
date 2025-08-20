@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { bxChevronDown, bxChevronRight } from 'boxicons-quasar';

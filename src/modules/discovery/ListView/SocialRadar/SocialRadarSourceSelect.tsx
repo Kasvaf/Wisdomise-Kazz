@@ -37,8 +37,8 @@ export const SocialRadarSourceSelect: FC<{
                 source.value.includes('telegram')
                   ? 'telegram'
                   : source.value.includes('reddit')
-                  ? 'reddit'
-                  : 'twitter'
+                    ? 'reddit'
+                    : 'twitter'
               }
             />
             {source.name}

@@ -19,7 +19,6 @@ import {
 import { Coin } from 'shared/Coin';
 import { useSymbolInfo } from 'api/symbol';
 import { DrawerModal } from 'shared/DrawerModal';
-// eslint-disable-next-line import/max-dependencies
 import Icon from 'shared/Icon';
 
 const rankOrdinalNumber = (n: number) => {

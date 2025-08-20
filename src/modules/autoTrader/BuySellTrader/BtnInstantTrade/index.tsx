@@ -28,7 +28,6 @@ import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/
 import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { ReactComponent as InstantIcon } from './instant.svg';
-// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as DragIcon } from './drag.svg';
 
 export default function BtnInstantTrade({

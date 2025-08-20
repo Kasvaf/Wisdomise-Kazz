@@ -16,6 +16,7 @@ const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
     false,
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     setDone(false);
   }, [address, net]);
@@ -43,6 +44,7 @@ const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
     net,
     setWalletConnected,
     walletConnectedFirstTime,
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
     quotesBalance,
     done,
     isLoading,

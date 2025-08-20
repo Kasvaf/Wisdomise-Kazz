@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { type FC } from 'react';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPriceChart } from 'shared/CoinPriceChart';

@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
 import { useCoinDetails } from 'api/discovery';

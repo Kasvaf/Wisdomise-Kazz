@@ -103,15 +103,16 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     }
   }, [basePriceByQuote, limitType, marketCap]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!limit) {
       updateLimit();
     }
   }, [basePriceByQuote, limit, limitType, marketCap, updateLimit]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     updateLimit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quote, limitType, isMarketPrice]);
 
   return {

@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { notification } from 'antd';
 import { useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';

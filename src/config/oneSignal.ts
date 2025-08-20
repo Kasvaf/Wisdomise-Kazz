@@ -7,8 +7,8 @@ const init = async () => {
   const appId = isLocal
     ? 'c25e5c04-1116-4441-8f7e-3f668df1b586'
     : isProduction
-    ? 'b36841de-ac38-4574-837e-c24c7955765a'
-    : '6c1b64e8-1efd-44f2-ae5a-36dbacc3e71d';
+      ? 'b36841de-ac38-4574-837e-c24c7955765a'
+      : '6c1b64e8-1efd-44f2-ae5a-36dbacc3e71d';
   if (initPromise === null) {
     initPromise = OneSignal.init({
       appId,

@@ -29,10 +29,10 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
                 params.view === 'list' || !hasSlug
                   ? 'list'
                   : params.view === 'detail'
-                  ? 'both'
-                  : params.list === item.meta.list
-                  ? 'detail'
-                  : 'both',
+                    ? 'both'
+                    : params.list === item.meta.list
+                      ? 'detail'
+                      : 'both',
             })}
             key={item.link}
             className={clsx(

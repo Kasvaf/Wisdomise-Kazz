@@ -40,8 +40,8 @@ export const ReadableDate: FC<{
               typeof suffix === 'string'
                 ? suffix
                 : suffix === true
-                ? ' Ago'
-                : ''
+                  ? ' Ago'
+                  : ''
             }`
           : `${date
               .fromNow(!!(suffix === false || typeof suffix === 'string'))

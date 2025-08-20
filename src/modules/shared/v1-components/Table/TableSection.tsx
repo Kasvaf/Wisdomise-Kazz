@@ -43,7 +43,7 @@ export const TableSection: FC<
       }}
       {...props}
     >
-      {visible || alwaysVisible ? children : fallbackChildren ?? null}
+      {visible || alwaysVisible ? children : (fallbackChildren ?? null)}
     </tbody>
   );
 };

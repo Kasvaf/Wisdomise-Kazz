@@ -83,6 +83,7 @@ export function useUserStorage<T = string>(
       }),
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!userEmail) {
       void queryClient.invalidateQueries({
@@ -91,7 +92,6 @@ export function useUserStorage<T = string>(
           query.queryKey.includes(key),
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userEmail]);
 
   return useMemo(() => {

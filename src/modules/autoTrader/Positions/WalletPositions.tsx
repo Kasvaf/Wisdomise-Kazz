@@ -30,6 +30,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
     return ['OPENING', 'OPEN', 'CLOSING'].includes(position.status);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   const columns = useMemo<Array<TableColumn<Position>>>(
     () => [
       {

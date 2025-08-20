@@ -38,10 +38,10 @@ export default function AmountTypeSwitch({
           value === 'percentage'
             ? 'quote'
             : value === 'quote'
-            ? base
-              ? 'base'
-              : 'percentage'
-            : 'percentage',
+              ? base
+                ? 'base'
+                : 'percentage'
+              : 'percentage',
         );
       }}
     >

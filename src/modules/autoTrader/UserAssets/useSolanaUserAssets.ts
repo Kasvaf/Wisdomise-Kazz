@@ -22,7 +22,7 @@ export const useSolanaWalletBalanceInUSD = (address?: string) => {
   return {
     balance: isPending
       ? 0
-      : assets?.reduce((sum, curr) => (sum += curr.usd_equity), 0) ?? 0,
+      : (assets?.reduce((sum, curr) => (sum += curr.usd_equity), 0) ?? 0),
     isPending,
   };
 };

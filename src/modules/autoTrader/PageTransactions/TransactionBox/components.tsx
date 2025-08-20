@@ -96,7 +96,7 @@ export const SCANNERS: Record<
     name: 'TonViewer',
     baseUrl: 'https://tonviewer.com/',
   },
-  'solana': {
+  solana: {
     name: 'SolScan',
     baseUrl: 'https://solscan.io/',
     txPath: 'tx/',

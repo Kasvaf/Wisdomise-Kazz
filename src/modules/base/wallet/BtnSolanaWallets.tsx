@@ -30,7 +30,6 @@ import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import { Coins } from 'shared/Coins';
 import { type Surface } from 'utils/useSurface';
-// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
 export default function BtnSolanaWallets({
@@ -59,7 +58,7 @@ export default function BtnSolanaWallets({
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
         variant={variant}
-        size={isMobile ? 'md' : size ?? 'xs'}
+        size={isMobile ? 'md' : (size ?? 'xs')}
         className={className}
         surface={surface}
       >

@@ -28,8 +28,8 @@ export const MiniBar: FC<{
             barValue < size
               ? 'bg-white/10'
               : value < 0
-              ? 'bg-v1-content-negative'
-              : 'bg-v1-content-positive',
+                ? 'bg-v1-content-negative'
+                : 'bg-v1-content-positive',
           )}
           style={{
             width: `${barWidth}px`,

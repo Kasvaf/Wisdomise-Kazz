@@ -56,9 +56,9 @@ const AIPresets: React.FC<{
     stopLosses: [stopLosses, setStopLosses],
   } = data;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     setActivePreset(activePreset < 0 ? -activePreset - 1 : 3);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [safetyOpens, takeProfits, stopLosses]);
 
   const tourSelector = 'id-tour-ai-preset';
@@ -141,8 +141,8 @@ const AIPresets: React.FC<{
         >
           {isLoading
             ? 'Loading Presets'
-            : presets?.[activePreset]?.label ??
-              (noManual ? 'Select Preset' : 'Manual')}
+            : (presets?.[activePreset]?.label ??
+              (noManual ? 'Select Preset' : 'Manual'))}
           <Icon name={bxChevronDown} size={16} />
         </Button>
 

@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { Trans } from 'react-i18next';
 import {
   type ComponentProps,

@@ -35,10 +35,10 @@ export const RsiDivergence: FC<{
       {mini
         ? null
         : hasValue
-        ? value > 0
-          ? t('keywords.rsi_bullish.label_equiv')
-          : t('keywords.rsi_bearish.label_equiv')
-        : t('common:not-available')}
+          ? value > 0
+            ? t('keywords.rsi_bullish.label_equiv')
+            : t('keywords.rsi_bearish.label_equiv')
+          : t('common:not-available')}
     </span>
   );
 };

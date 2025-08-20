@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { bxHistory } from 'boxicons-quasar';

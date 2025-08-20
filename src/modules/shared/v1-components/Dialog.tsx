@@ -69,14 +69,14 @@ const usePopupPosition = (
 
     const preferredTop =
       (calculateBy === 'target'
-        ? anchorRect?.top ?? pointerPosition.top
+        ? (anchorRect?.top ?? pointerPosition.top)
         : pointerPosition.top) +
-      (calculateBy === 'target' ? anchorRect?.height ?? 0 : 0) +
+      (calculateBy === 'target' ? (anchorRect?.height ?? 0) : 0) +
       margin;
     const preferedBottom =
       window.innerHeight -
       (calculateBy === 'target'
-        ? anchorRect?.top ?? pointerPosition.top
+        ? (anchorRect?.top ?? pointerPosition.top)
         : pointerPosition.top) +
       margin;
 
@@ -92,7 +92,7 @@ const usePopupPosition = (
     // Horizontal centering
     let left =
       (calculateBy === 'target'
-        ? anchorRect?.left ?? pointerPosition.left
+        ? (anchorRect?.left ?? pointerPosition.left)
         : pointerPosition.left) +
       (calculateBy === 'target' ? (anchorRect?.width ?? 0) / 2 : 0) -
       popupRect.width / 2;
@@ -215,6 +215,7 @@ export const Dialog: FC<{
     [onClose, onOpen],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (ignoreFocus) return;
     if (isOpen) {

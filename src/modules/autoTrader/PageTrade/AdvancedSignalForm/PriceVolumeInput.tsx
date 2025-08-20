@@ -28,6 +28,7 @@ const InternalInput: React.FC<{
       ref.style.removeProperty('overflow-x');
     }
   };
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(resize, [ref, value]);
 
   return (

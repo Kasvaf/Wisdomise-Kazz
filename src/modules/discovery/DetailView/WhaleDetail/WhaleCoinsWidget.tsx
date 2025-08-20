@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';

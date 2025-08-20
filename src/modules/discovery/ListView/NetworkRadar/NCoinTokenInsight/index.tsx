@@ -122,8 +122,8 @@ export const NCoinTokenInsight: FC<{
                   item.color === 'green'
                     ? 'text-v1-background-positive'
                     : item.color === 'red'
-                    ? 'text-v1-background-negative'
-                    : 'opacity-80',
+                      ? 'text-v1-background-negative'
+                      : 'opacity-80',
                 )}
               >
                 <item.icon
@@ -131,8 +131,8 @@ export const NCoinTokenInsight: FC<{
                     item.color === 'green'
                       ? 'stroke-v1-background-positive-subtle'
                       : item.color === 'red'
-                      ? 'stroke-v1-background-negative-subtle'
-                      : '',
+                        ? 'stroke-v1-background-negative-subtle'
+                        : '',
                     'size-4',
                     imgClassName,
                   )}
@@ -172,8 +172,8 @@ export const NCoinTokenInsight: FC<{
                       item.color === 'green'
                         ? 'text-v1-background-positive'
                         : item.color === 'red'
-                        ? 'text-v1-background-negative'
-                        : 'opacity-80',
+                          ? 'text-v1-background-negative'
+                          : 'opacity-80',
                     )}
                   >
                     <item.icon
@@ -181,8 +181,8 @@ export const NCoinTokenInsight: FC<{
                         item.color === 'green'
                           ? 'stroke-v1-background-positive-subtle'
                           : item.color === 'red'
-                          ? 'stroke-v1-background-negative-subtle'
-                          : '',
+                            ? 'stroke-v1-background-negative-subtle'
+                            : '',
                         'size-5',
                         imgClassName,
                       )}

@@ -15,20 +15,20 @@ export const SRSTitle: FC<{
         value === 'LONG'
           ? 'text-v1-content-positive'
           : value === 'SHORT'
-          ? 'text-v1-content-negative'
-          : value === 'NEUTRAL'
-          ? 'text-v1-content-primary'
-          : 'text-v1-content-secondary',
+            ? 'text-v1-content-negative'
+            : value === 'NEUTRAL'
+              ? 'text-v1-content-primary'
+              : 'text-v1-content-secondary',
         className,
       )}
     >
       {value === 'LONG'
         ? t('call-change.positive')
         : value === 'SHORT'
-        ? t('call-change.negative')
-        : value === 'NEUTRAL'
-        ? t('call-change.neutral')
-        : t('call-change.not_sure')}
+          ? t('call-change.negative')
+          : value === 'NEUTRAL'
+            ? t('call-change.neutral')
+            : t('call-change.not_sure')}
     </div>
   );
 };

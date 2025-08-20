@@ -20,7 +20,6 @@ import box from './images/box.png';
 import bg from './images/bg.png';
 import { ReactComponent as Stars } from './images/stars.svg';
 import { ReactComponent as Arrow } from './images/arrow.svg';
-// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Lock } from './images/lock.svg';
 
 export default function DailyTrade({ className }: { className?: string }) {

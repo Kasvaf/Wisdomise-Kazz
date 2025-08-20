@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { bxBell } from 'boxicons-quasar';
@@ -36,12 +35,12 @@ export function StepOne({
 
   const form = useMemo(
     () => ({
-      'data_source': value.data_source ?? 'social_radar',
+      data_source: value.data_source ?? 'social_radar',
       'symbol.categories': JSON.parse(
         (value.conditions?.find(x => x.field_name === 'symbol.categories')
           ?.threshold as string) ?? '[]',
       ),
-      'networks': JSON.parse(
+      networks: JSON.parse(
         (value.conditions?.find(x => x.field_name === 'networks')
           ?.threshold as string) ?? '[]',
       ),

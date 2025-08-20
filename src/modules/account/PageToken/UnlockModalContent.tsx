@@ -84,8 +84,8 @@ export default function UnlockModalContent({
           {isPending
             ? 'Waiting for unlock signature'
             : isWaiting
-            ? 'Unlock transaction is confirming'
-            : 'Unlock & Exit Wise Club'}
+              ? 'Unlock transaction is confirming'
+              : 'Unlock & Exit Wise Club'}
         </Button>
       </div>
     </div>

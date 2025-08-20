@@ -11,11 +11,11 @@ const NETWORK_ICON: Record<
   string,
   { Icon: FunctionComponent<SVGProps<SVGSVGElement>>; title: string }
 > = {
-  'solana': {
+  solana: {
     Icon: SolanaIcon,
     title: 'Solana',
   },
-  'base': {
+  base: {
     Icon: BaseIcon,
     title: 'Base',
   },
@@ -23,15 +23,15 @@ const NETWORK_ICON: Record<
     Icon: TonIcon,
     title: 'Ton',
   },
-  'ethereum': {
+  ethereum: {
     Icon: EthereumIcon,
     title: 'Ethereum',
   },
-  'arbitrum': {
+  arbitrum: {
     Icon: ArbitrumIcon,
     title: 'Arbitrum',
   },
-  'polygon': {
+  polygon: {
     Icon: PolygonIcon,
     title: 'Polygon',
   },

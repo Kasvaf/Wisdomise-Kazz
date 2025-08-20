@@ -13,6 +13,7 @@ export const useOnSearchParamDetectedOnce = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const isCalled = useRef(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     isCalled.current = false;
   }, [searchParam]);

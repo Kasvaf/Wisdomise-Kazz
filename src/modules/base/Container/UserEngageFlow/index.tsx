@@ -17,6 +17,7 @@ const useNavigateToOnboarding = () => {
   const { group } = useSubscription();
   const { value } = useUserStorage('onboarding-data');
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (value) {
       try {

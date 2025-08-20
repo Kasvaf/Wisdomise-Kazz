@@ -30,8 +30,8 @@ export const calcNCoinMarketCapColor = (mc: number) =>
   mc <= 30_000
     ? '#0edcdc' /* cyan */
     : mc <= 150_000
-    ? '#f3d525' /* yellow */
-    : '#00ffa3'; /* green */
+      ? '#f3d525' /* yellow */
+      : '#00ffa3'; /* green */
 
 export const calcNCoinBCurveColor = ({
   bCurvePercent,
@@ -41,10 +41,10 @@ export const calcNCoinBCurveColor = ({
   bCurvePercent <= 33
     ? '#FFF'
     : bCurvePercent <= 66
-    ? '#00A3FF'
-    : bCurvePercent <= 99
-    ? '#00FFA3'
-    : '#FFDA6C';
+      ? '#00A3FF'
+      : bCurvePercent <= 99
+        ? '#00FFA3'
+        : '#FFDA6C';
 
 export const convertNCoinSecurityFieldToBool = ({
   value,

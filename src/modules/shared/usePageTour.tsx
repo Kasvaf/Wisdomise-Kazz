@@ -16,6 +16,7 @@ const usePageTour = ({
   const [seen, setSeen] = useLocalStorage('seen-' + key, false);
   const { setCurrentStep, setSteps, setIsOpen } = useTour();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!enabled || seen) return;
     const timer = setTimeout(() => {
@@ -26,7 +27,6 @@ const usePageTour = ({
     }, delay);
 
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, seen, steps]);
 };
 

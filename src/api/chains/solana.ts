@@ -387,8 +387,9 @@ export const useSolanaMarketSwap = () => {
       await Promise.all(
         (lookupTableAddresses || []).map(
           async address =>
-            (await connection.getAddressLookupTable(new PublicKey(address)))
-              .value || null,
+            (
+              await connection.getAddressLookupTable(new PublicKey(address))
+            ).value || null,
         ),
       )
     ).filter((table): table is AddressLookupTableAccount => table != null);

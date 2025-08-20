@@ -63,7 +63,7 @@ div[data-tc-modal] {
 
   .intro-style & {
     &::before {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       top: -2px;

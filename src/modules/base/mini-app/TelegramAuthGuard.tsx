@@ -70,6 +70,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   }, [spType, confirm, doTgLogin, doWebLogin, doConnect, webApp]);
 
   const navigate = useNavigate();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (isLoggedIn) {
       Sentry.setUser({

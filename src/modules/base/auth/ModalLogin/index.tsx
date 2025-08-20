@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';

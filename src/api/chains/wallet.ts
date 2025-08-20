@@ -44,20 +44,20 @@ export const useConnectedWallet = () => {
       net === 'the-open-network'
         ? tonAddress
         : net === 'solana' || net === 'polygon'
-        ? appKitAddress
-        : undefined,
+          ? appKitAddress
+          : undefined,
     name:
       net === 'the-open-network'
         ? tonConnectUI.wallet?.device.appName
         : net === 'solana' || net === 'polygon'
-        ? appKitWalletInfo.walletInfo?.name
-        : undefined,
+          ? appKitWalletInfo.walletInfo?.name
+          : undefined,
     connected:
       net === 'the-open-network'
         ? tonConnectUI.connected
         : net === 'solana' || net === 'polygon'
-        ? isAppKitConnected && isValidChain
-        : false,
+          ? isAppKitConnected && isValidChain
+          : false,
     icon:
       net === 'solana' || net === 'polygon'
         ? appKitWalletInfo.walletInfo?.icon

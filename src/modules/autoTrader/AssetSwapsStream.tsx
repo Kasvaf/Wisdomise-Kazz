@@ -12,8 +12,9 @@ import { timeAgo } from 'utils/date';
 const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   const { data: symbol } = useSymbolInfo(slug);
   const network = useActiveNetwork();
-  const asset = symbol?.networks.find(x => x.network.slug === network)
-    ?.contract_address;
+  const asset = symbol?.networks.find(
+    x => x.network.slug === network,
+  )?.contract_address;
 
   const enabled = !!network && !!asset;
   const { data: history, isLoading } = delphinusGrpc.useSwapsHistoryQuery(

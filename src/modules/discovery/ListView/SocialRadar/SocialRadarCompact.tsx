@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { Coin } from 'shared/v1-components/Coin';
 import { AccessShield } from 'shared/AccessShield';

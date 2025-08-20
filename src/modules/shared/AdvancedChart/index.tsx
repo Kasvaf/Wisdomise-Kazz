@@ -72,6 +72,7 @@ const AdvancedChart: React.FC<{
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (isLoading || !data?.network) return;
     const savedResolution = (localStorage.getItem(

@@ -18,7 +18,7 @@ function addGtm() {
   if (!GTM_ID) return;
 
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ 'gtm.start': Date.now(), 'event': 'gtm.js' });
+  window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
   const f = document.querySelectorAll('script')[0];
   const j = document.createElement('script');
   j.async = true;
@@ -107,6 +107,7 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
   }, [isLoggedIn, account?.email, account?.info]);
 
   // customerIo once logged in
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (isLoading) return;
     customerIo.loadScript();

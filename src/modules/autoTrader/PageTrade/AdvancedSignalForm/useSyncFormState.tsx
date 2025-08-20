@@ -71,6 +71,7 @@ const useSyncFormState = ({
 
   // reset all when asset is changed
   const isUpdate = Boolean(activePosition);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     setTakeProfits([]);
     setStopLosses([]);
@@ -101,6 +102,7 @@ const useSyncFormState = ({
 
   const [pairSlug, setPair] = useState<string>();
   // merge remote changes of active-position to local form state
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     setIsUpdate(!!activePosition);
 

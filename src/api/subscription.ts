@@ -30,7 +30,7 @@ export function useSubscription() {
   const navigate = useNavigate();
   const [loginModal, showModalLogin] = useModalLogin();
 
-  const level = isMiniApp ? 3 : plan?.level ?? 0;
+  const level = isMiniApp ? 3 : (plan?.level ?? 0);
 
   const status = subs?.status ?? 'canceled';
 

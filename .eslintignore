@@ -1,8 +1,0 @@
-vite.config.ts
-i18next-parser.config.js
-/src/modules/base/tailwind.css
-**/*.md
-public/*
-scripts/*
-src/modules/shared/AdvancedChart/charting_library/*
-src/api/proto/*

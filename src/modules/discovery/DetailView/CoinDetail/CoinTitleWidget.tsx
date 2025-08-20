@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { type ReactNode, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -115,8 +114,8 @@ export const CoinTitleWidget: FC<{
                           data.risks?.level === 'low'
                             ? 'text-v1-content-positive'
                             : data.risks?.level === 'medium'
-                            ? 'text-v1-content-notice'
-                            : 'text-v1-content-negative',
+                              ? 'text-v1-content-notice'
+                              : 'text-v1-content-negative',
                         )}
                       >
                         {data.risks?.percentage ?? 0}

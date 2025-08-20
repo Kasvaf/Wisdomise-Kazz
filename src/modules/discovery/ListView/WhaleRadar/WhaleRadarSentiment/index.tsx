@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxDotsHorizontal } from 'boxicons-quasar';

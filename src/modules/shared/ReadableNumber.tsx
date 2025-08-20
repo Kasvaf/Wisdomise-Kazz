@@ -43,7 +43,7 @@ function NumberWithLabel({
       }}
     >
       <span className="whitespace-nowrap">
-        {typeof value === 'string' ? value : emptyText ?? t('not-available')}
+        {typeof value === 'string' ? value : (emptyText ?? t('not-available'))}
       </span>
       {labelObject?.text && typeof value === 'string' && (
         <span className={clsx(labelObject?.small && 'ms-px')}>

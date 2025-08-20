@@ -19,10 +19,10 @@ export const SRSSubtitle: FC<{
       {value === 'LONG'
         ? t('call-change.long_desciption')
         : value === 'SHORT'
-        ? t('call-change.short_desciption')
-        : value === 'NEUTRAL'
-        ? t('call-change.neutral_description')
-        : t('call-change.not_sure_description')}
+          ? t('call-change.short_desciption')
+          : value === 'NEUTRAL'
+            ? t('call-change.neutral_description')
+            : t('call-change.not_sure_description')}
     </div>
   );
 };

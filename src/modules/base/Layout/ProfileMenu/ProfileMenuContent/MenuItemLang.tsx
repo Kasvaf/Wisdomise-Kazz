@@ -61,9 +61,7 @@ const MenuItemLang = () => {
       <MenuItem className="w-full">
         <BoxedIcon icon={IconLanguage} />
         Language{' '}
-        <span className="text-v1-content-secondary">
-          {selected?.label}
-        </span>{' '}
+        <span className="text-v1-content-secondary">{selected?.label}</span>{' '}
         {loading && <Spin />}
       </MenuItem>
     </ClickableTooltip>

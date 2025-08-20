@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { type FC, Fragment, useEffect, useRef, useState } from 'react';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { clsx } from 'clsx';
@@ -54,8 +53,8 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
             upSideSize === '0%'
               ? '!h-[60px]'
               : upSideSize === '100%'
-              ? '!h-[calc(100%-3rem)]'
-              : '!max-h-[calc(100%-8rem)] !min-h-[8rem]',
+                ? '!h-[calc(100%-3rem)]'
+                : '!max-h-[calc(100%-8rem)] !min-h-[8rem]',
           ),
           clsx(upSideSize === '100%' && 'overflow-hidden'),
         ]}

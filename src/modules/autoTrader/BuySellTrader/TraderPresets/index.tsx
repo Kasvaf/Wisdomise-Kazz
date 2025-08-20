@@ -187,6 +187,7 @@ function TraderPresetSettingsDialog({
   const [currentPreset, setCurrentPreset] = useState(0);
   const [currentMode, setCurrentMode] = useState<'buy' | 'sell'>('buy');
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (settings) {
       setPresets([...settings.presets]);
@@ -276,9 +277,9 @@ function TraderPresetForm({
 }) {
   const [value, setValue] = useState(defaultValue);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     onChange(value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (

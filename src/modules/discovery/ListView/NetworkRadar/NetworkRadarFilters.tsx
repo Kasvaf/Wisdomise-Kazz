@@ -69,8 +69,8 @@ export const NetworkRadarFilters: FC<
       (tab === 'final_stretch'
         ? protocols?.finalStretchProtocols
         : tab === 'migrated'
-        ? protocols?.migratedProtocols
-        : protocols?.newBornProtocols) ?? []
+          ? protocols?.migratedProtocols
+          : protocols?.newBornProtocols) ?? []
     );
   }, [tab, protocols]);
 

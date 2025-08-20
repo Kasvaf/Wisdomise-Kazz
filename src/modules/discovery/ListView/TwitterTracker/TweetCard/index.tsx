@@ -60,10 +60,10 @@ const TweetType: FC<{
   const Component = isRetweet
     ? RetweetIcon
     : isQuote
-    ? QuoteIcon
-    : isReply
-    ? ReplyIcon
-    : TweetIcon;
+      ? QuoteIcon
+      : isReply
+        ? ReplyIcon
+        : TweetIcon;
   return <Component className={className} />;
 };
 

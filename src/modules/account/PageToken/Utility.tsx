@@ -72,8 +72,8 @@ export default function Utility() {
             {isPending
               ? 'Waiting for withdraw signature'
               : isWaiting
-              ? 'Withdraw transaction is confirming'
-              : 'Withdraw'}
+                ? 'Withdraw transaction is confirming'
+                : 'Withdraw'}
           </Button>
         </div>
       ) : null}

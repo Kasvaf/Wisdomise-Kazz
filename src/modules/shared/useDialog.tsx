@@ -24,7 +24,7 @@ function useDialog<TResult, MyDialogProps>(
     [isRunning, params, resolve],
   );
 
-  // eslint-disable-next-line react/jsx-key
+  // biome-ignore lint/correctness/useJsxKeyInIterable: <reason>
   return [<MyDialog {...dialogParams} />, run] as const;
 }
 

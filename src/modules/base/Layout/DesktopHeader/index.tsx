@@ -1,5 +1,5 @@
 import { type ReactElement } from 'react';
-/* eslint-disable import/max-dependencies */
+
 import { clsx } from 'clsx';
 import type React from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';

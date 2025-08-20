@@ -17,8 +17,8 @@ import { PingServiceClientImpl } from './proto/common';
 
 const grpcServices = {
   'network-radar': NetworkRadarServiceClientImpl,
-  'delphinus': DelphinusServiceClientImpl,
-  'ping': PingServiceClientImpl,
+  delphinus: DelphinusServiceClientImpl,
+  ping: PingServiceClientImpl,
 } as const;
 
 type ServiceKey = keyof typeof grpcServices;
@@ -40,9 +40,9 @@ const useSvgMethodKey = (
   methodName: string,
   params: unknown,
 ) => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reason
   const generateKey = useCallback(() => {
     return ['grpc', service, methodName.split(' ')[1], params] as QueryKey;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [service, methodName, JSON.stringify(params)]);
   const [key, setKey] = useState(generateKey());
 
@@ -91,9 +91,9 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
   const key = useSvgMethodKey(svc, method.name, params);
 
   return useObservableLastValue({
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
     observable: useMemo(
       () => method.call(service, params),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [service, method, JSON.stringify(params)],
     ),
     enabled,
@@ -118,9 +118,9 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
   const key = useSvgMethodKey(svc, method.name, params);
 
   return useObservableAllValues({
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
     observable: useMemo(
       () => method.call(service, params),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [service, method, JSON.stringify(params)],
     ),
     enabled,
@@ -134,8 +134,8 @@ type ServiceMethodMap<S> = {
   [K in keyof S]: S[K] extends (params: infer P) => Promise<infer V>
     ? { type: 'promise'; params: P; returnType: V }
     : S[K] extends (params: infer P) => Observable<infer V>
-    ? { type: 'observable'; params: P; returnType: V }
-    : never;
+      ? { type: 'observable'; params: P; returnType: V }
+      : never;
 };
 
 // Create a service singleton factory

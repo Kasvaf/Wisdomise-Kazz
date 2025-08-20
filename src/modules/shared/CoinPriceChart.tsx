@@ -139,30 +139,30 @@ export const CoinPriceChart: FC<
                   evt.type === 'whale_buys'
                     ? row.y - (maxY - minY) * 0.22
                     : evt.type === 'whale_sells'
-                    ? row.y + (maxY - minY) * 0.22
-                    : row.y,
+                      ? row.y + (maxY - minY) * 0.22
+                      : row.y,
                 ],
                 value:
                   evt.type === 'whale_buys'
                     ? `${evt.value ?? 0}`
                     : evt.type === 'whale_sells'
-                    ? `${evt.value ?? 0}`
-                    : undefined,
+                      ? `${evt.value ?? 0}`
+                      : undefined,
                 itemStyle: {
                   color:
                     evt.type === 'whale_buys'
                       ? '#00FFA3'
                       : evt.type === 'whale_sells'
-                      ? '#F14056'
-                      : '#EEE',
+                        ? '#F14056'
+                        : '#EEE',
                 },
                 label: {
                   position:
                     evt.type === 'whale_buys'
                       ? 'bottom'
                       : evt.type === 'whale_sells'
-                      ? 'top'
-                      : undefined,
+                        ? 'top'
+                        : undefined,
                 },
               }));
             }),

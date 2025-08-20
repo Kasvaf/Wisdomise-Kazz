@@ -10,9 +10,11 @@
     "build:prod": "tsc && vite build --mode production",
     "serve": "vite preview --port 3000 --host",
     "preview": "vite preview",
-    "lint": "eslint --quiet ./src --ext .jsx,.js,.tsx,.ts",
+    "lint": "npx @biomejs/biome check",
+    "lint:staged": "npx @biomejs/biome check --staged --no-errors-on-unmatched",
+    "lint:fix": "npx @biomejs/biome check --write",
     "postinstall": "patch-package && yarn gen-proto",
-    "execute-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
+    "execute-husky": "npx husky install && npx husky add .husky/pre-commit \"npm run lint:staged\"",
     "prepare": "husky install",
     "i18n": "i18next",
     "gen-proto": "./scripts/gen-proto.sh",
@@ -98,6 +100,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
+    "@biomejs/biome": "^2.2.0",
     "@protobuf-ts/protoc": "^2.11.0",
     "@types/node": "^20.5.7",
     "@types/react": "^18.0.28",
@@ -105,34 +108,12 @@
     "@types/react-transition-group": "^4.4.6",
     "@types/telegram-web-app": "^7.10.1",
     "@types/uuid": "^9.0.8",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^6.4.0",
     "@vitejs/plugin-react": "^3.1.0",
-    "eslint": "^8.0.1",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-config-standard-with-typescript": "^37.0.0",
-    "eslint-import-resolver-typescript": "^3.6.0",
-    "eslint-plugin-i18next": "^6.0.3",
-    "eslint-plugin-i18next-no-undefined-translation-keys": "^3.0.3",
-    "eslint-plugin-import": "^2.28.0",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-n": "^16.0.1",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-i18n": "^1.0.3",
-    "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
-    "eslint-plugin-unicorn": "^48.0.1",
-    "eslint-plugin-unused-imports": "^3.0.0",
     "husky": "^8.0.3",
     "i18next-parser": "^8.9.0",
     "knip": "^2.19.4",
-    "lint-staged": "^13.2.0",
     "postcss": "8.4.31",
     "postcss-preset-env": "^8.2.0",
-    "prettier": "3.0.2",
-    "prettier-plugin-tailwindcss": "^0.5.3",
     "sitemap": "^8.0.0",
     "tailwindcss": "^4.1.11",
     "ts-proto": "^2.7.2",
@@ -140,18 +121,9 @@
     "vite": "6.3.4",
     "vite-plugin-svgr": "^2.4.0"
   },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "eslint",
-      "prettier --check"
-    ],
-    "**/*.{html,css}": [
-      "prettier --check"
-    ]
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run lint:staged"
     }
   }
 }

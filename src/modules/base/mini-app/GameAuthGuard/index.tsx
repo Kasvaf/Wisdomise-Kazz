@@ -16,6 +16,7 @@ export default function GameAuthGuard({ children }: PropsWithChildren) {
     isLocal ? query : webApp?.initData,
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     void client
       .invalidateQueries({ queryKey: ['gameLogin'] })

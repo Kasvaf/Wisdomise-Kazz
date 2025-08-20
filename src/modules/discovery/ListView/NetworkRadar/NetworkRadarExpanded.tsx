@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useTranslation } from 'react-i18next';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';

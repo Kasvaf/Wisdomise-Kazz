@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 // eslint-disable-next-line unicorn/prefer-node-protocol
 
 import * as Sentry from '@sentry/react';
@@ -44,6 +43,7 @@ function Root() {
   });
 
   const jwtEmail = useJwtEmail();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     void queryClient.invalidateQueries();
   }, [jwtEmail]);

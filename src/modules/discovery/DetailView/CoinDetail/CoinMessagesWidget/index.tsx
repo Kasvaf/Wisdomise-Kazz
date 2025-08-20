@@ -53,9 +53,9 @@ export function CoinMessagesWidget({
               : t('coin-details.tabs.socials.title')}
           </h3>
         )}
-        {msgs
-          ?.slice(0, expand ? undefined : 3)
-          .map(msg => <SocialMessageSummary message={msg} key={msg.id} />)}
+        {msgs?.slice(0, expand ? undefined : 3).map(msg => (
+          <SocialMessageSummary message={msg} key={msg.id} />
+        ))}
         {(msgs?.length ?? 0) > 3 && !expand && (
           <Button
             size="xs"

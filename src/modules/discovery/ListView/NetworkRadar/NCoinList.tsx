@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { type ReactNode, type FC, useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -147,6 +146,7 @@ export const NCoinList: FC<{
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (hovered) {
       setDataSource(p => {
@@ -162,8 +162,8 @@ export const NCoinList: FC<{
         return ret;
       });
     } else {
-      setDataSource(p => {
-        const ret: typeof p = [];
+      setDataSource(() => {
+        const ret: TrenchStreamResponseResult[] = [];
         const seen = new Set<string>();
         for (const element of _dataSource) {
           const key = element.symbol?.slug ?? '';
@@ -300,7 +300,7 @@ export const NCoinList: FC<{
                     progress={
                       source === 'migrated'
                         ? undefined
-                        : row.networkData?.boundingCurve ?? 1
+                        : (row.networkData?.boundingCurve ?? 1)
                     }
                     progressTitle="Bounding Curve: "
                     networks={[

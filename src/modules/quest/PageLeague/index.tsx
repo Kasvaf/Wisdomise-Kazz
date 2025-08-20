@@ -27,7 +27,7 @@ import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDe
 import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDetail/Leaderboard/champion.svg';
 import prize from './images/prize.png';
 import cup from './images/cup.png';
-// eslint-disable-next-line import/no-unassigned-import,import/max-dependencies
+// eslint-disable-next-line import/no-unassigned-import
 import 'swiper/css/navigation';
 
 export default function PageLeague() {

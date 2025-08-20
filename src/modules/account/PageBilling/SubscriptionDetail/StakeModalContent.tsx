@@ -134,14 +134,14 @@ export default function StakeModalContent() {
           {approveIsPending
             ? 'Waiting for approval signature...'
             : approveIsWaiting
-            ? 'Approval transaction is confirming...'
-            : lockingIsPending
-            ? 'Waiting for staking signature...'
-            : lockingIsWaiting
-            ? 'Staking transaction is confirming...'
-            : invalidAmount
-            ? 'Invalid Amount'
-            : 'Stake Now'}
+              ? 'Approval transaction is confirming...'
+              : lockingIsPending
+                ? 'Waiting for staking signature...'
+                : lockingIsWaiting
+                  ? 'Staking transaction is confirming...'
+                  : invalidAmount
+                    ? 'Invalid Amount'
+                    : 'Stake Now'}
         </Button>
       </div>
     </div>

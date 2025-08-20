@@ -19,10 +19,10 @@ export function useSorted<RecordType extends object>(
         isIndexChange
           ? 'ascending'
           : order === 'ascending'
-          ? 'descending'
-          : order === 'descending'
-          ? 'none'
-          : 'ascending',
+            ? 'descending'
+            : order === 'descending'
+              ? 'none'
+              : 'ascending',
       );
     },
     [index, order],

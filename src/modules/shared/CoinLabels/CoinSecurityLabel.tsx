@@ -17,10 +17,10 @@ export function CoinSecurityLabel({
     value?.length && (value ?? []).every(r => r.label.trusted)
       ? 'trusted'
       : (value ?? []).reduce((p, r) => p + (r.label.risk ?? 0), 0) > 0
-      ? 'risk'
-      : (value ?? []).reduce((p, r) => p + (r.label.warning ?? 0), 0)
-      ? 'warning'
-      : null;
+        ? 'risk'
+        : (value ?? []).reduce((p, r) => p + (r.label.warning ?? 0), 0)
+          ? 'warning'
+          : null;
   if (!securityStatus) return null;
   return (
     <CoinLabel

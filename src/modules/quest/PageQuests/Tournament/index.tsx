@@ -8,8 +8,9 @@ import gradient from './gradient.png';
 const Tournaments: React.FC<{ className?: string }> = ({ className }) => {
   const { data: tournaments } = useTournaments();
 
-  const liveTournamentsCount = tournaments?.filter(t => t.status === 'live')
-    .length;
+  const liveTournamentsCount = tournaments?.filter(
+    t => t.status === 'live',
+  ).length;
 
   return (
     <NavLink

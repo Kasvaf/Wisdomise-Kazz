@@ -79,6 +79,7 @@ export function ButtonSelect<T>({
     childList: true,
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     const el = buttonsRef.current;
     if (!el) return;
@@ -151,10 +152,10 @@ export function ButtonSelect<T>({
                 variant === 'primary'
                   ? 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-v1-background-brand enabled:aria-checked:text-v1-content-primary-inverse'
                   : variant === 'white'
-                  ? 'enabled:aria-checked:bg-v1-content-primary enabled:aria-checked:text-v1-content-primary-inverse'
-                  : variant === 'tab'
-                  ? 'border-v1-content-primary/10 enabled:aria-checked:border-v1-background-brand enabled:aria-checked:text-v1-content-brand'
-                  : 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-(--active-color)',
+                    ? 'enabled:aria-checked:bg-v1-content-primary enabled:aria-checked:text-v1-content-primary-inverse'
+                    : variant === 'tab'
+                      ? 'border-v1-content-primary/10 enabled:aria-checked:border-v1-background-brand enabled:aria-checked:text-v1-content-brand'
+                      : 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-(--active-color)',
                 'focus-visible:border-v1-border-focus',
                 'disabled:opacity-40',
                 buttonClassName,

@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Table, type TableColumn } from 'shared/v1-components/Table';

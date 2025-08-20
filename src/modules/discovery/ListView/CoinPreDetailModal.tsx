@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import {
   Children,
   cloneElement,
@@ -251,6 +250,7 @@ export function useCoinPreDetailModal<T>({
           selectedRow: rest.params,
         },
       ] as const,
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
     [action, rest],
   );
 }

@@ -651,8 +651,8 @@ export interface MacdConfirmation {
 export type IndicatorConfirmation<I extends Indicator> = I extends 'rsi'
   ? RsiConfirmation
   : I extends 'macd'
-  ? MacdConfirmation
-  : IndicatorConfirmationCore;
+    ? MacdConfirmation
+    : IndicatorConfirmationCore;
 
 export type IndicatorDivergenceTypes = Record<
   string,

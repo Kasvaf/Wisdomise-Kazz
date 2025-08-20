@@ -19,7 +19,6 @@ import usdt from './images/usdt.svg';
 import plat from './images/plat.png';
 import gold from './images/gold.png';
 import silver from './images/silver.png';
-// eslint-disable-next-line import/max-dependencies
 import star from './images/star.svg';
 
 const TON_PER_REFERRAL = 0.01;

@@ -10,6 +10,7 @@ export const useScrollPoint = (
   const ignoreScroll = useRef(false);
   const isMobile = useIsMobile();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
 

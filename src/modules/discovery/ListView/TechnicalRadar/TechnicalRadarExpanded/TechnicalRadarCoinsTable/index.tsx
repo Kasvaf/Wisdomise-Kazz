@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useMemo, type FC, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';

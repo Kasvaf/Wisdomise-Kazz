@@ -34,6 +34,7 @@ export const ActiveQuoteProvider = ({ children }: PropsWithChildren) => {
     ? data?.some(x => x.quote.slug === activeQuote)
     : true;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (firstSupported && !isValueSupported) {
       setActiveQuote(firstSupported);

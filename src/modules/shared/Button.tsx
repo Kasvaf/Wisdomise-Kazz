@@ -66,10 +66,10 @@ const Button: React.FC<Props> = ({
     size === 'small'
       ? '!p-[10px_12px]'
       : size === 'large'
-      ? '!px-9 !py-3 md:!px-16 md:!py-5 md:text-xl'
-      : size === 'manual'
-      ? ''
-      : 'px-8 py-4',
+        ? '!px-9 !py-3 md:!px-16 md:!py-5 md:text-xl'
+        : size === 'manual'
+          ? ''
+          : 'px-8 py-4',
   );
 
   if (variant === 'link') {

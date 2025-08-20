@@ -192,16 +192,16 @@ const enrichCandleConfig = (userConfig: {
       hoursDiff < 1
         ? '1m'
         : hoursDiff < 2
-        ? '5m'
-        : hoursDiff < 3
-        ? '15m'
-        : hoursDiff < 6
-        ? '30m'
-        : hoursDiff < 24
-        ? '1h'
-        : hoursDiff < 96
-        ? '4h'
-        : '1d';
+          ? '5m'
+          : hoursDiff < 3
+            ? '15m'
+            : hoursDiff < 6
+              ? '30m'
+              : hoursDiff < 24
+                ? '1h'
+                : hoursDiff < 96
+                  ? '4h'
+                  : '1d';
   }
   return config;
 };
@@ -282,9 +282,9 @@ export const useBatchLastPriceQuery = ({
         (base === USDC_CONTRACT_ADDRESS
           ? usdcPrice
           : base === USDT_CONTRACT_ADDRESS
-          ? usdtPrice
-          : batchCandles?.find(res => res.symbol.base === base)?.candles?.[0]
-              ?.close) ?? 0,
+            ? usdtPrice
+            : batchCandles?.find(res => res.symbol.base === base)?.candles?.[0]
+                ?.close) ?? 0,
     ),
     isPending: p1 || p2 || isPending,
   };

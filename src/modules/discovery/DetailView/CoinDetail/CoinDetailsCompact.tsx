@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { CoinStatsWidget } from './CoinStatsWidget';

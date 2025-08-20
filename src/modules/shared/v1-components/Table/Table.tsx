@@ -44,7 +44,7 @@ export function Table<RecordType extends object>({
       (columns.filter(col => !col.hidden) ?? []).map((td, index) => ({
         ...td,
         width:
-          typeof td.width === 'number' ? `${td.width}px` : td.width ?? 'auto',
+          typeof td.width === 'number' ? `${td.width}px` : (td.width ?? 'auto'),
         key: td.key ?? index.toString(),
       })),
     [columns],
@@ -76,7 +76,9 @@ export function Table<RecordType extends object>({
               <>
                 {typeof th.sorter === 'function' && (
                   <Sort
-                    value={sort.index === index ? sort.order ?? 'none' : 'none'}
+                    value={
+                      sort.index === index ? (sort.order ?? 'none') : 'none'
+                    }
                   />
                 )}
                 {th.title}

@@ -23,7 +23,6 @@ import gradient from './gradient.png';
 import { ReactComponent as Bag } from './bag.svg';
 import { ReactComponent as Gift } from './gift.svg';
 import bg from './bg.png';
-// eslint-disable-next-line import/max-dependencies
 import flash from './flash.png';
 
 export default function SubscriptionDetail() {

@@ -19,6 +19,7 @@ const Icon = ({ name, size = 24, className, ...attrs }: Props) => {
         </svg>
       </div>
     );
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   }, [name, size, className, attrs]);
 };
 

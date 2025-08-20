@@ -27,6 +27,7 @@ const BuySellForms: React.FC<
     setBase(slug);
   }, [setBase, slug]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     setDir(mode);
     setAmount('0');

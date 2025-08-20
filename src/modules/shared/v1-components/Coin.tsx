@@ -166,12 +166,12 @@ export const Coin: FC<{
         typeof href === 'string'
           ? href
           : href && slug
-          ? getUrl({
-              detail: 'coin',
-              slug,
-              view: 'both',
-            })
-          : '#'
+            ? getUrl({
+                detail: 'coin',
+                slug,
+                view: 'both',
+              })
+            : '#'
       }
     >
       <div
@@ -226,10 +226,10 @@ export const Coin: FC<{
                   progress <= 0.33
                     ? '#FFF'
                     : progress <= 0.66
-                    ? '#00A3FF'
-                    : progress <= 0.99
-                    ? '#00FFA3'
-                    : '#FFDA6C'
+                      ? '#00A3FF'
+                      : progress <= 0.99
+                        ? '#00FFA3'
+                        : '#FFDA6C'
                 }
                 strokeWidth={1.5}
                 strokeDasharray={152}

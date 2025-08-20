@@ -30,6 +30,7 @@ const PartTpSl: React.FC<{
 
   const sortItems = () => setItems(items => sortTpSlItems({ items, type }));
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(sortItems, [setItems, type]);
 
   const dir = type === 'TP' ? 1 : -1;

@@ -23,6 +23,7 @@ const PositionsList: React.FC<{
     page,
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     setPage(1);
   }, [isOpen, slug]);

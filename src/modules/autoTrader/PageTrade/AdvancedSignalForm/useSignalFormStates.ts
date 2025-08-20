@@ -69,16 +69,16 @@ function getSafetyOpens(
           condition: x.applied
             ? remotesByKey[x.key].condition
             : x.isMarket
-            ? { type: 'true' as const }
-            : {
-                type: 'compare' as const,
-                op:
-                  +x.priceExact < marketPrice
-                    ? ('<=' as const)
-                    : ('>=' as const),
-                left: 'price' as const,
-                right: +x.priceExact,
-              },
+              ? { type: 'true' as const }
+              : {
+                  type: 'compare' as const,
+                  op:
+                    +x.priceExact < marketPrice
+                      ? ('<=' as const)
+                      : ('>=' as const),
+                  left: 'price' as const,
+                  right: +x.priceExact,
+                },
         }) as const,
     );
 

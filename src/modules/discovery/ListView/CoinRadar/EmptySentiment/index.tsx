@@ -21,8 +21,8 @@ export function EmptySentiment({
       {value === 'social_radar'
         ? t('empty_sentiment.social_radar')
         : value === 'technical_radar'
-        ? t('empty_sentiment.technical_radar')
-        : t('empty_sentiment.whale_radar')}
+          ? t('empty_sentiment.technical_radar')
+          : t('empty_sentiment.whale_radar')}
     </div>
   );
 }

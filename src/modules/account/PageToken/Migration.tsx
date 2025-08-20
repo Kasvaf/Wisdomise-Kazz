@@ -35,12 +35,12 @@ export default function Migration() {
         {approveIsPending
           ? 'Waiting for approval signature...'
           : approveIsWaiting
-          ? 'Approval transaction is confirming...'
-          : migrationIsPending
-          ? 'Waiting for migration signature...'
-          : migrationIsWaiting
-          ? 'Migration transaction is confirming...'
-          : t('migration.migrate')}
+            ? 'Approval transaction is confirming...'
+            : migrationIsPending
+              ? 'Waiting for migration signature...'
+              : migrationIsWaiting
+                ? 'Migration transaction is confirming...'
+                : t('migration.migrate')}
       </Button>
     </div>
   ) : null;

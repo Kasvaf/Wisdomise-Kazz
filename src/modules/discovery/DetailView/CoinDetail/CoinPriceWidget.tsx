@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';

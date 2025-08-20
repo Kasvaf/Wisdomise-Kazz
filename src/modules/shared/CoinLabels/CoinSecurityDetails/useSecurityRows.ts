@@ -70,8 +70,8 @@ export const useSecurityRows = (
           100 * +(detail.buy_tax ?? 0) < 50
           ? 'warning'
           : 100 * +(detail.buy_tax ?? 0) >= 50
-          ? 'risk'
-          : 'trusted'
+            ? 'risk'
+            : 'trusted'
         : 'warning',
       info: t('coin_security.fields.tax.subtitle'),
     },
@@ -82,8 +82,8 @@ export const useSecurityRows = (
           100 * +(detail.sell_tax ?? 0) < 50
           ? 'warning'
           : 100 * +(detail.sell_tax ?? 0) >= 50
-          ? 'risk'
-          : 'trusted'
+            ? 'risk'
+            : 'trusted'
         : 'warning',
       info: t('coin_security.fields.tax.subtitle'),
     },

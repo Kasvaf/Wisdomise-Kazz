@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useMemo, useRef, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';

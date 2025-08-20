@@ -76,9 +76,9 @@ export function Filters<T extends object>({
   const showLabels = (presets?.length ?? 0) > 0 || (sorts?.length ?? 0) > 0;
 
   const sortKeys = useMemo(() => {
-    return [
-      ...new Set(sorts?.map(x => Object.keys(x.filters)).flat()),
-    ] as Array<keyof T>;
+    return [...new Set(sorts?.flatMap(x => Object.keys(x.filters)))] as Array<
+      keyof T
+    >;
   }, [sorts]);
 
   const selectedPreset = useMemo(() => {

@@ -84,7 +84,9 @@ export function Coin({
   const shouldTruncate =
     truncate === true || (typeof truncate === 'number' && truncate > 0);
   const tooltip =
-    popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug ?? '---';
+    popup === false
+      ? ''
+      : (coin.name ?? coin.abbreviation ?? coin.slug ?? '---');
   const renderText = noText !== true;
   const truncateSize =
     typeof truncate === 'number' ? truncate : isMobile ? 70 : 110;
@@ -129,8 +131,8 @@ export function Coin({
                 )}
               >
                 {mini
-                  ? coin.abbreviation ?? coin.slug ?? '---'
-                  : coin.name ?? coin.slug ?? '---'}
+                  ? (coin.abbreviation ?? coin.slug ?? '---')
+                  : (coin.name ?? coin.slug ?? '---')}
               </div>
               {networks && (
                 <div className="flex items-center">

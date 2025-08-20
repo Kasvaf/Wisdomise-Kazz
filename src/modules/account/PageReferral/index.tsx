@@ -25,7 +25,6 @@ import { ReactComponent as Users } from './images/users.svg';
 import { ReactComponent as IconUser } from './images/user.svg';
 import { ReactComponent as Bag } from './images/bag.svg';
 import { ReactComponent as Gift } from './images/gift.svg';
-// eslint-disable-next-line import/max-dependencies
 import coin from './images/coin.png';
 
 export default function ReferralPage() {

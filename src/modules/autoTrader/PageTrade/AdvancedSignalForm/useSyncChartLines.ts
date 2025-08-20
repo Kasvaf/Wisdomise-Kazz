@@ -69,6 +69,7 @@ const useSyncChartLines = ({ formState }: { formState: SignalFormState }) => {
   });
 
   const widget = useAdvancedChartWidget();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reson>
   useEffect(() => {
     if (!widget) return;
 

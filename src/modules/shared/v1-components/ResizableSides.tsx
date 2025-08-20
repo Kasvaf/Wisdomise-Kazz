@@ -35,9 +35,8 @@ export const ResizableSides: FC<{
       const movement = position - initialPosition;
 
       const newSize = initialSize + movement;
-      sideOneRef.current.style[
-        direction === 'col' ? 'width' : 'height'
-      ] = `${newSize}px`;
+      sideOneRef.current.style[direction === 'col' ? 'width' : 'height'] =
+        `${newSize}px`;
 
       e.preventDefault();
     };

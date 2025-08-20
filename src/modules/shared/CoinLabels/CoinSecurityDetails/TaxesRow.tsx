@@ -17,8 +17,8 @@ export function TaxesRow({ value }: { value: NetworkSecurity }) {
               rows.buy_tax?.badge === 'risk'
                 ? 'text-v1-content-negative'
                 : rows.buy_tax?.badge === 'warning'
-                ? 'text-v1-content-notice'
-                : 'text-v1-content-positive',
+                  ? 'text-v1-content-notice'
+                  : 'text-v1-content-positive',
             )}
             label="%"
           />
@@ -32,8 +32,8 @@ export function TaxesRow({ value }: { value: NetworkSecurity }) {
               rows.sell_tax?.badge === 'risk'
                 ? 'text-v1-content-negative'
                 : rows.sell_tax?.badge === 'warning'
-                ? 'text-v1-content-notice'
-                : 'text-v1-content-positive',
+                  ? 'text-v1-content-notice'
+                  : 'text-v1-content-positive',
             )}
             label="%"
           />

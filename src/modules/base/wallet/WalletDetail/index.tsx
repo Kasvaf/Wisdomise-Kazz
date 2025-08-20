@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useRef, useState } from 'react';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
 import { Tabs } from 'antd';

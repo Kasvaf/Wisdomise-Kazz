@@ -707,7 +707,7 @@ export const useTwitterFollowedAccounts = () => {
       save(
         acc === true
           ? []
-          : value?.filter?.(x => x.user_id !== acc.user_id) ?? [],
+          : (value?.filter?.(x => x.user_id !== acc.user_id) ?? []),
       );
 
     return {
@@ -742,7 +742,7 @@ export const useStreamTweets = (config: { userIds: string[] }) => {
 
   useEffect(() => {
     // TODO: i couldn't make sure how stream works and cannot test it, so i disabled it for now
-    // eslint-disable-next-line no-constant-condition
+    // biome-ignore lint/correctness/noConstantCondition: <reason>
     if (config.userIds.length === 0 || true) return;
     const controller = new AbortController();
 
@@ -987,8 +987,8 @@ export const useCoinDetails = ({
                   chart.id,
                 )}`
               : chart.type === 'gecko_terminal'
-              ? `https://www.geckoterminal.com/${chart.id}`
-              : '',
+                ? `https://www.geckoterminal.com/${chart.id}`
+                : '',
           embedUrl:
             chart.type === 'gecko_terminal'
               ? `https://www.geckoterminal.com/${chart.id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0`

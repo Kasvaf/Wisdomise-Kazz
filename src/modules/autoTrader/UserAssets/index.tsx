@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';

@@ -122,6 +122,7 @@ export function useObservableLastValue<V>({
   const [receivedOnce, setReceivedOnce] = useState(false);
 
   useEffect(() => {
+    key;
     setReceivedOnce(false);
   }, [key]);
 

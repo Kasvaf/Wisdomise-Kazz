@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useCallback } from 'react';
@@ -173,12 +172,12 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
             {approveIsPending
               ? 'Waiting for approval signature...'
               : approveIsWaiting
-              ? 'Approval transaction is confirming...'
-              : lockingIsPending
-              ? 'Waiting for staking signature...'
-              : lockingIsWaiting
-              ? 'Staking transaction is confirming...'
-              : 'Stake Now'}
+                ? 'Approval transaction is confirming...'
+                : lockingIsPending
+                  ? 'Waiting for staking signature...'
+                  : lockingIsWaiting
+                    ? 'Staking transaction is confirming...'
+                    : 'Stake Now'}
           </Button>
         ) : (
           <BuyWSDM className="w-full" />
