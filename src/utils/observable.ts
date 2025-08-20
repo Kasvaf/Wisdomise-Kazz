@@ -9,6 +9,7 @@ function createGrpcConnection<V>(
   key: QueryKey,
   observable: Observable<V>,
   handler: (value: V) => void,
+  debug?: boolean,
 ) {
   const strKey = JSON.stringify(key);
 
@@ -17,7 +18,7 @@ function createGrpcConnection<V>(
     const logIdentifier = `${(key?.[1] as string) ?? 'unknown'}/${
       (key?.[2] as string) ?? 'unknwon'
     }`;
-    if (isDebugMode) {
+    if (debug || isDebugMode) {
       console.groupCollapsed(`${logPrefix} [${title}] ${logIdentifier}`);
       console.log(body);
       console.groupEnd();
@@ -62,10 +63,12 @@ function createGrpcConnection<V>(
 export function useObservableLastValue<V>({
   observable,
   enabled,
+  debug,
   key,
 }: {
   observable: Observable<V>;
   enabled?: boolean;
+  debug?: boolean;
   key: QueryKey;
 }) {
   const client = useQueryClient();
@@ -79,8 +82,8 @@ export function useObservableLastValue<V>({
   useEffect(() => {
     if (enabled === false) return;
     const handler = (value: V) => client.setQueryData(key, () => value);
-    createGrpcConnection(key, observable, handler);
-  }, [client, enabled, key, observable]);
+    createGrpcConnection(key, observable, handler, debug);
+  }, [client, debug, enabled, key, observable]);
 
   return query;
 }
@@ -88,10 +91,12 @@ export function useObservableLastValue<V>({
 export function useObservableAllValues<V>({
   observable,
   enabled,
+  debug,
   key,
 }: {
   observable: Observable<V>;
   enabled?: boolean;
+  debug?: boolean;
   key: QueryKey;
 }) {
   const client = useQueryClient();
@@ -106,8 +111,8 @@ export function useObservableAllValues<V>({
     if (enabled === false) return;
     const handler = (value: V) =>
       client.setQueryData(key, (old: V[]) => [...(old ?? []), value]);
-    createGrpcConnection(key, observable, handler);
-  }, [client, enabled, key, observable]);
+    createGrpcConnection(key, observable, handler, debug);
+  }, [client, debug, enabled, key, observable]);
 
   return query;
 }

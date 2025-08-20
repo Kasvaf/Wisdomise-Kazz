@@ -89,6 +89,7 @@ interface LastCandleParams {
   network?: 'solana' | 'the-open-network';
   market?: MarketTypes;
   convertToUsd?: boolean;
+  debug?: boolean;
 }
 
 export const useLastCandleQuery = ({
@@ -97,6 +98,7 @@ export const useLastCandleQuery = ({
   quote,
   market = 'SPOT',
   convertToUsd = !quote,
+  debug,
 }: LastCandleParams) => {
   const { data: supportedPairs } = useSupportedPairs(base);
 
@@ -127,13 +129,16 @@ export const useLastCandleQuery = ({
   const theQuote = bestPair?.quote;
   const bestNet = network || bestPair?.net;
 
-  return delphinusGrpc.useLastCandleStreamLastValue({
-    market,
-    network: bestNet,
-    baseSlug: base,
-    quoteSlug: theQuote,
-    convertToUsd,
-  });
+  return delphinusGrpc.useLastCandleStreamLastValue(
+    {
+      market,
+      network: bestNet,
+      baseSlug: base,
+      quoteSlug: theQuote,
+      convertToUsd,
+    },
+    { enabled: !!bestNet, debug },
+  );
 
   // return useQuery({
   //   queryKey: ['last-candle', base, theQuote, bestNet, market, convertToUsd],

@@ -77,7 +77,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
         <div className={clsx('flex gap-2', mini && 'items-center')}>
           <div className="grow">
             {!mini && <p className="text-v1-content-secondary mb-2">Bought</p>}
-            <p
+            <div
               className={clsx(
                 'flex text-v1-content-positive',
                 mini && 'justify-center',
@@ -85,12 +85,12 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
             >
               {unit}
               {formatter(totalBought)}
-            </p>
+            </div>
           </div>
           <div className="h-7 border-r border-white/5" />
           <div className="grow">
             {!mini && <p className="text-v1-content-secondary mb-2">Sold</p>}
-            <p
+            <div
               className={clsx(
                 'flex text-v1-content-negative',
                 mini && 'justify-center',
@@ -98,15 +98,15 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
             >
               {unit}
               {formatter(totalSold)}
-            </p>
+            </div>
           </div>
           <div className="h-7 border-r border-white/5" />
           <div className="grow">
             {!mini && <p className="text-v1-content-secondary mb-2">Holding</p>}
-            <p className={clsx('flex', mini && 'justify-center')}>
+            <div className={clsx('flex', mini && 'justify-center')}>
               {unit}
               {formatter(hold)}
-            </p>
+            </div>
           </div>
           <div className="h-7 border-r border-white/5" />
           <div className="grow">
@@ -127,7 +127,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 </Button>
               </div>
             )}
-            <p
+            <div
               className={
                 pnlSign === '+'
                   ? 'text-v1-content-positive'
@@ -158,7 +158,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                   ).toFixed(0)}%)`}
                 </span>
               )}
-            </p>
+            </div>
           </div>
         </div>
       </div>

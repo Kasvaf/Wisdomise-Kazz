@@ -260,10 +260,10 @@ export const NCoinList: FC<{
               </>
             );
             return (
-              <button
+              <div
                 key={row.symbol?.slug ?? ''}
                 className={clsx(
-                  'group relative flex max-w-full rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110',
+                  'group relative flex max-w-full rounded-lg p-2 transition-all bg-v1-surface-l-next hover:brightness-110 cursor-pointer',
                   mini
                     ? 'flex-col justify-start gap-2'
                     : 'items-center justify-between',
@@ -271,7 +271,6 @@ export const NCoinList: FC<{
                     ? 'translate-y-0 opacity-100'
                     : '-translate-y-14 opacity-0',
                 )}
-                type="button"
                 onClick={() =>
                   row.symbol?.slug && onRowClick?.(row.symbol.slug)
                 }
@@ -352,7 +351,7 @@ export const NCoinList: FC<{
                     className="!absolute bottom-2 right-2 !hidden group-hover:!flex"
                   />
                 )}
-              </button>
+              </div>
             );
           })}
         </div>

@@ -60,6 +60,10 @@ export const useUserAssets = () => {
 };
 
 interface TraderAssetActivity {
+  avg_buy_price?: string;
+  avg_buy_price_usd?: string;
+  avg_sell_price?: string;
+  avg_sell_price_usd?: string;
   balance: string;
   hold: string;
   hold_usd: string;
@@ -87,7 +91,7 @@ export const useTraderAssetActivity = (slug?: string) => {
       });
     },
     enabled: !!slug,
-    staleTime: Number.POSITIVE_INFINITY,
+    staleTime: 10_000,
     refetchInterval: 30_000,
   });
 };

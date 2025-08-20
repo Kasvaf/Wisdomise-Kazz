@@ -1,9 +1,9 @@
 import { useEffect, type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ChartWidgetProvider } from 'shared/AdvancedChart';
 import { useDetailedCoins } from 'api/discovery';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsMeta } from './CoinDetailsMeta';
