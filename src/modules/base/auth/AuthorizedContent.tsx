@@ -22,7 +22,7 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   }, [isAuthorized, isFetching, isLoggedIn, navigate, isPending]);
 
   return isAuthorized ? (
-    children
+    <>{children}</>
   ) : (
     <div className="mt-12 flex h-full flex-col items-center justify-center gap-4 text-v1-content-primary">
       <div>{t('error-not-authorized')}</div>

@@ -133,7 +133,8 @@ export function WhaleTransactionsHistoryWidget({
   const allTransactions =
     transactions.data?.pages.flatMap(page => page.results) ?? [];
 
-  if (allTransactions.length === 0) return emptyContent ? emptyContent : null;
+  if (allTransactions.length === 0)
+    return emptyContent ? <>{emptyContent}</> : null;
 
   return (
     <>

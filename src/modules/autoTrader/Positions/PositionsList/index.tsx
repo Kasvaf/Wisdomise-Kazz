@@ -23,10 +23,9 @@ const PositionsList: React.FC<{
     page,
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     setPage(1);
-  }, [isOpen, slug]);
+  }, []);
 
   const positionsRes = positions?.positions ?? [];
 
@@ -55,11 +54,13 @@ const PositionsList: React.FC<{
   });
 
   return isLoading ? (
-    !noLoadingState && (
-      <div className="my-8 flex justify-center">
-        <Spinner />
-      </div>
-    )
+    <>
+      {!noLoadingState && (
+        <div className="my-8 flex justify-center">
+          <Spinner />
+        </div>
+      )}
+    </>
   ) : positionsRes.length > 0 ? (
     <div className={className}>
       <div
@@ -84,7 +85,7 @@ const PositionsList: React.FC<{
       </div>
     </div>
   ) : (
-    !noEmptyState && <NoPosition active={isOpen} slug={slug} />
+    <>{!noEmptyState && <NoPosition active={isOpen} slug={slug} />}</>
   );
 };
 
