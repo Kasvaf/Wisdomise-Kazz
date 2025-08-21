@@ -87,12 +87,26 @@ export function useChartAnnotations(
   const [widget] = useAdvancedChartWidget();
   const objectsRef = useRef<any[]>([]);
 
+  function cleanLines() {
+    for (const obj of objectsRef.current) obj.remove?.();
+    objectsRef.current = [];
+  }
+
+  // this is very necessary to prevent read-calls (race-condition) after use-effect destructed
+  let destructed = false;
+  function getChartCleaned() {
+    try {
+      cleanLines();
+      return !destructed && widget?.activeChart();
+    } catch {}
+  }
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!widget) return;
 
     widget.onChartReady(() => {
-      const chart = widget.activeChart();
+      const chart = getChartCleaned();
       if (!chart) return;
 
       chart.dataReady(() => {
@@ -127,9 +141,8 @@ export function useChartAnnotations(
     });
 
     return () => {
-      // cleanup on unmount
-      for (const obj of objectsRef.current) obj.remove?.();
-      objectsRef.current = [];
+      destructed = true;
+      cleanLines();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widget, JSON.stringify(icons), JSON.stringify(lines)]);
