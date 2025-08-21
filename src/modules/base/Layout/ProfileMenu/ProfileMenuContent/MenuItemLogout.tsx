@@ -1,18 +1,18 @@
-import { Button } from 'shared/v1-components/Button';
 import { useLogoutMutation } from 'api/auth';
+import { Button } from 'shared/v1-components/Button';
 import { IconSignOut } from './icons';
 
 const MenuItemLogout = () => {
   const { mutateAsync, isPending: loggingOut } = useLogoutMutation();
   return (
     <Button
-      variant="negative_outline"
-      size="sm"
       loading={loggingOut}
       onClick={e => {
         e.preventDefault();
         void mutateAsync({});
       }}
+      size="sm"
+      variant="negative_outline"
     >
       <IconSignOut />
       Sign Out

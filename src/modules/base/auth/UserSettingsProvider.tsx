@@ -1,3 +1,5 @@
+import { useUserStorage } from 'api/userStorage';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
   createContext,
   type PropsWithChildren,
@@ -6,8 +8,6 @@ import {
   useState,
 } from 'react';
 import { useDebounce } from 'usehooks-ts';
-import { useUserStorage } from 'api/userStorage';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 export type QuickBuySource =
   | 'new_pairs'

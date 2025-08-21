@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import InfoButton from 'shared/InfoButton';
 
 const InfoLine: React.FC<
@@ -13,7 +13,7 @@ const InfoLine: React.FC<
     info && typeof label === 'string' ? (
       <div className="flex items-center gap-1">
         <span>{label}</span>
-        <InfoButton size={16} title={label} text={info} />
+        <InfoButton size={16} text={info} title={label} />
       </div>
     ) : (
       label

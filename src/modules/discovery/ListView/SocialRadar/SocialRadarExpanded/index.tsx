@@ -1,36 +1,35 @@
-import { useMemo, useState } from 'react';
-import { clsx } from 'clsx';
-import { Trans, useTranslation } from 'react-i18next';
-import { bxShareAlt } from 'boxicons-quasar';
-
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { Coin } from 'shared/v1-components/Coin';
-import { AccessShield } from 'shared/AccessShield';
-import { formatNumber } from 'utils/numbers';
-import { useEmbedView } from 'modules/embedded/useEmbedView';
-import { SearchInput } from 'shared/SearchInput';
 import {
   type SocialRadarCoin,
   useSocialRadarCoins,
   useSocialRadarInfo,
 } from 'api/discovery';
-import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { CoinPriceInfo } from 'shared/CoinPriceInfo';
-import { useLoadingBadge } from 'shared/LoadingBadge';
-import { TableRank } from 'shared/TableRank';
-import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
-import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import { type TableColumn, Table } from 'shared/v1-components/Table';
-import { usePageState } from 'shared/usePageState';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
+import { bxShareAlt } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
-import { ReactComponent as Logo } from 'assets/monogram-green.svg';
-import { SocialRadarSentiment } from '../SocialRadarSentiment';
-import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
-import SocialRadarSharingModal from '../SocialRadarSharingModal';
-import { SocialRadarFilters } from '../SocialRadarFilters';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { AccessShield } from 'shared/AccessShield';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { CoinPriceInfo } from 'shared/CoinPriceInfo';
+import Icon from 'shared/Icon';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { SearchInput } from 'shared/SearchInput';
+import { TableRank } from 'shared/TableRank';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { usePageState } from 'shared/usePageState';
+import { Button } from 'shared/v1-components/Button';
+import { Coin } from 'shared/v1-components/Coin';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { formatNumber } from 'utils/numbers';
 import { RealtimeBadge } from '../../RealtimeBadge';
+import { SocialRadarFilters } from '../SocialRadarFilters';
+import { SocialRadarSentiment } from '../SocialRadarSentiment';
+import SocialRadarSharingModal from '../SocialRadarSharingModal';
+import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 
 export function SocialRadarExpanded() {
   const marketInfo = useSocialRadarInfo();
@@ -64,14 +63,14 @@ export function SocialRadarExpanded() {
         render: row => (
           <Coin
             abbreviation={row.symbol.abbreviation}
-            name={row.symbol.name}
-            slug={row.symbol.slug}
-            logo={row.symbol.logo_url}
             categories={row.symbol.categories}
+            href={!isEmbeddedView}
             labels={row.symbol_labels}
+            logo={row.symbol.logo_url}
+            name={row.symbol.name}
             networks={row.networks}
             security={row.symbol_security?.data}
-            href={!isEmbeddedView}
+            slug={row.symbol.slug}
             truncate={false}
           />
         ),
@@ -85,24 +84,24 @@ export function SocialRadarExpanded() {
       },
       {
         title: (
-          <span className="text-v1-content-primary flex items-center gap-1">
-            <Logo className="size-4 inline-block grayscale" />
+          <span className="flex items-center gap-1 text-v1-content-primary">
+            <Logo className="inline-block size-4 grayscale" />
             {t('social-radar.table.sentiment.title')}
           </span>
         ),
         info: (
-          <Trans ns="coin-radar" i18nKey="social-radar.table.sentiment.info" />
+          <Trans i18nKey="social-radar.table.sentiment.info" ns="coin-radar" />
         ),
         width: 220,
-        render: row => <SocialRadarSentiment value={row} mode="default" />,
+        render: row => <SocialRadarSentiment mode="default" value={row} />,
       },
       {
         title: t('social-radar.table.price_info.title'),
         info: (
-          <div className="[&_p]:text-v1-content-secondary [&_b]:font-medium [&_p]:text-xs">
+          <div className="[&_b]:font-medium [&_p]:text-v1-content-secondary [&_p]:text-xs">
             <Trans
-              ns="coin-radar"
               i18nKey="social-radar.table.price_info.info"
+              ns="coin-radar"
             />
           </div>
         ),
@@ -118,20 +117,22 @@ export function SocialRadarExpanded() {
         className={clsx(
           'min-h-[670px] shrink-0 xl:min-h-[631px] 2xl:min-h-[640px]',
         )}
-        title={
-          !isEmbeddedView && (
-            <>
-              <SocialRadarIcon className="size-6" />
-              {t('social-radar.table.title')}
-            </>
-          )
+        headerActions={
+          <div className="flex gap-2">
+            <QuickBuySettings showWallet source="social_radar" />
+            <SearchInput
+              onChange={query => setPageState(p => ({ ...p, query }))}
+              placeholder={t('common.search_coin')}
+              size="xs"
+              value={pageState.query}
+            />
+          </div>
         }
-        titleSuffix={!isEmbeddedView && <RealtimeBadge />}
         info={
           <p className="[&_b]:text-v1-content-primary [&_b]:underline">
             <Trans
-              ns="coin-radar"
               i18nKey="coin-radar:social-radar.table.description"
+              ns="coin-radar"
               values={{
                 posts: formatNumber(
                   marketInfo.data?.analyzed_messages ?? 4000,
@@ -146,24 +147,22 @@ export function SocialRadarExpanded() {
             />
           </p>
         }
-        headerActions={
-          <div className="flex gap-2">
-            <QuickBuySettings source="social_radar" showWallet />
-            <SearchInput
-              value={pageState.query}
-              onChange={query => setPageState(p => ({ ...p, query }))}
-              placeholder={t('common.search_coin')}
-              size="xs"
-            />
-          </div>
+        title={
+          !isEmbeddedView && (
+            <>
+              <SocialRadarIcon className="size-6" />
+              {t('social-radar.table.title')}
+            </>
+          )
         }
+        titleSuffix={!isEmbeddedView && <RealtimeBadge />}
       >
         <SocialRadarFilters
-          value={pageState}
+          className="mb-4 w-full"
           onChange={newPageState =>
             setPageState({ query: pageState.query, ...newPageState })
           }
-          className="mb-4 w-full"
+          value={pageState}
         />
         <AccessShield
           mode="table"
@@ -177,15 +176,10 @@ export function SocialRadarExpanded() {
           <Table
             columns={columns}
             dataSource={coins.data}
-            rowKey={r => r.symbol.slug}
             loading={coins.isLoading}
-            scrollable
-            surface={2}
             rowHoverPrefix={row => (
               <Button
-                variant="secondary"
                 fab
-                size="xs"
                 onClick={async () => {
                   const isLoggedIn = await ensureAuthenticated();
                   if (isLoggedIn) {
@@ -193,24 +187,29 @@ export function SocialRadarExpanded() {
                     setOpenShareModal(true);
                   }
                 }}
+                size="xs"
+                variant="secondary"
               >
                 <Icon name={bxShareAlt} size={6} />
               </Button>
             )}
             rowHoverSuffix={row => (
               <BtnQuickBuy
-                source="social_radar"
-                slug={row.symbol.slug}
                 networks={row.networks}
+                slug={row.symbol.slug}
+                source="social_radar"
               />
             )}
+            rowKey={r => r.symbol.slug}
+            scrollable
+            surface={2}
           />
         </AccessShield>
         {selectedRow && (
           <SocialRadarSharingModal
-            open={openShareModal}
             coin={selectedRow}
             onClose={() => setOpenShareModal(false)}
+            open={openShareModal}
           />
         )}
         {LoginModal}

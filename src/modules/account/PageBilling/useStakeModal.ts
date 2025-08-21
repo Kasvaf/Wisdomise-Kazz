@@ -1,6 +1,6 @@
-import useModal from 'shared/useModal';
-import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { usePlansQuery } from 'api';
+import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
+import useModal from 'shared/useModal';
 
 export function useStakeModal() {
   const plans = usePlansQuery();

@@ -1,29 +1,29 @@
 import { notification } from 'antd';
-import { useState } from 'react';
-import PageWrapper from 'modules/base/PageWrapper';
+import { useHasFlag } from 'api';
+import { useActiveWallet } from 'api/chains/wallet';
 import {
-  useWithdrawRewardMutation,
   useGamificationRewards,
   useRewardsHistoryQuery,
+  useWithdrawRewardMutation,
 } from 'api/gamification';
+import logo from 'assets/monogram-green.svg';
+import PageWrapper from 'modules/base/PageWrapper';
+import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
+import { useState } from 'react';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { isProduction } from 'utils/version';
 import { shortenAddress } from 'utils/shortenAddress';
-import { useHasFlag } from 'api';
 import useIsMobile from 'utils/useIsMobile';
-import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
-import logo from 'assets/monogram-green.svg';
-import { useActiveWallet } from 'api/chains/wallet';
-import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
-import { ReactComponent as Usdc } from './images/usdc.svg';
-import { ReactComponent as Withdraw } from './images/withdraw.svg';
+import { isProduction } from 'utils/version';
 import dailySrc from './images/daily.png';
-import refSubSrc from './images/ref-sub.png';
-import refFeeSrc from './images/ref-fee.png';
 import leagueSrc from './images/league.png';
+import refFeeSrc from './images/ref-fee.png';
+import refSubSrc from './images/ref-sub.png';
+import { ReactComponent as Usdc } from './images/usdc.svg';
 import wiseGold from './images/wise-gold.png';
+import { ReactComponent as Withdraw } from './images/withdraw.svg';
 
 export default function PageRewards() {
   const isMobile = useIsMobile();
@@ -72,16 +72,16 @@ export default function PageRewards() {
   };
 
   return (
-    <PageWrapper hasBack extension={!isMobile && <CoinExtensionsGroup />}>
+    <PageWrapper extension={!isMobile && <CoinExtensionsGroup />} hasBack>
       <PageTitle
         className="py-5"
-        title="Rewards"
         description="Track Your Reward History and Manage Unclaimed Rewards."
+        title="Rewards"
       />
 
       {hasFlag('/account/rewards?withdraw') && (
-        <div className="bg-v1-surface-l1 relative mb-6 overflow-hidden rounded-xl">
-          <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
+        <div className="relative mb-6 overflow-hidden rounded-xl bg-v1-surface-l1">
+          <div className="relative flex mobile:flex-wrap items-center gap-3 p-4">
             <Usdc className="size-8" />
             <div>
               <h2 className="font-semibold">
@@ -92,15 +92,15 @@ export default function PageRewards() {
             <div className="ml-auto flex flex-wrap items-center gap-2">
               <div className="flex items-center text-xs">
                 Withdraw Wallet:
-                <BtnSolanaWallets showAddress className="!bg-transparent" />
+                <BtnSolanaWallets className="!bg-transparent" showAddress />
               </div>
               <Button
-                variant="primary"
-                className="w-48 mobile:w-full"
-                size="md"
-                loading={isWithdrawLoading}
+                className="mobile:w-full w-48"
                 disabled={unclaimed === 0 || disableWithdraw}
+                loading={isWithdrawLoading}
                 onClick={withdraw}
+                size="md"
+                variant="primary"
               >
                 <Withdraw />
                 Withdraw
@@ -116,41 +116,41 @@ export default function PageRewards() {
       )}
 
       <ButtonSelect
+        className="mb-4"
+        onChange={newValue => setActiveTab(newValue)}
         options={[
           { value: 'rewards', label: 'Rewards History' },
           { value: 'withdraws', label: 'Withdraw Requests' },
         ]}
-        value={activeTab}
-        onChange={newValue => setActiveTab(newValue)}
-        className="mb-4"
         surface={1}
+        value={activeTab}
       />
 
       {activeTab === 'rewards' && (
         <div>
           {hasFlag('/trader/quests/daily') && (
-            <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
+            <RewardItem amount={daily} image={dailySrc} title="Daily Trade" />
           )}
           <RewardItem
-            title="Referral Trade"
-            image={refFeeSrc}
             amount={tradeReferral}
+            image={refFeeSrc}
+            title="Referral Trade"
           />
           {hasFlag('/account/billing') && (
             <RewardItem
-              title="Referral Wise Club"
-              image={refSubSrc}
               amount={subReferral}
+              image={refSubSrc}
+              title="Referral Wise Club"
             />
           )}
           {hasFlag('/trader/quests/league') && (
-            <RewardItem title="League" image={leagueSrc} amount={league} />
+            <RewardItem amount={league} image={leagueSrc} title="League" />
           )}
           {hasFlag('/trader/quests/tournaments') && (
-            <RewardItem title="Tournaments" image={logo} amount={tournament} />
+            <RewardItem amount={tournament} image={logo} title="Tournaments" />
           )}
           {hasFlag('/account/billing') && (
-            <RewardItem title="Wise Club" image={wiseGold} amount={wiseClub} />
+            <RewardItem amount={wiseClub} image={wiseGold} title="Wise Club" />
           )}
         </div>
       )}
@@ -159,8 +159,8 @@ export default function PageRewards() {
         <div>
           {history?.map((item, index) => (
             <div
+              className="mb-3 flex flex-col gap-2 rounded-xl bg-v1-surface-l1 p-3 text-xs"
               key={index}
-              className="bg-v1-surface-l1 mb-3 flex flex-col gap-2 rounded-xl p-3 text-xs"
             >
               <div className="flex justify-between">
                 <div className="text-v1-content-secondary">Wallet Address</div>
@@ -176,9 +176,9 @@ export default function PageRewards() {
               </div>
               {item.transaction_hash && (
                 <Button
-                  variant="link"
-                  size="md"
                   onClick={() => openTransaction(item.transaction_hash ?? '')}
+                  size="md"
+                  variant="link"
                 >
                   View Transaction
                 </Button>
@@ -201,13 +201,13 @@ function RewardItem({
   amount: number;
 }) {
   return (
-    <div className="bg-v1-surface-l1 relative mb-3 h-24 overflow-hidden rounded-xl">
+    <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l1">
       <div className="relative flex h-full items-center">
-        <div className="flex grow gap-x-3 p-3 mobile:flex-col">
-          <img src={image} alt="" className="size-10 object-contain" />
+        <div className="flex grow mobile:flex-col gap-x-3 p-3">
+          <img alt="" className="size-10 object-contain" src={image} />
           <p className="mt-2">{title}</p>
         </div>
-        <div className="border-v1-border-disabled flex h-full w-32 items-center justify-center gap-2 border-l border-dashed">
+        <div className="flex h-full w-32 items-center justify-center gap-2 border-v1-border-disabled border-l border-dashed">
           <Usdc className="size-6" /> {amount}
         </div>
       </div>

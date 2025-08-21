@@ -1,18 +1,18 @@
+import { type UserGroup, useSubscription } from 'api';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
 import {
+  type PropsWithChildren,
   useCallback,
   useMemo,
   useRef,
   useState,
-  type PropsWithChildren,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type UserGroup, useSubscription } from 'api';
-import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
 import { useMutationObserver } from 'utils/useMutationObserver';
-import { ReactComponent as Logo } from 'assets/monogram-green.svg';
+import { isDebugMode } from 'utils/version';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
 const calcSize = (size: number | boolean) =>
@@ -116,63 +116,59 @@ export function AccessShield({
   const { root, shield, height, maxHeight, isReady } = useShield(mode, size);
 
   return (
-    <>
-      <div
-        ref={root}
-        className={clsx(!isReady && 'blur transition-all', className)}
-      >
-        {children}
-        {calcSize(size) > 0 && (
-          <div
+    <div
+      className={clsx(!isReady && 'blur transition-all', className)}
+      ref={root}
+    >
+      {children}
+      {calcSize(size) > 0 && (
+        <div
+          className={clsx(
+            'z-10 w-full rounded-xl',
+            height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
+            maxHeight < 900 ? 'justify-center' : 'justify-start',
+            'flex flex-col items-center backdrop-blur',
+            'bg-[rgba(29,38,47,0.2)]',
+            !isReady && 'hidden',
+          )}
+          ref={shield}
+        >
+          <Logo className={clsx('size-12 shrink', height < 130 && 'hidden')} />
+
+          <p
             className={clsx(
-              'z-10 w-full rounded-xl',
-              height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
-              maxHeight < 900 ? 'justify-center' : 'justify-start',
-              'flex flex-col items-center backdrop-blur',
-              'bg-[rgba(29,38,47,0.2)]',
-              !isReady && 'hidden',
+              'shrink text-center text-v1-content-primary text-xs capitalize',
+              height < 100 && 'hidden',
             )}
-            ref={shield}
           >
-            <Logo
-              className={clsx('size-12 shrink', height < 130 && 'hidden')}
-            />
+            {group === 'guest'
+              ? t('pro-locker.login.message')
+              : 'Join Wise Club for exclusive insights to elevate your crypto game!'}
+          </p>
 
-            <p
-              className={clsx(
-                'shrink text-center text-xs capitalize text-v1-content-primary',
-                height < 100 && 'hidden',
-              )}
+          <HoverTooltip
+            disabled={!isDebugMode}
+            title={
+              <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
+                {JSON.stringify([{ group, nextGroup }, sizes], null, 2)}
+              </p>
+            }
+          >
+            <Button
+              className="shrink-0"
+              onClick={() => ensureGroup(nextGroup ?? 'vip')}
+              size="sm"
+              variant="pro"
             >
+              <Sparkle />
               {group === 'guest'
-                ? t('pro-locker.login.message')
-                : 'Join Wise Club for exclusive insights to elevate your crypto game!'}
-            </p>
-
-            <HoverTooltip
-              title={
-                <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
-                  {JSON.stringify([{ group, nextGroup }, sizes], null, 2)}
-                </p>
-              }
-              disabled={!isDebugMode}
-            >
-              <Button
-                onClick={() => ensureGroup(nextGroup ?? 'vip')}
-                variant="pro"
-                size="sm"
-                className="shrink-0"
-              >
-                <Sparkle />
-                {group === 'guest'
-                  ? t('pro-locker.login.button')
-                  : 'Join Wise Club'}
-              </Button>
-            </HoverTooltip>
-            {loginModal}
-          </div>
-        )}
-      </div>
-    </>
+                ? t('pro-locker.login.button')
+                : 'Join Wise Club'}
+            </Button>
+          </HoverTooltip>
+          {loginModal}
+        </div>
+      )}
+    </div>
   );
 }

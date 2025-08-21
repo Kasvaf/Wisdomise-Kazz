@@ -1,11 +1,11 @@
-import { v4 } from 'uuid';
-import { useMemo, useState } from 'react';
-import {
-  type OpenOrderInput,
-  type OpenOrderResponse,
-  type SignalItem,
+import type {
+  OpenOrderInput,
+  OpenOrderResponse,
+  SignalItem,
 } from 'api/builder';
-import { type TraderInputs } from '../types';
+import { useMemo, useState } from 'react';
+import { v4 } from 'uuid';
+import type { TraderInputs } from '../types';
 
 export interface TpSlData {
   key: string;

@@ -1,19 +1,19 @@
-import { type FC } from 'react';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
+import type { TechnicalRadarCoin } from 'api/discovery';
+import type { FC } from 'react';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type TechnicalRadarCoin } from 'api/discovery';
-import {
-  type TechnicalRadarView,
-  TechnicalRadarViewSelect,
-} from '../TechnicalRadarViewSelect';
-import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
 } from '../../CoinPreDetailModal';
+import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 import TechnicalRadarSharingModal from '../TechnicalRadarSharingModal';
-import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
+import {
+  type TechnicalRadarView,
+  TechnicalRadarViewSelect,
+} from '../TechnicalRadarViewSelect';
 import { TechnicalRadarCoinsCharts } from './TechnicalRadarCoinsCharts';
+import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 
 export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [tab, setTab] = useSearchParamAsState<TechnicalRadarView>(
@@ -31,10 +31,10 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     <div className="p-3">
       <TechnicalRadarViewSelect
         className="mb-4 w-full"
-        value={tab}
         onChange={setTab}
         size="sm"
         surface={1}
+        value={tab}
       />
       {tab === 'chart' && (
         <TechnicalRadarCoinsCharts onClick={row => openModal(row)} />
@@ -43,30 +43,28 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         <TechnicalRadarCoinsTable onClick={row => openModal(row)} />
       )}
       <CoinPreDetailModal
-        coin={selectedRow?.symbol}
         categories={selectedRow?.symbol.categories}
+        coin={selectedRow?.symbol}
+        hasShare={true}
         labels={selectedRow?.symbol_labels}
         marketData={selectedRow?.data}
         networks={selectedRow?.networks}
-        security={selectedRow?.symbol_security?.data}
-        open={isModalOpen}
         onClose={() => closeModal()}
-        hasShare={true}
+        open={isModalOpen}
+        security={selectedRow?.symbol_security?.data}
       >
         {selectedRow?.sparkline && (
           <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />
         )}
         {selectedRow && (
-          <>
-            <TechnicalRadarSentiment
-              value={selectedRow}
-              mode="expanded"
-              className="w-full"
-            />
-          </>
+          <TechnicalRadarSentiment
+            className="w-full"
+            mode="expanded"
+            value={selectedRow}
+          />
         )}
         {selectedRow && (
-          <TechnicalRadarSharingModal open={false} coin={selectedRow} />
+          <TechnicalRadarSharingModal coin={selectedRow} open={false} />
         )}
       </CoinPreDetailModal>
     </div>

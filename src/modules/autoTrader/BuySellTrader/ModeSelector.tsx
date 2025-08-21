@@ -10,48 +10,48 @@ export const ModeSelector: React.FC<{
   return (
     <div
       className={clsx(
-        'flex items-stretch rounded-lg bg-v1-surface-l1 p-1 gap-1',
+        'flex items-stretch gap-1 rounded-lg bg-v1-surface-l1 p-1',
         className,
       )}
     >
       <Button
-        variant="ghost"
         className={clsx(
           'w-1/3',
           mode === 'buy' &&
             '!bg-v1-content-positive text-v1-content-secondary-inverse',
         )}
+        onClick={() => setMode('buy')}
         size="xs"
         surface={1}
-        onClick={() => setMode('buy')}
+        variant="ghost"
       >
         Buy
       </Button>
 
       <Button
-        variant="ghost"
         className={clsx(
           'w-1/3',
           mode === 'sell' &&
             '!bg-v1-content-negative text-v1-content-secondary-inverse',
         )}
+        onClick={() => setMode('sell')}
         size="xs"
         surface={1}
-        onClick={() => setMode('sell')}
+        variant="ghost"
       >
         Sell
       </Button>
 
       <Button
-        variant="ghost"
         className={clsx(
           'w-1/3',
           mode === 'auto' &&
             '!bg-v1-content-info text-v1-content-secondary-inverse',
         )}
+        onClick={() => setMode('auto')}
         size="xs"
         surface={1}
-        onClick={() => setMode('auto')}
+        variant="ghost"
       >
         Auto Trade
       </Button>

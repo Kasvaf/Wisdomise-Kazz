@@ -1,11 +1,11 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as OversoldIcon } from './oversold.svg';
-import { ReactComponent as OverboughtIcon } from './overbought.svg';
 import { ReactComponent as BearishIcon } from './bearish.svg';
 import { ReactComponent as BullishIcon } from './bullish.svg';
-import { ReactComponent as CrossUp } from './crossup.svg';
 import { ReactComponent as CrossDown } from './crossdown.svg';
+import { ReactComponent as CrossUp } from './crossup.svg';
+import { ReactComponent as OverboughtIcon } from './overbought.svg';
+import { ReactComponent as OversoldIcon } from './oversold.svg';
 
 export const ConfirmationBadgesInfo: FC = () => {
   const { t } = useTranslation('market-pulse');
@@ -48,7 +48,7 @@ export const ConfirmationBadgesInfo: FC = () => {
   return (
     <div className="space-y-5">
       {infos.map(({ icon: InfoIcon, ...info }) => (
-        <div key={info.title} className="flex items-start gap-2">
+        <div className="flex items-start gap-2" key={info.title}>
           <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1">
             <InfoIcon className="size-5" />
           </div>
@@ -56,7 +56,7 @@ export const ConfirmationBadgesInfo: FC = () => {
             <h4 className="mb-[2px] font-medium text-v1-content-primary">
               {info.title}
             </h4>
-            <p className="text-xs font-normal text-v1-content-secondary">
+            <p className="font-normal text-v1-content-secondary text-xs">
               {info.description}
             </p>
           </div>

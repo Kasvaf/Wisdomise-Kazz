@@ -1,9 +1,9 @@
-import { createAppKit } from '@reown/appkit/react';
 import { polygon, sepolia, solana } from '@reown/appkit/networks';
+import { createAppKit } from '@reown/appkit/react';
 import { SolanaAdapter } from '@reown/appkit-adapter-solana/react';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
-import { cookieStorage, createStorage, http } from 'wagmi';
 import { isProduction } from 'utils/version';
+import { cookieStorage, createStorage, http } from 'wagmi';
 
 // 1. Get projectId from https://cloud.reown.com
 export const projectId = '5e4e2382e0dc5e93ebe35ff869d05c4d';

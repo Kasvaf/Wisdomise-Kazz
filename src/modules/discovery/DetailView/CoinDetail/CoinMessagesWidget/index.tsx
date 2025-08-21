@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next';
+import { useSocialRadarMessages } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import { useSocialRadarMessages } from 'api/discovery';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
 import { useUnifiedCoinDetails } from '../useUnifiedCoinDetails';
 import { SocialMessageSummary } from './SocialMessage';
@@ -40,28 +40,28 @@ export function CoinMessagesWidget({
   return (
     <>
       <div
-        id={id}
         className={clsx(
           'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
           className,
         )}
+        id={id}
       >
         {title !== false && (
-          <h3 className="text-sm font-semibold">
+          <h3 className="font-semibold text-sm">
             {type === 'technical_ideas'
               ? t('coin-details.tabs.trading_view.title')
               : t('coin-details.tabs.socials.title')}
           </h3>
         )}
         {msgs?.slice(0, expand ? undefined : 3).map(msg => (
-          <SocialMessageSummary message={msg} key={msg.id} />
+          <SocialMessageSummary key={msg.id} message={msg} />
         ))}
         {(msgs?.length ?? 0) > 3 && !expand && (
           <Button
-            size="xs"
             onClick={() => setExpand(true)}
-            variant="link"
+            size="xs"
             surface={1}
+            variant="link"
           >
             {`Load ${(msgs?.length ?? 0) - 3} More Messages`}
           </Button>

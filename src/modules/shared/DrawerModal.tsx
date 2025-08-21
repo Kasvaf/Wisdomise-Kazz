@@ -1,7 +1,7 @@
-import { clsx } from 'clsx';
-import { type FC, type PropsWithChildren } from 'react';
 import { Drawer, type DrawerProps } from 'antd';
 import { bxX } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import type { FC, PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import FabButton from './FabButton';
 
@@ -14,22 +14,22 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
   return (
     <Drawer
       className={clsx(
-        '!bg-v1-surface-l1 text-white mobile:max-h-[90dvh]',
+        '!bg-v1-surface-l1 mobile:max-h-[90dvh] text-white',
         className,
       )}
-      height="auto"
-      width="auto"
       closeIcon={
         <FabButton
+          className="hover:!bg-white/10 rounded-lg bg-white/5 p-2 text-white/70"
           icon={bxX}
           size={24}
-          className="rounded-lg bg-white/5 p-2 text-white/70 hover:!bg-white/10"
         />
       }
+      height="auto"
       placement={isMobile ? 'bottom' : 'right'}
+      width="auto"
       {...props}
     >
-      <div className="w-[640px] max-w-full mobile:w-full">{children}</div>
+      <div className="mobile:w-full w-[640px] max-w-full">{children}</div>
     </Drawer>
   );
 };

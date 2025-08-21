@@ -1,7 +1,7 @@
-import { type FC } from 'react';
-import { useTranslation } from 'react-i18next';
+import type { WhaleRadarSentiment } from 'api/discovery';
 import { clsx } from 'clsx';
-import { type WhaleRadarSentiment } from 'api/discovery';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 
@@ -23,31 +23,31 @@ export const WhaleCoinBuySellInfo: FC<{
       )}
     >
       <div className="flex items-center gap-1">
-        <ReadableNumber value={number} className="text-sm" />
+        <ReadableNumber className="text-sm" value={number} />
         <DirectionalNumber
-          value={volume}
-          showSign={false}
           className="text-xs"
           direction={type === 'buy' ? 'up' : 'down'}
-          label="$"
           format={{
             decimalLength: 1,
           }}
+          label="$"
+          showSign={false}
+          value={volume}
         />
       </div>
       <div className="flex items-center gap-1 whitespace-nowrap text-xs">
-        <span className="capitalize text-v1-content-secondary">
+        <span className="text-v1-content-secondary capitalize">
           {type === 'buy'
             ? t('top_coins.buy_volume.avg')
             : t('top_coins.sell_volume.avg')}
           :
         </span>
         <ReadableNumber
-          value={volume === 0 ? 0 : volume / number}
-          label="$"
           format={{
             decimalLength: 1,
           }}
+          label="$"
+          value={volume === 0 ? 0 : volume / number}
         />
       </div>
     </div>

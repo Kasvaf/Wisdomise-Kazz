@@ -1,5 +1,5 @@
 import { networkRadarGrpc } from 'api/grpc';
-import { type TrenchStreamRequest } from 'api/proto/network_radar';
+import type { TrenchStreamRequest } from 'api/proto/network_radar';
 
 export const doesNCoinHaveSafeTopHolders = ({
   topHolders,

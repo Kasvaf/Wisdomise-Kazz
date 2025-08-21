@@ -1,22 +1,22 @@
-import { useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
 // import { Coin } from 'shared/Coin';
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
-import { AccessShield } from 'shared/AccessShield';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { useLoadingBadge } from 'shared/LoadingBadge';
-import { TableRank } from 'shared/TableRank';
-import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { Coin } from 'shared/v1-components/Coin';
-import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
-import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
-import { EmptySentiment } from '../EmptySentiment';
-import { homeSubscriptionsConfig } from '../constants';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import { useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { AccessShield } from 'shared/AccessShield';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { TableRank } from 'shared/TableRank';
+import { Coin } from 'shared/v1-components/Coin';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
 import { ConfirmationBadgesInfo } from '../../TechnicalRadar/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadar/TechnicalRadarSentiment';
+import { homeSubscriptionsConfig } from '../constants';
+import { EmptySentiment } from '../EmptySentiment';
 import useHotCoinsTour from '../useHotCoinsTour';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
@@ -42,13 +42,13 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         render: row => (
           <Coin
             abbreviation={row.symbol.abbreviation}
-            name={row.symbol.name}
-            slug={row.symbol.slug}
-            logo={row.symbol.logo_url}
             categories={row.symbol.categories}
             labels={row.symbol_labels}
+            logo={row.symbol.logo_url}
+            name={row.symbol.name}
             networks={row.networks}
             security={row.symbol_security?.data}
+            slug={row.symbol.slug}
             truncate={false}
           />
         ),
@@ -64,22 +64,22 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         key: 'social_radar_sentiment',
         title: (
           <span className="flex items-center gap-1">
-            <SocialRadarIcon className="size-4 inline-block grayscale" />
+            <SocialRadarIcon className="inline-block size-4 grayscale" />
             {t('table.social_radar_sentiment')}
           </span>
         ),
         info: (
           <Trans
-            ns="coin-radar"
             i18nKey="coin-radar:social-radar.table.sentiment.info"
+            ns="coin-radar"
           />
         ),
         width: 250,
         render: row =>
           row.social_radar_insight ? (
             <SocialRadarSentiment
-              value={row.social_radar_insight}
               mode="default"
+              value={row.social_radar_insight}
             />
           ) : (
             <EmptySentiment value="social_radar" />
@@ -89,7 +89,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         key: 'technical_radar_sentiment',
         title: (
           <span className="flex items-center gap-1">
-            <TechnicalRadarIcon className="size-4 inline-block grayscale" />
+            <TechnicalRadarIcon className="inline-block size-4 grayscale" />
             {t('table.technical_radar_sentiment')}
           </span>
         ),
@@ -98,8 +98,8 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         render: row =>
           row.technical_radar_insight ? (
             <TechnicalRadarSentiment
-              value={row.technical_radar_insight}
               mode="default"
+              value={row.technical_radar_insight}
             />
           ) : (
             <EmptySentiment value="technical_radar" />
@@ -115,33 +115,33 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
   return (
     <div className="p-3">
       <OverviewWidget
+        className="min-h-[500px]"
+        headerActions={<QuickBuySettings showWallet source="coin_radar" />}
         title={
           <>
             <Logo className="size-6 shrink-0" />
             {t('base:menu.coin-radar.full-title')}
           </>
         }
-        headerActions={<QuickBuySettings source="coin_radar" showWallet />}
-        className="min-h-[500px]"
       >
         <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
           <Table
-            rowClassName="id-tour-row"
+            chunkSize={10}
+            className={className}
             columns={columns}
             dataSource={coins.data?.slice(0, 10)}
-            chunkSize={10}
-            rowKey={(r, i) => `${r.symbol.slug} ${i}`}
-            surface={2}
-            className={className}
-            scrollable
             loading={coins.isLoading}
+            rowClassName="id-tour-row"
             rowHoverSuffix={row => (
               <BtnQuickBuy
-                source="coin_radar"
-                slug={row.symbol.slug}
                 networks={row.networks}
+                slug={row.symbol.slug}
+                source="coin_radar"
               />
             )}
+            rowKey={(r, i) => `${r.symbol.slug} ${i}`}
+            scrollable
+            surface={2}
           />
         </AccessShield>
       </OverviewWidget>

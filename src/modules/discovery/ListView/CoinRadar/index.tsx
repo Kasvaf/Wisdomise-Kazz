@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { isMiniApp } from 'utils/version';
-import { CoinRadarMiniApp } from './CoinRadarMiniApp';
-import { CoinRadarExpanded } from './CoinRadarExpanded';
 import { CoinRadarCompact } from './CoinRadarCompact';
+import { CoinRadarExpanded } from './CoinRadarExpanded';
+import { CoinRadarMiniApp } from './CoinRadarMiniApp';
 import { PageCoinRadarMeta } from './PageCoinRadarMeta';
 
 export const CoinRadar: FC<{ expanded?: boolean; focus?: boolean }> = ({

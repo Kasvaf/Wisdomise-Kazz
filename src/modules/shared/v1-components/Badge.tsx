@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode, type FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 export const Badge: FC<{
   variant?: 'brand' | 'positive';
@@ -10,7 +10,7 @@ export const Badge: FC<{
   return (
     <div
       className={clsx(
-        'h-2xs rounded-full p-px text-xxs font-normal tracking-wider',
+        'h-2xs rounded-full p-px font-normal text-xxs tracking-wider',
         variant === 'positive' && 'bg-v1-content-positive',
         variant === 'brand' && 'bg-brand-gradient',
         className,

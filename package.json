@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "lint": "npx @biomejs/biome check",
     "lint:staged": "npx @biomejs/biome check --staged --no-errors-on-unmatched",
-    "lint:fix": "npx @biomejs/biome check --write",
+    "lint:fix": "npx @biomejs/biome check --write --unsafe",
     "postinstall": "patch-package && yarn gen-proto",
     "execute-husky": "npx husky install && npx husky add .husky/pre-commit \"npm run lint:staged\"",
     "prepare": "husky install",

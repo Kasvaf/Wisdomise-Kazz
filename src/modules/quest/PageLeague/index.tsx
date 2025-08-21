@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react';
-import { clsx } from 'clsx';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import PageWrapper from 'modules/base/PageWrapper';
-import { PageTitle } from 'shared/PageTitle';
 import {
   type LeagueDetail,
   useLeagueLeaderboardQuery,
   useLeagueProfileQuery,
 } from 'api/gamification';
-import Badge from 'shared/Badge';
+import { clsx } from 'clsx';
+import PageWrapper from 'modules/base/PageWrapper';
+import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
+import LeagueResultModalContent from 'modules/quest/PageLeague/LeagueResultModalContent';
+import useLeague from 'modules/quest/PageLeague/useLeague';
 import Leaderboard, {
   LeaderboardItem,
 } from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
-import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
-import useLeague from 'modules/quest/PageLeague/useLeague';
 import {
   CountdownBar,
   LeaderboardPrizes,
 } from 'modules/quest/PageTournaments/TournamentCard';
-import useIsMobile from 'utils/useIsMobile';
-import LeagueResultModalContent from 'modules/quest/PageLeague/LeagueResultModalContent';
-import useModal from 'shared/useModal';
+import { useEffect, useState } from 'react';
+import Badge from 'shared/Badge';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
-import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
+import { PageTitle } from 'shared/PageTitle';
+import useModal from 'shared/useModal';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDetail/Leaderboard/champion.svg';
-import prize from './images/prize.png';
+import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
 import cup from './images/cup.png';
+import prize from './images/prize.png';
 // eslint-disable-next-line import/no-unassigned-import
 import 'swiper/css/navigation';
 
@@ -75,32 +75,32 @@ export default function PageLeague() {
 
   return (
     <PageWrapper
-      hasBack={true}
-      footer={null}
-      title="League"
-      loading={isLoading}
       extension={!isMobile && <CoinExtensionsGroup />}
+      footer={null}
+      hasBack={true}
+      loading={isLoading}
+      title="League"
     >
       <PageTitle
         className="pt-8"
-        title="Compete, Rise, and Conquer!"
         description="Compete Weekly, Earn Points, and Climb the Ranks. Stay Competitive and Aim for the Top!"
+        title="Compete, Rise, and Conquer!"
       />
 
       <div className="mx-auto my-8 h-48">
         {selectedLeagueIndex === undefined ? null : (
           <Swiper
+            centeredSlides
+            className={clsx(
+              '[&_.swiper-button-next]:!mr-[35vw] [&_.swiper-button-next]:!text-v1-content-primary [&_.swiper-button-next]:mobile:!mr-[15vw] [&_.swiper-button-next]:scale-50',
+              '[&_.swiper-button-prev]:!ml-[35vw] [&_.swiper-button-prev]:!text-v1-content-primary [&_.swiper-button-prev]:mobile:!ml-[15vw] [&_.swiper-button-prev]:scale-50',
+            )}
             initialSlide={selectedLeagueIndex}
+            modules={[Navigation]}
             navigation
+            onActiveIndexChange={s => setSelectedLeagueIndex(s.activeIndex)}
             slidesPerView={isMobile ? 2 : 4}
             spaceBetween={15}
-            centeredSlides
-            modules={[Navigation]}
-            onActiveIndexChange={s => setSelectedLeagueIndex(s.activeIndex)}
-            className={clsx(
-              '[&_.swiper-button-next]:!mr-[35vw] [&_.swiper-button-next]:scale-50 [&_.swiper-button-next]:!text-v1-content-primary [&_.swiper-button-next]:mobile:!mr-[15vw]',
-              '[&_.swiper-button-prev]:!ml-[35vw] [&_.swiper-button-prev]:scale-50 [&_.swiper-button-prev]:!text-v1-content-primary [&_.swiper-button-prev]:mobile:!ml-[15vw]',
-            )}
           >
             {league.details?.map((item, index) => {
               const isActive = selectedLeagueIndex === index;
@@ -109,9 +109,9 @@ export default function PageLeague() {
                   <div className="relative mx-auto flex flex-col items-center">
                     {profile.league_slug === item.slug && (
                       <Badge
-                        label="You Are Here"
-                        color="orange"
                         className="absolute top-0"
+                        color="orange"
+                        label="You Are Here"
                       />
                     )}
                     <LeagueIcon
@@ -119,8 +119,8 @@ export default function PageLeague() {
                         'mt-2 transition-all',
                         isActive ? 'size-40' : 'size-32 opacity-50',
                       )}
-                      slug={item.slug}
                       isActive={isActive}
+                      slug={item.slug}
                     />
                     <h2
                       className={clsx(
@@ -141,30 +141,30 @@ export default function PageLeague() {
           </Swiper>
         )}
       </div>
-      <div className="grid grid-cols-2 items-start gap-x-4 gap-y-8 mobile:grid-cols-1">
+      <div className="grid grid-cols-2 mobile:grid-cols-1 items-start gap-x-4 gap-y-8">
         <div>
           {selectedLeague && league.end_time && league.start_time && (
             <Prize
-              league={selectedLeague}
-              startTime={league.start_time}
               endTime={league.end_time}
+              league={selectedLeague}
               rewardedUsersMinRank={rewardedUsersMinRank}
+              startTime={league.start_time}
             />
           )}
           {me && me.league_slug === selectedLeague?.slug && (
-            <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
+            <div className="mt-3 mobile:hidden rounded-xl bg-v1-surface-l2 p-3">
               <h2 className="mb-2">My Status</h2>
               <LeaderboardItem
-                participant={me}
                 isTopLevel={selectedLeague?.level === 2}
+                participant={me}
               />
             </div>
           )}
         </div>
         <Leaderboard
-          participants={participants}
-          me={me?.league_slug === selectedLeague?.slug ? me : undefined}
           isTopLevel={selectedLeague?.level === 2}
+          me={me?.league_slug === selectedLeague?.slug ? me : undefined}
+          participants={participants}
           rewardedUsersMinRank={rewardedUsersMinRank}
         />
       </div>
@@ -196,24 +196,24 @@ function Prize({
       }}
     >
       <img
-        src={isTopLevel ? cup : prize}
         alt="prize"
-        className={clsx('absolute -top-8 right-0 h-40', isTopLevel && 'h-44')}
+        className={clsx('-top-8 absolute right-0 h-40', isTopLevel && 'h-44')}
+        src={isTopLevel ? cup : prize}
       />
       <div className="mb-1 flex items-center gap-2">
         <h2 className="font-semibold">Weekly Prize</h2>
-        <div className="rounded-md  bg-v1-overlay-40 px-1 text-xxs">
+        <div className="rounded-md bg-v1-overlay-40 px-1 text-xxs">
           Top {rewardedUsersMinRank}
         </div>
       </div>
-      <p className="mb-3 text-xs text-v1-inverse-overlay-70">
+      <p className="mb-3 text-v1-inverse-overlay-70 text-xs">
         Keep Trading to Stay in the Top {rewardedUsersMinRank}!
       </p>
       <div className="flex w-max rounded-lg bg-white/5 p-1">
         <LeaderboardPrizes
-          prizes={league.prizes}
-          hasDetail={true}
           description={league.description}
+          hasDetail={true}
+          prizes={league.prizes}
         />
       </div>
       <div className="mt-2 flex w-max items-center gap-1 rounded-lg bg-white/5 p-1">
@@ -230,7 +230,7 @@ function Prize({
         )}
       </div>
       <hr className="my-3 border-white/5" />
-      <CountdownBar startDate={startTime} endDate={endTime} />
+      <CountdownBar endDate={endTime} startDate={startTime} />
     </div>
   );
 }

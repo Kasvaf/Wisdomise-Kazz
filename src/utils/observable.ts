@@ -1,6 +1,6 @@
+import type { QueryKey } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { type Subscription, type Observable, type TeardownLogic } from 'rxjs';
-import { type QueryKey } from '@tanstack/react-query';
+import type { Observable, Subscription, TeardownLogic } from 'rxjs';
 import { isDebugMode } from './version';
 
 const subscriptions = new Map<string, Subscription>();

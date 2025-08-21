@@ -1,11 +1,11 @@
-import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
-import {
-  type Indicator,
-  type IndicatorConfirmation,
-  type IndicatorConfirmationCombination,
+import type {
+  Indicator,
+  IndicatorConfirmation,
+  IndicatorConfirmationCombination,
 } from 'api/discovery';
+import { clsx } from 'clsx';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const calculateTimeBadge = (resolutionsList: string[][]) => {
   const badgedResolutionsList = resolutionsList.map(resolutions =>

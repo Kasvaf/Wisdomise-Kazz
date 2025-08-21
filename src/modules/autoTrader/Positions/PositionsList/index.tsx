@@ -1,7 +1,7 @@
 import { Pagination } from 'antd';
+import { useTraderPositionsQuery } from 'api';
 import { useEffect, useState } from 'react';
 import Spinner from 'shared/Spinner';
-import { useTraderPositionsQuery } from 'api';
 import usePageTour from 'shared/usePageTour';
 import NoPosition from './NoPosition';
 import PositionDetail from './PositionDetail';
@@ -55,13 +55,11 @@ const PositionsList: React.FC<{
   });
 
   return isLoading ? (
-    <>
-      {!noLoadingState && (
-        <div className="my-8 flex justify-center">
-          <Spinner />
-        </div>
-      )}
-    </>
+    !noLoadingState && (
+      <div className="my-8 flex justify-center">
+        <Spinner />
+      </div>
+    )
   ) : positionsRes.length > 0 ? (
     <div className={className}>
       <div
@@ -77,16 +75,16 @@ const PositionsList: React.FC<{
       <div className="mt-3 flex justify-center empty:hidden">
         <Pagination
           current={page}
+          hideOnSinglePage
           onChange={x => setPage(x)}
           pageSize={PAGE_SIZE}
-          total={positions?.count}
-          hideOnSinglePage
           responsive
+          total={positions?.count}
         />
       </div>
     </div>
   ) : (
-    <>{!noEmptyState && <NoPosition active={isOpen} slug={slug} />}</>
+    !noEmptyState && <NoPosition active={isOpen} slug={slug} />
   );
 };
 

@@ -1,13 +1,13 @@
-import { type RouteObject } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import PageDiscovery from 'modules/discovery/PageDiscovery';
 import {
   createDiscoverySearchParams,
   parseDiscoverySearchParams,
 } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useTranslation } from 'react-i18next';
+import type { RouteObject } from 'react-router-dom';
 import Container from '../Container';
 import { useMenuItems } from '../Layout/MenuItems/useMenuItems';
-import { type RouteHandle } from './types';
+import type { RouteHandle } from './types';
 
 const useDiscoveryRoutes = () => {
   const menuItems = useMenuItems();

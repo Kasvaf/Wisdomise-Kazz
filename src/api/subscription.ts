@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import { isMiniApp } from 'utils/version';
-import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { APP_PANEL } from 'config/constants';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { useNavigate } from 'react-router-dom';
+import { isMiniApp } from 'utils/version';
 import { useAccountQuery } from './account';
 
 export type UserGroup =

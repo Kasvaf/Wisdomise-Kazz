@@ -1,5 +1,5 @@
-import { type FC, type ReactNode } from 'react';
 import { clsx } from 'clsx';
+import type { FC, ReactNode } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 import { ReactComponent as CheckIcon } from './check.svg';
 import { ReactComponent as UnCheckIcon } from './uncheck.svg';
@@ -40,6 +40,7 @@ export const Checkbox: FC<{
         ],
         className,
       )}
+      onClick={() => onChange?.(!value)}
       style={{
         ['--prev' as never]: colors.prev,
         ['--current' as never]: colors.current,
@@ -47,7 +48,6 @@ export const Checkbox: FC<{
         ['--later' as never]: colors.later,
       }}
       tabIndex={typeof onChange === 'function' ? 0 : -1}
-      onClick={() => onChange?.(!value)}
     >
       <Component
         className={clsx(

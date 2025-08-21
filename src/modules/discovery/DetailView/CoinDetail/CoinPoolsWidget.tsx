@@ -1,14 +1,13 @@
-import { useTranslation } from 'react-i18next';
-import { useMemo, useState } from 'react';
-
+import type { Pool } from 'api/discovery';
 import { clsx } from 'clsx';
-import { type Pool } from 'api/discovery';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { ReadableDate } from 'shared/ReadableDate';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
-import { Button } from 'shared/v1-components/Button';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ContractAddress } from 'shared/ContractAddress';
+import { ReadableDate } from 'shared/ReadableDate';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { Button } from 'shared/v1-components/Button';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 export function CoinPoolsWidget({
@@ -48,7 +47,7 @@ export function CoinPoolsWidget({
           new Date(a.pool_created_at ?? 0).getTime() -
           new Date(b.pool_created_at ?? 0).getTime(),
         render: row => (
-          <ReadableDate value={row.pool_created_at} className="text-xs" />
+          <ReadableDate className="text-xs" value={row.pool_created_at} />
         ),
       },
       {
@@ -63,11 +62,11 @@ export function CoinPoolsWidget({
         title: t('pools.table.txns'),
         render: row => (
           <NCoinBuySell
+            className="text-xs"
             value={{
               buys: row.h24_buys,
               sells: row.h24_sells,
             }}
-            className="text-xs"
           />
         ),
       },
@@ -75,9 +74,9 @@ export function CoinPoolsWidget({
         title: t('pools.table.volume'),
         render: row => (
           <ReadableNumber
-            value={row.h24_volume_usd_liquidity}
-            label="$"
             className="text-xs"
+            label="$"
+            value={row.h24_volume_usd_liquidity}
           />
         ),
       },
@@ -90,35 +89,35 @@ export function CoinPoolsWidget({
   return (
     <>
       <div
-        id={id}
         className={clsx(
           'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
           className,
         )}
+        id={id}
       >
         {title !== false && (
-          <h3 className="text-sm font-semibold">
+          <h3 className="font-semibold text-sm">
             {t('coin-details.tabs.pools.title')}
           </h3>
         )}
         <Table
           columns={columns}
           dataSource={pools?.slice(0, limit)}
-          rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
-          surface={1}
-          scrollable
           footer={
             typeof _limit === 'number' &&
             (pools?.length ?? 0) > _limit && (
               <Button
-                size="xs"
                 onClick={() => setLimit(undefined)}
+                size="xs"
                 variant="link"
               >
                 {t('common:load-more')}
               </Button>
             )
           }
+          rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
+          scrollable
+          surface={1}
         />
       </div>
       {hr && <hr className="border-white/10" />}

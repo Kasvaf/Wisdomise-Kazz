@@ -13,7 +13,7 @@ export function EmptySentiment({
   return (
     <div
       className={clsx(
-        'flex max-w-48 items-center gap-1 text-xs text-v1-content-secondary',
+        'flex max-w-48 items-center gap-1 text-v1-content-secondary text-xs',
         className,
       )}
     >

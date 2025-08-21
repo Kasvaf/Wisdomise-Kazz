@@ -1,23 +1,23 @@
-import { Fragment, useState } from 'react';
-import dayjs from 'dayjs';
-import { clsx } from 'clsx';
-import { bxInfoCircle } from 'boxicons-quasar';
 import { Tooltip } from 'antd';
-import cardBg from 'modules/quest/PageTournaments/images/card-bg.svg';
-import cardBg1 from 'modules/quest/PageTournaments/images/card-bg-1.svg';
-import cardBg2 from 'modules/quest/PageTournaments/images/card-bg-2.svg';
+import { useSymbolInfo } from 'api/symbol';
+import type {
+  GamificationStatus,
+  LeaderboardPrize,
+  Tournament,
+} from 'api/tournament';
+import { bxInfoCircle } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import dayjs from 'dayjs';
 import first from 'modules/quest/PageTournaments/images/1st.svg';
 import second from 'modules/quest/PageTournaments/images/2nd.svg';
 import third from 'modules/quest/PageTournaments/images/3rd.svg';
-import snow from 'modules/quest/PageTournaments/images/snow.svg';
+import cardBg from 'modules/quest/PageTournaments/images/card-bg.svg';
+import cardBg1 from 'modules/quest/PageTournaments/images/card-bg-1.svg';
+import cardBg2 from 'modules/quest/PageTournaments/images/card-bg-2.svg';
 import live from 'modules/quest/PageTournaments/images/live.svg';
-import {
-  type Tournament,
-  type GamificationStatus,
-  type LeaderboardPrize,
-} from 'api/tournament';
+import snow from 'modules/quest/PageTournaments/images/snow.svg';
+import { Fragment, useState } from 'react';
 import { Coin } from 'shared/Coin';
-import { useSymbolInfo } from 'api/symbol';
 import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
 
@@ -55,20 +55,20 @@ export default function TournamentCard({
 
   return (
     <div
-      key={tournament.key}
       className={clsx(
         'relative mb-3 block overflow-hidden rounded-xl bg-v1-surface-l2 p-4 pb-6 text-sm',
         className,
       )}
+      key={tournament.key}
     >
-      <img src={bgSrc} alt="" className="absolute bottom-0 end-0 h-full" />
-      <img src={snow} alt="" className="absolute bottom-0 end-0" />
+      <img alt="" className="absolute end-0 bottom-0 h-full" src={bgSrc} />
+      <img alt="" className="absolute end-0 bottom-0" src={snow} />
       <div className="relative">
         <div className="flex items-center gap-2">
-          <img src={tournament.icon} alt="stonfi" className="h-8 w-8" />
+          <img alt="stonfi" className="h-8 w-8" src={tournament.icon} />
           <div>
             <h2 className="text-sm">{tournament.name}</h2>
-            <h1 className="text-xs text-v1-content-secondary">
+            <h1 className="text-v1-content-secondary text-xs">
               Trading Volume Contest
             </h1>
           </div>
@@ -81,8 +81,8 @@ export default function TournamentCard({
           {hasDetail && tournament.tooltip_content && (
             <Tooltip title={tournament.tooltip_content}>
               <Icon
-                name={bxInfoCircle}
                 className="ms-2 inline-block text-v1-content-secondary"
+                name={bxInfoCircle}
                 size={16}
               />
             </Tooltip>
@@ -91,13 +91,13 @@ export default function TournamentCard({
         <hr className="border-white/5" />
         <div className="mt-3 flex justify-between gap-4">
           <div className="shrink-0 text-v1-content-secondary">Prize Pool</div>
-          <LeaderboardPrizes prizes={tournament.prizes} hasDetail={hasDetail} />
+          <LeaderboardPrizes hasDetail={hasDetail} prizes={tournament.prizes} />
         </div>
         <div className="mt-3 flex items-center justify-between">
           {tournament.status === 'live' ? (
             <CountdownBar
-              startDate={tournament.start_time}
               endDate={tournament.end_time}
+              startDate={tournament.start_time}
             />
           ) : tournament.status === 'upcoming' ? (
             <>
@@ -163,7 +163,7 @@ export function StatusBadge({
       )}
     >
       {status?.name}
-      {statusValue === 'live' && <img src={live} alt="" />}
+      {statusValue === 'live' && <img alt="" src={live} />}
     </div>
   );
 }
@@ -173,7 +173,7 @@ function PrizeCoin({ slug, amount }: { slug: string; amount: number }) {
 
   return coin ? (
     <div className="flex items-center">
-      <Coin mini noText nonLink coin={coin} />
+      <Coin coin={coin} mini nonLink noText />
       <span>{amount}</span>
       <span className="ms-1">{coin.abbreviation}</span>
     </div>
@@ -226,33 +226,33 @@ export function LeaderboardPrizes({
             {index !== 0 && (
               <div className="h-1 w-1 rounded-full bg-v1-border-secondary"></div>
             )}
-            <PrizeCoin slug={item.slug} amount={+item.amount} />
+            <PrizeCoin amount={+item.amount} slug={item.slug} />
           </Fragment>
         ))}
         {hasDetail && <Icon name={bxInfoCircle} size={16} />}
       </div>
       <DrawerModal
-        open={open}
-        onClose={() => setOpen(false)}
         maskClosable={true}
+        onClose={() => setOpen(false)}
+        open={open}
       >
         <div className="flex flex-col items-center text-center">
           <h1 className="-mt-5 font-bold">Top Leaderboard Prizes</h1>
-          <p className="pb-6 pt-3">
+          <p className="pt-3 pb-6">
             🏆 Trade, climb the leaderboard, and win exclusive rewards!
           </p>
           {sortedPrizeByRank.map((prize, index) => (
             <div
-              key={prize.start_rank}
               className={clsx(
                 'mb-2 flex h-12 w-full items-center gap-3 rounded-xl border border-transparent bg-v1-surface-l5 p-2 text-xs',
               )}
+              key={prize.start_rank}
             >
               <div className="w-6">{index + 1}</div>
               {index < 3 && (
                 <img
-                  src={index === 0 ? first : index === 1 ? second : third}
                   alt=""
+                  src={index === 0 ? first : index === 1 ? second : third}
                 />
               )}
               <div>
@@ -269,7 +269,7 @@ export function LeaderboardPrizes({
                     {index !== 0 && (
                       <div className="h-1 w-1 rounded-full bg-v1-border-secondary"></div>
                     )}
-                    <PrizeCoin slug={item.symbol_slug} amount={+item.amount} />
+                    <PrizeCoin amount={+item.amount} slug={item.symbol_slug} />
                   </Fragment>
                 ))}
               </div>

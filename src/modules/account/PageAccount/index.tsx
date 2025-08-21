@@ -1,28 +1,28 @@
-import { useTranslation } from 'react-i18next';
-import { type FC } from 'react';
-import PageWrapper from 'modules/base/PageWrapper';
 import {
   useExchangeAccountsQuery,
   useReferralStatusQuery,
   useSubscription,
 } from 'api';
 import { trackClick } from 'config/segment';
-import { PageCard } from 'shared/PageCard';
-import { ReadableDuration } from 'shared/ReadableDuration';
+import PageWrapper from 'modules/base/PageWrapper';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import Badge from 'shared/Badge';
-import { isMiniApp } from 'utils/version';
-import { PageTitle } from 'shared/PageTitle';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import { PageCard } from 'shared/PageCard';
+import { PageTitle } from 'shared/PageTitle';
+import { ReadableDuration } from 'shared/ReadableDuration';
 import useIsMobile from 'utils/useIsMobile';
+import { isMiniApp } from 'utils/version';
 import BtnLiveSupport from './BtnLiveSupport';
 import {
-  ProfileIcon,
-  WsdmTokenIcon,
   ExternalAccountIcon,
+  ProfileIcon,
   ReferralIcon,
   RewardIcon,
-  UserIcon,
   SubscriptionIcon,
+  UserIcon,
+  WsdmTokenIcon,
 } from './icons';
 
 const PageAccount: FC = () => {
@@ -34,32 +34,27 @@ const PageAccount: FC = () => {
 
   return (
     <PageWrapper
+      extension={!isMobile && <CoinExtensionsGroup />}
       hasBack
       title="My Account"
-      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <PageTitle
         className="mb-10 mobile:hidden"
+        description={t('menu.account.subtitle')}
         icon={UserIcon}
         title={t('menu.account.title')}
-        description={t('menu.account.subtitle')}
       />
 
-      <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1 mobile:gap-2 xl:grid-cols-3">
+      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-4 mobile:gap-2 xl:grid-cols-3">
         <PageCard
-          to="/account/profile"
-          title={t('menu.profile.title')}
           description={t('menu.profile.subtitle')}
           icon={ProfileIcon}
           onClick={trackClick('profile_menu')}
+          title={t('menu.profile.title')}
+          to="/account/profile"
         />
         {!isMiniApp && (
           <PageCard
-            to="/account/billing"
-            title={t('menu.billing.title')}
-            description={t('menu.billing.subtitle')}
-            icon={SubscriptionIcon}
-            onClick={trackClick('subscription_menu')}
             badge={
               subscription.group !== 'free' && (
                 <Badge
@@ -76,23 +71,23 @@ const PageAccount: FC = () => {
                 />
               )
             }
+            description={t('menu.billing.subtitle')}
+            icon={SubscriptionIcon}
+            onClick={trackClick('subscription_menu')}
+            title={t('menu.billing.title')}
+            to="/account/billing"
           />
         )}
         {!isMiniApp && (
           <PageCard
-            to="/account/token"
-            title={t('menu.token.title')}
             description={t('menu.token.subtitle')}
             icon={WsdmTokenIcon}
             onClick={trackClick('wsdm_token_menu')}
+            title={t('menu.token.title')}
+            to="/account/token"
           />
         )}
         <PageCard
-          to="/account/exchange-accounts"
-          title={t('menu.account-manager.title')}
-          description={t('menu.account-manager.subtitle')}
-          icon={ExternalAccountIcon}
-          onClick={trackClick('external_account_menu')}
           badge={
             <Badge
               color="blue"
@@ -101,13 +96,13 @@ const PageAccount: FC = () => {
               })}
             />
           }
+          description={t('menu.account-manager.subtitle')}
+          icon={ExternalAccountIcon}
+          onClick={trackClick('external_account_menu')}
+          title={t('menu.account-manager.title')}
+          to="/account/exchange-accounts"
         />
         <PageCard
-          to="/account/referral"
-          title={t('menu.referral.title')}
-          description={t('menu.referral.subtitle')}
-          icon={ReferralIcon}
-          onClick={trackClick('referral_menu')}
           badge={
             <Badge
               color="blue"
@@ -116,22 +111,27 @@ const PageAccount: FC = () => {
               })}
             />
           }
+          description={t('menu.referral.subtitle')}
+          icon={ReferralIcon}
+          onClick={trackClick('referral_menu')}
+          title={t('menu.referral.title')}
+          to="/account/referral"
         />
         {isMiniApp && (
           <PageCard
-            to="/trader/claim-reward"
-            title={t('menu.game-rewards.title')}
             description={t('menu.game-rewards.subtitle')}
             icon={RewardIcon}
             onClick={trackClick('game_rewards_menu')}
+            title={t('menu.game-rewards.title')}
+            to="/trader/claim-reward"
           />
         )}
         <PageCard
-          to="/account/rewards"
-          title={t('menu.rewards.title')}
           description={t('menu.rewards.subtitle')}
           icon={RewardIcon}
           onClick={trackClick('rewards_menu')}
+          title={t('menu.rewards.title')}
+          to="/account/rewards"
         />
       </div>
       <BtnLiveSupport />

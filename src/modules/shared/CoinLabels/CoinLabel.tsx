@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type FC, Fragment, useMemo, type ReactNode } from 'react';
+import { type FC, Fragment, type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { icons } from './icons';
@@ -144,6 +144,20 @@ export function CoinLabel({
 
   return (
     <ClickableTooltip
+      chevron={false}
+      className={clsx(
+        'rounded-full text-center text-xxs',
+        size === 'xs' &&
+          'flex size-4 items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
+        size === 'sm' &&
+          'flex size-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
+        size === 'md' &&
+          '[&_svg]:!size-[16px] h-6 flex-row-reverse px-3 [&_img]:size-[16px]',
+        'whitespace-nowrap capitalize [&_img]:shrink-0 [&_svg]:shrink-0',
+        renderData.className,
+        className,
+      )}
+      disabled={!clickable}
       title={
         title || (
           <div className="flex flex-col gap-2">
@@ -157,27 +171,13 @@ export function CoinLabel({
               <renderData.icon /> {renderData.text}
             </p>
             {renderData.info && (
-              <p className="text-xs text-v1-content-primary">
+              <p className="text-v1-content-primary text-xs">
                 {renderData.info}
               </p>
             )}
           </div>
         )
       }
-      chevron={false}
-      disabled={!clickable}
-      className={clsx(
-        'rounded-full text-center text-xxs',
-        size === 'xs' &&
-          'flex size-4 items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
-        size === 'sm' &&
-          'flex size-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
-        size === 'md' &&
-          'h-6 flex-row-reverse px-3 [&_img]:size-[16px] [&_svg]:!size-[16px]',
-        'whitespace-nowrap capitalize [&_img]:shrink-0 [&_svg]:shrink-0',
-        renderData.className,
-        className,
-      )}
     >
       {size === 'md' && renderData.text}
       <renderData.icon />

@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
+import { getJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
+import { useEffect, useMemo } from 'react';
 
 export function saveUserMultiKeyValue(obj: Record<string, string>) {
   return Promise.all(

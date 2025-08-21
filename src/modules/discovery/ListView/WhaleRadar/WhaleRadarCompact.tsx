@@ -1,20 +1,20 @@
-import { type FC, useMemo } from 'react';
-import { Coin } from 'shared/v1-components/Coin';
-import { AccessShield } from 'shared/AccessShield';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type FC, useMemo } from 'react';
+import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { usePageState } from 'shared/usePageState';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { Coin } from 'shared/v1-components/Coin';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
 } from '../CoinPreDetailModal';
-import { WhaleRadarSentiment } from './WhaleRadarSentiment';
 import { WhaleRadarFilters } from './WhaleRadarFilters';
+import { WhaleRadarSentiment } from './WhaleRadarSentiment';
 
 export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [pageState, setPageState] = usePageState<
@@ -41,40 +41,40 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           <Coin
             abbreviation={row.symbol.abbreviation}
             // name={row.symbol.name}
-            slug={row.symbol.slug}
-            logo={row.symbol.logo_url}
             categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            href={false}
             extra={
               <>
                 <DirectionalNumber
-                  value={row.data?.price_change_percentage_24h}
-                  label="%"
                   direction="auto"
-                  showIcon
-                  showSign={false}
                   format={{
                     decimalLength: 1,
                     minifyDecimalRepeats: true,
                   }}
+                  label="%"
+                  showIcon
+                  showSign={false}
+                  value={row.data?.price_change_percentage_24h}
                 />
                 <CoinMarketCap
+                  className="text-xxs"
                   marketData={row.data}
                   singleLine
-                  className="text-xxs"
                 />
               </>
             }
+            href={false}
+            labels={row.symbol_labels}
+            logo={row.symbol.logo_url}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            slug={row.symbol.slug}
           />
         ),
       },
       {
         key: 'sentiment',
         align: 'end',
-        render: row => <WhaleRadarSentiment value={row} mode="tiny" />,
+        render: row => <WhaleRadarSentiment mode="tiny" value={row} />,
       },
     ],
     [],
@@ -87,11 +87,11 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   return (
     <div className="p-3">
       <WhaleRadarFilters
-        value={pageState}
-        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
-        surface={1}
         mini
+        onChange={newPageState => setPageState(newPageState)}
+        surface={1}
+        value={pageState}
       />
       <AccessShield
         mode="table"
@@ -105,23 +105,23 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         <Table
           columns={columns}
           dataSource={coins.data ?? []}
-          rowKey={r => JSON.stringify(r.symbol)}
-          loading={coins.isLoading}
-          surface={2}
-          onClick={r => openModal(r)}
-          scrollable={false}
           isActive={r => r.symbol.slug === activeSlug}
+          loading={coins.isLoading}
+          onClick={r => openModal(r)}
+          rowKey={r => JSON.stringify(r.symbol)}
+          scrollable={false}
+          surface={2}
         />
       </AccessShield>
       <CoinPreDetailModal
-        coin={selectedRow?.symbol}
         categories={selectedRow?.symbol.categories}
+        coin={selectedRow?.symbol}
         labels={selectedRow?.symbol_labels}
         marketData={selectedRow?.data}
         networks={selectedRow?.networks}
-        security={selectedRow?.symbol_security?.data}
-        open={isModalOpen}
         onClose={() => closeModal()}
+        open={isModalOpen}
+        security={selectedRow?.symbol_security?.data}
       >
         {selectedRow && (
           <CoinPriceChart
@@ -133,7 +133,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           />
         )}
         {selectedRow && (
-          <WhaleRadarSentiment value={selectedRow} mode="expanded" />
+          <WhaleRadarSentiment mode="expanded" value={selectedRow} />
         )}
       </CoinPreDetailModal>
     </div>

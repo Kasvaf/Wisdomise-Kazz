@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import type { ColumnType } from 'antd/es/table';
 import { Table } from 'antd';
+import type { ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
+import { useMemo } from 'react';
 import { ReactComponent as Check } from './images/check2.svg';
 import { ReactComponent as ProCheck } from './images/pro-check.svg';
 import vipBg from './images/vip-bg.png';
@@ -12,7 +12,7 @@ export function FeaturesTable({ className }: { className?: string }) {
       feature: 'Trade Fee (%)',
       free: <div className="text-xl">0.8</div>,
       vip: (
-        <div className="bg-pro-gradient bg-clip-text text-xl font-medium text-transparent">
+        <div className="bg-pro-gradient bg-clip-text font-medium text-transparent text-xl">
           0.6
         </div>
       ),
@@ -49,7 +49,7 @@ export function FeaturesTable({ className }: { className?: string }) {
     () => [
       {
         title: (
-          <div className="text-2xl font-medium text-v1-content-primary mobile:text-xl">
+          <div className="font-medium mobile:text-xl text-2xl text-v1-content-primary">
             Experience
           </div>
         ),
@@ -58,7 +58,7 @@ export function FeaturesTable({ className }: { className?: string }) {
       },
       {
         title: (
-          <div className="text-2xl font-medium text-v1-content-primary mobile:text-lg">
+          <div className="font-medium mobile:text-lg text-2xl text-v1-content-primary">
             Free
           </div>
         ),
@@ -67,7 +67,7 @@ export function FeaturesTable({ className }: { className?: string }) {
       },
       {
         title: (
-          <div className="relative bg-pro-gradient bg-clip-text text-2xl font-medium text-transparent mobile:text-lg">
+          <div className="relative bg-pro-gradient bg-clip-text font-medium mobile:text-lg text-2xl text-transparent">
             Wise Club
           </div>
         ),
@@ -80,18 +80,18 @@ export function FeaturesTable({ className }: { className?: string }) {
 
   return (
     <div className={clsx('relative w-full overflow-hidden', className)}>
-      <h2 className="mb-2 text-3xl mobile:text-xl">Compare Tires & Features</h2>
-      <hr className="mb-12 border-v1-border-primary mobile:mb-6" />
+      <h2 className="mb-2 mobile:text-xl text-3xl">Compare Tires & Features</h2>
+      <hr className="mb-12 mobile:mb-6 border-v1-border-primary" />
       <Table
-        className="[&_.ant-table-cell]:!rounded-none [&_.ant-table-cell]:!border-b [&_.ant-table-cell]:border-v1-border-secondary [&_.ant-table-cell]:!bg-transparent [&_.ant-table]:!bg-transparent"
+        className="[&_.ant-table-cell]:!rounded-none [&_.ant-table-cell]:!border-b [&_.ant-table-cell]:!bg-transparent [&_.ant-table]:!bg-transparent [&_.ant-table-cell]:border-v1-border-secondary"
         columns={columns}
         dataSource={datasource}
         pagination={false}
       />
       <img
-        src={vipBg}
-        className="absolute right-[15%] top-[10%] w-[40%] mobile:right-10"
         alt=""
+        className="absolute top-[10%] mobile:right-10 right-[15%] w-[40%]"
+        src={vipBg}
       />
       <p className="mt-2 text-xs">
         * The revenue share system distributes 50% of net revenue among stakers,

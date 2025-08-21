@@ -1,21 +1,21 @@
-import { useMemo, useState } from 'react';
-import dayjs from 'dayjs';
-import { clsx } from 'clsx';
 import { Pagination } from 'antd';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
 import {
   initialQuoteDeposit,
   type Position,
   useTraderPositionsQuery,
 } from 'api';
-import { type Wallet } from 'api/wallets';
-import { roundSensible } from 'utils/numbers';
-import PriceChange from 'shared/PriceChange';
 import { useSymbolsInfo } from 'api/symbol';
-import { Coin } from 'shared/Coin';
-import PositionStatus from 'modules/autoTrader/Positions/PositionsList/PositionStatus';
-import { HoverTooltip } from 'shared/HoverTooltip';
+import type { Wallet } from 'api/wallets';
+import { clsx } from 'clsx';
+import dayjs from 'dayjs';
 import { PositionActions } from 'modules/autoTrader/Positions/PositionsList/PositionDetail';
+import PositionStatus from 'modules/autoTrader/Positions/PositionsList/PositionStatus';
+import { useMemo, useState } from 'react';
+import { Coin } from 'shared/Coin';
+import { HoverTooltip } from 'shared/HoverTooltip';
+import PriceChange from 'shared/PriceChange';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { roundSensible } from 'utils/numbers';
 
 const PAGE_SIZE = 30;
 export default function WalletPositions({ wallet }: { wallet: Wallet }) {
@@ -36,7 +36,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
       {
         key: 'id',
         title: 'ID',
-        render: row => <span className="text-xs text-white/30">#{row.id}</span>,
+        render: row => <span className="text-white/30 text-xs">#{row.id}</span>,
       },
       {
         key: 'pair',
@@ -56,7 +56,7 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
         title: 'Status',
         render: row => (
           <div className="w-20 text-xs">
-            <PositionStatus position={row} mini />
+            <PositionStatus mini position={row} />
           </div>
         ),
       },
@@ -111,23 +111,23 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
 
   return (
     <Table
+      chunkSize={5}
       columns={columns}
       dataSource={positions?.data?.positions ?? []}
-      chunkSize={5}
-      loading={positions.isLoading}
-      rowKey={r => r.key}
-      surface={1}
-      scrollable
       footer={
         <Pagination
           current={+page}
+          hideOnSinglePage
           onChange={x => setPage(String(x))}
           pageSize={PAGE_SIZE}
-          total={positions?.data?.count}
-          hideOnSinglePage
           responsive
+          total={positions?.data?.count}
         />
       }
+      loading={positions.isLoading}
+      rowKey={r => r.key}
+      scrollable
+      surface={1}
     />
   );
 }
@@ -139,14 +139,14 @@ function PairAssets({ base, quote }: { base: string; quote: string }) {
     <div className="flex items-center">
       {coins?.map((coin, index) => (
         <Coin
-          nonLink={index !== 0}
-          key={coin.slug}
-          noText
-          coin={coin}
           className={clsx(
             'relative z-10',
-            index !== 0 && 'absolute !z-0 -ml-6',
+            index !== 0 && '!z-0 -ml-6 absolute',
           )}
+          coin={coin}
+          key={coin.slug}
+          nonLink={index !== 0}
+          noText
         />
       ))}
       <span className="ml-2">{coins?.map(c => c.abbreviation)?.join('/')}</span>

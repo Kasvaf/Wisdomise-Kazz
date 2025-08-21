@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import { useAccountQuery } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { useEffect } from 'react';
 
 export const useHubSpot = () => {
   const isLoggedIn = useIsLoggedIn();

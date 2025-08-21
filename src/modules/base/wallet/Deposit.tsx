@@ -1,11 +1,11 @@
+import { useAccountNativeBalance } from 'api/chains';
+import type { Wallet } from 'api/wallets';
 import { bxCopy, bxInfoCircle } from 'boxicons-quasar';
 import { QRCodeSVG } from 'qrcode.react';
-import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
-import { type Wallet } from 'api/wallets';
 import { useShare } from 'shared/useShare';
-import { useAccountNativeBalance } from 'api/chains';
+import { Button } from 'shared/v1-components/Button';
+import { shortenAddress } from 'utils/shortenAddress';
 import { ReactComponent as SolanaIcon } from './solana.svg';
 
 export default function Deposit({ wallet }: { wallet: Wallet }) {
@@ -43,10 +43,10 @@ export default function Deposit({ wallet }: { wallet: Wallet }) {
           </div>
           <p className="mt-4 text-v1-content-secondary">{wallet.address}</p>
           <Button
-            variant="outline"
-            size="sm"
             className="mt-3"
             onClick={() => copy(wallet.address)}
+            size="sm"
+            variant="outline"
           >
             <Icon name={bxCopy} />
             Copy
@@ -54,7 +54,7 @@ export default function Deposit({ wallet }: { wallet: Wallet }) {
         </div>
         <hr className="my-3 border-v1-inverse-overlay-10" />
         <div className="text-v1-content-notice">
-          <Icon name={bxInfoCircle} className="mr-1 inline-block" size={12} />
+          <Icon className="mr-1 inline-block" name={bxInfoCircle} size={12} />
           Caution: This address only supports deposits via the Solana network.
           Please do not use other networks to avoid any loss of funds.
         </div>

@@ -1,18 +1,18 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import { Mode, plugin as mdPlugin } from 'vite-plugin-markdown';
 import i18nextLoader from 'vite-plugin-i18next-loader';
+import { Mode, plugin as mdPlugin } from 'vite-plugin-markdown';
 import svgr from 'vite-plugin-svgr';
-import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig(config => ({
   build: {
     sourcemap: true,
   },
-  base: '/' + (process.env.VITE_BRANCH || ''),
+  base: `/${process.env.VITE_BRANCH || ''}`,
   plugins: [
     tailwindcss(),
     i18nextLoader({

@@ -1,16 +1,16 @@
 import { Select, type SelectProps } from 'antd';
-import { useMemo, useState, type FC } from 'react';
-import { clsx } from 'clsx';
-import { useDebounce } from 'usehooks-ts';
-import { bxChevronDown } from 'boxicons-quasar';
-import { useCoins, useCoinDetails } from 'api/discovery';
-import type { Coin as CoinType } from 'api/types/shared';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { Coin } from 'shared/Coin';
-import Spin from 'shared/Spin';
-import Icon from 'shared/Icon';
 import { useLastPriceQuery } from 'api';
+import { useCoinDetails, useCoins } from 'api/discovery';
+import type { Coin as CoinType } from 'api/types/shared';
+import { bxChevronDown } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { type FC, useMemo, useState } from 'react';
+import { Coin } from 'shared/Coin';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import Icon from 'shared/Icon';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import Spin from 'shared/Spin';
+import { useDebounce } from 'usehooks-ts';
 
 export const CoinSelect: FC<
   SelectProps<string> & {
@@ -66,10 +66,10 @@ export const CoinSelect: FC<
         .map(c => ({
           label: (
             <Coin
+              className="!p-0 h-full align-middle"
               coin={c}
-              nonLink
               mini={mini}
-              className="h-full !p-0 align-middle"
+              nonLink
             />
           ),
           value: c.slug,
@@ -80,24 +80,24 @@ export const CoinSelect: FC<
 
   return (
     <Select
-      className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
-      value={value}
-      showSearch
       autoClearSearchValue
-      showArrow={!disabled}
+      className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
       disabled={disabled}
-      searchValue={query}
-      onSearch={setQuery}
       filterOption={false}
       loading={coinList.isLoading}
-      popupMatchSelectWidth={false}
       notFoundContent={
         coinList.isLoading ? (
-          <div className="animate-pulse px-1 py-8 text-center text-xxs text-v1-content-primary">
+          <div className="animate-pulse px-1 py-8 text-center text-v1-content-primary text-xxs">
             <Spin />
           </div>
         ) : undefined
       }
+      onSearch={setQuery}
+      options={allOptions}
+      popupMatchSelectWidth={false}
+      searchValue={query}
+      showArrow={!disabled}
+      showSearch
       suffixIcon={
         showPrice ? (
           <div className="flex items-center gap-2">
@@ -108,10 +108,10 @@ export const CoinSelect: FC<
                   value={lastPrice}
                 />
                 <DirectionalNumber
-                  value={coin.data?.data?.price_change_percentage_24h}
-                  showSign
                   className="text-[0.625rem]"
                   label="%"
+                  showSign
+                  value={coin.data?.data?.price_change_percentage_24h}
                 />
               </div>
             )}
@@ -120,7 +120,7 @@ export const CoinSelect: FC<
           </div>
         ) : undefined
       }
-      options={allOptions}
+      value={value}
       {...props}
     />
   );

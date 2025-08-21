@@ -1,11 +1,11 @@
-import usdc from 'modules/account/PageRewards/RewardModal/images/usdc.svg';
-import bg from 'modules/account/PageRewards/RewardModal/images/bg.png';
-import video from 'modules/account/PageRewards/RewardModal/images/video.webm';
-import { Button } from 'shared/v1-components/Button';
 import {
   useTournamentClaimMutation,
   useTournamentProfileQuery,
 } from 'api/tournament';
+import bg from 'modules/account/PageRewards/RewardModal/images/bg.png';
+import usdc from 'modules/account/PageRewards/RewardModal/images/usdc.svg';
+import video from 'modules/account/PageRewards/RewardModal/images/video.webm';
+import { Button } from 'shared/v1-components/Button';
 
 export default function TournamentResultModalContent({
   onResolve,
@@ -26,21 +26,21 @@ export default function TournamentResultModalContent({
   return (
     <div className="flex flex-col items-center">
       <img
-        src={bg}
         alt=""
-        className="absolute end-0 top-0 size-full rounded-xl mobile:rounded-3xl"
+        className="absolute end-0 top-0 size-full mobile:rounded-3xl rounded-xl"
+        src={bg}
       />
       <video
-        muted
         autoPlay
-        playsInline
         className="absolute top-0 size-full object-cover opacity-50 mix-blend-exclusion"
+        muted
+        playsInline
       >
         <source src={video} />
       </video>
 
       <div className="relative flex flex-col items-center text-center">
-        <h1 className="mb-8 text-3xl font-semibold italic">Congratulations!</h1>
+        <h1 className="mb-8 font-semibold text-3xl italic">Congratulations!</h1>
         <p className="w-72">
           The tournament is finished, and you’ve won a prize!
         </p>
@@ -49,32 +49,32 @@ export default function TournamentResultModalContent({
         <div className="my-4 flex items-stretch justify-center gap-3">
           {me?.result?.reward_items?.map(i => (
             <div
-              key={i.symbol_slug}
               className="flex flex-col rounded-lg border border-v1-border-primary/20 p-6 text-center"
+              key={i.symbol_slug}
               style={{
                 background:
                   'linear-gradient(90deg, rgba(190, 81, 215, 0.10) 0%, rgba(45, 163, 214, 0.10) 100%)',
               }}
             >
               <div className="my-3 flex items-center gap-1">
-                <img src={usdc} alt="usdt" className="size-8 w-auto" />
-                <span className="text-4xl font-semibold">{i.amount}</span>
+                <img alt="usdt" className="size-8 w-auto" src={usdc} />
+                <span className="font-semibold text-4xl">{i.amount}</span>
               </div>
-              <hr className="mb-3 mt-auto border border-v1-border-primary/20" />
+              <hr className="mt-auto mb-3 border border-v1-border-primary/20" />
               <div>USDC</div>
             </div>
           ))}
         </div>
-        <p className="mt-6 text-xs text-v1-content-secondary">
+        <p className="mt-6 text-v1-content-secondary text-xs">
           To withdraw your token, please go to rewards page and follow the
           instructions.
         </p>
       </div>
       <Button
         className="mt-3 w-full max-w-md"
-        variant="white"
         loading={isPending}
         onClick={claim}
+        variant="white"
       >
         Claim
       </Button>

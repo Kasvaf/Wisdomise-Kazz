@@ -1,10 +1,10 @@
-import { bxEditAlt } from 'boxicons-quasar';
-import { useNavigate } from 'react-router-dom';
 import { isPositionUpdatable, type Position } from 'api';
+import { bxEditAlt } from 'boxicons-quasar';
 import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
-import useIsMobile from 'utils/useIsMobile';
+import { useNavigate } from 'react-router-dom';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import useIsMobile from 'utils/useIsMobile';
 
 const EditButton: React.FC<{ position: Position }> = ({ position }) => {
   const isMobile = useIsMobile();
@@ -15,8 +15,7 @@ const EditButton: React.FC<{ position: Position }> = ({ position }) => {
 
   return (
     <Button
-      variant="link"
-      className="ms-auto !p-0 !text-xs text-v1-content-link"
+      className="!p-0 !text-xs ms-auto text-v1-content-link"
       onClick={() =>
         isMobile
           ? navigate(
@@ -28,6 +27,7 @@ const EditButton: React.FC<{ position: Position }> = ({ position }) => {
               positionKey: position.key,
             })
       }
+      variant="link"
     >
       <Icon name={bxEditAlt} size={16} />
       Edit

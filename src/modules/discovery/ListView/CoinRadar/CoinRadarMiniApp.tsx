@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useWindowSize } from 'usehooks-ts';
 import { useTraderCoins } from 'api';
+import { useState } from 'react';
+import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Coin } from 'shared/Coin';
 import Spinner from 'shared/Spinner';
+import { useWindowSize } from 'usehooks-ts';
 import MiniAppPreDetailModal from './MiniAppPreDetailModal';
 
 export const CoinRadarMiniApp = () => {
@@ -33,29 +33,29 @@ export const CoinRadarMiniApp = () => {
         <div className="flex flex-col gap-2">
           {data?.results.map(coin => (
             <div
-              onClick={() => setDetailSlug(coin.symbol.slug ?? '')}
-              key={coin.symbol.slug}
               className="flex justify-between rounded-lg bg-v1-surface-l2 p-2"
+              key={coin.symbol.slug}
+              onClick={() => setDetailSlug(coin.symbol.slug ?? '')}
             >
               <Coin
                 coin={coin.symbol}
                 imageClassName="size-6"
                 networks={coin.network_slugs}
-                truncate={width - 200}
                 nonLink={true}
+                truncate={width - 200}
               />
 
               <div className="flex flex-col items-end">
                 <ReadableNumber
-                  value={coin.market_data?.current_price}
                   label="$"
+                  value={coin.market_data?.current_price}
                 />
                 <DirectionalNumber
-                  value={coin.market_data?.price_change_percentage_24h}
-                  showSign
                   className="text-[0.89em]"
-                  showIcon={false}
                   label="%"
+                  showIcon={false}
+                  showSign
+                  value={coin.market_data?.price_change_percentage_24h}
                 />
               </div>
             </div>
@@ -64,8 +64,8 @@ export const CoinRadarMiniApp = () => {
       )}
 
       <MiniAppPreDetailModal
-        slug={detailSlug}
         onClose={() => setDetailSlug('')}
+        slug={detailSlug}
       />
     </div>
   );

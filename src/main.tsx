@@ -1,24 +1,24 @@
 // eslint-disable-next-line unicorn/prefer-node-protocol
 
 import * as Sentry from '@sentry/react';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { ConfigProvider, theme } from 'antd';
 import { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { ConfigProvider, theme } from 'antd';
 import { useEffectOnce } from 'usehooks-ts';
 // eslint-disable-next-line import/no-unassigned-import
 import 'utils/polyfills';
-import { useErrorNotification } from 'shared/useErrorNotification';
+import { RouterBaseName } from 'config/constants';
+import { persisterOptions, queryClient } from 'config/reactQuery';
+import App from 'modules/base/App';
 import { useJwtEmail } from 'modules/base/auth/jwt-store';
+import { UserSettingsProvider } from 'modules/base/auth/UserSettingsProvider';
 import CustomTourProvider from 'modules/base/CustomTourProvider';
 import PageError from 'modules/base/PageError';
-import App from 'modules/base/App';
-import { queryClient, persisterOptions } from 'config/reactQuery';
-import { RouterBaseName } from 'config/constants';
 import { LoadingBadgeProvider } from 'shared/LoadingBadge';
+import { useErrorNotification } from 'shared/useErrorNotification';
 import { ComponentsProvider } from 'shared/v1-components/ComponentsProvider';
-import { UserSettingsProvider } from 'modules/base/auth/UserSettingsProvider';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');

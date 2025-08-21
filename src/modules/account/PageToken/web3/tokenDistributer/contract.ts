@@ -1,6 +1,3 @@
-import { useAccount, useReadContract, useWriteContract } from 'wagmi';
-import { zeroAddress } from 'viem';
-import { TOKEN_DISTRIBUTOR_ABI } from 'modules/account/PageToken/web3/tokenDistributer/abi';
 import {
   ANGEL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   INSTITUTIONAL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
@@ -9,6 +6,9 @@ import {
   STRATEGIC_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
 } from 'modules/account/PageToken/constants';
 import { useWaitResolver } from 'modules/account/PageToken/web3/shared';
+import { TOKEN_DISTRIBUTOR_ABI } from 'modules/account/PageToken/web3/tokenDistributer/abi';
+import { zeroAddress } from 'viem';
+import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 
 export type Bucket = 'angel' | 'strategic' | 'kol' | 'institutional' | 'public';
 

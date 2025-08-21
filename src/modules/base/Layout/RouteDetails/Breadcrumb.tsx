@@ -1,6 +1,6 @@
+import type { RouteHandle } from 'modules/base/routes/types';
 import { Fragment, useMemo } from 'react';
-import { useMatches, Link, useSearchParams } from 'react-router-dom';
-import { type RouteHandle } from 'modules/base/routes/types';
+import { Link, useMatches, useSearchParams } from 'react-router-dom';
 
 const Breadcrumb: React.FC<{
   className?: string;
@@ -22,7 +22,7 @@ const Breadcrumb: React.FC<{
   }, [matches, searchParams]);
 
   return (
-    <>
+    <div className={className}>
       {items.map((item, index, self) =>
         index === self.length - 1 ? (
           <span key={`${index}${item.href}`}>{item.text}</span>
@@ -33,7 +33,7 @@ const Breadcrumb: React.FC<{
           </Fragment>
         ),
       )}
-    </>
+    </div>
   );
 };
 

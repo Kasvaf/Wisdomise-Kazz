@@ -1,7 +1,7 @@
+import type { SocialRadarSentiment } from 'api/discovery';
 import { clsx } from 'clsx';
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SocialRadarSentiment } from 'api/discovery';
 import { ReadableDate } from 'shared/ReadableDate';
 
 export const SRSLastMention: FC<{

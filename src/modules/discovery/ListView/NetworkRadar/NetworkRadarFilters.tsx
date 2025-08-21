@@ -1,21 +1,21 @@
+import { networkRadarGrpc } from 'api/grpc';
+import { bxRotateLeft, bxSearch } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import {
+  type ComponentProps,
   type Dispatch,
+  type FC,
   type ReactNode,
   type SetStateAction,
   useMemo,
   useState,
-  type ComponentProps,
-  type FC,
 } from 'react';
-import { bxRotateLeft, bxSearch } from 'boxicons-quasar';
-import { clsx } from 'clsx';
-import { Input } from 'shared/v1-components/Input';
+import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
-import Icon from 'shared/Icon';
-import { networkRadarGrpc } from 'api/grpc';
+import { Input } from 'shared/v1-components/Input';
 import { Filters } from '../Filters';
-import { type NetworkRadarTab, type NetworkRadarStreamFilters } from './lib';
+import type { NetworkRadarStreamFilters, NetworkRadarTab } from './lib';
 
 const TabLabel: FC<{
   state?: Partial<NetworkRadarStreamFilters>;
@@ -33,7 +33,7 @@ const TabLabel: FC<{
     [state, value],
   );
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       {label}
       {hasCustomFilters && '*'}{' '}
       {hasCustomFilters && (
@@ -41,7 +41,7 @@ const TabLabel: FC<{
           onClick={() => onReset(p => ({ ...p, [value]: {} }))}
           type="button"
         >
-          <Icon size={18} name={bxRotateLeft} />
+          <Icon name={bxRotateLeft} size={18} />
         </button>
       )}
     </div>
@@ -78,11 +78,7 @@ export const NetworkRadarFilters: FC<
     <>
       {searchShortcut && (
         <Input
-          type="string"
-          prefixIcon={<Icon name={bxSearch} />}
-          className="absolute right-9 z-10 w-9 !px-2 focus-within:w-72 focus-within:px-3"
-          placeholder="Search by Name/Address (2+ chars)"
-          value={value[initialTab]?.searchKeywords?.join(',') ?? ''}
+          className="!px-2 absolute right-9 z-10 w-9 focus-within:w-72 focus-within:px-3"
           onChange={newVal =>
             onChange?.({
               ...value,
@@ -92,20 +88,21 @@ export const NetworkRadarFilters: FC<
               },
             })
           }
+          placeholder="Search by Name/Address (2+ chars)"
+          prefixIcon={<Icon name={bxSearch} />}
           size="xs"
           surface={2}
+          type="string"
+          value={value[initialTab]?.searchKeywords?.join(',') ?? ''}
         />
       )}
       <Filters
-        size="xs"
-        mini
         className="w-min"
         dialog={(state, setState) => (
           <>
             {/* Tab */}
             <div>
               <ButtonSelect
-                value={tab}
                 onChange={setTab}
                 options={[
                   {
@@ -113,9 +110,9 @@ export const NetworkRadarFilters: FC<
                     label: (
                       <TabLabel
                         label="New Pairs"
-                        value="new_pairs"
-                        state={state}
                         onReset={setState}
+                        state={state}
+                        value="new_pairs"
                       />
                     ),
                   },
@@ -124,9 +121,9 @@ export const NetworkRadarFilters: FC<
                     label: (
                       <TabLabel
                         label="Final Stretch"
-                        value="final_stretch"
-                        state={state}
                         onReset={setState}
+                        state={state}
+                        value="final_stretch"
                       />
                     ),
                   },
@@ -135,14 +132,15 @@ export const NetworkRadarFilters: FC<
                     label: (
                       <TabLabel
                         label="Migrated"
-                        value="migrated"
-                        state={state}
                         onReset={setState}
+                        state={state}
+                        value="migrated"
                       />
                     ),
                   },
                 ]}
                 size="md"
+                value={tab}
                 variant="white"
               />
             </div>
@@ -156,37 +154,33 @@ export const NetworkRadarFilters: FC<
                   <div className="grid grid-cols-3 gap-3">
                     {currentTabProtocols.map(protocol => (
                       <Checkbox
-                        key={protocol.name}
-                        size="md"
                         block
-                        variant="button"
-                        surface={3}
+                        key={protocol.name}
                         label={
                           <>
                             <img
-                              src={protocol.logo}
                               className={clsx(
                                 'size-4 rounded-sm',
                                 !state[tab]?.protocols?.includes(
                                   protocol.name,
                                 ) && 'opacity-75',
                               )}
+                              src={protocol.logo}
                             />
                             <img
-                              src={protocol.logo}
                               className={clsx(
                                 'absolute w-full blur-2xl brightness-100 contrast-200 saturate-200',
                                 state[tab]?.protocols?.includes(protocol.name)
                                   ? 'opacity-30'
                                   : 'opacity-0',
                               )}
+                              src={protocol.logo}
                             />
                             <span className="relative truncate">
                               {protocol.name}
                             </span>
                           </>
                         }
-                        value={state[tab]?.protocols?.includes(protocol.name)}
                         onChange={val =>
                           setState(p => ({
                             ...p,
@@ -201,21 +195,25 @@ export const NetworkRadarFilters: FC<
                             },
                           }))
                         }
+                        size="md"
+                        surface={3}
+                        value={state[tab]?.protocols?.includes(protocol.name)}
+                        variant="button"
                       />
                     ))}
                   </div>
                 </div>
-                <div className="border-b border-white/10" />
+                <div className="border-white/10 border-b" />
               </>
             )}
 
             {/* Search */}
             <div className="flex items-center gap-2">
-              <div className="flex flex-col gap-2 basis-1/2">
+              <div className="flex basis-1/2 flex-col gap-2">
                 <p className="text-xs">{'Search Keywords'}</p>
                 <Input
-                  type="string"
-                  value={state[tab]?.searchKeywords?.join(',') ?? ''}
+                  block
+                  className="w-full"
                   onChange={newVal =>
                     setState?.({
                       ...state,
@@ -225,17 +223,17 @@ export const NetworkRadarFilters: FC<
                       },
                     })
                   }
-                  block
                   placeholder="Keyword 1, Keyword 2..."
                   size="md"
-                  className="w-full"
+                  type="string"
+                  value={state[tab]?.searchKeywords?.join(',') ?? ''}
                 />
               </div>
-              <div className="flex flex-col gap-2 basis-1/2">
+              <div className="flex basis-1/2 flex-col gap-2">
                 <p className="text-xs">{'Exclude Keywords'}</p>
                 <Input
-                  type="string"
-                  value={state[tab]?.excludeKeywords?.join(',') ?? ''}
+                  block
+                  className="w-full"
                   onChange={newVal =>
                     setState?.({
                       ...state,
@@ -245,57 +243,56 @@ export const NetworkRadarFilters: FC<
                       },
                     })
                   }
-                  block
                   placeholder="Keyword 1, Keyword 2..."
                   size="md"
-                  className="w-full"
+                  type="string"
+                  value={state[tab]?.excludeKeywords?.join(',') ?? ''}
                 />
               </div>
             </div>
-            <div className="border-b border-white/10" />
+            <div className="border-white/10 border-b" />
 
             {/* B Curve */}
             <div className="flex flex-col items-start gap-2">
               <p className="text-xs">{'B Curve %'}</p>
               <div className="flex w-full items-center gap-3">
                 <Input
+                  block
                   className="basis-1/2"
-                  type="number"
-                  value={state[tab]?.minBoundingCurve}
+                  max={state[tab]?.maxBoundingCurve ?? 100}
+                  min={0}
                   onChange={minBoundingCurve =>
                     setState(p => ({
                       ...p,
                       [tab]: { ...p[tab], minBoundingCurve },
                     }))
                   }
-                  min={0}
-                  max={state[tab]?.maxBoundingCurve ?? 100}
-                  block
                   placeholder="Min"
                   size="md"
+                  type="number"
+                  value={state[tab]?.minBoundingCurve}
                 />
                 <Input
+                  block
                   className="basis-1/2"
-                  type="number"
-                  value={state[tab]?.maxBoundingCurve}
+                  max={100}
+                  min={state[tab]?.minBoundingCurve ?? 0}
                   onChange={maxBoundingCurve =>
                     setState(p => ({
                       ...p,
                       [tab]: { ...p[tab], maxBoundingCurve },
                     }))
                   }
-                  min={state[tab]?.minBoundingCurve ?? 0}
-                  max={100}
-                  block
                   placeholder="Max"
                   size="md"
+                  type="number"
+                  value={state[tab]?.maxBoundingCurve}
                 />
               </div>
             </div>
 
             <div>
               <ButtonSelect
-                value={subTab}
                 onChange={setSubTab}
                 options={[
                   {
@@ -362,6 +359,7 @@ export const NetworkRadarFilters: FC<
                   },
                 ]}
                 size="md"
+                value={subTab}
               />
             </div>
 
@@ -370,23 +368,21 @@ export const NetworkRadarFilters: FC<
                 <div className="flex justify-between gap-2">
                   <p className="text-xs">{'Burnt'}</p>
                   <Checkbox
-                    size="lg"
                     block
-                    value={state[tab]?.burnt}
                     onChange={burnt =>
                       setState(p => ({
                         ...p,
                         [tab]: { ...state[tab], burnt: burnt || undefined },
                       }))
                     }
+                    size="lg"
+                    value={state[tab]?.burnt}
                   />
                 </div>
                 <div className="flex justify-between gap-2">
                   <p className="text-xs">{'Dev Has Not Sold Yet'}</p>
                   <Checkbox
-                    size="lg"
                     block
-                    value={state[tab]?.devNotSold}
                     onChange={devNotSold =>
                       setState(p => ({
                         ...p,
@@ -396,14 +392,14 @@ export const NetworkRadarFilters: FC<
                         },
                       }))
                     }
+                    size="lg"
+                    value={state[tab]?.devNotSold}
                   />
                 </div>
                 <div className="flex justify-between gap-2">
                   <p className="text-xs">{'Dev Sold All'}</p>
                   <Checkbox
-                    size="lg"
                     block
-                    value={state[tab]?.devSoldAll}
                     onChange={devSoldAll =>
                       setState(p => ({
                         ...p,
@@ -413,15 +409,15 @@ export const NetworkRadarFilters: FC<
                         },
                       }))
                     }
+                    size="lg"
+                    value={state[tab]?.devSoldAll}
                   />
                 </div>
 
                 <div className="flex justify-between gap-2">
                   <p className="text-xs">{'No Mint'}</p>
                   <Checkbox
-                    size="lg"
                     block
-                    value={state[tab]?.noMint}
                     onChange={noMint =>
                       setState(p => ({
                         ...p,
@@ -431,15 +427,15 @@ export const NetworkRadarFilters: FC<
                         },
                       }))
                     }
+                    size="lg"
+                    value={state[tab]?.noMint}
                   />
                 </div>
 
                 <div className="flex justify-between gap-2">
                   <p className="text-xs">{'Safe Top Holder'}</p>
                   <Checkbox
-                    size="lg"
                     block
-                    value={state[tab]?.safeTopHolder}
                     onChange={safeTopHolder =>
                       setState(p => ({
                         ...p,
@@ -449,6 +445,8 @@ export const NetworkRadarFilters: FC<
                         },
                       }))
                     }
+                    size="lg"
+                    value={state[tab]?.safeTopHolder}
                   />
                 </div>
 
@@ -456,36 +454,36 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Risk %'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minRisk}
+                      max={state[tab]?.maxRisk ?? 100}
+                      min={0}
                       onChange={minRisk =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minRisk },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxRisk ?? 100}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minRisk}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxRisk}
+                      max={100}
+                      min={state[tab]?.minRisk ?? 0}
                       onChange={maxRisk =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxRisk },
                         }))
                       }
-                      min={state[tab]?.minRisk ?? 0}
-                      max={100}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxRisk}
                     />
                   </div>
                 </div>
@@ -498,35 +496,35 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Age (Mins)'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minAge}
+                      max={state[tab]?.maxAge}
+                      min={0}
                       onChange={minAge =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minAge },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxAge}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minAge}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxAge}
+                      min={state[tab]?.minAge ?? 0}
                       onChange={maxAge =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxAge },
                         }))
                       }
-                      min={state[tab]?.minAge ?? 0}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxAge}
                     />
                   </div>
                 </div>
@@ -534,35 +532,35 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Liquidity ($)'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minLiquidity}
+                      max={state[tab]?.maxLiquidity}
+                      min={0}
                       onChange={minLiquidity =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minLiquidity },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxLiquidity}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minLiquidity}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxLiquidity}
+                      min={state[tab]?.minLiquidity ?? 0}
                       onChange={maxLiquidity =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxLiquidity },
                         }))
                       }
-                      min={state[tab]?.minLiquidity ?? 0}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxLiquidity}
                     />
                   </div>
                 </div>
@@ -570,35 +568,35 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Volume ($)'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minVolume}
+                      max={state[tab]?.maxVolume}
+                      min={0}
                       onChange={minVolume =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minVolume },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxVolume}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minVolume}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxVolume}
+                      min={state[tab]?.minVolume ?? 0}
                       onChange={maxVolume =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxVolume },
                         }))
                       }
-                      min={state[tab]?.minVolume ?? 0}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxVolume}
                     />
                   </div>
                 </div>
@@ -606,35 +604,35 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Marketcap ($)'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minMarketcap}
+                      max={state[tab]?.maxMarketcap}
+                      min={0}
                       onChange={minMarketcap =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minMarketcap },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxMarketcap}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minMarketcap}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxMarketcap}
+                      min={state[tab]?.minMarketcap ?? 0}
                       onChange={maxMarketcap =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxMarketcap },
                         }))
                       }
-                      min={state[tab]?.minMarketcap ?? 0}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxMarketcap}
                     />
                   </div>
                 </div>
@@ -642,35 +640,35 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'TXNS'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minTransactions}
+                      max={state[tab]?.maxTransactions}
+                      min={0}
                       onChange={minTransactions =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minTransactions },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxTransactions}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minTransactions}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxTransactions}
+                      min={state[tab]?.minTransactions ?? 0}
                       onChange={maxTransactions =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxTransactions },
                         }))
                       }
-                      min={state[tab]?.minTransactions ?? 0}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxTransactions}
                     />
                   </div>
                 </div>
@@ -678,35 +676,35 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Num Buys'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minBuys}
+                      max={state[tab]?.maxBuys}
+                      min={0}
                       onChange={minBuys =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minBuys },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxBuys}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minBuys}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxBuys}
+                      min={state[tab]?.minBuys ?? 0}
                       onChange={maxBuys =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxBuys },
                         }))
                       }
-                      min={state[tab]?.minBuys ?? 0}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxBuys}
                     />
                   </div>
                 </div>
@@ -714,35 +712,35 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Num Sells'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minSells}
+                      max={state[tab]?.maxSells}
+                      min={0}
                       onChange={minSells =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minSells },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxSells}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minSells}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxSells}
+                      min={state[tab]?.minSells ?? 0}
                       onChange={maxSells =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxSells },
                         }))
                       }
-                      min={state[tab]?.minSells ?? 0}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxSells}
                     />
                   </div>
                 </div>
@@ -750,36 +748,36 @@ export const NetworkRadarFilters: FC<
                   <p className="text-xs">{'Liquidity Change Percentage'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.minLiquidityChangePercent}
+                      max={state[tab]?.maxLiquidityChangePercent ?? 100}
+                      min={0}
                       onChange={minLiquidityChangePercent =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], minLiquidityChangePercent },
                         }))
                       }
-                      min={0}
-                      max={state[tab]?.maxLiquidityChangePercent ?? 100}
-                      block
                       placeholder="Min"
                       size="md"
+                      type="number"
+                      value={state[tab]?.minLiquidityChangePercent}
                     />
                     <Input
+                      block
                       className="basis-1/2"
-                      type="number"
-                      value={state[tab]?.maxLiquidityChangePercent}
+                      max={100}
+                      min={state[tab]?.minLiquidityChangePercent ?? 0}
                       onChange={maxLiquidityChangePercent =>
                         setState(p => ({
                           ...p,
                           [tab]: { ...p[tab], maxLiquidityChangePercent },
                         }))
                       }
-                      min={state[tab]?.minLiquidityChangePercent ?? 0}
-                      max={100}
-                      block
                       placeholder="Max"
                       size="md"
+                      type="number"
+                      value={state[tab]?.maxLiquidityChangePercent}
                     />
                   </div>
                 </div>
@@ -787,77 +785,77 @@ export const NetworkRadarFilters: FC<
             )}
 
             {subTab === 'socials' && (
-              <>
-                <div className="grid grid-cols-3 gap-3">
-                  <Checkbox
-                    size="lg"
-                    block
-                    label="Twitter"
-                    value={state[tab]?.hasTwitter}
-                    onChange={hasTwitter =>
-                      setState(p => ({
-                        ...p,
-                        [tab]: {
-                          ...p[tab],
-                          hasTwitter: hasTwitter || undefined,
-                        },
-                      }))
-                    }
-                  />
-                  <Checkbox
-                    size="lg"
-                    block
-                    label="Website"
-                    value={state[tab]?.hasWebsite}
-                    onChange={hasWebsite =>
-                      setState(p => ({
-                        ...p,
-                        [tab]: {
-                          ...p[tab],
-                          hasWebsite: hasWebsite || undefined,
-                        },
-                      }))
-                    }
-                  />
-                  <Checkbox
-                    size="lg"
-                    block
-                    label="Telegram"
-                    value={state[tab]?.hasTelegram}
-                    onChange={hasTelegram =>
-                      setState(p => ({
-                        ...p,
-                        [tab]: {
-                          ...p[tab],
-                          hasTelegram: hasTelegram || undefined,
-                        },
-                      }))
-                    }
-                  />
-                  <Checkbox
-                    className="col-span-3"
-                    size="lg"
-                    block
-                    label="At Least One Social"
-                    value={state[tab]?.atLeastOneSocial}
-                    onChange={atLeastOneSocial =>
-                      setState(p => ({
-                        ...p,
-                        [tab]: {
-                          ...p[tab],
-                          atLeastOneSocial: atLeastOneSocial || undefined,
-                        },
-                      }))
-                    }
-                  />
-                </div>
-              </>
+              <div className="grid grid-cols-3 gap-3">
+                <Checkbox
+                  block
+                  label="Twitter"
+                  onChange={hasTwitter =>
+                    setState(p => ({
+                      ...p,
+                      [tab]: {
+                        ...p[tab],
+                        hasTwitter: hasTwitter || undefined,
+                      },
+                    }))
+                  }
+                  size="lg"
+                  value={state[tab]?.hasTwitter}
+                />
+                <Checkbox
+                  block
+                  label="Website"
+                  onChange={hasWebsite =>
+                    setState(p => ({
+                      ...p,
+                      [tab]: {
+                        ...p[tab],
+                        hasWebsite: hasWebsite || undefined,
+                      },
+                    }))
+                  }
+                  size="lg"
+                  value={state[tab]?.hasWebsite}
+                />
+                <Checkbox
+                  block
+                  label="Telegram"
+                  onChange={hasTelegram =>
+                    setState(p => ({
+                      ...p,
+                      [tab]: {
+                        ...p[tab],
+                        hasTelegram: hasTelegram || undefined,
+                      },
+                    }))
+                  }
+                  size="lg"
+                  value={state[tab]?.hasTelegram}
+                />
+                <Checkbox
+                  block
+                  className="col-span-3"
+                  label="At Least One Social"
+                  onChange={atLeastOneSocial =>
+                    setState(p => ({
+                      ...p,
+                      [tab]: {
+                        ...p[tab],
+                        atLeastOneSocial: atLeastOneSocial || undefined,
+                      },
+                    }))
+                  }
+                  size="lg"
+                  value={state[tab]?.atLeastOneSocial}
+                />
+              </div>
             )}
           </>
         )}
-        value={value}
+        mini
         onChange={onChange}
         onOpen={() => setTab(initialTab)}
+        size="xs"
+        value={value}
         {...props}
       />
     </>

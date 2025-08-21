@@ -1,8 +1,8 @@
-import { type ComponentProps, type FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import { usePageState } from 'shared/usePageState';
+import { TwitterTrackerEdit } from './TwitterTrackerEdit';
 import { TwitterTrackerTabSelect } from './TwitterTrackerTabSelect';
 import { TwitterTrackerView } from './TwitterTrackerView';
-import { TwitterTrackerEdit } from './TwitterTrackerEdit';
 
 export const TwitterTracker: FC<{
   focus?: boolean;
@@ -24,21 +24,21 @@ export const TwitterTracker: FC<{
               'calc(100svh - var(--desktop-header-height) - var(--route-details-height) - 1.5rem)',
           }}
         >
-          <TwitterTrackerEdit className="h-full w-96 shrink-0 overflow-auto scrollbar-thin" />
+          <TwitterTrackerEdit className="scrollbar-thin h-full w-96 shrink-0 overflow-auto" />
           <TwitterTrackerView
-            onRequestEdit={() => setPageState(p => ({ ...p, tab: 'edit' }))}
-            className="h-full max-h-full w-full grow overflow-auto scrollbar-thin"
+            className="scrollbar-thin h-full max-h-full w-full grow overflow-auto"
             expanded
+            onRequestEdit={() => setPageState(p => ({ ...p, tab: 'edit' }))}
           />
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between gap-2 border-b border-v1-content-primary/10 p-3">
+          <div className="flex items-center justify-between gap-2 border-v1-content-primary/10 border-b p-3">
             <TwitterTrackerTabSelect
-              value={pageState.tab}
               onChange={newTab => setPageState(p => ({ ...p, tab: newTab }))}
-              surface={1}
               size="sm"
+              surface={1}
+              value={pageState.tab}
             />
           </div>
           {pageState.tab === 'edit' ? (

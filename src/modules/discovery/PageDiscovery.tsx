@@ -1,12 +1,12 @@
 import { clsx } from 'clsx';
+import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
 import PageWrapper from 'modules/base/PageWrapper';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
-import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
-import { ListView } from './ListView';
 import { DetailView } from './DetailView';
-import { useDiscoveryRouteMeta } from './useDiscoveryRouteMeta';
 import { ListExpander } from './ListExpander';
+import { ListView } from './ListView';
+import { useDiscoveryRouteMeta } from './useDiscoveryRouteMeta';
 
 export default function PageDiscovery() {
   const { params } = useDiscoveryRouteMeta();
@@ -29,13 +29,13 @@ export default function PageDiscovery() {
                     ? 'hidden'
                     : [
                         'sticky top-(--desktop-content-top) z-30 h-(--desktop-content-height) w-72 min-w-72 max-w-72 overflow-auto',
-                        'border-r border-white/10 bg-v1-surface-l0 scrollbar-none',
-                        'mobile:block tablet:fixed tablet:bg-v1-surface-l0/60 tablet:backdrop-blur-lg',
+                        'scrollbar-none border-white/10 border-r bg-v1-surface-l0',
+                        'tablet:fixed mobile:block tablet:bg-v1-surface-l0/60 tablet:backdrop-blur-lg',
                       ],
               )}
-              list={params.list}
               expanded={params.view === 'list' && !isMobile}
               focus={params.view === 'list'}
+              list={params.list}
             />
           )}
 

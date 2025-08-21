@@ -1,17 +1,17 @@
-import { notification } from 'antd';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
-import { v4 } from 'uuid';
+import { notification } from 'antd';
 import {
+  type CreatePositionRequest,
   useTraderCancelPositionMutation,
   useTraderFirePositionMutation,
-  type CreatePositionRequest,
 } from 'api';
 import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
-import { unwrapErrorMessage } from 'utils/error';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { unwrapErrorMessage } from 'utils/error';
+import { v4 } from 'uuid';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/parseDur';
-import { type SwapState } from './useSwapState';
+import type { SwapState } from './useSwapState';
 
 const useActionHandlers = (state: SwapState) => {
   const {
@@ -84,7 +84,7 @@ const useActionHandlers = (state: SwapState) => {
 
       signal: {
         action: 'open',
-        pair_slug: base.slug + '/' + quote.slug,
+        pair_slug: `${base.slug}/${quote.slug}`,
         leverage: { value: 1 },
         position: {
           type: 'long',

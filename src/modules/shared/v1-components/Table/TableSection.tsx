@@ -1,10 +1,10 @@
 import {
   type CSSProperties,
+  type FC,
+  type ReactNode,
   useEffect,
   useRef,
   useState,
-  type FC,
-  type ReactNode,
 } from 'react';
 import { useIntersectionObserver } from './IntersectionProvider';
 

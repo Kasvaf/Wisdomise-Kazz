@@ -1,10 +1,10 @@
-import { useEffect, type PropsWithChildren, useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
-import { gtag } from 'config/gtag';
 import { useAccountAllQuotesBalance } from 'api/chains';
+import { useActiveWallet } from 'api/chains/wallet';
+import { gtag } from 'config/gtag';
 import { track } from 'config/segment';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { useActiveWallet } from 'api/chains/wallet';
+import { type PropsWithChildren, useEffect, useState } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 
 const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
   const { address, name } = useActiveWallet();

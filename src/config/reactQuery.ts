@@ -1,6 +1,6 @@
-import { type OmitKeyof, QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
-import { type PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
+import { type OmitKeyof, QueryClient } from '@tanstack/react-query';
+import type { PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
 import localForge from 'localforage';
 
 const cacheStorage = localForge.createInstance({

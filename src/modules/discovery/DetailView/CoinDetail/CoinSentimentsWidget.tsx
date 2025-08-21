@@ -1,10 +1,10 @@
-import { type FC } from 'react';
-import { clsx } from 'clsx';
 import {
   useSocialRadarSentiment,
   useTechnicalRadarSentiment,
   useWhaleRadarSentiment,
 } from 'api/discovery';
+import { clsx } from 'clsx';
+import type { FC } from 'react';
 import { SocialRadarSentiment } from '../../ListView/SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../../ListView/TechnicalRadar/TechnicalRadarSentiment';
 import { WhaleRadarSentiment } from '../../ListView/WhaleRadar/WhaleRadarSentiment';
@@ -28,16 +28,22 @@ export const CoinSentimentsWidget: FC<{
     <>
       <div className={clsx('flex items-center gap-1', className)}>
         <SocialRadarSentiment
-          value={socialRadar.data}
-          coin={data?.symbol}
-          marketData={data?.marketData}
-          mode="card"
           className={clsx(
             (isLoading || socialRadar.isLoading) && 'animate-pulse',
           )}
+          coin={data?.symbol}
+          marketData={data?.marketData}
+          mode="card"
+          value={socialRadar.data}
         />
 
         <TechnicalRadarSentiment
+          className={clsx(
+            (isLoading || technicalRadar.isLoading) && 'animate-pulse',
+          )}
+          coin={data?.symbol}
+          marketData={data?.marketData}
+          mode="card"
           value={{
             ...technicalRadar.data,
             sparkline: {
@@ -45,22 +51,16 @@ export const CoinSentimentsWidget: FC<{
                 socialRadar.data?.signals_analysis?.sparkline?.prices ?? [],
             },
           }}
-          coin={data?.symbol}
-          marketData={data?.marketData}
-          mode="card"
-          className={clsx(
-            (isLoading || technicalRadar.isLoading) && 'animate-pulse',
-          )}
         />
 
         <WhaleRadarSentiment
-          value={whaleRadar.data}
-          coin={data?.symbol}
-          marketData={data?.marketData}
-          mode="card"
           className={clsx(
             (isLoading || whaleRadar.isLoading) && 'animate-pulse',
           )}
+          coin={data?.symbol}
+          marketData={data?.marketData}
+          mode="card"
+          value={whaleRadar.data}
         />
       </div>
       {hr && <hr className="border-white/10" />}

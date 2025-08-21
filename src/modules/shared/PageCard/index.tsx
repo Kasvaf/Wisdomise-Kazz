@@ -1,12 +1,7 @@
-import { clsx } from 'clsx';
-import { NavLink } from 'react-router-dom';
-import {
-  type MouseEventHandler,
-  type ReactNode,
-  type SVGProps,
-  type FC,
-} from 'react';
 import { useHasFlag } from 'api';
+import { clsx } from 'clsx';
+import type { FC, MouseEventHandler, ReactNode, SVGProps } from 'react';
+import { NavLink } from 'react-router-dom';
 import { DebugPin } from 'shared/DebugPin';
 import { ArrowIcon } from './icons';
 
@@ -36,15 +31,15 @@ export const PageCard: FC<PageCardProps> = props => {
 
   return (
     <NavLink
-      to={to}
       className={clsx(
         className,
         'group flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl',
         'h-20 bg-v1-surface-l2 px-3 transition-all duration-150 hover:brightness-110',
       )}
       onClick={onClick}
+      to={to}
     >
-      <DebugPin title={to} color="orange" />
+      <DebugPin color="orange" title={to} />
       <div className="flex h-full items-center gap-4">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
           <Icon className="" />
@@ -54,7 +49,7 @@ export const PageCard: FC<PageCardProps> = props => {
             <h2 className="text-sm">{title}</h2>
             {badge}
           </div>
-          <p className="text-xs text-v1-content-secondary">{description}</p>
+          <p className="text-v1-content-secondary text-xs">{description}</p>
         </div>
         <ArrowIcon className="ml-auto shrink-0" />
       </div>

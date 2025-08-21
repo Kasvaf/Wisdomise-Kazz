@@ -1,14 +1,15 @@
+import type { DiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type FC, useMemo } from 'react';
-import { type DiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useIsMobile from 'utils/useIsMobile';
+import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
 import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
 import { ReactComponent as PositionsIcon } from './icons/positions.svg';
-import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
 import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
 import { ReactComponent as TechnicalRadarIcon } from './icons/technical.svg';
-import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
 import { ReactComponent as NetworkRadarIcon } from './icons/trench.svg';
 import { ReactComponent as TwitterTrackerIcon } from './icons/twitter-tracker.svg';
+import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
+
 interface MenuItem {
   link: string;
   meta: Partial<DiscoveryRouteMeta>;

@@ -1,5 +1,5 @@
 export function parseDur(dur: string) {
-  const val = Number.parseInt(dur);
+  const val = Number.parseInt(dur, 10);
   const d = new Date();
   switch (dur.replace(/\d+/, '')) {
     case 's': {

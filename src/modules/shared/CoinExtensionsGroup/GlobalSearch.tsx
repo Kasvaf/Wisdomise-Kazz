@@ -1,15 +1,15 @@
+import { useDetailedCoins, useNetworks } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
-import { useMemo, useState, type ComponentProps, type FC } from 'react';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type ComponentProps, type FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDebounce } from 'usehooks-ts';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { useDetailedCoins, useNetworks } from 'api/discovery';
-import { Select } from 'shared/v1-components/Select';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { Coin } from 'shared/v1-components/Coin';
+import { Select } from 'shared/v1-components/Select';
+import { useDebounce } from 'usehooks-ts';
 
 export const GlobalSearch: FC<
   Omit<
@@ -53,7 +53,9 @@ export const GlobalSearch: FC<
 
   return (
     <Select
-      value={undefined}
+      chevron={false}
+      dialogClassName="w-[520px] mobile:w-auto"
+      loading={coins.isLoading}
       multiple={false}
       onChange={slug => {
         if (slug)
@@ -65,20 +67,25 @@ export const GlobalSearch: FC<
             }),
           );
       }}
+      onSearch={setQuery}
       options={coins.data?.map?.(x => x.symbol.slug)}
-      dialogClassName="w-[520px] mobile:w-auto"
+      placeholder={t('search_coins')}
+      prefixIcon={
+        <Icon className="text-v1-content-secondary" name={bxSearch} />
+      }
       render={opt => {
         const row = coins.data?.find?.(x => x.symbol.slug === opt);
         if (!row) return '';
         return (
-          <div className="flex items-center justify-between gap-4 px-2 py-3 mobile:px-1">
+          <div className="flex items-center justify-between gap-4 mobile:px-1 px-2 py-3">
             <Coin
               abbreviation={row.symbol?.abbreviation}
-              name={row.symbol?.name}
-              slug={row.symbol?.slug}
-              logo={row.symbol?.logo_url}
               categories={row.symbol.categories}
+              href={false}
               labels={row.symbol_labels}
+              links={row.symbol_community_links}
+              logo={row.symbol?.logo_url}
+              name={row.symbol?.name}
               networks={
                 row.network_bindings || [
                   {
@@ -94,27 +101,26 @@ export const GlobalSearch: FC<
                   },
                 ]
               }
-              links={row.symbol_community_links}
               security={row.symbol_security ? [row.symbol_security] : null}
-              href={false}
+              slug={row.symbol?.slug}
             />
-            <div className="flex grow items-center justify-end gap-4 justify-self-end whitespace-nowrap text-xs mobile:gap-2 [&_label]:text-v1-content-secondary">
+            <div className="flex grow items-center justify-end gap-4 mobile:gap-2 justify-self-end whitespace-nowrap text-xs [&_label]:text-v1-content-secondary">
               <p>
                 <label>{'MC: '}</label>
                 <ReadableNumber
-                  value={row.symbol_market_data?.market_cap}
+                  format={{ decimalLength: 1 }}
                   label="$"
                   popup="never"
-                  format={{ decimalLength: 1 }}
+                  value={row.symbol_market_data?.market_cap}
                 />
               </p>
               <p>
                 <label>{'24h V: '}</label>
                 <ReadableNumber
-                  value={row.symbol_market_data?.volume_24h}
+                  format={{ decimalLength: 1 }}
                   label="$"
                   popup="never"
-                  format={{ decimalLength: 1 }}
+                  value={row.symbol_market_data?.volume_24h}
                 />
               </p>
             </div>
@@ -124,15 +130,9 @@ export const GlobalSearch: FC<
       searchPlaceholder={`Search in ${
         networkName ? `${networkName} Network` : 'All Networks'
       }`}
-      chevron={false}
-      showSearch
-      loading={coins.isLoading}
       searchValue={query}
-      onSearch={setQuery}
-      prefixIcon={
-        <Icon name={bxSearch} className="text-v1-content-secondary" />
-      }
-      placeholder={t('search_coins')}
+      showSearch
+      value={undefined}
       {...props}
     />
   );

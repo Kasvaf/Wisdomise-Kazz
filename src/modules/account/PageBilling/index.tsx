@@ -1,10 +1,10 @@
 import { useAccountQuery, useSubscription } from 'api';
-import PageWrapper from 'modules/base/PageWrapper';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
+import WiseClub from 'modules/account/PageBilling/WiseClub';
+import { useReadUnlockedInfo } from 'modules/account/PageToken/web3/locking/contract';
+import PageWrapper from 'modules/base/PageWrapper';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
-import { useReadUnlockedInfo } from 'modules/account/PageToken/web3/locking/contract';
-import WiseClub from 'modules/account/PageBilling/WiseClub';
 
 export default function PageBilling() {
   const isMobile = useIsMobile();
@@ -22,9 +22,9 @@ export default function PageBilling() {
 
   return (
     <PageWrapper
+      extension={!isMobile && <CoinExtensionsGroup />}
       hasBack
       loading={isLoading}
-      extension={!isMobile && <CoinExtensionsGroup />}
     >
       {showDetails ? <SubscriptionDetail /> : <WiseClub />}
     </PageWrapper>

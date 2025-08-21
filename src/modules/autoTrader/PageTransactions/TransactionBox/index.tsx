@@ -1,19 +1,19 @@
-import dayjs from 'dayjs';
-import { bxsRightArrow } from 'boxicons-quasar';
-import {
-  type TransactionOrder,
-  type TransactionClose,
-  type TransactionDeposit,
-  type TransactionWithdraw,
-  type TransactionOpenClose,
-  type Transaction,
-  type Position,
+import type {
+  Position,
+  Transaction,
+  TransactionClose,
+  TransactionDeposit,
+  TransactionOpenClose,
+  TransactionOrder,
+  TransactionWithdraw,
 } from 'api';
+import { bxsRightArrow } from 'boxicons-quasar';
+import dayjs from 'dayjs';
 import Icon from 'shared/Icon';
 import { roundSensible } from 'utils/numbers';
-import { ReactComponent as WithdrawIcon } from './withdraw.svg';
-import { ReactComponent as DepositIcon } from './deposit.svg';
 import { AssetIcon, Box, GasFee, StatusLabel, TonViewer } from './components';
+import { ReactComponent as DepositIcon } from './deposit.svg';
+import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 
 const AssetPrice: React.FC<{
   assetName: string;
@@ -23,7 +23,7 @@ const AssetPrice: React.FC<{
   return (
     <div className="flex shrink-0 items-center">
       {roundSensible(amount)} {assetName}
-      <AssetIcon slug={assetSlug} className="ml-1" />
+      <AssetIcon className="ml-1" slug={assetSlug} />
     </div>
   );
 };
@@ -39,6 +39,8 @@ const TransactionAnyOrderBox: React.FC<{
 
   return (
     <Box
+      contentClassName="flex flex-col items-stretch gap-3"
+      info={<StatusLabel t={t} />}
       title={
         {
           stop_loss: 'Stop Loss', // token -> quote
@@ -48,22 +50,20 @@ const TransactionAnyOrderBox: React.FC<{
           close: 'Close', // token -> quote
         }[t.type] +
         ('index' in t.data && Number(t.data.index)
-          ? ' #' + String(t.data.index)
+          ? ` #${String(t.data.index)}`
           : '')
       }
-      info={<StatusLabel t={t} />}
-      contentClassName="flex flex-col items-stretch gap-3"
     >
       <div className="flex items-center justify-between">
         <AssetPrice
+          amount={t.data.from_amount}
           assetName={t.data.from_asset_name}
           assetSlug={t.data.from_asset_slug}
-          amount={t.data.from_amount}
         />
         <div className="mx-4 flex grow items-center">
-          <div className="flex w-full justify-center border-b border-dashed border-v1-content-secondary">
+          <div className="flex w-full justify-center border-v1-content-secondary border-b border-dashed">
             {!!+price && Number.isFinite(totalPrice) && (
-              <div className="h-0 -translate-y-[7px] overflow-visible text-xs">
+              <div className="-translate-y-[7px] h-0 overflow-visible text-xs">
                 <div className="bg-v1-surface-l1 px-1 text-white/70">
                   {roundSensible(totalPrice)} $
                 </div>
@@ -71,15 +71,15 @@ const TransactionAnyOrderBox: React.FC<{
             )}
           </div>
           <Icon
+            className="text-v1-content-secondary"
             name={bxsRightArrow}
             size={8}
-            className="text-v1-content-secondary"
           />
         </div>
         <AssetPrice
+          amount={t.data.to_amount}
           assetName={t.data.to_asset_name}
           assetSlug={t.data.to_asset_slug}
-          amount={t.data.to_amount}
         />
       </div>
 
@@ -95,18 +95,18 @@ const TransactionDepositWithdrawBox: React.FC<{
 }> = ({ t, p }) => {
   return (
     <Box
-      title={t.type === 'withdraw' ? 'Withdraw' : 'Deposit'}
       info={<StatusLabel t={t} />}
+      title={t.type === 'withdraw' ? 'Withdraw' : 'Deposit'}
     >
       {t.data.assets.length > 0 && (
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             {t.data.assets.map(a => (
               <AssetPrice
-                key={a.asset_slug}
+                amount={a.amount}
                 assetName={a.asset_name}
                 assetSlug={a.asset_slug}
-                amount={a.amount}
+                key={a.asset_slug}
               />
             ))}
           </div>
@@ -115,7 +115,7 @@ const TransactionDepositWithdrawBox: React.FC<{
       )}
 
       {t.type === 'withdraw' && t.data.gas_fee_amount && (
-        <GasFee t={t} className="mt-3" />
+        <GasFee className="mt-3" t={t} />
       )}
 
       {t.data.link && <TonViewer link={t.data.link} network={p.network_slug} />}
@@ -126,7 +126,7 @@ const TransactionDepositWithdrawBox: React.FC<{
 const TransactionCloseBox: React.FC<{ t: TransactionClose; p: Position }> = ({
   t,
 }) => {
-  return <Box title="Closed" info={dayjs(t.data.time).fromNow()} />;
+  return <Box info={dayjs(t.data.time).fromNow()} title="Closed" />;
 };
 
 const TransactionBox: React.FC<{ t: Transaction; p: Position }> = ({
@@ -139,16 +139,16 @@ const TransactionBox: React.FC<{ t: Transaction; p: Position }> = ({
     case 'safety_open':
     case 'open':
     case 'close': {
-      return <TransactionAnyOrderBox t={t} p={p} />;
+      return <TransactionAnyOrderBox p={p} t={t} />;
     }
 
     case 'deposit':
     case 'withdraw': {
-      return <TransactionDepositWithdrawBox t={t} p={p} />;
+      return <TransactionDepositWithdrawBox p={p} t={t} />;
     }
 
     case 'close_event': {
-      return <TransactionCloseBox t={t} p={p} />;
+      return <TransactionCloseBox p={p} t={t} />;
     }
 
     default: {

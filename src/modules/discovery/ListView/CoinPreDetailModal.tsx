@@ -1,3 +1,12 @@
+import type {
+  CoinNetwork,
+  MiniMarketData,
+  NetworkSecurity,
+} from 'api/discovery';
+import type { Coin as CoinType } from 'api/types/shared';
+import { bxShareAlt, bxSlider } from 'boxicons-quasar';
+import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   Children,
   cloneElement,
@@ -10,29 +19,20 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { bxShareAlt, bxSlider } from 'boxicons-quasar';
-import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { Coin } from 'shared/Coin';
-import { Button } from 'shared/v1-components/Button';
-import Icon from 'shared/Icon';
 import { CoinLabels } from 'shared/CoinLabels';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { type Coin as CoinType } from 'api/types/shared';
-import {
-  type CoinNetwork,
-  type MiniMarketData,
-  type NetworkSecurity,
-} from 'api/discovery';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
-import { usePromise } from 'utils/usePromise';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import useIsMobile from 'utils/useIsMobile';
+import { usePromise } from 'utils/usePromise';
 import { PriceAlertButton } from '../DetailView/CoinDetail/PriceAlertButton';
-import TechnicalRadarSharingModal from './TechnicalRadar/TechnicalRadarSharingModal';
 import SocialRadarSharingModal from './SocialRadar/SocialRadarSharingModal';
+import TechnicalRadarSharingModal from './TechnicalRadar/TechnicalRadarSharingModal';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;
@@ -81,8 +81,6 @@ const CoinPreDetailsContent: FC<
       <div className="flex items-center gap-2">
         {hasShare && (
           <Button
-            variant="ghost"
-            size="sm"
             className="!px-2"
             onClick={async () => {
               const isLoggedIn = await ensureAuthenticated();
@@ -90,40 +88,42 @@ const CoinPreDetailsContent: FC<
                 setOpenShareModal(true);
               }
             }}
+            size="sm"
+            variant="ghost"
           >
             <Icon name={bxShareAlt} />
           </Button>
         )}
         <Coin
-          coin={coin}
-          imageClassName="size-8"
-          nonLink={true}
-          truncate={260}
           abbrevationSuffix={
             <DirectionalNumber
               className="ms-1"
-              value={marketData?.price_change_percentage_24h}
-              label="%"
               direction="auto"
-              showIcon
-              showSign={false}
               format={{
                 decimalLength: 1,
                 minifyDecimalRepeats: true,
               }}
+              label="%"
+              showIcon
+              showSign={false}
+              value={marketData?.price_change_percentage_24h}
             />
           }
+          coin={coin}
+          imageClassName="size-8"
+          nonLink={true}
+          truncate={260}
         />
         <div className="ml-auto flex flex-col items-end gap-px">
           <ReadableNumber
-            value={marketData?.current_price}
-            label="$"
             className="text-sm"
+            label="$"
+            value={marketData?.current_price}
           />
           <CoinMarketCap
+            className="text-xs"
             marketData={marketData}
             singleLine
-            className="text-xs"
           />
         </div>
       </div>
@@ -157,51 +157,51 @@ export const CoinPreDetailModal: FC<
 
   return (
     <Dialog
-      open={open}
-      mode="drawer"
+      className="bg-v1-surface-l1"
+      contentClassName="p-3"
       drawerConfig={{
         position: 'bottom',
         closeButton: true,
       }}
-      onClose={onClose}
-      className="bg-v1-surface-l1"
-      contentClassName="p-3"
       footer={
         coin && (
           <div className="flex flex-col items-stretch gap-4">
             <div className="flex gap-3">
               <NavLink
+                className="block basis-1/2"
                 to={getUrl({
                   detail: 'coin',
                   slug: coin.slug,
                   view:
                     isMobile || params.view === 'detail' ? 'detail' : 'both',
                 })}
-                className="block basis-1/2"
               >
                 <Button
-                  variant="outline"
-                  surface={2}
-                  size="sm"
                   block
                   className="w-full"
+                  size="sm"
+                  surface={2}
+                  variant="outline"
                 >
                   <Icon name={bxSlider} />
                   {t('pre_detail_modal.details')}
                 </Button>
               </NavLink>
               <PriceAlertButton
-                variant="outline"
-                surface={2}
-                size="sm"
                 className="basis-1/2"
+                size="sm"
                 slug={coin.slug}
+                surface={2}
+                variant="outline"
               />
             </div>
             <BtnAutoTrade slug={coin.slug} variant="primary" />
           </div>
         )
       }
+      mode="drawer"
+      onClose={onClose}
+      open={open}
     >
       {coin && open && (
         <CoinPreDetailsContent coin={coin} {...props}>

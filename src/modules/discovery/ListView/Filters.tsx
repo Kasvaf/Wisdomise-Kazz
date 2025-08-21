@@ -2,11 +2,11 @@ import { bxGridAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
   type Dispatch,
+  type ReactNode,
   type SetStateAction,
   useEffect,
   useMemo,
   useState,
-  type ReactNode,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
@@ -14,9 +14,9 @@ import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';
-import { type Surface } from 'utils/useSurface';
-import { type PresetFilter } from './presetFilters';
+import type { Surface } from 'utils/useSurface';
 import { ReactComponent as FilterIcon } from './filter.svg';
+import type { PresetFilter } from './presetFilters';
 
 function areEqual<T = Array<string | number> | string | number | boolean>(
   first: T | undefined,
@@ -143,19 +143,19 @@ export function Filters<T extends object>({
         <div className="flex items-start gap-2">
           {dialog && (
             <Button
-              variant={
-                isFiltersApplied && !selectedPreset && showLabels
-                  ? 'primary'
-                  : 'ghost'
-              }
-              size={size}
+              className="shrink-0"
               fab
               onClick={() => {
                 onOpen?.();
                 setOpen(true);
               }}
+              size={size}
               surface={isMini ? ((surface + 1) as never) : surface}
-              className="shrink-0"
+              variant={
+                isFiltersApplied && !selectedPreset && showLabels
+                  ? 'primary'
+                  : 'ghost'
+              }
             >
               <FilterIcon className="!size-4" />
             </Button>
@@ -163,10 +163,7 @@ export function Filters<T extends object>({
           {(presets?.length ?? 0) > 0 && (
             <>
               <Button
-                variant={
-                  !isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'
-                }
-                size={size}
+                className="shrink-0"
                 onClick={() => {
                   onChange?.(
                     Object.fromEntries(
@@ -178,22 +175,16 @@ export function Filters<T extends object>({
                     ) as Partial<T>,
                   );
                 }}
+                size={size}
                 surface={isMini ? ((surface + 1) as never) : surface}
-                className="shrink-0"
+                variant={
+                  !isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'
+                }
               >
                 <Icon name={bxGridAlt} size={16} />
                 {t('common:all')}
               </Button>
               <ButtonSelect
-                options={(presets ?? []).map(preset => ({
-                  label: preset.label,
-                  value: preset.filters,
-                }))}
-                value={
-                  isFiltersApplied && !selectedPreset
-                    ? undefined
-                    : selectedPreset?.filters
-                }
                 onChange={newPresetFilter =>
                   onChange?.({
                     ...(Object.fromEntries(
@@ -204,25 +195,29 @@ export function Filters<T extends object>({
                     ...newPresetFilter,
                   })
                 }
+                options={(presets ?? []).map(preset => ({
+                  label: preset.label,
+                  value: preset.filters,
+                }))}
                 size={size}
-                variant="primary"
                 surface={surface}
+                value={
+                  isFiltersApplied && !selectedPreset
+                    ? undefined
+                    : selectedPreset?.filters
+                }
+                variant="primary"
               />
             </>
           )}
         </div>
       </div>
       {(sorts?.length ?? 0) > 0 && (
-        <div className={clsx('min-w-48 w-1/2 max-w-max', isMini && 'w-full')}>
+        <div className={clsx('w-1/2 min-w-48 max-w-max', isMini && 'w-full')}>
           {showLabels && (
             <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
           )}
           <ButtonSelect
-            options={(sorts ?? []).map(sort => ({
-              label: sort.label,
-              value: sort.filters,
-            }))}
-            value={selectedSort?.filters}
             onChange={newSortFilter =>
               onChange?.({
                 ...(Object.fromEntries(
@@ -233,33 +228,29 @@ export function Filters<T extends object>({
                 ...newSortFilter,
               })
             }
+            options={(sorts ?? []).map(sort => ({
+              label: sort.label,
+              value: sort.filters,
+            }))}
             size={size}
-            variant="default"
             surface={surface}
+            value={selectedSort?.filters}
+            variant="default"
           />
         </div>
       )}
       {dialog !== undefined && (
         <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
           contentClassName="p-4 w-[500px] mobile:w-auto"
-          mode={isMobile ? 'drawer' : 'modal'}
           drawerConfig={{
             position: 'bottom',
             closeButton: true,
           }}
-          modalConfig={{
-            closeButton: true,
-          }}
-          header={<h2 className="p-2 text-lg">{t('common:filters')}</h2>}
           footer={
             <div className="flex items-center gap-2">
               <Button
-                variant="ghost"
-                size="lg"
                 block
-                surface={2}
+                className="shrink-0 grow"
                 onClick={() => {
                   onChange?.(
                     Object.fromEntries(
@@ -272,24 +263,33 @@ export function Filters<T extends object>({
                   );
                   setOpen(false);
                 }}
-                className="shrink-0 grow"
+                size="lg"
+                surface={2}
+                variant="ghost"
               >
                 {t('common:reset_filters')}
               </Button>
               <Button
-                variant="primary"
-                size="lg"
                 block
+                className="shrink-0 grow"
                 onClick={() => {
                   onChange?.(localValue);
                   setOpen(false);
                 }}
-                className="shrink-0 grow"
+                size="lg"
+                variant="primary"
               >
                 {t('common:apply_filters')}
               </Button>
             </div>
           }
+          header={<h2 className="p-2 text-lg">{t('common:filters')}</h2>}
+          modalConfig={{
+            closeButton: true,
+          }}
+          mode={isMobile ? 'drawer' : 'modal'}
+          onClose={() => setOpen(false)}
+          open={open}
         >
           <div className="flex flex-col gap-6">
             {dialog?.(localValue, setLocalValue)}

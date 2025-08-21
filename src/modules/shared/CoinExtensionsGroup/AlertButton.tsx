@@ -1,11 +1,11 @@
-import { bxBell } from 'boxicons-quasar';
-import { type ComponentProps, type FC } from 'react';
-import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
-import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
 import { useHasFlag } from 'api';
 import { useAlerts } from 'api/alert';
+import { bxBell } from 'boxicons-quasar';
+import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
+import type { ComponentProps, FC } from 'react';
 import { DebugPin } from 'shared/DebugPin';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
 
 export const AlertButton: FC<
   Omit<ComponentProps<typeof Button>, 'variant' | 'onClick' | 'fab'>
@@ -21,11 +21,11 @@ export const AlertButton: FC<
   return (
     <>
       {hasFlag('/account/alerts') && (
-        <Button {...props} variant="ghost" onClick={() => openAlert()} fab>
-          <DebugPin title="/account/alerts" color="orange" />
+        <Button {...props} fab onClick={() => openAlert()} variant="ghost">
+          <DebugPin color="orange" title="/account/alerts" />
           <Icon name={bxBell} />
           {isUsedAlertBefore && (
-            <div className="absolute right-0 top-0 size-[6px] rounded-full bg-v1-background-brand" />
+            <div className="absolute top-0 right-0 size-[6px] rounded-full bg-v1-background-brand" />
           )}
         </Button>
       )}

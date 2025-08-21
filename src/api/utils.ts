@@ -1,8 +1,8 @@
-import { type FetchOptions, type FetchRequest } from 'ofetch';
+import type { NetworkSecurity } from 'api/discovery';
+import type { PageResponse, PageResponse2 } from 'api/types/page';
+import type { Coin } from 'api/types/shared';
 import { ofetch } from 'config/ofetch';
-import { type NetworkSecurity } from 'api/discovery';
-import { type PageResponse2, type PageResponse } from 'api/types/page';
-import { type Coin } from 'api/types/shared';
+import type { FetchOptions, FetchRequest } from 'ofetch';
 
 export function resolvePageResponseToArray<T>(
   request: FetchRequest,

@@ -1,53 +1,53 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import type { PageResponse } from 'api/types/page';
+import type { Coin } from 'api/types/shared';
+import { useUserStorage } from 'api/userStorage';
+import { createSorter, matcher, resolvePageResponseToArray } from 'api/utils';
+import { ofetch } from 'config/ofetch';
 import { FetchError } from 'ofetch';
 import { useEffect, useMemo, useState } from 'react';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { resolvePageResponseToArray, createSorter, matcher } from 'api/utils';
 import { isDebugMode, isMiniApp } from 'utils/version';
-import { ofetch } from 'config/ofetch';
-import { type PageResponse } from 'api/types/page';
-import { type Coin } from 'api/types/shared';
-import { useUserStorage } from 'api/userStorage';
-import {
-  type CoinDetails,
-  type RadarsMetcis,
-  type Category,
-  type CoinLabels,
-  type CoinWhale,
-  type DetailedCoin,
-  type Exchange,
-  type Indicator,
-  type IndicatorConfirmation,
-  type IndicatorConfirmationCombination,
-  type IndicatorConfirmationCore,
-  type IndicatorHeatmap,
-  type IndicatorHeatmapResolution,
-  type MacdConfirmation,
-  type Network,
-  type RedditMessage,
-  type RsiConfirmation,
-  type SingleWhale,
-  type SocialMessage,
-  type SocialRadarCoin,
-  type SocialRadarInfo,
-  type SocialRadarSentiment,
-  type TechnicalRadarCoin,
-  type TechnicalRadarSentiment,
-  type TelegramMessage,
-  type TradingViewIdeasMessage,
-  type TwitterMessage,
-  type WhaleRadarCoin,
-  type WhaleRadarSentiment,
-  type WhaleShort,
-  type WhaleTransaction,
-  type CoinRadarCoin,
-  type NetworkRadarNCoinDetails,
-  type TokenInsight,
-  type TwitterAccount,
-  type TwitterFollowedAccount,
-  type TwitterTweet,
-  type CoinTopTraderHolder,
-  type TwitterRelatedToken,
+import type {
+  Category,
+  CoinDetails,
+  CoinLabels,
+  CoinRadarCoin,
+  CoinTopTraderHolder,
+  CoinWhale,
+  DetailedCoin,
+  Exchange,
+  Indicator,
+  IndicatorConfirmation,
+  IndicatorConfirmationCombination,
+  IndicatorConfirmationCore,
+  IndicatorHeatmap,
+  IndicatorHeatmapResolution,
+  MacdConfirmation,
+  Network,
+  NetworkRadarNCoinDetails,
+  RadarsMetcis,
+  RedditMessage,
+  RsiConfirmation,
+  SingleWhale,
+  SocialMessage,
+  SocialRadarCoin,
+  SocialRadarInfo,
+  SocialRadarSentiment,
+  TechnicalRadarCoin,
+  TechnicalRadarSentiment,
+  TelegramMessage,
+  TokenInsight,
+  TradingViewIdeasMessage,
+  TwitterAccount,
+  TwitterFollowedAccount,
+  TwitterMessage,
+  TwitterRelatedToken,
+  TwitterTweet,
+  WhaleRadarCoin,
+  WhaleRadarSentiment,
+  WhaleShort,
+  WhaleTransaction,
 } from './types';
 
 export * from './types';

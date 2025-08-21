@@ -41,13 +41,13 @@
 }
 
 :root {
-  --wcm-z-index: 1001 !important;
+  --wcm-z-index: 1001;
 }
 
 .widgetsScroll {
-  --os-size: 2px !important;
-  --os-handle-bg: white !important;
-  --os-handle-border-radius: 10px !important;
+  --os-size: 2px;
+  --os-handle-bg: white;
+  --os-handle-border-radius: 10px;
 }
 
 .text-gradient-to-black70 {

@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
-import type React from 'react';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
+import type React from 'react';
 import Spinner from 'shared/Spinner';
 import Layout, { type LayoutProps } from './Layout';
 
@@ -28,7 +28,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
         className={clsx(
           'text-white',
           loading &&
-            'flex h-full w-full items-center justify-center mobile:h-[calc(100vh-10rem)]',
+            'flex h-full mobile:h-[calc(100vh-10rem)] w-full items-center justify-center',
           className,
         )}
       >
@@ -36,7 +36,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
         <div
           className={clsx(
             loading
-              ? 'pointer-events-none absolute -z-10 h-0 w-0 overflow-hidden opacity-0'
+              ? '-z-10 pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0'
               : 'contents',
           )}
         >

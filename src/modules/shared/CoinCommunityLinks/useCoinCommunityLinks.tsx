@@ -1,8 +1,7 @@
+import type { CoinCommunityData } from 'api/discovery';
 import { type ReactNode, useMemo } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import { FacebookEmbed, XEmbed } from 'react-social-media-embed';
-import { type CoinCommunityData } from 'api/discovery';
 // https://simpleicons.org
 import { ReactComponent as FacebookIcon } from './facebook.svg';
 import { ReactComponent as RedditIcon } from './reddit.svg';
@@ -72,6 +71,7 @@ export const useCoinCommunityLinks = (
           icon: isPost ? <TwitterPostIcon /> : <TwitterIcon />,
           preview: isPost ? (
             <XEmbed
+              id={url.href}
               twitterTweetEmbedProps={{
                 tweetId: twitterInfo.value as never,
                 options: {
@@ -80,15 +80,14 @@ export const useCoinCommunityLinks = (
               }}
               url={url.href}
               width={350}
-              id={url.href}
             />
           ) : isProfile ? (
             <a
+              className="!bg-[#17222e] !text-white flex items-center gap-1 rounded-xl border border-white/10 p-3 text-xs"
               href={url.href}
-              target="_blank"
-              rel="noreferrer"
               referrerPolicy="no-referrer"
-              className="p-3 flex items-center gap-1 rounded-xl border border-white/10 text-xs !bg-[#17222e] !text-white"
+              rel="noreferrer"
+              target="_blank"
             >
               <img
                 className="size-8 rounded-full"

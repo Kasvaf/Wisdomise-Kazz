@@ -1,31 +1,31 @@
-import { useTranslation } from 'react-i18next';
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocalStorage } from 'usehooks-ts';
-import { clsx } from 'clsx';
 import {
   useClaimReferralBonusBag,
   useFriendsQuery,
   useHasFlag,
   useReferralStatusQuery,
 } from 'api';
+import { clsx } from 'clsx';
+import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
+import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
 import PageWrapper from 'modules/base/PageWrapper';
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import Badge from 'shared/Badge';
-import { Button } from 'shared/v1-components/Button';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
-import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
 import useModal from 'shared/useModal';
-import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
+import { Button } from 'shared/v1-components/Button';
+import { useLocalStorage } from 'usehooks-ts';
 import useIsMobile from 'utils/useIsMobile';
-import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
-import trader from './images/trader.png';
-import { ReactComponent as WiseClub } from './images/wise-club.svg';
-import { ReactComponent as Users } from './images/users.svg';
-import { ReactComponent as IconUser } from './images/user.svg';
 import { ReactComponent as Bag } from './images/bag.svg';
-import { ReactComponent as Gift } from './images/gift.svg';
 import coin from './images/coin.png';
+import { ReactComponent as Gift } from './images/gift.svg';
+import trader from './images/trader.png';
+import { ReactComponent as IconUser } from './images/user.svg';
+import { ReactComponent as Users } from './images/users.svg';
+import { ReactComponent as WiseClub } from './images/wise-club.svg';
 
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
@@ -58,34 +58,34 @@ export default function ReferralPage() {
 
   return (
     <PageWrapper
-      hasBack
-      title={t('base:menu.referral.title')}
-      loading={isLoading}
       className="mobile:pt-4"
       extension={!isMobile && <CoinExtensionsGroup />}
+      hasBack
+      loading={isLoading}
+      title={t('base:menu.referral.title')}
     >
       <h1 className="mb-2">{t('page-referral.title')}</h1>
-      <p className="text-v1-content-secondary mb-2 text-sm">
+      <p className="mb-2 text-sm text-v1-content-secondary">
         {t('page-referral.subtitle')}
       </p>
 
       <Button
-        variant="link"
-        className="!text-v1-content-link mb-3 !p-0"
+        className="!text-v1-content-link !p-0 mb-3"
         onClick={() => openReferralOnboardingModal({})}
+        variant="link"
       >
         {t('page-referral.how.button')}
       </Button>
 
       <div className="grid grid-cols-5 gap-4">
-        <div className="col-span-2 flex flex-col-reverse gap-4 mobile:col-span-5 mobile:flex-col">
-          <div className="bg-v1-surface-l1 rounded-xl p-4 mobile:bg-transparent mobile:p-0">
+        <div className="col-span-2 mobile:col-span-5 flex mobile:flex-col flex-col-reverse gap-4">
+          <div className="rounded-xl bg-v1-surface-l1 mobile:bg-transparent mobile:p-0 p-4">
             <h2 className="mb-2">{t('page-referral.referral-link')}</h2>
             <Referral className="mobile:p-4" />
           </div>
 
           <div>
-            <h2 className="mb-2 hidden mobile:block">
+            <h2 className="mb-2 mobile:block hidden">
               {t('page-referral.bonus.title')}
             </h2>
             <div
@@ -97,7 +97,7 @@ export default function ReferralPage() {
             >
               <div className="grow p-3">
                 <div className="flex items-center gap-3">
-                  <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
                     <Bag />
                   </div>
                   <div>
@@ -105,7 +105,7 @@ export default function ReferralPage() {
                     <p className="text-xs">{t('page-referral.bonus.ready')}</p>
                   </div>
                 </div>
-                <hr className="border-v1-border-primary/30  my-3" />
+                <hr className="my-3 border-v1-border-primary/30" />
                 <p className="mb-3 text-xs">
                   {t('page-referral.bonus.description')}{' '}
                   <button
@@ -116,23 +116,23 @@ export default function ReferralPage() {
                   </button>
                 </p>
                 <Button
-                  variant="ghost"
-                  className="mt-3 w-full max-w-[16rem] !bg-black disabled:!bg-[unset]"
-                  size="md"
-                  loading={claimIsLoading}
+                  className="!bg-black disabled:!bg-[unset] mt-3 w-full max-w-[16rem]"
                   disabled={referral?.ready_to_claim === 0 || claimIsLoading}
+                  loading={claimIsLoading}
                   onClick={claim}
+                  size="md"
+                  variant="ghost"
                 >
                   <Gift />
                   {t('page-referral.bonus.claim')}
                 </Button>
               </div>
-              <img src={coin} className="h-40" alt="" />
+              <img alt="" className="h-40" src={coin} />
             </div>
           </div>
 
-          <div className="bg-v1-surface-l1 flex h-16 items-center gap-3 rounded-xl p-3">
-            <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 items-center justify-center rounded-lg">
+          <div className="flex h-16 items-center gap-3 rounded-xl bg-v1-surface-l1 p-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
               <Users />
             </div>
             <div>
@@ -141,8 +141,8 @@ export default function ReferralPage() {
                 {t('page-referral.total-referrals')}
               </p>
             </div>
-            <div className="border-v1-border-primary/10 ml-8 h-full border"></div>
-            <div className="max-w-64 flex h-full grow flex-col justify-between">
+            <div className="ml-8 h-full border border-v1-border-primary/10"></div>
+            <div className="flex h-full max-w-64 grow flex-col justify-between">
               {hasFlag('/account/billing') && (
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-v1-content-secondary">
@@ -160,11 +160,11 @@ export default function ReferralPage() {
             </div>
           </div>
 
-          <div className="bg-v1-surface-l1 rounded-xl p-3">
+          <div className="rounded-xl bg-v1-surface-l1 p-3">
             {hasFlag('/account/billing') && (
               <>
                 <div className="flex items-center gap-3">
-                  <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 items-center justify-center rounded-lg">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
                     <WiseClub />
                   </div>
                   <div>
@@ -176,12 +176,12 @@ export default function ReferralPage() {
                     </p>
                   </div>
                 </div>
-                <hr className="border-v1-border-primary/10 my-3" />
+                <hr className="my-3 border-v1-border-primary/10" />
               </>
             )}
             <div className="flex items-center gap-3">
-              <div className="bg-v1-inverse-overlay-100/5 flex h-8 w-8 items-center justify-center rounded-lg">
-                <img src={trader} className="h-6 w-6 rounded-full" alt="" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
+                <img alt="" className="h-6 w-6 rounded-full" src={trader} />
               </div>
               <div>
                 <h2>${referral?.referral_trade_revenue.toFixed(2)}</h2>
@@ -193,20 +193,20 @@ export default function ReferralPage() {
           </div>
         </div>
 
-        <div className="bg-v1-surface-l1 col-span-3 rounded-xl p-3 mobile:col-span-5">
+        <div className="col-span-3 mobile:col-span-5 rounded-xl bg-v1-surface-l1 p-3">
           <div className="mb-2 flex items-center gap-3">
             <h2>{t('page-referral.friends-list.title')}</h2>
-            <div className="bg-v1-surface-l3 flex h-6 w-6 items-center justify-center rounded-xl text-xs">
+            <div className="flex h-6 w-6 items-center justify-center rounded-xl bg-v1-surface-l3 text-xs">
               {referredUsers?.count ?? 0}
             </div>
           </div>
 
           {referredUsers?.results.map(user => (
             <div
+              className="mb-3 flex items-center gap-3 rounded-xl bg-v1-surface-l1 p-3"
               key={user.created_at}
-              className="bg-v1-surface-l1 mb-3 flex items-center gap-3 rounded-xl p-3"
             >
-              <div className="bg-v1-surface-l4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
                 <IconUser />
               </div>
               <div>
@@ -219,29 +219,29 @@ export default function ReferralPage() {
                 {hasFlag('/account/billing') && (
                   <Badge
                     className={user.is_subscribed ? '' : 'grayscale'}
+                    color="orange"
                     label={
                       <span className="-ml-3">
                         <WiseClub className="inline h-4" />
                         {t('page-referral.subscription')}
                       </span>
                     }
-                    color="orange"
                   />
                 )}
 
                 <Badge
                   className={user.is_trader ? '' : 'grayscale'}
+                  color="blue"
                   label={
                     <span className="-ml-3">
                       <img
-                        src={trader}
-                        className="mr-1 inline h-4 rounded-full"
                         alt=""
+                        className="mr-1 inline h-4 rounded-full"
+                        src={trader}
                       />
                       {t('page-referral.trader')}
                     </span>
                   }
-                  color="blue"
                 />
               </div>
             </div>
@@ -258,14 +258,14 @@ export function Referral({ className }: { className?: string }) {
   const el = useRef<HTMLDivElement>(null);
 
   return (
-    <div className={clsx(className, 'bg-v1-surface-l1 rounded-xl')}>
+    <div className={clsx(className, 'rounded-xl bg-v1-surface-l1')}>
       <div
+        className="relative mb-3 overflow-hidden rounded-xl bg-v1-surface-l2 p-4"
         ref={el}
-        className="bg-v1-surface-l2 relative mb-3 overflow-hidden rounded-xl p-4"
       >
-        <ReferralQrCode className="relative !text-xs" />
+        <ReferralQrCode className="!text-xs relative" />
       </div>
-      <ReferralShareLinks screenshotTarget={el} fileName="referral" />
+      <ReferralShareLinks fileName="referral" screenshotTarget={el} />
     </div>
   );
 }

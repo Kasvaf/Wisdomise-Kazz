@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
-import { type TokenRecord, useWalletStatus, type Wallet } from 'api/wallets';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import PriceChange from 'shared/PriceChange';
 import { useSymbolsInfo } from 'api/symbol';
+import { type TokenRecord, useWalletStatus, type Wallet } from 'api/wallets';
+import { useMemo } from 'react';
 import { Coin } from 'shared/Coin';
+import PriceChange from 'shared/PriceChange';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 
 export default function AccountPnL({
   wallet,
@@ -67,13 +67,13 @@ export default function AccountPnL({
 
   return (
     <Table
+      chunkSize={5}
       columns={columns}
       dataSource={coins}
-      chunkSize={5}
       loading={isLoading}
       rowKey={r => r.slug}
-      surface={2}
       scrollable
+      surface={2}
     />
   );
 }

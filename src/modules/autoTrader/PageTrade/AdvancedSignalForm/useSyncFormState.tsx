@@ -1,9 +1,9 @@
-import { v4 } from 'uuid';
-import { useEffect, useState } from 'react';
 import { initialQuoteDeposit, type Position } from 'api';
-import { type SignalItem } from 'api/builder';
+import type { SignalItem } from 'api/builder';
+import { useEffect, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
-import { type TpSlData, type SignalFormState } from './useSignalFormStates';
+import { v4 } from 'uuid';
+import type { SignalFormState, TpSlData } from './useSignalFormStates';
 
 interface Mergeable {
   key: string;

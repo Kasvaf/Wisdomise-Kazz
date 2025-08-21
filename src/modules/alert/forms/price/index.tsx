@@ -1,10 +1,10 @@
-import { useTranslation } from 'react-i18next';
-import { useDeleteAlert, useSaveAlert } from 'api/alert';
-import { type AlertForm } from 'modules/alert/library/types';
-import { DebugPin } from 'shared/DebugPin';
 import { useHasFlag } from 'api';
-import { ReactComponent as PriceIcon } from './price.svg';
+import { useDeleteAlert, useSaveAlert } from 'api/alert';
+import type { AlertForm } from 'modules/alert/library/types';
+import { useTranslation } from 'react-i18next';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as NotificationIcon } from './notification.svg';
+import { ReactComponent as PriceIcon } from './price.svg';
 import { StepOne } from './StepOne';
 import { StepTwo } from './StepTwo';
 
@@ -16,7 +16,7 @@ export const usePriceAlert = (): AlertForm => {
   return {
     title: (
       <>
-        <DebugPin title="/account/alerts?price_alert" color="orange" />
+        <DebugPin color="orange" title="/account/alerts?price_alert" />
         {t('types.price.title')}
       </>
     ),

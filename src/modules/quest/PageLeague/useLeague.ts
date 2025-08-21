@@ -1,8 +1,8 @@
-import { useCallback, useMemo } from 'react';
 import { useLeagueProfileQuery, useLeaguesQuery } from 'api/gamification';
-import summit from './images/summit.png';
-import pioneer from './images/pioneer.png';
+import { useCallback, useMemo } from 'react';
 import horizon from './images/horizon.png';
+import pioneer from './images/pioneer.png';
+import summit from './images/summit.png';
 
 const LEAGUE_ASSETS = {
   'summit-league': {

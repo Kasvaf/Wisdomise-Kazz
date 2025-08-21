@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
-import { type MarketTypes } from './types/shared';
+import type { MarketTypes } from './types/shared';
 
 export type ExchangeTypes = 'BINANCE' | 'WISDOMISE';
 
@@ -45,7 +45,7 @@ export const useDeleteExchangeAccount = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ key }: { key: string }) => {
-      await ofetch<ExchangeAccount>('/ias/external-accounts/' + key, {
+      await ofetch<ExchangeAccount>(`/ias/external-accounts/${key}`, {
         method: 'delete',
       });
       await queryClient.invalidateQueries({ queryKey: ['exchng-acc'] });

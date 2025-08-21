@@ -1,6 +1,6 @@
-import { type NetworkSecurity } from 'api/discovery';
-import { CoinSecurityDetails } from './CoinSecurityDetails';
+import type { NetworkSecurity } from 'api/discovery';
 import { CoinLabel } from './CoinLabel';
+import { CoinSecurityDetails } from './CoinSecurityDetails';
 
 export function CoinSecurityLabel({
   className,
@@ -24,11 +24,11 @@ export function CoinSecurityLabel({
   if (!securityStatus) return null;
   return (
     <CoinLabel
-      value={securityStatus}
-      size={size}
-      clickable={clickable}
-      title={<CoinSecurityDetails value={value} />}
       className={className}
+      clickable={clickable}
+      size={size}
+      title={<CoinSecurityDetails value={value} />}
+      value={securityStatus}
     />
   );
 }

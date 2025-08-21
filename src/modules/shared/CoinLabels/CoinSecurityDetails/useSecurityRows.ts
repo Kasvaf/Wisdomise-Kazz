@@ -1,5 +1,5 @@
+import type { NetworkSecurity } from 'api/discovery';
 import { useTranslation } from 'react-i18next';
-import { type NetworkSecurity } from 'api/discovery';
 
 type BadgeType = 'trusted' | 'warning' | 'risk' | null;
 

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
 import { ofetch } from 'config/ofetch';
+import { useCallback, useEffect, useRef } from 'react';
 
 export function usePromiseOfEffect({
   action,

@@ -1,7 +1,7 @@
 import { Select, type SelectProps } from 'antd';
-import { type FC } from 'react';
-import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as AboveIcon } from './above.svg';
 import { ReactComponent as BelowIcon } from './below.svg';
 import { ReactComponent as EqualIcon } from './equal.svg';
@@ -16,7 +16,6 @@ export const OperatorSelect: FC<
   return (
     <Select
       className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
-      showArrow={!disabled}
       disabled={disabled}
       options={[
         {
@@ -51,6 +50,7 @@ export const OperatorSelect: FC<
             ]
           : []),
       ]}
+      showArrow={!disabled}
       {...props}
     />
   );

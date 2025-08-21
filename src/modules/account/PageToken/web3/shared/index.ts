@@ -4,8 +4,8 @@ import { erc20Abi, zeroAddress } from 'viem';
 import {
   useAccount,
   useReadContract,
-  useWriteContract,
   useWaitForTransactionReceipt,
+  useWriteContract,
 } from 'wagmi';
 
 function useReadAllowance(contract: `0x${string}`, spender: `0x${string}`) {

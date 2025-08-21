@@ -1,10 +1,10 @@
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { useMemo, type ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import Icon from 'shared/Icon';
 import BetaVersion from 'shared/BetaVersion';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { type Surface, useSurface } from 'utils/useSurface';
 import { ReactComponent as EmptyIcon } from './empty.svg';
@@ -66,14 +66,14 @@ export function OverviewWidget({
   const { t } = useTranslation('common');
   const infoIcon = info && (
     <HoverTooltip title={info}>
-      <Icon name={bxInfoCircle} size={18} className="cursor-help" />
+      <Icon className="cursor-help" name={bxInfoCircle} size={18} />
     </HoverTooltip>
   );
   const badgeIcon =
     badge === 'pro' ? (
       <ProIcon />
     ) : (
-      badge && <BetaVersion variant={badge} minimal />
+      badge && <BetaVersion minimal variant={badge} />
     );
   const emptyConfig = useMemo<EmptyConfig>(
     () => ({
@@ -92,9 +92,6 @@ export function OverviewWidget({
   );
   return (
     <article
-      style={{
-        ['--widget-color' as never]: colors.next,
-      }}
       className={clsx(
         'relative flex flex-col overflow-hidden rounded-2xl bg-(--widget-color)',
         gapClassName,
@@ -102,6 +99,9 @@ export function OverviewWidget({
         className,
       )}
       id={id}
+      style={{
+        ['--widget-color' as never]: colors.next,
+      }}
     >
       {/* Header */}
       {(title || info || headerActions) && (
@@ -114,7 +114,7 @@ export function OverviewWidget({
           {(title || info || subtitle) && (
             <div>
               {(title || info || titleSuffix) && (
-                <div className="flex items-center gap-2 text-base font-medium">
+                <div className="flex items-center gap-2 font-medium text-base">
                   {title}
                   {badgeIcon}
                   {infoIcon}
@@ -122,7 +122,7 @@ export function OverviewWidget({
                 </div>
               )}
               {subtitle && (
-                <div className="mt-2 text-xs font-normal text-v1-content-secondary">
+                <div className="mt-2 font-normal text-v1-content-secondary text-xs">
                   {subtitle}
                 </div>
               )}
@@ -136,7 +136,7 @@ export function OverviewWidget({
       {/* Content */}
       <div
         className={clsx(
-          'relative h-auto min-h-20 grow overflow-auto scrollbar-none',
+          'scrollbar-none relative h-auto min-h-20 grow overflow-auto',
           contentClassName,
         )}
       >
@@ -156,7 +156,7 @@ export function OverviewWidget({
               'flex-row items-center justify-center gap-4',
             )}
           >
-            <EmptyIcon className="mt-3 h-auto w-20 shrink-0 mobile:-mb-3 mobile:mt-0 mobile:w-14" />
+            <EmptyIcon className="mobile:-mb-3 mobile:mt-0 mt-3 h-auto mobile:w-14 w-20 shrink-0" />
             <div
               className={clsx(
                 'flex flex-col items-start justify-center gap-1',
@@ -164,22 +164,22 @@ export function OverviewWidget({
               )}
             >
               {emptyConfig.title && (
-                <p className="text-base text-v1-content-primary mobile:text-sm">
+                <p className="mobile:text-sm text-base text-v1-content-primary">
                   {emptyConfig.title}
                 </p>
               )}
               {emptyConfig.subtitle && (
-                <p className="max-w-lg text-xs font-light text-v1-content-secondary mobile:text-xxs">
+                <p className="max-w-lg font-light mobile:text-xxs text-v1-content-secondary text-xs">
                   {emptyConfig.subtitle}
                 </p>
               )}
             </div>
             {emptyConfig.refreshButton && (
               <Button
-                size="md"
                 onClick={onRefresh}
-                variant="ghost"
+                size="md"
                 surface={surface}
+                variant="ghost"
               >
                 <RefreshIcon className={clsx(refreshing && 'animate-spin')} />{' '}
                 {t('actions.refresh')}
@@ -187,7 +187,7 @@ export function OverviewWidget({
             )}
           </div>
         ) : (
-          <>{children}</>
+          children
         )}
       </div>
 

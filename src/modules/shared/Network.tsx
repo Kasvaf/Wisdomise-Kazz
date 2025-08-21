@@ -21,7 +21,7 @@ export function Network({
     >
       <div
         className={clsx(
-          'shrink-0 rounded-full bg-white bg-cover bg-center bg-no-repeat',
+          'shrink-0 rounded-full bg-center bg-cover bg-white bg-no-repeat',
           imageClassName ?? 'size-8',
         )}
         style={{

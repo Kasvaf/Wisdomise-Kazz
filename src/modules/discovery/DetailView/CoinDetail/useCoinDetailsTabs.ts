@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutationObserver } from 'utils/useMutationObserver';
-import { type CoinDetailsTabs } from './CoinDetailsTabs';
+import type { CoinDetailsTabs } from './CoinDetailsTabs';
 
 export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
   const { t } = useTranslation('coin-radar');

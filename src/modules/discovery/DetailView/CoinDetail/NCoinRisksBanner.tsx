@@ -1,8 +1,8 @@
-import { useMemo, type FC } from 'react';
-import { clsx } from 'clsx';
 import { bxError, bxXCircle } from 'boxicons-quasar';
-import Icon from 'shared/Icon';
+import { clsx } from 'clsx';
+import { type FC, useMemo } from 'react';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
+import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
 import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
@@ -39,24 +39,23 @@ export const NCoinRisksBanner: FC<{
 
   return (
     <ClickableTooltip
+      chevron={false}
       className={clsx(
-        'flex w-full items-center justify-center gap-1 p-3 text-xs font-normal capitalize mobile:rounded-lg',
+        'flex w-full items-center justify-center gap-1 mobile:rounded-lg p-3 font-normal text-xs capitalize',
         risks[0].bg,
         risks[0].fg,
         className,
       )}
       disabled={risks.length === 1}
-      chevron={false}
-      tooltipPlacement="bottom"
       title={
         <div className="flex flex-col gap-2">
           {risks.slice(1).map(risk => (
             <div
-              key={risk.text}
               className={clsx(
-                'flex items-center justify-start gap-1 rounded-lg p-2 text-xs font-normal capitalize',
+                'flex items-center justify-start gap-1 rounded-lg p-2 font-normal text-xs capitalize',
                 risk.fg,
               )}
+              key={risk.text}
             >
               <Icon name={risk.icon} size={16} />
               {risk.text} {isDebugMode && <> ({risk.score})</>}
@@ -64,6 +63,7 @@ export const NCoinRisksBanner: FC<{
           ))}
         </div>
       }
+      tooltipPlacement="bottom"
     >
       <Icon name={risks[0].icon} size={16} />
       {risks[0].text}

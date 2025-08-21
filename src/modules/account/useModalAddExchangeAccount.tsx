@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import { notification } from 'antd';
-import { Trans, useTranslation } from 'react-i18next';
 import { type ExchangeTypes, useCreateExchangeAccount } from 'api';
-import { type MarketTypes } from 'api/types/shared';
-import { unwrapErrorMessage } from 'utils/error';
-import useModal from 'shared/useModal';
-import TextBox from 'shared/TextBox';
+import type { MarketTypes } from 'api/types/shared';
+import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
-import LabelInfo from 'shared/LabelInfo';
 import CopyInputBox from 'shared/CopyInputBox';
+import LabelInfo from 'shared/LabelInfo';
+import TextBox from 'shared/TextBox';
+import useModal from 'shared/useModal';
+import { unwrapErrorMessage } from 'utils/error';
 import ExchangeSelector from './ExchangeSelector';
 import MarketSelector from './MarketSelector';
 
@@ -68,47 +68,47 @@ const ModalAddExchangeAccount: React.FC<{
           <ExchangeSelector
             className="basis-1/2"
             label={t('modal-add-exchange.input-exchange')}
-            selectedItem={exchange}
-            onSelect={setExchange}
             noWisdomise
+            onSelect={setExchange}
+            selectedItem={exchange}
           />
 
           <MarketSelector
             className="basis-1/2"
-            label={t('account.market')}
-            selectedItem={market}
-            onSelect={setMarket}
             disabled={Boolean(fixedMarket)}
+            label={t('account.market')}
+            onSelect={setMarket}
+            selectedItem={market}
           />
         </div>
         <TextBox
           className="mt-6"
-          label={t('account.name')}
-          value={accountName}
-          onChange={setAccountName}
           error={showErrors && !accountName && emptyFieldError}
+          label={t('account.name')}
+          onChange={setAccountName}
+          value={accountName}
         />
         <TextBox
           className="mt-6"
+          error={showErrors && !apiKey && emptyFieldError}
           label={
             <LabelInfo url={createApiKeyHelp}>
               {t('modal-add-exchange.input-api-key')}
             </LabelInfo>
           }
-          value={apiKey}
           onChange={setApiKey}
-          error={showErrors && !apiKey && emptyFieldError}
+          value={apiKey}
         />
         <TextBox
           className="mt-6"
+          error={showErrors && !secretKey && emptyFieldError}
           label={
             <LabelInfo url={createApiKeyHelp}>
               {t('modal-add-exchange.input-secret-key')}
             </LabelInfo>
           }
-          value={secretKey}
           onChange={setSecretKey}
-          error={showErrors && !secretKey && emptyFieldError}
+          value={secretKey}
         />
       </div>
 
@@ -130,7 +130,7 @@ const ModalAddExchangeAccount: React.FC<{
       </div>
 
       <div className="mt-8 flex justify-center">
-        <Button onClick={addHandler} loading={isSubmitting}>
+        <Button loading={isSubmitting} onClick={addHandler}>
           {t('page-accounts.btn-add-account')}
         </Button>
       </div>

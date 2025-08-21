@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { type AlertFormGroup } from 'modules/alert/library/types';
 import { useHasFlag } from 'api';
 import { useAlerts, useDeleteAlert, useSaveAlert } from 'api/alert';
-import { DebugPin } from 'shared/DebugPin';
+import type { AlertFormGroup } from 'modules/alert/library/types';
+import { useTranslation } from 'react-i18next';
 import VipBadge from 'shared/AccessShield/VipBanner/VipBadge';
-import { ReactComponent as ScreenerIcon } from './screener.svg';
+import { DebugPin } from 'shared/DebugPin';
 import { StepOne } from './StepOne';
+import { ReactComponent as ScreenerIcon } from './screener.svg';
 
 export const useScreenerAlert = (): AlertFormGroup => {
   const { t } = useTranslation('alerts');
@@ -24,7 +24,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
   return {
     title: (
       <p>
-        {t('types.screener.title')} <VipBadge hideOnVip className="ml-1 !h-4" />
+        {t('types.screener.title')} <VipBadge className="!h-4 ml-1" hideOnVip />
       </p>
     ),
     subtitle: t('types.screener.subtitle'),
@@ -35,11 +35,11 @@ export const useScreenerAlert = (): AlertFormGroup => {
         title: (
           <>
             <DebugPin
-              title="/account/alerts?coin_radar_screener"
               color="orange"
+              title="/account/alerts?coin_radar_screener"
             />
             {t('types.coin_radar_screener.title')}
-            <VipBadge hideOnVip className="ml-2" mode="mini" />
+            <VipBadge className="ml-2" hideOnVip mode="mini" />
           </>
         ),
         subtitle: t('types.coin_radar_screener.subtitle'),
@@ -89,11 +89,11 @@ export const useScreenerAlert = (): AlertFormGroup => {
         title: (
           <>
             <DebugPin
-              title="/account/alerts?social_radar_screener"
               color="orange"
+              title="/account/alerts?social_radar_screener"
             />
             {t('types.social_radar_screener.title')}
-            <VipBadge hideOnVip className="ml-2" mode="mini" />
+            <VipBadge className="ml-2" hideOnVip mode="mini" />
           </>
         ),
         subtitle: t('types.social_radar_screener.subtitle'),
@@ -143,11 +143,11 @@ export const useScreenerAlert = (): AlertFormGroup => {
         title: (
           <>
             <DebugPin
-              title="/account/alerts?technical_radar_screener"
               color="orange"
+              title="/account/alerts?technical_radar_screener"
             />
             {t('types.technical_radar_screener.title')}
-            <VipBadge hideOnVip className="ml-2" mode="mini" />
+            <VipBadge className="ml-2" hideOnVip mode="mini" />
           </>
         ),
         subtitle: t('types.technical_radar_screener.subtitle'),

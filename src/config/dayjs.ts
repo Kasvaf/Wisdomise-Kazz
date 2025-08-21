@@ -2,10 +2,10 @@
 /* eslint-disable import/no-named-as-default-member */
 
 import dayjs from 'dayjs';
+import localeData from 'dayjs/plugin/localeData';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import utcDate from 'dayjs/plugin/utc';
-import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';

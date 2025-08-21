@@ -1,7 +1,7 @@
-import { clsx } from 'clsx';
-import { type FC } from 'react';
 import { Tooltip } from 'antd';
-import { type CoinCommunityData } from 'api/discovery';
+import type { CoinCommunityData } from 'api/discovery';
+import { clsx } from 'clsx';
+import type { FC } from 'react';
 import { useCoinCommunityLinks } from './useCoinCommunityLinks';
 import { ReactComponent as TwitterIcon } from './x.svg';
 
@@ -37,27 +37,27 @@ export const CoinCommunityLinks: FC<{
       {/* Socials */}
       {socials?.map(social => (
         <Tooltip
-          open={social.preview ? undefined : false}
           key={social.url.href}
-          title={social.preview}
-          rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-arrow]:hidden"
+          open={social.preview ? undefined : false}
           placement="bottom"
+          rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-arrow]:hidden"
+          title={social.preview}
         >
           <span
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              go(social.url.href);
-            }}
             className={clsx(
-              'shrink-0 rounded-full bg-white/10 text-xxs text-white/60 transition-all hover:text-white/60 active:brightness-90',
+              'shrink-0 rounded-full bg-white/10 text-white/60 text-xxs transition-all hover:text-white/60 active:brightness-90',
               size === 'xs' &&
                 'flex size-4 items-center justify-center [&_svg]:size-[10px]',
               size === 'sm' &&
                 'flex size-6 items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
               size === 'md' &&
-                'flex h-6 items-center justify-center gap-1 px-3 [&_img]:size-[12px] [&_svg]:!size-[12px]',
+                '[&_svg]:!size-[12px] flex h-6 items-center justify-center gap-1 px-3 [&_img]:size-[12px]',
             )}
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              go(social.url.href);
+            }}
           >
             {social.icon} {size === 'md' ? social.label : ''}
           </span>
@@ -65,6 +65,11 @@ export const CoinCommunityLinks: FC<{
       ))}
       {includeTwitterSearch && (
         <span
+          className={clsx(
+            'inline-flex cursor-pointer items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:bg-white/5 active:brightness-90',
+            'h-4 shrink-0 justify-center',
+            '[&_svg]:size-[9px]',
+          )}
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();
@@ -78,11 +83,6 @@ export const CoinCommunityLinks: FC<{
                 .join('%20OR%20')})&src=typed_query&f=live`,
             );
           }}
-          className={clsx(
-            'inline-flex cursor-pointer items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:bg-white/5 active:brightness-90',
-            'h-4 shrink-0 justify-center',
-            '[&_svg]:size-[9px]',
-          )}
         >
           <TwitterIcon />
           {'Search'}

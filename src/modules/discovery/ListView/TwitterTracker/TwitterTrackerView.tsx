@@ -1,19 +1,19 @@
-import { useState, type FC } from 'react';
-import { bxPlus } from 'boxicons-quasar';
-import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import {
   type TwitterTweet,
   useStreamTweets,
   useTweetRelatedTokens,
   useTwitterFollowedAccounts,
 } from 'api/discovery';
-import { Dialog } from 'shared/v1-components/Dialog';
-import useIsMobile from 'utils/useIsMobile';
+import { bxPlus } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { type FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Coin } from 'shared/Coin';
+import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
 import { Button } from 'shared/v1-components/Button';
-import Icon from 'shared/Icon';
-import { Coin } from 'shared/Coin';
+import { Dialog } from 'shared/v1-components/Dialog';
+import useIsMobile from 'utils/useIsMobile';
 import { TweetCard } from './TweetCard';
 
 export const TwitterTrackerView: FC<{
@@ -50,56 +50,54 @@ export const TwitterTrackerView: FC<{
       {tweets.isLoading || followings.isFetching ? (
         <Spinner className="mx-auto my-6" />
       ) : (tweets.data?.length ?? 0) === 0 ? (
-        <>
-          <div className="flex flex-col items-center py-10">
-            <h3 className="mb-2 text-xs font-semibold">{'Nothing to Show!'}</h3>
-            <p className="mb-4 max-w-[220px] text-center text-xs text-v1-content-secondary">
-              {followings.value.length === 0 && !followings.isLoading
-                ? 'Follow accounts to see their tweets here'
-                : 'None of your followed accounts have posted tweets in the last 24 hours'}
-            </p>
-            <Button
-              size="xs"
-              onClick={onRequestEdit}
-              surface={2}
-              variant="outline"
-            >
-              <Icon name={bxPlus} />
-              {'Add More Channels'}
-            </Button>
-          </div>
-        </>
+        <div className="flex flex-col items-center py-10">
+          <h3 className="mb-2 font-semibold text-xs">{'Nothing to Show!'}</h3>
+          <p className="mb-4 max-w-[220px] text-center text-v1-content-secondary text-xs">
+            {followings.value.length === 0 && !followings.isLoading
+              ? 'Follow accounts to see their tweets here'
+              : 'None of your followed accounts have posted tweets in the last 24 hours'}
+          </p>
+          <Button
+            onClick={onRequestEdit}
+            size="xs"
+            surface={2}
+            variant="outline"
+          >
+            <Icon name={bxPlus} />
+            {'Add More Channels'}
+          </Button>
+        </div>
       ) : (
         <>
           <Dialog
-            mode={isMobile ? 'drawer' : 'modal'}
-            modalConfig={{ closeButton: true }}
-            drawerConfig={{ closeButton: true, position: 'bottom' }}
-            open={!!openedMedia && mediaModal}
-            onClose={() => setMediaModal(false)}
             contentClassName="mobile:p-3 w-p"
+            drawerConfig={{ closeButton: true, position: 'bottom' }}
+            modalConfig={{ closeButton: true }}
+            mode={isMobile ? 'drawer' : 'modal'}
+            onClose={() => setMediaModal(false)}
+            open={!!openedMedia && mediaModal}
           >
             <img
-              src={openedMedia?.url}
-              className="h-auto min-h-16 w-full rounded-lg bg-v1-surface-l2 object-contain"
               alt={openedMedia?.url}
+              className="h-auto min-h-16 w-full rounded-lg bg-v1-surface-l2 object-contain"
+              src={openedMedia?.url}
             />
           </Dialog>
           <Dialog
-            mode={isMobile ? 'drawer' : 'popup'}
-            modalConfig={{ closeButton: true }}
-            drawerConfig={{ closeButton: true, position: 'bottom' }}
-            open={!!openedRelatedTokens && relatedTokensModal}
-            onClose={() => setRelatedTokensModal(false)}
             contentClassName="mobile:p-3 p-2 mobile:w-auto w-44"
+            drawerConfig={{ closeButton: true, position: 'bottom' }}
+            modalConfig={{ closeButton: true }}
+            mode={isMobile ? 'drawer' : 'popup'}
+            onClose={() => setRelatedTokensModal(false)}
+            open={!!openedRelatedTokens && relatedTokensModal}
           >
-            <h3 className="hidden mobile:block">Related Tokens:</h3>
+            <h3 className="mobile:block hidden">Related Tokens:</h3>
             {relatedTokens.isLoading ? (
-              <p className="animate-pulse p-2 text-center text-xs text-v1-content-secondary">
+              <p className="animate-pulse p-2 text-center text-v1-content-secondary text-xs">
                 {t('common:almost-there')}
               </p>
             ) : (relatedTokens.data?.length ?? 0) === 0 ? (
-              <p className="max-w-full p-2 text-start text-xs text-v1-content-secondary">
+              <p className="max-w-full p-2 text-start text-v1-content-secondary text-xs">
                 {t('common:nothing-to-show')}
               </p>
             ) : (
@@ -110,13 +108,13 @@ export const TwitterTrackerView: FC<{
                     onClick={() => setRelatedTokensModal(false)}
                   >
                     <Coin
+                      className="w-full text-xs"
                       coin={{
                         slug: token.slug,
                         abbreviation: token.abbreviation,
                         name: token.name,
                         logo_url: token.icon,
                       }}
-                      className="w-full text-xs"
                     />
                   </div>
                 ))}
@@ -125,12 +123,12 @@ export const TwitterTrackerView: FC<{
           </Dialog>
           {tweets.data.map(tweet => (
             <div
-              key={tweet.tweet_id}
               className="whitespace-pre py-3 font-mono text-xxs"
+              key={tweet.tweet_id}
             >
               <TweetCard
-                value={tweet}
                 className="bg-v1-surface-l1"
+                expanded={expanded}
                 onOpenMedia={media => {
                   setOpenedMedia(media);
                   setMediaModal(true);
@@ -139,7 +137,7 @@ export const TwitterTrackerView: FC<{
                   setOpenedRelatedTokens(tweetOId);
                   setRelatedTokensModal(true);
                 }}
-                expanded={expanded}
+                value={tweet}
               />
             </div>
           ))}

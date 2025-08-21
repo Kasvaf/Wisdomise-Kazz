@@ -1,12 +1,5 @@
 import { notification } from 'antd';
 import {
-  type Bucket,
-  useReadAccountShares,
-  useReadReleasable,
-  useWriteRelease,
-} from 'modules/account/PageToken/web3/tokenDistributer/contract';
-import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
-import {
   angelReleasePercentage,
   angelReleaseTimestamps,
   institutionalReleasePercentage,
@@ -18,6 +11,13 @@ import {
   strategicReleasePercentage,
   strategicReleaseTimestamps,
 } from 'modules/account/PageToken/constants';
+import {
+  type Bucket,
+  useReadAccountShares,
+  useReadReleasable,
+  useWriteRelease,
+} from 'modules/account/PageToken/web3/tokenDistributer/contract';
+import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 
 export function useVesting() {
   const {

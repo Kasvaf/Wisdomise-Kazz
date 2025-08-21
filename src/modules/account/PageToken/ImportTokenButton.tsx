@@ -1,13 +1,13 @@
-import { clsx } from 'clsx';
 import { Tooltip } from 'antd';
-import { useTranslation } from 'react-i18next';
-import { useWatchAsset } from 'wagmi';
+import { clsx } from 'clsx';
 import {
-  WSDM_CONTRACT_ADDRESS,
-  TWSDM_CONTRACT_ADDRESS,
   LOCKING_CONTRACT_ADDRESS,
+  TWSDM_CONTRACT_ADDRESS,
+  WSDM_CONTRACT_ADDRESS,
 } from 'modules/account/PageToken/constants';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
+import { useWatchAsset } from 'wagmi';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 import { ReactComponent as WIcon } from './icons/w.svg';
 
@@ -75,15 +75,15 @@ export default function ImportTokenButton({
   return (
     <Button
       className={clsx(className, '!py-2')}
-      variant="outline"
       onClick={importToken}
+      variant="outline"
     >
       <div className="flex items-center gap-2">
         {token?.symbol === 'WSDM' ? (
           <img
-            src="https://s2.coinmarketcap.com/static/img/coins/64x64/30102.png"
-            className="h-8 w-8"
             alt="wsdm-token"
+            className="h-8 w-8"
+            src="https://s2.coinmarketcap.com/static/img/coins/64x64/30102.png"
           />
         ) : (
           <WIcon className="h-6 w-6" />

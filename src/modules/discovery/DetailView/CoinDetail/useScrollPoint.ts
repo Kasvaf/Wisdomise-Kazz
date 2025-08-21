@@ -1,5 +1,5 @@
 import { type ComponentProps, useEffect, useRef, useState } from 'react';
-import { type ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import type { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import useIsMobile from 'utils/useIsMobile';
 
 export const useScrollPoint = (

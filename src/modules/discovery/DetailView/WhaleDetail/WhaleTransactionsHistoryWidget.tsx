@@ -1,16 +1,16 @@
+import { useWhaleTransactions, type WhaleTransaction } from 'api/discovery';
+import type { Coin as CoinType } from 'api/types/shared';
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useWhaleTransactions, type WhaleTransaction } from 'api/discovery';
-import { Coin } from 'shared/Coin';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
+import { Coin } from 'shared/Coin';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableDate } from 'shared/ReadableDate';
-import { type Coin as CoinType } from 'api/types/shared';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { usePageState } from 'shared/usePageState';
-import { type Surface } from 'utils/useSurface';
 import { Button } from 'shared/v1-components/Button';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import type { Surface } from 'utils/useSurface';
 
 export function WhaleTransactionsHistoryWidget({
   className,
@@ -70,21 +70,21 @@ export function WhaleTransactionsHistoryWidget({
         title: t('whale_transaction_history.amount'),
         width: 130,
         render: row => (
-          <ReadableNumber value={row.amount} label="$" popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.amount} />
         ),
       },
       {
         title: t('whale_transaction_history.price'),
         width: 130,
         render: row => (
-          <ReadableNumber value={row.price} label="$" popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.price} />
         ),
       },
       {
         title: t('whale_transaction_history.worth'),
         width: 130,
         render: row => (
-          <ReadableNumber value={row.worth} label="$" popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.worth} />
         ),
       },
       {
@@ -92,8 +92,8 @@ export function WhaleTransactionsHistoryWidget({
         width: 180,
         render: row => (
           <ReadableDate
-            value={row.related_at_datetime}
             format="ddd, MMM D, YYYY"
+            value={row.related_at_datetime}
           />
         ),
       },
@@ -102,12 +102,12 @@ export function WhaleTransactionsHistoryWidget({
         width: 160,
         render: row => (
           <DirectionalNumber
-            value={row.profit}
-            showIcon={false}
-            showSign
+            emptyText="-"
             label="$"
             popup="never"
-            emptyText="-"
+            showIcon={false}
+            showSign
+            value={row.profit}
           />
         ),
       },
@@ -116,11 +116,11 @@ export function WhaleTransactionsHistoryWidget({
         render: row =>
           row.link?.url ? (
             <a
+              className="text-v1-content-link underline hover:text-v1-content-link-hover"
               href={row.link?.url}
-              target="_blank"
               referrerPolicy="no-referrer"
               rel="noreferrer"
-              className="text-v1-content-link underline hover:text-v1-content-link-hover"
+              target="_blank"
             >{`${row.link?.name ?? 'Transaction'} Link`}</a>
           ) : (
             <span className="opacity-70">-</span>
@@ -133,13 +133,12 @@ export function WhaleTransactionsHistoryWidget({
   const allTransactions =
     transactions.data?.pages.flatMap(page => page.results) ?? [];
 
-  if (allTransactions.length === 0)
-    return emptyContent ? <>{emptyContent}</> : null;
+  if (allTransactions.length === 0) return emptyContent ? emptyContent : null;
 
   return (
     <>
       <div className={className}>
-        <div className="mb-4 flex items-center justify-start gap-2 whitespace-nowrap text-sm font-semibold mobile:flex-col mobile:items-start">
+        <div className="mb-4 flex mobile:flex-col mobile:items-start items-center justify-start gap-2 whitespace-nowrap font-semibold text-sm">
           {coin && (
             <>
               <Coin coin={coin} mini />
@@ -158,27 +157,27 @@ export function WhaleTransactionsHistoryWidget({
           }}
         >
           <Table
+            chunkSize={7}
             columns={columns}
             dataSource={allTransactions}
-            rowKey={(row, i) => `${row.related_at_datetime} ${i}`}
-            scrollable
-            loading={transactions.isLoading}
-            surface={surface}
-            chunkSize={7}
             footer={
               transactions.hasNextPage && (
                 <Button
-                  size="xs"
-                  onClick={() => transactions.fetchNextPage()}
-                  variant="link"
                   loading={
                     transactions.isFetchingNextPage || transactions.isLoading
                   }
+                  onClick={() => transactions.fetchNextPage()}
+                  size="xs"
+                  variant="link"
                 >
                   {t('common:load-more')}
                 </Button>
               )
             }
+            loading={transactions.isLoading}
+            rowKey={(row, i) => `${row.related_at_datetime} ${i}`}
+            scrollable
+            surface={surface}
           />
         </AccessShield>
       </div>

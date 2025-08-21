@@ -43,7 +43,7 @@ export default {
     },
   },
   plugins: [
-    function ({ addUtilities, theme }) {
+    ({ addUtilities, theme }) => {
       const colors = theme('colors');
       const surfaces = Object.keys(colors).filter(key =>
         key.startsWith('v1-surface-l'),

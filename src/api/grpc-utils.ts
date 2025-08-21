@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { type Observable } from 'rxjs';
+
 import {
   type QueryKey,
   type UndefinedInitialDataOptions,
   useQuery,
 } from '@tanstack/react-query';
+import { GRPC_ORIGIN } from 'config/constants';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { Observable } from 'rxjs';
 import {
   useObservableAllValues,
   useObservableLastValue,
 } from 'utils/observable';
-import { GRPC_ORIGIN } from 'config/constants';
+import { PingServiceClientImpl } from './proto/common';
 import { DelphinusServiceClientImpl, GrpcWebImpl } from './proto/delphinus';
 import { NetworkRadarServiceClientImpl } from './proto/network_radar';
-import { PingServiceClientImpl } from './proto/common';
 
 const grpcServices = {
   'network-radar': NetworkRadarServiceClientImpl,

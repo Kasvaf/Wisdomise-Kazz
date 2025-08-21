@@ -1,18 +1,18 @@
-import { Trans, useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
 import { useTechnicalRadarCoins } from 'api/discovery';
+import { clsx } from 'clsx';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import { Trans, useTranslation } from 'react-i18next';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { useLoadingBadge } from 'shared/LoadingBadge';
-import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import { ConfirmationWidget } from '../ConfirmationWidget';
+import { RsiHeatmapWidget } from '../RsiHeatmapWidget';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 import {
   type TechnicalRadarView,
   TechnicalRadarViewSelect,
 } from '../TechnicalRadarViewSelect';
 import { ReactComponent as TechnicalRadarIcon } from '../technical-radar.svg';
-import { ConfirmationWidget } from '../ConfirmationWidget';
-import { RsiHeatmapWidget } from '../RsiHeatmapWidget';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 
 export function TechnicalRadarExpanded() {
@@ -25,41 +25,41 @@ export function TechnicalRadarExpanded() {
   useLoadingBadge(technicalTopCoins.isFetching);
 
   return (
-    <div className="grid grid-cols-2 gap-6 p-3 mobile:grid-cols-1">
+    <div className="grid grid-cols-2 mobile:grid-cols-1 gap-6 p-3">
       <OverviewWidget
         className="col-span-full"
+        contentClassName="!min-h-[450px]"
+        empty={technicalTopCoins.data?.length === 0}
+        headerActions={
+          <div className="flex gap-2">
+            <QuickBuySettings showWallet source="technical_radar" />
+            <TechnicalRadarViewSelect
+              className="w-min"
+              onChange={setTab}
+              size="xs"
+              value={tab}
+            />
+          </div>
+        }
+        info={
+          <p className="[&_b]:text-v1-content-primary [&_b]:underline">
+            <Trans i18nKey="menu.ai-indicators.subtitle" ns="base" />
+          </p>
+        }
+        loading={technicalTopCoins.isLoading}
         title={
           <>
             <TechnicalRadarIcon className="size-6" />
             {t('base:menu.ai-indicators.title')}
           </>
         }
-        info={
-          <p className="[&_b]:text-v1-content-primary [&_b]:underline">
-            <Trans ns="base" i18nKey="menu.ai-indicators.subtitle" />
-          </p>
-        }
-        headerActions={
-          <div className="flex gap-2">
-            <QuickBuySettings source="technical_radar" showWallet />
-            <TechnicalRadarViewSelect
-              className="w-min"
-              value={tab}
-              onChange={setTab}
-              size="xs"
-            />
-          </div>
-        }
-        contentClassName="!min-h-[450px]"
-        loading={technicalTopCoins.isLoading}
-        empty={technicalTopCoins.data?.length === 0}
       >
         {tab === 'chart' && (
-          <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
+          <div className="grid grid-cols-2 mobile:grid-cols-1 gap-6">
             <div>
               <div
                 className={clsx(
-                  'text-v1-content-primary text-base font-medium [&_b]:font-medium',
+                  'font-medium text-base text-v1-content-primary [&_b]:font-medium',
                   '[&_b]:text-v1-content-positive',
                 )}
               >
@@ -77,7 +77,7 @@ export function TechnicalRadarExpanded() {
             <div>
               <div
                 className={clsx(
-                  'text-v1-content-primary text-base font-medium [&_b]:font-medium',
+                  'font-medium text-base text-v1-content-primary [&_b]:font-medium',
                   '[&_b]:text-v1-content-negative',
                 )}
               >

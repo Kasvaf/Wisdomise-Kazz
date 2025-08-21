@@ -1,10 +1,10 @@
-import { clsx } from 'clsx';
 import { TonConnectButton } from '@tonconnect/ui-react';
-import { useActiveNetwork } from 'modules/base/active-network';
+import { clsx } from 'clsx';
 import { trackClick } from 'config/segment';
-import useIsMobile from 'utils/useIsMobile';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
+import useIsMobile from 'utils/useIsMobile';
 import { useIsLoggedIn } from '../auth/jwt-store';
 
 const BtnWalletConnect: React.FC<{ className?: string }> = ({ className }) => {

@@ -2,22 +2,22 @@
 
 .ant-picker-panel-container {
   .ant-picker-presets {
-    min-height: 25rem !important;
+    min-height: 25rem;
   }
   @media (max-width: 800px) {
-    overflow: scroll !important;
+    overflow: scroll;
     height: 400px;
     .ant-picker-panel-layout {
-      flex-direction: column !important;
+      flex-direction: column;
 
       .ant-picker-presets {
-        max-width: 100% !important;
-        min-height: 10rem !important;
+        max-width: 100%;
+        min-height: 10rem;
       }
 
       .ant-picker-panels,
       .ant-picker-datetime-panel {
-        flex-direction: column !important;
+        flex-direction: column;
       }
     }
   }
@@ -56,7 +56,7 @@ div[data-tc-modal] {
 
 .ant-modal-content {
   @apply !bg-v1-surface-l1 overflow-hidden;
-  border-radius: 10px !important;
+  border-radius: 10px;
   .anticon-close {
     color: white;
   }
@@ -168,16 +168,16 @@ div[data-tc-modal] {
 }
 
 .ant-dropdown-menu {
-  padding: 0 !important;
+  padding: 0;
   li {
-    padding: 0 !important;
+    padding: 0;
   }
 }
 
 /* ------------------------------------------------- */
 .ant-picker {
   @apply rounded-xl bg-black/40 px-6;
-  border: none !important;
+  border: none;
 }
 
 .ant-picker-dropdown .ant-picker-panel {
@@ -231,11 +231,11 @@ div[data-tc-modal] {
 
 .ant-popover-inner {
   @apply !px-4 !py-6;
-  background-color: #272a32 !important;
+  background-color: #272a32;
 }
 
 .ant-popover-arrow::before {
-  background-color: #272a32 !important;
+  background-color: #272a32;
 }
 
 /* ------------------------------------------------- */
@@ -264,8 +264,8 @@ div[data-tc-modal] {
 
 .ant-select-arrow {
   svg {
-    fill: #fff !important;
-    font-size: 13px !important;
+    fill: #fff;
+    font-size: 13px;
   }
 }
 
@@ -287,7 +287,7 @@ div[data-tc-modal] {
 /* ------------------------------------------------- */
 
 .ant-spin-text {
-  text-shadow: none !important;
+  text-shadow: none;
 }
 
 /* ------------------------------------------------- */
@@ -360,7 +360,7 @@ div[data-tc-modal] {
 
 /* hide google captcha */
 .grecaptcha-badge {
-  display: none !important;
+  display: none;
 }
 
 #hubspot-messages-iframe-container:not(.open) {

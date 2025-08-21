@@ -94,20 +94,20 @@ export function ReadableNumber({
 
   return (
     <HoverTooltip
+      disabled={noPopup}
       title={
         <NumberWithLabel
+          emptyText={emptyText}
           label={label}
           value={tooltipValue}
-          emptyText={emptyText}
         />
       }
-      disabled={noPopup}
     >
       <NumberWithLabel
+        className={clsx(displayValue && !noPopup && 'cursor-help', className)}
+        emptyText={emptyText}
         label={label}
         value={displayValue}
-        emptyText={emptyText}
-        className={clsx(displayValue && !noPopup && 'cursor-help', className)}
       />
     </HoverTooltip>
   );

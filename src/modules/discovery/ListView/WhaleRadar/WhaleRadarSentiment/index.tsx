@@ -1,27 +1,27 @@
-import { type FC, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import type {
+  MiniMarketData,
+  WhaleRadarSentiment as WhaleRadarSentimentType,
+} from 'api/discovery';
+import type { Coin as CoinType } from 'api/types/shared';
 import { bxDotsHorizontal } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import {
-  type WhaleRadarSentiment as WhaleRadarSentimentType,
-  type MiniMarketData,
-} from 'api/discovery';
+import { type FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type Coin as CoinType } from 'api/types/shared';
 import { Coin } from 'shared/Coin';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { ReadableNumber } from 'shared/ReadableNumber';
+import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
-import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { Dialog } from 'shared/v1-components/Dialog';
-import { CoinWhalesWidget } from '../WhaleRadarExpanded/CoinWhalesWidget';
+import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { WhaleCoinBuySellInfo } from '../WhaleCoinBuySellInfo';
-import WhaleIcon from './whale.png';
+import { CoinWhalesWidget } from '../WhaleRadarExpanded/CoinWhalesWidget';
 import BuyIcon from './buy.png';
 import SellIcon from './sell.png';
 import { useWRSNums } from './useWRSNums';
+import WhaleIcon from './whale.png';
 
 export const WhaleRadarSentiment: FC<{
   value?: WhaleRadarSentimentType | null;
@@ -47,19 +47,19 @@ export const WhaleRadarSentiment: FC<{
             count: value?.wallet_count ?? 0,
           })}
           <Icon
+            className="inline-flex size-3 items-center justify-center rounded-full border"
             name={bxDotsHorizontal}
             size={12}
-            className="inline-flex size-3 items-center justify-center rounded-full border"
           />
         </button>
         <Dialog
-          mode="modal"
-          closable
-          footer={false}
-          open={desktopModal}
-          onClose={() => setDesktopModal(false)}
-          contentClassName="p-3"
           className="w-[1366px]"
+          closable
+          contentClassName="p-3"
+          footer={false}
+          mode="modal"
+          onClose={() => setDesktopModal(false)}
+          open={desktopModal}
           surface={2}
         >
           {coin?.slug && (
@@ -79,40 +79,42 @@ export const WhaleRadarSentiment: FC<{
     return (
       <ClickableTooltip
         chevron={false}
+        className={className}
+        disabled={isAllNumbersZero}
         title={
           <div className="w-[400px] max-w-full">
             {coin && marketData && (
               <div className="mb-4 flex items-center justify-between gap-4">
                 <Coin
-                  coin={coin}
-                  imageClassName="size-8"
-                  nonLink={true}
-                  truncate={260}
                   abbrevationSuffix={
                     <DirectionalNumber
                       className="ms-1"
-                      value={marketData?.price_change_percentage_24h}
-                      label="%"
                       direction="auto"
-                      showIcon
-                      showSign={false}
                       format={{
                         decimalLength: 1,
                         minifyDecimalRepeats: true,
                       }}
+                      label="%"
+                      showIcon
+                      showSign={false}
+                      value={marketData?.price_change_percentage_24h}
                     />
                   }
+                  coin={coin}
+                  imageClassName="size-8"
+                  nonLink={true}
+                  truncate={260}
                 />
                 <div className="flex flex-col items-end gap-px">
                   <ReadableNumber
-                    value={marketData?.current_price}
-                    label="$"
                     className="text-sm"
+                    label="$"
+                    value={marketData?.current_price}
                   />
                   <CoinMarketCap
+                    className="text-xs"
                     marketData={marketData}
                     singleLine
-                    className="text-xs"
                   />
                 </div>
               </div>
@@ -131,30 +133,28 @@ export const WhaleRadarSentiment: FC<{
             )}
 
             <WhaleRadarSentiment
-              value={value}
-              mode="expanded"
               className="w-full"
+              mode="expanded"
+              value={value}
             />
           </div>
         }
-        disabled={isAllNumbersZero}
-        className={className}
       >
         <div
           className={clsx(
             contentClassName,
-            'flex h-10 w-full items-center gap-3 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+            'flex h-10 w-full items-center gap-3 overflow-hidden whitespace-nowrap rounded-xl bg-v1-surface-l-next p-3',
           )}
         >
           <img
-            src={WhaleIcon}
             alt="whale"
             className="h-[18px] w-auto shrink-0"
+            src={WhaleIcon}
           />
 
           <div className="flex items-center justify-between gap-2 text-xxs">
             {numbers.map(num => (
-              <div key={num.label} className="text-start">
+              <div className="text-start" key={num.label}>
                 <p
                   className={clsx(
                     isAllNumbersZero && 'text-v1-content-secondary',
@@ -163,15 +163,15 @@ export const WhaleRadarSentiment: FC<{
                   {num.shortLabel}
                 </p>
                 <ReadableNumber
-                  value={num.value ?? 0}
                   className={clsx('font-medium', num.color)}
-                  popup="never"
                   format={{
                     compactInteger: true,
                     decimalLength: 0,
                     minifyDecimalRepeats: false,
                   }}
                   label="%"
+                  popup="never"
+                  value={num.value ?? 0}
                 />
               </div>
             ))}
@@ -185,36 +185,36 @@ export const WhaleRadarSentiment: FC<{
     return (
       <div className={clsx('inline-flex items-center gap-2', className)}>
         <div className="flex h-[24px] flex-col items-center justify-between text-center">
-          <img src={WhaleIcon} alt="whale" className="w-[16px]" />
-          <p className="text-xxs font-medium">{value?.wallet_count ?? 0}</p>
+          <img alt="whale" className="w-[16px]" src={WhaleIcon} />
+          <p className="font-medium text-xxs">{value?.wallet_count ?? 0}</p>
         </div>
         <div className="flex flex-col text-xxs">
           <div className="flex items-center gap-1">
-            <img src={BuyIcon} alt="Buys" className="size-[8px]" />
+            <img alt="Buys" className="size-[8px]" src={BuyIcon} />
             <DirectionalNumber
-              value={value?.total_buy_volume}
-              popup="never"
               direction="up"
-              label="$"
-              showSign={false}
-              showIcon={false}
               format={{
                 decimalLength: 1,
               }}
+              label="$"
+              popup="never"
+              showIcon={false}
+              showSign={false}
+              value={value?.total_buy_volume}
             />
           </div>
           <div className="flex items-center gap-1">
-            <img src={SellIcon} alt="Sells" className="size-[8px]" />
+            <img alt="Sells" className="size-[8px]" src={SellIcon} />
             <DirectionalNumber
-              value={value?.total_sell_volume}
-              popup="never"
               direction="down"
-              label="$"
-              showSign={false}
-              showIcon={false}
               format={{
                 decimalLength: 1,
               }}
+              label="$"
+              popup="never"
+              showIcon={false}
+              showSign={false}
+              value={value?.total_sell_volume}
             />
           </div>
         </div>
@@ -225,8 +225,8 @@ export const WhaleRadarSentiment: FC<{
   if (mode === 'tiny') {
     return (
       <div className="flex flex-col items-center gap-1">
-        <img src={WhaleIcon} alt="whale" className="w-5" />
-        <p className="text-xs font-medium">{value?.wallet_count ?? 0}</p>
+        <img alt="whale" className="w-5" src={WhaleIcon} />
+        <p className="font-medium text-xs">{value?.wallet_count ?? 0}</p>
       </div>
     );
   }
@@ -234,7 +234,7 @@ export const WhaleRadarSentiment: FC<{
   return (
     <div
       className={clsx(
-        'flex flex-col overflow-hidden rounded-xl p-3 bg-v1-surface-l-next',
+        'flex flex-col overflow-hidden rounded-xl bg-v1-surface-l-next p-3',
         className,
       )}
     >
@@ -242,10 +242,10 @@ export const WhaleRadarSentiment: FC<{
       <div className="mb-3 flex flex-wrap items-center justify-start gap-px text-sm">
         {value?.label_percents.map(label => (
           <WhaleAssetBadge
-            key={label[0]}
-            value={label[0]}
-            percentage={label[1]}
             className="h-4 px-2"
+            key={label[0]}
+            percentage={label[1]}
+            value={label[0]}
           />
         ))}
       </div>
@@ -255,7 +255,7 @@ export const WhaleRadarSentiment: FC<{
             {t('top_coins.buy_volume.title')}:
           </div>
           <div>
-            <WhaleCoinBuySellInfo value={value} type="buy" singleLine />
+            <WhaleCoinBuySellInfo singleLine type="buy" value={value} />
           </div>
         </div>
         <div className="col-span-2 flex items-center justify-between gap-2">
@@ -263,7 +263,7 @@ export const WhaleRadarSentiment: FC<{
             {t('top_coins.sell_volume.title')}:
           </div>
           <div>
-            <WhaleCoinBuySellInfo value={value} type="sell" singleLine />
+            <WhaleCoinBuySellInfo singleLine type="sell" value={value} />
           </div>
         </div>
       </div>

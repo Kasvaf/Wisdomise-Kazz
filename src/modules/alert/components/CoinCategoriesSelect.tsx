@@ -1,9 +1,9 @@
-import { Select, Spin, type SelectProps } from 'antd';
-import { useMemo, useState, type FC } from 'react';
-import { clsx } from 'clsx';
-import { useDebounce } from 'usehooks-ts';
-import { useTranslation } from 'react-i18next';
+import { Select, type SelectProps, Spin } from 'antd';
 import { useCategories } from 'api/discovery';
+import { clsx } from 'clsx';
+import { type FC, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'usehooks-ts';
 
 export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
   value,
@@ -34,36 +34,30 @@ export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
 
   return (
     <Select
+      allowClear={false}
+      autoClearSearchValue
       className={clsx(
         '[&_.ant-select-selector]:!min-w-44 [&_.ant-select-selector]:!pl-4 [&_.ant-select-selector]:!text-sm',
         '[&_.ant-select-selection-placeholder]:!text-white/60',
         '[&_.ant-select-selection-item]:bg-white/5',
         className,
       )}
-      value={value}
-      showSearch
-      autoClearSearchValue
-      maxTagCount={1}
-      showArrow={!disabled}
       disabled={disabled}
-      searchValue={q}
-      onSearch={setQ}
       filterOption={false}
-      allowClear={false}
-      mode="multiple"
       loading={categories.isLoading}
-      popupMatchSelectWidth={false}
+      maxTagCount={1}
+      mode="multiple"
       notFoundContent={
         categories.isLoading ? (
-          <div className="animate-pulse px-1 py-8 text-center text-xxs text-v1-content-primary">
+          <div className="animate-pulse px-1 py-8 text-center text-v1-content-primary text-xxs">
             <Spin />
           </div>
         ) : undefined
       }
-      placeholder={<span>{t('common.all-categories')}</span>}
       onChange={(newValue, x) =>
         onChange?.(newValue.includes('') ? [] : newValue, x)
       }
+      onSearch={setQ}
       options={[
         {
           label: <span className="pe-3">{t('common.all-categories')}</span>,
@@ -74,6 +68,12 @@ export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
           value: cat.slug,
         })),
       ]}
+      placeholder={<span>{t('common.all-categories')}</span>}
+      popupMatchSelectWidth={false}
+      searchValue={q}
+      showArrow={!disabled}
+      showSearch
+      value={value}
       {...props}
     />
   );

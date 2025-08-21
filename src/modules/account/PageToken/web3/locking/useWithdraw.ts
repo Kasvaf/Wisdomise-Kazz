@@ -1,6 +1,6 @@
 import { notification } from 'antd';
-import { useWriteWithdraw } from 'modules/account/PageToken/web3/locking/contract';
 import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWalletConnected';
+import { useWriteWithdraw } from 'modules/account/PageToken/web3/locking/contract';
 import { useUtility } from './useUtility';
 
 export function useWithdraw() {

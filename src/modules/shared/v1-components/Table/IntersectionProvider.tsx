@@ -1,9 +1,9 @@
 import {
   createContext,
+  type ReactNode,
   useContext,
   useEffect,
   useRef,
-  type ReactNode,
 } from 'react';
 
 type VisibilityMap = Map<Element, (visible: boolean) => void>;

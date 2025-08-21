@@ -1,10 +1,10 @@
 import { notification } from 'antd';
-import { useTranslation } from 'react-i18next';
 import { useInstantCancelMutation } from 'api';
 import {
   useReadLockedUsers,
   useWriteUnlock,
 } from 'modules/account/PageToken/web3/locking/contract';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
 import { useUtility } from './web3/locking/useUtility';
@@ -43,7 +43,7 @@ export default function UnlockModalContent({
       <div className="mb-6 flex size-28 items-center justify-between rounded-full bg-black/20">
         <UnlockIcon />
       </div>
-      <h1 className="mb-3 text-2xl font-medium">
+      <h1 className="mb-3 font-medium text-2xl">
         {t('utility.unlock-modal.title')}
       </h1>
       <p className="text-sm text-white/60">
@@ -52,34 +52,34 @@ export default function UnlockModalContent({
       </p>
       <div className="my-8 grid w-full grid-cols-2 gap-x-16 rounded-xl bg-v1-surface-l3 p-5 text-start max-md:flex-wrap">
         <div>
-          <h2 className="mb-2 text-xs text-v1-content-secondary">
+          <h2 className="mb-2 text-v1-content-secondary text-xs">
             {t('utility.unlock-modal.withdraw-available')}
           </h2>
-          <div className="text-xl font-semibold">{cooldown}</div>
-          <p className="mt-2 text-xs text-v1-inverse-overlay-70">Cooldown</p>
+          <div className="font-semibold text-xl">{cooldown}</div>
+          <p className="mt-2 text-v1-inverse-overlay-70 text-xs">Cooldown</p>
         </div>
         <div>
-          <h2 className="mb-2 text-xs text-v1-content-secondary">
+          <h2 className="mb-2 text-v1-content-secondary text-xs">
             {t('utility.unlock-modal.amount')}
           </h2>
           <div className="flex items-end gap-2">
-            <span className="text-xl font-semibold">{lockedBalance}</span>{' '}
+            <span className="font-semibold text-xl">{lockedBalance}</span>{' '}
           </div>
-          <p className="mt-2 text-xs text-v1-inverse-overlay-70">WSDM</p>
+          <p className="mt-2 text-v1-inverse-overlay-70 text-xs">WSDM</p>
         </div>
       </div>
       <p className="mb-6 text-sm text-v1-content-negative">
         {t('utility.unlock-modal.downgrade-warn')}
       </p>
       <div className="mb-4 flex w-full gap-4 max-md:flex-col">
-        <Button className="grow" variant="outline" onClick={onResolve}>
+        <Button className="grow" onClick={onResolve} variant="outline">
           {t('utility.unlock-modal.not-now')}
         </Button>
         <Button
           className="grow"
           loading={isPending || isWaiting || isCanceling}
-          variant="negative_outline"
           onClick={() => unlock()}
+          variant="negative_outline"
         >
           {isPending
             ? 'Waiting for unlock signature'

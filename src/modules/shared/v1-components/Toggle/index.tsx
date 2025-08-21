@@ -1,5 +1,5 @@
-import { type FC, type ReactNode } from 'react';
 import { clsx } from 'clsx';
+import type { FC, ReactNode } from 'react';
 import { ReactComponent as CheckIcon } from './check.svg';
 import { ReactComponent as UnCheckIcon } from './uncheck.svg';
 
@@ -28,8 +28,8 @@ export const Toggle: FC<{
         (loading || disabled) && 'pointer-events-none opacity-70',
         className,
       )}
-      tabIndex={typeof onChange === 'function' ? 0 : -1}
       onClick={() => onChange?.(!value)}
+      tabIndex={typeof onChange === 'function' ? 0 : -1}
     >
       {falseLabel && (
         <span

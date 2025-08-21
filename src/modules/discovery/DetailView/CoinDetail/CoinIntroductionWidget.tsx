@@ -21,9 +21,9 @@ export function CoinIntroductionWidget({
 
   return (
     <>
-      <div id={id} className={className}>
+      <div className={className} id={id}>
         {title !== false && (
-          <h3 className="mb-4 text-sm font-semibold">
+          <h3 className="mb-4 font-semibold text-sm">
             {t('coin-details.tabs.coin_introduction.title', {
               name: `${data?.symbol.name ?? slug} (${
                 data?.symbol.abbreviation ?? slug
@@ -32,7 +32,7 @@ export function CoinIntroductionWidget({
           </h3>
         )}
         <div
-          className="text-sm font-light leading-relaxed text-v1-content-primary mobile:text-xs [&_a]:underline"
+          className="font-light mobile:text-xs text-sm text-v1-content-primary leading-relaxed [&_a]:underline"
           dangerouslySetInnerHTML={{
             __html: rawData.data1?.community_data?.description ?? '',
           }}

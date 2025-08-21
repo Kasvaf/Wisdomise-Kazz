@@ -1,17 +1,17 @@
-import { v4 } from 'uuid';
-import { clsx } from 'clsx';
-import { useEffect, useState } from 'react';
-import { bxChevronDown } from 'boxicons-quasar';
-import { roundSensible } from 'utils/numbers';
 import { type OrderPresetItem, useAIPresets } from 'api/ai-presets';
-import { DrawerModal } from 'shared/DrawerModal';
+import { ReactComponent as LogoIcon } from 'assets/monogram-green.svg';
+import { bxChevronDown } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { useEffect, useState } from 'react';
 import Button from 'shared/Button';
+import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
 import usePageTour from 'shared/usePageTour';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { ReactComponent as LogoIcon } from 'assets/monogram-green.svg';
-import { type TpSlData, type SignalFormState } from './useSignalFormStates';
+import { roundSensible } from 'utils/numbers';
+import { v4 } from 'uuid';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
+import type { SignalFormState, TpSlData } from './useSignalFormStates';
 
 const orderToOrder = (x: OrderPresetItem, ind?: number) => ({
   amountRatio: roundSensible(x.amount * 100),
@@ -45,7 +45,7 @@ const AIPresets: React.FC<{
   const [activePreset, setActivePreset] = useState(3);
   const net = useActiveNetwork();
   const { data: presets, isLoading } = useAIPresets(
-    baseSlug + '/' + quoteSlug,
+    `${baseSlug}/${quoteSlug}`,
     net,
   );
 
@@ -67,7 +67,7 @@ const AIPresets: React.FC<{
     enabled: !isUpdate && !isLoading && !!presets?.length,
     steps: [
       {
-        selector: '.' + tourSelector,
+        selector: `.${tourSelector}`,
         content: (
           <>
             <div className="font-semibold">Save time with AI Presets:</div>
@@ -123,20 +123,20 @@ const AIPresets: React.FC<{
   return (
     <div
       className={clsx(
-        'bg-v1-surface-l1 overflow-hidden rounded-xl bg-cover p-3',
+        'overflow-hidden rounded-xl bg-cover bg-v1-surface-l1 p-3',
         tourSelector,
       )}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <LogoIcon className="h-4 w-4" />
-          <div className="text-xs font-normal">GoatX AI Preset</div>
+          <div className="font-normal text-xs">GoatX AI Preset</div>
         </div>
 
         <Button
           className="!h-6 !px-4 !py-0 text-xxs"
-          onClick={() => setIsOpen(true)}
           loading={isLoading}
+          onClick={() => setIsOpen(true)}
           variant={isLoading ? 'alternative' : 'primary'}
         >
           {isLoading
@@ -151,14 +151,16 @@ const AIPresets: React.FC<{
 
       {presets && (
         <DrawerModal
+          onClose={() => setIsOpen(false)}
+          open={isOpen}
           title={
             <div className="flex items-center gap-4">
               {!noManual && (
                 <Button
+                  className="!py-2"
+                  onClick={reset}
                   size="small"
                   variant="alternative"
-                  onClick={reset}
-                  className="!py-2"
                 >
                   Reset
                 </Button>
@@ -166,30 +168,28 @@ const AIPresets: React.FC<{
               GoatX AI Preset
             </div>
           }
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
           width={400}
         >
           <div className="mb-10 flex flex-col items-stretch gap-4">
             {presets.map((p, ind) => (
               <Button
-                key={p.label}
-                variant={activePreset === ind ? 'primary' : 'secondary'}
-                className="h-12 !p-3"
+                className="!p-3 h-12"
                 contentClassName="!text-base"
+                key={p.label}
                 onClick={() => selectVariant(ind)}
+                variant={activePreset === ind ? 'primary' : 'secondary'}
               >
                 {p.label}
               </Button>
             ))}
             {!noManual && (
               <Button
+                className="!p-3 h-12"
+                contentClassName="!text-base"
+                onClick={() => selectVariant(presets.length)}
                 variant={
                   activePreset === presets.length ? 'primary' : 'secondary'
                 }
-                className="h-12 !p-3"
-                contentClassName="!text-base"
-                onClick={() => selectVariant(presets.length)}
               >
                 Manual
               </Button>

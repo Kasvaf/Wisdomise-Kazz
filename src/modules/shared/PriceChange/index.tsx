@@ -71,12 +71,12 @@ const PriceChange: React.FC<Props> = ({
       >
         {typeof staticValue === 'number' && (
           <>
-            <ReadableNumber value={staticValue} popup={popup} />
+            <ReadableNumber popup={popup} value={staticValue} />
             {' ('}
           </>
         )}
         <ReadableNumber
-          value={typeof value === 'number' ? Math.abs(value) : undefined}
+          className={numberClassName}
           format={{
             minifyDecimalRepeats: false,
             decimalLength: 2,
@@ -85,7 +85,7 @@ const PriceChange: React.FC<Props> = ({
           }}
           label="%"
           popup={popup}
-          className={numberClassName}
+          value={typeof value === 'number' ? Math.abs(value) : undefined}
         />
         {typeof staticValue === 'number' && ')'}
         {suffix && <span>{suffix}</span>}

@@ -1,15 +1,15 @@
-import type { RefObject } from 'react';
 import { bxCopy, bxDownload, bxLink } from 'boxicons-quasar';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
-import { useScreenshot } from 'shared/useScreenshot';
-import { useSocialShare } from 'shared/useSocialShare';
-import { useShare } from 'shared/useShare';
-import { Button } from 'shared/v1-components/Button';
+import type { RefObject } from 'react';
 import Icon from 'shared/Icon';
+import { useScreenshot } from 'shared/useScreenshot';
+import { useShare } from 'shared/useShare';
+import { useSocialShare } from 'shared/useSocialShare';
+import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
+import { ReactComponent as LinkedinIcon } from './images/linkedin.svg';
 import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as XIcon } from './images/twitter.svg';
-import { ReactComponent as LinkedinIcon } from './images/linkedin.svg';
 
 export function ReferralShareLinks({
   screenshotTarget,
@@ -30,62 +30,62 @@ export function ReferralShareLinks({
 
   return (
     <div>
-      <p className="text-xs text-v1-content-secondary">
+      <p className="text-v1-content-secondary text-xs">
         Download the Image and Share It With Your Referral Link
       </p>
       <Input
+        className="my-3 w-full"
         readOnly={true}
         size="md"
-        className="my-3 w-full"
         suffixIcon={
           <Icon
-            name={bxCopy}
             className="ml-3"
+            name={bxCopy}
             onClick={() => copy(myReferralLink)}
           />
         }
-        value={myReferralLink}
         surface={2}
+        value={myReferralLink}
       />
       <div className="flex flex-wrap gap-2">
         <div className="flex gap-2 [&>*]:bg-transparent [&>*]:px-2">
           <Button
-            variant="outline"
-            size="sm"
             onClick={() => shareOnTelegram(SHARE_TEXT, myReferralLink)}
+            size="sm"
+            variant="outline"
           >
             <TelegramIcon />
           </Button>
           <Button
-            variant="outline"
-            size="sm"
             onClick={() =>
               shareOnTwitter(SHARE_TEXT, myReferralLink, ['GoatX'])
             }
+            size="sm"
+            variant="outline"
           >
             <XIcon />
           </Button>
           <Button
-            variant="outline"
-            size="sm"
             onClick={() => shareOnLinkedin(myReferralLink)}
+            size="sm"
+            variant="outline"
           >
             <LinkedinIcon />
           </Button>
           <Button
-            variant="outline"
-            size="sm"
             onClick={() => copy(myReferralLink)}
+            size="sm"
+            variant="outline"
           >
             <Icon name={bxLink} />
           </Button>
         </div>
         <Button
           className="ml-auto"
-          variant="white"
-          size="sm"
-          onClick={capture}
           loading={isCapturing}
+          onClick={capture}
+          size="sm"
+          variant="white"
         >
           <Icon name={bxDownload} />
           Download

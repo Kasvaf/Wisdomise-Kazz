@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
-import { Button } from 'shared/v1-components/Button';
 import useSensibleSteps from 'modules/base/wallet/useSensibleSteps';
-import { type Surface } from 'utils/useSurface';
+import { Button } from 'shared/v1-components/Button';
+import type { Surface } from 'utils/useSurface';
 
 export default function SensibleSteps({
   token,
@@ -26,12 +26,12 @@ export default function SensibleSteps({
     <div className={clsx('flex gap-1', className)}>
       {steps.map(({ label, value: stepValue }) => (
         <Button
-          key={stepValue}
-          size="2xs"
-          variant="ghost"
           className="grow"
+          key={stepValue}
           onClick={() => onChange(stepValue)}
+          size="2xs"
           surface={surface}
+          variant="ghost"
         >
           {label}
         </Button>

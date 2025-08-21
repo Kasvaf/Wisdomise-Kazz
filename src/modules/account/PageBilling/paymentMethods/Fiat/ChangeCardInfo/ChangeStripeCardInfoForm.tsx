@@ -1,13 +1,13 @@
 import {
   PaymentElement,
-  useStripe,
   useElements,
+  useStripe,
 } from '@stripe/react-stripe-js';
+import { useAccountQuery } from 'api';
 import { type FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAccountQuery } from 'api';
-import Card from 'shared/Card';
 import Button from 'shared/Button';
+import Card from 'shared/Card';
 
 export default function ChangeStripeCardInfoForm() {
   const stripe = useStripe();
@@ -42,7 +42,7 @@ export default function ChangeStripeCardInfoForm() {
 
   return (
     <div>
-      <h1 className="mb-4 text-base font-semibold capitalize text-white">
+      <h1 className="mb-4 font-semibold text-base text-white capitalize">
         {t('stripe.change-card-info.title')}
       </h1>
       <form

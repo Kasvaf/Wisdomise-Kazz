@@ -1,16 +1,16 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
 import {
   useTraderPositionQuery,
   useTraderPositionTransactionsQuery,
 } from 'api';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
-import Spinner from 'shared/Spinner';
 import PageWrapper from 'modules/base/PageWrapper';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import Spinner from 'shared/Spinner';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import useIsMobile from 'utils/useIsMobile';
-import TransactionBox from './TransactionBox';
 import { ReactComponent as ArrowUp } from './ArrowUp.svg';
+import TransactionBox from './TransactionBox';
 
 export default function PageTransactions() {
   const { slug } = useParams<{ slug: string }>();
@@ -31,9 +31,9 @@ export default function PageTransactions() {
 
   return (
     <PageWrapper
+      extension={!isMobile && <CoinExtensionsGroup />}
       hasBack
       title="Transactions History"
-      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <div className="flex flex-col gap-4">
         {transactionsLoading || positionLoading ? (
@@ -50,7 +50,7 @@ export default function PageTransactions() {
               <div className="flex w-full max-w-xl flex-col items-stretch gap-2">
                 {data?.toReversed().map((t, ind) => (
                   <React.Fragment key={t.type + t.data.time}>
-                    <TransactionBox t={t} p={position} />
+                    <TransactionBox p={position} t={t} />
                     {ind < data.length - 1 && (
                       <ArrowUp className="self-center text-[#333F4D]" />
                     )}

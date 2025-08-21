@@ -1,5 +1,5 @@
-import { isMiniApp } from 'utils/version';
 import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
+import { isMiniApp } from 'utils/version';
 
 export const useSocialShare = () => {
   const { webApp } = useTelegram();

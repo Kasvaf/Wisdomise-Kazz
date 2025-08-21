@@ -1,7 +1,7 @@
-import { Trans, useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
 import { useAccountQuery, useSubscription } from 'api';
-import { type PaymentMethod } from 'api/types/subscription';
+import type { PaymentMethod } from 'api/types/subscription';
+import dayjs from 'dayjs';
+import { Trans, useTranslation } from 'react-i18next';
 import InfoBadge from './InfoBadge';
 import PendingInvoice from './PendingInvoice';
 
@@ -19,8 +19,8 @@ export default function CurrentPlan() {
       <section className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center">
           <Trans
-            ns="billing"
             i18nKey="subscription-details.overview.current-plan.your-subs"
+            ns="billing"
           >
             Your subscription plan is
             <InfoBadge
@@ -37,8 +37,8 @@ export default function CurrentPlan() {
                 ? t('subscription-details.overview.current-plan.renew')
                 : t('subscription-details.overview.current-plan.expire')}
               <InfoBadge
-                value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
                 value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
+                value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
               />
             </div>
           )}

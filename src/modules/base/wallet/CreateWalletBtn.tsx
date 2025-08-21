@@ -1,9 +1,9 @@
+import { useHasFlag } from 'api';
+import { useCreateWalletMutation, useWalletsQuery } from 'api/wallets';
 import { bxPlus } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
-import { useCreateWalletMutation, useWalletsQuery } from 'api/wallets';
-import { useHasFlag } from 'api';
+import { Button } from 'shared/v1-components/Button';
 
 const MAX_WALLETS = 5;
 export default function CreateWalletBtn({ className }: { className?: string }) {
@@ -22,12 +22,12 @@ export default function CreateWalletBtn({ className }: { className?: string }) {
 
   return hasFlag('/wallets') ? (
     <Button
-      size="sm"
       className={clsx(className, 'mt-3', limitReached && 'w-full')}
-      variant="ghost"
-      loading={isPending}
       disabled={limitReached}
+      loading={isPending}
       onClick={createWallet}
+      size="sm"
+      variant="ghost"
     >
       {limitReached ? (
         'Max Number of Wallets Reached'

@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode } from 'react';
 import AuthGuard from 'modules/base/auth/AuthGuard';
+import { type ReactNode, useEffect } from 'react';
 
 export default function EmbeddedContainer({
   children,

@@ -1,8 +1,4 @@
-import {
-  useTonAddress,
-  useTonConnectModal,
-  useTonConnectUI,
-} from '@tonconnect/ui-react';
+import { solana } from '@reown/appkit/networks';
 import {
   useAppKit,
   useAppKitAccount,
@@ -11,13 +7,17 @@ import {
   useDisconnect,
   useWalletInfo,
 } from '@reown/appkit/react';
-import { useCallback, useEffect, useMemo } from 'react';
-import { solana } from '@reown/appkit/networks';
-import { useLocalStorage } from 'usehooks-ts';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { trackClick } from 'config/segment';
+import {
+  useTonAddress,
+  useTonConnectModal,
+  useTonConnectUI,
+} from '@tonconnect/ui-react';
 import { usePromiseOfEffect } from 'api/chains/utils';
 import { useWalletsQuery } from 'api/wallets';
+import { trackClick } from 'config/segment';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 
 export const useConnectedWallet = () => {
   const net = useActiveNetwork();

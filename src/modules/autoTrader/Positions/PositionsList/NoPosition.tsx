@@ -7,7 +7,7 @@ const NoPosition: React.FC<{ active: boolean; slug?: string }> = ({
 }) => {
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center justify-center pb-5 text-center">
-      <img src={empty} className="my-4" />
+      <img className="my-4" src={empty} />
       <h1 className="font-semibold">
         {active ? 'No active positions yet!' : 'No position yet!'}
       </h1>
@@ -19,10 +19,10 @@ const NoPosition: React.FC<{ active: boolean; slug?: string }> = ({
             : 'Get started by creating your first position. Your trades history will appear here!'}
         </p>
       ) : (
-        <div className="mt-4 px-1 text-justify text-sm font-light">
+        <div className="mt-4 px-1 text-justify font-light text-sm">
           <p>
             To start trading, select a coin or visit the{' '}
-            <NavLink to="/" className="text-v1-content-link">
+            <NavLink className="text-v1-content-link" to="/">
               Home
             </NavLink>{' '}
             page to explore hot coins and trade them.

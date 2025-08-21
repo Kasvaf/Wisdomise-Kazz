@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { type Invoice } from 'modules/account/models';
-import { queryClient } from 'config/reactQuery';
 import { ofetch } from 'config/ofetch';
-import { type PageResponse } from './types/page';
-import { type PlanPeriod, type SubscriptionPlan } from './types/subscription';
+import { queryClient } from 'config/reactQuery';
+import type { Invoice } from 'modules/account/models';
+import type { PageResponse } from './types/page';
+import type { PlanPeriod, SubscriptionPlan } from './types/subscription';
 
 export const usePlansQuery = (periodicity?: PlanPeriod) =>
   useQuery({

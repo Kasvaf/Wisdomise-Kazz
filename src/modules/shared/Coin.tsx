@@ -1,12 +1,12 @@
-import { clsx } from 'clsx';
-import { Link } from 'react-router-dom';
-import { useMemo, type ReactNode } from 'react';
+import { useNetworks } from 'api/discovery';
 import { useSymbolInfo } from 'api/symbol';
+import type { Coin as CoinType } from 'api/types/shared';
+import { clsx } from 'clsx';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type ReactNode, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
-import { type Coin as CoinType } from 'api/types/shared';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { useNetworks } from 'api/discovery';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
@@ -34,7 +34,7 @@ export function CoinLogo({
   return (
     <div className={clsx('relative inline-block overflow-hidden', className)}>
       <div
-        className="size-full overflow-hidden rounded-full bg-black bg-cover bg-center bg-no-repeat"
+        className="size-full overflow-hidden rounded-full bg-black bg-center bg-cover bg-no-repeat"
         style={{
           ...(url && {
             backgroundImage: `url("${
@@ -46,9 +46,9 @@ export function CoinLogo({
 
       {networkObj?.icon_url && (
         <img
-          src={networkObj?.icon_url}
           alt={network}
-          className="absolute bottom-0 right-0 size-[40%] rounded-full"
+          className="absolute right-0 bottom-0 size-[40%] rounded-full"
+          src={networkObj?.icon_url}
         />
       )}
     </div>
@@ -103,12 +103,12 @@ export function Coin({
   const content = (
     <>
       <CoinLogo
-        value={coin}
         className={clsx(
           'shrink-0',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
         noCors={noCors}
+        value={coin}
       />
       {renderText && (
         <div
@@ -137,7 +137,7 @@ export function Coin({
               {networks && (
                 <div className="flex items-center">
                   {networks.map(n => (
-                    <NetworkIcon key={n} network={n} className="ml-1" />
+                    <NetworkIcon className="ml-1" key={n} network={n} />
                   ))}
                 </div>
               )}
@@ -178,12 +178,12 @@ export function Coin({
       ) : (
         <Link
           className={clsx(rootClassName, gtmClass('coin_list-item'))}
+          title={tooltip}
           to={getUrl({
             detail: 'coin',
             slug: coin.slug,
             view: 'both',
           })}
-          title={tooltip}
         >
           {content}
         </Link>

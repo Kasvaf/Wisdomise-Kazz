@@ -1,29 +1,29 @@
-import { clsx } from 'clsx';
-import { useRef, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
-import { bxArrowBack } from 'boxicons-quasar';
-import { v4 } from 'uuid';
-import { useSearchParams } from 'react-router-dom';
 import {
   useEmailLoginMutation,
   useGoogleLoginMutation,
   useMiniAppTgLoginFromWebMutation,
   useVerifyEmailMutation,
 } from 'api/auth';
-import useNow from 'utils/useNow';
+import { ReactComponent as Logo } from 'assets/logo-white.svg';
+import { bxArrowBack } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
+import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
+import { useRef, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
+import VerificationInput from 'react-verification-input';
+import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
-import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
-import Icon from 'shared/Icon';
-import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
-import { ReactComponent as Logo } from 'assets/logo-white.svg';
+import useNow from 'utils/useNow';
+import { v4 } from 'uuid';
+import { ModalLoginSlides } from './ModalLoginSlides';
 import TelegramLogin from './TelegramLogin';
 import { useModalLoginTexts } from './useModalLoginTexts';
-import { ModalLoginSlides } from './ModalLoginSlides';
 
 const LoginModalContent: React.FC<{
   onResolve?: (success: boolean) => void;
@@ -95,7 +95,7 @@ const LoginModalContent: React.FC<{
   const [uuid] = useState(v4());
   const { mutateAsync: tgLoginFromWeb } = useMiniAppTgLoginFromWebMutation();
   const tgHandler = async () => {
-    window.open(TELEGRAM_BOT_BASE_URL + '?startapp=connect_' + uuid, '_blank');
+    window.open(`${TELEGRAM_BOT_BASE_URL}?startapp=connect_${uuid}`, '_blank');
 
     setIsConnecting(true);
     for (let i = 0; i < 10; ++i) {
@@ -114,21 +114,21 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
   const notice = (
-    <p className="text-v1-content-secondary [&_a]:text-v1-content-brand hidden text-xs">
-      <Trans ns="auth" i18nKey="login.notice">
+    <p className="hidden text-v1-content-secondary text-xs [&_a]:text-v1-content-brand">
+      <Trans i18nKey="login.notice" ns="auth">
         By continuing, you agree to our
         <a
-          target="_blank"
           href="https://help.wisdomise.com/privacy-policy"
           rel="noreferrer"
+          target="_blank"
         >
           Privacy Policy
         </a>
         and
         <a
-          target="_blank"
           href="https://help.wisdomise.com/terms-and-conditions"
           rel="noreferrer"
+          target="_blank"
         >
           Terms of Service
         </a>
@@ -139,17 +139,17 @@ const LoginModalContent: React.FC<{
 
   const emailContent = (
     <>
-      <h1 className="mb-4 pr-12 text-xl font-medium leading-normal mobile:hidden">
+      <h1 className="mb-4 mobile:hidden pr-12 font-medium text-xl leading-normal">
         {title}
       </h1>
-      <p className="text-v1-content-secondary mb-6 text-xs leading-normal mobile:hidden">
+      <p className="mb-6 mobile:hidden text-v1-content-secondary text-xs leading-normal">
         {subtitle}
       </p>
 
       <div className="flex flex-col items-stretch gap-4">
         <TextBox
+          error={fieldError}
           label={t('login.step-1.field-email')}
-          value={email}
           onChange={x => {
             setEmail(x);
             setNonce('');
@@ -168,19 +168,19 @@ const LoginModalContent: React.FC<{
           }}
           placeholder={t('login.step-1.field-email-placeholder')}
           type="email"
-          error={fieldError}
+          value={email}
         />
         <Button
-          variant="primary"
-          onClick={submitEmail}
           loading={emailLoginLoading}
+          onClick={submitEmail}
+          variant="primary"
         >
           {t('login.step-1.button-submit-email')}
         </Button>
       </div>
 
-      <div className="bg-v1-border-disabled my-6 flex h-px w-full items-center justify-center overflow-visible">
-        <span className="text-v1-content-secondary px-2 text-xs backdrop-blur-lg">
+      <div className="my-6 flex h-px w-full items-center justify-center overflow-visible bg-v1-border-disabled">
+        <span className="px-2 text-v1-content-secondary text-xs backdrop-blur-lg">
           {t('common:or')}
         </span>
       </div>
@@ -188,13 +188,13 @@ const LoginModalContent: React.FC<{
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
           <GoogleLogin
+            logo_alignment="center"
             onSuccess={googleHandler}
-            use_fedcm_for_prompt
-            text="continue_with"
             size="large"
+            text="continue_with"
             theme="outline"
             type="standard"
-            logo_alignment="center"
+            use_fedcm_for_prompt
             width={320}
           />
         </div>
@@ -207,10 +207,10 @@ const LoginModalContent: React.FC<{
 
   const codeContent = (
     <>
-      <h1 className="mb-5 pr-12 text-xl font-medium leading-normal mobile:hidden">
+      <h1 className="mb-5 mobile:hidden pr-12 font-medium text-xl leading-normal">
         {t('login.step-2.title')}
       </h1>
-      <p className="text-v1-content-secondary mb-9 text-xs leading-normal mobile:mb-4">
+      <p className="mb-9 mobile:mb-4 text-v1-content-secondary text-xs leading-normal">
         {t('login.step-2.subtitle', { email })}
       </p>
 
@@ -218,8 +218,6 @@ const LoginModalContent: React.FC<{
         <div className="mb-3 text-xs">{t('login.step-2.field-nonce')}</div>
         <VerificationInput
           autoFocus
-          validChars="0-9"
-          placeholder=" "
           classNames={{
             character: clsx(
               'rounded-lg !border-transparent !bg-v1-surface-l3 !text-white',
@@ -229,35 +227,37 @@ const LoginModalContent: React.FC<{
             ),
             container: clsx('!w-full gap-4'),
           }}
-          value={nonce}
           onChange={setNonce}
+          placeholder=" "
+          validChars="0-9"
+          value={nonce}
         />
         {fieldError && (
-          <div className="text-v1-content-negative ml-1 mt-3">{fieldError}</div>
+          <div className="mt-3 ml-1 text-v1-content-negative">{fieldError}</div>
         )}
         <Button
-          variant="primary"
-          onClick={submitCode}
-          loading={verifyEmailLoading}
           className="mt-4"
+          loading={verifyEmailLoading}
+          onClick={submitCode}
+          variant="primary"
         >
           {t('login.step-2.btn-submit-otp')}
         </Button>
         <div className="mx-1 mt-3 flex items-center justify-between gap-2 text-xs">
           <Button
-            variant="link"
-            size="xs"
-            onClick={() => setStep('email')}
             className="!px-0"
+            onClick={() => setStep('email')}
+            size="xs"
+            variant="link"
           >
             {t('login.step-2.btn-change-email')}
           </Button>
           <Button
-            variant="ghost"
-            size="xs"
             disabled={remTime > 0}
-            onClick={submitEmail}
             loading={emailLoginLoading}
+            onClick={submitEmail}
+            size="xs"
+            variant="ghost"
           >
             {remTime > 0 ? (
               <div className="font-mono">
@@ -265,7 +265,7 @@ const LoginModalContent: React.FC<{
                 {remSeconds.toString().padStart(2, '0')}
               </div>
             ) : (
-              <>{t('login.step-2.btn-resend')}</>
+              t('login.step-2.btn-resend')
             )}
           </Button>
         </div>
@@ -274,23 +274,23 @@ const LoginModalContent: React.FC<{
   );
 
   return (
-    <div className="max-h-svh relative grid h-[590px] w-full grid-cols-2 items-stretch justify-between overflow-hidden mobile:flex mobile:h-full mobile:flex-col-reverse">
-      <div className="absolute left-8 top-8 mobile:hidden">
+    <div className="relative mobile:flex grid h-[590px] mobile:h-full max-h-svh w-full grid-cols-2 mobile:flex-col-reverse items-stretch justify-between overflow-hidden">
+      <div className="absolute top-8 left-8 mobile:hidden">
         <Logo className="h-16 w-auto" />
       </div>
-      <div className="relative flex min-h-min grow flex-col items-stretch justify-center p-8 mobile:h-auto mobile:grow-0 mobile:justify-end">
+      <div className="relative flex mobile:h-auto min-h-min grow mobile:grow-0 flex-col items-stretch mobile:justify-end justify-center p-8">
         {emailLoginLoading || verifyEmailLoading || isConnecting ? (
           <div className="my-8 flex grow flex-col items-center justify-center">
             <Spinner />
             {isConnecting && (
               <div className="flex justify-center">
                 <Button
-                  variant="primary"
-                  size="sm"
-                  className="mt-4 !pr-6"
+                  className="!pr-6 mt-4"
                   onClick={() => setIsConnecting(false)}
+                  size="sm"
+                  variant="primary"
                 >
-                  <Icon name={bxArrowBack} size={16} className="mr-2" />
+                  <Icon className="mr-2" name={bxArrowBack} size={16} />
                   {t('common:actions.cancel')}
                 </Button>
               </div>
@@ -302,7 +302,7 @@ const LoginModalContent: React.FC<{
           codeContent
         )}
       </div>
-      <div className="relative w-full shrink grow !overflow-hidden mobile:rounded-b-3xl">
+      <div className="!overflow-hidden relative w-full shrink grow mobile:rounded-b-3xl">
         <ModalLoginSlides className="size-full" />
       </div>
     </div>
@@ -328,16 +328,16 @@ export const useModalLogin = () => {
   const content = (
     <>
       <Dialog
-        open={open}
-        onClose={handleClose}
-        footer={false}
+        className="z-[2_147_483_647] mobile:h-full mobile:max-h-full mobile:w-full w-[950px] mobile:max-w-full"
         closable={!forceLogin}
+        footer={false}
         modalConfig={{
           closeButton: !forceLogin,
         }}
         mode="modal"
-        surface={1}
-        className="z-[2_147_483_647] w-[950px] mobile:h-full mobile:max-h-full mobile:w-full mobile:max-w-full" // z-index: 1 unit higher than cookie-bot banner
+        onClose={handleClose}
+        open={open}
+        surface={1} // z-index: 1 unit higher than cookie-bot banner
       >
         <LoginModalContent onResolve={handleResolve} />
       </Dialog>

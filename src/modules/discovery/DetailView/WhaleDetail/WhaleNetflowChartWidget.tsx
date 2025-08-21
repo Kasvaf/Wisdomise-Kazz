@@ -1,10 +1,10 @@
+import { Tooltip } from 'antd';
+import { useWhaleDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
-import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useWhaleDetails } from 'api/discovery';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDate } from 'shared/ReadableDate';
+import { ReadableNumber } from 'shared/ReadableNumber';
 
 export function WhaleNetflowChartWidget({
   className,
@@ -54,73 +54,73 @@ export function WhaleNetflowChartWidget({
   return (
     <>
       <div className={clsx(className)}>
-        <h3 className="mb-4 text-sm font-semibold">
+        <h3 className="mb-4 font-semibold text-sm">
           {t('whale_netflow_histogram.title')}
         </h3>
         <div className="group relative flex h-[137px] w-fit min-w-full items-center justify-between gap-2">
-          <div className="flex h-full w-auto flex-col justify-between text-xxs text-v1-content-secondary">
+          <div className="flex h-full w-auto flex-col justify-between text-v1-content-secondary text-xxs">
             <div>
-              <div className="absolute mt-[7px] h-px w-full border-b border-dashed border-white/10" />
+              <div className="absolute mt-[7px] h-px w-full border-white/10 border-b border-dashed" />
               <ReadableNumber
+                className="pr-1 backdrop-blur-3xl"
                 label="$"
                 value={config.maxFlow || 1000}
-                className="pr-1 backdrop-blur-3xl"
               />
             </div>
             <div>
-              <div className="absolute mt-[7px] h-px w-full border-b border-dashed border-white/10" />
+              <div className="absolute mt-[7px] h-px w-full border-white/10 border-b border-dashed" />
               <ReadableNumber
+                className="pr-2 backdrop-blur-3xl"
                 label="$"
                 value={0}
-                className="pr-2 backdrop-blur-3xl"
               />
             </div>
             <div>
-              <div className="absolute mt-[7px] h-px w-full border-b border-dashed border-white/10" />
+              <div className="absolute mt-[7px] h-px w-full border-white/10 border-b border-dashed" />
               <ReadableNumber
+                className="pr-1 backdrop-blur-3xl"
                 label="$"
                 value={config.maxFlow || 1000}
-                className="pr-1 backdrop-blur-3xl"
               />
             </div>
           </div>
           {config.data.map(r => (
             <Tooltip
-              key={r.related_at_date}
               color="#151619"
+              key={r.related_at_date}
+              placement="right"
               title={
                 <div className="p-1">
                   <ReadableDate
                     className="mb-1 block text-xs"
-                    value={r.related_at_date}
                     format="ddd, MMM D, YYYY"
                     popup={false}
+                    value={r.related_at_date}
                   />
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-xxs text-v1-content-secondary">
+                    <p className="text-v1-content-secondary text-xxs">
                       {t('whale_netflow_histogram.inflow')}:
                     </p>
                     <ReadableNumber
-                      value={r.today_in_flow}
-                      label="$"
                       className="text-xs"
+                      label="$"
+                      value={r.today_in_flow}
                     />
                   </div>
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-xxs text-v1-content-secondary">
+                    <p className="text-v1-content-secondary text-xxs">
                       {t('whale_netflow_histogram.outflow')}:
                     </p>
                     <ReadableNumber
-                      value={r.today_out_flow}
-                      label="$"
                       className="text-xs"
+                      label="$"
+                      value={r.today_out_flow}
                     />
                   </div>
                 </div>
               }
-              placement="right"
             >
-              <div className="relative h-full w-2 shrink-0 overflow-visible transition-all hover:!opacity-100 group-hover:opacity-50">
+              <div className="hover:!opacity-100 relative h-full w-2 shrink-0 overflow-visible transition-all group-hover:opacity-50">
                 <div className="relative h-1/2">
                   <div
                     className="absolute bottom-0 min-h-1 w-full shrink-0 rounded-t bg-v1-content-positive"

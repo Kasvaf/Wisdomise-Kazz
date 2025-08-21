@@ -8,10 +8,10 @@ export function AlertEmptyWidget({ className }: { className?: string }) {
     <OverviewWidget className={className}>
       <div className="flex h-full flex-col items-center justify-center gap-4">
         <EmptyIcon className="shrink-0" />
-        <div className="text-xl font-medium text-v1-content-primary">
+        <div className="font-medium text-v1-content-primary text-xl">
           {t('common.empty-title')}
         </div>
-        <div className="text-sm font-medium text-v1-content-secondary">
+        <div className="font-medium text-sm text-v1-content-secondary">
           {t('common.empty-description')}
         </div>
       </div>

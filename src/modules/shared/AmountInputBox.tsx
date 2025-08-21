@@ -27,8 +27,8 @@ export const toAmount = (v: string) =>
 const AmountInputBox: React.FC<Props> = ({ min, max, ...props }) => {
   return (
     <TextBox
-      type="number"
       filter={toAmount}
+      type="number"
       {...props}
       onBlur={() => {
         props.onChange?.(

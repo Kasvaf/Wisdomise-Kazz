@@ -1,6 +1,6 @@
+import type { Position } from 'api';
 import { clsx } from 'clsx';
 import React from 'react';
-import { type Position } from 'api';
 
 type Color = 'green' | 'red' | 'yellow' | 'grey';
 
@@ -44,7 +44,7 @@ const StatusItem: React.FC<{
 
 const make = (color: Color, label: string) => ({
   componentGen: (mini?: boolean) => (
-    <StatusItem label={label} color={color} mini={mini} />
+    <StatusItem color={color} label={label} mini={mini} />
   ),
   key: color + label,
 });

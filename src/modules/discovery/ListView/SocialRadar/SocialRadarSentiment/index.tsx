@@ -1,23 +1,23 @@
-import { type FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import {
-  type SocialRadarSentiment as SocialRadarSentimentType,
-  type MiniMarketData,
+import type {
+  MiniMarketData,
+  SocialRadarSentiment as SocialRadarSentimentType,
 } from 'api/discovery';
+import type { Coin as CoinType } from 'api/types/shared';
+import { clsx } from 'clsx';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import { MiniBar } from 'shared/MiniBar';
-import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type Coin as CoinType } from 'api/types/shared';
 import { Coin } from 'shared/Coin';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { MiniBar } from 'shared/MiniBar';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { SRSIcon } from './SRSIcon';
-import { SRSSubtitle } from './SRSSubtitle';
 import { SRSDetails } from './SRSDetails';
-import { SRSTitle } from './SRSTitle';
+import { SRSIcon } from './SRSIcon';
 import { SRSLastMention } from './SRSLastMention';
+import { SRSSubtitle } from './SRSSubtitle';
+import { SRSTitle } from './SRSTitle';
 
 export const SocialRadarSentiment: FC<{
   value?: SocialRadarSentimentType | null;
@@ -35,93 +35,93 @@ export const SocialRadarSentiment: FC<{
   return (
     <ClickableTooltip
       chevron={false}
+      className={className}
       disabled={!clickable}
       title={
         <div className="w-[400px] max-w-full">
           {coin && marketData && (
             <div className="mb-4 flex items-center justify-between gap-4">
               <Coin
-                coin={coin}
-                imageClassName="size-8"
-                nonLink={true}
-                truncate={260}
                 abbrevationSuffix={
                   <DirectionalNumber
                     className="ms-1"
-                    value={marketData?.price_change_percentage_24h}
-                    label="%"
                     direction="auto"
-                    showIcon
-                    showSign={false}
                     format={{
                       decimalLength: 1,
                       minifyDecimalRepeats: true,
                     }}
+                    label="%"
+                    showIcon
+                    showSign={false}
+                    value={marketData?.price_change_percentage_24h}
                   />
                 }
+                coin={coin}
+                imageClassName="size-8"
+                nonLink={true}
+                truncate={260}
               />
               <div className="flex flex-col items-end gap-px">
                 <ReadableNumber
-                  value={marketData?.current_price}
-                  label="$"
                   className="text-sm"
+                  label="$"
+                  value={marketData?.current_price}
                 />
                 <CoinMarketCap
+                  className="text-xs"
                   marketData={marketData}
                   singleLine
-                  className="text-xs"
                 />
               </div>
             </div>
           )}
           {!!value?.signals_analysis?.sparkline?.prices?.length && (
             <CoinPriceChart
-              value={value?.signals_analysis?.sparkline?.prices ?? []}
               socialIndexes={value?.signals_analysis?.sparkline?.indexes}
+              value={value?.signals_analysis?.sparkline?.prices ?? []}
             />
           )}
           <SocialRadarSentiment
-            value={value}
-            mode="expanded"
             className="w-full"
+            mode="expanded"
+            value={value}
           />
         </div>
       }
-      className={className}
     >
       {mode === 'default' && (
         <div className="flex h-11 items-center gap-2">
-          <MiniBar value={value?.gauge_measure ?? 0} width={28} height={28} />
+          <MiniBar height={28} value={value?.gauge_measure ?? 0} width={28} />
           <div className="flex flex-col items-start gap-px whitespace-nowrap">
             <div className="flex items-center justify-start gap-1">
               <SRSIcon
-                value={value?.gauge_tag ?? 'NEUTRAL'}
                 className="size-[16px] shrink-0"
+                value={value?.gauge_tag ?? 'NEUTRAL'}
               />
-              <SRSTitle value={value?.gauge_tag} className="text-sm" />
+              <SRSTitle className="text-sm" value={value?.gauge_tag} />
             </div>
-            <SRSLastMention value={value} className="text-xs font-light" />
+            <SRSLastMention className="font-light text-xs" value={value} />
           </div>
         </div>
       )}
 
       {mode === 'tiny' && (
         <div className="flex w-6 min-w-6 flex-col items-center gap-1">
-          <SRSIcon value={value?.gauge_tag} className="size-6 shrink-0" />
-          <MiniBar value={value?.gauge_measure ?? 0} width={18} height={12} />
+          <SRSIcon className="size-6 shrink-0" value={value?.gauge_tag} />
+          <MiniBar height={12} value={value?.gauge_measure ?? 0} width={18} />
         </div>
       )}
 
       {mode === 'mini' && (
         <div className="flex items-center gap-2 whitespace-nowrap">
           <SRSIcon
-            value={value?.gauge_tag ?? 'NEUTRAL'}
             className="size-[24px] shrink-0"
+            value={value?.gauge_tag ?? 'NEUTRAL'}
           />
           <MiniBar value={value?.gauge_measure ?? 0} />
           <div className="space-y-1">
-            <SRSTitle value={value?.gauge_tag} className="shrink-0 text-xs" />
-            <SRSLastMention value={value} className="text-[8px] font-light" />
+            <SRSTitle className="shrink-0 text-xs" value={value?.gauge_tag} />
+            <SRSLastMention className="font-light text-[8px]" value={value} />
           </div>
         </div>
       )}
@@ -129,7 +129,7 @@ export const SocialRadarSentiment: FC<{
       {mode === 'expanded' && (
         <div
           className={clsx(
-            'flex h-28 w-full flex-col justify-between gap-2 overflow-hidden rounded-xl p-3 bg-v1-surface-l-next',
+            'flex h-28 w-full flex-col justify-between gap-2 overflow-hidden rounded-xl bg-v1-surface-l-next p-3',
             contentClassName,
           )}
         >
@@ -138,21 +138,21 @@ export const SocialRadarSentiment: FC<{
               <p className="text-xs">{t('call-change.title')}</p>
               <div className="flex items-center justify-start gap-px">
                 <SRSIcon
-                  value={value?.gauge_tag ?? 'NEUTRAL'}
                   className="size-[20px] shrink-0"
+                  value={value?.gauge_tag ?? 'NEUTRAL'}
                 />
-                <SRSTitle value={value?.gauge_tag} className="text-xs" />
+                <SRSTitle className="text-xs" value={value?.gauge_tag} />
                 <SRSSubtitle
-                  value={value?.gauge_tag}
                   className="ms-1 truncate text-xxs"
+                  value={value?.gauge_tag}
                 />
               </div>
             </div>
-            <MiniBar value={value?.gauge_measure ?? 0} height={28} width={28} />
+            <MiniBar height={28} value={value?.gauge_measure ?? 0} width={28} />
           </div>
           <SRSDetails
-            value={value}
             className="grid-flow-col grid-cols-2 grid-rows-2 text-xs"
+            value={value}
           />
         </div>
       )}
@@ -161,15 +161,15 @@ export const SocialRadarSentiment: FC<{
         <div
           className={clsx(
             contentClassName,
-            'flex h-10 w-full items-center gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+            'flex h-10 w-full items-center gap-2 overflow-hidden whitespace-nowrap rounded-xl bg-v1-surface-l-next p-3',
           )}
         >
           <SRSIcon
-            value={value?.gauge_tag ?? 'NEUTRAL'}
             className="size-[18px] shrink-0"
+            value={value?.gauge_tag ?? 'NEUTRAL'}
           />
-          <SRSTitle value={value?.gauge_tag} className="grow text-xs" />
-          <MiniBar value={value?.gauge_measure ?? 0} height={16} width={16} />
+          <SRSTitle className="grow text-xs" value={value?.gauge_tag} />
+          <MiniBar height={16} value={value?.gauge_measure ?? 0} width={16} />
         </div>
       )}
     </ClickableTooltip>

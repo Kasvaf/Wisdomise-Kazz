@@ -1,20 +1,20 @@
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import {
-  useTournamentQuery,
   useTournamentLeaderboardQuery,
   useTournamentProfileQuery,
+  useTournamentQuery,
 } from 'api/tournament';
-import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
-import PageWrapper from 'modules/base/PageWrapper';
 import empty from 'modules/autoTrader/Positions/PositionsList/empty.svg';
+import PageWrapper from 'modules/base/PageWrapper';
 import Leaderboard, {
   LeaderboardItem,
 } from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
-import useIsMobile from 'utils/useIsMobile';
+import TournamentResultModalContent from 'modules/quest/PageTournaments/PageTournamentDetail/TournamentResultModalContent';
+import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useModal from 'shared/useModal';
-import TournamentResultModalContent from 'modules/quest/PageTournaments/PageTournamentDetail/TournamentResultModalContent';
+import useIsMobile from 'utils/useIsMobile';
 
 export default function PageTournamentDetail() {
   const { id } = useParams<{ id: string }>();
@@ -48,19 +48,19 @@ export default function PageTournamentDetail() {
 
   return (
     <PageWrapper
+      extension={!isMobile && <CoinExtensionsGroup />}
       footer={null}
       hasBack
-      title={tournament?.name}
       loading={isLoading}
-      extension={!isMobile && <CoinExtensionsGroup />}
+      title={tournament?.name}
     >
-      <div className="grid grid-cols-2 items-start gap-4 mobile:grid-cols-1">
+      <div className="grid grid-cols-2 mobile:grid-cols-1 items-start gap-4">
         <div>
           {tournament && (
-            <TournamentCard tournament={tournament} hasDetail={true} />
+            <TournamentCard hasDetail={true} tournament={tournament} />
           )}
           {me && (
-            <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
+            <div className="mt-3 mobile:hidden rounded-xl bg-v1-surface-l2 p-3">
               <h2 className="mb-2">My Status</h2>
               <LeaderboardItem participant={me} />
             </div>
@@ -69,7 +69,7 @@ export default function PageTournamentDetail() {
 
         {tournament?.status === 'upcoming' && (
           <div className="flex flex-col items-center justify-center pb-5 text-center">
-            <img src={empty} alt="" className="my-8" />
+            <img alt="" className="my-8" src={empty} />
             <h1 className="mt-3 font-semibold">Trading Leaderboard</h1>
 
             <p className="mt-3 w-3/4 text-xs">
@@ -78,7 +78,7 @@ export default function PageTournamentDetail() {
             </p>
           </div>
         )}
-        <Leaderboard participants={participants} me={me} />
+        <Leaderboard me={me} participants={participants} />
       </div>
       {tournamentResultModal}
     </PageWrapper>

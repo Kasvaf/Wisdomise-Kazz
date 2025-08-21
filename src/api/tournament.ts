@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ofetch } from 'config/ofetch';
 import { TEMPLE_ORIGIN } from 'config/constants';
+import { ofetch } from 'config/ofetch';
 
 export type GamificationStatus = 'live' | 'upcoming' | 'finished' | 'active';
 

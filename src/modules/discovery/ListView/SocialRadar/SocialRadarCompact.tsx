@@ -1,22 +1,22 @@
-import { type FC, useMemo } from 'react';
-import { Coin } from 'shared/v1-components/Coin';
-import { AccessShield } from 'shared/AccessShield';
 import { type SocialRadarCoin, useSocialRadarCoins } from 'api/discovery';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type FC, useMemo } from 'react';
+import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { usePageState } from 'shared/usePageState';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { Coin } from 'shared/v1-components/Coin';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import {
   CoinPreDetailModal,
   useCoinPreDetailModal,
 } from '../CoinPreDetailModal';
+import { SocialRadarFilters } from './SocialRadarFilters';
 import { SocialRadarSentiment } from './SocialRadarSentiment';
 import SocialRadarSharingModal from './SocialRadarSharingModal';
-import { SocialRadarFilters } from './SocialRadarFilters';
 
 export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [pageState, setPageState] = usePageState<
@@ -49,40 +49,40 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           <Coin
             abbreviation={row.symbol.abbreviation}
             // name={row.symbol.name}
-            slug={row.symbol.slug}
-            logo={row.symbol.logo_url}
             categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            href={false}
             extra={
               <>
                 <DirectionalNumber
-                  value={row.symbol_market_data?.price_change_percentage_24h}
-                  label="%"
                   direction="auto"
-                  showIcon
-                  showSign={false}
                   format={{
                     decimalLength: 1,
                     minifyDecimalRepeats: true,
                   }}
+                  label="%"
+                  showIcon
+                  showSign={false}
+                  value={row.symbol_market_data?.price_change_percentage_24h}
                 />
                 <CoinMarketCap
+                  className="text-xxs"
                   marketData={row.symbol_market_data}
                   singleLine
-                  className="text-xxs"
                 />
               </>
             }
+            href={false}
+            labels={row.symbol_labels}
+            logo={row.symbol.logo_url}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            slug={row.symbol.slug}
           />
         ),
       },
       {
         key: 'sentiment',
         align: 'end',
-        render: row => <SocialRadarSentiment value={row} mode="tiny" />,
+        render: row => <SocialRadarSentiment mode="tiny" value={row} />,
       },
     ],
     [],
@@ -95,11 +95,11 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   return (
     <div className="p-3">
       <SocialRadarFilters
-        value={pageState}
-        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
-        surface={1}
         mini
+        onChange={newPageState => setPageState(newPageState)}
+        surface={1}
+        value={pageState}
       />
       <AccessShield
         mode="table"
@@ -113,40 +113,40 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         <Table
           columns={columns}
           dataSource={coins.data ?? []}
-          rowKey={r => r.symbol.slug}
-          loading={coins.isLoading}
-          surface={1}
-          onClick={r => openModal(r)}
-          scrollable={false}
           isActive={r => r.symbol.slug === activeSlug}
+          loading={coins.isLoading}
+          onClick={r => openModal(r)}
+          rowKey={r => r.symbol.slug}
+          scrollable={false}
+          surface={1}
         />
       </AccessShield>
       <CoinPreDetailModal
-        coin={selectedRow?.symbol}
         categories={selectedRow?.symbol.categories}
+        coin={selectedRow?.symbol}
+        hasShare={true}
         labels={selectedRow?.symbol_labels}
         marketData={selectedRow?.symbol_market_data}
         networks={selectedRow?.networks}
-        security={selectedRow?.symbol_security?.data}
-        open={isModalOpen}
         onClose={() => closeModal()}
-        hasShare={true}
+        open={isModalOpen}
+        security={selectedRow?.symbol_security?.data}
       >
         {selectedRow?.signals_analysis?.sparkline && (
           <CoinPriceChart
-            value={selectedRow?.signals_analysis?.sparkline?.prices ?? []}
             socialIndexes={selectedRow?.signals_analysis?.sparkline.indexes}
+            value={selectedRow?.signals_analysis?.sparkline?.prices ?? []}
           />
         )}
         {selectedRow && (
           <SocialRadarSentiment
-            value={selectedRow}
-            mode="expanded"
             className="w-full"
+            mode="expanded"
+            value={selectedRow}
           />
         )}
         {selectedRow && (
-          <SocialRadarSharingModal open={false} coin={selectedRow} />
+          <SocialRadarSharingModal coin={selectedRow} open={false} />
         )}
       </CoinPreDetailModal>
     </div>

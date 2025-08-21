@@ -1,18 +1,18 @@
+import type {
+  Indicator,
+  IndicatorConfirmation,
+  IndicatorConfirmationCombination,
+} from 'api/discovery';
+import { clsx } from 'clsx';
 import { type FC, type SVGProps, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import {
-  type Indicator,
-  type IndicatorConfirmationCombination,
-  type IndicatorConfirmation,
-} from 'api/discovery';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { ReactComponent as OversoldIcon } from './oversold.svg';
-import { ReactComponent as OverboughtIcon } from './overbought.svg';
 import { ReactComponent as BearishIcon } from './bearish.svg';
 import { ReactComponent as BullishIcon } from './bullish.svg';
-import { ReactComponent as CrossupIcon } from './crossup.svg';
 import { ReactComponent as CrossdownIcon } from './crossdown.svg';
+import { ReactComponent as CrossupIcon } from './crossup.svg';
+import { ReactComponent as OverboughtIcon } from './overbought.svg';
+import { ReactComponent as OversoldIcon } from './oversold.svg';
 
 function ConfirmationResolutionRow({ value }: { value: string[] }) {
   const { t } = useTranslation('common');
@@ -26,8 +26,8 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
         )}
         {value?.map(row => (
           <div
+            className="inline-flex items-center justify-center rounded bg-white/10 px-2 py-px font-medium text-xxs"
             key={row}
-            className="inline-flex items-center justify-center rounded bg-white/10 px-2 py-px text-xxs font-medium"
           >
             {row.toUpperCase()}
           </div>
@@ -173,7 +173,7 @@ export function ConfirmationBadge<I extends Indicator>({
         <HoverTooltip
           title={
             <div>
-              <p className="mb-1 text-xs text-v1-content-primary">
+              <p className="mb-1 text-v1-content-primary text-xs">
                 {data.fullTitle}
               </p>
               <ConfirmationResolutionRow value={data.resolutions} />
@@ -192,21 +192,21 @@ export function ConfirmationBadge<I extends Indicator>({
               <span className="inline-flex items-center gap-px">
                 <span
                   className={clsx(
-                    'text-xs font-medium',
+                    'font-medium text-xs',
                     data.resolutions.length === 0 && 'opacity-80 grayscale',
                     data.textColor,
                   )}
                 >
                   {data.resolutions.length}
                 </span>
-                <span className="text-xxs text-v1-content-primary">/</span>
-                <span className="text-xxs text-v1-content-primary">
+                <span className="text-v1-content-primary text-xxs">/</span>
+                <span className="text-v1-content-primary text-xxs">
                   {timeframes.length}
                 </span>
               </span>
             </div>
             {mode === 'summary' && (
-              <p className="whitespace-nowrap text-start text-xxs text-v1-content-secondary">
+              <p className="whitespace-nowrap text-start text-v1-content-secondary text-xxs">
                 {data.title}
               </p>
             )}
@@ -226,15 +226,15 @@ export function ConfirmationBadge<I extends Indicator>({
             />
             <span
               className={clsx(
-                'text-xs font-medium',
+                'font-medium text-xs',
                 data.resolutions.length === 0 && 'opacity-80 grayscale',
                 data.textColor,
               )}
             >
               {data.resolutions.length}
             </span>
-            <span className="text-xxs text-v1-content-primary">/</span>
-            <span className="text-xxs text-v1-content-primary">
+            <span className="text-v1-content-primary text-xxs">/</span>
+            <span className="text-v1-content-primary text-xxs">
               {timeframes.length}
             </span>
           </span>

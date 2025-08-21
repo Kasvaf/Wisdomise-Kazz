@@ -1,16 +1,16 @@
-import { type FC, useMemo } from 'react';
-import { Coin } from 'shared/v1-components/Coin';
-import { AccessShield } from 'shared/AccessShield';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type FC, useMemo } from 'react';
+import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { usePageState } from 'shared/usePageState';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
+import { Coin } from 'shared/v1-components/Coin';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
+import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 
 export const TechnicalRadarCoinsTable: FC<{
   onClick?: (coin: TechnicalRadarCoin) => void;
@@ -38,39 +38,39 @@ export const TechnicalRadarCoinsTable: FC<{
           <Coin
             abbreviation={row.symbol.abbreviation}
             // name={row.symbol.name}
-            slug={row.symbol.slug}
-            logo={row.symbol.logo_url}
             categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            href={false}
             extra={
               <>
                 <DirectionalNumber
-                  value={row.data?.price_change_percentage_24h}
-                  label="%"
                   direction="auto"
-                  showIcon
-                  showSign={false}
                   format={{
                     decimalLength: 1,
                     minifyDecimalRepeats: true,
                   }}
+                  label="%"
+                  showIcon
+                  showSign={false}
+                  value={row.data?.price_change_percentage_24h}
                 />
                 <CoinMarketCap
+                  className="text-xxs"
                   marketData={row.data}
                   singleLine
-                  className="text-xxs"
                 />
               </>
             }
+            href={false}
+            labels={row.symbol_labels}
+            logo={row.symbol.logo_url}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            slug={row.symbol.slug}
           />
         ),
       },
       {
         key: 'sentiment',
-        render: row => <TechnicalRadarSentiment value={row} mode="mini" />,
+        render: row => <TechnicalRadarSentiment mode="mini" value={row} />,
         align: 'end',
       },
     ],
@@ -84,11 +84,11 @@ export const TechnicalRadarCoinsTable: FC<{
   return (
     <>
       <TechnicalRadarFilters
-        value={pageState}
-        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
-        surface={1}
         mini
+        onChange={newPageState => setPageState(newPageState)}
+        surface={1}
+        value={pageState}
       />
       <AccessShield
         mode="table"
@@ -102,11 +102,11 @@ export const TechnicalRadarCoinsTable: FC<{
         <Table
           columns={columns}
           dataSource={coins.data ?? []}
-          rowKey={r => r.symbol.slug}
-          loading={coins.isLoading}
-          surface={1}
-          onClick={r => onClick?.(r)}
           isActive={r => r.symbol.slug === activeSlug}
+          loading={coins.isLoading}
+          onClick={r => onClick?.(r)}
+          rowKey={r => r.symbol.slug}
+          surface={1}
         />
       </AccessShield>
     </>

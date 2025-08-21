@@ -1,3 +1,4 @@
+import { useSupportedPairs } from 'api';
 import {
   createContext,
   type Dispatch,
@@ -8,7 +9,6 @@ import {
   useState,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useSupportedPairs } from 'api';
 
 const context = createContext<
   | [string, Dispatch<SetStateAction<string>>, Dispatch<SetStateAction<string>>]

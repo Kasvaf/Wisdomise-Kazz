@@ -1,6 +1,6 @@
-import { type FC } from 'react';
-import { TechnicalRadarExpanded } from './TechnicalRadarExpanded';
+import type { FC } from 'react';
 import { TechnicalRadarCompact } from './TechnicalRadarCompact';
+import { TechnicalRadarExpanded } from './TechnicalRadarExpanded';
 
 export const TechnicalRadar: FC<{ expanded?: boolean; focus?: boolean }> = ({
   expanded,

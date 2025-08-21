@@ -34,12 +34,12 @@ const CoinsIcons: React.FC<Props> = ({
     <Avatar.Group className={className}>
       {fCoins.map(c => (
         <div
-          key={c}
           className="z-[1] grow-0 self-center rounded-full bg-white p-[1px]"
+          key={c}
         >
           <Avatar
-            size={size}
             className="!border-0"
+            size={size}
             src={c.startsWith('http') ? c : cdnCoinIcon(c.toLowerCase())}
           />
         </div>

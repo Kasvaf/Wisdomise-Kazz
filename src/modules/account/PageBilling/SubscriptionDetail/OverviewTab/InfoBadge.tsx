@@ -12,17 +12,17 @@ export default function InfoBadge({
   return (
     <span
       className={clsx(
-        'mx-2 inline-flex h-7 items-center gap-1 rounded-lg  px-3 text-sm font-bold capitalize mobile:text-xs',
+        'mx-2 inline-flex h-7 items-center gap-1 rounded-lg px-3 font-bold mobile:text-xs text-sm capitalize',
         type === 'warning' ? 'bg-[#F1AA40]/5 text-[#F1AA40]' : 'bg-white/5',
       )}
     >
       <span>{value1}</span>
       {value2 && (
         <svg
-          width="8"
+          fill="none"
           height="14"
           viewBox="0 0 8 14"
-          fill="none"
+          width="8"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

@@ -1,5 +1,5 @@
-import { type PropsWithChildren } from 'react';
 import { bxInfoCircle } from 'boxicons-quasar';
+import type { PropsWithChildren } from 'react';
 import Icon from './Icon';
 
 const LabelInfo: React.FC<PropsWithChildren<{ url: string }>> = ({
@@ -10,10 +10,10 @@ const LabelInfo: React.FC<PropsWithChildren<{ url: string }>> = ({
     <div className="flex items-center gap-2">
       {children && <span>{children}</span>}
       <a
-        target="_blank"
+        className="text-v1-content-notice/70 hover:text-v1-content-notice"
         href={url}
         rel="noreferrer"
-        className="text-v1-content-notice/70 hover:text-v1-content-notice"
+        target="_blank"
       >
         <Icon name={bxInfoCircle} />
       </a>

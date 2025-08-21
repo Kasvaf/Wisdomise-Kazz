@@ -1,24 +1,24 @@
-import { useTranslation } from 'react-i18next';
-import { type FC, type SVGProps, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
 import {
   type CommunityProfile,
-  useCommunityProfileQuery,
-  useCommunityProfileMutation,
   useAccountQuery,
+  useCommunityProfileMutation,
+  useCommunityProfileQuery,
 } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
+import { type FC, type SVGProps, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { Markdown } from 'shared/Markdown';
 import TextBox from 'shared/TextBox';
-import useIsMobile from 'utils/useIsMobile';
-import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { Dialog } from 'shared/v1-components/Dialog';
+import useIsMobile from 'utils/useIsMobile';
 import {
   DiscordIcon,
   EditIcon,
-  LinkIcon,
   LinkedinIcon,
+  LinkIcon,
   MailIcon,
   TelegramIcon,
   TwitterIcon,
@@ -123,28 +123,28 @@ export default function PageProfile() {
 
   return (
     <PageWrapper
-      hasBack
-      title={t('accounts:page-profile.title')}
-      loading={profile.isLoading}
       extension={!isMobile && <CoinExtensionsGroup />}
+      hasBack
+      loading={profile.isLoading}
+      title={t('accounts:page-profile.title')}
     >
       <ProfileHeader
         className="mb-8"
-        userId={account.data?.key || ''}
+        onChange={newData => {
+          void profileMutation.mutateAsync({
+            ...newData,
+          });
+        }}
         profile={
           profile.data && {
             ...profile.data,
             support_email: account.data?.email || null, // the email in me-mode is described: Can't change!
           }
         }
-        onChange={newData => {
-          void profileMutation.mutateAsync({
-            ...newData,
-          });
-        }}
+        userId={account.data?.key || ''}
       />
 
-      <div className="flex items-stretch gap-6 mobile:flex-col">
+      <div className="flex mobile:flex-col items-stretch gap-6">
         <div className="shrink-0 basis-1/3">
           <h2>{t('accounts:page-profile.sections.info')}</h2>
           <hr className="my-2 opacity-10" />
@@ -163,13 +163,13 @@ export default function PageProfile() {
           </div>
           <hr className="my-2 opacity-10" />
           <Button
-            size="small"
-            variant="alternative"
             className="w-full"
             onClick={() => {
               profileInfosForm.reset(profile.data);
               setInfoModal(true);
             }}
+            size="small"
+            variant="alternative"
           >
             {t('accounts:page-profile.buttons.edit_info')}{' '}
             <EditIcon className="ml-2" />
@@ -192,18 +192,18 @@ export default function PageProfile() {
             render={({ field }) => (
               <Markdown
                 {...field}
-                value={field.value || ''}
-                placeholder={t('accounts:page-profile.inputs.overview')}
                 className="h-80 mobile:h-96"
+                placeholder={t('accounts:page-profile.inputs.overview')}
+                value={field.value || ''}
               />
             )}
           />
           <Button
+            className="!px-8 absolute right-0 bottom-0 m-4 backdrop-blur-md"
+            disabled={!profileOverviewForm.formState.isDirty}
+            loading={profileOverviewForm.formState.isSubmitting}
             size="small"
             variant="alternative"
-            className="absolute bottom-0 right-0 m-4 !px-8 backdrop-blur-md"
-            loading={profileOverviewForm.formState.isSubmitting}
-            disabled={!profileOverviewForm.formState.isDirty}
           >
             {t('common:actions.save')}
           </Button>
@@ -211,17 +211,17 @@ export default function PageProfile() {
       </div>
 
       <Dialog
-        open={infoModal}
-        footer={false}
-        mode={isMobile ? 'drawer' : 'modal'}
+        contentClassName="p-3"
         drawerConfig={{
           position: 'bottom',
         }}
-        contentClassName="p-3"
-        surface={2}
+        footer={false}
+        mode={isMobile ? 'drawer' : 'modal'}
         onClose={() => {
           setInfoModal(false);
         }}
+        open={infoModal}
+        surface={2}
       >
         <h2 className="mt-2 text-center text-lg">
           {t('accounts:page-profile.sections.info')}
@@ -237,11 +237,11 @@ export default function PageProfile() {
               .finally(() => setInfoModal(false)),
           )}
         >
-          <div className="mt-6 grid grid-cols-2 gap-4 mobile:grid-cols-1">
+          <div className="mt-6 grid grid-cols-2 mobile:grid-cols-1 gap-4">
             {infoRows.map(({ bindTo, icon: Icon, label, placeholder }) => (
               <Controller
-                key={bindTo}
                 control={profileInfosForm.control}
+                key={bindTo}
                 name={bindTo}
                 render={({ field }) => (
                   <TextBox
@@ -251,8 +251,8 @@ export default function PageProfile() {
                         <Icon className="h-4 w-4" /> {label}
                       </span>
                     }
-                    value={field.value || ''}
                     placeholder={placeholder}
+                    value={field.value || ''}
                   />
                 )}
               />
@@ -260,20 +260,20 @@ export default function PageProfile() {
           </div>
           <div className="mt-6 flex flex-row-reverse justify-center gap-4">
             <Button
-              variant="primary"
-              loading={profileInfosForm.formState.isSubmitting}
               className="basis-1/3"
               disabled={!profileInfosForm.formState.isDirty}
+              loading={profileInfosForm.formState.isSubmitting}
+              variant="primary"
             >
               {t('common:actions.save')}
             </Button>
             <Button
-              variant="secondary"
               className="basis-1/3"
               onClick={e => {
                 e.preventDefault();
                 setInfoModal(false);
               }}
+              variant="secondary"
             >
               {t('common:actions.cancel')}
             </Button>

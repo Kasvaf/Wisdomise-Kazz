@@ -1,8 +1,8 @@
+import type { SocialMessage } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Markdown from 'react-markdown';
-import { type SocialMessage } from 'api/discovery';
 import { Button } from 'shared/v1-components/Button';
 
 export function SocialMessageContent({
@@ -76,7 +76,7 @@ export function SocialMessageContent({
     >
       {/* Title */}
       {title && (
-        <h3 className="text-sm font-normal text-v1-content-primary">{title}</h3>
+        <h3 className="font-normal text-sm text-v1-content-primary">{title}</h3>
       )}
 
       {/* Summary */}
@@ -93,10 +93,10 @@ export function SocialMessageContent({
         >
           <Button
             block
-            variant="link"
-            size="2xs"
             className={clsx('!absolute bottom-0 w-full')}
             onClick={onReadMore}
+            size="2xs"
+            variant="link"
           >
             {t('social-messages.read_more')}
           </Button>

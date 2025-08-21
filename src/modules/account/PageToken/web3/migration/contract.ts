@@ -1,7 +1,7 @@
-import { useWriteContract } from 'wagmi';
-import { MIGRATION_ABI } from 'modules/account/PageToken/web3/migration/abi';
 import { TOKEN_MIGRATION_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
+import { MIGRATION_ABI } from 'modules/account/PageToken/web3/migration/abi';
 import { useWaitResolver } from 'modules/account/PageToken/web3/shared';
+import { useWriteContract } from 'wagmi';
 
 const migrationContractDefaultConfig = {
   address: TOKEN_MIGRATION_CONTRACT_ADDRESS,

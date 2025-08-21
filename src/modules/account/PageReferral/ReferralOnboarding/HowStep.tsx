@@ -13,11 +13,11 @@ export default function HowStep({
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-full grow flex-col items-center overflow-auto px-6">
-        <img src={logo} alt="logo" className="w-auto" />
-        <h1 className="mt-10 mb-4 text-4xl font-semibold mobile:text-xl md:mb-10">
+        <img alt="logo" className="w-auto" src={logo} />
+        <h1 className="mt-10 mb-4 font-semibold mobile:text-xl text-4xl md:mb-10">
           How It Works
         </h1>
-        <p className="mb-6 max-w-xl text-xl mobile:text-sm">
+        <p className="mb-6 max-w-xl mobile:text-sm text-xl">
           Invite Friends Using Your Unique Referral Link.
         </p>
         <div className="max-w-xl">
@@ -33,9 +33,9 @@ export default function HowStep({
           {/*   </div> */}
           {/* </div> */}
           <div className="mb-5 flex items-center gap-4">
-            <img src={num1} alt="1" className="size-12" />
+            <img alt="1" className="size-12" src={num1} />
             <div>
-              <p className="mb-1 text-xl mobile:text-sm">
+              <p className="mb-1 mobile:text-sm text-xl">
                 Friends Trade With Auto Trader (Level 1)
               </p>
               <p className="text-sm text-v1-content-secondary">
@@ -46,9 +46,9 @@ export default function HowStep({
             </div>
           </div>
           <div className="mb-5 flex items-center gap-4">
-            <img src={num2} alt="1" className="size-12" />
+            <img alt="1" className="size-12" src={num2} />
             <div>
-              <p className="mb-1 text-xl mobile:text-sm">
+              <p className="mb-1 mobile:text-sm text-xl">
                 Friends’ Friends Trade With Auto Trader (Level 2)
               </p>
               <p className="text-sm text-v1-content-secondary">
@@ -61,10 +61,10 @@ export default function HowStep({
         </div>
       </div>
       <NavigateButtons
-        prevText="Previous"
         nextText="Done"
         onNext={onNext}
         onPrev={onPrev}
+        prevText="Previous"
       />
     </div>
   );

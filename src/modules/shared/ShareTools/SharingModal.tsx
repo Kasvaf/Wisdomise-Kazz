@@ -1,4 +1,4 @@
-import { type ReactNode, type RefObject } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { ReferralShareLinks } from './ReferralShareLinks';
 
@@ -17,16 +17,16 @@ export default function SharingModal({
 }) {
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
-      mode="modal"
-      className="w-max !bg-transparent"
+      className="!bg-transparent w-max"
       footer={
         <ReferralShareLinks
-          screenshotTarget={screenshotTarget}
           fileName={fileName}
+          screenshotTarget={screenshotTarget}
         />
       }
+      mode="modal"
+      onClose={onClose}
+      open={open}
     >
       {children}
     </Dialog>

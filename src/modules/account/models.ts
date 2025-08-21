@@ -1,4 +1,4 @@
-import { type SubscriptionPlan } from 'api/types/subscription';
+import type { SubscriptionPlan } from 'api/types/subscription';
 
 export interface Invoice {
   key: string;

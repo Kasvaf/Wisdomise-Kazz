@@ -1,11 +1,11 @@
 /* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable import/no-unresolved */
 
-import * as i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import resources from 'virtual:i18next-loader';
 import { notification } from 'antd';
+import * as i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
 import { isProduction } from 'utils/version';
 
 const validLang = /^([a-z]{2}(-[a-z]{2})?)$/;
@@ -22,12 +22,12 @@ export default function configI18n() {
       },
       saveMissing: !isProduction,
       missingKeyHandler: (
-        lngs,
+        _lngs,
         ns,
         key,
-        fallbackValue,
-        updateMissing,
-        options,
+        _fallbackValue,
+        _updateMissing,
+        _options,
       ) => {
         if (isProduction) {
           // TODO: send sentry log!

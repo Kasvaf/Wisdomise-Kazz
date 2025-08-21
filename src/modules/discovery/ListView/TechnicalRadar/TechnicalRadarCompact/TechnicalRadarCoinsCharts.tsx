@@ -1,7 +1,7 @@
-import { useState, type FC } from 'react';
+import type { TechnicalRadarCoin } from 'api/discovery';
+import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { type TechnicalRadarCoin } from 'api/discovery';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 
 export const TechnicalRadarCoinsCharts: FC<{
@@ -15,10 +15,8 @@ export const TechnicalRadarCoinsCharts: FC<{
   return (
     <div className="rounded-xl bg-v1-surface-l1 p-2">
       <ButtonSelect
-        value={view}
-        onChange={setView}
-        size="md"
         className="mb-4"
+        onChange={setView}
         options={[
           {
             label: (
@@ -28,7 +26,7 @@ export const TechnicalRadarCoinsCharts: FC<{
                     'keywords.rsi_bullish.label_equiv',
                   )}`}
                 </p>
-                <p className="text-xxs text-v1-content-primary">
+                <p className="text-v1-content-primary text-xxs">
                   {t('common.rsi_macd_chart.rsi_and_macd')}
                 </p>
               </div>
@@ -43,7 +41,7 @@ export const TechnicalRadarCoinsCharts: FC<{
                     'keywords.rsi_bearish.label_equiv',
                   )}`}
                 </p>
-                <p className="text-xxs text-v1-content-primary">
+                <p className="text-v1-content-primary text-xxs">
                   {t('common.rsi_macd_chart.rsi_and_macd')}
                 </p>
               </div>
@@ -51,9 +49,11 @@ export const TechnicalRadarCoinsCharts: FC<{
             value: 'expensive_bearish',
           },
         ]}
+        size="md"
         surface={2}
+        value={view}
       />
-      <TechnicalRadarChart key={view} type={view} onClick={onClick} />
+      <TechnicalRadarChart key={view} onClick={onClick} type={view} />
     </div>
   );
 };

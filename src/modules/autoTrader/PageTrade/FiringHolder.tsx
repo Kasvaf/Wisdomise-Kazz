@@ -1,5 +1,5 @@
-import { clsx } from 'clsx';
 import { Spin } from 'antd';
+import { clsx } from 'clsx';
 
 const FiringHolder: React.FC<{ className?: string; firing?: boolean }> = ({
   firing,

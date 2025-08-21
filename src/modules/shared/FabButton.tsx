@@ -14,7 +14,6 @@ const FabButton: React.FC<{
   const navigate = useNavigate();
   return (
     <div
-      onClick={disabled ? undefined : (onClick ?? (() => to && navigate(to)))}
       className={clsx(
         'rounded-full border border-transparent p-1',
         disabled
@@ -24,6 +23,7 @@ const FabButton: React.FC<{
             : 'cursor-pointer bg-white text-black hover:bg-white/70',
         className,
       )}
+      onClick={disabled ? undefined : (onClick ?? (() => to && navigate(to)))}
     >
       <Icon name={icon} size={size} />
     </div>

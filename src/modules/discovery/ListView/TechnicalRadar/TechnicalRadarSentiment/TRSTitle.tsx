@@ -1,5 +1,5 @@
-import { type FC } from 'react';
 import { clsx } from 'clsx';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const TRSTitle: FC<{

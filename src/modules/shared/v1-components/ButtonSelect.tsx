@@ -1,11 +1,11 @@
 import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
+  type ReactNode,
   useCallback,
   useEffect,
   useRef,
   useState,
-  type ReactNode,
 } from 'react';
 import Icon from 'shared/Icon';
 import { useMutationObserver } from 'utils/useMutationObserver';
@@ -124,7 +124,7 @@ export function ButtonSelect<T>({
     >
       <div
         className={clsx(
-          'text-v1-content-primary flex h-full flex-nowrap items-center  gap-0 whitespace-nowrap ',
+          'flex h-full flex-nowrap items-center gap-0 whitespace-nowrap text-v1-content-primary',
           innerScroll
             ? ['scrollbar-none', 'w-full overflow-auto']
             : 'w-max min-w-max shrink-0',
@@ -135,20 +135,16 @@ export function ButtonSelect<T>({
           .filter(x => !x.hidden)
           .map((option, index) => (
             <button
-              onClick={handleClick(option)}
-              key={`${option.value?.toString() || ''}-${index}`}
-              role="radio"
               aria-checked={value === option.value}
-              disabled={option.disabled}
               className={clsx(
                 'relative h-full shrink-0 overflow-hidden',
-                size === 'xl' ? ' px-3' : 'px-2',
+                size === 'xl' ? 'px-3' : 'px-2',
                 size === 'xxs' || size === 'xs' ? 'rounded-md' : 'rounded-lg',
                 variant === 'tab' &&
-                  '!rounded-none border-x-0 border-b border-t-0',
+                  '!rounded-none border-x-0 border-t-0 border-b',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'enabled:hover:text-v1-content-primary/80 border border-transparent',
+                'border border-transparent enabled:hover:text-v1-content-primary/80',
                 variant === 'primary'
                   ? 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-v1-background-brand enabled:aria-checked:text-v1-content-primary-inverse'
                   : variant === 'white'
@@ -161,6 +157,10 @@ export function ButtonSelect<T>({
                 buttonClassName,
                 option.className,
               )}
+              disabled={option.disabled}
+              key={`${option.value?.toString() || ''}-${index}`}
+              onClick={handleClick(option)}
+              role="radio"
             >
               {option.label}
             </button>
@@ -173,16 +173,16 @@ export function ButtonSelect<T>({
                 'group absolute top-0 flex h-full w-10 cursor-pointer items-center',
                 '!bg-gradient-to-r',
                 i === 0
-                  ? 'from-(--current-color) left-0 justify-start to-transparent'
-                  : 'to-(--current-color) right-0 justify-end from-transparent',
+                  ? 'left-0 justify-start from-(--current-color) to-transparent'
+                  : 'right-0 justify-end from-transparent to-(--current-color)',
                 !x && 'hidden',
               )}
-              onClick={scroll(i === 0 ? 'left' : 'right')}
               key={i}
+              onClick={scroll(i === 0 ? 'left' : 'right')}
             >
               <Icon
-                name={i === 0 ? bxChevronLeft : bxChevronRight}
                 className="text-v1-content-primary opacity-60 group-hover:opacity-100"
+                name={i === 0 ? bxChevronLeft : bxChevronRight}
                 size={20}
               />
             </div>

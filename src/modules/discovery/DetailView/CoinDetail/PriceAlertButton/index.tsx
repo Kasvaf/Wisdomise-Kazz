@@ -1,15 +1,15 @@
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { bxBell } from 'boxicons-quasar';
-import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
 import { type Alert, useAlerts } from 'api/alert';
-import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
-import Icon from 'shared/Icon';
-import { gtmClass } from 'utils/gtmClass';
+import { bxBell } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
-import { Button, type ButtonProps } from 'shared/v1-components/Button';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DebugPin } from 'shared/DebugPin';
+import Icon from 'shared/Icon';
+import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
+import { Button, type ButtonProps } from 'shared/v1-components/Button';
+import { gtmClass } from 'utils/gtmClass';
 
 export function PriceAlertButton({
   slug,
@@ -76,24 +76,21 @@ export function PriceAlertButton({
       {hasFlag('/account/alerts') && hasFlag('/account/alerts?price_alert') && (
         <Button
           {...props}
+          block
+          className={clsx(className, gtmClass('set-alert'))}
+          fab={fab}
           onClick={() => alertActions.openSaveModal()}
           variant={initialAlert.key ? 'outline' : variant}
-          block
-          fab={fab}
-          className={clsx(className, gtmClass('set-alert'))}
         >
           <DebugPin
-            title={['/account/alerts', '/account/alerts?price_alert']}
             color="orange"
+            title={['/account/alerts', '/account/alerts?price_alert']}
           />
-          <Icon size={20} name={bxBell} />
-          {!fab && (
-            <>
-              {initialAlert.key
-                ? t('set-price-notification.open-existing-modal-btn')
-                : t('set-price-notification.open-modal-btn')}
-            </>
-          )}
+          <Icon name={bxBell} size={20} />
+          {!fab &&
+            (initialAlert.key
+              ? t('set-price-notification.open-existing-modal-btn')
+              : t('set-price-notification.open-modal-btn'))}
         </Button>
       )}
       {alertActions.content}

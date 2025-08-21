@@ -1,18 +1,18 @@
+import type { SocialMessage } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SocialMessage } from 'api/discovery';
-import useIsMobile from 'utils/useIsMobile';
 import { ReadableDate } from 'shared/ReadableDate';
 import { Dialog } from 'shared/v1-components/Dialog';
+import useIsMobile from 'utils/useIsMobile';
 import { SocialLogo } from '../SocialLogo';
-import { SocialMessageImage } from './SocialMessageImage';
-import { SocialMessageContent } from './SocialMessageContent';
-import { SocialMessageUser } from './SocialMessageUser';
-import { SocialMessageStats } from './SocialMessageStats';
-import { useSocialMessage } from './useSocialMessage';
 import { LongIcon, ShortIcon } from './icons';
+import { SocialMessageContent } from './SocialMessageContent';
+import { SocialMessageImage } from './SocialMessageImage';
 import { SocialMessageReadMore } from './SocialMessageReadMore';
+import { SocialMessageStats } from './SocialMessageStats';
+import { SocialMessageUser } from './SocialMessageUser';
+import { useSocialMessage } from './useSocialMessage';
 
 export function SocialMessageSummary({
   message,
@@ -30,23 +30,23 @@ export function SocialMessageSummary({
     <>
       <div
         className={clsx(
-          'flex w-full max-w-full items-stretch justify-between gap-4 mobile:items-start',
-          'flex-row rounded-lg p-3 bg-v1-surface-l-next mobile:flex-col',
+          'flex w-full max-w-full mobile:items-start items-stretch justify-between gap-4',
+          'flex-row mobile:flex-col rounded-lg bg-v1-surface-l-next p-3',
           className,
         )}
       >
         <SocialMessageImage
+          className="h-36 mobile:h-40 mobile:w-full w-60 shrink-0 overflow-hidden rounded-lg bg-white"
           message={message}
-          className="h-36 w-60 shrink-0 overflow-hidden rounded-lg bg-white mobile:h-40 mobile:w-full"
         />
         <div className="flex h-36 grow flex-col justify-between gap-4 py-1">
           <div className="grow space-y-4">
             <div className="flex items-center gap-1">
               <ReadableDate
-                format="MMM D, YYYY h:mm A"
-                value={fields.releasedDate}
                 className="inline-flex h-4 items-center justify-center rounded-lg bg-v1-surface-l3 px-2 text-xxs"
+                format="MMM D, YYYY h:mm A"
                 popup={false}
+                value={fields.releasedDate}
               />
               {typeof fields.side === 'string' && (
                 <span
@@ -62,12 +62,12 @@ export function SocialMessageSummary({
               )}
             </div>
             <SocialMessageContent
+              className="max-h-16"
               message={message}
               mode={
                 message.social_type === 'trading_view' ? 'title' : 'summary'
               }
               onReadMore={() => setOpen(true)}
-              className="max-h-16"
             />
           </div>
 
@@ -75,7 +75,7 @@ export function SocialMessageSummary({
             <SocialMessageUser message={message} type="title" />
             <div className="flex items-center justify-end gap-2">
               {message.social_type !== 'trading_view' && (
-                <SocialLogo type={message.social_type} className="size-6" />
+                <SocialLogo className="size-6" type={message.social_type} />
               )}
               <SocialMessageStats message={message} />
               <SocialMessageReadMore onClick={() => setOpen(true)} />
@@ -84,16 +84,16 @@ export function SocialMessageSummary({
         </div>
       </div>
       <Dialog
-        mode={isMobile ? 'drawer' : 'modal'}
+        closable
+        contentClassName="p-3"
         drawerConfig={{
           position: 'bottom',
         }}
-        surface={2}
-        open={open}
-        onClose={() => setOpen(false)}
-        closable
         header={t('social-messages.post_details')}
-        contentClassName="p-3"
+        mode={isMobile ? 'drawer' : 'modal'}
+        onClose={() => setOpen(false)}
+        open={open}
+        surface={2}
       >
         <SocialMessageDetails message={message} />
       </Dialog>
@@ -124,9 +124,9 @@ function SocialMessageDetails({
             />
           )}
           <SocialMessageUser
+            className="shrink-0"
             message={message}
             type="large-title"
-            className="shrink-0"
           />
         </div>
         <div className="flex items-center gap-3">
@@ -134,13 +134,13 @@ function SocialMessageDetails({
         </div>
       </div>
       <SocialMessageImage
-        message={message}
         className="h-auto w-full shrink-0 object-contain"
+        message={message}
       />
       <SocialMessageContent
+        className="w-full shrink-0"
         message={message}
         mode="full"
-        className="w-full shrink-0"
       />
     </div>
   );

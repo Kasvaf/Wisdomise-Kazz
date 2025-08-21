@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import oneSignal from 'config/oneSignal';
+import { useCallback } from 'react';
 
 export const useWebPushPermission = () => {
   const { data: hasPermission, refetch } = useQuery({

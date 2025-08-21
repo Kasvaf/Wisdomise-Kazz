@@ -1,8 +1,8 @@
+import { Dropdown } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import type React from 'react';
 import { type PropsWithChildren, useCallback, useState } from 'react';
-import { bxChevronDown } from 'boxicons-quasar';
-import { Dropdown } from 'antd';
-import { clsx } from 'clsx';
 import Icon from './Icon';
 
 interface Props {
@@ -25,11 +25,11 @@ const OptionItem: React.FC<
   return (
     <div
       className={clsx(
-        'cursor-pointer py-4 pl-3 pr-2 hover:bg-black/20',
+        'cursor-pointer py-4 pr-2 pl-3 hover:bg-black/20',
         className,
       )}
-      onClick={useCallback(() => onClick(item), [onClick, item])}
       key={JSON.stringify(item)}
+      onClick={useCallback(() => onClick(item), [onClick, item])}
     >
       {children}
     </div>
@@ -63,13 +63,13 @@ const ComboBox: React.FC<Props> = ({
         <div className="max-h-[300px] overflow-auto">
           {options.map((item, ind) => (
             <OptionItem
-              key={JSON.stringify(item)}
-              item={item}
-              onClick={selectItemHandler}
               className={clsx(
-                ind !== options.length - 1 && 'border-b border-white/20',
+                ind !== options.length - 1 && 'border-white/20 border-b',
                 optionClassName,
               )}
+              item={item}
+              key={JSON.stringify(item)}
+              onClick={selectItemHandler}
             >
               {renderItem?.(item, true) || item}
             </OptionItem>
@@ -83,18 +83,18 @@ const ComboBox: React.FC<Props> = ({
   const disabledOrEmpty = disabled || options.length <= 1;
   return (
     <Dropdown
-      open={open}
-      trigger={['click']}
-      onOpenChange={setOpen}
-      placement="bottomRight"
-      dropdownRender={dropDownFn}
       disabled={disabledOrEmpty}
+      dropdownRender={dropDownFn}
+      onOpenChange={setOpen}
+      open={open}
+      placement="bottomRight"
+      trigger={['click']}
     >
       <div
         className={clsx(
           'flex h-12 rounded-xl',
           'items-center justify-between',
-          'bg-black/40 pl-3 pr-2',
+          'bg-black/40 pr-2 pl-3',
           !disabledOrEmpty && 'cursor-pointer hover:bg-white/5',
           open && 'bg-white/5',
           className,
@@ -107,11 +107,11 @@ const ComboBox: React.FC<Props> = ({
         {options.length > 1 && !disabled && (
           <div className="flex items-center p-1">
             <Icon
-              name={bxChevronDown}
               className={clsx(
                 'text-white transition-transform',
                 open && '-scale-y-100',
               )}
+              name={bxChevronDown}
             />
           </div>
         )}

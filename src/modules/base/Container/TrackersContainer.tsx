@@ -1,14 +1,14 @@
-import { type PropsWithChildren, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAccountQuery } from 'api';
 import { saveUserMultiKeyValue } from 'api/userStorage';
-import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
-import useStartParams from 'modules/autoTrader/useStartParams';
-import { useEmbedView } from 'modules/embedded/useEmbedView';
-import { analytics, configSegment } from 'config/segment';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
 import oneSignal from 'config/oneSignal';
+import { analytics, configSegment } from 'config/segment';
+import useStartParams from 'modules/autoTrader/useStartParams';
+import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { type PropsWithChildren, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { isMiniApp } from 'utils/version';
 import { useIsLoggedIn } from '../auth/jwt-store';
 
@@ -22,7 +22,7 @@ function addGtm() {
   const f = document.querySelectorAll('script')[0];
   const j = document.createElement('script');
   j.async = true;
-  j.src = 'https://www.googletagmanager.com/gtm.js?l=dataLayer&id=' + GTM_ID;
+  j.src = `https://www.googletagmanager.com/gtm.js?l=dataLayer&id=${GTM_ID}`;
   f.parentNode?.insertBefore(j, f);
 }
 
@@ -31,7 +31,7 @@ const getUtmParams = () => ({
   ...JSON.parse(localStorage.getItem('first_utm') || '{}'),
   ...Object.fromEntries(
     Object.entries(JSON.parse(localStorage.getItem('last_utm') || '{}')).map(
-      ([k, v]) => ['last_' + k, v],
+      ([k, v]) => [`last_${k}`, v],
     ),
   ),
 });
@@ -61,8 +61,7 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
       s.set('utm_source', utmSource);
       s.set('utm_medium', utmMedium);
       s.set('utm_campaign', utmCampaign);
-      window.location.href =
-        window.location.origin + window.location.pathname + '?' + s.toString();
+      window.location.href = `${window.location.origin + window.location.pathname}?${s.toString()}`;
     } else {
       // store all utm params for later use of identify
       const searchParams = new URLSearchParams(location.search);

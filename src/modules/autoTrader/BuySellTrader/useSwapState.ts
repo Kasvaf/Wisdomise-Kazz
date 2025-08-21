@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useLastPriceQuery, useSupportedNetworks } from 'api';
 import { useAccountBalance } from 'api/chains';
-import { useSymbolInfo } from 'api/symbol';
-import { roundSensible } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
-import { type TraderInputs } from '../PageTrade/types';
+import { useSymbolInfo } from 'api/symbol';
+import { useCallback, useEffect, useState } from 'react';
+import { roundSensible } from 'utils/numbers';
+import type { TraderInputs } from '../PageTrade/types';
 
 const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [base, setBase] = useState<string>();

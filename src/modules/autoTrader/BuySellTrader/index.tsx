@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
-import Trader from '../PageTrade/Trader';
-import { type TraderInputs } from '../PageTrade/types';
 import FiringHolder from '../PageTrade/FiringHolder';
-import { ModeSelector, type TraderModes } from './ModeSelector';
-import useSwapState from './useSwapState';
+import Trader from '../PageTrade/Trader';
+import type { TraderInputs } from '../PageTrade/types';
 import BuyForm from './BuyForm';
+import { ModeSelector, type TraderModes } from './ModeSelector';
 import SellForm from './SellForm';
+import useSwapState from './useSwapState';
 
 const BuySellForms: React.FC<
   TraderInputs & { mode: 'buy' | 'sell'; loadingClassName?: string }
@@ -57,7 +57,7 @@ const BuySellTrader: React.FC<
   return (
     <div className="[&_.id-input]:bg-v1-surface-l1">
       {!positionKey && (
-        <ModeSelector mode={mode} setMode={setMode} className="mb-4" />
+        <ModeSelector className="mb-4" mode={mode} setMode={setMode} />
       )}
 
       {mode === 'auto' ? (

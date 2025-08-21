@@ -1,5 +1,5 @@
-import { type Resolution } from 'shared/AdvancedChart/getCandlesCached';
-import { type Coin } from '../types/shared';
+import type { Resolution } from 'shared/AdvancedChart/getCandlesCached';
+import type { Coin } from '../types/shared';
 
 export type PricesExchange = 'BINANCE' | 'STONFI' | 'RAYDIUM';
 

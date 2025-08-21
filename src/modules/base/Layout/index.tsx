@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { type ReactElement, type PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactElement } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import AuthorizedContent from '../auth/AuthorizedContent';
-import ScrollToTop from './ScrollToTop';
-import MobileHeader from './MobileHeader';
-import DesktopHeader from './DesktopHeader';
-import DefaultSidebar from './DefaultSidebar';
 import DefaultFooter from './DefaultFooter';
+import DefaultSidebar from './DefaultSidebar';
+import DesktopHeader from './DesktopHeader';
+import MobileHeader from './MobileHeader';
+import ScrollToTop from './ScrollToTop';
 
 export interface LayoutProps {
   hasBack?: boolean;
@@ -36,7 +36,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
   return (
     <div
-      className="bg-v1-surface-l0 relative flex min-h-screen max-w-full flex-col"
+      className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l0"
       style={{
         ['--desktop-sidebar-width' as never]:
           !isMobile && sidebar !== null ? '4rem' : '0px',
@@ -51,11 +51,11 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       }}
     >
       {/* Sticky Header */}
-      <header className="h-(--desktop-header-height) sticky top-0 z-30 w-full max-w-full mobile:h-auto">
+      <header className="sticky top-0 z-30 h-(--desktop-header-height) mobile:h-auto w-full max-w-full">
         {header === null
           ? null
           : header || (
-              <Header hasBack={hasBack} title={title} extension={extension} />
+              <Header extension={extension} hasBack={hasBack} title={title} />
             )}
       </header>
 
@@ -73,9 +73,9 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         {/* Sidebar - only for desktop */}
         {!isMobile && sidebar !== null && (
           <aside
-            id="sidebar"
+            className="-mt-(--route-details-height) scrollbar-none sticky start-0 top-(--desktop-header-height) z-20 h-[calc(100svh-var(--desktop-header-height))] w-(--desktop-sidebar-width) shrink-0 overflow-auto border-white/10 border-r bg-v1-surface-l0"
             // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
-            className="top-(--desktop-header-height) -mt-(--route-details-height) w-(--desktop-sidebar-width) bg-v1-surface-l0 scrollbar-none sticky start-0 z-20 h-[calc(100svh-var(--desktop-header-height))] shrink-0 overflow-auto border-r border-white/10"
+            id="sidebar"
           >
             {sidebar || <DefaultSidebar />}
           </aside>
