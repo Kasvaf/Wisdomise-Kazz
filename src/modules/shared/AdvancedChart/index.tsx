@@ -7,7 +7,7 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/u
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
-import { useAverageBuySellLines } from 'shared/AdvancedChart/useChartAnnotations';
+import { useSwapActivityLines } from 'shared/AdvancedChart/useChartAnnotations';
 import { useLocalStorage } from 'usehooks-ts';
 import { formatNumber } from 'utils/numbers';
 import type { Timezone } from '../../../../public/charting_library';
@@ -26,7 +26,7 @@ const AdvancedChart: React.FC<{
 }> = ({ slug, widgetRef, className }) => {
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
-  useAverageBuySellLines(slug);
+  useSwapActivityLines(slug);
 
   const {
     i18n: { language },

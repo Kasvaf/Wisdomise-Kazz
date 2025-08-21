@@ -636,14 +636,14 @@ export interface Swap {
   wallet_address: string;
 }
 
-export function useTraderBuysSellsQuery({
+export function useTraderSwapsQuery({
   address,
   page,
   pageSize,
 }: {
-  address: string;
-  page: number;
-  pageSize: number;
+  address?: string;
+  page?: number;
+  pageSize?: number;
 }) {
   return useQuery({
     queryKey: ['buys-sells', page, pageSize, address],

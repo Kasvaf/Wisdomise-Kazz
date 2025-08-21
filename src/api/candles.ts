@@ -137,7 +137,7 @@ export const useLastCandleQuery = ({
       quoteSlug: theQuote,
       convertToUsd,
     },
-    { enabled: !!bestNet, debug },
+    { enabled: Boolean(base && theQuote && bestNet && market), debug },
   );
 
   // return useQuery({

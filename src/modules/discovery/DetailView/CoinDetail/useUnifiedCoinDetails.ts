@@ -20,13 +20,10 @@ export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
     : ['', ''];
   const resp1 = useCoinDetails({ slug });
   const resp2 = useNCoinDetails({ slug });
-  const resp3 = networkRadarGrpc.useCoinDetailStreamLastValue(
-    {
-      network,
-      base,
-    },
-    { debug: true },
-  );
+  const resp3 = networkRadarGrpc.useCoinDetailStreamLastValue({
+    network,
+    base,
+  });
 
   const data1 = resp1.data;
   const data2 = resp2.data;

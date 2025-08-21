@@ -1,4 +1,4 @@
-import { useTraderAssetActivity } from 'api';
+import { useTraderAssetActivity, useTraderSwapsQuery } from 'api';
 import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyncChartLines';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
 import { useEffect, useMemo, useRef } from 'react';
@@ -19,12 +19,15 @@ interface IconOptions {
   shape?: 'arrow_up' | 'arrow_down';
 }
 
-export function useAverageBuySellLines(slug: string) {
+export function useSwapActivityLines(slug: string) {
   const { data } = useTraderAssetActivity(slug);
   const { data: coin } = useUnifiedCoinDetails({ slug });
+  const { data: swaps } = useTraderSwapsQuery({});
 
   const supply = coin?.marketData.total_supply ?? 0;
   const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
+  const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
+
   const avgBuy = data?.avg_buy_price
     ? Number(data?.avg_buy_price) * (isMarketCap ? supply : 1)
     : undefined;
@@ -55,7 +58,26 @@ export function useAverageBuySellLines(slug: string) {
     ];
   }, [avgBuy, avgSell]);
 
-  useChartAnnotations(lines, []);
+  const icons =
+    swaps?.results
+      .filter(s => s.base_slug === slug)
+      .map(s => {
+        const fromTo = Number(s.from_amount) / Number(s.to_amount);
+        const price = s.side === 'LONG' ? fromTo : 1 / fromTo;
+
+        const usdFromTo = Number(s.trading_volume) / Number(s.to_amount);
+        const usdPrice = s.side === 'LONG' ? usdFromTo : 1 / usdFromTo;
+
+        return {
+          time: Math.floor(new Date(s.created_at).getTime() / 1000),
+          price: (convertToUsd ? usdPrice : price) * (isMarketCap ? supply : 1),
+          text: s.side === 'LONG' ? 'B' : 'S',
+          color: s.side === 'LONG' ? '#0eb396' : '#e63866',
+          shape: 'arrow_up',
+        } as IconOptions;
+      }) ?? [];
+
+  useChartAnnotations(lines, icons);
 }
 
 export function useChartAnnotations(
@@ -65,6 +87,7 @@ export function useChartAnnotations(
   const [widget] = useAdvancedChartWidget();
   const objectsRef = useRef<any[]>([]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!widget) return;
 
@@ -109,5 +132,5 @@ export function useChartAnnotations(
       objectsRef.current = [];
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [widget, icons, lines]);
+  }, [widget, JSON.stringify(icons), JSON.stringify(lines)]);
 }
