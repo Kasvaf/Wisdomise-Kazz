@@ -1,5 +1,5 @@
-import { type ComponentProps } from 'react';
-import { type AccessShield } from 'shared/AccessShield';
+import type { ComponentProps } from 'react';
+import type { AccessShield } from 'shared/AccessShield';
 
 export const homeSubscriptionsConfig: ComponentProps<
   typeof AccessShield

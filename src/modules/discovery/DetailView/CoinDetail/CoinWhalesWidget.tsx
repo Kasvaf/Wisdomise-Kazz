@@ -1,17 +1,17 @@
-import { useTranslation } from 'react-i18next';
-import { useMemo, useState } from 'react';
+import { type CoinWhale, useCoinWhales } from 'api/discovery';
+import { bxSearch } from 'boxicons-quasar';
 
 import { clsx } from 'clsx';
-import { bxSearch } from 'boxicons-quasar';
-import { type CoinWhale, useCoinWhales } from 'api/discovery';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { Network } from 'shared/Network';
-import Icon from 'shared/Icon';
-import { Input } from 'shared/v1-components/Input';
-import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import Icon from 'shared/Icon';
+import { Network } from 'shared/Network';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
+import { Input } from 'shared/v1-components/Input';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { Wallet } from '../WhaleDetail/Wallet';
 
 export function CoinWhalesWidget({
@@ -54,8 +54,8 @@ export function CoinWhalesWidget({
         title: t('whales_on_coin.badge'),
         render: row => (
           <WhaleAssetBadge
-            value={row.asset.label}
             date={row.asset.last_label_action_datetime}
+            value={row.asset.label}
           />
         ),
       },
@@ -63,12 +63,12 @@ export function CoinWhalesWidget({
         title: t('whales_on_coin.network'),
         render: row => (
           <Network
+            className="text-xs"
+            imageClassName="size-4"
             network={{
               name: row.network_name,
               icon_url: row.network_icon_url,
             }}
-            imageClassName="size-4"
-            className="text-xs"
           />
         ),
       },
@@ -76,10 +76,10 @@ export function CoinWhalesWidget({
         title: t('whales_on_coin.balance'),
         render: row => (
           <ReadableNumber
-            value={row.asset.worth}
+            className="text-xs"
             label="$"
             popup="never"
-            className="text-xs"
+            value={row.asset.worth}
           />
         ),
       },
@@ -87,13 +87,13 @@ export function CoinWhalesWidget({
         title: t('whales_on_coin.trading_vol'),
         render: row => (
           <ReadableNumber
+            className="text-xs"
+            label="$"
+            popup="never"
             value={
               (row.asset.total_recent_sell_amount ?? 0) +
               (row.asset.total_recent_buy_amount ?? 0)
             }
-            label="$"
-            popup="never"
-            className="text-xs"
           />
         ),
       },
@@ -101,12 +101,12 @@ export function CoinWhalesWidget({
         title: t('whales_on_coin.total_pnl'),
         render: row => (
           <DirectionalNumber
-            value={row.asset.pnl}
+            className="text-xs"
             direction="auto"
-            showSign
             label="$"
             popup="never"
-            className="text-xs"
+            showSign
+            value={row.asset.pnl}
           />
         ),
       },
@@ -114,12 +114,12 @@ export function CoinWhalesWidget({
         title: t('whales_on_coin.returns'),
         render: row => (
           <DirectionalNumber
-            value={row.asset.pnl_percent}
+            className="text-xs"
             direction="auto"
-            showSign
             label="%"
             popup="never"
-            className="text-xs"
+            showSign
+            value={row.asset.pnl_percent}
           />
         ),
       },
@@ -138,50 +138,50 @@ export function CoinWhalesWidget({
   return (
     <>
       <div
-        id={id}
         className={clsx(
           'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
           className,
         )}
+        id={id}
       >
         <div className="flex items-center justify-between gap-1">
           {title !== false && (
-            <h3 className="text-sm font-semibold">
+            <h3 className="font-semibold text-sm">
               {type === 'active'
                 ? t('coin-radar:whales.active')
                 : t('coin-radar:whales.holding')}
             </h3>
           )}
           <Input
-            type="string"
-            size="xs"
-            value={query}
+            className="mobile:w-48 w-72"
             onChange={setQuery}
-            className="w-72 mobile:w-48"
-            prefixIcon={<Icon name={bxSearch} />}
             placeholder={t('coin-radar:whales.search')}
+            prefixIcon={<Icon name={bxSearch} />}
+            size="xs"
             surface={1}
+            type="string"
+            value={query}
           />
         </div>
         <Table
-          loading={whales.isLoading}
           columns={columns}
           dataSource={data?.slice(0, limit) ?? []}
-          rowKey={row => `${row.holder_address}${row.network_name ?? ''}`}
-          surface={1}
-          scrollable
           footer={
             typeof limit === 'number' &&
             (data?.length ?? 0) > limit && (
               <Button
-                size="xs"
                 onClick={() => setLimit(undefined)}
+                size="xs"
                 variant="link"
               >
                 {t('common:load-more')}
               </Button>
             )
           }
+          loading={whales.isLoading}
+          rowKey={row => `${row.holder_address}${row.network_name ?? ''}`}
+          scrollable
+          surface={1}
         />
       </div>
       {hr && <hr className="border-white/10" />}

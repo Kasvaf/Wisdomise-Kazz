@@ -1,8 +1,8 @@
-import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
-import { ReadableDuration } from 'shared/ReadableDuration';
+import { clsx } from 'clsx';
 import { SubscriptionIcon } from 'modules/account/PageAccount/icons';
+import { useTranslation } from 'react-i18next';
+import { ReadableDuration } from 'shared/ReadableDuration';
 import BoxedIcon from './BoxedIcon';
 import MenuItem from './MenuItem';
 
@@ -46,7 +46,7 @@ const MenuItemSubscription = () => {
                   zeroText={t('pro:zero-hour')}
                 />
               </span>
-              <span className="ms-1 font-light capitalize text-v1-content-secondary">
+              <span className="ms-1 font-light text-v1-content-secondary capitalize">
                 {t('billing:common.remains')}
               </span>
             </div>

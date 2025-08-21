@@ -1,26 +1,25 @@
-/* eslint-disable import/max-dependencies */
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';
 import {
   type SingleWhale,
   useWhaleDetails,
   type WhaleAssetLabel,
 } from 'api/discovery';
-import { Coin } from 'shared/Coin';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
+import type { Coin as CoinType } from 'api/types/shared';
+import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
-import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { Button } from 'shared/v1-components/Button';
-import Icon from 'shared/Icon';
-import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
+import { Coin } from 'shared/Coin';
 import { CoinLabels } from 'shared/CoinLabels';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
-import { type Coin as CoinType } from 'api/types/shared';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import Icon from 'shared/Icon';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { Button } from 'shared/v1-components/Button';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 const HOLDING_LABELS: WhaleAssetLabel[] = [
   'dust',
@@ -64,7 +63,7 @@ export function WhaleCoinsWidget({
         hidden: type === 'holding',
         title: t('whale_coins.avg_cost'),
         render: row => (
-          <ReadableNumber value={row.recent_avg_cost} label="$" popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.recent_avg_cost} />
         ),
       },
       {
@@ -85,7 +84,7 @@ export function WhaleCoinsWidget({
         hidden: type === 'holding',
         title: t('whale_coins.avg_sold'),
         render: row => (
-          <ReadableNumber value={row.recent_avg_sold} label="$" popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.recent_avg_sold} />
         ),
       },
       {
@@ -93,17 +92,17 @@ export function WhaleCoinsWidget({
         render: row => (
           <div className="flex gap-1">
             <ReadableNumber
-              value={row.total_profit_last_ndays}
               label="$"
               popup="never"
+              value={row.total_profit_last_ndays}
             />
             <DirectionalNumber
-              value={row.total_profit_latst_ndays_percent}
+              className="text-xs"
               label="%"
               popup="never"
               showIcon={false}
               showSign
-              className="text-xs"
+              value={row.total_profit_latst_ndays_percent}
             />
           </div>
         ),
@@ -112,13 +111,13 @@ export function WhaleCoinsWidget({
         title: t('whale_coins.number_of_transactions'),
         width: 70,
         render: row => (
-          <ReadableNumber value={row.total_recent_transfers} popup="never" />
+          <ReadableNumber popup="never" value={row.total_recent_transfers} />
         ),
       },
       {
         title: t('whale_coins.balance'),
         render: row => (
-          <ReadableNumber value={row.worth} label="$" popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.worth} />
         ),
       },
       {
@@ -126,9 +125,9 @@ export function WhaleCoinsWidget({
         title: t('whale_coins.remaining'),
         render: row => (
           <ReadableNumber
-            value={row.remaining_percent}
             label="%"
             popup="never"
+            value={row.remaining_percent}
           />
         ),
       },
@@ -137,9 +136,9 @@ export function WhaleCoinsWidget({
         title: t('whale_coins.chg_30d'),
         render: row => (
           <DirectionalNumber
-            value={row.last_30_days_price_change}
             label="%"
             popup="never"
+            value={row.last_30_days_price_change}
           />
         ),
       },
@@ -178,17 +177,17 @@ export function WhaleCoinsWidget({
   return (
     <>
       <div className={className}>
-        <h3 className="mb-4 text-sm font-semibold">
+        <h3 className="mb-4 font-semibold text-sm">
           {type === 'trading'
             ? t('whale_coins.trading_title')
             : t('whale_coins.holding_title')}
         </h3>
         <div className="mb-4 flex max-w-full items-center gap-2 overflow-auto">
           <Button
-            variant={label ? 'ghost' : 'primary'}
             onClick={() => setLabel(undefined)}
             size="md"
             surface={2}
+            variant={label ? 'ghost' : 'primary'}
           >
             <Icon name={bxGridAlt} size={16} />
             {t('common:all')}
@@ -196,12 +195,8 @@ export function WhaleCoinsWidget({
           <div className="h-4 w-px bg-white/10" />
           <div className="flex w-full items-center justify-between gap-2">
             <ButtonSelect
-              value={label}
-              variant="primary"
-              onChange={setLabel}
-              size="md"
-              surface={2}
               innerScroll={false}
+              onChange={setLabel}
               options={
                 type === 'trading'
                   ? [
@@ -237,15 +232,19 @@ export function WhaleCoinsWidget({
                       },
                     ]
               }
+              size="md"
+              surface={2}
+              value={label}
+              variant="primary"
             />
             {type === 'holding' && (
               <Checkbox
-                value={showDusts}
-                onChange={setShowDusts}
-                label="Show Low Worth Coins (Dusts)"
-                size="lg"
-                className="whitespace-nowrap"
                 block
+                className="whitespace-nowrap"
+                label="Show Low Worth Coins (Dusts)"
+                onChange={setShowDusts}
+                size="lg"
+                value={showDusts}
               />
             )}
           </div>
@@ -267,20 +266,29 @@ export function WhaleCoinsWidget({
             <Table
               columns={columns}
               dataSource={filteredData.slice(0, limit)}
-              rowKey={row => row.symbol.slug}
+              footer={
+                filteredData.length > 10 &&
+                limit && (
+                  <Button
+                    onClick={() => setLimit(undefined)}
+                    size="xs"
+                    variant="link"
+                  >
+                    {t('common:load-more')}
+                  </Button>
+                )
+              }
               loading={whale.isLoading}
-              scrollable
-              surface={2}
               rowHoverSuffix={
                 typeof onSelect === 'function'
                   ? row => (
                       <Button
-                        variant="primary"
-                        size="xs"
                         fab
                         onClick={async () => {
                           onSelect?.(row.symbol);
                         }}
+                        size="xs"
+                        variant="primary"
                       >
                         <Icon
                           name={bxDotsHorizontalRounded}
@@ -291,18 +299,9 @@ export function WhaleCoinsWidget({
                     )
                   : undefined
               }
-              footer={
-                filteredData.length > 10 &&
-                limit && (
-                  <Button
-                    size="xs"
-                    onClick={() => setLimit(undefined)}
-                    variant="link"
-                  >
-                    {t('common:load-more')}
-                  </Button>
-                )
-              }
+              rowKey={row => row.symbol.slug}
+              scrollable
+              surface={2}
             />
           </AccessShield>
         )}

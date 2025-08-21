@@ -1,16 +1,15 @@
-/* eslint-disable import/max-dependencies */
-import { useMemo, type FC } from 'react';
-import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { type FC, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { useLoadingBadge } from 'shared/LoadingBadge';
-import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
-import { useShare } from 'shared/useShare';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { useShare } from 'shared/useShare';
+import { Button } from 'shared/v1-components/Button';
 import { PriceAlertButton } from './PriceAlertButton';
 import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
@@ -48,40 +47,40 @@ export const CoinPriceWidget: FC<{
         {data?.symbol ? (
           <>
             <div className="grid grow grid-flow-col grid-rows-[1rem_auto] gap-px">
-              <p className="text-xxs text-v1-content-secondary">{'Price'}</p>
+              <p className="text-v1-content-secondary text-xxs">{'Price'}</p>
               <DirectionalNumber
-                value={data?.marketData.current_price}
-                label="$"
-                direction="up"
                 className="text-sm"
+                direction="up"
+                label="$"
                 showIcon={false}
                 showSign={false}
+                value={data?.marketData.current_price}
               />
 
-              <p className="text-xxs text-v1-content-secondary">{'MC'}</p>
+              <p className="text-v1-content-secondary text-xxs">{'MC'}</p>
               <ReadableNumber
-                value={data?.marketData.market_cap}
-                label="$"
                 className="text-base"
                 format={{
                   decimalLength: 1,
                 }}
+                label="$"
+                value={data?.marketData.market_cap}
               />
             </div>
             <div className="flex items-center justify-end gap-1">
               <PriceAlertButton
-                slug={slug}
-                variant="outline"
-                surface={1}
-                size="sm"
                 fab
+                size="sm"
+                slug={slug}
+                surface={1}
+                variant="outline"
               />
               <Button
-                surface={1}
-                size="sm"
                 fab
-                variant="outline"
                 onClick={() => share(pageUrl)}
+                size="sm"
+                surface={1}
+                variant="outline"
               >
                 <Icon name={bxShareAlt} />
               </Button>

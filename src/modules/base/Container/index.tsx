@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import { isMiniApp } from 'utils/version';
 import { useCustomVersion } from 'shared/useCustomVersion';
+import { isMiniApp } from 'utils/version';
 import AuthGuard from '../auth/AuthGuard';
-import WalletProvider from '../wallet/WalletProvider';
 import TelegramAuthGuard from '../mini-app/TelegramAuthGuard';
 import { TelegramProvider } from '../mini-app/TelegramProvider';
-import { UserEngageFlow } from './UserEngageFlow';
+import WalletProvider from '../wallet/WalletProvider';
 import { GeneralMeta } from './GeneralMeta';
+import { UserEngageFlow } from './UserEngageFlow';
 
 const Guard = isMiniApp ? TelegramAuthGuard : AuthGuard;
 

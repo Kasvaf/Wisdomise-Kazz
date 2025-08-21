@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import { useLastPriceQuery } from 'api';
-import { type IChartWidgetApi } from 'shared/AdvancedChart/charting_library/charting_library';
+import { useEffect } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
-import { sortTpSlItems, type SignalFormState } from './useSignalFormStates';
+import type { IChartWidgetApi } from 'shared/AdvancedChart/charting_library/charting_library';
+import { type SignalFormState, sortTpSlItems } from './useSignalFormStates';
 
 export function makeLine({
   chart,
@@ -69,6 +69,7 @@ const useSyncChartLines = ({ formState }: { formState: SignalFormState }) => {
   });
 
   const [widget] = useAdvancedChartWidget();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reson>
   useEffect(() => {
     if (!widget) return;
 

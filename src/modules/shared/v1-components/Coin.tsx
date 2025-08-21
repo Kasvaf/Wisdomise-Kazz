@@ -1,21 +1,21 @@
-import { type ReactNode, useMemo, type FC } from 'react';
-import { clsx } from 'clsx';
-import { bxsCopy } from 'boxicons-quasar';
-import { Link } from 'react-router-dom';
-import {
-  type CoinCommunityData,
-  type CoinNetwork,
-  type NetworkSecurity,
+import type {
+  CoinCommunityData,
+  CoinNetwork,
+  NetworkSecurity,
 } from 'api/discovery';
-import { type Coin as CoinType } from 'api/types/shared';
-import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { shortenAddress } from 'utils/shortenAddress';
-import { useShare } from 'shared/useShare';
-import Icon from 'shared/Icon';
+import type { Coin as CoinType } from 'api/types/shared';
+import { bxsCopy } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type FC, type ReactNode, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
+import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
+import Icon from 'shared/Icon';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { useShare } from 'shared/useShare';
 import { formatNumber } from 'utils/numbers';
+import { shortenAddress } from 'utils/shortenAddress';
 
 interface ContractAddressRow {
   value?: string;
@@ -166,12 +166,12 @@ export const Coin: FC<{
         typeof href === 'string'
           ? href
           : href && slug
-          ? getUrl({
-              detail: 'coin',
-              slug,
-              view: 'both',
-            })
-          : '#'
+            ? getUrl({
+                detail: 'coin',
+                slug,
+                view: 'both',
+              })
+            : '#'
       }
     >
       <div
@@ -198,20 +198,20 @@ export const Coin: FC<{
         >
           {logo && (
             <img
-              src={logo}
               className={clsx(
                 'absolute inset-0 size-full overflow-hidden rounded-md bg-v1-surface-l0 object-cover',
               )}
               loading="lazy"
+              src={logo}
             />
           )}
           {typeof progress === 'number' && (
             <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 40 40"
               className="absolute inset-0 rounded-md"
+              height="100%"
               style={{ ['--value' as never]: progress * 100 }}
+              viewBox="0 0 40 40"
+              width="100%"
             >
               <path
                 d="M1 1 H39 V39 H1 V1 Z"
@@ -226,16 +226,16 @@ export const Coin: FC<{
                   progress <= 0.33
                     ? '#FFF'
                     : progress <= 0.66
-                    ? '#00A3FF'
-                    : progress <= 0.99
-                    ? '#00FFA3'
-                    : '#FFDA6C'
+                      ? '#00A3FF'
+                      : progress <= 0.99
+                        ? '#00FFA3'
+                        : '#FFDA6C'
                 }
-                strokeWidth={1.5}
                 strokeDasharray={152}
                 strokeDashoffset={152 - progress * 100 * 1.52}
-                strokeLinejoin="round"
                 strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
               />
             </svg>
           )}
@@ -244,13 +244,13 @@ export const Coin: FC<{
               className={clsx(
                 'absolute inline-flex items-center justify-center overflow-hidden rounded-md border bg-v1-surface-l0 backdrop-invert',
                 size === 'md'
-                  ? 'bottom-[-1px] right-[-1px] size-4'
-                  : 'bottom-[0px] right-[-4px] size-5',
+                  ? 'right-[-1px] bottom-[-1px] size-4'
+                  : 'right-[-4px] bottom-[0px] size-5',
               )}
             >
               <img
-                src={marker || contractAddress?.network?.logo}
                 className="size-full object-cover"
+                src={marker || contractAddress?.network?.logo}
               />
             </div>
           )}
@@ -281,21 +281,21 @@ export const Coin: FC<{
             </p>
           )}
           <CoinLabels
+            categories={categories}
             labels={[...(labels ?? [])].filter(x => !!x)}
             security={security ?? []}
-            categories={categories}
             size="xs"
             truncate={truncate}
           />
           <CoinCommunityLinks
             abbreviation={abbreviation}
-            name={name}
-            value={links}
             contractAddresses={networks
               ?.map(x => x.contract_address)
               .filter(x => !!x)}
             includeTwitterSearch={!truncate}
+            name={name}
             size="xs"
+            value={links}
           />
           {customLabels}
         </div>
@@ -325,12 +325,12 @@ export const Coin: FC<{
               {contractAddress.label}
               {contractAddress.value && (
                 <div
+                  className="cursor-copy"
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
                     void copy(contractAddress.value ?? '');
                   }}
-                  className="cursor-copy"
                 >
                   <Icon name={bxsCopy} size={12} />
                   {copyNotif}
@@ -339,7 +339,7 @@ export const Coin: FC<{
             </div>
           )}
           {(networks?.length ?? 0) > 1 && (
-            <CoinNetworksLabel value={networks} size="xs" clickable />
+            <CoinNetworksLabel clickable size="xs" value={networks} />
           )}
         </div>
         {extra && (

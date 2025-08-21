@@ -1,3 +1,4 @@
+import type { Alert } from 'api/alert';
 import {
   createContext,
   type Dispatch,
@@ -7,8 +8,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { type Alert } from 'api/alert';
-import { type AlertForm, type AlertFormGroup } from './types';
+import type { AlertForm, AlertFormGroup } from './types';
 
 export type EditingAlertState = [
   Partial<Alert>,
@@ -36,12 +36,12 @@ export function AlertProvider({
 }) {
   const value = useState(initialValue ?? {});
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   const providingValue = useMemo(() => {
     return {
       value,
       forms,
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(value[0]), forms]);
 
   return (

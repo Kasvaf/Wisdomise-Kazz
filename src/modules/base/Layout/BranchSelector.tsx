@@ -18,7 +18,7 @@ const BranchSelector = () => {
     queryKey: ['branched'],
     queryFn: async () => {
       const data = await ofetch<string>(
-        window.location.origin + '/branches.txt',
+        `${window.location.origin}/branches.txt`,
       );
       return data
         .split(/\s+/)
@@ -29,15 +29,12 @@ const BranchSelector = () => {
 
   return (
     <Select
-      className="text-v1-content-primary mobile:w-xl"
-      chevron={false}
-      size="xs"
-      value={value}
-      loading={branches.isLoading}
-      onChange={gotoBranch}
       allowClear={false}
       block
-      surface={1}
+      chevron={false}
+      className="mobile:w-xl text-v1-content-primary"
+      loading={branches.isLoading}
+      onChange={gotoBranch}
       options={branches.data}
       prefixIcon={<Icon name={bxGitBranch} />}
       render={(opt, target) => {
@@ -47,6 +44,9 @@ const BranchSelector = () => {
           </div>
         );
       }}
+      size="xs"
+      surface={1}
+      value={value}
     />
   );
 };

@@ -1,10 +1,10 @@
 import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import {
   type CSSProperties,
-  useState,
   type FC,
-  useRef,
   useEffect,
+  useRef,
+  useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
@@ -92,24 +92,24 @@ export const ListExpander: FC = () => {
     >
       {(params.view === 'detail' || params.view === 'both') && (
         <Button
-          fab
-          variant="outline"
-          size="3xs"
           className="rounded-full"
-          surface={1}
+          fab
           onClick={handleExpandClick}
+          size="3xs"
+          surface={1}
+          variant="outline"
         >
           <Icon name={bxChevronRight} />
         </Button>
       )}
       {params.view !== 'detail' && params.slug && (
         <Button
-          fab
-          variant="outline"
-          size="3xs"
           className="rounded-full"
-          surface={1}
+          fab
           onClick={handleCollapseClick}
+          size="3xs"
+          surface={1}
+          variant="outline"
         >
           <Icon name={bxChevronLeft} />
         </Button>

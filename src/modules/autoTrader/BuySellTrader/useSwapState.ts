@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useLastPriceQuery, useSupportedNetworks } from 'api';
 import { useAccountBalance } from 'api/chains';
-import { useSymbolInfo } from 'api/symbol';
-import { roundSensible } from 'utils/numbers';
 import { useCoinDetails } from 'api/discovery';
-import { type TraderInputs } from '../PageTrade/types';
+import { useSymbolInfo } from 'api/symbol';
+import { useCallback, useEffect, useState } from 'react';
+import { roundSensible } from 'utils/numbers';
+import type { TraderInputs } from '../PageTrade/types';
 
 const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [base, setBase] = useState<string>();
@@ -103,15 +103,16 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     }
   }, [basePriceByQuote, limitType, marketCap]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!limit) {
       updateLimit();
     }
   }, [basePriceByQuote, limit, limitType, marketCap, updateLimit]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     updateLimit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quote, limitType, isMarketPrice]);
 
   return {

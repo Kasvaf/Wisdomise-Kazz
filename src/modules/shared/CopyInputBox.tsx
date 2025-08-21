@@ -1,7 +1,7 @@
+import { bxCopyAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useRef, useState } from 'react';
-import { bxCopyAlt } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 
@@ -56,11 +56,11 @@ const CopyInputBox: React.FC<Props> = ({
         onClick={copyToClipboard}
       >
         <input
+          className="!border-0 pointer-events-none w-full truncate bg-transparent outline-0"
+          readOnly
           ref={inputRef}
-          className="pointer-events-none w-full truncate !border-0 bg-transparent outline-0"
           style={{ maxWidth: 'calc(100% - 50px)' }}
           value={value}
-          readOnly
         />
         <div className="font-medium">
           <Icon name={bxCopyAlt} />
@@ -68,7 +68,7 @@ const CopyInputBox: React.FC<Props> = ({
       </div>
       <div
         className={clsx(
-          'ml-6 mt-1 text-xs text-white/60 transition-opacity',
+          'mt-1 ml-6 text-white/60 text-xs transition-opacity',
           showInfo ? 'opacity-100' : 'opacity-0',
         )}
       >

@@ -1,22 +1,19 @@
+import type { LeaderboardParticipant, PromotionStatus } from 'api/tournament';
 import { clsx } from 'clsx';
-import {
-  type LeaderboardParticipant,
-  type PromotionStatus,
-} from 'api/tournament';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as IconUser } from '../user.svg';
-import { ReactComponent as Neutral } from './neutral.svg';
-import { ReactComponent as Money } from './money.svg';
-import { ReactComponent as MoneyBg } from './money-bg.svg';
-import { ReactComponent as NeutralBg } from './neutral-bg.svg';
+import { ReactComponent as Champion } from './champion.svg';
+import { ReactComponent as ChampionBg } from './champion-bg.svg';
 import { ReactComponent as Demoting } from './demoting.svg';
 import { ReactComponent as DemotingBg } from './demoting-bg.svg';
 import { ReactComponent as DemotionZone } from './demotion-zone.svg';
+import { ReactComponent as Money } from './money.svg';
+import { ReactComponent as MoneyBg } from './money-bg.svg';
+import { ReactComponent as Neutral } from './neutral.svg';
+import { ReactComponent as NeutralBg } from './neutral-bg.svg';
 import { ReactComponent as Promoting } from './promoting.svg';
 import { ReactComponent as PromotingBg } from './promoting-bg.svg';
 import { ReactComponent as PromotionZone } from './promotion-zone.svg';
-import { ReactComponent as Champion } from './champion.svg';
-import { ReactComponent as ChampionBg } from './champion-bg.svg';
 
 export default function Leaderboard({
   participants,
@@ -31,7 +28,7 @@ export default function Leaderboard({
 }) {
   return (
     <div className="mb-16 rounded-xl bg-v1-surface-l2 p-3">
-      <div className="mb-2 flex gap-3 border-b border-v1-border-primary/20 px-3 pb-2 text-xs text-v1-content-secondary">
+      <div className="mb-2 flex gap-3 border-v1-border-primary/20 border-b px-3 pb-2 text-v1-content-secondary text-xs">
         <div>Rank</div>
         <div>Username</div>
         <div className="ml-auto">Trade Vol</div>
@@ -39,8 +36,6 @@ export default function Leaderboard({
       </div>
       {participants?.map((p, index) => (
         <LeaderboardItem
-          key={p.investor_key}
-          participant={p}
           hasLabel={
             index === 0 ||
             participants[index].promotion_status !==
@@ -50,13 +45,15 @@ export default function Leaderboard({
             !!p.trading_volume && p.rank <= (rewardedUsersMinRank ?? 0)
           }
           isTopLevel={isTopLevel}
+          key={p.investor_key}
+          participant={p}
         />
       ))}
       {me && (
         <LeaderboardItem
-          className="fixed bottom-4 end-0 start-0 mx-24 ml-[calc(var(--side-menu-width)+6rem)] hidden border border-v1-border-primary/40 mobile:mx-12 mobile:block"
-          participant={me}
+          className="fixed start-0 end-0 bottom-4 mobile:mx-12 mx-24 ml-[calc(var(--side-menu-width)+6rem)] mobile:block hidden border border-v1-border-primary/40"
           isTopLevel={isTopLevel}
+          participant={me}
         />
       )}
     </div>
@@ -134,7 +131,7 @@ export function LeaderboardItem({
   return (
     <>
       {participant.promotion_status && hasLabel && (
-        <div className="mb-2 ml-3 mt-4 text-xxs">
+        <div className="mt-4 mb-2 ml-3 text-xxs">
           {
             statusDetails[
               isChampion ? 'CHAMPION' : participant.promotion_status
@@ -172,7 +169,7 @@ export function LeaderboardItem({
             })}
           </div>
           {participant.promotion_status && (
-            <div className="ml-4 mr-2 flex items-center">
+            <div className="mr-2 ml-4 flex items-center">
               {hasReward && (
                 <>
                   <Money className="-mr-1" />

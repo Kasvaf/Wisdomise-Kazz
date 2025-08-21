@@ -1,7 +1,7 @@
-import {
-  type useSocialRadarCoins,
-  type useTechnicalRadarCoins,
-  type useWhaleRadarCoins,
+import type {
+  useSocialRadarCoins,
+  useTechnicalRadarCoins,
+  useWhaleRadarCoins,
 } from 'api/discovery';
 
 export interface PresetFilter<FilterType> {

@@ -1,11 +1,11 @@
 import { useTraderPositionQuery } from 'api';
 import Spinner from 'shared/Spinner';
-import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
-import { type TraderInputs } from './types';
+import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
+import useSyncChartLines from './AdvancedSignalForm/useSyncChartLines';
 import useSyncFormState from './AdvancedSignalForm/useSyncFormState';
 import FiringHolder from './FiringHolder';
-import useSyncChartLines from './AdvancedSignalForm/useSyncChartLines';
+import type { TraderInputs } from './types';
 
 const Trader: React.FC<
   TraderInputs & {
@@ -37,11 +37,11 @@ const Trader: React.FC<
       ) : (
         (!positionKey || !!position.data) && (
           <AdvancedSignalForm
-            isMinimal={isMinimal}
-            baseSlug={slug}
             activePosition={position.data}
+            baseSlug={slug}
             className="max-w-full basis-1/3"
             formState={formState}
+            isMinimal={isMinimal}
           />
         )
       )}

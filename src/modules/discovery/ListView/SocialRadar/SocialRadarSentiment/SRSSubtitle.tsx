@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import type { SocialRadarSentiment } from 'api/discovery';
 import { clsx } from 'clsx';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SocialRadarSentiment } from 'api/discovery';
 
 export const SRSSubtitle: FC<{
   value?: SocialRadarSentiment['gauge_tag'];
@@ -19,10 +19,10 @@ export const SRSSubtitle: FC<{
       {value === 'LONG'
         ? t('call-change.long_desciption')
         : value === 'SHORT'
-        ? t('call-change.short_desciption')
-        : value === 'NEUTRAL'
-        ? t('call-change.neutral_description')
-        : t('call-change.not_sure_description')}
+          ? t('call-change.short_desciption')
+          : value === 'NEUTRAL'
+            ? t('call-change.neutral_description')
+            : t('call-change.not_sure_description')}
     </div>
   );
 };

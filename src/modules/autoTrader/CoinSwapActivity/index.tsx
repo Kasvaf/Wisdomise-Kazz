@@ -1,13 +1,13 @@
-import { useSearchParams } from 'react-router-dom';
-import { clsx } from 'clsx';
 import { useTraderAssetActivity } from 'api';
-import { formatNumber } from 'utils/numbers';
-import { Button } from 'shared/v1-components/Button';
-import { useSymbolInfo } from 'api/symbol';
-import { Coin } from 'shared/Coin';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { delphinusGrpc } from 'api/grpc';
+import { useSymbolInfo } from 'api/symbol';
+import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useSearchParams } from 'react-router-dom';
+import { Coin } from 'shared/Coin';
+import { Button } from 'shared/v1-components/Button';
+import { formatNumber } from 'utils/numbers';
 import { ReactComponent as UsdIcon } from './usd.svg';
 
 export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
@@ -32,7 +32,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const unit = showUsd
     ? '$'
     : solanaSymbol && (
-        <Coin coin={solanaSymbol} mini noText nonLink className="-mr-1" />
+        <Coin className="-mr-1" coin={solanaSymbol} mini nonLink noText />
       );
 
   const totalBought = Number(
@@ -62,21 +62,21 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     <div
       className={clsx(
         mini
-          ? 'cursor-pointer border-t border-white/5'
-          : 'border-b mb-1 border-white/10',
+          ? 'cursor-pointer border-white/5 border-t'
+          : 'mb-1 border-white/10 border-b',
       )}
       onClick={() => mini && toggleShowActivityInUsd()}
     >
       <div
         className={clsx(
-          !mini && 'rounded-xl p-3 bg-v1-surface-l1 my-3',
-          'text-xs px-3',
+          !mini && 'my-3 rounded-xl bg-v1-surface-l1 p-3',
+          'px-3 text-xs',
         )}
       >
         {!mini && <p className="mb-4">Your Activity on This Token</p>}
         <div className={clsx('flex gap-2', mini && 'items-center')}>
           <div className="grow">
-            {!mini && <p className="text-v1-content-secondary mb-2">Bought</p>}
+            {!mini && <p className="mb-2 text-v1-content-secondary">Bought</p>}
             <div
               className={clsx(
                 'flex text-v1-content-positive',
@@ -87,9 +87,9 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
               {formatter(totalBought)}
             </div>
           </div>
-          <div className="h-7 border-r border-white/5" />
+          <div className="h-7 border-white/5 border-r" />
           <div className="grow">
-            {!mini && <p className="text-v1-content-secondary mb-2">Sold</p>}
+            {!mini && <p className="mb-2 text-v1-content-secondary">Sold</p>}
             <div
               className={clsx(
                 'flex text-v1-content-negative',
@@ -100,28 +100,28 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
               {formatter(totalSold)}
             </div>
           </div>
-          <div className="h-7 border-r border-white/5" />
+          <div className="h-7 border-white/5 border-r" />
           <div className="grow">
-            {!mini && <p className="text-v1-content-secondary mb-2">Holding</p>}
+            {!mini && <p className="mb-2 text-v1-content-secondary">Holding</p>}
             <div className={clsx('flex', mini && 'justify-center')}>
               {unit}
               {formatter(hold)}
             </div>
           </div>
-          <div className="h-7 border-r border-white/5" />
+          <div className="h-7 border-white/5 border-r" />
           <div className="grow">
             {!mini && (
-              <div className="flex items-center gap-1 mb-2 relative">
+              <div className="relative mb-2 flex items-center gap-1">
                 <span className="text-v1-content-secondary">PNL</span>
                 <Button
-                  size="2xs"
-                  variant="ghost"
-                  fab
                   className={clsx(
-                    'text-white/70 !absolute right-0',
+                    '!absolute right-0 text-white/70',
                     showUsd && '!text-v1-content-positive',
                   )}
+                  fab
                   onClick={toggleShowActivityInUsd}
+                  size="2xs"
+                  variant="ghost"
                 >
                   <UsdIcon />
                 </Button>

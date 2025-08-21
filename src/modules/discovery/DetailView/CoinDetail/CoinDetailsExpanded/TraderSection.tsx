@@ -1,8 +1,8 @@
 import { useSupportedPairs } from 'api';
+import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
+import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
-import TraderTrades from 'modules/autoTrader/TraderTrades';
-import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
 const TraderSection: React.FC<{
@@ -24,10 +24,10 @@ const TraderSection: React.FC<{
           <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
             <CoinSwapActivity />
             <TraderTrades
+              loadingClassName="bg-v1-surface-l1"
               quote={quote}
               setQuote={setQuote}
               slug={slug}
-              loadingClassName="bg-v1-surface-l1"
             />
           </ActiveNetworkProvider>
         ) : (

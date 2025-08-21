@@ -14,12 +14,12 @@ const DropdownContainer: React.FC<Props> = forwardRef<
 >(function DropdownContainer({ children, className, setOpen }, ref) {
   return (
     <div
-      ref={ref}
       className={clsx(
         'mt-1 flex flex-col rounded-xl bg-[#151619] p-2 backdrop-blur-lg',
         className,
       )}
       onClick={useCallback(() => setOpen?.(false), [setOpen])}
+      ref={ref}
     >
       {children}
     </div>

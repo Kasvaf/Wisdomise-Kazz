@@ -1,4 +1,4 @@
-import { isProduction, isLocal } from 'utils/version';
+import { isLocal, isProduction } from 'utils/version';
 
 const cioId = isProduction ? 'e1fcf71a2b139e4c010e' : 'c6bccff0f61e66a6b755';
 

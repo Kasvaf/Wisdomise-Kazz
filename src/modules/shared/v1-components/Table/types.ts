@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react';
-import { type Surface } from 'utils/useSurface';
+import type { ReactNode } from 'react';
+import type { Surface } from 'utils/useSurface';
 
 export interface TableColumn<RecordType extends object> {
   key?: string;

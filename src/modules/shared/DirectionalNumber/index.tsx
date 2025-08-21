@@ -1,9 +1,9 @@
-import { useMemo, type ReactNode } from 'react';
 import { clsx } from 'clsx';
+import { type ReactNode, useMemo } from 'react';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { type FormatNumberOptions } from 'utils/numbers';
-import { ReactComponent as UpIcon } from './up.svg';
+import type { FormatNumberOptions } from 'utils/numbers';
 import { ReactComponent as DownIcon } from './down.svg';
+import { ReactComponent as UpIcon } from './up.svg';
 
 function DirectionIcon({
   className,
@@ -13,18 +13,16 @@ function DirectionIcon({
   value: 'up' | 'down' | 'neutral';
 }) {
   return (
-    <>
-      <span
-        className={clsx(
-          'inline-flex size-2 items-center justify-center rounded-full',
-          'text-xxs text-v1-content-secondary [&_svg]:mb-px [&_svg]:size-full',
-          value === 'neutral' && 'hidden',
-          className,
-        )}
-      >
-        {value === 'up' ? <UpIcon /> : value === 'down' ? <DownIcon /> : <></>}
-      </span>
-    </>
+    <span
+      className={clsx(
+        'inline-flex size-2 items-center justify-center rounded-full',
+        'text-v1-content-secondary text-xxs [&_svg]:mb-px [&_svg]:size-full',
+        value === 'neutral' && 'hidden',
+        className,
+      )}
+    >
+      {value === 'up' ? <UpIcon /> : value === 'down' ? <DownIcon /> : <></>}
+    </span>
   );
 }
 
@@ -74,19 +72,17 @@ export function DirectionalNumber({
       )}
     >
       {showIcon !== false && (
-        <DirectionIcon value={direction} className="me-px shrink-0" />
+        <DirectionIcon className="me-px shrink-0" value={direction} />
       )}
       {prefix}
-      {showSign && (
-        <>{direction === 'up' ? '+' : direction === 'down' ? '-' : ''}</>
-      )}
+      {showSign && (direction === 'up' ? '+' : direction === 'down' ? '-' : '')}
       <ReadableNumber
-        value={typeof value === 'number' ? Math.abs(value) : null}
-        popup={popup ?? 'never'}
-        label={label}
         className="text-inherit"
-        format={format}
         emptyText={emptyText}
+        format={format}
+        label={label}
+        popup={popup ?? 'never'}
+        value={typeof value === 'number' ? Math.abs(value) : null}
       />
       {suffix}
     </span>

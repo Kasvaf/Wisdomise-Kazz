@@ -1,8 +1,8 @@
 import {
-  init,
-  type ECharts as EChartsType,
-  type EChartsOption,
   type ECElementEvent,
+  type EChartsOption,
+  type ECharts as EChartsType,
+  init,
 } from 'echarts';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
@@ -98,5 +98,5 @@ export const ECharts: FC<{
     if (ready && isVisible) onReady?.();
   }, [ready, isVisible, onReady]);
 
-  return <div ref={element} className={className} />;
+  return <div className={className} ref={element} />;
 };

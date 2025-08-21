@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { Fragment, useMemo, useState, type FC, type ReactNode } from 'react';
+import { type FC, Fragment, type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
@@ -10,8 +10,8 @@ const StatCol: FC<{
   label?: ReactNode;
 }> = ({ children, label }) => {
   return (
-    <div className="flex h-11 flex-col  gap-1">
-      <p className="text-xxs text-v1-content-secondary">{label}</p>
+    <div className="flex h-11 flex-col gap-1">
+      <p className="text-v1-content-secondary text-xxs">{label}</p>
       <div className="text-xs">{children}</div>
     </div>
   );
@@ -27,7 +27,7 @@ const GreenRedChart: FC<{
     <div className="flex h-11 flex-col gap-1">
       <div className="flex items-start justify-between">
         {titles.map(title => (
-          <p className="text-xxs text-v1-content-secondary" key={title}>
+          <p className="text-v1-content-secondary text-xxs" key={title}>
             {title}
           </p>
         ))}
@@ -35,14 +35,14 @@ const GreenRedChart: FC<{
       <div className="flex items-start justify-between">
         {values.map((value, index) => (
           <ReadableNumber
-            key={titles[index]}
-            label={label}
+            className="text-xs"
             format={{
               decimalLength: 1,
             }}
-            className="text-xs"
-            value={value}
+            key={titles[index]}
+            label={label}
             popup="never"
+            value={value}
           />
         ))}
       </div>
@@ -114,32 +114,32 @@ export function NCoinStatsWidget({
     >
       <div className="col-span-3 mb-1 flex items-center justify-end">
         <ButtonSelect
-          size="xxs"
-          variant="white"
+          onChange={setTimeFramePrefix}
           options={[
             { label: '24H', value: '' },
             { value: 'total_', label: 'All Time' },
           ]}
+          size="xxs"
           value={timeFramePrefix}
-          onChange={setTimeFramePrefix}
+          variant="white"
         />
       </div>
       {data.map(row => (
         <Fragment key={row.key}>
           <StatCol label={row.titles[0]}>
             <ReadableNumber
-              value={row.values[0]}
-              label={row.label}
-              popup="never"
               format={{
                 decimalLength: 1,
               }}
+              label={row.label}
+              popup="never"
+              value={row.values[0]}
             />
           </StatCol>
           <div className="h-14 w-px bg-white/10" />
           <GreenRedChart
-            values={row.values.slice(1) as [number, number]}
             titles={row.titles.slice(1) as [string, string]}
+            values={row.values.slice(1) as [number, number]}
           />
         </Fragment>
       ))}

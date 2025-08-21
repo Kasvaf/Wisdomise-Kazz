@@ -1,7 +1,7 @@
+import type { Coin } from 'api/types/shared';
+import { bxCabinet } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { bxCabinet } from 'boxicons-quasar';
-import { type Coin } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
 
@@ -22,36 +22,36 @@ export function CoinCategoryLabel({
 
   return (
     <ClickableTooltip
-      title={
-        <div className="max-h-[300px] min-w-48 space-y-2 mobile:max-h-max">
-          <h4 className="border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 text-base font-medium">
-            {t('common.categories')}:
-          </h4>
-          {value.map(cat => (
-            <div key={cat.slug} className="text-sm">
-              {cat.name}
-            </div>
-          ))}
-        </div>
-      }
+      chevron={false}
       className={clsx(
-        'rounded-full text-center ',
+        'rounded-full text-center',
         size === 'xs' &&
           'flex size-4 items-center justify-center text-[9px] leading-none [&_img]:size-[12px] [&_svg]:size-[11px]',
         size === 'sm' &&
           'flex h-6 items-center justify-center text-xxs [&_img]:size-[14px] [&_svg]:size-[14px]',
         size === 'md' &&
-          'h-6 text-xxs [&_img]:size-[16px] [&_svg]:!size-[16px]',
+          '[&_svg]:!size-[16px] h-6 text-xxs [&_img]:size-[16px]',
         'bg-v1-content-primary/10 text-v1-content-primary',
         'overflow-hidden',
         className,
       )}
       disabled={!clickable}
-      chevron={false}
+      title={
+        <div className="max-h-[300px] mobile:max-h-max min-w-48 space-y-2">
+          <h4 className="border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 font-medium text-base">
+            {t('common.categories')}:
+          </h4>
+          {value.map(cat => (
+            <div className="text-sm" key={cat.slug}>
+              {cat.name}
+            </div>
+          ))}
+        </div>
+      }
     >
       <Icon
-        name={bxCabinet}
         className="stroke-v1-content-primary"
+        name={bxCabinet}
         strokeWidth={0.2}
       />{' '}
       {size !== 'xs' && (
@@ -61,7 +61,7 @@ export function CoinCategoryLabel({
             <span
               className={clsx(
                 '-ms-1 flex items-center justify-center self-stretch bg-white/5',
-                'pe-2 ps-1',
+                'ps-1 pe-2',
               )}
             >
               {`+${value.length}`}

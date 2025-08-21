@@ -1,11 +1,11 @@
 import { getPairsCached } from 'api';
+import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
-import { type DelphinusServiceClientImpl } from 'api/proto/delphinus';
-import {
-  type ResolutionString,
-  type LibrarySymbolInfo,
-  type IBasicDataFeed,
-  type DatafeedConfiguration,
+import type {
+  DatafeedConfiguration,
+  IBasicDataFeed,
+  LibrarySymbolInfo,
+  ResolutionString,
 } from './charting_library/charting_library';
 import getCandlesCached, {
   type ChartCandle,
@@ -79,7 +79,7 @@ const makeDataFeed = (
       await getPairsCached(baseSlug);
       callback(config);
     },
-    searchSymbols: async (userInput, exchange, symbolType, onResult) => {
+    searchSymbols: async (userInput, _exchange, _symbolType, onResult) => {
       const pairs = await getPairsCached(baseSlug);
       const matchedPairs = pairs
         .filter(x => x.name.toLowerCase().includes(userInput.toLowerCase()))
@@ -134,7 +134,7 @@ const makeDataFeed = (
       onResolve(symbolInfo);
     },
     getBars: async (
-      symbolInfo,
+      _symbolInfo,
       resolution,
       periodParams,
       onResult,
@@ -176,7 +176,7 @@ const makeDataFeed = (
         onError(error.message);
       }
     },
-    subscribeBars: (symbolInfo, resolution, onTick, listenerGuid) => {
+    subscribeBars: (_symbolInfo, _resolution, onTick, listenerGuid) => {
       const req = delphinus.lastCandleStream({
         market: 'SPOT',
         network,

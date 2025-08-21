@@ -1,5 +1,5 @@
+import type { WhaleRadarSentiment } from 'api/discovery';
 import { useTranslation } from 'react-i18next';
-import { type WhaleRadarSentiment } from 'api/discovery';
 
 export const useWRSNums = (value?: WhaleRadarSentiment | null) => {
   const { t } = useTranslation('whale');

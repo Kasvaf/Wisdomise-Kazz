@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import {
   type CoinCommunityData,
   type CoinNetwork,
@@ -7,12 +6,13 @@ import {
   useNCoinDetails,
 } from 'api/discovery';
 import { networkRadarGrpc } from 'api/grpc';
-import { type Coin } from 'api/types/shared';
+import type { Coin } from 'api/types/shared';
 import {
   calcNCoinRiskLevel,
   convertNCoinSecurityFieldToBool,
   doesNCoinHaveSafeTopHolders,
 } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { useMemo } from 'react';
 
 export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
   const [network, base] = slug.startsWith('solana_')

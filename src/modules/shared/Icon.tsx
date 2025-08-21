@@ -12,13 +12,14 @@ const Icon = ({ name, size = 24, className, ...attrs }: Props) => {
 
     return (
       <div className={className}>
-        <svg viewBox="0 0 24 24" width={size} height={size} {...attrs}>
+        <svg height={size} viewBox="0 0 24 24" width={size} {...attrs}>
           {paths.map(d => (
             <path d={d} fill="currentColor" key={d}></path>
           ))}
         </svg>
       </div>
     );
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   }, [name, size, className, attrs]);
 };
 

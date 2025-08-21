@@ -1,15 +1,14 @@
-/* eslint-disable import/max-dependencies */
-import { useState, type FC } from 'react';
 import { clsx } from 'clsx';
-import { useNavigate } from 'react-router-dom';
-import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { usePageState } from 'shared/usePageState';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { usePageState } from 'shared/usePageState';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import {
   type NetworkRadarStreamFilters,
-  useNetworkRadarStream,
   type NetworkRadarTab,
+  useNetworkRadarStream,
 } from './lib';
 import { NCoinList } from './NCoinList';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
@@ -47,7 +46,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
     <>
       <div className="flex items-center justify-between gap-2 p-3">
         <ButtonSelect
-          value={tab}
+          className="w-full"
           onChange={setTab}
           options={[
             {
@@ -64,12 +63,11 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
             },
           ]}
           size="xs"
-          className="w-full"
           surface={1}
+          value={tab}
         />
         <NetworkRadarFilters
           initialTab={tab}
-          value={filters}
           onChange={newFilters =>
             setFilters({
               new_pairs: {},
@@ -78,32 +76,33 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
               ...newFilters,
             })
           }
+          value={filters}
         />
       </div>
-      <QuickBuySettings source={tab} className="mb-3 px-3" />
+      <QuickBuySettings className="mb-3 px-3" source={tab} />
       <div className="px-3">
         <NCoinList
+          className={clsx(tab !== 'new_pairs' && 'hidden')}
           dataSource={newPairs.data?.results ?? []}
           loading={newPairs.isLoading}
-          className={clsx(tab !== 'new_pairs' && 'hidden')}
-          onRowClick={onRowClick}
           mini
+          onRowClick={onRowClick}
           source="new_pairs"
         />
         <NCoinList
+          className={clsx(tab !== 'final_stretch' && 'hidden')}
           dataSource={finalStretch.data?.results ?? []}
           loading={finalStretch.isLoading}
-          className={clsx(tab !== 'final_stretch' && 'hidden')}
-          onRowClick={onRowClick}
           mini
+          onRowClick={onRowClick}
           source="final_stretch"
         />
         <NCoinList
+          className={clsx(tab !== 'migrated' && 'hidden')}
           dataSource={migrated.data?.results ?? []}
           loading={migrated.isLoading}
-          className={clsx(tab !== 'migrated' && 'hidden')}
-          onRowClick={onRowClick}
           mini
+          onRowClick={onRowClick}
           source="migrated"
         />
       </div>

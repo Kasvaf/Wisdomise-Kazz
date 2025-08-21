@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { analytics } from 'config/segment';
+import React, { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import PageError from '../PageError';
 import Splash from '../Splash';
 

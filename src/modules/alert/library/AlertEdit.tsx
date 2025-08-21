@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertBreadcrumb, type AlertCrumb } from './AlertBreadcrumb';
+import { AlertFormSelect } from './AlertFormSelect';
 import { AlertNavbarButton } from './AlertNavbarButton';
 import { useEditingAlert } from './AlertProvider';
-import { AlertFormSelect } from './AlertFormSelect';
-import { AlertSteps } from './AlertSteps';
 import { AlertStepInfo } from './AlertStepInfo';
+import { AlertSteps } from './AlertSteps';
 
 export function AlertEdit({
   onClose,
@@ -62,12 +62,12 @@ export function AlertEdit({
       <div className="flex w-full items-center gap-2 px-0 py-4">
         {crumbs.filter(r => r.action).length > 1 && (
           <AlertNavbarButton
-            type="back"
             onClick={() => crumbs.at(-2)?.action?.()}
+            type="back"
           />
         )}
-        <AlertBreadcrumb crumbs={crumbs} className="grow" />
-        <AlertNavbarButton type="close" onClick={onClose} />
+        <AlertBreadcrumb className="grow" crumbs={crumbs} />
+        <AlertNavbarButton onClick={onClose} type="close" />
       </div>
 
       {matchedForm && (
@@ -86,8 +86,8 @@ export function AlertEdit({
       {activeStepObject?.subtitle && (
         <div className="mt-4 flex w-full justify-center">
           <AlertStepInfo
-            content={activeStepObject.subtitle}
             className="max-w-xs"
+            content={activeStepObject.subtitle}
           />
         </div>
       )}
@@ -103,9 +103,10 @@ export function AlertEdit({
       {matchedForm && ActiveStepComponent && (
         <div className="mt-16 flex w-full justify-center">
           <ActiveStepComponent
-            loading={loading}
             className="w-full max-w-[420px]"
+            loading={loading}
             lock={lock}
+            onClose={onClose}
             onDelete={() => {
               setLoading(true);
               matchedForm
@@ -134,7 +135,6 @@ export function AlertEdit({
                   });
               }
             }}
-            onClose={onClose}
           />
         </div>
       )}

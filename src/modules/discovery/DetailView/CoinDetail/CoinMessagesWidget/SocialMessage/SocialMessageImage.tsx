@@ -1,6 +1,6 @@
+import type { SocialMessage } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import { type SocialMessage } from 'api/discovery';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { useSocialMessage } from './useSocialMessage';
 
@@ -19,22 +19,22 @@ export function SocialMessageImage({
   return (
     <>
       <img
-        src={src}
         className={clsx('cursor-pointer object-contain', className)}
-        tabIndex={-1}
         onClick={() => setIsExpand(p => !p)}
+        src={src}
+        tabIndex={-1}
       />
       <Dialog
-        mode={'modal'}
-        open={isExpand}
-        onClose={() => setIsExpand(false)}
-        closable
         className="w-[960px]"
+        closable
         modalConfig={{
           closeButton: true,
         }}
+        mode={'modal'}
+        onClose={() => setIsExpand(false)}
+        open={isExpand}
       >
-        <img src={src} className="size-full object-contain" />
+        <img className="size-full object-contain" src={src} />
       </Dialog>
     </>
   );

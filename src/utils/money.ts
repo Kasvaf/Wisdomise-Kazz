@@ -83,7 +83,7 @@ export function fromBigMoney(src: bigint | number | string, decimals: number) {
   const frac = v % pow10;
   let facStr = frac.toString();
   while (facStr.length < decimals) {
-    facStr = '0' + facStr;
+    facStr = `0${facStr}`;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   facStr = facStr.match(/^(\d*[1-9]|0)(0*)/)![1];
@@ -95,7 +95,7 @@ export function fromBigMoney(src: bigint | number | string, decimals: number) {
   // Value
   let value = `${wholeStr}${facStr === '0' ? '' : `.${facStr}`}`;
   if (neg) {
-    value = '-' + value;
+    value = `-${value}`;
   }
 
   return value;

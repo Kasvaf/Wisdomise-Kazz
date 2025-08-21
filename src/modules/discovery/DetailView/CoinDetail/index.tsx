@@ -1,11 +1,11 @@
-import { useEffect, type FC } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useDetailedCoins } from 'api/discovery';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type FC, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
-import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
+import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsMeta } from './CoinDetailsMeta';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
@@ -67,17 +67,15 @@ export const CoinDetail: FC<{
       ) : isLoading ? (
         <div className="p-3 text-xs">{t('common:loading')}</div>
       ) : (
-        <>
-          <div className="flex flex-col items-center justify-center gap-2 p-3 py-24">
-            <EmptyIcon className="mb-2 h-36" />
-            <h2 className="text-2xl font-semibold">
-              {t('common:select-detail-first')}
-            </h2>
-            <p className="max-w-[290px] text-center text-xs text-v1-content-secondary">
-              {t('common:select-detail-first-description')}
-            </p>
-          </div>
-        </>
+        <div className="flex flex-col items-center justify-center gap-2 p-3 py-24">
+          <EmptyIcon className="mb-2 h-36" />
+          <h2 className="font-semibold text-2xl">
+            {t('common:select-detail-first')}
+          </h2>
+          <p className="max-w-[290px] text-center text-v1-content-secondary text-xs">
+            {t('common:select-detail-first-description')}
+          </p>
+        </div>
       )}
     </>
   );

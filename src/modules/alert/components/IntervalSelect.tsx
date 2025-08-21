@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
 import {
   type ComponentProps,
-  useMemo,
-  useState,
   type FC,
   type ReactNode,
+  useMemo,
+  useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select } from 'shared/v1-components/Select';
@@ -138,19 +138,19 @@ export const IntervalSelect: FC<
 
   return (
     <Select
-      value={value}
-      options={options.map(option => option.value)}
       allowClear={false}
       className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
-      disabled={disabled}
-      showSearch={!cooldownMode}
-      onSearch={cooldownMode ? undefined : setQuery}
-      searchValue={cooldownMode ? undefined : query}
       dialogClassName="min-w-[100px]"
+      disabled={disabled}
+      onSearch={cooldownMode ? undefined : setQuery}
+      options={options.map(option => option.value)}
       render={v => {
         const opt = options.find(x => x.value === v);
         return opt?.label ?? '---';
       }}
+      searchValue={cooldownMode ? undefined : query}
+      showSearch={!cooldownMode}
+      value={value}
       {...props}
     />
   );

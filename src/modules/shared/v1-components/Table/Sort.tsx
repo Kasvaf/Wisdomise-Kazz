@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState, type FC } from 'react';
+import { type FC, useCallback, useMemo, useState } from 'react';
 import { ReactComponent as SortIcon } from './sort.svg';
-import { type TableColumn } from './types';
+import type { TableColumn } from './types';
 
 type SortOrder = 'ascending' | 'descending' | 'none';
 
@@ -19,10 +19,10 @@ export function useSorted<RecordType extends object>(
         isIndexChange
           ? 'ascending'
           : order === 'ascending'
-          ? 'descending'
-          : order === 'descending'
-          ? 'none'
-          : 'ascending',
+            ? 'descending'
+            : order === 'descending'
+              ? 'none'
+              : 'ascending',
       );
     },
     [index, order],

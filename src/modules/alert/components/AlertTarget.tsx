@@ -1,6 +1,6 @@
-import { Trans, useTranslation } from 'react-i18next';
+import type { Alert } from 'api/alert';
 import { clsx } from 'clsx';
-import { type Alert } from 'api/alert';
+import { Trans, useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useAlertForm } from '../forms';
 import { CoinSelect } from './CoinSelect';
@@ -19,58 +19,58 @@ export function AlertTarget({
   return (
     <div
       className={clsx(
-        'min-w-64 [&_.ant-select-selector]:!bg-transparent [&_.ant-select-selector]:!p-0',
+        '[&_.ant-select-selector]:!bg-transparent [&_.ant-select-selector]:!p-0 min-w-64',
         '[&_svg]:!size-4',
         className,
       )}
     >
       {alertForm.value === 'price' && (
         <Trans
-          i18nKey="types.price.sentence"
-          ns="alerts"
           components={{
             Br: <i />,
             Badge: <span />,
             Base: (
               <CoinSelect
+                disabled
+                size="small"
                 value={
                   value.params.find(x => x.field_name === 'base')
                     ?.value as string
                 }
-                disabled
-                size="small"
               />
             ),
             Quote: (
               <CoinSelect
+                disabled
+                size="small"
                 value={
                   value.params.find(x => x.field_name === 'quote')
                     ?.value as string
                 }
-                disabled
-                size="small"
               />
             ),
             Operator: (
               <OperatorSelect
-                value={value.conditions?.[0].operator}
                 disabled
                 showEqual
                 size="small"
+                value={value.conditions?.[0].operator}
               />
             ),
             Threshold: (
               <ReadableNumber
-                value={+value.conditions?.[0]?.threshold}
                 format={{
                   compactInteger: false,
                   decimalLength: -1,
                   minifyDecimalRepeats: false,
                   separateByComma: true,
                 }}
+                value={+value.conditions?.[0]?.threshold}
               />
             ),
           }}
+          i18nKey="types.price.sentence"
+          ns="alerts"
         />
       )}
       {alertForm.value === 'social_radar' &&

@@ -9,8 +9,8 @@ export function PageCoinRadarMeta() {
         Realtime List of Best Coins to Buy Right Now & in {currentYear}
       </title>
       <meta
-        name="description"
         content="Check the realtime list of top crypto coins including trending coins, gems, memcoins, ... with analysis and predictions. Don't miss the next pumps and trends."
+        name="description"
       />
     </Helmet>
   );

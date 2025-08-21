@@ -1,16 +1,16 @@
 import { Dropdown } from 'antd';
-import { useCallback, useState } from 'react';
 import { clsx } from 'clsx';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import DropdownContainer from 'shared/DropdownContainer';
-import { ReactComponent as Kucoin } from './images/kucoin.svg';
+import { ReactComponent as Arrow } from './images/arrow.svg';
 import { ReactComponent as Bitget } from './images/bitget.svg';
 import { ReactComponent as Gate } from './images/gate.svg';
 import { ReactComponent as HTX } from './images/htx.svg';
+import { ReactComponent as Kucoin } from './images/kucoin.svg';
 import { ReactComponent as MEXC } from './images/mexc.svg';
 import { ReactComponent as Quickswap } from './images/quickswap.svg';
-import { ReactComponent as Arrow } from './images/arrow.svg';
 
 const EXCHANGES = [
   {
@@ -57,13 +57,13 @@ export default function BuyWSDM({ className }: { className?: string }) {
   const dropDownFn = useCallback(
     () => (
       <DropdownContainer
-        className="min-w-[240px] overflow-hidden bg-black/60 !p-0"
+        className="!p-0 min-w-[240px] overflow-hidden bg-black/60"
         setOpen={setIsOpen}
       >
         {EXCHANGES.map(exchange => (
           <div
-            key={exchange.name}
             className="flex cursor-pointer items-center justify-between p-4 hover:bg-black/70"
+            key={exchange.name}
             onClick={() => setSelectedExchangeName(exchange.name)}
           >
             <span>{exchange.name}</span>
@@ -76,7 +76,7 @@ export default function BuyWSDM({ className }: { className?: string }) {
   );
 
   return (
-    <Button variant="primary-purple" className={clsx(className, '!p-0')}>
+    <Button className={clsx(className, '!p-0')} variant="primary-purple">
       <div className="flex w-full justify-between">
         <div
           className="text-nowrap px-6 py-4"
@@ -85,12 +85,12 @@ export default function BuyWSDM({ className }: { className?: string }) {
           {t('balance.buy')}
         </div>
         <Dropdown
-          open={isOpen}
-          trigger={['click']}
-          onOpenChange={setIsOpen}
-          placement="bottomRight"
-          dropdownRender={dropDownFn}
           autoAdjustOverflow
+          dropdownRender={dropDownFn}
+          onOpenChange={setIsOpen}
+          open={isOpen}
+          placement="bottomRight"
+          trigger={['click']}
         >
           <div className="flex items-center gap-4 rounded-e-xl bg-white/10 p-4">
             <div>{selectedExchange?.icon}</div>

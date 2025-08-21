@@ -1,6 +1,6 @@
-import { useLocation, Navigate } from 'react-router-dom';
 import { LISTS } from 'modules/discovery/constants';
 import { createDiscoverySearchParams } from 'modules/discovery/useDiscoveryRouteMeta';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const REDIRECT_MAP: Record<string, string> = {
   // Home
@@ -80,7 +80,7 @@ const findMatchingRoute = (
     for (const [pattern, target] of Object.entries(REDIRECT_MAP)) {
       if (pattern.includes('{')) {
         const regex = new RegExp(
-          '^' + pattern.replaceAll(/{.*?}/g, '([^/]+)') + '$',
+          `^${pattern.replaceAll(/{.*?}/g, '([^/]+)')}$`,
         );
         const match = normalizedPath.match(regex);
 

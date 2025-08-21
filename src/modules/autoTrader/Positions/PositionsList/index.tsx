@@ -1,7 +1,7 @@
 import { Pagination } from 'antd';
+import { useTraderPositionsQuery } from 'api';
 import { useEffect, useState } from 'react';
 import Spinner from 'shared/Spinner';
-import { useTraderPositionsQuery } from 'api';
 import usePageTour from 'shared/usePageTour';
 import NoPosition from './NoPosition';
 import PositionDetail from './PositionDetail';
@@ -25,7 +25,7 @@ const PositionsList: React.FC<{
 
   useEffect(() => {
     setPage(1);
-  }, [isOpen, slug]);
+  }, []);
 
   const positionsRes = positions?.positions ?? [];
 
@@ -76,11 +76,11 @@ const PositionsList: React.FC<{
       <div className="mt-3 flex justify-center empty:hidden">
         <Pagination
           current={page}
+          hideOnSinglePage
           onChange={x => setPage(x)}
           pageSize={PAGE_SIZE}
-          total={positions?.count}
-          hideOnSinglePage
           responsive
+          total={positions?.count}
         />
       </div>
     </div>

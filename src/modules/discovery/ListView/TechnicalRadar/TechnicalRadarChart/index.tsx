@@ -1,23 +1,22 @@
-/* eslint-disable import/max-dependencies */
-import { useMemo, useRef, type FC } from 'react';
-import { clsx } from 'clsx';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
+import { useSubscription } from 'api';
+import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
+import { ReactComponent as Logo } from 'assets/logo-white.svg';
 import { bxShareAlt } from 'boxicons-quasar';
-import { useTechnicalRadarCoins, type TechnicalRadarCoin } from 'api/discovery';
-import { ECharts } from 'shared/ECharts';
-import { AccessShield } from 'shared/AccessShield';
-import Icon from 'shared/Icon';
-import { useScreenshot } from 'shared/useScreenshot';
-import { formatNumber } from 'utils/numbers';
-import { Button } from 'shared/v1-components/Button';
-import useIsMobile from 'utils/useIsMobile';
-import { useLoadingBadge } from 'shared/LoadingBadge';
+import { clsx } from 'clsx';
+import type { EChartsOption, ScatterSeriesOption } from 'echarts';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { useSubscription } from 'api';
-import { ReactComponent as Logo } from 'assets/logo-white.svg';
+import { type FC, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { AccessShield } from 'shared/AccessShield';
+import { ECharts } from 'shared/ECharts';
+import Icon from 'shared/Icon';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { useScreenshot } from 'shared/useScreenshot';
+import { Button } from 'shared/v1-components/Button';
+import { formatNumber } from 'utils/numbers';
+import useIsMobile from 'utils/useIsMobile';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 
 export const TechnicalRadarChart: FC<{
@@ -48,7 +47,7 @@ export const TechnicalRadarChart: FC<{
         },
         formatter: (s, x) => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
-          /* @ts-ignore */
+          /* @ts-expect-error */
           const name = s?.data?.name as string | undefined;
           const bubble = name
             ? parsedData.data.find(x => x.label === name)
@@ -274,16 +273,16 @@ export const TechnicalRadarChart: FC<{
       ref={el}
     >
       <div className="relative mb-4 flex items-center justify-between gap-px">
-        <p className="max-w-sm text-xs text-v1-content-primary" data-nocapture>
+        <p className="max-w-sm text-v1-content-primary text-xs" data-nocapture>
           {t('common.rsi_macd_chart.subtitle')}
         </p>
         <div data-nocapture>
           <Button
-            size="xs"
-            onClick={capture}
-            variant="ghost"
-            disabled={!isLoggedIn || subscription.level < 1}
             className="!rounded-full"
+            disabled={!isLoggedIn || subscription.level < 1}
+            onClick={capture}
+            size="xs"
+            variant="ghost"
           >
             <Icon name={bxShareAlt} size={10} />
             {t('common.share')}
@@ -294,8 +293,8 @@ export const TechnicalRadarChart: FC<{
         </div>
       </div>
       <AccessShield
-        mode="children"
         className="relative"
+        mode="children"
         sizes={{
           guest: true,
           initial: true,
@@ -304,8 +303,8 @@ export const TechnicalRadarChart: FC<{
         }}
       >
         <ECharts
+          className="overflow-hidden rounded-xl"
           height={isMobile ? 400 : 500}
-          renderer="canvas"
           onClick={e => {
             if (
               e.componentSubType === 'scatter' &&
@@ -330,7 +329,7 @@ export const TechnicalRadarChart: FC<{
             }
           }}
           options={options}
-          className="overflow-hidden rounded-xl"
+          renderer="canvas"
         />
       </AccessShield>
     </div>

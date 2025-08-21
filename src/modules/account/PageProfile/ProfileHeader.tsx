@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import type { CommunityProfile } from 'api';
 import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
-import { type CommunityProfile } from 'api';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import { ImageUploader } from 'shared/Uploader';
 import { CameraIcon, VerifiedBadge } from './assets';
@@ -25,28 +25,28 @@ export const ProfileHeader: FC<{
 
   return (
     <div className={clsx('relative', className)}>
-      <div className="relative w-full overflow-hidden rounded-xl pb-[16.8%] mobile:pb-[37%]">
+      <div className="relative w-full overflow-hidden rounded-xl mobile:pb-[37%] pb-[16.8%]">
         <ProfilePhoto
-          className="absolute left-0 top-0 h-full w-full bg-[#1e1f24]"
+          className="absolute top-0 left-0 h-full w-full bg-[#1e1f24]"
           src={profile?.profile_cover}
           type="cover"
         />
         {isEditable && (
           <ImageUploader
-            target="profile_cover"
-            className="!absolute bottom-0 right-0 m-4 mobile:!top-0 mobile:m-2"
+            className="!absolute mobile:!top-0 right-0 bottom-0 m-4 mobile:m-2"
             onChange={newImage =>
               onChange?.({
                 profile_cover: typeof newImage === 'string' ? newImage : null,
               })
             }
             recommendedRatio={[1228, 206]}
+            target="profile_cover"
           >
             <Button
+              className="!rounded-lg h-9 mobile:h-7 mobile:px-2 px-4 backdrop-blur-md"
+              contentClassName="mobile:text-xxs"
               size="manual"
               variant="alternative"
-              className="h-9 !rounded-lg px-4 backdrop-blur-md mobile:h-7 mobile:px-2"
-              contentClassName="mobile:text-xxs"
             >
               <CameraIcon className="mr-2 h-5 w-5" />
               {t('accounts:profile-header.change-header')}
@@ -54,40 +54,40 @@ export const ProfileHeader: FC<{
           </ImageUploader>
         )}
       </div>
-      <div className="relative -mt-7 flex items-center gap-4 pl-9 pr-4 mobile:w-full mobile:flex-col mobile:!px-4">
+      <div className="-mt-7 mobile:!px-4 relative flex mobile:w-full mobile:flex-col items-center gap-4 pr-4 pl-9">
         <div className="relative shrink-0">
           <ProfilePhoto
-            className="size-[120px] rounded-full shadow-lg mobile:size-[80px]"
+            className="mobile:size-[80px] size-[120px] rounded-full shadow-lg"
             src={profile?.profile_image}
             type="avatar"
           />
           {isEditable && (
             <ImageUploader
-              target="profile_image"
+              className="!absolute mobile:-m-1 right-0 bottom-0 h-8 w-8"
               onChange={newImage =>
                 onChange?.({
                   profile_image: typeof newImage === 'string' ? newImage : null,
                 })
               }
               recommendedRatio={[128, 128]}
-              className="!absolute bottom-0 right-0 h-8 w-8 mobile:-m-1"
+              target="profile_image"
             >
               <Button
-                size="manual"
-                variant="purple"
                 className="h-full w-full shadow"
                 contentClassName="w-full"
+                size="manual"
+                variant="purple"
               >
                 <CameraIcon className="!h-5 !w-5" />
               </Button>
             </ImageUploader>
           )}
         </div>
-        <div className="mt-2 flex flex-col mobile:mt-0 mobile:items-center">
-          <p className="text-3xl mobile:text-lg">
+        <div className="mobile:mt-0 mt-2 flex flex-col mobile:items-center">
+          <p className="mobile:text-lg text-3xl">
             <span
               className={clsx(
-                'flex items-center gap-2 mobile:flex-col',
+                'flex mobile:flex-col items-center gap-2',
                 !profile && 'animate-pulse',
               )}
             >
@@ -96,37 +96,34 @@ export const ProfileHeader: FC<{
                   'max-w-64 truncate lg:max-w-96',
                   profile?.nickname
                     ? 'font-bold'
-                    : 'text-2xl font-extralight opacity-70 mobile:text-base',
+                    : 'font-extralight mobile:text-base text-2xl opacity-70',
                 )}
               >
-                {profile?.nickname || (
-                  <>
-                    {isEditable
-                      ? t('accounts:profile-header.unknown-nickname')
-                      : truncateUserId(userId)}
-                  </>
-                )}
+                {profile?.nickname ||
+                  (isEditable
+                    ? t('accounts:profile-header.unknown-nickname')
+                    : truncateUserId(userId))}
               </span>
               {profile?.verified && (
-                <VerifiedBadge className="shrink-0 mobile:!h-6" />
+                <VerifiedBadge className="mobile:!h-6 shrink-0" />
               )}
             </span>
           </p>
-          <p className="mt-1 text-sm mobile:text-[13px]">
+          <p className="mt-1 mobile:text-[13px] text-sm">
             {isEditable ? (
-              <span className="flex items-center gap-2 text-white/50 mobile:flex-col mobile:items-end mobile:gap-0">
+              <span className="flex mobile:flex-col mobile:items-end items-center gap-2 mobile:gap-0 text-white/50">
                 {profile?.support_email || '---'}
-                <span className="text-xxs text-white/30">
+                <span className="text-white/30 text-xxs">
                   ({t('accounts:profile-header.cant-change')})
                 </span>
               </span>
             ) : (
               joinDateObject && (
                 <span className="flex items-center gap-2">
-                  <span className="text-xs font-light text-white/30">
+                  <span className="font-light text-white/30 text-xs">
                     {t('accounts:profile-header.from')}
                   </span>
-                  <span className="text-xs font-light">
+                  <span className="font-light text-xs">
                     {joinDateObject.format('MMM DD YYYY')}
                     {' / '}
                     {joinDateObject.fromNow()}

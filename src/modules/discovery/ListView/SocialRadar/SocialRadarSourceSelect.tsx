@@ -1,6 +1,6 @@
-import { useState, type FC } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useSocialRadarSources } from 'api/discovery';
+import { type FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Select } from 'shared/v1-components/Select';
 import { SocialLogo } from '../../DetailView/CoinDetail/CoinMessagesWidget/SocialLogo';
 
@@ -15,16 +15,19 @@ export const SocialRadarSourceSelect: FC<{
 
   return (
     <Select
-      className={className}
-      block
-      value={value}
-      onChange={onChange}
-      loading={sources.isLoading}
       allowClear
-      showSearch
-      searchValue={query}
-      onSearch={setQuery}
+      block
+      className={className}
+      loading={sources.isLoading}
       multiple
+      onChange={onChange}
+      onSearch={setQuery}
+      options={
+        sources.data
+          ?.filter(x => x.name.toLowerCase().includes(query.toLowerCase()))
+          .map(x => x.value)
+          .filter(x => !!x) ?? []
+      }
       render={val => {
         if (!val) return t('common.all_sources');
         const source = sources.data?.find(x => x.value === val);
@@ -32,26 +35,23 @@ export const SocialRadarSourceSelect: FC<{
         return (
           <span>
             <SocialLogo
-              className="size-4 me-2 inline-block rounded-full align-middle"
+              className="me-2 inline-block size-4 rounded-full align-middle"
               type={
                 source.value.includes('telegram')
                   ? 'telegram'
                   : source.value.includes('reddit')
-                  ? 'reddit'
-                  : 'twitter'
+                    ? 'reddit'
+                    : 'twitter'
               }
             />
             {source.name}
           </span>
         );
       }}
+      searchValue={query}
+      showSearch
       surface={2}
-      options={
-        sources.data
-          ?.filter(x => x.name.toLowerCase().includes(query.toLowerCase()))
-          .map(x => x.value)
-          .filter(x => !!x) ?? []
-      }
+      value={value}
     />
   );
 };

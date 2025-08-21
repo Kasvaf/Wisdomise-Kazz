@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FetchError } from 'ofetch';
-import { useRef } from 'react';
+import { useCustodialWallet, useDisconnectAll } from 'api/chains/wallet';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { delJwtToken, setJwtToken } from 'modules/base/auth/jwt-store';
-import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
-import { isLocal } from 'utils/version';
 import { clearPersistCache } from 'config/reactQuery';
-import { useCustodialWallet, useDisconnectAll } from 'api/chains/wallet';
+import { delJwtToken, setJwtToken } from 'modules/base/auth/jwt-store';
+import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
+import { FetchError } from 'ofetch';
+import { useRef } from 'react';
+import { isLocal } from 'utils/version';
 import { useUserStorage } from './userStorage';
 
 interface SuccessResponse {

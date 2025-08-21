@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
-import { type ReactNode, useMemo, type FC } from 'react';
+import { type FC, type ReactNode, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { ReactComponent as MintIcon } from './mint.svg';
-import { ReactComponent as FreezeIcon } from './freeze.svg';
 import { ReactComponent as FireIcon } from './fire.svg';
+import { ReactComponent as FreezeIcon } from './freeze.svg';
+import { ReactComponent as MintIcon } from './mint.svg';
 import { ReactComponent as UserIcon } from './user.svg';
 
 export const NCoinSecurity: FC<{
@@ -88,7 +88,6 @@ export const NCoinSecurity: FC<{
         <div className={clsx('grid grid-cols-2 grid-rows-2 gap-1', className)}>
           {items.map(item => (
             <div
-              key={item.key}
               className={clsx(
                 'relative flex shrink-0 items-center justify-center rounded-full',
                 item.value
@@ -96,6 +95,7 @@ export const NCoinSecurity: FC<{
                   : 'bg-v1-background-negative fill-v1-background-negative-subtle stroke-v1-background-negative-subtle',
                 imgClassName,
               )}
+              key={item.key}
             >
               <item.icon className={clsx('size-full scale-75')} />
             </div>
@@ -105,7 +105,7 @@ export const NCoinSecurity: FC<{
         <div
           className={clsx(
             'text-xs',
-            type === 'card' && 'rounded-lg p-2 bg-v1-surface-l-next',
+            type === 'card' && 'rounded-lg bg-v1-surface-l-next p-2',
             className,
           )}
         >
@@ -127,8 +127,8 @@ export const NCoinSecurity: FC<{
           >
             {items.map(item => (
               <HoverTooltip
-                key={item.key}
                 className={clsx('flex items-center gap-2 text-center')}
+                key={item.key}
                 title={item.title}
               >
                 <div

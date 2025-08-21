@@ -1,11 +1,11 @@
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type FC } from 'react';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { shortenAddress } from 'utils/shortenAddress';
 import { useShare } from 'shared/useShare';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { shortenAddress } from 'utils/shortenAddress';
 
 export const Wallet: FC<{
   wallet: {
@@ -27,42 +27,40 @@ export const Wallet: FC<{
   const RootComponent = noLink ? 'span' : Link;
 
   return (
-    <>
-      <RootComponent
-        className={clsx(
-          'inline-flex w-max items-center gap-2 overflow-hidden rounded-md p-1 pe-2 font-mono',
-          !noLink &&
-            'bg-transparent text-v1-content-primary transition-all hover:bg-v1-background-hover hover:text-inherit',
-          className,
-        )}
-        to={
-          whale
-            ? getUrl({
-                detail: 'whale',
-                slug: `${wallet.network}/${wallet.address}`,
-              })
-            : '#'
-        }
-      >
-        <img
-          src={avatar}
-          width={32}
-          height={32}
-          className="size-7 rounded-full"
-        />
-        <span>{shortAddress}</span>
-        <Icon
-          name={bxsCopy}
-          size={6}
-          className="cursor-copy opacity-75 [&_svg]:size-3"
-          onClick={e => {
-            e.preventDefault();
-            void copy(wallet.address);
-          }}
-        />
+    <RootComponent
+      className={clsx(
+        'inline-flex w-max items-center gap-2 overflow-hidden rounded-md p-1 pe-2 font-mono',
+        !noLink &&
+          'bg-transparent text-v1-content-primary transition-all hover:bg-v1-background-hover hover:text-inherit',
+        className,
+      )}
+      to={
+        whale
+          ? getUrl({
+              detail: 'whale',
+              slug: `${wallet.network}/${wallet.address}`,
+            })
+          : '#'
+      }
+    >
+      <img
+        className="size-7 rounded-full"
+        height={32}
+        src={avatar}
+        width={32}
+      />
+      <span>{shortAddress}</span>
+      <Icon
+        className="cursor-copy opacity-75 [&_svg]:size-3"
+        name={bxsCopy}
+        onClick={e => {
+          e.preventDefault();
+          void copy(wallet.address);
+        }}
+        size={6}
+      />
 
-        {notificationContent}
-      </RootComponent>
-    </>
+      {notificationContent}
+    </RootComponent>
   );
 };

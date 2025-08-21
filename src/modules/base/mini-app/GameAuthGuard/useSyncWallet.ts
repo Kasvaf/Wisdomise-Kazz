@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import { useTonAddress } from '@tonconnect/ui-react';
 import { useSyncDataMutation } from 'api/gamification';
+import { useEffect } from 'react';
 
 export function useSyncWallet() {
   const { mutateAsync } = useSyncDataMutation();

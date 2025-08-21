@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next';
 import { bxCheckCircle } from 'boxicons-quasar';
-import useConfirm from 'shared/useConfirm';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
+import useConfirm from 'shared/useConfirm';
 import deleteConfirmICon from './delete-confirm.png';
 
 export const useAlertDeleteConfirm = () => {
@@ -26,7 +26,7 @@ export const useAlertDeleteConfirm = () => {
 export const useAlertSaveToast = () => {
   const { t } = useTranslation('alerts');
   return useConfirm({
-    icon: <Icon name={bxCheckCircle} className="text-success" size={52} />,
+    icon: <Icon className="text-success" name={bxCheckCircle} size={52} />,
     yesTitle: t('common:actions.ok'),
     message: (
       <p className="text-center text-base">{t('common.success-message')}</p>

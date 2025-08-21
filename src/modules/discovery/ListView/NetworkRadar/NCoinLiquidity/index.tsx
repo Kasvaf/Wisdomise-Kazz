@@ -1,11 +1,11 @@
+import type { NetworkRadarNCoin } from 'api/discovery';
 import { clsx } from 'clsx';
-import { type FC } from 'react';
-import { type NetworkRadarNCoin } from 'api/discovery';
+import type { FC } from 'react';
+import { CoinLogo } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { CoinLogo } from 'shared/Coin';
-import { ReactComponent as PositiveIcon } from './positive.svg';
 import { ReactComponent as NegativeIcon } from './negative.svg';
+import { ReactComponent as PositiveIcon } from './positive.svg';
 
 export const NCoinLiquidity: FC<{
   className?: string;
@@ -30,24 +30,24 @@ export const NCoinLiquidity: FC<{
         )}
         <div className="flex max-h-max flex-col justify-center">
           <ReadableNumber
-            value={value?.update.liquidity.usd}
-            label="$"
-            popup="never"
             className="text-xxs"
             format={{
               decimalLength: 1,
             }}
+            label="$"
+            popup="never"
+            value={value?.update.liquidity.usd}
           />
           <DirectionalNumber
-            value={value?.update.liquidity_change?.percent}
-            popup="never"
             className="text-[82%]"
-            showIcon={false}
-            showSign
             format={{
               decimalLength: 1,
             }}
             label="%"
+            popup="never"
+            showIcon={false}
+            showSign
+            value={value?.update.liquidity_change?.percent}
           />
         </div>
       </div>
@@ -67,43 +67,43 @@ export const NCoinLiquidity: FC<{
           )}
         >
           {value?.quote_symbol && (
-            <CoinLogo value={value?.quote_symbol} className="size-5" />
+            <CoinLogo className="size-5" value={value?.quote_symbol} />
           )}
           <ReadableNumber
+            popup="never"
             value={
               type.startsWith('initial')
                 ? value?.initial_liquidity.native
                 : value?.update.liquidity.native
             }
-            popup="never"
           />
           <span className="contents text-v1-content-secondary">
             /
             <ReadableNumber
+              label="$"
+              popup="never"
               value={
                 type.startsWith('initial')
                   ? value?.initial_liquidity.usd
                   : value?.update.liquidity.usd
               }
-              label="$"
-              popup="never"
             />
           </span>
         </div>
         {type.startsWith('update') && (
           <DirectionalNumber
-            value={value?.update.liquidity_change?.percent}
-            popup="never"
-            showIcon={false}
-            showSign
             className={clsx(
               'text-[85%]',
               !type.endsWith('icon') && !type.endsWith('row') && 'ps-5',
             )}
-            label="%"
             format={{
               decimalLength: 1,
             }}
+            label="%"
+            popup="never"
+            showIcon={false}
+            showSign
+            value={value?.update.liquidity_change?.percent}
           />
         )}
       </div>

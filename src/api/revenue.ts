@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { ofetch } from 'config/ofetch';
 import { TEMPLE_ORIGIN } from 'config/constants';
+import { ofetch } from 'config/ofetch';
 
 interface RevenueResponse {
   trading_volume: number;

@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
+import type { WhaleAssetLabel } from 'api/discovery';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { type WhaleAssetLabel } from 'api/discovery';
+import { useTranslation } from 'react-i18next';
 import { ClickableTooltip } from './ClickableTooltip';
 import { ReadableNumber } from './ReadableNumber';
 
@@ -98,12 +98,12 @@ export function WhaleAssetBadge({
     <>
       {percentage && (
         <ReadableNumber
-          value={percentage}
-          label="%"
-          popup="never"
           format={{
             decimalLength: 1,
           }}
+          label="%"
+          popup="never"
+          value={percentage}
         />
       )}
       {detail.title}
@@ -115,6 +115,12 @@ export function WhaleAssetBadge({
   return (
     <ClickableTooltip
       chevron={false}
+      className={clsx(
+        'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
+        detail.className,
+        className,
+      )}
+      disabled={!detail.info}
       title={
         <>
           <h2 className="mb-1 text-base text-v1-content-primary">
@@ -123,12 +129,6 @@ export function WhaleAssetBadge({
           <p className="text-v1-content-secondary">{detail.info}</p>
         </>
       }
-      disabled={!detail.info}
-      className={clsx(
-        'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
-        detail.className,
-        className,
-      )}
     >
       {content}
     </ClickableTooltip>

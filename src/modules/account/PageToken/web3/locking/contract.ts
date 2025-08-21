@@ -1,9 +1,9 @@
-import { useAccount, useReadContract, useWriteContract } from 'wagmi';
-import { zeroAddress } from 'viem';
-import { LOCKING_ABI } from 'modules/account/PageToken/web3/locking/abi';
-import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
-import { useWaitResolver } from 'modules/account/PageToken/web3/shared';
 import { useAccountQuery } from 'api';
+import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
+import { LOCKING_ABI } from 'modules/account/PageToken/web3/locking/abi';
+import { useWaitResolver } from 'modules/account/PageToken/web3/shared';
+import { zeroAddress } from 'viem';
+import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 
 const lockingContractDefaultConfig = {
   address: LOCKING_CONTRACT_ADDRESS,

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useSubscription } from 'api';
 import {
   useReadLockedBalance,
   useReadUnlockedInfo,
 } from 'modules/account/PageToken/web3/locking/contract';
+import { useEffect, useState } from 'react';
 import { addComma } from 'utils/numbers';
-import { useSubscription } from 'api';
 
 export type UtilityStatus =
   | 'already_active'

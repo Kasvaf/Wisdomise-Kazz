@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { appendTraits } from 'config/segment';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useIsLoggedIn } from '../../auth/jwt-store';
 import { SemiForceLoginModal } from './SemiForceLoginModal';
 
@@ -17,6 +17,7 @@ const useNavigateToOnboarding = () => {
   const { group } = useSubscription();
   const { value } = useUserStorage('onboarding-data');
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (value) {
       try {

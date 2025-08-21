@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode, useRef, type FC, useEffect } from 'react';
+import { type FC, type ReactNode, useEffect, useRef } from 'react';
 
 export type ResizableSidesValue = `${number}px` | `${number}%`;
 
@@ -35,9 +35,8 @@ export const ResizableSides: FC<{
       const movement = position - initialPosition;
 
       const newSize = initialSize + movement;
-      sideOneRef.current.style[
-        direction === 'col' ? 'width' : 'height'
-      ] = `${newSize}px`;
+      sideOneRef.current.style[direction === 'col' ? 'width' : 'height'] =
+        `${newSize}px`;
 
       e.preventDefault();
     };
@@ -97,14 +96,14 @@ export const ResizableSides: FC<{
       ref={containerRef}
     >
       <div
-        ref={sideOneRef}
         className={clsx(
-          'relative shrink-0 overflow-auto scrollbar-thin',
+          'scrollbar-thin relative shrink-0 overflow-auto',
           direction === 'row'
             ? 'max-h-[calc(100%-0.75rem)]'
             : 'max-w-[calc(100%-0.75rem)]',
           className?.[0],
         )}
+        ref={sideOneRef}
       >
         {children[0]}
       </div>
@@ -134,7 +133,7 @@ export const ResizableSides: FC<{
       </div>
       <div
         className={clsx(
-          'relative shrink overflow-auto scrollbar-thin',
+          'scrollbar-thin relative shrink overflow-auto',
           className?.[1],
         )}
       >

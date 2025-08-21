@@ -1,4 +1,4 @@
-import { type Invoice } from 'modules/account/models';
+import type { Invoice } from 'modules/account/models';
 
 export type PlanPeriod = 'MONTHLY' | 'YEARLY';
 export type PaymentMethod = 'TOKEN' | 'CRYPTO' | 'FIAT' | 'MANUAL' | 'WSDM';

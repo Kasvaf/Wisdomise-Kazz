@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
+import { getJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
+import { useEffect, useMemo } from 'react';
 
 export function saveUserMultiKeyValue(obj: Record<string, string>) {
   return Promise.all(
@@ -83,6 +83,7 @@ export function useUserStorage<T = string>(
       }),
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!userEmail) {
       void queryClient.invalidateQueries({
@@ -91,7 +92,6 @@ export function useUserStorage<T = string>(
           query.queryKey.includes(key),
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userEmail]);
 
   return useMemo(() => {

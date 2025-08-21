@@ -1,7 +1,6 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
+    "biomejs.biome",
     "editorconfig.editorconfig",
     "wayou.vscode-todo-highlight",
     "styled-components.vscode-styled-components",
@@ -12,6 +11,8 @@
   "unwantedRecommendations": [
     "hookyqr.beautify",
     "dbaeumer.jshint",
-    "ms-vscode.vscode-typescript-tslint-plugin"
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
   ]
 }

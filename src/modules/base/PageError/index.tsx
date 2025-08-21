@@ -1,7 +1,7 @@
-import { bxRefresh, bxsFaceMask } from 'boxicons-quasar';
-import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
 import type * as Sentry from '@sentry/react';
+import { bxRefresh, bxsFaceMask } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
 
@@ -31,10 +31,10 @@ export default function PageError({
   };
 
   return (
-    <div className="text-v1-content-primary flex h-screen w-screen select-none flex-col items-center justify-center gap-4">
+    <div className="flex h-screen w-screen select-none flex-col items-center justify-center gap-4 text-v1-content-primary">
       <div className="mb-6 text-8xl">:(</div>
       <div className="text-center">{t('error-page.title')}</div>
-      <div className="text-v1-content-secondary text-center text-sm">
+      <div className="text-center text-sm text-v1-content-secondary">
         {t('error-page.subtitle')}
       </div>
       <button

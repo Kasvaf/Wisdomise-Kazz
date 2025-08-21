@@ -1,8 +1,8 @@
+import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
 
 export const ReadableDuration: FC<{
   value?: number | null;

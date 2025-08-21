@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyncChartLines';
 import { useTraderAssetActivity } from 'api';
+import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyncChartLines';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
+import { useEffect, useMemo, useRef } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 
 interface LineOptions {
@@ -109,5 +109,5 @@ export function useChartAnnotations(
       objectsRef.current = [];
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [widget, JSON.stringify(lines), JSON.stringify(icons)]);
+  }, [widget, icons, lines]);
 }

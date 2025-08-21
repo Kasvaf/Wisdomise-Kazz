@@ -1,15 +1,15 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import { isPositionUpdatable, useTraderPositionQuery } from 'api';
-import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import PageWrapper from 'modules/base/PageWrapper';
-import useIsMobile from 'utils/useIsMobile';
-import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import useIsMobile from 'utils/useIsMobile';
 import { useActiveQuote } from '../useActiveQuote';
+import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import Trader from './Trader';
 
 export default function PageTrade() {
@@ -40,29 +40,29 @@ export default function PageTrade() {
 
   return (
     <PageWrapper
-      hasBack
-      extension={!isMobile && <CoinExtensionsGroup />}
       className="relative"
+      extension={!isMobile && <CoinExtensionsGroup />}
+      hasBack
     >
       <CoinSelect
-        className="mb-4 w-full [&_.ant-select-selector]:!bg-v1-surface-l2 [&_.ant-select-selector]:!py-1"
+        className="[&_.ant-select-selector]:!bg-v1-surface-l2 [&_.ant-select-selector]:!py-1 mb-4 w-full"
         filterTokens={x => x !== 'tether'}
-        showPrice
-        value={slug}
-        tradableCoinsOnly
+        mini={false}
         onChange={selectedSlug =>
           navigate(`/trader/bot/${selectedSlug}`, { replace: true })
         }
-        mini={false}
+        showPrice
+        tradableCoinsOnly
+        value={slug}
       />
 
       <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
         <Trader
-          slug={slug}
+          loadingClassName="bg-v1-surface-l1"
+          positionKey={positionKey}
           quote={quote}
           setQuote={setQuote}
-          positionKey={positionKey}
-          loadingClassName="bg-v1-surface-l1"
+          slug={slug}
         />
       </ActiveNetworkProvider>
     </PageWrapper>

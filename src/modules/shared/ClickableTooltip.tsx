@@ -1,15 +1,15 @@
-import { type Drawer as AntDrawer, type Tooltip as AntTooltip } from 'antd';
+import type { Drawer as AntDrawer, Tooltip as AntTooltip } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
-  useEffect,
-  useState,
   type ComponentProps,
   type ReactNode,
+  useEffect,
+  useState,
 } from 'react';
-import { bxChevronDown } from 'boxicons-quasar';
 import useIsMobile from 'utils/useIsMobile';
-import { Dialog, DIALOG_OPENER_CLASS } from './v1-components/Dialog';
 import Icon from './Icon';
+import { DIALOG_OPENER_CLASS, Dialog } from './v1-components/Dialog';
 
 export function ClickableTooltip({
   title,
@@ -55,28 +55,28 @@ export function ClickableTooltip({
         {children}{' '}
         {disabled !== true && chevron !== false && (
           <Icon
-            name={bxChevronDown}
             className={clsx(
               'text-inherit opacity-70 transition-all group-hover:opacity-100',
-              isOpen && 'rotate-180 !opacity-100',
+              isOpen && '!opacity-100 rotate-180',
             )}
+            name={bxChevronDown}
             size={16}
           />
         )}
       </span>
       <Dialog
-        className="min-w-[150px] !max-w-[410px] mobile:!max-w-full md:border border-white/10"
+        className="!max-w-[410px] mobile:!max-w-full min-w-[150px] border-white/10 md:border"
         contentClassName="p-3"
-        mode={isMobile ? 'drawer' : 'popup'}
-        popupConfig={{
-          position: 'target',
-        }}
         drawerConfig={{
           position: 'bottom',
           closeButton: true,
         }}
-        open={isOpen}
+        mode={isMobile ? 'drawer' : 'popup'}
         onClose={() => setIsOpen(false)}
+        open={isOpen}
+        popupConfig={{
+          position: 'target',
+        }}
         surface={1}
       >
         {title}

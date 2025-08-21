@@ -1,25 +1,24 @@
-/* eslint-disable import/max-dependencies */
-import { useMemo, type FC, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { bxShareAlt } from 'boxicons-quasar';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
+import { bxShareAlt } from 'boxicons-quasar';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import { type FC, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
-import { Coin } from 'shared/v1-components/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { TableRank } from 'shared/TableRank';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { usePageState } from 'shared/usePageState';
-import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
-import { ReactComponent as Logo } from 'assets/monogram-green.svg';
+import { Button } from 'shared/v1-components/Button';
+import { Coin } from 'shared/v1-components/Coin';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
+import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import TechnicalRadarSharingModal from '../../TechnicalRadarSharingModal';
-import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 
 export const TechnicalRadarCoinsTable: FC = () => {
   const { t } = useTranslation('market-pulse');
@@ -49,13 +48,13 @@ export const TechnicalRadarCoinsTable: FC = () => {
         render: row => (
           <Coin
             abbreviation={row.symbol.abbreviation}
-            name={row.symbol.name}
-            slug={row.symbol.slug}
-            logo={row.symbol.logo_url}
             categories={row.symbol.categories}
             labels={row.symbol_labels}
+            logo={row.symbol.logo_url}
+            name={row.symbol.name}
             networks={row.networks}
             security={row.symbol_security?.data}
+            slug={row.symbol.slug}
             truncate={false}
           />
         ),
@@ -83,7 +82,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
       {
         title: t('table.price_info.title'),
         info: (
-          <div className="[&_b]:font-medium [&_p]:text-xs [&_p]:text-v1-content-secondary">
+          <div className="[&_b]:font-medium [&_p]:text-v1-content-secondary [&_p]:text-xs">
             <Trans i18nKey="table.price_info.info" ns="market-pulse" />
           </div>
         ),
@@ -101,9 +100,9 @@ export const TechnicalRadarCoinsTable: FC = () => {
   return (
     <div>
       <TechnicalRadarFilters
-        value={pageState}
-        onChange={newPageState => setPageState(newPageState)}
         className="mb-4 w-full"
+        onChange={newPageState => setPageState(newPageState)}
+        value={pageState}
       />
 
       <AccessShield
@@ -116,18 +115,13 @@ export const TechnicalRadarCoinsTable: FC = () => {
         }}
       >
         <Table
+          className="max-h-[477px]"
           columns={columns}
           dataSource={coins.data}
-          rowKey={r => r.symbol.slug}
           loading={coins.isLoading}
-          scrollable
-          surface={2}
-          className="max-h-[477px]"
           rowHoverPrefix={row => (
             <Button
-              variant="secondary"
               fab
-              size="xs"
               onClick={async () => {
                 const isLoggedIn = await ensureAuthenticated();
                 if (isLoggedIn) {
@@ -135,25 +129,30 @@ export const TechnicalRadarCoinsTable: FC = () => {
                   setOpenShareModal(true);
                 }
               }}
+              size="xs"
+              variant="secondary"
             >
               <Icon name={bxShareAlt} size={6} />
             </Button>
           )}
           rowHoverSuffix={row => (
             <BtnQuickBuy
-              source="technical_radar"
-              slug={row.symbol.slug}
               networks={row.networks}
+              slug={row.symbol.slug}
+              source="technical_radar"
             />
           )}
+          rowKey={r => r.symbol.slug}
+          scrollable
+          surface={2}
         />
       </AccessShield>
 
       {selectedRow && (
         <TechnicalRadarSharingModal
-          open={openShareModal}
           coin={selectedRow}
           onClose={() => setOpenShareModal(false)}
+          open={openShareModal}
         />
       )}
       {LoginModal}

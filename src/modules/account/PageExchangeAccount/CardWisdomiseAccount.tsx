@@ -1,7 +1,7 @@
+import { useSubscription } from 'api';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Card from 'shared/Card';
-import { useSubscription } from 'api';
 
 const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
   className,
@@ -11,7 +11,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
 
   return (
     <Card className={className}>
-      <h2 className="mb-8 text-base font-semibold">
+      <h2 className="mb-8 font-semibold text-base">
         {t('page-accounts.wisdomise-account')}
       </h2>
 
@@ -23,14 +23,14 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
         )}
       >
         <div className="flex flex-col">
-          <div className="mb-3 text-xs text-white/60">
+          <div className="mb-3 text-white/60 text-xs">
             {t('account.account')}
           </div>
           <div className="h-full">{/* <LogoSvg /> */}</div>
         </div>
 
         <div className="flex flex-col">
-          <div className="mb-3 text-xs text-white/60">
+          <div className="mb-3 text-white/60 text-xs">
             {t('page-accounts.subscription')}
           </div>
           <div className="flex h-full items-center">{sub.title}</div>

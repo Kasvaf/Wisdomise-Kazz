@@ -1,4 +1,4 @@
-import { type DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
 import { isProduction } from 'utils/version';
 
 export type Resolution =

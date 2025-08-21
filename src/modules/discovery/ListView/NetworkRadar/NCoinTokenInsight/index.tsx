@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
-import { useMemo, type FC } from 'react';
+import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
-import { ReactComponent as DevHolding } from './dev_holding.svg';
-import { ReactComponent as SnipersHolding } from './snipers_holding.svg';
-import { ReactComponent as InsidersHolding } from './insiders_holding.svg';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReactComponent as BundleHolding } from './bundle_holding.svg';
+import { ReactComponent as DevHolding } from './dev_holding.svg';
+import { ReactComponent as InsidersHolding } from './insiders_holding.svg';
+import { ReactComponent as SnipersHolding } from './snipers_holding.svg';
+import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
 
 export const NCoinTokenInsight: FC<{
   className?: string;
@@ -122,8 +122,8 @@ export const NCoinTokenInsight: FC<{
                   item.color === 'green'
                     ? 'text-v1-background-positive'
                     : item.color === 'red'
-                    ? 'text-v1-background-negative'
-                    : 'opacity-80',
+                      ? 'text-v1-background-negative'
+                      : 'opacity-80',
                 )}
               >
                 <item.icon
@@ -131,17 +131,17 @@ export const NCoinTokenInsight: FC<{
                     item.color === 'green'
                       ? 'stroke-v1-background-positive-subtle'
                       : item.color === 'red'
-                      ? 'stroke-v1-background-negative-subtle'
-                      : '',
+                        ? 'stroke-v1-background-negative-subtle'
+                        : '',
                     'size-4',
                     imgClassName,
                   )}
                 />{' '}
                 <ReadableNumber
-                  value={item.value}
+                  emptyText=""
                   format={{ decimalLength: 1 }}
                   popup="never"
-                  emptyText=""
+                  value={item.value}
                 />
                 %
               </div>
@@ -151,7 +151,7 @@ export const NCoinTokenInsight: FC<{
       ) : (
         <div
           className={clsx(
-            'rounded-lg p-3 text-xs bg-v1-surface-l-next',
+            'rounded-lg bg-v1-surface-l-next p-3 text-xs',
             className,
           )}
         >
@@ -162,7 +162,7 @@ export const NCoinTokenInsight: FC<{
             {items.map(item => (
               <HoverTooltip key={item.key} title={item.fullTitle}>
                 <div className={clsx('flex flex-col gap-1')}>
-                  <p className="text-xxs text-v1-content-secondary">
+                  <p className="text-v1-content-secondary text-xxs">
                     {item.title}
                   </p>
 
@@ -172,8 +172,8 @@ export const NCoinTokenInsight: FC<{
                       item.color === 'green'
                         ? 'text-v1-background-positive'
                         : item.color === 'red'
-                        ? 'text-v1-background-negative'
-                        : 'opacity-80',
+                          ? 'text-v1-background-negative'
+                          : 'opacity-80',
                     )}
                   >
                     <item.icon
@@ -181,17 +181,17 @@ export const NCoinTokenInsight: FC<{
                         item.color === 'green'
                           ? 'stroke-v1-background-positive-subtle'
                           : item.color === 'red'
-                          ? 'stroke-v1-background-negative-subtle'
-                          : '',
+                            ? 'stroke-v1-background-negative-subtle'
+                            : '',
                         'size-5',
                         imgClassName,
                       )}
                     />
                     <ReadableNumber
-                      value={item.value}
-                      label="%"
                       format={{ decimalLength: 1 }}
+                      label="%"
                       popup="never"
+                      value={item.value}
                     />
                   </div>
                 </div>

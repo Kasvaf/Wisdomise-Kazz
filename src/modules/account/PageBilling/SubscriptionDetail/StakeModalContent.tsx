@@ -1,16 +1,16 @@
-import { useMemo, useState } from 'react';
 import { notification } from 'antd';
+import { useCandlesQuery } from 'api';
+import { useLockingStateQuery } from 'api/defi';
 import dayjs from 'dayjs';
-import { Input } from 'shared/v1-components/Input';
-import { Button } from 'shared/v1-components/Button';
 import { useLockWithApprove } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
+import { useMemo, useState } from 'react';
+import { Button } from 'shared/v1-components/Button';
+import { Input } from 'shared/v1-components/Input';
 import { addComma, formatNumber } from 'utils/numbers';
-import { useLockingStateQuery } from 'api/defi';
-import { useCandlesQuery } from 'api';
 import { ReactComponent as Polygon } from './polygon.svg';
-import { ReactComponent as Wsdm } from './wsdm.svg';
 import stakeBg from './stake-bg.png';
+import { ReactComponent as Wsdm } from './wsdm.svg';
 
 export default function StakeModalContent() {
   const [now] = useState(Date.now());
@@ -52,12 +52,12 @@ export default function StakeModalContent() {
   return (
     <div>
       <img
-        src={stakeBg}
         alt=""
-        className="absolute left-0 top-0 h-full w-full"
+        className="absolute top-0 left-0 h-full w-full"
+        src={stakeBg}
       />
       <div className="relative">
-        <h1 className="mt-3 text-2xl font-medium">Stake $WSDM</h1>
+        <h1 className="mt-3 font-medium text-2xl">Stake $WSDM</h1>
         <hr className="my-8 border-v1-inverse-overlay-10" />
         <div className="overflow-hidden rounded-xl bg-v1-inverse-overlay-10 p-3">
           <div className="flex items-center gap-2">
@@ -71,16 +71,16 @@ export default function StakeModalContent() {
           </p>
 
           <div className="mt-6 flex flex-col gap-1">
-            <p className="text-xs font-medium text-v1-inverse-overlay-70">
+            <p className="font-medium text-v1-inverse-overlay-70 text-xs">
               Current Staked Amount
             </p>
-            <h3 className="flex items-baseline gap-1 text-xl font-semibold">
+            <h3 className="flex items-baseline gap-1 font-semibold text-xl">
               {addComma(lockState?.locked_wsdm_balance)}
-              <span className="text-sm font-normal">WSDM</span>
+              <span className="font-normal text-sm">WSDM</span>
             </h3>
           </div>
         </div>
-        <p className="mb-3 mt-8 flex justify-between">
+        <p className="mt-8 mb-3 flex justify-between">
           <span>Amount</span>
           <button
             className="text-v1-content-secondary"
@@ -98,50 +98,50 @@ export default function StakeModalContent() {
         </p>
         <Input
           className="w-full"
-          value={amount}
-          min={0}
           max={balance}
+          min={0}
+          onChange={value => {
+            setAmount(value);
+          }}
           placeholder="0.0"
-          type="number"
           suffixIcon={
             <div className="mr-1 flex items-center gap-2">
               <span className="shrink-0 text-v1-content-secondary">
                 ${(amount ?? 0) * wsdmPrice}
               </span>
-              <div className="h-6 border-r border-v1-border-secondary"></div>
+              <div className="h-6 border-v1-border-secondary border-r"></div>
               <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-v1-overlay-10">
                 <Wsdm className="" />
               </div>
               $WSDM
             </div>
           }
-          onChange={value => {
-            setAmount(value);
-          }}
+          type="number"
+          value={amount}
         />
         <Button
           className="mt-8 w-full"
-          variant="white"
-          onClick={() => lock()}
+          disabled={invalidAmount}
           loading={
             approveIsPending ||
             approveIsWaiting ||
             lockingIsPending ||
             lockingIsWaiting
           }
-          disabled={invalidAmount}
+          onClick={() => lock()}
+          variant="white"
         >
           {approveIsPending
             ? 'Waiting for approval signature...'
             : approveIsWaiting
-            ? 'Approval transaction is confirming...'
-            : lockingIsPending
-            ? 'Waiting for staking signature...'
-            : lockingIsWaiting
-            ? 'Staking transaction is confirming...'
-            : invalidAmount
-            ? 'Invalid Amount'
-            : 'Stake Now'}
+              ? 'Approval transaction is confirming...'
+              : lockingIsPending
+                ? 'Waiting for staking signature...'
+                : lockingIsWaiting
+                  ? 'Staking transaction is confirming...'
+                  : invalidAmount
+                    ? 'Invalid Amount'
+                    : 'Stake Now'}
         </Button>
       </div>
     </div>

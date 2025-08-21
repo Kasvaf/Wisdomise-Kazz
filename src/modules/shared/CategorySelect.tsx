@@ -1,6 +1,6 @@
+import { useCategories } from 'api/discovery';
 import { type ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCategories } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 
 export function CategorySelect<M extends boolean>({
@@ -27,21 +27,21 @@ export function CategorySelect<M extends boolean>({
   return (
     <Select
       loading={options.isLoading}
-      showSearch
-      searchValue={query}
       onSearch={setQuery}
-      render={val => {
-        if (!val) return t('common.all_categories');
-        const cat = options.data?.find(x => x.slug === val);
-        if (!cat) return val;
-        return cat.name;
-      }}
       options={
         options.data
           ?.filter(x => x.name.toLowerCase().includes(query.toLowerCase()))
           ?.map(x => x.slug)
           .filter(x => !!x) ?? []
       }
+      render={val => {
+        if (!val) return t('common.all_categories');
+        const cat = options.data?.find(x => x.slug === val);
+        if (!cat) return val;
+        return cat.name;
+      }}
+      searchValue={query}
+      showSearch
       surface={2}
       {...props}
     />

@@ -1,9 +1,8 @@
-import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
-
-import useIsMobile from 'utils/useIsMobile';
-import AdvancedChart from 'shared/AdvancedChart';
 import { useLastCandleQuery } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
+import AdvancedChart from 'shared/AdvancedChart';
+import useIsMobile from 'utils/useIsMobile';
 import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
@@ -16,36 +15,36 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
 
   return chart.type === 'gecko_terminal' ? (
     <iframe
-      key={chart.id}
-      height="100%"
-      width="100%"
-      id="geckoterminal-embed"
-      title="GeckoTerminal Embed"
-      src={`https://www.geckoterminal.com/${chart.id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=1m`}
-      frameBorder="0"
       allow="clipboard-write"
       allowFullScreen
+      frameBorder="0"
+      height="100%"
+      id="geckoterminal-embed"
+      key={chart.id}
+      src={`https://www.geckoterminal.com/${chart.id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=1m`}
+      title="GeckoTerminal Embed"
+      width="100%"
     />
   ) : chart.type === 'trading_view' ? (
-    <div className="size-full [&>div]:!block">
+    <div className="[&>div]:!block size-full">
       <AdvancedRealTimeChart
-        key={chart.id}
         allow_symbol_change={false}
-        symbol={chart.id}
-        style="1"
-        interval="240"
-        hotlist={false}
-        theme="dark"
         autosize
+        disabled_features={isMobile ? ['timeframes_toolbar'] : []}
         enabled_features={
           isMobile
             ? []
             : ['side_toolbar_in_fullscreen_mode', 'header_fullscreen_button']
         }
-        disabled_features={isMobile ? ['timeframes_toolbar'] : []}
+        hide_legend={isMobile}
         hide_side_toolbar={isMobile}
         hide_top_toolbar={isMobile}
-        hide_legend={isMobile}
+        hotlist={false}
+        interval="240"
+        key={chart.id}
+        style="1"
+        symbol={chart.id}
+        theme="dark"
       />
     </div>
   ) : null;
@@ -61,7 +60,7 @@ const CoinChart: React.FC<{ slug: string }> = ({ slug }) => {
     /^(solana|ton|the-open-network)$/.test(
       lastCandle.data?.symbol.network ?? '',
     ) ? (
-    <AdvancedChart slug={slug} className="size-full" />
+    <AdvancedChart className="size-full" slug={slug} />
   ) : (
     <DirtyCoinChart slug={slug} />
   );

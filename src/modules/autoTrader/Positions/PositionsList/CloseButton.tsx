@@ -1,17 +1,17 @@
 import { notification } from 'antd';
-import { bxX } from 'boxicons-quasar';
-import { useTranslation } from 'react-i18next';
 import {
-  type Position,
   isPositionUpdatable,
+  type Position,
   useSupportedNetworks,
   useTraderUpdatePositionMutation,
 } from 'api';
-import { unwrapErrorMessage } from 'utils/error';
-import useConfirm from 'shared/useConfirm';
+import { bxX } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
+import useConfirm from 'shared/useConfirm';
+import { unwrapErrorMessage } from 'utils/error';
 
 const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
   const { t } = useTranslation('builder');
@@ -66,9 +66,9 @@ const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
 
   return (
     <Button
-      variant="link"
+      className="!p-0 !text-xs ms-auto text-v1-content-link"
       onClick={closeHandler}
-      className="ms-auto !p-0 !text-xs text-v1-content-link"
+      variant="link"
     >
       {ModalConfirm}
       {isClosing ? <Spin /> : <Icon name={bxX} size={16} />}

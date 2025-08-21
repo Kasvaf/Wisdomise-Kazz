@@ -32,26 +32,26 @@ export function NavigateButtons({
       )}
     >
       <Button
-        size="xl"
-        variant="outline"
+        block
+        className={clsx('w-64', !showPrev && 'mobile:hidden opacity-0')}
         disabled={!allowPrev || !showPrev}
         onClick={onPrev}
-        block
-        className={clsx('w-64', !showPrev && 'opacity-0 mobile:hidden')}
+        size="xl"
+        variant="outline"
       >
         <Icon name={bxLeftArrowAlt} />
         {prevText}
       </Button>
       <Button
-        size="xl"
-        variant="primary"
-        disabled={!allowNext || !showNext}
-        onClick={onNext}
         block
         className={clsx(
-          'w-64 mobile:w-full',
-          !showNext && 'opacity-0 mobile:hidden',
+          'mobile:w-full w-64',
+          !showNext && 'mobile:hidden opacity-0',
         )}
+        disabled={!allowNext || !showNext}
+        onClick={onNext}
+        size="xl"
+        variant="primary"
       >
         {nextText}
         <Icon name={bxRightArrowAlt} />

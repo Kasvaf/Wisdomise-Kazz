@@ -1,11 +1,11 @@
-import { v4 } from 'uuid';
-import { useMemo, useState } from 'react';
-import {
-  type OpenOrderInput,
-  type OpenOrderResponse,
-  type SignalItem,
+import type {
+  OpenOrderInput,
+  OpenOrderResponse,
+  SignalItem,
 } from 'api/builder';
-import { type TraderInputs } from '../types';
+import { useMemo, useState } from 'react';
+import { v4 } from 'uuid';
+import type { TraderInputs } from '../types';
 
 export interface TpSlData {
   key: string;
@@ -69,16 +69,16 @@ function getSafetyOpens(
           condition: x.applied
             ? remotesByKey[x.key].condition
             : x.isMarket
-            ? { type: 'true' as const }
-            : {
-                type: 'compare' as const,
-                op:
-                  +x.priceExact < marketPrice
-                    ? ('<=' as const)
-                    : ('>=' as const),
-                left: 'price' as const,
-                right: +x.priceExact,
-              },
+              ? { type: 'true' as const }
+              : {
+                  type: 'compare' as const,
+                  op:
+                    +x.priceExact < marketPrice
+                      ? ('<=' as const)
+                      : ('>=' as const),
+                  left: 'price' as const,
+                  right: +x.priceExact,
+                },
         }) as const,
     );
 

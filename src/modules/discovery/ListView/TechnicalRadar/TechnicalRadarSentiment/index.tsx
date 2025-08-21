@@ -1,26 +1,25 @@
-/* eslint-disable import/max-dependencies */
-import { type FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import {
-  type MacdConfirmation,
-  type RsiConfirmation,
-  type TechnicalRadarSentiment as TechnicalRadarSentimentType,
-  type MiniMarketData,
+import type {
+  MacdConfirmation,
+  MiniMarketData,
+  RsiConfirmation,
+  TechnicalRadarSentiment as TechnicalRadarSentimentType,
 } from 'api/discovery';
+import type { Coin as CoinType } from 'api/types/shared';
+import { clsx } from 'clsx';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import { MiniBar } from 'shared/MiniBar';
-import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { type Coin as CoinType } from 'api/types/shared';
 import { Coin } from 'shared/Coin';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { MiniBar } from 'shared/MiniBar';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ConfirmationBadge } from '../ConfirmationWidget/ConfirmationBadge';
+import { TRSAnalysis } from './TRSAnalysis';
 import { TRSIcon } from './TRSIcon';
 import { TRSTitle } from './TRSTitle';
 import { useParseTRS } from './useParseTRS';
-import { TRSAnalysis } from './TRSAnalysis';
 
 export const TechnicalRadarSentiment: FC<{
   value?:
@@ -44,41 +43,42 @@ export const TechnicalRadarSentiment: FC<{
   return (
     <ClickableTooltip
       chevron={false}
+      className={className}
       disabled={!clickable || isEmpty}
       title={
         <div className="w-[400px] max-w-full">
           {coin && marketData && (
             <div className="mb-4 flex items-center justify-between gap-4">
               <Coin
-                coin={coin}
-                imageClassName="size-8"
-                nonLink={true}
-                truncate={260}
                 abbrevationSuffix={
                   <DirectionalNumber
                     className="ms-1"
-                    value={marketData?.price_change_percentage_24h}
-                    label="%"
                     direction="auto"
-                    showIcon
-                    showSign={false}
                     format={{
                       decimalLength: 1,
                       minifyDecimalRepeats: true,
                     }}
+                    label="%"
+                    showIcon
+                    showSign={false}
+                    value={marketData?.price_change_percentage_24h}
                   />
                 }
+                coin={coin}
+                imageClassName="size-8"
+                nonLink={true}
+                truncate={260}
               />
               <div className="flex flex-col items-end gap-px">
                 <ReadableNumber
-                  value={marketData?.current_price}
-                  label="$"
                   className="text-sm"
+                  label="$"
+                  value={marketData?.current_price}
                 />
                 <CoinMarketCap
+                  className="text-xs"
                   marketData={marketData}
                   singleLine
-                  className="text-xs"
                 />
               </div>
             </div>
@@ -90,33 +90,32 @@ export const TechnicalRadarSentiment: FC<{
             />
           )}
           <TechnicalRadarSentiment
-            value={value}
-            mode="expanded"
             className="w-full"
+            mode="expanded"
+            value={value}
           />
         </div>
       }
-      className={className}
     >
       {mode === 'default' && (
         <div className="flex h-11 items-center gap-2">
           <MiniBar
+            height={28}
             value={value?.normalized_score ?? 0}
             width={28}
-            height={28}
           />
           <div className="inline-block">
             <div className="flex items-center justify-start gap-1">
               {(isBullish || isBearish) && (
                 <TRSIcon
-                  value={isBullish ? 'bullish' : 'bearish'}
                   className="size-[16px] shrink-0"
+                  value={isBullish ? 'bullish' : 'bearish'}
                 />
               )}
               {(isCheap || isExpensive) && (
                 <TRSIcon
-                  value={isCheap ? 'cheap' : 'expensive'}
                   className="size-[16px] shrink-0"
+                  value={isCheap ? 'cheap' : 'expensive'}
                 />
               )}
               <TRSTitle
@@ -128,32 +127,32 @@ export const TechnicalRadarSentiment: FC<{
             {value && (
               <div className="-mt-px flex items-center gap-2">
                 <ConfirmationBadge
+                  mode="icon"
                   type={isGreen ? 'rsi_oversold' : 'rsi_overbought'}
                   value={value}
-                  mode="icon"
                 />
                 <ConfirmationBadge
+                  mode="icon"
                   type={
                     isGreen
                       ? 'rsi_bullish_divergence'
                       : 'rsi_bearish_divergence'
                   }
                   value={value}
-                  mode="icon"
                 />
                 <ConfirmationBadge
+                  mode="icon"
                   type={isGreen ? 'macd_cross_up' : 'macd_cross_down'}
                   value={value}
-                  mode="icon"
                 />
                 <ConfirmationBadge
+                  mode="icon"
                   type={
                     isGreen
                       ? 'macd_bullish_divergence'
                       : 'macd_bearish_divergence'
                   }
                   value={value}
-                  mode="icon"
                 />
               </div>
             )}
@@ -164,13 +163,13 @@ export const TechnicalRadarSentiment: FC<{
       {mode === 'tiny' && (
         <div className="flex w-6 min-w-6 flex-col items-center gap-1">
           <TRSIcon
-            value={isGreen ? 'bullish' : 'bearish'}
             className="size-6 shrink-0"
+            value={isGreen ? 'bullish' : 'bearish'}
           />
           <MiniBar
+            height={12}
             value={value?.normalized_score ?? 0}
             width={18}
-            height={12}
           />
         </div>
       )}
@@ -179,35 +178,35 @@ export const TechnicalRadarSentiment: FC<{
         <div className="flex items-center gap-1">
           {(isBullish || isBearish) && (
             <TRSIcon
-              value={isBullish ? 'bullish' : 'bearish'}
               className="size-5 shrink-0"
+              value={isBullish ? 'bullish' : 'bearish'}
             />
           )}
           {(isCheap || isExpensive) && (
             <TRSIcon
-              value={isCheap ? 'cheap' : 'expensive'}
               className="size-5 shrink-0"
+              value={isCheap ? 'cheap' : 'expensive'}
             />
           )}
         </div>
       )}
 
       {(mode === 'expanded' || mode === 'semi_expanded') && (
-        <div className="flex w-full flex-col gap-4 overflow-hidden rounded-xl p-3 bg-v1-surface-l-next">
+        <div className="flex w-full flex-col gap-4 overflow-hidden rounded-xl bg-v1-surface-l-next p-3">
           <div className="flex items-center justify-between gap-2">
             <div>
               <p className="mb-2 text-xs">{t('common.sentiment_title')}</p>
               <div className="flex w-full items-center justify-start gap-2 text-xs">
                 {(isBullish || isBearish) && (
                   <TRSIcon
-                    value={isBullish ? 'bullish' : 'bearish'}
                     className="size-[24px] shrink-0"
+                    value={isBullish ? 'bullish' : 'bearish'}
                   />
                 )}
                 {(isCheap || isExpensive) && (
                   <TRSIcon
-                    value={isCheap ? 'cheap' : 'expensive'}
                     className="size-[24px] shrink-0"
+                    value={isCheap ? 'cheap' : 'expensive'}
                   />
                 )}
                 <TRSTitle
@@ -218,9 +217,9 @@ export const TechnicalRadarSentiment: FC<{
               </div>
             </div>
             <MiniBar
+              height={28}
               value={value?.normalized_score ?? 0}
               width={28}
-              height={28}
             />
           </div>
           {mode === 'expanded' && (
@@ -228,32 +227,32 @@ export const TechnicalRadarSentiment: FC<{
               {value && (
                 <div className="flex flex-col items-start gap-px">
                   <ConfirmationBadge
+                    mode="expanded"
                     type={isGreen ? 'rsi_oversold' : 'rsi_overbought'}
                     value={value}
-                    mode="expanded"
                   />
                   <ConfirmationBadge
+                    mode="expanded"
                     type={
                       isGreen
                         ? 'rsi_bullish_divergence'
                         : 'rsi_bearish_divergence'
                     }
                     value={value}
-                    mode="expanded"
                   />
                   <ConfirmationBadge
+                    mode="expanded"
                     type={isGreen ? 'macd_cross_up' : 'macd_cross_down'}
                     value={value}
-                    mode="expanded"
                   />
                   <ConfirmationBadge
+                    mode="expanded"
                     type={
                       isGreen
                         ? 'macd_bullish_divergence'
                         : 'macd_bearish_divergence'
                     }
                     value={value}
-                    mode="expanded"
                   />
                 </div>
               )}
@@ -266,30 +265,30 @@ export const TechnicalRadarSentiment: FC<{
         <div
           className={clsx(
             contentClassName,
-            'flex h-10 w-full items-center gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+            'flex h-10 w-full items-center gap-2 overflow-hidden whitespace-nowrap rounded-xl bg-v1-surface-l-next p-3',
           )}
         >
           {(isBullish || isBearish) && (
             <TRSIcon
-              value={isBullish ? 'bullish' : 'bearish'}
               className="size-[18px] shrink-0"
+              value={isBullish ? 'bullish' : 'bearish'}
             />
           )}
           {(isCheap || isExpensive) && (
             <TRSIcon
-              value={isCheap ? 'cheap' : 'expensive'}
               className="size-[18px] shrink-0"
+              value={isCheap ? 'cheap' : 'expensive'}
             />
           )}
 
           <TRSTitle
-            value={value?.technical_sentiment}
-            green={isGreen}
             className="max-w-16 grow whitespace-normal text-xs leading-tight"
+            green={isGreen}
+            value={value?.technical_sentiment}
           />
           <MiniBar
-            value={value?.normalized_score ?? 0}
             height={16}
+            value={value?.normalized_score ?? 0}
             width={16}
           />
         </div>

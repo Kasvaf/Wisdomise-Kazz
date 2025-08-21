@@ -1,17 +1,17 @@
-import { clsx } from 'clsx';
+import type { AlertMessenger } from 'api/alert';
 import { bxBell } from 'boxicons-quasar';
-import { useTranslation } from 'react-i18next';
-import { Toggle } from 'shared/v1-components/Toggle';
-import Icon from 'shared/Icon';
-import { gtmClass } from 'utils/gtmClass';
+import { clsx } from 'clsx';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
-import { type AlertFormStepProps } from 'modules/alert/library/types';
-import { isDebugMode } from 'utils/version';
-import { type AlertMessenger } from 'api/alert';
+import type { AlertFormStepProps } from 'modules/alert/library/types';
+import { useTranslation } from 'react-i18next';
+import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
-import { IntervalSelect } from '../../components/IntervalSelect';
+import { Toggle } from 'shared/v1-components/Toggle';
+import { gtmClass } from 'utils/gtmClass';
+import { isDebugMode } from 'utils/version';
 import { AlertChannelsSelect } from '../../components/AlertChannelsSelect';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
+import { IntervalSelect } from '../../components/IntervalSelect';
 import { ReactComponent as CooldownIcon } from './cooldown.svg';
 import { ReactComponent as FrequencyIcon } from './frequency.svg';
 
@@ -28,7 +28,7 @@ export function StepTwo({
 
   return (
     <form
-      className={clsx('space-y-6 text-base font-normal', className)}
+      className={clsx('space-y-6 font-normal text-base', className)}
       onSubmit={e => {
         e.preventDefault();
         onSubmit();
@@ -36,19 +36,21 @@ export function StepTwo({
     >
       <FormControlWithLabel type="normal">
         <AlertChannelsSelect
-          onChange={newMessengers =>
-            setValue(p => ({ ...p, messengers: newMessengers as never }))
-          }
-          value={value.messengers ?? []}
           channels={[
             'EMAIL',
             'TELEGRAM',
             ...(isDebugMode ? (['WEB_PUSH'] as AlertMessenger[]) : []),
           ]}
+          onChange={newMessengers =>
+            setValue(p => ({ ...p, messengers: newMessengers as never }))
+          }
+          value={value.messengers ?? []}
         />
       </FormControlWithLabel>
 
       <FormControlWithLabel
+        className="!flex justify-between"
+        info={t('common.notifications.cooldown-info')}
         label={
           <>
             <CooldownIcon />
@@ -56,10 +58,10 @@ export function StepTwo({
           </>
         }
         type="inline"
-        className="!flex justify-between"
-        info={t('common.notifications.cooldown-info')}
       >
         <IntervalSelect
+          className="block"
+          cooldownMode
           onChange={newDndInterval =>
             setValue(p => ({
               ...p,
@@ -69,14 +71,13 @@ export function StepTwo({
               },
             }))
           }
-          value={value.config?.dnd_interval}
-          className="block"
-          cooldownMode
           size="sm"
+          value={value.config?.dnd_interval}
         />
       </FormControlWithLabel>
 
       <FormControlWithLabel
+        className="!flex justify-between"
         label={
           <>
             <FrequencyIcon />
@@ -84,7 +85,6 @@ export function StepTwo({
           </>
         }
         type="inline"
-        className="!flex justify-between"
       >
         <Toggle
           onChange={newOneTime =>
@@ -101,7 +101,6 @@ export function StepTwo({
       </FormControlWithLabel>
       <div>
         <Button
-          variant="white"
           className={clsx('mt-6 w-full grow', gtmClass('submit price-alert'))}
           disabled={value.key ? false : (value.messengers?.length ?? 0) < 1}
           loading={loading}
@@ -111,9 +110,10 @@ export function StepTwo({
               onDelete?.();
             } // else submit the form
           }}
+          variant="white"
         >
           {t('common.set-alert')}
-          <Icon name={bxBell} className="ms-2" />
+          <Icon className="ms-2" name={bxBell} />
         </Button>
       </div>
     </form>

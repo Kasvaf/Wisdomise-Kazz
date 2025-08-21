@@ -1,10 +1,10 @@
-import { clsx } from 'clsx';
 import { Spin } from 'antd';
-import { useActiveNetwork } from 'modules/base/active-network';
+import { useLastPriceQuery } from 'api';
 import { useAccountBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
+import { clsx } from 'clsx';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { Coin } from 'shared/Coin';
-import { useLastPriceQuery } from 'api';
 import { formatNumber } from 'utils/numbers';
 
 export const AccountBalance: React.FC<{
@@ -49,7 +49,7 @@ export const AccountBalance: React.FC<{
       >
         <span className="flex items-center gap-2">
           {symbol && (
-            <Coin coin={symbol} mini nonLink noText className="-mr-2 ml-2" />
+            <Coin className="-mr-2 ml-2" coin={symbol} mini nonLink noText />
           )}
           {formatNumber(balance ?? 0, {
             decimalLength: 2,
@@ -64,11 +64,11 @@ export const AccountBalance: React.FC<{
             <span className="flex items-center gap-2">
               {quoteSymbol && (
                 <Coin
+                  className="-mr-2 ml-1"
                   coin={quoteSymbol}
                   mini
                   nonLink
                   noText
-                  className="-mr-2 ml-1"
                 />
               )}
               {formatNumber((priceByQuote ?? 0) * (balance ?? 0), {

@@ -1,9 +1,9 @@
 import { useSubscription } from 'api';
-import usePageTour from 'shared/usePageTour';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import usePageTour from 'shared/usePageTour';
 import useIsMobile from 'utils/useIsMobile';
-import bullIcon from '../TechnicalRadar/TechnicalRadarSentiment/bullish.png';
 import happyIcon from '../SocialRadar/SocialRadarSentiment/happy.png';
+import bullIcon from '../TechnicalRadar/TechnicalRadarSentiment/bullish.png';
 import { homeSubscriptionsConfig } from './constants';
 
 export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
@@ -23,15 +23,15 @@ export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
     steps: isMobile
       ? [
           {
-            selector: rowSelector + ' .id-tour-sentiment',
+            selector: `${rowSelector} .id-tour-sentiment`,
             content: (
               <>
                 <div>
-                  <img src={happyIcon} className="inline h-4" /> = Social
+                  <img className="inline h-4" src={happyIcon} /> = Social
                   Mindshare
                 </div>
                 <div>
-                  <img src={bullIcon} className="inline h-4 px-0.5" /> =
+                  <img className="inline h-4 px-0.5" src={bullIcon} /> =
                   Technical Analysis
                 </div>
                 <div className="mt-2">

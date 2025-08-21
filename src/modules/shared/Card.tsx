@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type CSSProperties, type PropsWithChildren } from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
 
 interface CardProps {
   className?: string;

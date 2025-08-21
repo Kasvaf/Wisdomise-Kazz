@@ -1,6 +1,6 @@
+import type { ExchangeTypes } from 'api';
 import type React from 'react';
 import ComboBox from 'shared/ComboBox';
-import { type ExchangeTypes } from 'api';
 
 // const exchangeIcons = {
 //   WISDOMISE: WisdomiseLogoSvg,
@@ -38,11 +38,11 @@ const ExchangeSelector: React.FC<Props> = ({
       {label && <label className="mb-2 ml-2 block">{label}</label>}
 
       <ComboBox
-        options={exchanges}
-        selectedItem={selectedItem}
-        onSelect={onSelect}
-        renderItem={ExchangeOptionItem}
         disabled={disabled}
+        onSelect={onSelect}
+        options={exchanges}
+        renderItem={ExchangeOptionItem}
+        selectedItem={selectedItem}
       />
     </div>
   );

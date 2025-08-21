@@ -1,19 +1,20 @@
-import { useMemo } from 'react';
+import { delphinusGrpc } from 'api/grpc';
+import type { Swap } from 'api/proto/delphinus';
 import { useSymbolInfo } from 'api/symbol';
 import { useActiveNetwork } from 'modules/base/active-network';
-import useNow from 'utils/useNow';
-import { formatNumber } from 'utils/numbers';
-import { delphinusGrpc } from 'api/grpc';
-import { uniqueBy } from 'utils/uniqueBy';
+import { useMemo } from 'react';
 import Spin from 'shared/Spin';
-import { type Swap } from 'api/proto/delphinus';
 import { timeAgo } from 'utils/date';
+import { formatNumber } from 'utils/numbers';
+import { uniqueBy } from 'utils/uniqueBy';
+import useNow from 'utils/useNow';
 
 const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   const { data: symbol } = useSymbolInfo(slug);
   const network = useActiveNetwork();
-  const asset = symbol?.networks.find(x => x.network.slug === network)
-    ?.contract_address;
+  const asset = symbol?.networks.find(
+    x => x.network.slug === network,
+  )?.contract_address;
 
   const enabled = !!network && !!asset;
   const { data: history, isLoading } = delphinusGrpc.useSwapsHistoryQuery(

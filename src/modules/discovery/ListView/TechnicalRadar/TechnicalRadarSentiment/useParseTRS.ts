@@ -1,7 +1,7 @@
-import {
-  type TechnicalRadarSentiment,
-  type MacdConfirmation,
-  type RsiConfirmation,
+import type {
+  MacdConfirmation,
+  RsiConfirmation,
+  TechnicalRadarSentiment,
 } from 'api/discovery';
 
 export const useParseTRS = (

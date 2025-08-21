@@ -17,8 +17,8 @@
 
 .slide-exit,
 .slide-exit-active {
-  transition: none !important;
-  position: absolute !important;
-  display: none !important;
+  transition: none;
+  position: absolute;
+  display: none;
   opacity: 0;
 }

@@ -1,4 +1,4 @@
-import { type SubscriptionPlan } from 'api/types/subscription';
+import type { SubscriptionPlan } from 'api/types/subscription';
 import LeftSection from './LeftSection';
 import RightSection from './RightSection';
 
@@ -16,7 +16,7 @@ export default function CryptoPaymentModalContent({
   return (
     <div className="no-scrollbar flex h-screen w-full mobile:flex-col mobile:overflow-auto">
       <LeftSection plan={plan} />
-      <RightSection plan={plan} onResolve={onResolve} invoiceKey={invoiceKey} />
+      <RightSection invoiceKey={invoiceKey} onResolve={onResolve} plan={plan} />
     </div>
   );
 }

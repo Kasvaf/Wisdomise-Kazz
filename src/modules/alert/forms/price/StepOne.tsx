@@ -1,17 +1,17 @@
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { Trans, useTranslation } from 'react-i18next';
-import { useCallback, useMemo, useState } from 'react';
 import { clsx } from 'clsx';
-import Icon from 'shared/Icon';
-import { formatNumber } from 'utils/numbers';
-import { type AlertFormStepProps } from 'modules/alert/library/types';
-import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import { PriceInput } from 'modules/alert/components/PriceInput';
+import { useEditingAlert } from 'modules/alert/library/AlertProvider';
+import type { AlertFormStepProps } from 'modules/alert/library/types';
+import { useCallback, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
+import { formatNumber } from 'utils/numbers';
 import { CoinPriceInfo } from '../../components/CoinPriceInfo';
 import { CoinSelect } from '../../components/CoinSelect';
-import { OperatorSelect } from '../../components/OperatorSelect';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
+import { OperatorSelect } from '../../components/OperatorSelect';
 
 export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
@@ -72,7 +72,7 @@ export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
   return (
     <form
       className={clsx(
-        'text-center text-sm font-light leading-[4rem]',
+        'text-center font-light text-sm leading-[4rem]',
         className,
       )}
       onSubmit={e => {
@@ -80,80 +80,78 @@ export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
         onSubmit();
       }}
     >
-      <>
-        <Trans
-          i18nKey="types.price.sentence"
-          ns="alerts"
-          components={{
-            Badge: <FormControlWithLabel type="inline" />,
-            Br: <br />,
-            Base: (
-              <CoinSelect
-                className="inline-block min-w-20"
-                onChange={newBase => setForm('base', newBase as never)}
-                value={form.base}
-                disabled={lock}
-              />
-            ),
-            Operator: (
-              <OperatorSelect
-                onChange={newOperator =>
-                  setForm('operator', newOperator as never)
-                }
-                value={form.operator}
-                showEqual={false}
-              />
-            ),
-            Threshold: (
-              <PriceInput
-                onChange={newThreshold => {
-                  setIsPriceTouched(true);
-                  setForm('threshold', newThreshold.target.value as never);
-                }}
-                value={form.threshold ?? '0'}
-                placeholder="Price"
-                className="inline-block w-32"
-              />
-            ),
-            Quote: (
-              <CoinSelect
-                className="inline-block min-w-20"
-                onChange={newQuote => setForm('quote', newQuote as never)}
-                value={form.quote}
-                disabled
-              />
-            ),
-          }}
-        />
-        {form.base && (
-          <CoinPriceInfo
-            slug={form.base}
-            className="mt-6"
-            onCurrentPriceChange={newPrice => {
-              if (!isPriceTouched) {
-                setForm(
-                  'threshold',
-                  formatNumber(newPrice + newPrice * 0.01, {
-                    compactInteger: false,
-                    decimalLength: 1,
-                    minifyDecimalRepeats: false,
-                    separateByComma: false,
-                  }) as never,
-                );
+      <Trans
+        components={{
+          Badge: <FormControlWithLabel type="inline" />,
+          Br: <br />,
+          Base: (
+            <CoinSelect
+              className="inline-block min-w-20"
+              disabled={lock}
+              onChange={newBase => setForm('base', newBase as never)}
+              value={form.base}
+            />
+          ),
+          Operator: (
+            <OperatorSelect
+              onChange={newOperator =>
+                setForm('operator', newOperator as never)
               }
-            }}
-          />
-        )}
-      </>
+              showEqual={false}
+              value={form.operator}
+            />
+          ),
+          Threshold: (
+            <PriceInput
+              className="inline-block w-32"
+              onChange={newThreshold => {
+                setIsPriceTouched(true);
+                setForm('threshold', newThreshold.target.value as never);
+              }}
+              placeholder="Price"
+              value={form.threshold ?? '0'}
+            />
+          ),
+          Quote: (
+            <CoinSelect
+              className="inline-block min-w-20"
+              disabled
+              onChange={newQuote => setForm('quote', newQuote as never)}
+              value={form.quote}
+            />
+          ),
+        }}
+        i18nKey="types.price.sentence"
+        ns="alerts"
+      />
+      {form.base && (
+        <CoinPriceInfo
+          className="mt-6"
+          onCurrentPriceChange={newPrice => {
+            if (!isPriceTouched) {
+              setForm(
+                'threshold',
+                formatNumber(newPrice + newPrice * 0.01, {
+                  compactInteger: false,
+                  decimalLength: 1,
+                  minifyDecimalRepeats: false,
+                  separateByComma: false,
+                }) as never,
+              );
+            }
+          }}
+          slug={form.base}
+        />
+      )}
 
       <div className="mt-6 flex items-center justify-stretch gap-2">
         <Button
-          variant="white"
           className="grow"
           disabled={!form.threshold || +form.threshold < 0}
+          variant="white"
         >
           {t('common:actions.next')}
-          <Icon name={bxRightArrowAlt} className="ms-2" />
+          <Icon className="ms-2" name={bxRightArrowAlt} />
         </Button>
       </div>
     </form>

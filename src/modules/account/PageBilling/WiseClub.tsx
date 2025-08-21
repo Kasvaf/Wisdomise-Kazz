@@ -1,11 +1,11 @@
-import starlight from 'modules/account/PageBilling/images/starlight.png';
-import bg from 'modules/account/PageBilling/images/bg.png';
-import bag from 'modules/account/PageBilling/images/bag.png';
-import { Button } from 'shared/v1-components/Button';
 import { MAIN_LANDING } from 'config/constants';
 import { FeaturesTable } from 'modules/account/PageBilling/FeaturesTable';
-import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import bag from 'modules/account/PageBilling/images/bag.png';
+import bg from 'modules/account/PageBilling/images/bg.png';
+import starlight from 'modules/account/PageBilling/images/starlight.png';
 import { useStakeModal } from 'modules/account/PageBilling/useStakeModal';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function WiseClub() {
@@ -21,10 +21,10 @@ export default function WiseClub() {
 
   return (
     <div className="relative flex flex-col items-center">
-      <img src={starlight} className="absolute" alt="" />
-      <img src={bg} className="absolute top-0 mobile:top-40 md:w-1/2" alt="" />
+      <img alt="" className="absolute" src={starlight} />
+      <img alt="" className="absolute mobile:top-40 top-0 md:w-1/2" src={bg} />
       <div className="relative flex flex-col items-center">
-        <h1 className="mt-10 text-center text-3xl font-semibold mobile:text-2xl">
+        <h1 className="mt-10 text-center font-semibold mobile:text-2xl text-3xl">
           Join{' '}
           <span className="bg-brand-gradient bg-clip-text text-transparent">
             Wise
@@ -35,21 +35,21 @@ export default function WiseClub() {
           </span>{' '}
           benefits
         </h1>
-        <p className="mt-3 text-center text-v1-content-secondary mobile:text-sm">
+        <p className="mt-3 text-center mobile:text-sm text-v1-content-secondary">
           Stake <span className="text-v1-content-primary">$WSDM</span>, Unlock
           Alpha Signals, and Farm{' '}
           <span className="text-v1-content-primary">50%</span> of Platform
           Revenue Monthly — Straight Degen Passive Income.
         </p>
-        <h2 className="mt-12 text-2xl mobile:text-xl">
+        <h2 className="mt-12 mobile:text-xl text-2xl">
           Stake & farm the bag{' '}
           <img
-            src={bag}
             alt="bag"
-            className="inline-block size-8 mobile:size-6"
+            className="inline-block mobile:size-6 size-8"
+            src={bag}
           />
         </h2>
-        <Button variant="wsdm" onClick={stake} className="mb-10 mt-4 w-80">
+        <Button className="mt-4 mb-10 w-80" onClick={stake} variant="wsdm">
           Stake Now
           <Arrow />
         </Button>
@@ -57,10 +57,10 @@ export default function WiseClub() {
           Have Questions or Need More Details? Check Out Our FAQ Page for
           Answers:{' '}
           <a
-            href={`${MAIN_LANDING('en')}/token/faq`}
-            target="_blank"
             className="text-v1-content-link"
+            href={`${MAIN_LANDING('en')}/token/faq`}
             rel="noreferrer"
+            target="_blank"
           >
             FAQ Page
           </a>

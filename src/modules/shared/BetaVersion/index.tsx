@@ -1,5 +1,5 @@
-import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as BetaIcon } from './beta.svg';
 
 export default function BetaVersion({

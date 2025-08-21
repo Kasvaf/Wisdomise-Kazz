@@ -1,8 +1,8 @@
-import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react';
 import { solana } from '@reown/appkit/networks';
+import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react';
+import { appKit, tokenChain } from 'config/appKit';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
-import { appKit, tokenChain } from 'config/appKit';
 
 const useAppKitButtonConnectHandler = (network: 'solana' | 'polygon') => {
   const appKitAccount = useAppKitAccount();
@@ -25,7 +25,7 @@ const useAppKitButtonConnectHandler = (network: 'solana' | 'polygon') => {
 
   const label = appKitAccount.isConnected
     ? isValidChain
-      ? addr.substring(0, 4) + '...' + addr.substr(-4)
+      ? `${addr.substring(0, 4)}...${addr.substr(-4)}`
       : 'Switch Network'
     : 'Connect Wallet';
 
@@ -46,9 +46,9 @@ export const BtnAppKitWalletConnect: React.FC<
 
   return (
     <Button
+      onClick={handleConnect}
       size={isMobile ? 'md' : 'xs'}
       variant={appKitAccount.isConnected ? 'outline' : 'primary'}
-      onClick={handleConnect}
       {...buttonProps}
     >
       {label}

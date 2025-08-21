@@ -12,6 +12,7 @@ export default function useSearchParamAsState<T extends string>(
   const [searchParams, setSearchParams] = useSearchParams();
   return [
     String(searchParams.get(paramName) ?? unwrap(defaultVal) ?? '') as T,
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
     useCallback(
       (newVal: T) => {
         setSearchParams(
@@ -28,7 +29,6 @@ export default function useSearchParamAsState<T extends string>(
           },
         );
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [defaultVal, paramName],
     ),
   ] as const;

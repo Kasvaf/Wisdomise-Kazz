@@ -1,6 +1,3 @@
-import { type ComponentProps, useState, type FC, useMemo } from 'react';
-import { bxPlus, bxTrash } from 'boxicons-quasar';
-import { clsx } from 'clsx';
 import useNotification from 'antd/es/notification/useNotification';
 import {
   type TwitterAccount,
@@ -8,12 +5,15 @@ import {
   useTwitterFollowedAccounts,
   useTwitterSuggestedAccounts,
 } from 'api/discovery';
-import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { bxPlus, bxTrash } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { type ComponentProps, type FC, useMemo, useState } from 'react';
+import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
-import Icon from 'shared/Icon';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
 const SubTab: FC<
@@ -56,11 +56,11 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
         title: 'Handle',
         render: row => (
           <a
+            className="max-w-32 overflow-hidden truncate"
             href={`https://x.com/${row.username}`}
-            target="_blank"
             referrerPolicy="no-referrer"
             rel="noreferrer"
-            className="overflow-hidden max-w-32 truncate"
+            target="_blank"
           >
             @{row.username}
           </a>
@@ -71,10 +71,10 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
         title: 'Followers',
         render: row => (
           <ReadableNumber
-            value={row.followers_count}
             format={{
               decimalLength: 1,
             }}
+            value={row.followers_count}
           />
         ),
       },
@@ -111,12 +111,12 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
                     ))
               }
               size="xs"
-              variant="ghost"
               surface={2}
+              variant="ghost"
             >
               <Icon
-                name={followed ? bxTrash : bxPlus}
                 className={clsx(followed && 'opacity-60')}
+                name={followed ? bxTrash : bxPlus}
               />
             </Button>
           );
@@ -134,9 +134,9 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
         render: row => (
           <a
             href={`https://x.com/${row.username}`}
-            target="_blank"
             referrerPolicy="no-referrer"
             rel="noreferrer"
+            target="_blank"
           >
             @{row.username}
           </a>
@@ -147,8 +147,6 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
         title: 'Tweets',
         render: row => (
           <Checkbox
-            value={row.hide_from_list}
-            size="md"
             label="Hide"
             onChange={newVal =>
               followings.follow({
@@ -156,6 +154,8 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
                 hide_from_list: newVal,
               })
             }
+            size="md"
+            value={row.hide_from_list}
           />
         ),
       },
@@ -177,10 +177,10 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
             fab
             onClick={() => !followings.isLoading && followings.unFollow(row)}
             size="xs"
-            variant="ghost"
             surface={2}
+            variant="ghost"
           >
-            <Icon name={bxTrash} className="opacity-60" />
+            <Icon className="opacity-60" name={bxTrash} />
           </Button>
         ),
       },
@@ -191,12 +191,12 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
   return (
     <div className={className}>
       <SubTab
-        variant="tab"
+        className="mb-3"
+        onChange={setTab}
         size="md"
         surface={1}
         value={tab}
-        onChange={setTab}
-        className="mb-3"
+        variant="tab"
       />
       {notifContent}
       <div className="p-3">
@@ -204,36 +204,33 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
           <Table
             columns={suggestionsColumns}
             dataSource={suggestions.data}
-            rowKey={r => r.user_id}
             loading={suggestions.isLoading}
-            surface={2}
+            rowKey={r => r.user_id}
             scrollable={false}
+            surface={2}
           />
         )}
-        {tab === 'followings' && (
-          <>
-            {followings.value.length === 0 && !followings.isLoading ? (
-              <div className="flex flex-col items-center py-10">
-                <EmptyIcon />
-                <h3 className="mb-2 text-xs font-semibold">
-                  {'No Subscription Added'}
-                </h3>
-                <p className="max-w-[220px] text-center text-xs text-v1-content-secondary">
-                  {'You can create a Customized List by adding Subscriptions'}
-                </p>
-              </div>
-            ) : (
-              <Table
-                columns={followingsColumns}
-                dataSource={followings.value}
-                loading={followings.value.length === 0 && followings.isLoading}
-                rowKey={r => r.user_id}
-                surface={2}
-                scrollable={false}
-              />
-            )}
-          </>
-        )}
+        {tab === 'followings' &&
+          (followings.value.length === 0 && !followings.isLoading ? (
+            <div className="flex flex-col items-center py-10">
+              <EmptyIcon />
+              <h3 className="mb-2 font-semibold text-xs">
+                {'No Subscription Added'}
+              </h3>
+              <p className="max-w-[220px] text-center text-v1-content-secondary text-xs">
+                {'You can create a Customized List by adding Subscriptions'}
+              </p>
+            </div>
+          ) : (
+            <Table
+              columns={followingsColumns}
+              dataSource={followings.value}
+              loading={followings.value.length === 0 && followings.isLoading}
+              rowKey={r => r.user_id}
+              scrollable={false}
+              surface={2}
+            />
+          ))}
       </div>
     </div>
   );

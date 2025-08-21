@@ -1,5 +1,5 @@
-import useModal from 'shared/useModal';
 import RewardModalContent from 'modules/account/PageRewards/RewardModal/RewardModalContent';
+import useModal from 'shared/useModal';
 
 export default function useRewardModal() {
   return useModal(RewardModalContent, {

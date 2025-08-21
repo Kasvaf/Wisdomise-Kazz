@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import AmountInputBox from 'shared/AmountInputBox';
+import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
-import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
-import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
+import { useEffect, useState } from 'react';
+import AmountInputBox from 'shared/AmountInputBox';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
-import { type SwapState } from './useSwapState';
-import MarketField from './MarketField';
+import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import BtnBuySell from './BtnBuySell';
+import MarketField from './MarketField';
+import type { SwapState } from './useSwapState';
 
 const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
@@ -43,45 +43,45 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   return (
     <div>
       <AmountInputBox
-        value={amount}
-        onChange={handleBaseAmount}
-        label={<AmountBalanceLabel slug={baseSlug} />}
         className="mb-2"
+        label={<AmountBalanceLabel slug={baseSlug} />}
+        onChange={handleBaseAmount}
         suffix={
           <div className="text-xs">
             {amountType === 'percentage'
               ? '%'
               : amountType === 'base'
-              ? baseInfo?.abbreviation
-              : baseSlug &&
-                quoteInfo && (
-                  <QuoteSelector
-                    className="-mr-4"
-                    value={quoteSlug}
-                    baseSlug={baseSlug}
-                    onChange={setQuote}
-                  />
-                )}
+                ? baseInfo?.abbreviation
+                : baseSlug &&
+                  quoteInfo && (
+                    <QuoteSelector
+                      baseSlug={baseSlug}
+                      className="-mr-4"
+                      onChange={setQuote}
+                      value={quoteSlug}
+                    />
+                  )}
           </div>
         }
+        value={amount}
       />
 
       <QuoteQuickSet
-        className="mb-5"
-        quote={quoteSlug}
         balance={baseBalance}
+        className="mb-5"
         mode={amountType === 'percentage' ? 'sell_percentage' : 'sell'}
         onClick={newAmount => handleBaseAmount(newAmount)}
+        quote={quoteSlug}
         sensible={amountType === 'base'}
       >
         <AmountTypeSwitch
           base={baseSlug}
-          quote={quoteSlug}
-          value={amountType}
           onChange={newType => {
             setAmountType(newType);
             setAmount('0');
           }}
+          quote={quoteSlug}
+          value={amountType}
         />
       </QuoteQuickSet>
 
@@ -110,7 +110,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
       {/* /> */}
       <MarketField state={state} />
       <TraderPresetsSettings mode="sell" />
-      <BtnBuySell state={state} className="mt-6 w-full" />
+      <BtnBuySell className="mt-6 w-full" state={state} />
     </div>
   );
 };

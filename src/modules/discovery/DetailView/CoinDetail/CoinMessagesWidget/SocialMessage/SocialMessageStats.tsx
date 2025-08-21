@@ -1,7 +1,6 @@
+import type { SocialMessage } from 'api/discovery';
 import { clsx } from 'clsx';
-import { type SocialMessage } from 'api/discovery';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { useSocialMessage } from './useSocialMessage';
 import {
   BoostIcon,
   CommentIcon,
@@ -11,6 +10,7 @@ import {
   UpIcon,
   ViewIcon,
 } from './icons';
+import { useSocialMessage } from './useSocialMessage';
 
 const badgeClassName = clsx(
   'flex h-6 shrink-0 items-center justify-center rounded-full px-2 text-xs capitalize mobile:px-2 [&_svg]:size-[14px]',

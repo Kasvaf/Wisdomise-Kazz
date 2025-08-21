@@ -43,7 +43,7 @@ function NumberWithLabel({
       }}
     >
       <span className="whitespace-nowrap">
-        {typeof value === 'string' ? value : emptyText ?? t('not-available')}
+        {typeof value === 'string' ? value : (emptyText ?? t('not-available'))}
       </span>
       {labelObject?.text && typeof value === 'string' && (
         <span className={clsx(labelObject?.small && 'ms-px')}>
@@ -94,20 +94,20 @@ export function ReadableNumber({
 
   return (
     <HoverTooltip
+      disabled={noPopup}
       title={
         <NumberWithLabel
+          emptyText={emptyText}
           label={label}
           value={tooltipValue}
-          emptyText={emptyText}
         />
       }
-      disabled={noPopup}
     >
       <NumberWithLabel
+        className={clsx(displayValue && !noPopup && 'cursor-help', className)}
+        emptyText={emptyText}
         label={label}
         value={displayValue}
-        emptyText={emptyText}
-        className={clsx(displayValue && !noPopup && 'cursor-help', className)}
       />
     </HoverTooltip>
   );

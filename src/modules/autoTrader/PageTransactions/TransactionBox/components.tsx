@@ -1,19 +1,19 @@
-import dayjs from 'dayjs';
-import { clsx } from 'clsx';
-import { type PropsWithChildren, type ReactNode } from 'react';
-import { bxGlobe } from 'boxicons-quasar';
-import {
-  type TransactionOrder,
-  type TransactionWithdraw,
-  type TransactionOpenClose,
-  type TransactionStatus,
-  type SupportedNetworks,
+import type {
+  SupportedNetworks,
+  TransactionOpenClose,
+  TransactionOrder,
+  TransactionStatus,
+  TransactionWithdraw,
 } from 'api';
+import { useSymbolInfo } from 'api/symbol';
+import { bxGlobe } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import dayjs from 'dayjs';
+import type { PropsWithChildren, ReactNode } from 'react';
 import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
-import { useSymbolInfo } from 'api/symbol';
-import { roundSensible } from 'utils/numbers';
 import { Button } from 'shared/v1-components/Button';
+import { roundSensible } from 'utils/numbers';
 
 export const Box: React.FC<
   PropsWithChildren<{
@@ -82,7 +82,7 @@ export const GasFee: React.FC<{
       <div>Fee</div>
       <div className="flex shrink-0 items-center">
         {roundSensible(amount)} {assetName}
-        <AssetIcon slug={assetSlug} className="ml-1" />
+        <AssetIcon className="ml-1" slug={assetSlug} />
       </div>
     </div>
   );
@@ -96,7 +96,7 @@ export const SCANNERS: Record<
     name: 'TonViewer',
     baseUrl: 'https://tonviewer.com/',
   },
-  'solana': {
+  solana: {
     name: 'SolScan',
     baseUrl: 'https://solscan.io/',
     txPath: 'tx/',
@@ -112,12 +112,12 @@ export const TonViewer: React.FC<{
   return (
     <div className="mt-6 flex justify-center">
       <Button
-        variant="outline"
-        size="sm"
         className="!text-xs"
         onClick={() => window.open(link, '_blank')}
+        size="sm"
+        variant="outline"
       >
-        <Icon name={bxGlobe} className="mr-2" size={16} />
+        <Icon className="mr-2" name={bxGlobe} size={16} />
         View
         {network in SCANNERS
           ? ' on ' +
@@ -134,5 +134,5 @@ export const AssetIcon: React.FC<{ slug: string; className?: string }> = ({
 }) => {
   const { data } = useSymbolInfo(slug);
   if (!data?.logo_url) return null;
-  return <img src={data?.logo_url} className={clsx('size-4', className)} />;
+  return <img className={clsx('size-4', className)} src={data?.logo_url} />;
 };

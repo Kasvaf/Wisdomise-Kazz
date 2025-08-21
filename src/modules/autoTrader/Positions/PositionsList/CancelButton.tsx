@@ -1,9 +1,9 @@
-import { bxX } from 'boxicons-quasar';
 import {
+  type Position,
   useSupportedNetworks,
   useTraderCancelPositionMutation,
-  type Position,
 } from 'api';
+import { bxX } from 'boxicons-quasar';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
@@ -29,11 +29,11 @@ const CancelButton: React.FC<{ position: Position }> = ({ position }) => {
 
   return (
     <Button
-      variant="link"
+      className="!p-0 !text-xs ms-auto text-v1-content-link"
       onClick={() =>
         cancelPosition({ positionKey: position.key, network: networks[0] })
       }
-      className="ms-auto !p-0 !text-xs text-v1-content-link"
+      variant="link"
     >
       {isCanceling ? <Spin /> : <Icon name={bxX} size={16} />}
       Cancel

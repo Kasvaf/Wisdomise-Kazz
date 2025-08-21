@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReactComponent as BuySellIcon } from './buy_sell.svg';
 
@@ -20,25 +20,25 @@ export const NCoinBuySell: FC<{
     >
       <BuySellIcon className={clsx('shrink-0', imgClassName)} />
       <DirectionalNumber
-        value={value?.buys ?? 0}
         direction="up"
-        popup="never"
-        showIcon={false}
-        showSign={false}
         format={{
           decimalLength: 1,
         }}
+        popup="never"
+        showIcon={false}
+        showSign={false}
+        value={value?.buys ?? 0}
       />
       <span className="-mx-1 scale-50 text-v1-content-secondary">/</span>
       <DirectionalNumber
-        value={value?.sells ?? 0}
         direction="down"
-        popup="never"
-        showIcon={false}
-        showSign={false}
         format={{
           decimalLength: 1,
         }}
+        popup="never"
+        showIcon={false}
+        showSign={false}
+        value={value?.sells ?? 0}
       />
     </div>
   );

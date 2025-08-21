@@ -1,27 +1,26 @@
-import { useState } from 'react';
-import { clsx } from 'clsx';
-import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { bxChevronRight } from 'boxicons-quasar';
-import DailyProgress from 'modules/quest/PageQuests/DailyTrade/DailyProgress';
-import { DrawerModal } from 'shared/DrawerModal';
 import {
   useGamification,
   useGamificationActionMutation,
   useGamificationProfileQuery,
 } from 'api/gamification';
-import { StatusBadge } from 'modules/quest/PageTournaments/TournamentCard';
-import { StatusChip } from 'modules/quest/PageQuests/StatusChip';
-import { Button } from 'shared/v1-components/Button';
-import video from 'modules/quest/PageQuests/DailyTrade/images/video.webm';
+import { bxChevronRight } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import dayjs from 'dayjs';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
+import DailyProgress from 'modules/quest/PageQuests/DailyTrade/DailyProgress';
+import video from 'modules/quest/PageQuests/DailyTrade/images/video.webm';
+import { StatusChip } from 'modules/quest/PageQuests/StatusChip';
+import { StatusBadge } from 'modules/quest/PageTournaments/TournamentCard';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
-import box from './images/box.png';
-import bg from './images/bg.png';
-import { ReactComponent as Stars } from './images/stars.svg';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as Arrow } from './images/arrow.svg';
-// eslint-disable-next-line import/max-dependencies
+import bg from './images/bg.png';
+import box from './images/box.png';
 import { ReactComponent as Lock } from './images/lock.svg';
+import { ReactComponent as Stars } from './images/stars.svg';
 
 export default function DailyTrade({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
@@ -68,18 +67,18 @@ export default function DailyTrade({ className }: { className?: string }) {
   return (
     <>
       <div
-        onClick={() => setOpen(true)}
         className={clsx(
           'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 md:h-[13rem]',
           'cursor-pointer hover:saturate-200',
           className,
         )}
+        onClick={() => setOpen(true)}
       >
-        <img src={bg} className="absolute right-0 top-0 h-full" alt="" />
+        <img alt="" className="absolute top-0 right-0 h-full" src={bg} />
         <div className="relative flex h-full flex-col justify-between">
           <div>
-            <h2 className="text-xl font-semibold">Daily Trade</h2>
-            <p className="mt-4 text-xs text-v1-content-secondary mobile:mt-2 mobile:max-w-48">
+            <h2 className="font-semibold text-xl">Daily Trade</h2>
+            <p className="mobile:mt-2 mt-4 mobile:max-w-48 text-v1-content-secondary text-xs">
               Complete Trades Daily and Earn Rewards.
             </p>
           </div>
@@ -98,7 +97,7 @@ export default function DailyTrade({ className }: { className?: string }) {
           {currentDay > -1 && !completedToday && !completedAll && (
             <StatusChip className="mt-3">
               <div className="flex gap-2 text-xs">
-                <div className="text-xxs text-v1-content-secondary">
+                <div className="text-v1-content-secondary text-xxs">
                   Streak Ends:
                 </div>
                 <div>{dayjs(nextDayEndTimestamp).fromNow(true)}</div>
@@ -108,11 +107,11 @@ export default function DailyTrade({ className }: { className?: string }) {
         </div>
         <div className="flex items-center justify-center md:mr-2">
           <video
-            className="absolute ml-px mt-1 size-60 object-cover opacity-30 mix-blend-multiply"
             autoPlay
-            playsInline
+            className="absolute mt-1 ml-px size-60 object-cover opacity-30 mix-blend-multiply"
             loop
             muted
+            playsInline
           >
             <source src={video} />
           </video>
@@ -120,14 +119,14 @@ export default function DailyTrade({ className }: { className?: string }) {
         </div>
       </div>
       <DrawerModal
-        open={open}
-        onClose={() => setOpen(false)}
-        maskClosable={true}
         closeIcon={null}
+        maskClosable={true}
+        onClose={() => setOpen(false)}
+        open={open}
       >
         <div className="mb-20 flex flex-col items-center">
           <h1 className="-mt-5 text-center font-bold">Daily Trade Quest</h1>
-          <ul className="mt-6 ps-4 [&>li]:mb-2 [&>li]:list-disc [&>li]:text-sm [&>p]:mb-3 [&>p]:text-xs [&>p]:text-v1-content-secondary">
+          <ul className="mt-6 ps-4 [&>li]:mb-2 [&>li]:list-disc [&>li]:text-sm [&>p]:mb-3 [&>p]:text-v1-content-secondary [&>p]:text-xs">
             <li>Complete Today&apos;s Trade</li>
             <p>Trade Any Cryptocurrency to Progress Your Streak.</p>
             <li>Earn Progress</li>
@@ -148,15 +147,15 @@ export default function DailyTrade({ className }: { className?: string }) {
           </ul>
           <div className="mt-4 w-full rounded-2xl bg-v1-surface-l5 p-4">
             <h2>My Status:</h2>
-            <p className="mb-6 mt-2 text-v1-content-secondary">
+            <p className="mt-2 mb-6 text-v1-content-secondary">
               Complete today&apos;s trade to keep your streak!
             </p>
             <div className="flex gap-3">
               <div className="basis-1/2">
                 {Array.from({ length: 7 }, (_, i) => i).map(index => (
                   <div
-                    key={index}
                     className="mb-2 flex items-center justify-between rounded-lg bg-v1-surface-l6 p-2 text-xs"
+                    key={index}
                   >
                     <span>Day {index + 1}</span>
                     <StatusBadge statusValue={dayStatus(index) || 'active'} />
@@ -172,13 +171,13 @@ export default function DailyTrade({ className }: { className?: string }) {
                 <div className="relative mb-4 flex flex-col items-center overflow-hidden rounded-2xl bg-v1-surface-l2 p-3">
                   <h2>Special Reward</h2>
                   <Stars className="absolute" />
-                  <img src={box} className="my-4 h-16 w-16" alt="box" />
+                  <img alt="box" className="my-4 h-16 w-16" src={box} />
                   <Button
-                    size="xs"
-                    variant="primary"
                     className="relative w-full"
                     disabled={!completedAll || rewardClaimed}
                     onClick={claim}
+                    size="xs"
+                    variant="primary"
                   >
                     {completedAll ? 'Claim' : <Lock />}
                   </Button>
@@ -187,12 +186,12 @@ export default function DailyTrade({ className }: { className?: string }) {
             </div>
           </div>
           <Button
-            variant="primary"
-            className="!absolute bottom-6 end-4 start-4 z-10"
+            className="!absolute start-4 end-4 bottom-6 z-10"
             onClick={() => {
               setOpen(false);
               navigate('/');
             }}
+            variant="primary"
           >
             Trade Now
             <Arrow className="ml-2" />

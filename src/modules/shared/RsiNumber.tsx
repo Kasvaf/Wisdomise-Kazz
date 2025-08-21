@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ReadableNumber } from 'shared/ReadableNumber';
 
 const mixColors = (src: number[], dst: number[], mixValue: number) =>
@@ -25,7 +25,6 @@ export const RsiNumber: FC<{
       }}
     >
       <ReadableNumber
-        value={value}
         className={className}
         format={{
           compactInteger: false,
@@ -33,6 +32,7 @@ export const RsiNumber: FC<{
           minifyDecimalRepeats: false,
           separateByComma: true,
         }}
+        value={value}
       />
     </span>
   );

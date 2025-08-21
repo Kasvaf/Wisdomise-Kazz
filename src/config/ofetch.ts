@@ -1,5 +1,5 @@
-import { ofetch as originalOfetch } from 'ofetch';
 import * as Sentry from '@sentry/react';
+import { ofetch as originalOfetch } from 'ofetch';
 import { isDebugMode } from 'utils/version';
 import { TEMPLE_ORIGIN } from './constants';
 

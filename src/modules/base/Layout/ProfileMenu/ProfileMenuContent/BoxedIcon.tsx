@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type SVGProps, type PropsWithChildren } from 'react';
+import type { PropsWithChildren, SVGProps } from 'react';
 
 const BoxedIcon: React.FC<
   PropsWithChildren<{
@@ -16,7 +16,7 @@ const BoxedIcon: React.FC<
           : 'bg-gradient-to-tr from-v1-background-accent to-v1-background-brand',
       )}
     >
-      <Icon width="20" height="20" />
+      <Icon height="20" width="20" />
     </div>
   );
 };

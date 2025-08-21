@@ -1,6 +1,6 @@
+import type { NetworkSecurity } from 'api/discovery';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type NetworkSecurity } from 'api/discovery';
 import { securityIcons } from '../icons';
 import { SecurityRow } from './SecurityRow';
 import { TaxesRow } from './TaxesRow';
@@ -40,23 +40,23 @@ export function CoinSecurityDetails({
   if (!value || value.length === 0) return null;
 
   return (
-    <div className="max-h-[350px] w-[300px] space-y-4 mobile:w-full">
+    <div className="max-h-[350px] mobile:w-full w-[300px] space-y-4">
       {selectedNetworkName && value.length > 1 && (
         <select
-          value={selectedNetworkName}
-          onChange={e => setSelectedNetworkName(e.target.value)}
-          className="block w-full rounded-lg border-r-8 border-r-v1-surface-l2 bg-v1-surface-l2 p-2 px-4 !outline-none"
+          className="!outline-none block w-full rounded-lg border-r-8 border-r-v1-surface-l2 bg-v1-surface-l2 p-2 px-4"
           disabled={value.length === 1}
+          onChange={e => setSelectedNetworkName(e.target.value)}
+          value={selectedNetworkName}
         >
           {value.map(r => (
-            <option value={r.network_name} key={r.network_name}>
+            <option key={r.network_name} value={r.network_name}>
               {r.network_name}
             </option>
           ))}
         </select>
       )}
       <div className="rounded-lg bg-v1-surface-l2 p-4">
-        <p className="text-xxs text-v1-content-secondary">
+        <p className="text-v1-content-secondary text-xxs">
           {activeNetwork?.network_name}
         </p>
         <div className="max-w-64 overflow-auto whitespace-nowrap text-base text-v1-content-primary">

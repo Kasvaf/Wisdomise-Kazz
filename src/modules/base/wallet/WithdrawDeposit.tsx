@@ -1,9 +1,9 @@
+import type { Wallet } from 'api/wallets';
+import Deposit from 'modules/base/wallet/Deposit';
+import Transfer from 'modules/base/wallet/Transfer';
 import { useEffect, useState } from 'react';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import Transfer from 'modules/base/wallet/Transfer';
-import Deposit from 'modules/base/wallet/Deposit';
 import { Dialog } from 'shared/v1-components/Dialog';
-import { type Wallet } from 'api/wallets';
 import useIsMobile from 'utils/useIsMobile';
 
 export default function WithdrawDepositModal({
@@ -26,17 +26,18 @@ export default function WithdrawDepositModal({
 
   return (
     <Dialog
-      mode="drawer"
       className="w-[24rem] px-4 pb-6 md:pt-6"
       drawerConfig={{ position: isMobile ? 'bottom' : 'end' }}
-      open={open}
+      mode="drawer"
       onClose={onResolve}
+      open={open}
     >
       {mode === 'internal_transfer' ? (
         <h2 className="mb-4 text-xl">Internal Transfer</h2>
       ) : (
         <ButtonSelect
-          className="w-max mobile:mt-3 mobile:w-full"
+          className="mobile:mt-3 mobile:w-full w-max"
+          onChange={newValue => setActiveTab(newValue)}
           options={
             [
               {
@@ -50,7 +51,6 @@ export default function WithdrawDepositModal({
             ] as const
           }
           value={activeTab}
-          onChange={newValue => setActiveTab(newValue)}
           variant="default"
         />
       )}

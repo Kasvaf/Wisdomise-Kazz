@@ -1,5 +1,11 @@
-/* eslint-disable import/max-dependencies */
-import { Trans } from 'react-i18next';
+import {
+  type Indicator,
+  type IndicatorConfirmation,
+  type IndicatorConfirmationCombination,
+  type IndicatorConfirmationCore,
+  useIndicatorConfirmations,
+} from 'api/discovery';
+import { clsx } from 'clsx';
 import {
   type ComponentProps,
   type ReactNode,
@@ -7,30 +13,23 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { clsx } from 'clsx';
-import {
-  type Indicator,
-  useIndicatorConfirmations,
-  type IndicatorConfirmation,
-  type IndicatorConfirmationCombination,
-  type IndicatorConfirmationCore,
-} from 'api/discovery';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { Coin } from 'shared/v1-components/Coin';
+import { Trans } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
-import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Lazy } from 'shared/Lazy';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { OverviewWidget } from 'shared/OverviewWidget';
 import Spin from 'shared/Spin';
 import { usePageState } from 'shared/usePageState';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { Coin } from 'shared/v1-components/Coin';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
-import {
-  useConfirmationTabs,
-  type ConfirmationType,
-} from './useConfirmationTabs';
 import { ConfirmationBadge } from './ConfirmationBadge';
 import { ConfirmationTimeframeBadge } from './ConfirmationTimeframeBadge';
+import {
+  type ConfirmationType,
+  useConfirmationTabs,
+} from './useConfirmationTabs';
 
 function ConfirmationRow<I extends Indicator>({
   indicator,
@@ -80,27 +79,27 @@ function ConfirmationRow<I extends Indicator>({
   return (
     <div
       className={clsx(
-        'flex w-full flex-col gap-4 rounded-xl bg-v1-surface-l3 p-5 mobile:p-3',
+        'flex w-full flex-col gap-4 rounded-xl bg-v1-surface-l3 mobile:p-3 p-5',
         className,
       )}
     >
-      <div className="flex flex-nowrap items-center justify-start gap-4 mobile:flex-wrap">
+      <div className="flex mobile:flex-wrap flex-nowrap items-center justify-start gap-4">
         <div className="w-32">
           <Coin
             abbreviation={value.symbol.abbreviation}
-            name={value.symbol.name}
-            slug={value.symbol.slug}
-            logo={value.symbol.logo_url}
             categories={value.symbol.categories}
-            labels={value.symbol_labels}
-            networks={value.networks}
-            security={value.symbol_security?.data}
             customLabels={
               <ConfirmationTimeframeBadge
                 combination={combination}
                 value={value}
               />
             }
+            labels={value.symbol_labels}
+            logo={value.symbol.logo_url}
+            name={value.symbol.name}
+            networks={value.networks}
+            security={value.symbol_security?.data}
+            slug={value.symbol.slug}
           />
         </div>
         <div className="flex grow items-center justify-end gap-2 2xl:gap-3">
@@ -164,48 +163,7 @@ export function ConfirmationWidget<I extends Indicator>({
   return (
     <OverviewWidget
       className={clsx('h-[750px]', className)}
-      title={
-        <>
-          <div
-            className={clsx(
-              '[&_b]:font-medium',
-              type === 'bullish'
-                ? '[&_b]:text-v1-content-positive'
-                : '[&_b]:text-v1-content-negative',
-            )}
-          >
-            <IndicatorIcon value={indicator} className="mr-2 align-middle" />
-            {type === 'bullish' ? (
-              indicator === 'rsi' ? (
-                <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />
-              ) : (
-                <Trans
-                  ns="market-pulse"
-                  i18nKey="keywords.macd_bullish.title"
-                />
-              )
-            ) : indicator === 'rsi' ? (
-              <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.title" />
-            ) : (
-              <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
-            )}
-          </div>
-        </>
-      }
-      info={
-        type === 'bullish' ? (
-          indicator === 'rsi' ? (
-            <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.info" />
-          ) : (
-            <Trans ns="market-pulse" i18nKey="keywords.macd_bullish.info" />
-          )
-        ) : indicator === 'rsi' ? (
-          <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.info" />
-        ) : (
-          <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.info" />
-        )
-      }
-      headerClassName="flex-wrap !justify-start"
+      empty={confirmations.data?.results.length === 0}
       headerActions={
         <>
           {headerActions && (
@@ -213,7 +171,6 @@ export function ConfirmationWidget<I extends Indicator>({
           )}
           <ButtonSelect
             className="w-full grow"
-            value={pageState.tab}
             onChange={newTabKey => {
               setAutoSelect(false);
               setPageState({ tab: newTabKey });
@@ -222,14 +179,52 @@ export function ConfirmationWidget<I extends Indicator>({
               label: tab.title,
               value: tab.key,
             }))}
+            value={pageState.tab}
           />
         </>
       }
+      headerClassName="flex-wrap !justify-start"
+      info={
+        type === 'bullish' ? (
+          indicator === 'rsi' ? (
+            <Trans i18nKey="keywords.rsi_bullish.info" ns="market-pulse" />
+          ) : (
+            <Trans i18nKey="keywords.macd_bullish.info" ns="market-pulse" />
+          )
+        ) : indicator === 'rsi' ? (
+          <Trans i18nKey="keywords.rsi_bearish.info" ns="market-pulse" />
+        ) : (
+          <Trans i18nKey="keywords.macd_bearish.info" ns="market-pulse" />
+        )
+      }
       loading={confirmations.isLoading}
-      empty={confirmations.data?.results.length === 0}
       overlay={overlay}
+      title={
+        <div
+          className={clsx(
+            '[&_b]:font-medium',
+            type === 'bullish'
+              ? '[&_b]:text-v1-content-positive'
+              : '[&_b]:text-v1-content-negative',
+          )}
+        >
+          <IndicatorIcon className="mr-2 align-middle" value={indicator} />
+          {type === 'bullish' ? (
+            indicator === 'rsi' ? (
+              <Trans i18nKey="keywords.rsi_bullish.title" ns="market-pulse" />
+            ) : (
+              <Trans i18nKey="keywords.macd_bullish.title" ns="market-pulse" />
+            )
+          ) : indicator === 'rsi' ? (
+            <Trans i18nKey="keywords.rsi_bearish.title" ns="market-pulse" />
+          ) : (
+            <Trans i18nKey="keywords.macd_bearish.title" ns="market-pulse" />
+          )}
+        </div>
+      }
     >
       <AccessShield
+        className="space-y-4"
         mode="children"
         sizes={{
           guest: true,
@@ -237,32 +232,31 @@ export function ConfirmationWidget<I extends Indicator>({
           free: true,
           vip: false,
         }}
-        className="space-y-4"
       >
         {list.slice(0, 6).map(row => (
           <ConfirmationRow
-            value={row}
-            key={JSON.stringify(row.symbol)}
             combination={selectedTab.combination}
             indicator={indicator}
+            key={JSON.stringify(row.symbol)}
             type={type}
+            value={row}
           />
         ))}
         {list.length > 6 && (
           <Lazy
+            fallback={<Spin />}
             freezeOnceVisible
+            key={`${indicator}-${type}`}
             mountedClassName="space-y-4"
             unMountedClassName="flex h-12 items-center justify-center"
-            key={`${indicator}-${type}`}
-            fallback={<Spin />}
           >
             {list.slice(6).map(row => (
               <ConfirmationRow
-                value={row}
-                key={JSON.stringify(row.symbol)}
                 combination={selectedTab.combination}
                 indicator={indicator}
+                key={JSON.stringify(row.symbol)}
                 type={type}
+                value={row}
               />
             ))}
           </Lazy>

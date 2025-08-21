@@ -1,6 +1,6 @@
 import useNotification from 'antd/es/notification/useNotification';
-import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const useShare = (method?: 'copy' | 'share') => {
   const { t } = useTranslation('common');

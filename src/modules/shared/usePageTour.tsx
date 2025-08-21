@@ -1,6 +1,6 @@
-import { useTour, type StepType } from '@reactour/tour';
-import { useLocalStorage } from 'usehooks-ts';
+import { type StepType, useTour } from '@reactour/tour';
 import { useEffect } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 
 const usePageTour = ({
   enabled,
@@ -13,9 +13,10 @@ const usePageTour = ({
   key: string;
   delay?: number;
 }) => {
-  const [seen, setSeen] = useLocalStorage('seen-' + key, false);
+  const [seen, setSeen] = useLocalStorage(`seen-${key}`, false);
   const { setCurrentStep, setSteps, setIsOpen } = useTour();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!enabled || seen) return;
     const timer = setTimeout(() => {
@@ -26,7 +27,6 @@ const usePageTour = ({
     }, delay);
 
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, seen, steps]);
 };
 

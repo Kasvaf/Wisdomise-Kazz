@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import { isMiniApp } from 'utils/version';
-import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { APP_PANEL } from 'config/constants';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { useNavigate } from 'react-router-dom';
+import { isMiniApp } from 'utils/version';
 import { useAccountQuery } from './account';
 
 export type UserGroup =
@@ -30,7 +30,7 @@ export function useSubscription() {
   const navigate = useNavigate();
   const [loginModal, showModalLogin] = useModalLogin();
 
-  const level = isMiniApp ? 3 : plan?.level ?? 0;
+  const level = isMiniApp ? 3 : (plan?.level ?? 0);
 
   const status = subs?.status ?? 'canceled';
 

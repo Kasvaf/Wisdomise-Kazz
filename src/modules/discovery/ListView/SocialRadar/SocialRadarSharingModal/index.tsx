@@ -1,19 +1,19 @@
-import { useRef } from 'react';
-import dayjs from 'dayjs';
-import { useTranslation } from 'react-i18next';
-import SharingModal from 'shared/ShareTools/SharingModal';
+import type { SocialRadarCoin } from 'api/discovery';
 import logo from 'assets/logo-white.svg';
+import dayjs from 'dayjs';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Coin } from 'shared/Coin';
-import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
-import { type SocialRadarCoin } from 'api/discovery';
+import { CoinLabels } from 'shared/CoinLabels';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { CoinLabels } from 'shared/CoinLabels';
-import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
+import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
+import SharingModal from 'shared/ShareTools/SharingModal';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
-import sparkle from './images/sparkle.png';
+import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import radar from './images/radar.png';
+import sparkle from './images/sparkle.png';
 
 export interface SocialRadarSharingModalProps {
   open: boolean;
@@ -31,21 +31,21 @@ export default function SocialRadarSharingModal({
 
   return (
     <SharingModal
-      open={open}
-      onClose={() => onClose?.()}
       fileName={`${coin.symbol.abbreviation ?? ''}-${new Date().toISOString()}`}
+      onClose={() => onClose?.()}
+      open={open}
       screenshotTarget={el}
     >
       <div
+        className="pointer-events-none relative mb-2 overflow-hidden rounded-2xl bg-v1-surface-l1 p-5"
         ref={el}
-        className="bg-v1-surface-l1 pointer-events-none relative mb-2 overflow-hidden rounded-2xl p-5"
       >
         <img
-          src={sparkle}
           alt=""
-          className="absolute left-0 top-0 w-full opacity-50"
+          className="absolute top-0 left-0 w-full opacity-50"
+          src={sparkle}
         />
-        <img src={radar} alt="" className="absolute left-0 top-0 w-full" />
+        <img alt="" className="absolute top-0 left-0 w-full" src={radar} />
         <div className="relative">
           <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-1">
@@ -53,8 +53,8 @@ export default function SocialRadarSharingModal({
               Social Radar
             </div>
             <div className="relative">
-              <img src={logo} alt="logo" className="h-7" />
-              <span className="absolute -bottom-3 right-2 text-xxs font-light">
+              <img alt="logo" className="h-7" src={logo} />
+              <span className="-bottom-3 absolute right-2 font-light text-xxs">
                 goatx.trade
               </span>
             </div>
@@ -69,47 +69,47 @@ export default function SocialRadarSharingModal({
           )}
           <div className="mt-4 flex items-end gap-2">
             <ReadableNumber
-              value={coin.symbol_market_data?.current_price}
+              className="!overflow-visible shrink-0 text-3xl"
               label="$"
-              className="shrink-0 !overflow-visible text-3xl"
+              value={coin.symbol_market_data?.current_price}
             />
             <PriceChange
-              value={coin.symbol_market_data?.price_change_percentage_24h}
               suffix="(24H)"
+              value={coin.symbol_market_data?.price_change_percentage_24h}
             />
           </div>
           <div className="mt-4 flex items-center gap-2">
             <div className="w-1/2 rounded-xl bg-white/5 px-3 py-2 text-xs">
-              <p className="text-v1-content-secondary mb-1">Market Cap</p>
+              <p className="mb-1 text-v1-content-secondary">Market Cap</p>
               <ReadableNumber
-                value={coin.symbol_market_data?.market_cap}
                 label="$"
+                value={coin.symbol_market_data?.market_cap}
               />
             </div>
             <div className="w-1/2 rounded-xl bg-white/5 px-3 py-2 text-xs">
-              <p className="text-v1-content-secondary mb-1">Timestamp (UTC)</p>
+              <p className="mb-1 text-v1-content-secondary">Timestamp (UTC)</p>
               <p>{dayjs(new Date()).utc().format('D MMMM YYYY h:mm A')}</p>
             </div>
           </div>
           {coin?.signals_analysis && (
             <SocialRadarSentiment
-              mode="expanded"
-              coin={coin.symbol}
-              marketData={coin.symbol_market_data}
-              value={coin}
               className="mt-2 w-full"
+              coin={coin.symbol}
               contentClassName="!bg-white/5"
+              marketData={coin.symbol_market_data}
+              mode="expanded"
+              value={coin}
             />
           )}
           <div className="my-4 flex flex-col items-start justify-end overflow-auto">
             <p className="mb-1 text-xxs">{t('pre_detail_modal.wise_labels')}</p>
             <CoinLabels
               categories={coin.symbol.categories}
+              clickable={false}
               labels={coin.symbol_labels}
               networks={coin.networks}
               security={coin.symbol_security?.data}
               size="md"
-              clickable={false}
             />
           </div>
           {coin?.signals_analysis.sparkline && (

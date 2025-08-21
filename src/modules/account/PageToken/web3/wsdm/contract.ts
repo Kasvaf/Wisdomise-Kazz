@@ -1,5 +1,5 @@
-import { useAccount, useBalance } from 'wagmi';
 import { WSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
+import { useAccount, useBalance } from 'wagmi';
 
 export function useWSDMBalance() {
   const { address } = useAccount();

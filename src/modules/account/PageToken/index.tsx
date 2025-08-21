@@ -1,13 +1,13 @@
-import { Trans, useTranslation } from 'react-i18next';
-import { useAccount } from 'wagmi';
-import PageWrapper from 'modules/base/PageWrapper';
-import Vesting from 'modules/account/PageToken/Vesting';
-import Migration from 'modules/account/PageToken/Migration';
-import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import Balance from 'modules/account/PageToken/Balance/Balance';
+import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
+import Migration from 'modules/account/PageToken/Migration';
+import Vesting from 'modules/account/PageToken/Vesting';
 import Wallet from 'modules/account/PageToken/Wallet';
+import PageWrapper from 'modules/base/PageWrapper';
+import { Trans, useTranslation } from 'react-i18next';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
+import { useAccount } from 'wagmi';
 import ConnectWalletGuard from '../PageBilling/paymentMethods/Token/ConnectWalletGuard';
 
 export default function PageToken() {
@@ -17,28 +17,28 @@ export default function PageToken() {
 
   return (
     <PageWrapper
+      extension={!isMobile && <CoinExtensionsGroup />}
       hasBack
       title={null}
-      extension={!isMobile && <CoinExtensionsGroup />}
     >
       <div className="my-10 flex flex-wrap items-center justify-between gap-4 md:gap-6">
         <h1 className="text-center">
           <Trans i18nKey="wisdomise-token:title" ns="wisdomise-token">
-            <strong className="text-5xl font-semibold text-white/20">
+            <strong className="font-semibold text-5xl text-white/20">
               Wisdomise Token
             </strong>
-            <span className="ms-2 text-3xl font-thin text-white/60">WSDM</span>
+            <span className="ms-2 font-thin text-3xl text-white/60">WSDM</span>
           </Trans>
         </h1>
         {isConnected && (
-          <ImportTokenButton tokenSymbol="WSDM" className="max-md:w-full" />
+          <ImportTokenButton className="max-md:w-full" tokenSymbol="WSDM" />
         )}
       </div>
       <ConnectWalletGuard
-        title={t('wisdomise-token:connect-wallet.wisdomise-token.title')}
         description={t(
           'wisdomise-token:connect-wallet.wisdomise-token.description',
         )}
+        title={t('wisdomise-token:connect-wallet.wisdomise-token.title')}
       >
         <Migration />
         <Vesting />

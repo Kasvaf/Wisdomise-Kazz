@@ -1,15 +1,15 @@
+import type { Alert } from 'api/alert';
+import { AlertActions } from 'modules/alert/components/AlertActions';
+import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
+import { AlertTarget } from 'modules/alert/components/AlertTarget';
+import { AlertType } from 'modules/alert/components/AlertType';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Alert } from 'api/alert';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { AlertType } from 'modules/alert/components/AlertType';
-import { AlertTarget } from 'modules/alert/components/AlertTarget';
-import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
-import { AlertActions } from 'modules/alert/components/AlertActions';
 import { ReadableDate } from 'shared/ReadableDate';
-import { AlertStateChanger } from '../components/AlertStateChanger';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { AlertFrequency } from '../components/AlertFrequency';
+import { AlertStateChanger } from '../components/AlertStateChanger';
 
 export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
@@ -21,16 +21,16 @@ export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
         width: 80,
         render: row => (
           <ReadableDate
-            value={row.created_at}
-            emptyText="---"
             className="whitespace-nowrap"
+            emptyText="---"
+            value={row.created_at}
           />
         ),
       },
       {
         title: t('tables.type'),
         width: 250,
-        render: row => <AlertType value={row} className="whitespace-nowrap" />,
+        render: row => <AlertType className="whitespace-nowrap" value={row} />,
       },
       {
         title: t('tables.description'),
@@ -44,7 +44,7 @@ export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
       {
         title: t('tables.frequency'),
         render: row => (
-          <AlertFrequency value={row} className="whitespace-nowrap" />
+          <AlertFrequency className="whitespace-nowrap" value={row} />
         ),
       },
       {

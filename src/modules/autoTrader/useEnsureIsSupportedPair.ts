@@ -1,6 +1,6 @@
+import { useSupportedPairs } from 'api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSupportedPairs } from 'api';
 
 const useEnsureIsSupportedPair = ({
   slug,

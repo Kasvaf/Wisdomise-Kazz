@@ -1,12 +1,11 @@
-import { type FC } from 'react';
-import { useState } from 'react';
+import type { Coin } from 'api/types/shared';
 import { t } from 'i18next';
-import { type Coin } from 'api/types/shared';
-import { Dialog } from 'shared/v1-components/Dialog';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { type FC, useState } from 'react';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { WhaleAssetsTreeMapWidget } from './WhaleAssetsTreeMapWidget';
-import { WhaleNetflowChartWidget } from './WhaleNetflowChartWidget';
 import { WhaleCoinsWidget } from './WhaleCoinsWidget';
+import { WhaleNetflowChartWidget } from './WhaleNetflowChartWidget';
 import { WhaleStatsWidget } from './WhaleStatsWidget';
 import { WhaleTitleWidget } from './WhaleTitleWidget';
 import { WhaleTransactionsHistoryWidget } from './WhaleTransactionsHistoryWidget';
@@ -28,23 +27,23 @@ export const WhaleDetail: FC<{
         <div>{'Empty'}</div>
       ) : (
         <>
-          <div className="flex max-w-full flex-nowrap justify-between gap-3 overflow-hidden border-b border-b-white/10 pb-3 mobile:flex-col">
-            <div className="relative flex w-1/3 flex-col gap-3 pe-3 ps-0 mobile:w-full">
+          <div className="flex max-w-full mobile:flex-col flex-nowrap justify-between gap-3 overflow-hidden border-b border-b-white/10 pb-3">
+            <div className="relative flex mobile:w-full w-1/3 flex-col gap-3 ps-0 pe-3">
               <WhaleTitleWidget
                 holderAddress={holderAddress}
-                networkName={networkName}
                 hr
+                networkName={networkName}
               />
               <WhaleStatsWidget
                 holderAddress={holderAddress}
                 networkName={networkName}
               />
             </div>
-            <div className="relative w-auto grow space-y-3 border-l border-white/10 pe-0 ps-3  mobile:w-full">
+            <div className="relative mobile:w-full w-auto grow space-y-3 border-white/10 border-l ps-3 pe-0">
               <WhaleAssetsTreeMapWidget
                 holderAddress={holderAddress}
-                networkName={networkName}
                 hr
+                networkName={networkName}
               />
               <WhaleNetflowChartWidget
                 holderAddress={holderAddress}
@@ -55,17 +54,17 @@ export const WhaleDetail: FC<{
           <div className="space-y-3 py-3">
             <WhaleCoinsWidget
               holderAddress={holderAddress}
-              networkName={networkName}
-              type="trading"
               hr
+              networkName={networkName}
               onSelect={setSelectedCoinTrx}
+              type="trading"
             />
             <WhaleCoinsWidget
               holderAddress={holderAddress}
-              networkName={networkName}
-              type="holding"
               hr
+              networkName={networkName}
               onSelect={setSelectedCoinTrx}
+              type="holding"
             />
             <WhaleTransactionsHistoryWidget
               holderAddress={holderAddress}
@@ -74,23 +73,23 @@ export const WhaleDetail: FC<{
           </div>
 
           <Dialog
-            open={selectedCoinTrx !== undefined}
-            onClose={() => setSelectedCoinTrx(undefined)}
-            closable
             className="w-[90%]"
-            mode="modal"
-            surface={2}
+            closable
             contentClassName="p-4"
+            mode="modal"
+            onClose={() => setSelectedCoinTrx(undefined)}
+            open={selectedCoinTrx !== undefined}
+            surface={2}
           >
             <WhaleTransactionsHistoryWidget
-              holderAddress={holderAddress}
-              networkName={networkName}
               coin={selectedCoinTrx}
               emptyContent={
                 <div className="p-4 text-v1-content-secondary">
                   {t('common:nothing-to-show')}
                 </div>
               }
+              holderAddress={holderAddress}
+              networkName={networkName}
               surface={3}
             />
           </Dialog>

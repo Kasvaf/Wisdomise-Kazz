@@ -1,7 +1,7 @@
-import { load } from 'dldr';
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
-import { type Coin } from './types/shared';
+import { load } from 'dldr';
+import type { Coin } from './types/shared';
 
 interface SymbolNetwork {
   network: {

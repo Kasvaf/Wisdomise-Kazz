@@ -3,7 +3,7 @@ import './style.css';
 
 const Spinner: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <div className={clsx('brand-spinner', 'size-20 mobile:size-16', className)}>
+    <div className={clsx('brand-spinner', 'mobile:size-16 size-20', className)}>
       <div />
     </div>
   );

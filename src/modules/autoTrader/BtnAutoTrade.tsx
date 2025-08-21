@@ -1,10 +1,10 @@
 import { useHasFlag, useSupportedPairs } from 'api';
-import { Button, type ButtonProps } from 'shared/v1-components/Button';
+import { useActiveWallet } from 'api/chains/wallet';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import useIsMobile from 'utils/useIsMobile';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import { useActiveWallet } from 'api/chains/wallet';
+import { Button, type ButtonProps } from 'shared/v1-components/Button';
+import useIsMobile from 'utils/useIsMobile';
 import useTraderDrawer from './BuySellTrader/useTraderDrawer';
 
 export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
@@ -35,10 +35,10 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
     <Button
       {...buttonProps}
       block
-      variant={buttonProps.variant ?? 'outline'}
-      loading={isLoading}
       disabled={!normSlug || !isSupported}
+      loading={isLoading}
       onClick={open}
+      variant={buttonProps.variant ?? 'outline'}
     >
       <div>
         {isLoggedIn && isSupported && !isLoading && (

@@ -1,5 +1,5 @@
+import type { AlertState } from 'api/alert';
 import { useTranslation } from 'react-i18next';
-import { type AlertState } from 'api/alert';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 export function AlertStateSelect({
@@ -14,7 +14,8 @@ export function AlertStateSelect({
   const { t } = useTranslation('alerts');
   return (
     <ButtonSelect
-      value={value}
+      className={className}
+      onChange={newValue => onChange?.(newValue)}
       options={[
         {
           label: t('common.all'),
@@ -29,10 +30,9 @@ export function AlertStateSelect({
           value: 'DISABLED' as AlertState,
         },
       ]}
-      onChange={newValue => onChange?.(newValue)}
-      className={className}
       size="md"
       surface={2}
+      value={value}
     />
   );
 }

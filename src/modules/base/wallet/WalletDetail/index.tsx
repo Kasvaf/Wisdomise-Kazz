@@ -1,25 +1,24 @@
-/* eslint-disable import/max-dependencies */
-import { useRef, useState } from 'react';
-import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
 import { Tabs } from 'antd';
 import {
   useUpdateWalletMutation,
   useWalletQuery,
   type Wallet,
 } from 'api/wallets';
+import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
+import BuysSells from 'modules/autoTrader/BuysSells';
+import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
+import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
+import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useRef, useState } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
-import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { Button } from 'shared/v1-components/Button';
-import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import { useShare } from 'shared/useShare';
-import { shortenAddress } from 'utils/shortenAddress';
+import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { roundSensible } from 'utils/numbers';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
-import BuysSells from 'modules/autoTrader/BuysSells';
+import { shortenAddress } from 'utils/shortenAddress';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -41,8 +40,8 @@ export default function WalletDetail(_: {
         <WalletName wallet={wallet} />
         <HoverTooltip className="inline" title="Copy Wallet Address">
           <button
-            onClick={() => copy(wallet.address)}
             className="mt-1 text-v1-content-secondary"
+            onClick={() => copy(wallet.address)}
           >
             <Icon name={bxCopy} size={16} />
           </button>
@@ -59,12 +58,12 @@ export default function WalletDetail(_: {
           </button>
         </HoverTooltip>
       </div>
-      <p className="text-xs text-v1-content-secondary">
+      <p className="text-v1-content-secondary text-xs">
         {shortenAddress(wallet.address)}
       </p>
       <div className="mt-4 grid grid-cols-5 gap-3">
         <div className="col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4">
-          <p className="text-xs text-v1-content-secondary">Current Balance</p>
+          <p className="text-v1-content-secondary text-xs">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
               {isPending ? 'Loading...' : `$${roundSensible(balance)}`}
@@ -73,37 +72,37 @@ export default function WalletDetail(_: {
           </div>
         </div>
         <div className="col-span-2 hidden rounded-xl bg-v1-surface-l1 p-4 pt-3">
-          <div className="mb-7 flex items-center justify-between text-xs text-v1-content-secondary">
+          <div className="mb-7 flex items-center justify-between text-v1-content-secondary text-xs">
             Details
             <ButtonSelect
-              value={window}
-              variant="white"
               buttonClassName="w-12"
+              onChange={newValue => setWindow(newValue)}
               options={[
                 { value: 24, label: '1D' },
                 { value: 24 * 7, label: '7D' },
               ]}
-              surface={3}
               size="xs"
-              onChange={newValue => setWindow(newValue)}
+              surface={3}
+              value={window}
+              variant="white"
             />
           </div>
           <div className="flex items-center justify-between gap-2">
             <div className="text-xxs">
               <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
-              <p className="text-lg font-medium text-v1-content-positive">
+              <p className="font-medium text-lg text-v1-content-positive">
                 0% (0 USD)
               </p>
             </div>
-            <div className="h-10 border-r border-v1-inverse-overlay-10" />
+            <div className="h-10 border-v1-inverse-overlay-10 border-r" />
             <div className="text-xxs">
               <p className="pb-3 text-v1-content-secondary">Win Rate</p>
-              <p className="text-lg font-medium">0%</p>
+              <p className="font-medium text-lg">0%</p>
             </div>
-            <div className="h-10 border-r border-v1-inverse-overlay-10" />
+            <div className="h-10 border-v1-inverse-overlay-10 border-r" />
             <div className="text-xxs">
               <p className="pb-3 text-v1-content-secondary">TXs</p>
-              <p className="text-lg font-medium">
+              <p className="font-medium text-lg">
                 <span className="text-v1-content-positive">0</span>/
                 <span className="text-v1-content-negative">0</span>
               </p>
@@ -155,27 +154,27 @@ function WalletName({ wallet }: { wallet: Wallet }) {
 
   return editMode ? (
     <input
-      ref={inputRef}
       className="bg-transparent"
       defaultValue={newName}
-      onChange={e => setNewName(e.target.value)}
       onBlur={updateName}
+      onChange={e => setNewName(e.target.value)}
       onKeyDown={e => {
         if (e.key === 'Enter') {
           updateName();
         }
       }}
+      ref={inputRef}
     />
   ) : (
     <div className="flex items-center gap-2">
       <span>{wallet.name}</span>
-      <HoverTooltip className="inline" title="Rename" ignoreFocus>
+      <HoverTooltip className="inline" ignoreFocus title="Rename">
         <button
+          className="text-v1-content-secondary"
           onClick={() => {
             setEditMode(prev => !prev);
             setTimeout(() => inputRef.current?.select(), 0);
           }}
-          className="text-v1-content-secondary"
         >
           <Icon name={bxEdit} size={16} />
         </button>
@@ -194,18 +193,18 @@ function WalletActions({ wallet }: { wallet: Wallet }) {
         Deposit
       </Button>
       <Button
-        onClick={() => withdraw(wallet.address)}
-        variant="outline"
-        size="md"
         className="!bg-transparent"
+        onClick={() => withdraw(wallet.address)}
+        size="md"
+        variant="outline"
       >
         Withdraw
       </Button>
       <Button
-        onClick={() => transfer(wallet.address)}
-        variant="outline"
-        size="md"
         className="!bg-transparent"
+        onClick={() => transfer(wallet.address)}
+        size="md"
+        variant="outline"
       >
         Transfer
       </Button>

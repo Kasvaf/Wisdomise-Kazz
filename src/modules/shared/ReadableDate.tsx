@@ -1,7 +1,7 @@
+import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { type FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
 import { useInterval } from 'usehooks-ts';
 import { HoverTooltip } from './HoverTooltip';
 
@@ -40,8 +40,8 @@ export const ReadableDate: FC<{
               typeof suffix === 'string'
                 ? suffix
                 : suffix === true
-                ? ' Ago'
-                : ''
+                  ? ' Ago'
+                  : ''
             }`
           : `${date
               .fromNow(!!(suffix === false || typeof suffix === 'string'))
@@ -75,7 +75,7 @@ export const ReadableDate: FC<{
   const disabled = !popup || !content?.tooltip;
 
   return (
-    <HoverTooltip title={content?.tooltip} disabled={disabled}>
+    <HoverTooltip disabled={disabled} title={content?.tooltip}>
       <time
         className={clsx(
           content?.label && !disabled && 'cursor-help',

@@ -19,12 +19,12 @@ export default function LeagueIcon({
     <div className={clsx('flex items-center justify-center', className)}>
       {isActive && (
         <img
-          src={light}
           alt=""
           className="absolute w-40 animate-[spin_5s_linear_infinite] rounded-full mix-blend-exclusion"
+          src={light}
         />
       )}
-      <img src={leagueDetail?.image} alt="" className="relative h-full" />
+      <img alt="" className="relative h-full" src={leagueDetail?.image} />
     </div>
   );
 }

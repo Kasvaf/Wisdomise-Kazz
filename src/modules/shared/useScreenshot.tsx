@@ -1,6 +1,6 @@
-import { type RefObject, useState } from 'react';
 import { postEvent } from '@telegram-apps/sdk';
 import * as htmlToImage from 'html-to-image';
+import { type RefObject, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import { isMiniApp } from 'utils/version';
 import { useShare } from './useShare';

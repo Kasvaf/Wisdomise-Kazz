@@ -1,23 +1,22 @@
-/* eslint-disable import/max-dependencies */
-import { type FC, useRef } from 'react';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
-import { CoinStatsWidget } from './CoinStatsWidget';
+import { type FC, useRef } from 'react';
+import CoinChart from './CoinChart';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
+import { CoinExchangesWidget } from './CoinExchangesWidget';
+import { CoinIntroductionWidget } from './CoinIntroductionWidget';
+import { CoinMessagesWidget } from './CoinMessagesWidget';
+import { CoinPoolsWidget } from './CoinPoolsWidget';
+import { CoinPriceWidget } from './CoinPriceWidget';
 import { CoinSentimentsWidget } from './CoinSentimentsWidget';
+import { CoinStatsWidget } from './CoinStatsWidget';
+import { CoinTitleWidget } from './CoinTitleWidget';
+import { CoinTopTraderHoldersWidget } from './CoinTopTraderHoldersWidget';
+import { CoinWhalesWidget } from './CoinWhalesWidget';
+import { NCoinInsightWidget } from './NCoinInsightWidget';
+import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { NCoinSentimentWidget } from './NCoinSentimentWidget';
 import { NCoinStatsWidget } from './NCoinStatsWidget';
-import { CoinTitleWidget } from './CoinTitleWidget';
-import CoinChart from './CoinChart';
-import { CoinMessagesWidget } from './CoinMessagesWidget';
-import { CoinExchangesWidget } from './CoinExchangesWidget';
-import { CoinPoolsWidget } from './CoinPoolsWidget';
-import { CoinWhalesWidget } from './CoinWhalesWidget';
-import { CoinIntroductionWidget } from './CoinIntroductionWidget';
-import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { useCoinDetailsTabs } from './useCoinDetailsTabs';
-import { NCoinInsightWidget } from './NCoinInsightWidget';
-import { CoinPriceWidget } from './CoinPriceWidget';
-import { CoinTopTraderHoldersWidget } from './CoinTopTraderHoldersWidget';
 
 export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -26,9 +25,9 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
   return (
     <div className="flex flex-col gap-3 p-3">
       <NCoinRisksBanner slug={slug} />
-      <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
+      <CoinTitleWidget className="bg-v1-surface-l-current" hr slug={slug} />
       <CoinPriceWidget slug={slug} />
-      <BtnAutoTrade slug={slug} block variant="primary" />
+      <BtnAutoTrade block slug={slug} variant="primary" />
       <CoinSentimentsWidget slug={slug} />
       <NCoinSentimentWidget slug={slug} />
       <CoinStatsWidget slug={slug} />
@@ -38,38 +37,38 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
         <CoinChart slug={slug} />
       </div>
       <CoinDetailsTabs
+        className="sticky top-[90px] z-50 bg-v1-surface-l-current py-3"
         options={tabs}
-        className="sticky top-[90px] z-50 py-3 bg-v1-surface-l-current"
       />
       <div className="relative space-y-8" ref={root}>
-        <CoinIntroductionWidget slug={slug} id="coinoverview_introduction" />
+        <CoinIntroductionWidget id="coinoverview_introduction" slug={slug} />
         <CoinMessagesWidget
           id="coinoverview_trading_view"
-          type="technical_ideas"
           slug={slug}
+          type="technical_ideas"
         />
-        <CoinMessagesWidget id="coinoverview_socials" type="rest" slug={slug} />
+        <CoinMessagesWidget id="coinoverview_socials" slug={slug} type="rest" />
         <CoinTopTraderHoldersWidget
           id="coinoverview_top_traders"
-          type="traders"
           slug={slug}
+          type="traders"
         />
         <CoinTopTraderHoldersWidget
           id="coinoverview_top_holders"
-          type="holders"
           slug={slug}
+          type="holders"
         />
-        <CoinPoolsWidget slug={slug} id="coinoverview_pools" />
-        <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" />
+        <CoinPoolsWidget id="coinoverview_pools" slug={slug} />
+        <CoinExchangesWidget id="coinoverview_exchanges" slug={slug} />
         <CoinWhalesWidget
+          id="coinoverview_active_whales"
           slug={slug}
           type="active"
-          id="coinoverview_active_whales"
         />
         <CoinWhalesWidget
+          id="coinoverview_holding_whales"
           slug={slug}
           type="holding"
-          id="coinoverview_holding_whales"
         />
       </div>
     </div>

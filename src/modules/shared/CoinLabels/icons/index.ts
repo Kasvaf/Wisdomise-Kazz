@@ -1,22 +1,23 @@
 // Trend Icons
-import { ReactComponent as Hype } from './hype.svg';
-import { ReactComponent as WeeklySocialBeloved } from './weekly_social_beloved.svg';
-import { ReactComponent as MonthlySocialBeloved } from './monthly_social_beloved.svg';
-import { ReactComponent as UptrendConfirmation } from './uptrend_confirmation.svg';
-import { ReactComponent as DowntrendConfirmation } from './downtrend_confirmation.svg';
-import { ReactComponent as BullishCheap } from './bullish_cheap.svg';
+
 import { ReactComponent as BearishOverprices } from './bearish_overpriced.svg';
-import { ReactComponent as OversoldOpportunity } from './oversold_opportunity.svg';
-import { ReactComponent as OverboughtRisk } from './overbought_risk.svg';
-import { ReactComponent as StrongBullishDivergence } from './strong_bullish_divergence.svg';
-import { ReactComponent as StrongBearishDivergence } from './strong_bearish_divergence.svg';
-// Security Icons
-import { ReactComponent as Trusted } from './trusted.svg';
-import { ReactComponent as Warning } from './warning.svg';
-import { ReactComponent as Risk } from './risk.svg';
+import { ReactComponent as BullishCheap } from './bullish_cheap.svg';
+import { ReactComponent as CoinGecko } from './coingecko.svg';
+import { ReactComponent as DowntrendConfirmation } from './downtrend_confirmation.svg';
+import { ReactComponent as Hype } from './hype.svg';
+import { ReactComponent as MonthlySocialBeloved } from './monthly_social_beloved.svg';
 // Custom Icons
 import { ReactComponent as NewBorn } from './new_born.svg';
-import { ReactComponent as CoinGecko } from './coingecko.svg';
+import { ReactComponent as OverboughtRisk } from './overbought_risk.svg';
+import { ReactComponent as OversoldOpportunity } from './oversold_opportunity.svg';
+import { ReactComponent as Risk } from './risk.svg';
+import { ReactComponent as StrongBearishDivergence } from './strong_bearish_divergence.svg';
+import { ReactComponent as StrongBullishDivergence } from './strong_bullish_divergence.svg';
+// Security Icons
+import { ReactComponent as Trusted } from './trusted.svg';
+import { ReactComponent as UptrendConfirmation } from './uptrend_confirmation.svg';
+import { ReactComponent as Warning } from './warning.svg';
+import { ReactComponent as WeeklySocialBeloved } from './weekly_social_beloved.svg';
 
 const trendIcons = {
   hype: Hype,

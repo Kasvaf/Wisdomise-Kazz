@@ -1,10 +1,10 @@
 import {
   type CSSProperties,
+  type FC,
+  type ReactNode,
   useEffect,
   useRef,
   useState,
-  type FC,
-  type ReactNode,
 } from 'react';
 import { useIntersectionObserver } from './IntersectionProvider';
 
@@ -43,7 +43,7 @@ export const TableSection: FC<
       }}
       {...props}
     >
-      {visible || alwaysVisible ? children : fallbackChildren ?? null}
+      {visible || alwaysVisible ? children : (fallbackChildren ?? null)}
     </tbody>
   );
 };

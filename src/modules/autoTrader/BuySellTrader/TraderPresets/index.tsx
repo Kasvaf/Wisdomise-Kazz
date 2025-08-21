@@ -1,22 +1,22 @@
-import { clsx } from 'clsx';
 import { bxChevronDown, bxCog } from 'boxicons-quasar';
-import { useEffect, useState } from 'react';
-import { Button, type ButtonSize } from 'shared/v1-components/Button';
-import Icon from 'shared/Icon';
-import { type Surface } from 'utils/useSurface';
-import { Dialog } from 'shared/v1-components/Dialog';
-import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { Input } from 'shared/v1-components/Input';
-import { preventNonNumericInput } from 'utils/numbers';
+import { clsx } from 'clsx';
 import {
   type QuickBuySource,
   type TraderPreset,
   type TraderPresets,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
+import { useEffect, useState } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import Icon from 'shared/Icon';
 import useDialog from 'shared/useDialog';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { Dialog } from 'shared/v1-components/Dialog';
+import { Input } from 'shared/v1-components/Input';
+import { preventNonNumericInput } from 'utils/numbers';
 import useIsMobile from 'utils/useIsMobile';
+import type { Surface } from 'utils/useSurface';
 import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
 
@@ -32,7 +32,7 @@ export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
   return (
     <div className="mt-3">
       <div className="flex items-center justify-between">
-        <TraderPresetsSelector surface={1} source="terminal" />
+        <TraderPresetsSelector source="terminal" surface={1} />
         <BtnTraderPresetsSettings />
       </div>
       {(['buy', 'sell'] as const)
@@ -50,31 +50,31 @@ export function TraderPresetsSettings({ mode }: { mode?: 'buy' | 'sell' }) {
               }}
             >
               <TraderPresetValues
+                className="mt-2"
                 key={m}
                 mode={m}
-                className="mt-2"
                 showMode={!mode}
               />
 
               <Icon
-                name={bxChevronDown}
-                size={20}
                 className={clsx(
                   visibleForms[index]
                     ? 'rotate-180 transition-transform'
                     : 'text-white/70 transition-transform',
                   'text-white/70',
                 )}
+                name={bxChevronDown}
+                size={20}
               />
             </button>
             <div className={visibleForms[index] ? '' : 'hidden'}>
               <TraderPresetForm
-                key={String(activeIndex) + m}
-                surface={1}
                 defaultValue={presets[activeIndex][m]}
+                key={String(activeIndex) + m}
                 onChange={newValue => {
                   updatePresetPartial(activeIndex, m, newValue);
                 }}
+                surface={1}
               />
             </div>
           </div>
@@ -108,8 +108,6 @@ export function TraderPresetsSelector({
           title={<TraderPresetValues mode="buy" presetIndex={index} />}
         >
           <Button
-            variant="ghost"
-            size={size}
             className={clsx(index !== activeIndex && '!bg-transparent')}
             onClick={() => {
               if (index === activeIndex) {
@@ -118,7 +116,9 @@ export function TraderPresetsSelector({
                 updateQuickBuyActivePreset(source, index);
               }
             }}
+            size={size}
             surface={surface}
+            variant="ghost"
           >
             P{index + 1}
           </Button>
@@ -152,7 +152,7 @@ export function TraderPresetValues({
   return (
     <div
       className={clsx(
-        'flex items-center gap-1 text-xs text-white/70',
+        'flex items-center gap-1 text-white/70 text-xs',
         className,
       )}
     >
@@ -169,7 +169,7 @@ export function TraderPresetValues({
       )}
       <SlippageIcon />
       <span>{+activePreset.slippage * 100}%</span>
-      <div className="border-v1-surface-l3 mx-1 h-3 border-r" />
+      <div className="mx-1 h-3 border-v1-surface-l3 border-r" />
       <PriorityIcon />
       <span>{activePreset.sol_priority_fee}</span>
     </div>
@@ -189,6 +189,7 @@ function TraderPresetSettingsDialog({
   const [currentMode, setCurrentMode] = useState<'buy' | 'sell'>('buy');
   const isMobile = useIsMobile();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (settings) {
       setPresets([...settings.presets]);
@@ -197,33 +198,31 @@ function TraderPresetSettingsDialog({
 
   return presets ? (
     <Dialog
-      open={open}
-      mode={isMobile ? 'drawer' : 'modal'}
       contentClassName="p-7"
+      mode={isMobile ? 'drawer' : 'modal'}
       onClose={onResolve}
+      open={open}
     >
       <div className="md:w-96">
-        <h1 className="mb-8 text-2xl font-medium">Quick Settings</h1>
+        <h1 className="mb-8 font-medium text-2xl">Quick Settings</h1>
         <p className="mb-3 text-xs">Presets</p>
         <ButtonSelect
-          variant="white"
           className="mb-3"
-          size="md"
-          surface={2}
-          value={currentPreset}
+          onChange={setCurrentPreset}
           options={
             settings.presets?.map((_, index) => ({
               value: index,
               label: `P${index + 1}`,
             })) ?? []
           }
-          onChange={setCurrentPreset}
-        />
-        <ButtonSelect
-          value={currentMode}
-          className="mb-6"
           size="md"
           surface={2}
+          value={currentPreset}
+          variant="white"
+        />
+        <ButtonSelect
+          className="mb-6"
+          onChange={setCurrentMode}
           options={[
             {
               value: 'buy',
@@ -238,12 +237,13 @@ function TraderPresetSettingsDialog({
                 'aria-checked:!bg-v1-background-negative aria-checked:!text-v1-content-secondary-inverse',
             },
           ]}
-          onChange={setCurrentMode}
+          size="md"
+          surface={2}
+          value={currentMode}
         />
         <TraderPresetForm
-          key={currentMode + String(currentPreset)}
           defaultValue={presets[currentPreset][currentMode]}
-          surface={2}
+          key={currentMode + String(currentPreset)}
           onChange={newValue => {
             setPresets(prev => {
               const newPresets = [...(prev ?? [])];
@@ -251,10 +251,11 @@ function TraderPresetSettingsDialog({
               return newPresets;
             });
           }}
+          surface={2}
         />
 
         <div className="mt-6 flex items-center justify-between gap-2">
-          <Button className="w-full" variant="outline" onClick={onResolve}>
+          <Button className="w-full" onClick={onResolve} variant="outline">
             Cancel
           </Button>
           <Button
@@ -283,42 +284,32 @@ function TraderPresetForm({
 }) {
   const [value, setValue] = useState(defaultValue);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     onChange(value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
     <div className="my-3">
       <div className="mb-3 flex items-center justify-between">
-        <span className="text-xs text-white/70">Slippage</span>
+        <span className="text-white/70 text-xs">Slippage</span>
         <Input
-          surface={surface}
-          size="xs"
-          type="string"
-          value={String(+value.slippage * 100)}
-          suffixIcon="%"
           className="w-1/3"
           onChange={newValue =>
             setValue(prev => ({ ...prev, slippage: String(+newValue / 100) }))
           }
           onKeyDown={preventNonNumericInput}
+          size="xs"
+          suffixIcon="%"
+          surface={surface}
+          type="string"
+          value={String(+value.slippage * 100)}
         />
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-xs text-white/70">Priority Fee (SOL)</span>
+        <span className="text-white/70 text-xs">Priority Fee (SOL)</span>
         <Input
-          surface={surface}
-          size="xs"
-          type="string"
-          value={value.sol_priority_fee}
           className="w-1/3"
-          onChange={newValue =>
-            setValue(prev => ({
-              ...prev,
-              sol_priority_fee: newValue,
-            }))
-          }
           onBlur={() => {
             value.sol_priority_fee === '' &&
               setValue(prev => ({
@@ -326,7 +317,17 @@ function TraderPresetForm({
                 sol_priority_fee: '0',
               }));
           }}
+          onChange={newValue =>
+            setValue(prev => ({
+              ...prev,
+              sol_priority_fee: newValue,
+            }))
+          }
           onKeyDown={preventNonNumericInput}
+          size="xs"
+          surface={surface}
+          type="string"
+          value={value.sol_priority_fee}
         />
       </div>
     </div>
@@ -338,12 +339,12 @@ export function BtnTraderPresetsSettings() {
 
   return (
     <Button
-      size="2xs"
-      variant="ghost"
       className="!bg-transparent !px-0 text-white/70"
       onClick={() => {
         void open({});
       }}
+      size="2xs"
+      variant="ghost"
     >
       <Icon name={bxCog} />
 

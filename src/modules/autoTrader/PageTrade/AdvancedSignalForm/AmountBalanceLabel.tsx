@@ -1,5 +1,5 @@
-import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
+import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 
 const AmountBalanceLabel: React.FC<{
   slug?: string;
@@ -10,8 +10,8 @@ const AmountBalanceLabel: React.FC<{
     <div className="flex items-center justify-between text-xs">
       <span>Amount</span>
       <div className="flex items-center justify-between">
-        <BtnSolanaWallets className="!h-auto scale-[0.8] !bg-transparent !p-0" />
-        <AccountBalance slug={slug} disabled={disabled} setAmount={setAmount} />
+        <BtnSolanaWallets className="!h-auto !bg-transparent !p-0 scale-[0.8]" />
+        <AccountBalance disabled={disabled} setAmount={setAmount} slug={slug} />
       </div>
     </div>
   );

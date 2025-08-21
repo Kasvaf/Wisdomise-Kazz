@@ -1,10 +1,10 @@
-import dayjs from 'dayjs';
-import { clsx } from 'clsx';
 import { Tooltip } from 'antd';
+import { clsx } from 'clsx';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { roundSensible } from 'utils/numbers';
 import { toAmount } from 'shared/AmountInputBox';
 import { Button } from 'shared/v1-components/Button';
+import { roundSensible } from 'utils/numbers';
 
 const InternalInput: React.FC<{
   value: string;
@@ -28,26 +28,27 @@ const InternalInput: React.FC<{
       ref.style.removeProperty('overflow-x');
     }
   };
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(resize, [ref, value]);
 
   return (
     <input
-      ref={setRef}
-      value={value}
-      onChange={resize}
       className={clsx(
         '-mr-32 max-w-[calc(40%+168px)] bg-transparent pr-32 outline-none',
         readonly && 'text-white/50',
         className,
       )}
+      onBlur={onBlur}
+      onChange={resize}
+      onClick={onClick}
       onInput={(e: any) => {
         const val = toAmount(e.target.value);
         onChange?.(val);
         e.target.value = val;
       }}
-      onBlur={onBlur}
-      onClick={onClick}
       readOnly={readonly}
+      ref={setRef}
+      value={value}
     />
   );
 };
@@ -89,19 +90,18 @@ const PriceVolumeInput: React.FC<{
       {label && <label className="mb-2 ml-2 block">{label}</label>}
       <div className="flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2">
         <Tooltip
-          trigger="click"
-          placement="bottom"
-          overlayClassName="[&_.ant-tooltip-inner]:bg-v1-surface-l2"
           arrow={false}
+          overlayClassName="[&_.ant-tooltip-inner]:bg-v1-surface-l2"
+          placement="bottom"
           title={
             !disVol && (
               <div className="flex gap-1">
                 {[25, 50, 75, 100].map(x => (
                   <Button
                     key={x}
+                    onClick={() => onVolumeChange?.(String(x))}
                     size="2xs"
                     variant={x === +volume ? 'primary' : 'ghost'}
-                    onClick={() => onVolumeChange?.(String(x))}
                   >
                     {x}%
                   </Button>
@@ -109,18 +109,19 @@ const PriceVolumeInput: React.FC<{
               </div>
             )
           }
+          trigger="click"
         >
           <InternalInput
-            value={disVol ? roundSensible(volume) : volume}
-            onChange={onVolumeChange}
+            className="pl-2"
             onBlur={() => {
               onVolumeChange?.(
                 +volume < 0 ? '0' : +volume > 100 ? '100' : volume,
               );
               onVolumeBlur?.();
             }}
+            onChange={onVolumeChange}
             readonly={disVol}
-            className="pl-2"
+            value={disVol ? roundSensible(volume) : volume}
           />
         </Tooltip>
         <span
@@ -136,17 +137,25 @@ const PriceVolumeInput: React.FC<{
         </span>
 
         <Tooltip
-          trigger="click"
-          placement="bottom"
-          overlayClassName="[&_.ant-tooltip-inner]:bg-v1-surface-l2"
           arrow={false}
+          overlayClassName="[&_.ant-tooltip-inner]:bg-v1-surface-l2"
+          placement="bottom"
           title={
             basePrice &&
             !disPrc && (
               <div className="flex gap-1">
                 {[2, 5, 10, 15, 30].map(x => (
                   <Button
+                    className="!px-1"
                     key={x}
+                    onClick={() =>
+                      onPriceChange?.(
+                        roundSensible(
+                          (basePrice * (100 + (dirPrice === '+' ? x : -x))) /
+                            100,
+                        ),
+                      )
+                    }
                     size="2xs"
                     variant={
                       price ===
@@ -156,15 +165,6 @@ const PriceVolumeInput: React.FC<{
                         ? 'primary'
                         : 'ghost'
                     }
-                    className="!px-1"
-                    onClick={() =>
-                      onPriceChange?.(
-                        roundSensible(
-                          (basePrice * (100 + (dirPrice === '+' ? x : -x))) /
-                            100,
-                        ),
-                      )
-                    }
                   >
                     {dirPrice}
                     {x}%
@@ -173,13 +173,14 @@ const PriceVolumeInput: React.FC<{
               </div>
             )
           }
+          trigger="click"
         >
           <InternalInput
-            value={disPrc ? roundSensible(price) : price}
-            onChange={onPriceChange}
-            onBlur={onPriceBlur}
-            readonly={disPrc}
             className="pl-2"
+            onBlur={onPriceBlur}
+            onChange={onPriceChange}
+            readonly={disPrc}
+            value={disPrc ? roundSensible(price) : price}
           />
         </Tooltip>
 
@@ -189,7 +190,7 @@ const PriceVolumeInput: React.FC<{
 
         <div className="grow" />
         {appliedAt && (
-          <span className="ml-1 min-w-16 select-none text-xxs text-white/50">
+          <span className="ml-1 min-w-16 select-none text-white/50 text-xxs">
             {dayjs(appliedAt).format('D MMM HH:mm')}
           </span>
         )}

@@ -1,12 +1,12 @@
 import { notification } from 'antd';
+import { type ExchangeAccount, useDeleteExchangeAccount } from 'api';
 import { bxTrash } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import { unwrapErrorMessage } from 'utils/error';
-import useConfirm from 'shared/useConfirm';
-import Icon from 'shared/Icon';
-import { type ExchangeAccount, useDeleteExchangeAccount } from 'api';
 import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
+import useConfirm from 'shared/useConfirm';
+import { unwrapErrorMessage } from 'utils/error';
 
 const ButtonExchangeDelete: React.FC<{ account: ExchangeAccount }> = ({
   account,
@@ -14,7 +14,7 @@ const ButtonExchangeDelete: React.FC<{ account: ExchangeAccount }> = ({
   const { t } = useTranslation('external-accounts');
   const [ModalDeleteConfirm, openDeleteConfirm] = useConfirm({
     icon: (
-      <Icon name={bxTrash} className="text-v1-content-negative" size={52} />
+      <Icon className="text-v1-content-negative" name={bxTrash} size={52} />
     ),
     message: (
       <div className="text-center">
@@ -47,11 +47,11 @@ const ButtonExchangeDelete: React.FC<{ account: ExchangeAccount }> = ({
         <Spin fontSize={20} />
       ) : (
         <Button
+          className="!px-3 !py-1 !text-xs"
           onClick={deleteHandler}
           variant="secondary-red"
-          className="!px-3 !py-1 !text-xs"
         >
-          <Icon name={bxTrash} size={12} className="mr-2" />
+          <Icon className="mr-2" name={bxTrash} size={12} />
           {t('common:actions.remove')}
         </Button>
       )}

@@ -1,9 +1,9 @@
-import { useEffect, type FC } from 'react';
-import { clsx } from 'clsx';
-import { Trans } from 'react-i18next';
 import { useCoinDetails } from 'api/discovery';
-import { ReadableNumber } from 'shared/ReadableNumber';
+import { clsx } from 'clsx';
+import { type FC, useEffect } from 'react';
+import { Trans } from 'react-i18next';
 import { Coin } from 'shared/Coin';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReactComponent as PriceIcon } from './price.svg';
 
 export const CoinPriceInfo: FC<{
@@ -32,16 +32,14 @@ export const CoinPriceInfo: FC<{
     >
       <PriceIcon />
       <Trans
-        i18nKey="common.price-info"
-        ns="alerts"
         components={{
           Coin: coinOverview.data?.symbol ? (
             <Coin
+              className="!p-0"
               coin={coinOverview.data?.symbol}
+              imageClassName="hidden"
               mini
               nonLink
-              className="!p-0"
-              imageClassName="hidden"
             />
           ) : (
             <></>
@@ -49,11 +47,13 @@ export const CoinPriceInfo: FC<{
           Price: (
             <ReadableNumber
               className="text-sky-400"
-              value={coinOverview.data?.data?.current_price}
               label="usdt"
+              value={coinOverview.data?.data?.current_price}
             />
           ),
         }}
+        i18nKey="common.price-info"
+        ns="alerts"
       />
     </div>
   );

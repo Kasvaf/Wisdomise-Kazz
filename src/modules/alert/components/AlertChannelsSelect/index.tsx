@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import { type FC, type SVGProps, type PropsWithChildren } from 'react';
 import { useAccountQuery } from 'api';
+import type { AlertMessenger } from 'api/alert';
+import { clsx } from 'clsx';
+import type { FC, PropsWithChildren, SVGProps } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Toggle } from 'shared//v1-components/Toggle';
-import { type AlertMessenger } from 'api/alert';
-import { isMiniApp } from 'utils/version';
 import { Button } from 'shared/v1-components/Button';
+import { isMiniApp } from 'utils/version';
 import { ReactComponent as BellIcon } from './bell.svg';
 import { ReactComponent as EmailIcon } from './email.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
@@ -78,7 +78,7 @@ const AlertChannelRow: FC<
           {label}
         </label>
         {subtitle && (
-          <div className="mt-px text-xs font-light text-v1-content-secondary">
+          <div className="mt-px font-light text-v1-content-secondary text-xs">
             {subtitle}
           </div>
         )}
@@ -87,19 +87,19 @@ const AlertChannelRow: FC<
         {isConnected ? (
           <span>
             {children || (
-              <span className="inline-flex h-6 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-4 text-xxs text-white/70">
+              <span className="inline-flex h-6 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-4 text-white/70 text-xxs">
                 {t('common:soon')}
               </span>
             )}
           </span>
         ) : (
           <Button
-            variant="white"
-            size="sm"
             onClick={e => {
               e.preventDefault();
               connectAction?.();
             }}
+            size="sm"
+            variant="white"
           >
             {connectLabel}
           </Button>
@@ -145,42 +145,42 @@ export const AlertChannelsSelect: FC<{
           subtitle={account.data?.email}
         >
           <Toggle
-            value={(value || []).includes('EMAIL')}
-            onChange={e => toggleValue('EMAIL', e)}
-            loading={loading}
             disabled={disabled}
+            loading={loading}
+            onChange={e => toggleValue('EMAIL', e)}
+            value={(value || []).includes('EMAIL')}
           />
         </AlertChannelRow>
       )}
       {renderingChannels.includes('TELEGRAM') && (
         <AlertChannelRow
-          icon={TelegramIcon}
-          label={t('common.notifications.messangers.telegram')}
-          isConnected={isTelegramConnected}
-          connectLabel={t('common.notifications.messangers.connect')}
           connectAction={connectTelegram}
+          connectLabel={t('common.notifications.messangers.connect')}
+          icon={TelegramIcon}
+          isConnected={isTelegramConnected}
+          label={t('common.notifications.messangers.telegram')}
         >
           <Toggle
-            value={(value || []).includes('TELEGRAM')}
-            onChange={e => toggleValue('TELEGRAM', e)}
-            loading={loading}
             disabled={disabled}
+            loading={loading}
+            onChange={e => toggleValue('TELEGRAM', e)}
+            value={(value || []).includes('TELEGRAM')}
           />
         </AlertChannelRow>
       )}
       {renderingChannels.includes('WEB_PUSH') && (
         <AlertChannelRow
-          icon={BellIcon}
-          label={t('common.notifications.messangers.web_push')}
-          isConnected={webPushPermission === 'ok'}
-          connectLabel={t('common.notifications.messangers.request_permission')}
           connectAction={requestWebPushPermission}
+          connectLabel={t('common.notifications.messangers.request_permission')}
+          icon={BellIcon}
+          isConnected={webPushPermission === 'ok'}
+          label={t('common.notifications.messangers.web_push')}
         >
           <Toggle
-            value={(value || []).includes('WEB_PUSH')}
-            onChange={e => toggleValue('WEB_PUSH', e)}
-            loading={loading}
             disabled={disabled}
+            loading={loading}
+            onChange={e => toggleValue('WEB_PUSH', e)}
+            value={(value || []).includes('WEB_PUSH')}
           />
         </AlertChannelRow>
       )}

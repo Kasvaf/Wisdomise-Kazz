@@ -1,11 +1,11 @@
+import type { ModalProps } from 'antd';
+import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import type React from 'react';
-import { useCallback, type ReactElement } from 'react';
-import { bxInfoCircle } from 'boxicons-quasar';
-import { type ModalProps } from 'antd';
-import useModal from './useModal';
+import { type ReactElement, useCallback } from 'react';
 import Button from './Button';
 import Icon from './Icon';
+import useModal from './useModal';
 
 interface Props {
   title?: string | React.ReactNode;
@@ -25,7 +25,7 @@ interface ButtonOptions {
 const ConfirmModal: React.FC<Props> = ({
   title,
   icon = (
-    <Icon name={bxInfoCircle} className="text-v1-content-notice/70" size={52} />
+    <Icon className="text-v1-content-notice/70" name={bxInfoCircle} size={52} />
   ),
   message,
   yesTitle,
@@ -60,10 +60,10 @@ const ConfirmModal: React.FC<Props> = ({
         >
           {buttons.map(({ title, variant, onClick }) => (
             <Button
-              key={title}
               className="mx-3 basis-1/2"
-              variant={variant}
+              key={title}
               onClick={onClick}
+              variant={variant}
             >
               {title}
             </Button>

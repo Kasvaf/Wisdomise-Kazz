@@ -1,12 +1,12 @@
 import {
   createContext,
+  type FC,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
-  type FC,
-  type ReactNode,
 } from 'react';
 
 const context = createContext<ReturnType<typeof useState<string[]>> | null>(

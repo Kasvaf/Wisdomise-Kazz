@@ -1,12 +1,12 @@
-import { clsx } from 'clsx';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
-import { Button } from 'shared/v1-components/Button';
-import useIsMobile from 'utils/useIsMobile';
 import { useHasFlag, useTraderPositionsQuery } from 'api';
-import usePageTour from 'shared/usePageTour';
+import { clsx } from 'clsx';
 import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useEffect } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import usePageTour from 'shared/usePageTour';
+import { Button } from 'shared/v1-components/Button';
+import { useLocalStorage } from 'usehooks-ts';
+import useIsMobile from 'utils/useIsMobile';
 import { useIsLoggedIn } from '../auth/jwt-store';
 import { IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
@@ -59,6 +59,13 @@ const HeaderNav = () => {
     <div className="flex items-center gap-2">
       {isMobile && hasFlag('/discovery?positions') && (
         <Button
+          className={clsx(
+            isMobile && '!px-4',
+            pathname.startsWith('/discovery') &&
+              searchParams.get('list') === 'positions' &&
+              '!text-v1-content-brand',
+            'id-tour-trades-btn',
+          )}
           onClick={() => {
             const to = getUrl({
               list: 'positions',
@@ -68,22 +75,15 @@ const HeaderNav = () => {
             navigate(to);
           }}
           size="md"
-          variant="ghost"
-          className={clsx(
-            isMobile && '!px-4',
-            pathname.startsWith('/discovery') &&
-              searchParams.get('list') === 'positions' &&
-              '!text-v1-content-brand',
-            'id-tour-trades-btn',
-          )}
           surface={1}
+          variant="ghost"
         >
           <IconTrades />
           Trades
           {openTrades > 0 && (
             <div
               className={clsx(
-                'bg-v1-background-negative rounded-full text-xxs text-white',
+                'rounded-full bg-v1-background-negative text-white text-xxs',
                 openTrades >= 10 ? 'size-2' : 'size-4',
               )}
             >

@@ -4,12 +4,12 @@ export default {
   safelist: ['opacity-100', 'opacity-50', 'intro-style'],
   theme: {
     screens: {
-      'mobile': { max: '750px' },
+      mobile: { max: '750px' },
       'max-md': { max: '750px' },
       'max-sm': { max: '640px' },
       'max-xs': { max: '420px' },
-      'tablet': { min: '751px', max: '1439px' },
-      'xs': '420px',
+      tablet: { min: '751px', max: '1439px' },
+      xs: '420px',
       ...defaultTheme.screens,
     },
     extend: {
@@ -24,26 +24,26 @@ export default {
       fontSize: { xxs: '0.625rem' },
       width: {
         '2xs': '24px',
-        'xs': '32px',
-        'sm': '36px',
-        'md': '40px',
-        'lg': '44px',
-        'xl': '48px',
+        xs: '32px',
+        sm: '36px',
+        md: '40px',
+        lg: '44px',
+        xl: '48px',
         '2xl': '56px',
       },
       height: {
         '2xs': '24px',
-        'xs': '32px',
-        'sm': '36px',
-        'md': '40px',
-        'lg': '44px',
-        'xl': '48px',
+        xs: '32px',
+        sm: '36px',
+        md: '40px',
+        lg: '44px',
+        xl: '48px',
         '2xl': '56px',
       },
     },
   },
   plugins: [
-    function ({ addUtilities, theme }) {
+    ({ addUtilities, theme }) => {
       const colors = theme('colors');
       const surfaces = Object.keys(colors).filter(key =>
         key.startsWith('v1-surface-l'),
@@ -72,15 +72,15 @@ export default {
       );
       addUtilities({
         '.scrollbar-none': {
-          'scrollbarWidth': 'none !important',
+          scrollbarWidth: 'none !important',
           '-webkit-scrollbar-width': 'none !important',
         },
         '.scrollbar-thin': {
-          'scrollbarWidth': 'thin !important',
+          scrollbarWidth: 'thin !important',
           '-webkit-scrollbar-width': 'thin !important',
         },
         '.scrollbar-auto': {
-          'scrollbarWidth': 'auto !important',
+          scrollbarWidth: 'auto !important',
           '-webkit-scrollbar-width': 'auto !important',
         },
       });

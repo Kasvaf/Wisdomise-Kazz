@@ -1,5 +1,5 @@
 import { type ComponentProps, useEffect, useRef, useState } from 'react';
-import { type ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import type { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import useIsMobile from 'utils/useIsMobile';
 
 export const useScrollPoint = (
@@ -10,6 +10,7 @@ export const useScrollPoint = (
   const ignoreScroll = useRef(false);
   const isMobile = useIsMobile();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
 

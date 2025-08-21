@@ -13,7 +13,7 @@ export function EmptySentiment({
   return (
     <div
       className={clsx(
-        'flex max-w-48 items-center gap-1 text-xs text-v1-content-secondary',
+        'flex max-w-48 items-center gap-1 text-v1-content-secondary text-xs',
         className,
       )}
     >
@@ -21,8 +21,8 @@ export function EmptySentiment({
       {value === 'social_radar'
         ? t('empty_sentiment.social_radar')
         : value === 'technical_radar'
-        ? t('empty_sentiment.technical_radar')
-        : t('empty_sentiment.whale_radar')}
+          ? t('empty_sentiment.technical_radar')
+          : t('empty_sentiment.whale_radar')}
     </div>
   );
 }

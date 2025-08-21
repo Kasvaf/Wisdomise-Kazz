@@ -1,9 +1,9 @@
+import type { Position } from 'api';
 import { bxShareAlt } from 'boxicons-quasar';
 import { useState } from 'react';
-import { type Position } from 'api';
-import { isMiniApp } from 'utils/version';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import { isMiniApp } from 'utils/version';
 import PositionSharingModal from './PositionSharingModal';
 
 const ShareButton: React.FC<{ position: Position }> = ({ position }) => {
@@ -14,18 +14,18 @@ const ShareButton: React.FC<{ position: Position }> = ({ position }) => {
         !isMiniApp &&
         position.mode === 'buy_and_sell' && (
           <Button
-            variant="link"
-            className="id-tour-share ms-auto !p-0 !text-xs text-v1-content-link"
+            className="id-tour-share !p-0 !text-xs ms-auto text-v1-content-link"
             onClick={() => setOpenShare(true)}
+            variant="link"
           >
-            <Icon name={bxShareAlt} size={16} className="mr-1" />
+            <Icon className="mr-1" name={bxShareAlt} size={16} />
             Share
           </Button>
         )}
 
       <PositionSharingModal
-        open={openShare}
         onClose={() => setOpenShare(false)}
+        open={openShare}
         position={position}
       />
     </>

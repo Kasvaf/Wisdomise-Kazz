@@ -1,53 +1,53 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import type { PageResponse } from 'api/types/page';
+import type { Coin } from 'api/types/shared';
+import { useUserStorage } from 'api/userStorage';
+import { createSorter, matcher, resolvePageResponseToArray } from 'api/utils';
+import { ofetch } from 'config/ofetch';
 import { FetchError } from 'ofetch';
 import { useEffect, useMemo, useState } from 'react';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { resolvePageResponseToArray, createSorter, matcher } from 'api/utils';
 import { isDebugMode, isMiniApp } from 'utils/version';
-import { ofetch } from 'config/ofetch';
-import { type PageResponse } from 'api/types/page';
-import { type Coin } from 'api/types/shared';
-import { useUserStorage } from 'api/userStorage';
-import {
-  type CoinDetails,
-  type RadarsMetcis,
-  type Category,
-  type CoinLabels,
-  type CoinWhale,
-  type DetailedCoin,
-  type Exchange,
-  type Indicator,
-  type IndicatorConfirmation,
-  type IndicatorConfirmationCombination,
-  type IndicatorConfirmationCore,
-  type IndicatorHeatmap,
-  type IndicatorHeatmapResolution,
-  type MacdConfirmation,
-  type Network,
-  type RedditMessage,
-  type RsiConfirmation,
-  type SingleWhale,
-  type SocialMessage,
-  type SocialRadarCoin,
-  type SocialRadarInfo,
-  type SocialRadarSentiment,
-  type TechnicalRadarCoin,
-  type TechnicalRadarSentiment,
-  type TelegramMessage,
-  type TradingViewIdeasMessage,
-  type TwitterMessage,
-  type WhaleRadarCoin,
-  type WhaleRadarSentiment,
-  type WhaleShort,
-  type WhaleTransaction,
-  type CoinRadarCoin,
-  type NetworkRadarNCoinDetails,
-  type TokenInsight,
-  type TwitterAccount,
-  type TwitterFollowedAccount,
-  type TwitterTweet,
-  type CoinTopTraderHolder,
-  type TwitterRelatedToken,
+import type {
+  Category,
+  CoinDetails,
+  CoinLabels,
+  CoinRadarCoin,
+  CoinTopTraderHolder,
+  CoinWhale,
+  DetailedCoin,
+  Exchange,
+  Indicator,
+  IndicatorConfirmation,
+  IndicatorConfirmationCombination,
+  IndicatorConfirmationCore,
+  IndicatorHeatmap,
+  IndicatorHeatmapResolution,
+  MacdConfirmation,
+  Network,
+  NetworkRadarNCoinDetails,
+  RadarsMetcis,
+  RedditMessage,
+  RsiConfirmation,
+  SingleWhale,
+  SocialMessage,
+  SocialRadarCoin,
+  SocialRadarInfo,
+  SocialRadarSentiment,
+  TechnicalRadarCoin,
+  TechnicalRadarSentiment,
+  TelegramMessage,
+  TokenInsight,
+  TradingViewIdeasMessage,
+  TwitterAccount,
+  TwitterFollowedAccount,
+  TwitterMessage,
+  TwitterRelatedToken,
+  TwitterTweet,
+  WhaleRadarCoin,
+  WhaleRadarSentiment,
+  WhaleShort,
+  WhaleTransaction,
 } from './types';
 
 export * from './types';
@@ -707,7 +707,7 @@ export const useTwitterFollowedAccounts = () => {
       save(
         acc === true
           ? []
-          : value?.filter?.(x => x.user_id !== acc.user_id) ?? [],
+          : (value?.filter?.(x => x.user_id !== acc.user_id) ?? []),
       );
 
     return {
@@ -742,7 +742,7 @@ export const useStreamTweets = (config: { userIds: string[] }) => {
 
   useEffect(() => {
     // TODO: i couldn't make sure how stream works and cannot test it, so i disabled it for now
-    // eslint-disable-next-line no-constant-condition
+    // biome-ignore lint/correctness/noConstantCondition: <reason>
     if (config.userIds.length === 0 || true) return;
     const controller = new AbortController();
 
@@ -987,8 +987,8 @@ export const useCoinDetails = ({
                   chart.id,
                 )}`
               : chart.type === 'gecko_terminal'
-              ? `https://www.geckoterminal.com/${chart.id}`
-              : '',
+                ? `https://www.geckoterminal.com/${chart.id}`
+                : '',
           embedUrl:
             chart.type === 'gecko_terminal'
               ? `https://www.geckoterminal.com/${chart.id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0`
