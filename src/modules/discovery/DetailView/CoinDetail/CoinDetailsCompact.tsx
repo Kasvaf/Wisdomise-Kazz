@@ -1,4 +1,5 @@
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import { type FC, useRef } from 'react';
 import CoinChart from './CoinChart';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
@@ -32,6 +33,7 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
       <NCoinSentimentWidget slug={slug} />
       <CoinStatsWidget slug={slug} />
       <NCoinStatsWidget slug={slug} />
+      <CoinSwapActivity />
       <NCoinInsightWidget slug={slug} />
       <div className="h-[400px]">
         <CoinChart slug={slug} />
