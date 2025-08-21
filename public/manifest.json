@@ -2,10 +2,10 @@
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "display": "standalone",
   "start_url": "/",
-  "theme_color": "#131822",
-  "background_color": "#24252D",
-  "name": "Wisdomise - AI-Driven Crypto Trading & Insights",
-  "short_name": "Wisdomise",
+  "theme_color": "#beff21",
+  "background_color": "#0c0c0c",
+  "name": "GoatX",
+  "short_name": "GoatX",
   "icons": [
     {
       "src": "/favicon.svg",
