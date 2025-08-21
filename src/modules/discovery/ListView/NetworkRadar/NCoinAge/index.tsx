@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useMemo, type FC } from 'react';
+import { type FC, useMemo } from 'react';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReactComponent as ClockIcon } from './clock.svg';
 
@@ -28,7 +28,7 @@ export const NCoinAge: FC<{
       )}
     >
       <ClockIcon className={clsx('shrink-0', imgClassName)} />
-      <ReadableDate value={timestap} suffix={false} popup={false} />
+      <ReadableDate popup={false} suffix={false} value={timestap} />
     </div>
   );
 };

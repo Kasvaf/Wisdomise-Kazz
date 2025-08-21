@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 const MessageBox: React.FC<
   React.PropsWithChildren<{
@@ -18,7 +18,7 @@ const MessageBox: React.FC<
         className,
       )}
     >
-      {title && <div className="mb-1 text-base font-medium">{title}</div>}
+      {title && <div className="mb-1 font-medium text-base">{title}</div>}
       <div>{children}</div>
     </div>
   );

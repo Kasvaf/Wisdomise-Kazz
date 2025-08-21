@@ -1,3 +1,5 @@
+import { useUserStorage } from 'api/userStorage';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
   createContext,
   type PropsWithChildren,
@@ -6,8 +8,6 @@ import {
   useState,
 } from 'react';
 import { useDebounce } from 'usehooks-ts';
-import { useUserStorage } from 'api/userStorage';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 export type QuickBuySource =
   | 'new_pairs'
@@ -102,17 +102,17 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     buy: {
       'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
       'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
-      'tether': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      tether: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell: {
       'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
       'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
-      'tether': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      tether: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell_percentage: {
       'wrapped-solana': [...DEFAULT_PERCENTAGE_PRESETS],
       'usd-coin': [...DEFAULT_PERCENTAGE_PRESETS],
-      'tether': [...DEFAULT_PERCENTAGE_PRESETS],
+      tether: [...DEFAULT_PERCENTAGE_PRESETS],
     },
   },
 };
@@ -171,11 +171,11 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     }
   }, [value, isFetched, isFetching]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (isFetched && isLoggedIn) {
       void save(changedSettings);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changedSettings, isFetched, isLoggedIn]);
 
   const getActivePreset = (source: QuickBuySource) => {

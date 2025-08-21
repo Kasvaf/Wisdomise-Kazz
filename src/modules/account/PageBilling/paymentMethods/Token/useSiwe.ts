@@ -1,7 +1,7 @@
-import { type SiweMessage } from 'siwe';
-import { useAccount, useSignMessage } from 'wagmi';
+import type { NonceVerificationBody } from 'api/defi';
+import type { SiweMessage } from 'siwe';
 import { getAddress, zeroAddress } from 'viem';
-import { type NonceVerificationBody } from 'api/defi';
+import { useAccount, useSignMessage } from 'wagmi';
 
 export default function useSignInWithEthereum() {
   const { address, chain } = useAccount();
@@ -59,7 +59,7 @@ function toMessage(message: Partial<SiweMessage>): string {
   //   this.nonce = generateNonce();
   // }
 
-  const chainField = 'Chain ID: ' + (String(message.chainId) ?? '');
+  const chainField = `Chain ID: ${String(message.chainId) ?? ''}`;
 
   const nonceField = `Nonce: ${message.nonce ?? ''}`;
 

@@ -1,15 +1,15 @@
-import { isMiniApp } from 'utils/version';
 import { useAccountQuery } from 'api';
-import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import { RouterBaseName } from 'config/constants';
 import { RewardIcon, WsdmTokenIcon } from 'modules/account/PageAccount/icons';
+import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
+import { isMiniApp } from 'utils/version';
 import BranchSelector from '../../BranchSelector';
-import MenuItem from './MenuItem';
 import BoxedIcon from './BoxedIcon';
+import { IconAccount, IconAlerts, IconQuests, IconTrades } from './icons';
+import MenuItem from './MenuItem';
 import MenuItemLogout from './MenuItemLogout';
 import MenuItemReferral from './MenuItemReferral';
 import MenuItemSubscription from './MenuItemSubscription';
-import { IconAccount, IconAlerts, IconQuests, IconTrades } from './icons';
 
 const ProfileMenuContent: React.FC<{ className?: string }> = ({
   className,
@@ -19,7 +19,7 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
 
   return (
     <div className={className}>
-      <div className="mb-6 ml-2 flex items-center justify-between gap-4 text-center text-base font-semibold">
+      <div className="mb-6 ml-2 flex items-center justify-between gap-4 text-center font-semibold text-base">
         <div className="line-clamp-1 text-ellipsis">
           {isMiniApp
             ? `${profile?.first_name ?? ''} ${profile?.last_name ?? ''}`

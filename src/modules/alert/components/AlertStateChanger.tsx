@@ -1,4 +1,4 @@
-import { useSaveAlert, type Alert } from 'api/alert';
+import { type Alert, useSaveAlert } from 'api/alert';
 import { Toggle } from 'shared/v1-components/Toggle';
 
 export function AlertStateChanger({
@@ -11,6 +11,9 @@ export function AlertStateChanger({
   const alertSaveMutation = useSaveAlert(value.key);
   return (
     <Toggle
+      className={className}
+      falseLabel="Deactive"
+      loading={alertSaveMutation.isPending}
       onChange={newValue => {
         const newState = newValue ? 'ACTIVE' : 'DISABLED';
         return alertSaveMutation.mutateAsync({
@@ -19,10 +22,7 @@ export function AlertStateChanger({
         });
       }}
       trueLabel="Active"
-      falseLabel="Deactive"
       value={value.state !== 'DISABLED'}
-      className={className}
-      loading={alertSaveMutation.isPending}
     />
   );
 }

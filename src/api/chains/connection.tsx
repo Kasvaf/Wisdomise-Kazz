@@ -1,8 +1,8 @@
-import type React from 'react';
-import { createContext, useContext, useState, useEffect } from 'react';
-import { Connection } from '@solana/web3.js';
 import * as Sentry from '@sentry/react';
+import { Connection } from '@solana/web3.js';
 import { projectId } from 'config/appKit';
+import type React from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const chainId = 'solana';
 const clusterPublicKey = '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'; // mainnet-beta

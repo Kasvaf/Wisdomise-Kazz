@@ -1,11 +1,11 @@
 import { useHasFlag } from 'api';
 import { useTournaments } from 'api/tournament';
 import PageWrapper from 'modules/base/PageWrapper';
-import { PageTitle } from 'shared/PageTitle';
-import Referral from 'modules/quest/PageQuests/Referral';
-import League from 'modules/quest/PageQuests/League';
 import DailyTrade from 'modules/quest/PageQuests/DailyTrade';
+import League from 'modules/quest/PageQuests/League';
+import Referral from 'modules/quest/PageQuests/Referral';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import { PageTitle } from 'shared/PageTitle';
 import useIsMobile from 'utils/useIsMobile';
 import Tournaments from './Tournament';
 
@@ -16,19 +16,19 @@ export default function PageQuests() {
 
   return (
     <PageWrapper
+      extension={!isMobile && <CoinExtensionsGroup />}
       footer={null}
       hasBack
-      title="Earn & Win"
       loading={isLoading}
-      extension={!isMobile && <CoinExtensionsGroup />}
+      title="Earn & Win"
     >
       <PageTitle
         className="py-5"
-        title="Earn & Win"
         description="Complete Quests and Earn Rewards."
+        title="Earn & Win"
       />
 
-      <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1">
+      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-4">
         {hasFlag('/trader/quests/daily') && (
           <DailyTrade className="shrink-0 grow" />
         )}

@@ -31,8 +31,8 @@ export function CoinDetailsMeta({ slug }: { slug: string }) {
             {coinName} Live Price + Indicators, Prediction, Analysis
           </title>
           <meta
-            name="description"
             content={`${coinName}'s live price is ${livePrice} | You're planning to buy or sell ${coinName}? Check the indicators and charts and find out analysis, signals and AI-powered predictions for ${coinName} provided by Wisdomise`}
+            name="description"
           />
         </>
       )}

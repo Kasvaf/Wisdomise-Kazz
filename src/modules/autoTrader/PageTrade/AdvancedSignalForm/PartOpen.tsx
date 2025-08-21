@@ -1,14 +1,14 @@
-import { v4 } from 'uuid';
-import { useTranslation } from 'react-i18next';
-import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { useLastPriceQuery } from 'api';
-import { roundDown, roundSensible } from 'utils/numbers';
+import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
-import Icon from 'shared/Icon';
 import ComboBox from 'shared/ComboBox';
+import Icon from 'shared/Icon';
 import InfoButton from 'shared/InfoButton';
+import { roundDown, roundSensible } from 'utils/numbers';
+import { v4 } from 'uuid';
 import PriceVolumeInput from './PriceVolumeInput';
-import { type SignalFormState } from './useSignalFormStates';
+import type { SignalFormState } from './useSignalFormStates';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
@@ -55,8 +55,8 @@ const PartOpen: React.FC<{
         </h1>
         {!Number.isNaN(effectivePrice) && !Number.isNaN(remainingVolume) && (
           <Button
-            variant="alternative"
             className="!p-2 text-xxs"
+            disabled={isOrderLimitReached}
             onClick={() =>
               setItems([
                 ...items,
@@ -70,7 +70,7 @@ const PartOpen: React.FC<{
                 },
               ])
             }
-            disabled={isOrderLimitReached}
+            variant="alternative"
           >
             {t('signal-form.open-orders.btn-new')}
           </Button>
@@ -86,17 +86,12 @@ const PartOpen: React.FC<{
               <div className="flex items-center">
                 <div className="mr-1">{ind + 1}.</div>
                 <PriceVolumeInput
+                  appliedAt={item.appliedAt}
                   basePrice={assetPrice}
+                  className="grow"
                   dirPrice="-"
-                  price={
-                    item.isMarket && !item.applied
-                      ? assetPrice === undefined
-                        ? '-'
-                        : '~ ' + roundSensible(assetPrice)
-                      : String(item.priceExact)
-                  }
-                  disabledVolume={!ind && isUpdate}
                   disabledPrice={item.isMarket}
+                  disabledVolume={!ind && isUpdate}
                   onPriceChange={val =>
                     setItems(
                       items.map(x =>
@@ -104,7 +99,6 @@ const PartOpen: React.FC<{
                       ),
                     )
                   }
-                  volume={String(item.amountRatio)}
                   onVolumeChange={val =>
                     setItems(
                       items.map(x =>
@@ -112,12 +106,18 @@ const PartOpen: React.FC<{
                       ),
                     )
                   }
-                  className="grow"
-                  appliedAt={item.appliedAt}
+                  price={
+                    item.isMarket && !item.applied
+                      ? assetPrice === undefined
+                        ? '-'
+                        : `~ ${roundSensible(assetPrice)}`
+                      : String(item.priceExact)
+                  }
+                  volume={String(item.amountRatio)}
                 />
 
                 {item.applied ? (
-                  <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-xs text-black">
+                  <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-black text-xs">
                     <Icon name={bxsCheckCircle} />
                     {t('strategy:position-detail-modal.hitted')}
                   </div>
@@ -127,14 +127,6 @@ const PartOpen: React.FC<{
                       !isUpdate && (
                         <ComboBox
                           className="!h-10 text-xs"
-                          optionClassName="text-xs"
-                          options={['Market', 'Stop Market']}
-                          selectedItem={
-                            item.isMarket ? 'Market' : 'Stop Market'
-                          }
-                          renderItem={(x, full) =>
-                            full || x === 'Market' ? x : 'Stop'
-                          }
                           onSelect={y =>
                             setItems(items =>
                               items.map((x, i) =>
@@ -151,11 +143,18 @@ const PartOpen: React.FC<{
                               ),
                             )
                           }
+                          optionClassName="text-xs"
+                          options={['Market', 'Stop Market']}
+                          renderItem={(x, full) =>
+                            full || x === 'Market' ? x : 'Stop'
+                          }
+                          selectedItem={
+                            item.isMarket ? 'Market' : 'Stop Market'
+                          }
                         />
                       )
                     ) : (
                       <Button
-                        variant="link"
                         className="!p-2"
                         onClick={() =>
                           setItems(
@@ -164,6 +163,7 @@ const PartOpen: React.FC<{
                             ),
                           )
                         }
+                        variant="link"
                       >
                         <Icon name={bxTrash} />
                       </Button>
@@ -184,7 +184,7 @@ const PartOpen: React.FC<{
           ))}
 
         {!!remainingVolume && (
-          <div className="text-center text-xs text-v1-content-negative">
+          <div className="text-center text-v1-content-negative text-xs">
             {t('signal-form.error-total-open')}
           </div>
         )}

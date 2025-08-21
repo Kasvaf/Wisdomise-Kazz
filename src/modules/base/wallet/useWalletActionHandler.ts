@@ -1,7 +1,7 @@
-import WithdrawDepositModal from 'modules/base/wallet/WithdrawDeposit';
-import useDialog from 'shared/useDialog';
 import { useWalletsQuery, type Wallet } from 'api/wallets';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
+import WithdrawDepositModal from 'modules/base/wallet/WithdrawDeposit';
+import useDialog from 'shared/useDialog';
 
 export function useWalletActionHandler() {
   const [withdrawDepositModal, openWithdrawDepositModal] =

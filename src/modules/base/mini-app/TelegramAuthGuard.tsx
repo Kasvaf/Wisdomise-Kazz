@@ -1,12 +1,12 @@
-import { type PropsWithChildren, useEffect, useMemo } from 'react';
 import * as Sentry from '@sentry/react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import {
   useMiniAppConnectMutation,
   useMiniAppTgLoginMutation,
   useMiniAppWebLoginMutation,
 } from 'api/auth';
+import { type PropsWithChildren, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import useConfirm from 'shared/useConfirm';
 import useStartParams from '../../autoTrader/useStartParams';
 import Splash from '../Splash';
@@ -48,7 +48,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   useEffect(() => {
     if (!webApp) return;
 
-    void (async function () {
+    void (async () => {
       if (spType === 'login') {
         // open mini-app, by web-user
         if ((await doWebLogin({})) === 'exists') {
@@ -70,6 +70,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   }, [spType, confirm, doTgLogin, doWebLogin, doConnect, webApp]);
 
   const navigate = useNavigate();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (isLoggedIn) {
       Sentry.setUser({

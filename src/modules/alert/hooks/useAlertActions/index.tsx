@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
-import { type Alert } from 'api/alert';
+import type { Alert } from 'api/alert';
+import { useAlertForm, useAlertForms } from 'modules/alert/forms';
+import { AlertEdit } from 'modules/alert/library/AlertEdit';
 import { AlertModal } from 'modules/alert/library/AlertModal';
 import { AlertProvider } from 'modules/alert/library/AlertProvider';
-import { AlertEdit } from 'modules/alert/library/AlertEdit';
-import { useAlertForm, useAlertForms } from 'modules/alert/forms';
+import { useMemo, useState } from 'react';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import {
   useAlertDeleteConfirm,
@@ -27,11 +27,11 @@ export const useAlertActions = (
     () => ({
       content: (
         <>
-          <AlertModal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <AlertProvider initialValue={initialAlert} forms={forms}>
+          <AlertModal onClose={() => setIsModalOpen(false)} open={isModalOpen}>
+            <AlertProvider forms={forms} initialValue={initialAlert}>
               <AlertEdit
-                onClose={() => setIsModalOpen(false)}
                 lock={lock}
+                onClose={() => setIsModalOpen(false)}
                 onFinish={() => {
                   setIsModalOpen(false);
                   void showSaveToast();

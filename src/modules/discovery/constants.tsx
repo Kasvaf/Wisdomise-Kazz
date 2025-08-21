@@ -19,7 +19,7 @@ export const LISTS: Record<
   'network-radar': {
     alias: 'n',
   },
-  'portfolio': {
+  portfolio: {
     alias: 'p',
   },
   'social-radar': {
@@ -31,7 +31,7 @@ export const LISTS: Record<
   'whale-radar': {
     alias: 'w',
   },
-  'positions': {
+  positions: {
     alias: 'z',
   },
   'twitter-tracker': {

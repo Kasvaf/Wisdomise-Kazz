@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export interface AlertCrumb {
   label?: ReactNode;
@@ -16,7 +16,7 @@ export function AlertBreadcrumb({
   return (
     <ul
       className={clsx(
-        'flex grow items-center justify-start gap-1 overflow-auto whitespace-nowrap text-xs font-light scrollbar-none',
+        'scrollbar-none flex grow items-center justify-start gap-1 overflow-auto whitespace-nowrap font-light text-xs',
         '[&_li]:after:ms-1 [&_li]:after:inline-block [&_li]:after:content-["/"]',
         '[&_li]:cursor-pointer [&_li]:text-v1-content-secondary',
         '[&_li:last-child]:cursor-default [&_li:last-child]:text-v1-content-primary [&_li:last-child]:after:hidden',

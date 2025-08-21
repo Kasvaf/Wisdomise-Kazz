@@ -1,13 +1,13 @@
-import { type RouteObject } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import PageDiscovery from 'modules/discovery/PageDiscovery';
 import {
   createDiscoverySearchParams,
   parseDiscoverySearchParams,
 } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useTranslation } from 'react-i18next';
+import type { RouteObject } from 'react-router-dom';
 import Container from '../Container';
 import { useMenuItems } from '../Layout/MenuItems/useMenuItems';
-import { type RouteHandle } from './types';
+import type { RouteHandle } from './types';
 
 const useDiscoveryRoutes = () => {
   const menuItems = useMenuItems();
@@ -24,8 +24,9 @@ const useDiscoveryRoutes = () => {
             crumb: (_p, s) => {
               const { list, slug, detail, view } =
                 parseDiscoverySearchParams(s);
-              const matchedListTitle = menuItems.find(x => x.meta.list === list)
-                ?.crumb;
+              const matchedListTitle = menuItems.find(
+                x => x.meta.list === list,
+              )?.crumb;
               if (slug && view !== 'list') {
                 const readableSlug = slug
                   .split('-')
@@ -48,31 +49,31 @@ const useDiscoveryRoutes = () => {
                       },
                     ]
                   : detail === 'wallet'
-                  ? [
-                      {
-                        text: 'Wallets',
-                        href: '',
-                      },
-                      {
-                        text: slug,
-                        href: '',
-                      },
-                    ]
-                  : [
-                      {
-                        text: t('menu.coin.title'),
-                        href: `/discovery?${createDiscoverySearchParams({
-                          list: 'coin-radar',
-                        }).toString()}`,
-                      },
-                      {
-                        text: readableSlug,
-                        href: `/discovery?${createDiscoverySearchParams({
-                          list: 'coin-radar',
-                          slug,
-                        }).toString()}`,
-                      },
-                    ];
+                    ? [
+                        {
+                          text: 'Wallets',
+                          href: '',
+                        },
+                        {
+                          text: slug,
+                          href: '',
+                        },
+                      ]
+                    : [
+                        {
+                          text: t('menu.coin.title'),
+                          href: `/discovery?${createDiscoverySearchParams({
+                            list: 'coin-radar',
+                          }).toString()}`,
+                        },
+                        {
+                          text: readableSlug,
+                          href: `/discovery?${createDiscoverySearchParams({
+                            list: 'coin-radar',
+                            slug,
+                          }).toString()}`,
+                        },
+                      ];
               }
               return [
                 {

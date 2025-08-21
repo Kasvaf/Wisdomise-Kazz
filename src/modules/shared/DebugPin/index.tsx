@@ -1,5 +1,5 @@
-import { type FC } from 'react';
 import { clsx } from 'clsx';
+import type { FC } from 'react';
 import { isDebugMode } from 'utils/version';
 import pin from './pin.png';
 
@@ -23,7 +23,7 @@ export const DebugPin: FC<{
       )}
       title={title}
     >
-      <img src={pin} className="size-[20px]" />
+      <img className="size-[20px]" src={pin} />
     </div>
   );
 };

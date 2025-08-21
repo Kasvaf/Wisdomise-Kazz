@@ -1,14 +1,14 @@
-import { v4 } from 'uuid';
+import { useLastPriceQuery } from 'api';
+import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
-import { roundSensible } from 'utils/numbers';
-import { useLastPriceQuery } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import InfoButton from 'shared/InfoButton';
-import { sortTpSlItems, type SignalFormState } from './useSignalFormStates';
+import { roundSensible } from 'utils/numbers';
+import { v4 } from 'uuid';
 import PriceVolumeInput from './PriceVolumeInput';
+import { type SignalFormState, sortTpSlItems } from './useSignalFormStates';
 
 const PartTpSl: React.FC<{
   type: 'TP' | 'SL';
@@ -30,6 +30,7 @@ const PartTpSl: React.FC<{
 
   const sortItems = () => setItems(items => sortTpSlItems({ items, type }));
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(sortItems, [setItems, type]);
 
   const dir = type === 'TP' ? 1 : -1;
@@ -61,8 +62,8 @@ const PartTpSl: React.FC<{
 
         {!Number.isNaN(effectivePrice) && (
           <Button
-            variant="alternative"
             className="!p-2 text-xxs"
+            disabled={isOrderLimitReached}
             onClick={() =>
               setItems([
                 ...items,
@@ -75,7 +76,7 @@ const PartTpSl: React.FC<{
                 },
               ])
             }
-            disabled={isOrderLimitReached}
+            variant="alternative"
           >
             {'+ '}
             {type === 'TP'
@@ -90,9 +91,11 @@ const PartTpSl: React.FC<{
             <div className="flex items-center">
               <div className="mr-1">{ind + 1}.</div>
               <PriceVolumeInput
+                appliedAt={item.appliedAt}
                 basePrice={assetPrice}
+                className="grow"
                 dirPrice={type === 'TP' ? '+' : '-'}
-                price={String(item.priceExact)}
+                onPriceBlur={sortItems}
                 onPriceChange={val =>
                   setItems(
                     items.map(x =>
@@ -100,8 +103,6 @@ const PartTpSl: React.FC<{
                     ),
                   )
                 }
-                onPriceBlur={sortItems}
-                volume={String(item.amountRatio)}
                 onVolumeChange={val =>
                   setItems(
                     items.map(x =>
@@ -109,19 +110,18 @@ const PartTpSl: React.FC<{
                     ),
                   )
                 }
-                className="grow"
-                appliedAt={item.appliedAt}
+                price={String(item.priceExact)}
+                volume={String(item.amountRatio)}
               />
 
               {item.applied ? (
-                <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-xs text-black">
+                <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-black text-xs">
                   <Icon name={bxsCheckCircle} />
                   {t('strategy:position-detail-modal.hitted')}
                 </div>
               ) : (
                 <div className="ml-2 flex">
                   <Button
-                    variant="link"
                     className="!p-2"
                     onClick={() =>
                       setItems(
@@ -130,6 +130,7 @@ const PartTpSl: React.FC<{
                         ),
                       )
                     }
+                    variant="link"
                   >
                     <Icon name={bxTrash} />
                   </Button>

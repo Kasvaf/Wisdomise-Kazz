@@ -1,18 +1,18 @@
-import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
+import { useHasFlag } from 'api';
+import { useCoinDetails } from 'api/discovery';
+import { bxSlider } from 'boxicons-quasar';
+import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { bxSlider } from 'boxicons-quasar';
-import { useHasFlag } from 'api';
-import { useCoinDetails } from 'api/discovery';
-import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
-import { DrawerModal } from 'shared/DrawerModal';
+import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import { Coin } from 'shared/Coin';
-import { Button } from 'shared/v1-components/Button';
-import Icon from 'shared/Icon';
 import { CoinLabels } from 'shared/CoinLabels';
+import { DrawerModal } from 'shared/DrawerModal';
+import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { Button } from 'shared/v1-components/Button';
 import { PriceAlertButton } from '../../DetailView/CoinDetail/PriceAlertButton';
 
 const MiniAppPreDetailModal: React.FC<{
@@ -48,6 +48,8 @@ const MiniAppPreDetailModal: React.FC<{
     <>
       {slug && (
         <DrawerModal
+          onClose={onClose}
+          open={isOpen}
           title={
             <Coin
               coin={coinOverview.data?.symbol ?? symbolPlaceholder}
@@ -56,8 +58,6 @@ const MiniAppPreDetailModal: React.FC<{
               truncate={250}
             />
           }
-          open={isOpen}
-          onClose={onClose}
         >
           {coinOverview.isLoading ? (
             <div className="flex items-center justify-center p-4">
@@ -70,22 +70,22 @@ const MiniAppPreDetailModal: React.FC<{
                   {tradingViewChartId && (
                     <AdvancedRealTimeChart
                       allow_symbol_change={false}
-                      symbol={tradingViewChartId}
-                      style="1"
-                      interval="60"
-                      hotlist={false}
-                      theme="dark"
-                      height={370}
-                      width="100%"
+                      copyrightStyles={{ parent: { display: 'none' } }}
                       disabled_features={[
                         'timeframes_toolbar',
                         'chart_zoom',
                         'chart_scroll',
                       ]}
+                      height={370}
+                      hide_legend
                       hide_side_toolbar
                       hide_top_toolbar
-                      hide_legend
-                      copyrightStyles={{ parent: { display: 'none' } }}
+                      hotlist={false}
+                      interval="60"
+                      style="1"
+                      symbol={tradingViewChartId}
+                      theme="dark"
+                      width="100%"
                     />
                   )}
                 </div>
@@ -108,30 +108,30 @@ const MiniAppPreDetailModal: React.FC<{
               <div className="flex flex-col items-stretch gap-4">
                 <div className="flex gap-3">
                   <NavLink
+                    className="block basis-1/2"
                     to={getUrl({
                       detail: 'coin',
                       view: 'both',
                       slug,
                     })}
-                    className="block basis-1/2"
                   >
                     <Button
-                      variant="outline"
-                      surface={2}
-                      size="sm"
                       block
                       className="w-full"
+                      size="sm"
+                      surface={2}
+                      variant="outline"
                     >
                       <Icon name={bxSlider} />
                       {t('pre_detail_modal.details')}
                     </Button>
                   </NavLink>
                   <PriceAlertButton
-                    variant="outline"
-                    surface={2}
-                    size="sm"
                     className="basis-1/2"
+                    size="sm"
                     slug={slug}
+                    surface={2}
+                    variant="outline"
                   />
                 </div>
                 <BtnAutoTrade slug={slug} variant="primary" />

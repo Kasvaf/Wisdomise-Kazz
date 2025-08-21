@@ -1,5 +1,5 @@
-import { type Resolution } from 'shared/AdvancedChart/getCandlesCached';
-import { type Coin } from '../types/shared';
+import type { Resolution } from 'shared/AdvancedChart/getCandlesCached';
+import type { Coin } from '../types/shared';
 
 export type PricesExchange = 'BINANCE' | 'STONFI' | 'RAYDIUM';
 
@@ -651,8 +651,8 @@ export interface MacdConfirmation {
 export type IndicatorConfirmation<I extends Indicator> = I extends 'rsi'
   ? RsiConfirmation
   : I extends 'macd'
-  ? MacdConfirmation
-  : IndicatorConfirmationCore;
+    ? MacdConfirmation
+    : IndicatorConfirmationCore;
 
 export type IndicatorDivergenceTypes = Record<
   string,

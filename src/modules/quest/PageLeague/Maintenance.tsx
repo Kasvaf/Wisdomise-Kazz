@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
+import { useNavigate } from 'react-router-dom';
 import { Button } from 'shared/v1-components/Button';
 
 export default function LeagueMaintenance() {
@@ -7,7 +7,7 @@ export default function LeagueMaintenance() {
   return (
     <PageWrapper>
       <div className="m-10 mx-auto max-w-xl flex-col items-center justify-center text-white/70 md:text-justify">
-        <h1 className="mb-10 text-2xl font-medium text-white">
+        <h1 className="mb-10 font-medium text-2xl text-white">
           We’re Upgrading Your Experience
         </h1>
         <p>
@@ -19,8 +19,8 @@ export default function LeagueMaintenance() {
         </p>
         <Button
           className="mt-10"
-          variant="outline"
           onClick={() => navigate('/trader/quests')}
+          variant="outline"
         >
           Back to Earn & Win
         </Button>

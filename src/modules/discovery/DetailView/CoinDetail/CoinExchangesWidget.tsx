@@ -1,14 +1,13 @@
-import { useTranslation } from 'react-i18next';
-import { useMemo, useState } from 'react';
-
+import type { CoinExchange } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type CoinExchange } from 'api/discovery';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { ReadableNumber } from 'shared/ReadableNumber';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
-import { Input } from 'shared/v1-components/Input';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
+import { Input } from 'shared/v1-components/Input';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 export function CoinExchangesWidget({
@@ -40,9 +39,9 @@ export function CoinExchangesWidget({
         render: row => (
           <div className="inline-flex items-center gap-2 text-xs leading-tight">
             <img
-              src={row.exchange.icon_url}
               alt={row.exchange.name}
               className="h-6 w-6 rounded-full bg-white object-scale-down p-1"
+              src={row.exchange.icon_url}
             />
             <p>{row.exchange.name}</p>
           </div>
@@ -53,9 +52,9 @@ export function CoinExchangesWidget({
         sorter: (a, b) => (a.price_in_usd ?? 0) - (b.price_in_usd ?? 0),
         render: row => (
           <ReadableNumber
-            value={row.price_in_usd}
-            label="usdt"
             className="text-xs"
+            label="usdt"
+            value={row.price_in_usd}
           />
         ),
       },
@@ -64,9 +63,9 @@ export function CoinExchangesWidget({
         sorter: (a, b) => (a.volume_24h ?? 0) - (b.volume_24h ?? 0),
         render: row => (
           <ReadableNumber
-            value={row.volume_24h}
-            label="$"
             className="text-xs"
+            label="$"
+            value={row.volume_24h}
           />
         ),
       },
@@ -87,47 +86,47 @@ export function CoinExchangesWidget({
   return (
     <>
       <div
-        id={id}
         className={clsx(
           'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
           className,
         )}
+        id={id}
       >
         <div className="flex items-center justify-between gap-1">
           {title !== false && (
-            <h3 className="text-sm font-semibold">
+            <h3 className="font-semibold text-sm">
               {t('coin-details.tabs.markets.title')}
             </h3>
           )}
           <Input
-            type="string"
-            size="xs"
-            value={query}
+            className="mobile:w-48 w-72 text-sm"
             onChange={setQuery}
-            className="w-72 text-sm mobile:w-48"
-            prefixIcon={<Icon name={bxSearch} />}
             placeholder={t('available-exchanges.search')}
+            prefixIcon={<Icon name={bxSearch} />}
+            size="xs"
             surface={1}
+            type="string"
+            value={query}
           />
         </div>
         <Table
           columns={columns}
           dataSource={data.slice(0, limit)}
-          rowKey={row => row.exchange.id}
-          surface={1}
-          scrollable
           footer={
             typeof limit === 'number' &&
             (data?.length ?? 0) > limit && (
               <Button
-                size="xs"
                 onClick={() => setLimit(undefined)}
+                size="xs"
                 variant="link"
               >
                 {t('common:load-more')}
               </Button>
             )
           }
+          rowKey={row => row.exchange.id}
+          scrollable
+          surface={1}
         />
       </div>
       {hr && <hr className="border-white/10" />}

@@ -1,22 +1,21 @@
-/* eslint-disable import/max-dependencies */
-import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import { bxBell } from 'boxicons-quasar';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import Icon from 'shared/Icon';
-import { type AlertFormStepProps } from 'modules/alert/library/types';
-import { useEditingAlert } from 'modules/alert/library/AlertProvider';
-import { gtmClass } from 'utils/gtmClass';
-import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSelect';
-import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
-import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
-import { isDebugMode } from 'utils/version';
 import { useSubscription } from 'api';
-import { type AlertMessenger } from 'api/alert';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
-import { Button } from 'shared/v1-components/Button';
+import type { AlertMessenger } from 'api/alert';
+import { bxBell } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
+import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSelect';
 import { FormControlWithLabel } from 'modules/alert/components/FormControlWithLabel';
+import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
+import { useEditingAlert } from 'modules/alert/library/AlertProvider';
+import type { AlertFormStepProps } from 'modules/alert/library/types';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
+import Icon from 'shared/Icon';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { Button } from 'shared/v1-components/Button';
+import { gtmClass } from 'utils/gtmClass';
+import { isDebugMode } from 'utils/version';
 
 export function StepOne({
   onSubmit,
@@ -36,12 +35,12 @@ export function StepOne({
 
   const form = useMemo(
     () => ({
-      'data_source': value.data_source ?? 'social_radar',
+      data_source: value.data_source ?? 'social_radar',
       'symbol.categories': JSON.parse(
         (value.conditions?.find(x => x.field_name === 'symbol.categories')
           ?.threshold as string) ?? '[]',
       ),
-      'networks': JSON.parse(
+      networks: JSON.parse(
         (value.conditions?.find(x => x.field_name === 'networks')
           ?.threshold as string) ?? '[]',
       ),
@@ -84,66 +83,62 @@ export function StepOne({
 
   return (
     <form
-      className={clsx('space-y-6 text-sm font-light', className)}
+      className={clsx('space-y-6 font-light text-sm', className)}
       onSubmit={e => {
         e.preventDefault();
         onSubmit();
       }}
     >
-      <>
-        <FormControlWithLabel type="normal" className="w-full">
-          <CoinCategoriesSelect
-            className="w-full"
-            value={form['symbol.categories']}
-            onChange={x => setForm('symbol.categories', x as never)}
-          />
-        </FormControlWithLabel>
-        <FormControlWithLabel type="normal" className="w-full">
-          <NetworkSelect
-            className="w-full"
-            value={form.networks}
-            onChange={x => setForm('networks', x as never)}
-          />
-        </FormControlWithLabel>
-        <FormControlWithLabel type="normal" className="w-full">
-          <AlertChannelsSelect
-            className="w-full"
-            onChange={x => setValue(p => ({ ...p, messengers: x as never }))}
-            value={value.messengers ?? []}
-            channels={[
-              'EMAIL',
-              'TELEGRAM',
-              ...(isDebugMode ? (['WEB_PUSH'] as AlertMessenger[]) : []),
-            ]}
-          />
-        </FormControlWithLabel>
-        <div>
-          {group === 'free' ? (
-            <VipRedirectButton onClick={onClose} label="Upgrade to Set Alert" />
-          ) : (
-            <Button
-              variant="white"
-              className={clsx(
-                'mt-6 w-full grow',
-                gtmClass('submit coin-radar-alert'),
-              )}
-              loading={loading}
-              disabled={
-                value.key ? false : (value.messengers ?? []).length === 0
-              }
-              onClick={e => {
-                if (value.key && (value.messengers?.length ?? 0) < 1) {
-                  e.preventDefault();
-                  onDelete?.();
-                } // else submit the form
-              }}
-            >
-              {t('common.save-alert')}
-              <Icon name={bxBell} className="ms-2" />
-            </Button>
-          )}
-        </div>
-      </>
+      <FormControlWithLabel className="w-full" type="normal">
+        <CoinCategoriesSelect
+          className="w-full"
+          onChange={x => setForm('symbol.categories', x as never)}
+          value={form['symbol.categories']}
+        />
+      </FormControlWithLabel>
+      <FormControlWithLabel className="w-full" type="normal">
+        <NetworkSelect
+          className="w-full"
+          onChange={x => setForm('networks', x as never)}
+          value={form.networks}
+        />
+      </FormControlWithLabel>
+      <FormControlWithLabel className="w-full" type="normal">
+        <AlertChannelsSelect
+          channels={[
+            'EMAIL',
+            'TELEGRAM',
+            ...(isDebugMode ? (['WEB_PUSH'] as AlertMessenger[]) : []),
+          ]}
+          className="w-full"
+          onChange={x => setValue(p => ({ ...p, messengers: x as never }))}
+          value={value.messengers ?? []}
+        />
+      </FormControlWithLabel>
+      <div>
+        {group === 'free' ? (
+          <VipRedirectButton label="Upgrade to Set Alert" onClick={onClose} />
+        ) : (
+          <Button
+            className={clsx(
+              'mt-6 w-full grow',
+              gtmClass('submit coin-radar-alert'),
+            )}
+            disabled={value.key ? false : (value.messengers ?? []).length === 0}
+            loading={loading}
+            onClick={e => {
+              if (value.key && (value.messengers?.length ?? 0) < 1) {
+                e.preventDefault();
+                onDelete?.();
+              } // else submit the form
+            }}
+            variant="white"
+          >
+            {t('common.save-alert')}
+            <Icon className="ms-2" name={bxBell} />
+          </Button>
+        )}
+      </div>
     </form>
   );
 }

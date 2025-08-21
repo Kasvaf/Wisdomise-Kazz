@@ -1,6 +1,6 @@
-import { type FC } from 'react';
 import { useTokenInsight } from 'api/discovery';
 import { NCoinTokenInsight } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight';
+import type { FC } from 'react';
 import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 export const NCoinInsightWidget: FC<{ className?: string; slug: string }> = ({
@@ -15,6 +15,8 @@ export const NCoinInsightWidget: FC<{ className?: string; slug: string }> = ({
   if (!contractAddress) return null;
   return (
     <NCoinTokenInsight
+      className={className}
+      type="card"
       value={{
         boundleHolding: data?.bundlers_holding_percentage,
         devHolding: data?.dev_holding_percentage,
@@ -23,8 +25,6 @@ export const NCoinInsightWidget: FC<{ className?: string; slug: string }> = ({
         snipersHolding: data?.insiders_holding_percentage,
         top10Holding: data?.top_10_holders_holding_percentage,
       }}
-      className={className}
-      type="card"
     />
   );
 };

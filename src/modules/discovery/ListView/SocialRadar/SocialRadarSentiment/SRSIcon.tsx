@@ -1,6 +1,6 @@
-import { type FC } from 'react';
+import type { SocialRadarSentiment } from 'api/discovery';
 import { clsx } from 'clsx';
-import { type SocialRadarSentiment } from 'api/discovery';
+import type { FC } from 'react';
 import Happy from './happy.png';
 import Sad from './sad.png';
 
@@ -9,9 +9,6 @@ export const SRSIcon: FC<{
   className?: string;
 }> = ({ value, className }) => (
   <img
-    width={64}
-    height={64}
-    src={value === 'LONG' ? Happy : value === 'SHORT' ? Sad : Happy}
     className={clsx(
       'object-contain',
       value === 'NEUTRAL' && 'grayscale',
@@ -21,5 +18,8 @@ export const SRSIcon: FC<{
         'opacity-80',
       className,
     )}
+    height={64}
+    src={value === 'LONG' ? Happy : value === 'SHORT' ? Sad : Happy}
+    width={64}
   />
 );

@@ -1,14 +1,14 @@
-import { useMemo, useState } from 'react';
-import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import {
   type CoinTopTraderHolder,
   useCoinTopTraderHolders,
 } from 'api/discovery';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Button } from 'shared/v1-components/Button';
-import { ReadableNumber } from 'shared/ReadableNumber';
+import { clsx } from 'clsx';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { Button } from 'shared/v1-components/Button';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Wallet } from '../WhaleDetail/Wallet';
 
 export function CoinTopTraderHoldersWidget({
@@ -42,11 +42,11 @@ export function CoinTopTraderHoldersWidget({
         sticky: 'start',
         render: row => (
           <Wallet
+            noLink
             wallet={{
               address: row.wallet_address,
               network: row.network,
             }}
-            noLink
             whale={false}
           />
         ),
@@ -56,19 +56,19 @@ export function CoinTopTraderHoldersWidget({
         render: row => (
           <div className="flex flex-col gap-px">
             <ReadableNumber
-              value={row.volume_inflow}
+              className="text-xs"
               label="$"
               popup="never"
-              className="text-xs"
+              value={row.volume_inflow}
             />
             <ReadableNumber
-              value={row.num_inflows}
-              label="TXs"
-              popup="never"
+              className="text-v1-content-secondary text-xxs"
               format={{
                 compactInteger: false,
               }}
-              className="text-xxs text-v1-content-secondary"
+              label="TXs"
+              popup="never"
+              value={row.num_inflows}
             />
           </div>
         ),
@@ -78,19 +78,19 @@ export function CoinTopTraderHoldersWidget({
         render: row => (
           <div className="flex flex-col gap-px">
             <ReadableNumber
-              value={row.volume_outflow}
+              className="text-xs"
               label="$"
               popup="never"
-              className="text-xs"
+              value={row.volume_outflow}
             />
             <ReadableNumber
-              value={row.num_outflows}
-              label="TXs"
-              popup="never"
+              className="text-v1-content-secondary text-xxs"
               format={{
                 compactInteger: false,
               }}
-              className="text-xxs text-v1-content-secondary"
+              label="TXs"
+              popup="never"
+              value={row.num_outflows}
             />
           </div>
         ),
@@ -99,12 +99,12 @@ export function CoinTopTraderHoldersWidget({
         title: 'PnL',
         render: row => (
           <DirectionalNumber
-            value={row.pnl}
+            className="text-xs"
             label="$"
             popup="never"
-            className="text-xs"
-            showSign
             showIcon={false}
+            showSign
+            value={row.pnl}
           />
         ),
       },
@@ -112,12 +112,12 @@ export function CoinTopTraderHoldersWidget({
         title: 'Realized PnL',
         render: row => (
           <DirectionalNumber
-            value={row.realized_pnl}
+            className="text-xs"
             label="$"
             popup="never"
-            className="text-xs"
-            showSign
             showIcon={false}
+            showSign
+            value={row.realized_pnl}
           />
         ),
       },
@@ -125,10 +125,10 @@ export function CoinTopTraderHoldersWidget({
         title: 'Avg Cost',
         render: row => (
           <ReadableNumber
-            value={row.average_buy}
+            className="text-xs"
             label="$"
             popup="never"
-            className="text-xs"
+            value={row.average_buy}
           />
         ),
       },
@@ -138,19 +138,19 @@ export function CoinTopTraderHoldersWidget({
         render: row => (
           <div className="flex flex-col items-start gap-px">
             <ReadableNumber
-              value={row.balance}
+              className="text-xs"
               label="$"
               popup="never"
-              className="text-xs"
+              value={row.balance}
             />
             <DirectionalNumber
-              value={(row.balance - row.balance_first) / (row.balance / 100)}
-              label="%"
-              suffix="(7D)"
-              popup="never"
               className="text-xxs"
+              label="%"
+              popup="never"
               showIcon={false}
               showSign
+              suffix="(7D)"
+              value={(row.balance - row.balance_first) / (row.balance / 100)}
             />
           </div>
         ),
@@ -164,36 +164,36 @@ export function CoinTopTraderHoldersWidget({
   return (
     <>
       <div
-        id={id}
         className={clsx(
           'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
           className,
         )}
+        id={id}
       >
         {title !== false && (
-          <h3 className="text-sm font-semibold">
+          <h3 className="font-semibold text-sm">
             {type === 'holders' ? 'Top Holders' : 'Top Traders'}
           </h3>
         )}
         <Table
-          loading={resp.isLoading}
           columns={columns}
           dataSource={resp.data?.slice?.(0, limit) ?? []}
-          rowKey={row => `${row.wallet_address}${row.network ?? ''}`}
-          surface={1}
-          scrollable
           footer={
             typeof limit === 'number' &&
             (resp.data?.length ?? 0) > limit && (
               <Button
-                size="xs"
                 onClick={() => setLimit(undefined)}
+                size="xs"
                 variant="link"
               >
                 {t('common:load-more')}
               </Button>
             )
           }
+          loading={resp.isLoading}
+          rowKey={row => `${row.wallet_address}${row.network ?? ''}`}
+          scrollable
+          surface={1}
         />
       </div>
       {hr && <hr className="border-white/10" />}

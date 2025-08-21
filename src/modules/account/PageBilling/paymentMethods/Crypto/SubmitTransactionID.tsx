@@ -1,9 +1,9 @@
+import { useSubmitCryptoPayment } from 'api';
+import type { Network } from 'api/types/NetworksResponse';
+import type { SubscriptionPlan } from 'api/types/subscription';
+import { analytics } from 'config/segment';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSubmitCryptoPayment } from 'api';
-import { type Network } from 'api/types/NetworksResponse';
-import { type SubscriptionPlan } from 'api/types/subscription';
-import { analytics } from 'config/segment';
 import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 
@@ -44,17 +44,17 @@ export default function SubmitTransactionID({
       <div className="flex w-full">
         <TextBox
           className="w-full"
+          label={t('crypto-modal.input-hash-id')}
+          onChange={setTransactionId}
           placeholder="Your ID"
           value={transactionId}
-          onChange={setTransactionId}
-          label={t('crypto-modal.input-hash-id')}
         />
       </div>
 
       <Button
-        onClick={onClick}
         disabled={!transactionId}
         loading={submitCryptoPayment.isPending}
+        onClick={onClick}
       >
         {t('crypto-modal.btn-done')}
       </Button>

@@ -1,3 +1,4 @@
+import { bxX } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
   type CSSProperties,
@@ -10,11 +11,10 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { useDebounce } from 'usehooks-ts';
-import { bxX } from 'boxicons-quasar';
-import { type Surface, useSurface } from 'utils/useSurface';
-import useBodyScroll from 'utils/useBodyScroll';
 import Icon from 'shared/Icon';
+import { useDebounce } from 'usehooks-ts';
+import useBodyScroll from 'utils/useBodyScroll';
+import { type Surface, useSurface } from 'utils/useSurface';
 import {
   type ComponentsProvicerContext,
   useComponentsContext,
@@ -69,14 +69,14 @@ const usePopupPosition = (
 
     const preferredTop =
       (calculateBy === 'target'
-        ? anchorRect?.top ?? pointerPosition.top
+        ? (anchorRect?.top ?? pointerPosition.top)
         : pointerPosition.top) +
-      (calculateBy === 'target' ? anchorRect?.height ?? 0 : 0) +
+      (calculateBy === 'target' ? (anchorRect?.height ?? 0) : 0) +
       margin;
     const preferedBottom =
       window.innerHeight -
       (calculateBy === 'target'
-        ? anchorRect?.top ?? pointerPosition.top
+        ? (anchorRect?.top ?? pointerPosition.top)
         : pointerPosition.top) +
       margin;
 
@@ -92,7 +92,7 @@ const usePopupPosition = (
     // Horizontal centering
     let left =
       (calculateBy === 'target'
-        ? anchorRect?.left ?? pointerPosition.left
+        ? (anchorRect?.left ?? pointerPosition.left)
         : pointerPosition.left) +
       (calculateBy === 'target' ? (anchorRect?.width ?? 0) / 2 : 0) -
       popupRect.width / 2;
@@ -215,6 +215,7 @@ export const Dialog: FC<{
     [onClose, onOpen],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (ignoreFocus) return;
     if (isOpen) {
@@ -260,14 +261,11 @@ export const Dialog: FC<{
                 />
               )}
               <div
-                ref={root}
-                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
-                tabIndex={1}
                 className={clsx(
-                  'bg-(--current-color) fixed z-[1000] overflow-auto transition-[translate,opacity] duration-100 ease-in-out scrollbar-thin mobile:duration-300',
+                  'scrollbar-thin fixed z-[1000] overflow-auto bg-(--current-color) transition-[translate,opacity] duration-100 mobile:duration-300 ease-in-out',
                   mode === 'drawer' && [
                     drawerConfig.position === 'bottom' && [
-                      'min-h-32 inset-x-0 bottom-0 h-auto max-h-[90svh] w-full rounded-t-2xl',
+                      'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
                       state ? 'translate-y-0' : 'translate-y-full',
                     ],
                     drawerConfig.position === 'start' && [
@@ -280,29 +278,32 @@ export const Dialog: FC<{
                     ],
                   ],
                   mode === 'modal' && [
-                    'left-1/2 top-1/2 h-auto max-h-[90svh] max-w-[90svw] -translate-x-1/2 -translate-y-1/2 rounded-2xl shadow-2xl',
+                    '-translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-auto max-h-[90svh] max-w-[90svw] rounded-2xl shadow-2xl',
                     state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
                   ],
                   mode === 'popup' && [
                     'max-h-[90svh] max-w-[90svw] rounded-xl shadow-xl',
-                    state ? 'opacity-100' : 'opacity-0 ',
+                    state ? 'opacity-100' : 'opacity-0',
                   ],
                   className,
                 )}
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
+                onClick={e => {
+                  e.stopPropagation();
+                }}
+                ref={root}
                 style={{
                   ...(mode === 'popup' && popupPosition),
                   ['--current-color' as never]: colors.current,
                 }}
-                onClick={e => {
-                  e.stopPropagation();
-                }}
+                tabIndex={1}
               >
-                <div className="bg-(--current-color) sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-gradient-to-b empty:hidden">
+                <div className="sticky top-0 z-10 flex w-full flex-col items-center gap-3 bg-(--current-color) bg-gradient-to-b empty:hidden">
                   {mode === 'drawer' &&
                     drawerConfig.closeButton &&
                     drawerConfig.position === 'bottom' && (
                       <div
-                        className="max-w-12 mt-3 h-[6px] w-full shrink-0 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
+                        className="mt-3 h-[6px] w-full max-w-12 shrink-0 rounded-full bg-white opacity-60 hover:opacity-100 active:opacity-100"
                         onClick={e => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -317,7 +318,7 @@ export const Dialog: FC<{
                       drawerConfig.closeButton)) && (
                     <button
                       className={clsx(
-                        'size-5 absolute end-3 top-3 z-50 flex items-center justify-center rounded-full opacity-60 backdrop-blur backdrop-brightness-75 hover:opacity-100 active:opacity-100',
+                        'absolute end-3 top-3 z-50 flex size-5 items-center justify-center rounded-full opacity-60 backdrop-blur backdrop-brightness-75 hover:opacity-100 active:opacity-100',
                       )}
                       onClick={() => {
                         onCancel?.();
@@ -331,7 +332,7 @@ export const Dialog: FC<{
                 </div>
                 <div className={contentClassName}>{children}</div>
                 {footer && (
-                  <div className="bg-(--current-color) sticky bottom-0 z-10 w-full p-3 empty:hidden">
+                  <div className="sticky bottom-0 z-10 w-full bg-(--current-color) p-3 empty:hidden">
                     {footer}
                   </div>
                 )}

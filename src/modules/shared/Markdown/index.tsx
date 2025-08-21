@@ -1,17 +1,17 @@
+import {
+  BlockTypeSelect,
+  BoldItalicUnderlineToggles,
+  headingsPlugin,
+  imagePlugin,
+  ListsToggle,
+  listsPlugin,
+  MDXEditor,
+  type MDXEditorMethods,
+  type RealmPlugin,
+  toolbarPlugin,
+} from '@mdxeditor/editor';
 import { clsx } from 'clsx';
 import { forwardRef, useEffect, useMemo, useRef } from 'react';
-import {
-  BoldItalicUnderlineToggles,
-  ListsToggle,
-  MDXEditor,
-  toolbarPlugin,
-  listsPlugin,
-  type RealmPlugin,
-  type MDXEditorMethods,
-  headingsPlugin,
-  BlockTypeSelect,
-  imagePlugin,
-} from '@mdxeditor/editor';
 import './style.css';
 
 export const Markdown = forwardRef<
@@ -60,26 +60,26 @@ export const Markdown = forwardRef<
     return (
       <>
         <MDXEditor
-          markdown={value || ''}
-          onChange={newValue => {
-            onChange?.(newValue);
-          }}
-          onBlur={onBlur}
-          plugins={plugins}
-          placeholder={placeholder}
-          readOnly={typeof onChange !== 'function' || disabled}
-          ref={ref}
           className={clsx(
             // eslint-disable-next-line tailwindcss/no-custom-classname
             'wsdm-markdown',
             typeof onChange === 'function' && 'wsdm-markdown-editable',
             className,
           )}
+          markdown={value || ''}
+          onBlur={onBlur}
+          onChange={newValue => {
+            onChange?.(newValue);
+          }}
+          placeholder={placeholder}
+          plugins={plugins}
+          readOnly={typeof onChange !== 'function' || disabled}
+          ref={ref}
         />
         <input
           className="hidden"
-          ref={forwardedRef}
           onFocus={() => ref.current?.focus?.()}
+          ref={forwardedRef}
         />
       </>
     );

@@ -1,26 +1,26 @@
-import { notification } from 'antd';
-import { useTranslation } from 'react-i18next';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
-import { useNavigate } from 'react-router-dom';
-import { unwrapErrorMessage } from 'utils/error';
-import useConfirm from 'shared/useConfirm';
+import { notification } from 'antd';
 import { useLastPriceQuery } from 'api';
-import {
-  useTraderFirePositionMutation,
-  useTraderCancelPositionMutation,
-  useTraderUpdatePositionMutation,
-  type Position,
-  type CreatePositionRequest,
-} from 'api/trader';
 import { useTransferAssetsMutation } from 'api/chains';
-import { useActiveNetwork } from 'modules/base/active-network';
-import useIsMobile from 'utils/useIsMobile';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useActiveWallet } from 'api/chains/wallet';
+import {
+  type CreatePositionRequest,
+  type Position,
+  useTraderCancelPositionMutation,
+  useTraderFirePositionMutation,
+  useTraderUpdatePositionMutation,
+} from 'api/trader';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { type SignalFormState } from './useSignalFormStates';
-import useModalApproval from './useModalApproval';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import useConfirm from 'shared/useConfirm';
+import { unwrapErrorMessage } from 'utils/error';
+import useIsMobile from 'utils/useIsMobile';
 import { parseDur } from './parseDur';
+import useModalApproval from './useModalApproval';
+import type { SignalFormState } from './useSignalFormStates';
 
 interface Props {
   baseSlug: string;
@@ -85,7 +85,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
       network,
       signal: {
         action: 'open',
-        pair_slug: baseSlug + '/' + quote,
+        pair_slug: `${baseSlug}/${quote}`,
         leverage: { value: Number(leverage) || 1 },
         position: {
           type: 'long',

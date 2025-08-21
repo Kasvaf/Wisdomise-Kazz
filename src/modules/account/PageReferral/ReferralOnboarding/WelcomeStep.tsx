@@ -1,19 +1,19 @@
 import logo from 'assets/logo-white.svg';
 import { NavigateButtons } from 'modules/account/PageOnboarding/components/NavigateButtons';
-import users from './images/users.png';
 import handshake from './images/handshake.png';
+import users from './images/users.png';
 
 export default function WelcomeStep({ onNext }: { onNext: () => void }) {
   return (
     <>
       <div className="flex flex-col items-center px-6">
-        <img src={logo} alt="logo" className="w-auto" />
-        <img src={users} alt="users" className="-mt-10 md:h-96" />
-        <h1 className="mb-10 text-4xl font-semibold mobile:text-xl md:-mt-16">
+        <img alt="logo" className="w-auto" src={logo} />
+        <img alt="users" className="-mt-10 md:h-96" src={users} />
+        <h1 className="md:-mt-16 mb-10 font-semibold mobile:text-xl text-4xl">
           Welcome to the Referral Program
         </h1>
-        <div className="flex items-center gap-4 text-xl mobile:text-sm">
-          <img src={handshake} alt="handshake" className="w-12 mobile:w-6" />
+        <div className="flex items-center gap-4 mobile:text-sm text-xl">
+          <img alt="handshake" className="mobile:w-6 w-12" src={handshake} />
           <p className="max-w-xl">
             Earn Rewards by Inviting Your Friends to Join Goatx. It&apos;s
             Simple and Rewarding!
@@ -21,10 +21,10 @@ export default function WelcomeStep({ onNext }: { onNext: () => void }) {
         </div>
       </div>
       <NavigateButtons
-        showPrev={false}
+        className="mt-auto"
         nextText="Next"
         onNext={onNext}
-        className="mt-auto"
+        showPrev={false}
       />
     </>
   );

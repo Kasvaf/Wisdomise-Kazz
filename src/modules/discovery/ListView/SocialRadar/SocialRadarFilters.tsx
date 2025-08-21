@@ -1,8 +1,8 @@
-import { type ComponentProps, type FC } from 'react';
+import type { useSocialRadarCoins } from 'api/discovery';
+import type { ComponentProps, FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CoinLabelSelect } from 'shared/CoinLabelSelect';
-import { type useSocialRadarCoins } from 'api/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
+import { CoinLabelSelect } from 'shared/CoinLabelSelect';
 import { ExchangeSelect } from 'shared/ExchangeSelect';
 import { Filters } from '../Filters';
 import { SOCIAL_RADAR_PRESETS, SOCIAL_RADAR_SORTS } from '../presetFilters';
@@ -17,28 +17,25 @@ export const SocialRadarFilters: FC<
   const { t } = useTranslation('coin-radar');
   return (
     <Filters
-      presets={SOCIAL_RADAR_PRESETS}
-      sorts={SOCIAL_RADAR_SORTS}
       dialog={(state, setState) => (
         <>
           <div className="flex items-center gap-2">
             <p className="block basis-1/3">{t('common:trend_label')}</p>
             <CoinLabelSelect
-              className="grow"
-              value={state.trendLabels}
-              multiple
               allowClear
+              className="grow"
+              multiple
               onChange={trendLabels => setState(p => ({ ...p, trendLabels }))}
               type="trend_labels"
+              value={state.trendLabels}
             />
           </div>
           <div className="flex items-center gap-2">
             <p className="block basis-1/3">{t('common:security_label')}</p>
             <CoinLabelSelect
-              className="grow"
-              value={state.securityLabels}
-              multiple
               allowClear
+              className="grow"
+              multiple
               onChange={securityLabels =>
                 setState(p => ({
                   ...p,
@@ -46,41 +43,44 @@ export const SocialRadarFilters: FC<
                 }))
               }
               type="security_labels"
+              value={state.securityLabels}
             />
           </div>
           <div className="flex items-center gap-2">
             <p className="block shrink-0 basis-1/3">{t('common:category')}</p>
             <CategorySelect
-              className="grow"
-              value={state.categories}
-              multiple
-              filter="social-radar-24-hours"
               allowClear
+              className="grow"
+              filter="social-radar-24-hours"
+              multiple
               onChange={categories => setState(p => ({ ...p, categories }))}
+              value={state.categories}
             />
           </div>
           <div className="flex items-center gap-2">
             <p className="block shrink-0 basis-1/3">{t('common:exchange')}</p>
             <ExchangeSelect
-              className="grow"
-              value={state.exchanges}
-              multiple
-              filter="social-radar-24-hours"
               allowClear
+              className="grow"
+              filter="social-radar-24-hours"
+              multiple
               onChange={exchanges => setState(p => ({ ...p, exchanges }))}
+              value={state.exchanges}
             />
           </div>
           <div className="flex items-center gap-2">
             <p className="block shrink-0 basis-1/3">{t('common:source')}</p>
             <SocialRadarSourceSelect
               className="grow"
-              value={state.sources}
               onChange={sources => setState(p => ({ ...p, sources }))}
+              value={state.sources}
             />
           </div>
         </>
       )}
       excludeKeys={['query']}
+      presets={SOCIAL_RADAR_PRESETS}
+      sorts={SOCIAL_RADAR_SORTS}
       {...props}
     />
   );

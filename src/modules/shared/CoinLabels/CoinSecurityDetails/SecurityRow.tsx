@@ -1,7 +1,7 @@
+import type { NetworkSecurity } from 'api/discovery';
+import { bxChevronDown } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import { bxChevronDown } from 'boxicons-quasar';
-import { type NetworkSecurity } from 'api/discovery';
 import Icon from 'shared/Icon';
 import { securityIcons } from '../icons';
 import { useSecurityRows } from './useSecurityRows';
@@ -46,7 +46,7 @@ export function SecurityRow({
       {rows[field].info && (
         <p
           className={clsx(
-            'text-xxs leading-snug text-v1-content-secondary',
+            'text-v1-content-secondary text-xxs leading-snug',
             !open && 'hidden',
           )}
         >

@@ -5,9 +5,9 @@ import { ReactComponent as SupportIcon } from './support-icon.svg';
 const BtnLiveSupport = () => {
   return (
     <Button
-      variant="outline"
+      className="!px-2 mt-3 mobile:flex hidden w-full whitespace-nowrap"
       onClick={openHubSpot}
-      className="mt-3 hidden w-full whitespace-nowrap !px-2 mobile:flex"
+      variant="outline"
     >
       <SupportIcon />
       Live Support

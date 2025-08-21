@@ -1,7 +1,11 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { forwardRef, isValidElement } from 'react';
-import { type ChangeEventHandler, useCallback } from 'react';
+import {
+  type ChangeEventHandler,
+  forwardRef,
+  isValidElement,
+  useCallback,
+} from 'react';
 
 interface Props {
   label?: string | React.ReactNode;
@@ -61,13 +65,11 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
       <div className="relative">
         <input
-          ref={ref}
-          type={type}
           className={clsx(
             'id-input',
             'flex h-10 w-full rounded-lg',
             'items-center justify-between',
-            'border bg-v1-surface-l3 pl-3 pr-2 outline-none',
+            'border bg-v1-surface-l3 pr-2 pl-3 outline-none',
             error
               ? 'border-error text-v1-content-negative'
               : 'border-transparent',
@@ -75,16 +77,18 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
             suffix && 'pr-[56px]',
             inputClassName,
           )}
-          value={value}
-          onBlur={onBlur}
           disabled={disabled}
-          onKeyDown={onKeyDown}
+          onBlur={onBlur}
           onInput={changeHandler}
+          onKeyDown={onKeyDown}
           placeholder={placeholder}
+          ref={ref}
+          type={type}
+          value={value}
         />
         <div
           className={clsx(
-            'absolute right-0 top-0 flex h-full items-center',
+            'absolute top-0 right-0 flex h-full items-center',
             !isValidElement(suffix) && 'pointer-events-none',
             !noSuffixPad && 'pr-4',
           )}
@@ -94,11 +98,11 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
       </div>
 
       {(hasErrorMessage || hint) && (
-        <div className="ml-5 mt-2">
+        <div className="mt-2 ml-5">
           {hasErrorMessage ? (
-            <div className="text-xs text-v1-content-negative">{error}</div>
+            <div className="text-v1-content-negative text-xs">{error}</div>
           ) : (
-            Boolean(hint) && <div className="text-xs text-white/60">{hint}</div>
+            Boolean(hint) && <div className="text-white/60 text-xs">{hint}</div>
           )}
         </div>
       )}

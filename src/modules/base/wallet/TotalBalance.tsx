@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
-import { clsx } from 'clsx';
 import { useAllWallets } from 'api/chains/wallet';
+import { clsx } from 'clsx';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useEffect, useMemo, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
 
 export default function TotalBalance({ className }: { className?: string }) {
@@ -12,7 +12,7 @@ export default function TotalBalance({ className }: { className?: string }) {
         className,
       )}
     >
-      <span className="text-xs text-white/70">Total Amount</span>
+      <span className="text-white/70 text-xs">Total Amount</span>
       <TotalBalanceHandler />
     </div>
   );

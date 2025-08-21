@@ -1,7 +1,7 @@
 import type React from 'react';
 
 export const roundDown = (number: number, decimals = 2) => {
-  const tens = Math.pow(10, decimals | 0);
+  const tens = 10 ** (decimals | 0);
   return Math.floor(number * tens) / tens;
 };
 
@@ -21,7 +21,7 @@ export function toSignificantDigits(num: number, digits: number): number {
   if (num === 0) return 0; // Handle zero case
 
   const magnitude = Math.floor(Math.log10(Math.abs(num))) + 1;
-  const factor = Math.pow(10, digits - magnitude);
+  const factor = 10 ** (digits - magnitude);
 
   return Math.round(num * factor) / factor;
 }

@@ -1,15 +1,15 @@
 import { bxSearch } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import {
+  type ComponentProps,
+  type FC,
   useEffect,
   useRef,
   useState,
-  type ComponentProps,
-  type FC,
 } from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
-import { clsx } from 'clsx';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
+import { useOnClickOutside } from 'usehooks-ts';
 import { Button } from './v1-components/Button';
 
 export const SearchInput: FC<
@@ -32,18 +32,18 @@ export const SearchInput: FC<
     <span className={clsx('w-auto', className)} ref={el}>
       {expanded ? (
         <Input
-          type="string"
           prefixIcon={<Icon name={bxSearch} />}
+          type="string"
           {...props}
           size={size}
         />
       ) : (
         <Button
-          variant={props.value ? 'primary' : 'ghost'}
-          surface={surface}
-          size={size}
-          onClick={() => setExpanded(true)}
           fab
+          onClick={() => setExpanded(true)}
+          size={size}
+          surface={surface}
+          variant={props.value ? 'primary' : 'ghost'}
         >
           <Icon name={bxSearch} />
         </Button>

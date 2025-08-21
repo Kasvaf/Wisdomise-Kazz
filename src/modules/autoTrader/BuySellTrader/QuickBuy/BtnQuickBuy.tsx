@@ -1,15 +1,15 @@
-import { clsx } from 'clsx';
 import { notification } from 'antd';
-import { Button } from 'shared/v1-components/Button';
+import { useSupportedPairs } from 'api';
+import { useAccountNativeBalance, useMarketSwap } from 'api/chains';
+import type { CoinNetwork } from 'api/discovery';
+import { clsx } from 'clsx';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
   type QuickBuySource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
-import { useAccountNativeBalance, useMarketSwap } from 'api/chains';
-import { useSupportedPairs } from 'api';
-import { type CoinNetwork } from 'api/discovery';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function BtnQuickBuy({
@@ -74,9 +74,8 @@ export default function BtnQuickBuy({
     <Button
       className={clsx(
         className,
-        'disabled:bg-v1-surface-l2 flex items-center !rounded-3xl',
+        '!rounded-3xl flex items-center disabled:bg-v1-surface-l2',
       )}
-      size="xs"
       onClick={async e => {
         e.stopPropagation();
         const isLoggedIn = await ensureAuthenticated();
@@ -84,6 +83,7 @@ export default function BtnQuickBuy({
           void swap();
         }
       }}
+      size="xs"
     >
       <InstantIcon />
       <span className="shrink-0">

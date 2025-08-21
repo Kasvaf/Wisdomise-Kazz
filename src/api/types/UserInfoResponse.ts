@@ -1,4 +1,4 @@
-import { type SubscriptionItem } from './subscription';
+import type { SubscriptionItem } from './subscription';
 
 export interface Account {
   key: string;

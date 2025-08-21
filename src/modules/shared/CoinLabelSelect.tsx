@@ -1,9 +1,9 @@
-import { type ComponentProps } from 'react';
+import { type CoinLabels, useCoinLabels } from 'api/discovery';
 import { clsx } from 'clsx';
+import type { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCoinLabels, type CoinLabels } from 'api/discovery';
-import { Select } from 'shared/v1-components/Select';
 import { CoinLabel } from 'shared/CoinLabels';
+import { Select } from 'shared/v1-components/Select';
 
 export function CoinLabelSelect<M extends boolean>({
   type,
@@ -26,20 +26,20 @@ export function CoinLabelSelect<M extends boolean>({
   return (
     <Select
       loading={options.isLoading}
+      options={options.data?.[type] ?? []}
       render={(val, target) => {
         if (!val) return t('common.all_labels');
         return (
           <CoinLabel
-            value={val}
-            clickable={false}
             className={clsx(
               target === 'value' ? '!bg-transparent !px-0' : '!me-3',
             )}
+            clickable={false}
             size="md"
+            value={val}
           />
         );
       }}
-      options={options.data?.[type] ?? []}
       surface={2}
       {...props}
     />

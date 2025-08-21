@@ -1,13 +1,13 @@
-import { useTranslation } from 'react-i18next';
-import { OverviewWidget } from 'shared/OverviewWidget';
 import {
   type IndicatorHeatmapResolution,
   useIndicatorHeatmap,
 } from 'api/discovery';
-import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { OverviewWidget } from 'shared/OverviewWidget';
 import { usePageState } from 'shared/usePageState';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
 
@@ -26,16 +26,16 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
   return (
     <OverviewWidget
       className={className}
+      contentClassName="!min-h-[450px]"
+      empty={heatmap.data?.length === 0}
+      headerClassName="flex-wrap"
+      loading={heatmap.isLoading}
       title={
         <>
-          <IndicatorIcon value={'rsi'} className="mr-px align-middle" />
+          <IndicatorIcon className="mr-px align-middle" value={'rsi'} />
           {t('common.rsi_heatmap')}
         </>
       }
-      headerClassName="flex-wrap"
-      contentClassName="!min-h-[450px]"
-      loading={heatmap.isLoading}
-      empty={heatmap.data?.length === 0}
     >
       <AccessShield
         mode="children"
@@ -49,13 +49,10 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
         <RsiHeatmapChart
           className="h-full py-2"
           data={heatmap.data ?? []}
-          resolution={pageState.resolution}
           headerActions={
             <ButtonSelect
               className="mobile:w-full"
-              value={pageState.resolution}
               onChange={newRes => setPageState({ resolution: newRes })}
-              size="sm"
               options={[
                 {
                   label: '15m',
@@ -78,8 +75,11 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
                   value: '1d' as const,
                 },
               ]}
+              size="sm"
+              value={pageState.resolution}
             />
           }
+          resolution={pageState.resolution}
         />
       </AccessShield>
     </OverviewWidget>

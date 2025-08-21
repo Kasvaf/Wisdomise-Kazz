@@ -1,7 +1,7 @@
-import { Trans, useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
 import { notification } from 'antd';
 import { useAccountQuery } from 'api';
+import dayjs from 'dayjs';
+import { Trans, useTranslation } from 'react-i18next';
 import useModal from 'shared/useModal';
 import CryptoPaymentModalContent from '../../paymentMethods/Crypto';
 import TokenPaymentModalContent from '../../paymentMethods/Token';
@@ -61,8 +61,8 @@ export default function PendingInvoice() {
       {pendingInvoice && (
         <>
           <Trans
-            ns="billing"
             i18nKey="subscription-details.overview.current-plan.pending-invoice"
+            ns="billing"
           >
             <p>
               You payment status is
@@ -74,8 +74,8 @@ export default function PendingInvoice() {
             </p>
           </Trans>
           <button
+            className="mt-3 w-56 rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] px-8 py-4 font-medium text-white leading-none"
             onClick={payPendingInvoice}
-            className="mt-3 w-56 rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] px-8 py-4 font-medium leading-none text-white"
           >
             {t('subscription-details.overview.current-plan.pay-now')}
           </button>

@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useState, type FC } from 'react';
+import { type FC, useState } from 'react';
 import { ProfileCoverPlaceholder, ProfilePicturePlaceholder } from './assets';
 
 export const ProfilePhoto: FC<{
@@ -19,10 +19,10 @@ export const ProfilePhoto: FC<{
         type === 'avatar' ? 'bg-white' : 'bg-[#161b34]',
         className,
       )}
-      src={trueSrc}
       onErrorCapture={() => {
         setError(true);
       }}
+      src={trueSrc}
     />
   );
 };

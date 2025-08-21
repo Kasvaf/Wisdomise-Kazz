@@ -1,5 +1,5 @@
 import { bxListUl, bxNetworkChart } from 'boxicons-quasar';
-import { type ComponentProps, type FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
@@ -19,9 +19,7 @@ export const TechnicalRadarViewSelect: FC<
   return (
     <ButtonSelect
       {...props}
-      value={value}
       onChange={onChange}
-      surface={props.surface}
       options={[
         {
           label: (
@@ -42,6 +40,8 @@ export const TechnicalRadarViewSelect: FC<
           value: 'chart' as const,
         },
       ]}
+      surface={props.surface}
+      value={value}
     />
   );
 };

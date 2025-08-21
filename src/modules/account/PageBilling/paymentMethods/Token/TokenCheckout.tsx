@@ -1,21 +1,20 @@
-/* eslint-disable import/max-dependencies */
-import { Trans, useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import { useCallback } from 'react';
 import { notification } from 'antd';
-import { useDisconnect } from 'wagmi';
-import { addComma } from 'utils/numbers';
-import Card from 'shared/Card';
-import { type SubscriptionPlan } from 'api/types/subscription';
 import { useSubmitTokenPayment } from 'api';
+import { useLockingRequirementQuery, useLockingStateQuery } from 'api/defi';
+import type { SubscriptionPlan } from 'api/types/subscription';
+import { clsx } from 'clsx';
+import { track } from 'config/segment';
+import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
+import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
 import { useLockWithApprove } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
-import { useLockingRequirementQuery, useLockingStateQuery } from 'api/defi';
-import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
-import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
-import { unwrapErrorMessage } from 'utils/error';
+import { useCallback } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import Card from 'shared/Card';
 import { Button } from 'shared/v1-components/Button';
-import { track } from 'config/segment';
+import { unwrapErrorMessage } from 'utils/error';
+import { addComma } from 'utils/numbers';
+import { useDisconnect } from 'wagmi';
 
 interface Props {
   countdown: number;
@@ -91,18 +90,18 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
       <h3 className="flex w-full items-center justify-between gap-2 text-xl">
         {plan.name}
         <Button
-          size="xs"
           className="ml-auto"
-          variant="outline"
           onClick={() => disconnect()}
+          size="xs"
+          variant="outline"
         >
           Disconnect
         </Button>
         <Button
-          size="xs"
-          variant="outline"
           loading={balanceIsLoading}
           onClick={() => updateBalance()}
+          size="xs"
+          variant="outline"
         >
           {t('token-modal.refresh')}
         </Button>
@@ -117,7 +116,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
             <p className="mt-1 text-xs">Polygon Network</p>
           </div>
         </div>
-        <div className="h-16 w-px border-r border-v1-border-secondary"></div>
+        <div className="h-16 w-px border-v1-border-secondary border-r"></div>
 
         {(lockedBalance ?? 0n) > 0 ? (
           <div className="text-center">
@@ -150,17 +149,18 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           </div>
         )}
       </div>
-      <div className="mt-6 w-72 mobile:w-full">
+      <div className="mt-6 mobile:w-full w-72">
         {canSubscribe ? (
           <Button
+            className="w-full"
             loading={paymentIsPending || lockStateIsFetching}
             onClick={activate}
-            className="w-full"
           >
             Activate Wise Club
           </Button>
         ) : canStake ? (
           <Button
+            className="w-full"
             loading={
               approveIsPending ||
               approveIsWaiting ||
@@ -168,17 +168,16 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
               lockingIsWaiting
             }
             onClick={lock}
-            className="w-full"
           >
             {approveIsPending
               ? 'Waiting for approval signature...'
               : approveIsWaiting
-              ? 'Approval transaction is confirming...'
-              : lockingIsPending
-              ? 'Waiting for staking signature...'
-              : lockingIsWaiting
-              ? 'Staking transaction is confirming...'
-              : 'Stake Now'}
+                ? 'Approval transaction is confirming...'
+                : lockingIsPending
+                  ? 'Waiting for staking signature...'
+                  : lockingIsWaiting
+                    ? 'Staking transaction is confirming...'
+                    : 'Stake Now'}
           </Button>
         ) : (
           <BuyWSDM className="w-full" />

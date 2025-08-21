@@ -1,11 +1,11 @@
+import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxInfoCircle } from 'boxicons-quasar';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import Icon from 'shared/Icon';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 function StatRow({
@@ -24,7 +24,7 @@ function StatRow({
       {label && (
         <div
           className={
-            'text-v1-content-secondary text-xxs inline-flex items-center gap-1 font-normal'
+            'inline-flex items-center gap-1 font-normal text-v1-content-secondary text-xxs'
           }
         >
           {label}{' '}
@@ -37,7 +37,7 @@ function StatRow({
       )}
       <div
         className={clsx(
-          'text-v1-content-primary flex grow items-center justify-end gap-2 text-xs font-normal',
+          'flex grow items-center justify-end gap-2 font-normal text-v1-content-primary text-xs',
           className,
         )}
       >
@@ -77,64 +77,64 @@ export function CoinStatsWidget({
 
   return (
     <div
-      className={clsx('bg-v1-surface-l1 space-y-4 rounded-md p-3', className)}
+      className={clsx('space-y-4 rounded-md bg-v1-surface-l1 p-3', className)}
     >
       <StatRow label={t('coin-details.tabs.coin_stats.volume')}>
         <DirectionalNumber
-          value={data?.marketData.total_volume_change_percentage_24h}
-          suffix=" (24h)"
-          showIcon
-          showSign
-          label="%"
           format={{
             decimalLength: 1,
           }}
+          label="%"
+          showIcon
+          showSign
+          suffix=" (24h)"
+          value={data?.marketData.total_volume_change_percentage_24h}
         />
-        <ReadableNumber value={data?.marketData.total_volume} label="$" />
+        <ReadableNumber label="$" value={data?.marketData.total_volume} />
       </StatRow>
       <StatRow label={t('coin-details.tabs.coin_stats.market_cap')}>
         <DirectionalNumber
-          value={data?.marketData.market_cap_change_percentage_24h}
-          suffix=" (24h)"
+          format={{
+            decimalLength: 1,
+          }}
+          label="%"
           showIcon
           showSign
-          label="%"
-          format={{
-            decimalLength: 1,
-          }}
+          suffix=" (24h)"
+          value={data?.marketData.market_cap_change_percentage_24h}
         />
-        <ReadableNumber value={data?.marketData.market_cap} label="$" />
+        <ReadableNumber label="$" value={data?.marketData.market_cap} />
       </StatRow>
       <StatRow
-        label={t('coin-details.tabs.coin_stats.volume_market_cap')}
         info={t('coin-details.tabs.coin_stats.volume_market_cap_info')}
+        label={t('coin-details.tabs.coin_stats.volume_market_cap')}
       >
         <ReadableNumber
-          value={marketCapPercentage}
-          label="%"
           format={{
             decimalLength: 1,
           }}
+          label="%"
+          value={marketCapPercentage}
         />
       </StatRow>
       <StatRow label={t('coin-details.tabs.coin_stats.fdv')}>
         <ReadableNumber
-          value={data?.marketData.fully_diluted_valuation}
           label="$"
+          value={data?.marketData.fully_diluted_valuation}
         />
       </StatRow>
       <div className="space-y-2">
         <StatRow label={t('coin-details.tabs.coin_stats.circulating_supply')}>
           <ReadableNumber
-            value={data?.marketData.circulating_supply}
             label={data?.symbol.abbreviation}
+            value={data?.marketData.circulating_supply}
           />
         </StatRow>
         <StatRow>
           {typeof circulationPercentage === 'number' && (
-            <div className="bg-v1-background-disabled relative h-1 w-full max-w-full grow overflow-hidden rounded">
+            <div className="relative h-1 w-full max-w-full grow overflow-hidden rounded bg-v1-background-disabled">
               <div
-                className="bg-v1-content-tertiary-inverse absolute left-0 top-0 h-full rounded"
+                className="absolute top-0 left-0 h-full rounded bg-v1-content-tertiary-inverse"
                 style={{
                   width: `${circulationPercentage}%`,
                 }}
@@ -142,20 +142,20 @@ export function CoinStatsWidget({
             </div>
           )}
           <ReadableNumber
-            value={circulationPercentage}
-            label="%"
             className="shrink-0"
-            popup="never"
             format={{
               decimalLength: 1,
             }}
+            label="%"
+            popup="never"
+            value={circulationPercentage}
           />
         </StatRow>
       </div>
       <StatRow label={t('coin-details.tabs.coin_stats.total_supply')}>
         <ReadableNumber
-          value={data?.marketData?.total_supply}
           label={data?.symbol.abbreviation}
+          value={data?.marketData?.total_supply}
         />
       </StatRow>
     </div>

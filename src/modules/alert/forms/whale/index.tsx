@@ -1,5 +1,5 @@
+import type { AlertForm } from 'modules/alert/library/types';
 import { useTranslation } from 'react-i18next';
-import { type AlertForm } from 'modules/alert/library/types';
 import { ReactComponent as WhaleIcon } from './whale.svg';
 
 export const useWhaleAlert = (): AlertForm => {

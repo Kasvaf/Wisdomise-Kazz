@@ -1,10 +1,9 @@
-import { useState, type PropsWithChildren } from 'react';
 import { THEME, TonConnect, TonConnectUIProvider } from '@tonconnect/ui-react';
-
-import { WagmiProvider } from 'wagmi';
-import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
-import { wagmiConfig } from 'config/appKit';
 import { SolanaConnectionProvider } from 'api/chains/connection';
+import { wagmiConfig } from 'config/appKit';
+import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
+import { type PropsWithChildren, useState } from 'react';
+import { WagmiProvider } from 'wagmi';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
 
@@ -18,11 +17,11 @@ const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <TonConnectUIProvider
-      connector={tonConnector}
-      uiPreferences={{ theme: THEME.DARK, borderRadius: 's' }}
       actionsConfiguration={{
         twaReturnUrl: TELEGRAM_BOT_BASE_URL,
       }}
+      connector={tonConnector}
+      uiPreferences={{ theme: THEME.DARK, borderRadius: 's' }}
     >
       <WagmiProvider config={wagmiConfig}>
         <SolanaConnectionProvider>

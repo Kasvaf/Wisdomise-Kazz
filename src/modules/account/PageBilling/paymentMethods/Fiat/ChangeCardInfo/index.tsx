@@ -1,9 +1,9 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useState } from 'react';
 import { useStripeSetupIntentQuery } from 'api';
 import { STRIPE_CLIENT_PUBLIC_KEY } from 'config/constants';
 import PageWrapper from 'modules/base/PageWrapper';
+import { useState } from 'react';
 import ChangeStripeCardInfoForm from './ChangeStripeCardInfoForm';
 
 export default function ChangeStripeCardInfoPage() {
@@ -21,7 +21,6 @@ export default function ChangeStripeCardInfoPage() {
   return (
     <PageWrapper hasBack title={null}>
       <Elements
-        stripe={stripePromise}
         options={{
           fonts: [
             { cssSrc: 'https://fonts.googleapis.com/css?family=Poppins' },
@@ -41,6 +40,7 @@ export default function ChangeStripeCardInfoPage() {
           },
           clientSecret: data.client_secret,
         }}
+        stripe={stripePromise}
       >
         <ChangeStripeCardInfoForm />
       </Elements>

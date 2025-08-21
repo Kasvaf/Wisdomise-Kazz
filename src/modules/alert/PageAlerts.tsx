@@ -1,19 +1,19 @@
-import { useTranslation } from 'react-i18next';
-import { bxBell } from 'boxicons-quasar';
-import { useMemo, useState } from 'react';
 import { type AlertState, useAlerts } from 'api/alert';
+import { bxBell } from 'boxicons-quasar';
 import PageWrapper from 'modules/base/PageWrapper';
-import { PageTitle } from 'shared/PageTitle';
-import Icon from 'shared/Icon';
-import { gtmClass } from 'utils/gtmClass';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import Icon from 'shared/Icon';
+import { PageTitle } from 'shared/PageTitle';
 import { SearchInput } from 'shared/SearchInput';
 import { Button } from 'shared/v1-components/Button';
-import { useAlertActions } from './hooks/useAlertActions';
+import { gtmClass } from 'utils/gtmClass';
 import { AlertEmptyWidget } from './components/AlertEmptyWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
-import { NotificationsAlertsWidget } from './widgets/NotificationsAlertsWidget';
+import { useAlertActions } from './hooks/useAlertActions';
 import { CoinAlertsWidget } from './widgets/CoinAlertsWidget';
+import { NotificationsAlertsWidget } from './widgets/NotificationsAlertsWidget';
 
 export default function AlertsPage() {
   const { t } = useTranslation('alerts');
@@ -75,28 +75,28 @@ export default function AlertsPage() {
 
   return (
     <PageWrapper
-      hasBack
-      title={t('base:menu.alerts.full-title')}
       className="leading-none mobile:leading-normal"
-      loading={alerts.isLoading}
       extension={<CoinExtensionsGroup />}
+      hasBack
+      loading={alerts.isLoading}
+      title={t('base:menu.alerts.full-title')}
     >
       <PageTitle description={t('base:menu.alerts.subtitle')} />
 
       <div className="my-8 flex flex-wrap items-center gap-2">
         <SearchInput
-          value={searchQuery}
           onChange={setSearchQuery}
           placeholder={t('common.search')}
           size="md"
+          value={searchQuery}
         />
-        <AlertStateSelect value={alertState} onChange={setAlertState} />
+        <AlertStateSelect onChange={setAlertState} value={alertState} />
         <div className="grow" />
         <Button
-          onClick={() => alertActions.openSaveModal()}
-          variant="white"
-          size="sm"
           className={gtmClass('set-alert')}
+          onClick={() => alertActions.openSaveModal()}
+          size="sm"
+          variant="white"
         >
           <Icon name={bxBell} size={24} />
           {t('common.set-alert')}

@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next';
 import { useReferralStatusQuery } from 'api';
+import { useTranslation } from 'react-i18next';
 import Badge from 'shared/Badge';
-import MenuItem from './MenuItem';
 import BoxedIcon from './BoxedIcon';
 import { IconReferral } from './icons';
+import MenuItem from './MenuItem';
 
 const MenuItemReferral = () => {
   const { t } = useTranslation('base');

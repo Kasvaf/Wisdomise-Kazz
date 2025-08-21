@@ -14,16 +14,16 @@ const FabButton: React.FC<{
   const navigate = useNavigate();
   return (
     <div
-      onClick={disabled ? undefined : onClick ?? (() => to && navigate(to))}
       className={clsx(
         'rounded-full border border-transparent p-1',
         disabled
           ? 'cursor-not-allowed bg-white/10 text-black/40'
           : alt
-          ? 'cursor-pointer border border-v1-border-secondary text-v1-content-primary hover:border-v1-border-primary'
-          : 'cursor-pointer bg-white text-black hover:bg-white/70',
+            ? 'cursor-pointer border border-v1-border-secondary text-v1-content-primary hover:border-v1-border-primary'
+            : 'cursor-pointer bg-white text-black hover:bg-white/70',
         className,
       )}
+      onClick={disabled ? undefined : (onClick ?? (() => to && navigate(to)))}
     >
       <Icon name={icon} size={size} />
     </div>

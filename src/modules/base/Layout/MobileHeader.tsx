@@ -1,11 +1,11 @@
-import { clsx } from 'clsx';
-import type React from 'react';
-import { type ReactElement, type PropsWithChildren } from 'react';
-import { isMiniApp } from 'utils/version';
 import { ReactComponent as Logo } from 'assets/monogram-white.svg';
+import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
-import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import BtnBack from 'modules/base/BtnBack';
+import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
+import type React from 'react';
+import type { PropsWithChildren, ReactElement } from 'react';
+import { isMiniApp } from 'utils/version';
 import HeaderNav from './HeaderNav';
 import ProfileMenu from './ProfileMenu';
 
@@ -27,7 +27,7 @@ const MobileHeader: React.FC<
       {/* // weird class hides it when there's a button on right */}
       <div className="shrink-0 has-[+div>*]:hidden">
         {title ? (
-          <div className="text-base font-medium">{title}</div>
+          <div className="font-medium text-base">{title}</div>
         ) : (
           <Logo />
         )}

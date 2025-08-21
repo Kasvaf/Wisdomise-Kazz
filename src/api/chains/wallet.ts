@@ -1,8 +1,4 @@
-import {
-  useTonAddress,
-  useTonConnectModal,
-  useTonConnectUI,
-} from '@tonconnect/ui-react';
+import { solana } from '@reown/appkit/networks';
 import {
   useAppKit,
   useAppKitAccount,
@@ -11,13 +7,17 @@ import {
   useDisconnect,
   useWalletInfo,
 } from '@reown/appkit/react';
-import { useCallback, useEffect, useMemo } from 'react';
-import { solana } from '@reown/appkit/networks';
-import { useLocalStorage } from 'usehooks-ts';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { trackClick } from 'config/segment';
+import {
+  useTonAddress,
+  useTonConnectModal,
+  useTonConnectUI,
+} from '@tonconnect/ui-react';
 import { usePromiseOfEffect } from 'api/chains/utils';
 import { useWalletsQuery } from 'api/wallets';
+import { trackClick } from 'config/segment';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 
 export const useConnectedWallet = () => {
   const net = useActiveNetwork();
@@ -44,20 +44,20 @@ export const useConnectedWallet = () => {
       net === 'the-open-network'
         ? tonAddress
         : net === 'solana' || net === 'polygon'
-        ? appKitAddress
-        : undefined,
+          ? appKitAddress
+          : undefined,
     name:
       net === 'the-open-network'
         ? tonConnectUI.wallet?.device.appName
         : net === 'solana' || net === 'polygon'
-        ? appKitWalletInfo.walletInfo?.name
-        : undefined,
+          ? appKitWalletInfo.walletInfo?.name
+          : undefined,
     connected:
       net === 'the-open-network'
         ? tonConnectUI.connected
         : net === 'solana' || net === 'polygon'
-        ? isAppKitConnected && isValidChain
-        : false,
+          ? isAppKitConnected && isValidChain
+          : false,
     icon:
       net === 'solana' || net === 'polygon'
         ? appKitWalletInfo.walletInfo?.icon

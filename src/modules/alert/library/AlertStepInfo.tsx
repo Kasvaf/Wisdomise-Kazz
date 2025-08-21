@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export function AlertStepInfo({
   className,
@@ -11,7 +11,7 @@ export function AlertStepInfo({
   return (
     <p
       className={clsx(
-        'text-center text-xs font-light text-v1-content-secondary',
+        'text-center font-light text-v1-content-secondary text-xs',
         className,
       )}
     >

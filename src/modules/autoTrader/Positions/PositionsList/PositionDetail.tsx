@@ -1,21 +1,20 @@
-/* eslint-disable import/max-dependencies */
+import { initialQuoteDeposit, type Position } from 'api';
+import { useSymbolInfo } from 'api/symbol';
+import { bxHistory } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { bxHistory } from 'boxicons-quasar';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { NavLink } from 'react-router-dom';
-import { initialQuoteDeposit, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import InfoButton from 'shared/InfoButton';
 import NetworkIcon from 'shared/NetworkIcon';
 import PriceChange from 'shared/PriceChange';
-import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
-import { useSymbolInfo } from 'api/symbol';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
-import PositionStatus from './PositionStatus';
 import EditButton from './EditButton';
+import PositionStatus from './PositionStatus';
 import ShareButton from './ShareButton';
 
 const AssetName: React.FC<{ slug: string }> = ({ slug }) => {
@@ -29,7 +28,7 @@ const AssetIcon: React.FC<{ slug: string; className?: string }> = ({
 }) => {
   const { data } = useSymbolInfo(slug);
   if (!data?.logo_url) return null;
-  return <img src={data?.logo_url} className={clsx('size-4', className)} />;
+  return <img className={clsx('size-4', className)} src={data?.logo_url} />;
 };
 
 const PositionDetail: React.FC<{
@@ -48,8 +47,8 @@ const PositionDetail: React.FC<{
       )}
       key={position.key}
     >
-      <div className="flex items-center justify-between max-w-full">
-        <div className="flex items-center gap-1 shrink overflow-auto scrollbar-none">
+      <div className="flex max-w-full items-center justify-between">
+        <div className="scrollbar-none flex shrink items-center gap-1 overflow-auto">
           <span className="text-white/30">#{position.id}</span>
           {!!position.mode && position.mode !== 'buy_and_sell' && (
             <span className="rounded-full bg-white/10 px-2">Swap</span>
@@ -66,9 +65,9 @@ const PositionDetail: React.FC<{
           </NavLink>
           <span className="text-white/30">on</span>
           <NetworkIcon
+            className="text-white/50"
             network={position.network_slug}
             withTitle
-            className="text-white/50"
           />
         </div>
         <PositionActions position={position} />
@@ -78,12 +77,10 @@ const PositionDetail: React.FC<{
         <PositionStatus position={position} />
 
         {position.status === 'CANCELED' && (
-          <>
-            <div className="flex items-center justify-between">
-              <span className="text-v1-content-secondary">Deposit Status</span>
-              <span>{position.deposit_status}</span>
-            </div>
-          </>
+          <div className="flex items-center justify-between">
+            <span className="text-v1-content-secondary">Deposit Status</span>
+            <span>{position.deposit_status}</span>
+          </div>
         )}
 
         {position.entry_time != null && (
@@ -105,7 +102,7 @@ const PositionDetail: React.FC<{
             <span className="text-v1-content-secondary">Initial Deposit</span>
             <span className="flex items-center">
               {initialDeposit} {position.quote_name}
-              <AssetIcon slug={position.quote_slug} className="ml-1" />
+              <AssetIcon className="ml-1" slug={position.quote_slug} />
             </span>
           </div>
         )}
@@ -115,12 +112,12 @@ const PositionDetail: React.FC<{
             .filter(x => !x.is_gas_fee)
             .map(a => (
               <div
-                key={a.asset_slug}
                 className="flex items-center justify-between"
+                key={a.asset_slug}
               >
                 <span className="flex items-center text-v1-content-secondary">
                   Current <AssetName slug={a.asset_slug} />
-                  <AssetIcon slug={a.asset_slug} className="ml-1" />
+                  <AssetIcon className="ml-1" slug={a.asset_slug} />
                 </span>
                 <span>{roundSensible(a.amount)}</span>
               </div>
@@ -131,20 +128,20 @@ const PositionDetail: React.FC<{
             .filter(x => x.is_gas_fee)
             .map(a => (
               <div
-                key={a.asset_slug}
                 className="flex items-center justify-between"
+                key={a.asset_slug}
               >
                 <span className="flex items-center gap-1 text-v1-content-secondary">
                   Gas Reserve
                   <InfoButton
                     size={16}
-                    title="Remaining Gas Fee"
                     text="This gas amount is temporarily held and any unused gas will be refunded when the position is closed."
+                    title="Remaining Gas Fee"
                   />
                 </span>
                 <span className="flex items-center">
                   {roundSensible(a.amount)} <AssetName slug={a.asset_slug} />
-                  <AssetIcon slug={a.asset_slug} className="ml-1" />
+                  <AssetIcon className="ml-1" slug={a.asset_slug} />
                 </span>
               </div>
             ))}
@@ -155,8 +152,8 @@ const PositionDetail: React.FC<{
               P / L
               <InfoButton
                 size={16}
-                title="Profit and Loss"
                 text="P/L represents the ratio of your profits to losses, excluding any gas fees incurred."
+                title="Profit and Loss"
               />
             </span>
             <span>
@@ -182,15 +179,15 @@ const PositionDetail: React.FC<{
                   {roundSensible(position.current_assets?.[0]?.amount)}{' '}
                   {position.current_assets?.[0]?.asset_name}
                   <AssetIcon
-                    slug={position.current_assets?.[0]?.asset_slug}
                     className="ml-1"
+                    slug={position.current_assets?.[0]?.asset_slug}
                   />
                 </span>
               ) : (
                 <span className="flex items-center">
                   {roundSensible(position.final_quote_amount)}{' '}
                   {position.quote_name}
-                  <AssetIcon slug={position.quote_slug} className="ml-1" />
+                  <AssetIcon className="ml-1" slug={position.quote_slug} />
                 </span>
               )}
             </div>
@@ -213,13 +210,13 @@ const PositionDetail: React.FC<{
 
         {position.status !== 'CANCELED' && (
           <Button
-            variant="link"
             className="!p-0 !text-xs text-v1-content-link"
             contentClassName="!text-v1-content-link"
-            to={`/trader/bot/${position.base_slug}/transactions?key=${position.key}`}
             size="small"
+            to={`/trader/bot/${position.base_slug}/transactions?key=${position.key}`}
+            variant="link"
           >
-            <Icon name={bxHistory} size={16} className="mr-1" />
+            <Icon className="mr-1" name={bxHistory} size={16} />
             Transactions History
           </Button>
         )}

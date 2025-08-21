@@ -1,17 +1,17 @@
-import { useDisconnect } from 'wagmi';
-import { type ReactNode, useEffect } from 'react';
+import { useAccountQuery } from 'api';
+import { useActiveWallet } from 'api/chains/wallet';
+import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { clsx } from 'clsx';
+import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
+import { type ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Card from 'shared/Card';
-import { useAccountQuery } from 'api';
-import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
-import { shortenAddress } from 'utils/shortenAddress';
-import { Button } from 'shared/v1-components/Button';
 import Spinner from 'shared/Spinner';
-import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
-import { useActiveWallet } from 'api/chains/wallet';
-import { ReactComponent as Wallet } from '../../images/wallet.svg';
+import { Button } from 'shared/v1-components/Button';
+import { shortenAddress } from 'utils/shortenAddress';
+import { useDisconnect } from 'wagmi';
 import { ReactComponent as Key } from '../../images/key.svg';
+import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import useSignInWithEthereum from './useSiwe';
 
 interface Props {
@@ -64,17 +64,17 @@ export default function ConnectWalletGuard({
     <Card className="flex flex-col items-center gap-12 text-center">
       <Key className="mobile:w-24" />
       <h2 className="w-[17rem] text-lg">{t('connect-wallet.verify-nonce')}</h2>
-      <div className="w-full rounded-xl bg-v1-surface-l4 py-6 text-lg font-semibold text-white/60">
+      <div className="w-full rounded-xl bg-v1-surface-l4 py-6 font-semibold text-lg text-white/60">
         {nonceResponse?.nonce}
       </div>
       <div className="flex flex-wrap gap-4">
         <Button
-          onClick={handleSignAndVerification}
           loading={isPending || isVerifying}
+          onClick={handleSignAndVerification}
         >
           {t('connect-wallet.sign')}
         </Button>
-        <Button variant="outline" onClick={() => disconnect()}>
+        <Button onClick={() => disconnect()} variant="outline">
           {t('connect-wallet.disconnect')}
         </Button>
       </div>
@@ -96,7 +96,7 @@ export default function ConnectWalletGuard({
         </span>
         {shortenAddress(wallet.address)}
       </p>
-      <Button className="mt-3" variant="outline" onClick={() => disconnect()}>
+      <Button className="mt-3" onClick={() => disconnect()} variant="outline">
         {t('connect-wallet.disconnect')}
       </Button>
     </Card>
@@ -106,7 +106,7 @@ export default function ConnectWalletGuard({
     <Card className="flex flex-col items-center gap-12">
       <Wallet className="mobile:w-24" />
       <div className="text-center">
-        <h2 className="mb-8 text-lg font-semibold">{title}</h2>
+        <h2 className="mb-8 font-semibold text-lg">{title}</h2>
         <p className="text-gray-400">{description}</p>
       </div>
       <BtnAppKitWalletConnect network="polygon" size="xl" variant="primary" />

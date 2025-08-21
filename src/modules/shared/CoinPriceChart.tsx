@@ -1,10 +1,9 @@
-import { type ComponentProps, type FC } from 'react';
-import { type EChartsOption } from 'echarts';
-import { useMemo } from 'react';
+import type { CoinSignalAnalysis, WhaleRadarCoin } from 'api/discovery';
 import dayjs from 'dayjs';
-import { formatNumber } from 'utils/numbers';
+import type { EChartsOption } from 'echarts';
+import { type ComponentProps, type FC, useMemo } from 'react';
 import { ECharts } from 'shared/ECharts';
-import { type WhaleRadarCoin, type CoinSignalAnalysis } from 'api/discovery';
+import { formatNumber } from 'utils/numbers';
 
 interface PriceRow {
   value: number;
@@ -139,30 +138,30 @@ export const CoinPriceChart: FC<
                   evt.type === 'whale_buys'
                     ? row.y - (maxY - minY) * 0.22
                     : evt.type === 'whale_sells'
-                    ? row.y + (maxY - minY) * 0.22
-                    : row.y,
+                      ? row.y + (maxY - minY) * 0.22
+                      : row.y,
                 ],
                 value:
                   evt.type === 'whale_buys'
                     ? `${evt.value ?? 0}`
                     : evt.type === 'whale_sells'
-                    ? `${evt.value ?? 0}`
-                    : undefined,
+                      ? `${evt.value ?? 0}`
+                      : undefined,
                 itemStyle: {
                   color:
                     evt.type === 'whale_buys'
                       ? '#00FFA3'
                       : evt.type === 'whale_sells'
-                      ? '#F14056'
-                      : '#EEE',
+                        ? '#F14056'
+                        : '#EEE',
                 },
                 label: {
                   position:
                     evt.type === 'whale_buys'
                       ? 'bottom'
                       : evt.type === 'whale_sells'
-                      ? 'top'
-                      : undefined,
+                        ? 'top'
+                        : undefined,
                 },
               }));
             }),
@@ -180,14 +179,14 @@ export const CoinPriceChart: FC<
         borderColor: 'transparent',
         formatter: p => {
           // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error, @typescript-eslint/ban-ts-comment
-          /* @ts-ignore */
+          /* @ts-expect-error */
           const dataIndex = p?.[0]?.dataIndex;
           if (typeof dataIndex !== 'number') return '';
           const row = extendedValue[dataIndex];
           if (!row) return '';
           let lines = [
             `Date: ${dayjs(row.related_at).format(
-              'MMM D' + (whalesActivity ? '' : ', h:m'),
+              `MMM D${whalesActivity ? '' : ', h:m'}`,
             )}`,
             `Price: $ ${formatNumber(row.value, {
               compactInteger: true,
@@ -234,8 +233,8 @@ export const CoinPriceChart: FC<
 
   return (
     <ECharts
-      key={JSON.stringify(value)}
       height={125}
+      key={JSON.stringify(value)}
       {...props}
       options={chartConfig}
     />

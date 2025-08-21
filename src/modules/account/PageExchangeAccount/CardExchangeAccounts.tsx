@@ -1,9 +1,9 @@
+import { useExchangeAccountsQuery } from 'api';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { useExchangeAccountsQuery } from 'api';
-import Card from 'shared/Card';
 import Badge from 'shared/Badge';
 import Button from 'shared/Button';
+import Card from 'shared/Card';
 import Spinner from 'shared/Spinner';
 import useModalAddExchangeAccount from '../useModalAddExchangeAccount';
 import ButtonExchangeDelete from './ButtonExchangeDelete';
@@ -17,7 +17,7 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
 
   return (
     <Card className={className}>
-      <h2 className="mb-8 text-base font-semibold">
+      <h2 className="mb-8 font-semibold text-base">
         {t('page-accounts.exchanges-title')}
       </h2>
 
@@ -26,22 +26,22 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
       ) : data?.length ? (
         data?.map(acc => (
           <div
-            key={acc.key}
             className={clsx(
               'flex flex-col items-stretch justify-between gap-8 sm:flex-row sm:gap-6',
               'mb-6 rounded-xl bg-black/20 px-6 py-4',
               'max-w-2xl',
             )}
+            key={acc.key}
           >
             <div className="flex grow flex-col">
-              <div className="mb-3 text-xs text-white/60">
+              <div className="mb-3 text-white/60 text-xs">
                 {t('account.name')}
               </div>
               <div className="flex h-full items-center">{acc.title}</div>
             </div>
 
             <div className="flex flex-col sm:basis-[140px]">
-              <div className="mb-3 text-xs text-white/60">
+              <div className="mb-3 text-white/60 text-xs">
                 {t('account.exchange')}
               </div>
               <div className="flex h-full items-center">
@@ -50,14 +50,14 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
             </div>
 
             <div className="flex flex-col sm:basis-[70px]">
-              <div className="mb-3 text-xs text-white/60">
+              <div className="mb-3 text-white/60 text-xs">
                 {t('account.market')}
               </div>
               <div className="flex h-full items-center">{acc.market_name}</div>
             </div>
 
             <div className="flex flex-col sm:basis-[56px]">
-              <div className="mb-3 text-xs text-white/60">
+              <div className="mb-3 text-white/60 text-xs">
                 {t('account.status')}
               </div>
               <div className="flex h-full items-center">
@@ -70,7 +70,7 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
             </div>
 
             <div className="flex flex-col sm:basis-[24px]">
-              <div className="mb-3 text-xs text-white/60 mobile:hidden">
+              <div className="mb-3 mobile:hidden text-white/60 text-xs">
                 &nbsp;
               </div>
               <div className="flex h-full items-center justify-center">
@@ -80,7 +80,7 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
           </div>
         ))
       ) : (
-        <div className="text-sm text-slate-400">
+        <div className="text-slate-400 text-sm">
           {t('page-accounts.empty-description')}
         </div>
       )}

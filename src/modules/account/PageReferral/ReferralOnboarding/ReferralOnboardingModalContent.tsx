@@ -1,8 +1,8 @@
+import { OnboardingView } from 'modules/account/PageOnboarding/components/OnboardingView';
+import HowStep from 'modules/account/PageReferral/ReferralOnboarding/HowStep';
+import WelcomeStep from 'modules/account/PageReferral/ReferralOnboarding/WelcomeStep';
 import { type ComponentProps, useCallback, useMemo, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { OnboardingView } from 'modules/account/PageOnboarding/components/OnboardingView';
-import WelcomeStep from 'modules/account/PageReferral/ReferralOnboarding/WelcomeStep';
-import HowStep from 'modules/account/PageReferral/ReferralOnboarding/HowStep';
 
 export default function ReferralOnboardingModalContent({
   onResolve,
@@ -31,5 +31,5 @@ export default function ReferralOnboardingModalContent({
     [done],
   );
 
-  return <OnboardingView steps={steps} step={step} onChange={setStep} />;
+  return <OnboardingView onChange={setStep} step={step} steps={steps} />;
 }

@@ -1,11 +1,11 @@
-import AmountInputBox from 'shared/AmountInputBox';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPresets';
-import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
+import AmountInputBox from 'shared/AmountInputBox';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
-import { type SwapState } from './useSwapState';
-import MarketField from './MarketField';
+import QuoteSelector from '../PageTrade/AdvancedSignalForm/QuoteSelector';
 import BtnBuySell from './BtnBuySell';
+import MarketField from './MarketField';
+import type { SwapState } from './useSwapState';
 
 const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
@@ -24,37 +24,37 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
   return (
     <div>
       <AmountInputBox
+        className="mb-2"
+        disabled={balanceLoading || !balance}
+        label={<AmountBalanceLabel setAmount={setAmount} slug={quoteSlug} />}
         max={balance || 0}
-        value={amount}
-        onChange={setAmount}
         noSuffixPad
+        onChange={setAmount}
         suffix={
           baseSlug &&
           quoteSlug && (
             <QuoteSelector
               baseSlug={baseSlug}
-              value={quoteSlug}
               onChange={setQuote}
+              value={quoteSlug}
             />
           )
         }
-        label={<AmountBalanceLabel slug={quoteSlug} setAmount={setAmount} />}
-        className="mb-2"
-        disabled={balanceLoading || !balance}
+        value={amount}
       />
 
       <QuoteQuickSet
         className="mb-5"
-        quote={quoteSlug}
         mode={dir}
-        value={amount}
         onClick={newAmount => setAmount(newAmount)}
+        quote={quoteSlug}
+        value={amount}
       />
 
       <MarketField state={state} />
 
       <TraderPresetsSettings mode={dir} />
-      <BtnBuySell state={state} className="mt-6 w-full" />
+      <BtnBuySell className="mt-6 w-full" state={state} />
     </div>
   );
 };

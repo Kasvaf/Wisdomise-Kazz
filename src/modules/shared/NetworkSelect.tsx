@@ -1,7 +1,7 @@
+import { useNetworks } from 'api/discovery';
+import { clsx } from 'clsx';
 import { type ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import { useNetworks } from 'api/discovery';
 import { Select } from 'shared/v1-components/Select';
 
 export function NetworkSelect<M extends boolean>({
@@ -34,13 +34,11 @@ export function NetworkSelect<M extends boolean>({
 
   return (
     <Select
-      loading={options.isLoading}
-      showSearch
-      searchValue={query}
-      onSearch={setQuery}
-      size={size}
       chevron={!iconOnly}
-      className={clsx(className, iconOnly && ['aspect-square !p-0'])}
+      className={clsx(className, iconOnly && ['!p-0 aspect-square'])}
+      loading={options.isLoading}
+      onSearch={setQuery}
+      options={options.data?.map(x => x[valueType]).filter(x => !!x) ?? []}
       render={(val, target) => {
         if (!val) {
           return iconOnly && target === 'value' ? (
@@ -58,22 +56,24 @@ export function NetworkSelect<M extends boolean>({
           return (
             <div className="relative flex size-full items-center justify-center">
               <img
-                src={opt?.icon_url ?? ''}
                 className="relative size-6 overflow-hidden rounded-lg"
+                src={opt?.icon_url ?? ''}
               />
             </div>
           );
         return (
           <div className="flex items-center gap-2">
             <img
-              src={opt?.icon_url ?? ''}
               className="size-5 rounded-full bg-v1-surface-l3"
+              src={opt?.icon_url ?? ''}
             />
             {opt?.name ?? val}
           </div>
         );
       }}
-      options={options.data?.map(x => x[valueType]).filter(x => !!x) ?? []}
+      searchValue={query}
+      showSearch
+      size={size}
       {...props}
     />
   );

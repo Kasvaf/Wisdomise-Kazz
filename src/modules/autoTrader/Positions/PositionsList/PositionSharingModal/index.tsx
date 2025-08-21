@@ -1,12 +1,12 @@
-import { useRef, useState } from 'react';
-import { Toggle } from 'shared/Toggle';
-import { Coin } from 'shared/Coin';
 import { initialQuoteAsset, type Position, useLastPriceQuery } from 'api';
 import { useCoinDetails } from 'api/discovery';
-import PriceChange from 'shared/PriceChange';
 import logo from 'assets/logo-white.svg';
-import SharingModal from 'shared/ShareTools/SharingModal';
+import { useRef, useState } from 'react';
+import { Coin } from 'shared/Coin';
+import PriceChange from 'shared/PriceChange';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
+import SharingModal from 'shared/ShareTools/SharingModal';
+import { Toggle } from 'shared/Toggle';
 import { formatNumber } from 'utils/numbers';
 import autoTrader from './images/auto-trader.png';
 import spaceship from './images/spaceship.png';
@@ -35,21 +35,21 @@ export default function PositionSharingModal({
 
   return (
     <SharingModal
-      open={open}
-      onClose={onClose}
       fileName={position.key}
+      onClose={onClose}
+      open={open}
       screenshotTarget={el}
     >
       <div>
         <div
-          ref={el}
           className="relative mb-2 overflow-hidden rounded-2xl bg-v1-surface-l1 p-5"
+          ref={el}
         >
-          <img src={spaceship} alt="" className="absolute left-0 mt-10 px-10" />
+          <img alt="" className="absolute left-0 mt-10 px-10" src={spaceship} />
           <div className="relative">
             <div className="flex items-center justify-between">
-              <img src={autoTrader} alt="autoTrader" className="h-6" />
-              <img src={logo} alt="logo" className="h-5" />
+              <img alt="autoTrader" className="h-6" src={autoTrader} />
+              <img alt="logo" className="h-5" src={logo} />
             </div>
             <hr className="my-4 border-v1-border-primary/10" />
             <div className="flex flex-col items-start">

@@ -1,9 +1,9 @@
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, type RouteObject } from 'react-router-dom';
-import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Container from '../Container';
-import { type RouteHandle } from './types';
+import type { RouteHandle } from './types';
 
 const PageAccount = React.lazy(() => import('modules/account/PageAccount'));
 const PageRef = React.lazy(() => import('modules/account/PageRef'));
@@ -36,7 +36,7 @@ const useAccountRoutes = () => {
         },
       } satisfies RouteHandle,
       children: [
-        { path: '', element: <Navigate to="/account/overview" replace /> },
+        { path: '', element: <Navigate replace to="/account/overview" /> },
         {
           path: 'overview',
           element: <PageAccount />,

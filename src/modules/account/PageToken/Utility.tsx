@@ -1,10 +1,10 @@
-import dayjs from 'dayjs';
 import { clsx } from 'clsx';
-import useModal from 'shared/useModal';
+import dayjs from 'dayjs';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
-import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
-import { Button } from 'shared/v1-components/Button';
 import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWalletConnected';
+import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
+import useModal from 'shared/useModal';
+import { Button } from 'shared/v1-components/Button';
 import { useUtility } from './web3/locking/useUtility';
 
 export default function Utility() {
@@ -34,46 +34,46 @@ export default function Utility() {
       {utilityStatus === 'locked' ? (
         <div className="flex justify-end">
           {/* todo: check revenue reward */}
-          <Button size="md" variant="negative_outline" onClick={unlock}>
+          <Button onClick={unlock} size="md" variant="negative_outline">
             Unlock & Exit Wise Club
           </Button>
         </div>
       ) : utilityStatus === 'pending_unlock' ? (
         <div className="flex flex-col gap-2">
-          <h3 className="gap-2 text-xl font-semibold">
+          <h3 className="gap-2 font-semibold text-xl">
             {dayjs(withdrawTimestamp * 1000).toNow(true)}{' '}
-            <span className="text-base font-normal">Left</span>
+            <span className="font-normal text-base">Left</span>
           </h3>
-          <p className="text-xs text-v1-inverse-overlay-50">
+          <p className="text-v1-inverse-overlay-50 text-xs">
             {unlockedBalance} WSDM
           </p>
-          <p className="text-xs font-medium text-v1-inverse-overlay-70">
+          <p className="font-medium text-v1-inverse-overlay-70 text-xs">
             Until withdraw
           </p>
         </div>
       ) : utilityStatus === 'pending_withdraw' ? (
         <div>
           <div className="flex flex-col gap-2">
-            <h3 className="gap-2 text-xl font-semibold">Ready to Withdraw</h3>
-            <p className="text-xs text-v1-inverse-overlay-50">
+            <h3 className="gap-2 font-semibold text-xl">Ready to Withdraw</h3>
+            <p className="text-v1-inverse-overlay-50 text-xs">
               {unlockedBalance} WSDM
             </p>
-            <p className="text-xs font-medium text-v1-inverse-overlay-70">
+            <p className="font-medium text-v1-inverse-overlay-70 text-xs">
               Your tokens are unlocked
             </p>
           </div>
           <Button
-            variant="white"
-            size="md"
             className="mt-4"
             loading={isPending || isWaiting}
             onClick={() => withdraw()}
+            size="md"
+            variant="white"
           >
             {isPending
               ? 'Waiting for withdraw signature'
               : isWaiting
-              ? 'Withdraw transaction is confirming'
-              : 'Withdraw'}
+                ? 'Withdraw transaction is confirming'
+                : 'Withdraw'}
           </Button>
         </div>
       ) : null}

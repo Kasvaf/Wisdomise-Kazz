@@ -1,3 +1,13 @@
+import { useAppKitProvider } from '@reown/appkit/react';
+import type { Provider } from '@reown/appkit-adapter-solana/react';
+import {
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountIdempotentInstruction,
+  createTransferInstruction,
+  getAssociatedTokenAddressSync,
+  TOKEN_2022_PROGRAM_ID,
+  TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
 import {
   type AddressLookupTableAccount,
   PublicKey,
@@ -7,24 +17,14 @@ import {
   TransactionMessage,
   VersionedTransaction,
 } from '@solana/web3.js';
-import {
-  ASSOCIATED_TOKEN_PROGRAM_ID,
-  createAssociatedTokenAccountIdempotentInstruction,
-  createTransferInstruction,
-  getAssociatedTokenAddressSync,
-  TOKEN_2022_PROGRAM_ID,
-  TOKEN_PROGRAM_ID,
-} from '@solana/spl-token';
-import { type Provider } from '@reown/appkit-adapter-solana/react';
-import { useAppKitProvider } from '@reown/appkit/react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fromBigMoney, toBigMoney } from 'utils/money';
-import { usePendingPositionInCache } from 'api/trader';
-import { useSymbolInfo } from 'api/symbol';
-import { ofetch } from 'config/ofetch';
-import { useActiveWallet } from 'api/chains/wallet';
 import { useSolanaConnection } from 'api/chains/connection';
 import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
+import { useActiveWallet } from 'api/chains/wallet';
+import { useSymbolInfo } from 'api/symbol';
+import { usePendingPositionInCache } from 'api/trader';
+import { ofetch } from 'config/ofetch';
+import { fromBigMoney, toBigMoney } from 'utils/money';
 import { queryContractSlugs } from './utils';
 
 const useContractInfo = (slug?: string) => {
@@ -358,7 +358,7 @@ export const useSolanaMarketSwap = () => {
     const swap = ofetch<SwapResponse>('/trader/swap', {
       method: 'post',
       body: {
-        pair_slug: base + '/' + quote,
+        pair_slug: `${base}/${quote}`,
         side,
         amount,
         network_slug: 'solana',
@@ -387,8 +387,9 @@ export const useSolanaMarketSwap = () => {
       await Promise.all(
         (lookupTableAddresses || []).map(
           async address =>
-            (await connection.getAddressLookupTable(new PublicKey(address)))
-              .value || null,
+            (
+              await connection.getAddressLookupTable(new PublicKey(address))
+            ).value || null,
         ),
       )
     ).filter((table): table is AddressLookupTableAccount => table != null);
@@ -415,7 +416,7 @@ export const useSolanaMarketSwap = () => {
 
     const signature = await walletProvider.signAndSendTransaction(transaction);
 
-    await ofetch<SwapResponse>('/trader/swap/' + key, {
+    await ofetch<SwapResponse>(`/trader/swap/${key}`, {
       method: 'patch',
       body: { transaction_hash: signature },
     });

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
 export const EmptyContent: FC = () => (

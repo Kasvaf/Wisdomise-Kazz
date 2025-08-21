@@ -1,4 +1,9 @@
+import { useSupportedPairs } from 'api';
+import { useGrpcService } from 'api/grpc-utils';
 import { clsx } from 'clsx';
+import { RouterBaseName } from 'config/constants';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
 import {
   createContext,
   type Dispatch,
@@ -11,17 +16,12 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from 'usehooks-ts';
-import { RouterBaseName } from 'config/constants';
-import { useGrpcService } from 'api/grpc-utils';
 import { formatNumber } from 'utils/numbers';
-import { useSupportedPairs } from 'api';
-import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
-import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
-import { type Timezone } from '../../../../public/charting_library';
+import type { Timezone } from '../../../../public/charting_library';
 import {
-  widget as Widget,
   type IChartingLibraryWidget,
   type ResolutionString,
+  widget as Widget,
 } from './charting_library';
 import makeDataFeed from './makeDataFeed';
 import useCoinPoolInfo from './useCoinPoolInfo';
@@ -72,6 +72,7 @@ const AdvancedChart: React.FC<{
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (isLoading || !data?.network) return;
     const savedResolution = (localStorage.getItem(
@@ -82,8 +83,7 @@ const AdvancedChart: React.FC<{
       symbol: data.symbolName,
       datafeed: makeDataFeed(delphinus, { ...data, isMarketCap, supply }),
       container: chartContainerRef.current,
-      library_path:
-        (RouterBaseName ? '/' + RouterBaseName : '') + '/charting_library/',
+      library_path: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/`,
 
       locale: language as any,
       // enabled_features: ['study_templates'],
@@ -225,7 +225,7 @@ const AdvancedChart: React.FC<{
   ]);
 
   if (isLoading || !data?.network) return null;
-  return <div ref={chartContainerRef} className={clsx(className)} />;
+  return <div className={clsx(className)} ref={chartContainerRef} />;
 };
 
 export default AdvancedChart;

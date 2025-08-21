@@ -1,12 +1,12 @@
-import { clsx } from 'clsx';
-import { type ReactNode, useEffect, useState } from 'react';
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
-import { Button } from 'shared/v1-components/Button';
-import { type Surface } from 'utils/useSurface';
-import { preventNonNumericInput } from 'utils/numbers';
-import Icon from 'shared/Icon';
+import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import SensibleSteps from 'modules/base/wallet/SensibleSteps';
+import { type ReactNode, useEffect, useState } from 'react';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
+import { preventNonNumericInput } from 'utils/numbers';
+import type { Surface } from 'utils/useSurface';
 
 export default function QuoteQuickSet({
   balance,
@@ -52,8 +52,8 @@ export default function QuoteQuickSet({
     <div className={clsx('flex gap-1', className)}>
       {sensible ? (
         <SensibleSteps
-          className="grow"
           balance={balance}
+          className="grow"
           onChange={newAmount => onClick(newAmount)}
         />
       ) : (
@@ -62,29 +62,25 @@ export default function QuoteQuickSet({
             ?.filter((_, index) => showAll || index < 4)
             .map((value, index) => (
               <Button
-                key={index}
-                size="2xs"
-                variant="ghost"
                 className={clsx(
                   btnClassName,
                   isEditMode &&
                     '!border-v1-border-brand !bg-v1-background-brand/10',
                 )}
+                key={index}
                 onClick={() => {
                   if (!isEditMode) {
                     onClick(value);
                   }
                 }}
+                size="2xs"
                 surface={surface}
+                variant="ghost"
               >
                 {isEditMode ? (
                   <input
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    value={value}
                     className="w-full bg-transparent text-center outline-none"
-                    onKeyDown={preventNonNumericInput}
+                    inputMode="numeric"
                     onChange={e => {
                       if (quote && mode) {
                         updateQuotesQuickSet(
@@ -95,6 +91,10 @@ export default function QuoteQuickSet({
                         );
                       }
                     }}
+                    onKeyDown={preventNonNumericInput}
+                    pattern="[0-9]*"
+                    type="text"
+                    value={value}
                   />
                 ) : (
                   value
@@ -107,19 +107,19 @@ export default function QuoteQuickSet({
       {children}
       {hasEditBtn && (
         <Button
-          surface={surface}
-          variant="ghost"
-          size="2xs"
           className="shrink-0"
-          fab
           disabled={sensible}
+          fab
           onClick={() => {
             setIsEditMode(prev => !prev);
           }}
+          size="2xs"
+          surface={surface}
+          variant="ghost"
         >
           <Icon
-            name={isEditMode ? bxCheck : bxEditAlt}
             className="[&>svg]:!size-4"
+            name={isEditMode ? bxCheck : bxEditAlt}
           />
         </Button>
       )}

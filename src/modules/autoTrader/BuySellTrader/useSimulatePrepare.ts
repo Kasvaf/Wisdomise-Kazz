@@ -1,8 +1,8 @@
-import type { SwapState } from 'modules/autoTrader/BuySellTrader/useSwapState';
 import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
-import { useMarketSwapSimulate } from 'api/chains/simulate';
-import { useActiveNetwork } from 'modules/base/active-network';
 import { useAccountNativeBalance } from 'api/chains';
+import { useMarketSwapSimulate } from 'api/chains/simulate';
+import type { SwapState } from 'modules/autoTrader/BuySellTrader/useSwapState';
+import { useActiveNetwork } from 'modules/base/active-network';
 
 const MIN_GAS = {
   TON: 0.1,
@@ -19,7 +19,7 @@ export const useSimulatePrepare = ({
   const { from, base, quote, dir } = formState;
 
   const swapData = {
-    pairSlug: (base.slug ?? '') + '/' + quote.slug,
+    pairSlug: `${base.slug ?? ''}/${quote.slug}`,
     side: dir === 'buy' ? 'LONG' : 'SHORT',
     amount: from.amount,
     network: 'solana',

@@ -1,30 +1,30 @@
+import { useReferralStatusQuery } from 'api';
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
-import { useReferralStatusQuery } from 'api';
-import leaderboard from './users.png';
 import gradient from './gradient.png';
+import leaderboard from './users.png';
 
 const Referral: React.FC<{ className?: string }> = ({ className }) => {
   const { data: referralStatus } = useReferralStatusQuery();
 
   return (
     <NavLink
-      to="/account/referral"
       className={clsx(
         'relative block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 md:h-[13rem]',
         'hover:saturate-200',
         className,
       )}
+      to="/account/referral"
     >
       <img
-        src={gradient}
         alt=""
-        className="absolute left-0 top-0 h-full w-full"
+        className="absolute top-0 left-0 h-full w-full"
+        src={gradient}
       />
       <div className="relative flex h-full flex-col justify-between">
         <div>
-          <h2 className="text-xl font-semibold">Referral</h2>
-          <p className="mb-10 mt-4 max-w-52 text-xs text-v1-content-secondary mobile:mt-2">
+          <h2 className="font-semibold text-xl">Referral</h2>
+          <p className="mobile:mt-2 mt-4 mb-10 max-w-52 text-v1-content-secondary text-xs">
             Refer Friends and Unlock Rewards.
           </p>
         </div>
@@ -33,7 +33,7 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
             <h3 className="mb-2 text-v1-content-secondary">Referrals</h3>
             <p className="text-sm">{referralStatus?.referred_users_count}</p>
           </div>
-          <div className="h-8 border-r border-v1-border-primary/30"></div>
+          <div className="h-8 border-v1-border-primary/30 border-r"></div>
           <div>
             <h3 className="mb-2 text-v1-content-secondary">
               Trade Fees Earned
@@ -42,7 +42,7 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
               ${referralStatus?.referral_trade_revenue.toFixed(2)}
             </p>
           </div>
-          <div className="h-8 border-r border-v1-border-primary/30"></div>
+          <div className="h-8 border-v1-border-primary/30 border-r"></div>
           <div>
             <h3 className="mb-2 text-v1-content-secondary">Wise Club Earned</h3>
             <p className="text-sm">
@@ -52,9 +52,9 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
         </div>
       </div>
       <img
-        src={leaderboard}
         alt=""
-        className="absolute right-0 top-4 -mb-8 size-48 mobile:size-32"
+        className="-mb-8 absolute top-4 right-0 mobile:size-32 size-48"
+        src={leaderboard}
       />
     </NavLink>
   );

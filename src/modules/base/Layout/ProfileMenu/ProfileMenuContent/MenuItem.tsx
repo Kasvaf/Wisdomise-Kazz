@@ -1,9 +1,9 @@
-import { clsx } from 'clsx';
+import { useHasFlag } from 'api';
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { type MouseEventHandler, type PropsWithChildren } from 'react';
+import { clsx } from 'clsx';
+import type { MouseEventHandler, PropsWithChildren } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { useHasFlag } from 'api';
 
 const MenuItem: React.FC<
   PropsWithChildren<{
@@ -34,7 +34,7 @@ const MenuItem: React.FC<
   if (to && !hasFlag(to)) return null;
 
   return to ? (
-    <NavLink {...props} to={to} className={classes}>
+    <NavLink {...props} className={classes} to={to}>
       {content}
     </NavLink>
   ) : href ? (

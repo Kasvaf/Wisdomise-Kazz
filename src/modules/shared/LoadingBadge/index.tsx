@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const LoadingBadge: FC<{
@@ -26,7 +26,7 @@ export const LoadingBadge: FC<{
           animationDuration: '0.5s',
         }}
       />
-      <p className="truncate text-xxs font-medium">{t('updating')}</p>
+      <p className="truncate font-medium text-xxs">{t('updating')}</p>
     </div>
   );
 };

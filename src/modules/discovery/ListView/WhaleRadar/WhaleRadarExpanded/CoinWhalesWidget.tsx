@@ -1,17 +1,16 @@
-import { type FC, useMemo } from 'react';
-
-import { useTranslation } from 'react-i18next';
 import { type CoinWhale, useCoinWhales } from 'api/discovery';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
-import { Network } from 'shared/Network';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { Coin } from 'shared/Coin';
-import { type Coin as CoinType } from 'api/types/shared';
-import { AccessShield } from 'shared/AccessShield';
+import type { Coin as CoinType } from 'api/types/shared';
 import { Wallet } from 'modules/discovery/DetailView/WhaleDetail/Wallet';
+import { type FC, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AccessShield } from 'shared/AccessShield';
+import { Coin } from 'shared/Coin';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { Network } from 'shared/Network';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 export const CoinWhalesWidget: FC<{
   id?: string;
@@ -40,8 +39,8 @@ export const CoinWhalesWidget: FC<{
         title: t('whales_on_coin.badge'),
         render: row => (
           <WhaleAssetBadge
-            value={row.asset.label}
             date={row.asset.last_label_action_datetime}
+            value={row.asset.label}
           />
         ),
       },
@@ -49,30 +48,30 @@ export const CoinWhalesWidget: FC<{
         title: t('whales_on_coin.network'),
         render: row => (
           <Network
+            imageClassName="size-4"
             network={{
               name: row.network_name,
               icon_url: row.network_icon_url,
             }}
-            imageClassName="size-4"
           />
         ),
       },
       {
         title: t('whales_on_coin.balance'),
         render: row => (
-          <ReadableNumber value={row.asset.worth} label="$" popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.asset.worth} />
         ),
       },
       {
         title: t('whales_on_coin.trading_vol'),
         render: row => (
           <ReadableNumber
+            label="$"
+            popup="never"
             value={
               (row.asset.total_recent_sell_amount ?? 0) +
               (row.asset.total_recent_buy_amount ?? 0)
             }
-            label="$"
-            popup="never"
           />
         ),
       },
@@ -80,11 +79,11 @@ export const CoinWhalesWidget: FC<{
         title: t('whales_on_coin.total_pnl'),
         render: row => (
           <DirectionalNumber
-            value={row.asset.pnl}
             direction="auto"
-            showSign
             label="$"
             popup="never"
+            showSign
+            value={row.asset.pnl}
           />
         ),
       },
@@ -92,11 +91,11 @@ export const CoinWhalesWidget: FC<{
         title: t('whales_on_coin.returns'),
         render: row => (
           <DirectionalNumber
-            value={row.asset.pnl_percent}
             direction="auto"
-            showSign
             label="%"
             popup="never"
+            showSign
+            value={row.asset.pnl_percent}
           />
         ),
       },
@@ -110,17 +109,7 @@ export const CoinWhalesWidget: FC<{
 
   return (
     <OverviewWidget
-      id={id}
-      title={
-        <>
-          {type === 'active'
-            ? t('whales_on_coin.active_title')
-            : t('whales_on_coin.holding_title')}
-          <Coin coin={coin} truncate={299} imageClassName="size-6" mini />
-        </>
-      }
       className="max-h-[400px]"
-      subtitle={t('whales_on_coin.description')}
       empty={{
         enabled: isEmpty,
         refreshButton: false,
@@ -130,6 +119,16 @@ export const CoinWhalesWidget: FC<{
             : t('whales_on_coin.holding_empty'),
         subtitle: t('whales_on_coin.empty_subtitle'),
       }}
+      id={id}
+      subtitle={t('whales_on_coin.description')}
+      title={
+        <>
+          {type === 'active'
+            ? t('whales_on_coin.active_title')
+            : t('whales_on_coin.holding_title')}
+          <Coin coin={coin} imageClassName="size-6" mini truncate={299} />
+        </>
+      }
     >
       <AccessShield
         mode="table"
@@ -143,8 +142,8 @@ export const CoinWhalesWidget: FC<{
         <Table
           columns={columns}
           dataSource={whales.data ?? []}
-          rowKey={r => r.holder_address}
           loading={whales.isLoading}
+          rowKey={r => r.holder_address}
         />
       </AccessShield>
     </OverviewWidget>

@@ -1,8 +1,8 @@
+import { useHasFlag } from 'api/feature-flags';
+import { clsx } from 'clsx';
+import { TelegramIcon } from 'modules/account/PageProfile/assets';
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import { useHasFlag } from 'api/feature-flags';
-import { TelegramIcon } from 'modules/account/PageProfile/assets';
 import { Button } from 'shared/v1-components/Button';
 
 const TelegramLogin: React.FC<{
@@ -15,14 +15,14 @@ const TelegramLogin: React.FC<{
 
   return (
     <Button
-      onClick={onClick}
       block
-      variant="white"
-      size="md"
       className={clsx(
-        'w-full !justify-between !text-[13px] font-medium',
+        '!justify-between !text-[13px] w-full font-medium',
         className,
       )}
+      onClick={onClick}
+      size="md"
+      variant="white"
     >
       {t('login.login-by-telegram')}
       <TelegramIcon

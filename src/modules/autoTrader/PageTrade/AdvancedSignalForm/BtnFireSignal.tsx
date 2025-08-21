@@ -1,18 +1,18 @@
 import { notification } from 'antd';
-import { useTranslation } from 'react-i18next';
 import { type Position, useHasFlag } from 'api';
 import { useAccountBalance } from 'api/chains';
+import { useActiveWallet } from 'api/chains/wallet';
+import { useSymbolInfo } from 'api/symbol';
 import { useUserStorage } from 'api/userStorage';
-import { isMiniApp } from 'utils/version';
-import { DebugPin } from 'shared/DebugPin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
-import { useActiveWallet } from 'api/chains/wallet';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useTranslation } from 'react-i18next';
+import { DebugPin } from 'shared/DebugPin';
 import { Button } from 'shared/v1-components/Button';
-import { useSymbolInfo } from 'api/symbol';
+import { isMiniApp } from 'utils/version';
 import useActionHandlers from './useActionHandlers';
-import { type SignalFormState } from './useSignalFormStates';
+import type { SignalFormState } from './useSignalFormStates';
 import { ReactComponent as WarnIcon } from './WarnIcon.svg';
 
 const BtnFireSignal: React.FC<{
@@ -84,17 +84,17 @@ const BtnFireSignal: React.FC<{
       {isUpdate ? (
         <>
           <Button
-            onClick={updateHandler}
-            loading={isSubmitting}
             disabled={!isEnabled}
+            loading={isSubmitting}
+            onClick={updateHandler}
           >
             {t('signal-form.btn-update')}
           </Button>
           <Button
-            variant="negative_outline"
-            onClick={closeHandler}
-            loading={isSubmitting}
             disabled={!isEnabled}
+            loading={isSubmitting}
+            onClick={closeHandler}
+            variant="negative_outline"
           >
             {t('signal-form.btn-close')}
           </Button>
@@ -112,12 +112,12 @@ const BtnFireSignal: React.FC<{
             </Button>
           ) : (
             <Button
-              onClick={fireHandler}
-              loading={isSubmitting}
-              disabled={!isEnabled}
               className={className}
+              disabled={!isEnabled}
+              loading={isSubmitting}
+              onClick={fireHandler}
             >
-              <DebugPin title="/trader/positions" color="orange" />
+              <DebugPin color="orange" title="/trader/positions" />
               {!balanceLoading && quoteBalance != null && !quoteBalance ? (
                 <>
                   <WarnIcon className="mr-2" />
@@ -129,16 +129,16 @@ const BtnFireSignal: React.FC<{
             </Button>
           )
         ) : (
-          <Button onClick={() => wallet.connect()} className={className}>
+          <Button className={className} onClick={() => wallet.connect()}>
             Connect Wallet
           </Button>
         )
       ) : (
         <div>
           <Button
-            loading={userStorage.isLoading}
-            disabled={userStorage.value === 'true'}
             className="w-full"
+            disabled={userStorage.value === 'true'}
+            loading={userStorage.isLoading}
             onClick={() => joinWaitList()}
           >
             {userStorage.value === 'true'

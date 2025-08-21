@@ -1,7 +1,7 @@
-import { type FC } from 'react';
 import { clsx } from 'clsx';
-import Bullish from './bullish.png';
+import type { FC } from 'react';
 import Bearish from './bearish.png';
+import Bullish from './bullish.png';
 import Cheap from './cheap.png';
 import Expensive from './expensive.png';
 
@@ -17,9 +17,9 @@ export const TRSIcon: FC<{
   className?: string;
 }> = ({ value, className }) => (
   <img
-    width={64}
+    className={clsx('object-contain', !value && 'grayscale', className)}
     height={64}
     src={value ? icons[value] : icons.bullish}
-    className={clsx('object-contain', !value && 'grayscale', className)}
+    width={64}
   />
 );

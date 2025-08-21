@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 export default function ScrollToTop() {
   const { pathname } = useLocation();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     window.scrollTo({
       top: 0,

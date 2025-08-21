@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { Navigate, type RouteObject } from 'react-router-dom';
+import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
 import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
 import LeagueMaintenance from 'modules/quest/PageLeague/Maintenance';
-import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
-import Container from '../Container';
+import * as React from 'react';
+import { Navigate, type RouteObject } from 'react-router-dom';
 import { ActiveNetworkProvider } from '../active-network';
-import { type RouteHandle } from './types';
+import Container from '../Container';
+import type { RouteHandle } from './types';
 
 const PageGameReward = React.lazy(
   () => import('modules/autoTrader/PageGameRewards'),
@@ -37,7 +37,7 @@ const useAutoTraderRoutes = () => {
       children: [
         {
           path: '',
-          element: <Navigate to={'/' + qs} replace />,
+          element: <Navigate replace to={`/${qs}`} />,
         },
         {
           path: 'claim-reward',

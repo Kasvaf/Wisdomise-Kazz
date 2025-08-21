@@ -23,13 +23,13 @@ export const WhaleTitleWidget = ({
     <>
       <div>
         <Wallet
+          className="col-span-2 mobile:col-span-6"
+          noLink
           wallet={{
             network: networkName,
             address: holderAddress,
           }}
-          noLink
           whale
-          className="col-span-2 mobile:col-span-6"
         />
         <div className="flex gap-1 ps-10 text-xs">
           <p className="text-v1-content-secondary">{`${networkName} Chain${
@@ -37,11 +37,11 @@ export const WhaleTitleWidget = ({
           }`}</p>
           {hasScanner && (
             <a
+              className="text-v1-content-link underline hover:text-v1-content-link-hover"
               href={whale?.data?.scanner_link?.url}
-              target="_blank"
               referrerPolicy="no-referrer"
               rel="noreferrer"
-              className="text-v1-content-link underline hover:text-v1-content-link-hover"
+              target="_blank"
             >{`${whale?.data?.scanner_link?.name ?? ''} Link`}</a>
           )}
         </div>

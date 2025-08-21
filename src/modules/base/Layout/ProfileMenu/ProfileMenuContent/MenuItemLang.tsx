@@ -1,12 +1,12 @@
+import { bxCheck } from 'boxicons-quasar';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxCheck } from 'boxicons-quasar';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import Spin from 'shared/Spin';
 import Icon from 'shared/Icon';
+import Spin from 'shared/Spin';
 import BoxedIcon from './BoxedIcon';
-import MenuItem from './MenuItem';
 import { IconLanguage } from './icons';
+import MenuItem from './MenuItem';
 
 const langs = [
   { value: 'en', label: 'English' },
@@ -36,19 +36,19 @@ const MenuItemLang = () => {
         <div className="flex flex-col gap-1">
           {langs.map(lng => (
             <a
+              className="!text-v1-content-primary flex cursor-pointer gap-2 rounded-lg px-2 hover:bg-v1-surface-l2"
               key={lng.value}
               onClick={() => changeLang(lng.value)}
-              className="flex cursor-pointer gap-2 rounded-lg px-2 !text-v1-content-primary hover:bg-v1-surface-l2"
             >
               {selected?.value === lng.value ? (
-                <Icon name={bxCheck} className="text-v1-content-positive" />
+                <Icon className="text-v1-content-positive" name={bxCheck} />
               ) : (
                 <div className="size-6" />
               )}
 
               <div>
                 <div className="text-base">{lng.value.toUpperCase()}</div>
-                <div className="-mt-1 text-xxs text-v1-content-primary/80">
+                <div className="-mt-1 text-v1-content-primary/80 text-xxs">
                   {lng.label}
                 </div>
               </div>
@@ -61,9 +61,7 @@ const MenuItemLang = () => {
       <MenuItem className="w-full">
         <BoxedIcon icon={IconLanguage} />
         Language{' '}
-        <span className="text-v1-content-secondary">
-          {selected?.label}
-        </span>{' '}
+        <span className="text-v1-content-secondary">{selected?.label}</span>{' '}
         {loading && <Spin />}
       </MenuItem>
     </ClickableTooltip>

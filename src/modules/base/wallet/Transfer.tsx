@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
 import { notification } from 'antd';
-import { Select } from 'shared/v1-components/Select';
-import { shortenAddress } from 'utils/shortenAddress';
-import { Input } from 'shared/v1-components/Input';
-import { Button } from 'shared/v1-components/Button';
+import { useSymbolsInfo } from 'api/symbol';
 import {
   useWalletsQuery,
   useWalletWithdrawMutation,
   type Wallet,
 } from 'api/wallets';
-import { useSymbolsInfo } from 'api/symbol';
-import SensibleSteps from 'modules/base/wallet/SensibleSteps';
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import SensibleSteps from 'modules/base/wallet/SensibleSteps';
+import { useEffect, useState } from 'react';
+import { Button } from 'shared/v1-components/Button';
+import { Input } from 'shared/v1-components/Input';
+import { Select } from 'shared/v1-components/Select';
+import { shortenAddress } from 'utils/shortenAddress';
 
 export default function Transfer({
   wallet,
@@ -78,65 +78,65 @@ export default function Transfer({
 
       <p className="my-4">From</p>
       <Select
-        surface={2}
         className="!h-16 w-full"
         dialogClassName="w-80"
-        value={fromWallet}
         onChange={newWallet => setFromWallet(newWallet)}
         options={wallets?.results}
         render={wallet => (
           <div>
             <p className="text-sm">{wallet?.name}</p>
-            <p className="text-xs text-v1-content-secondary">
+            <p className="text-v1-content-secondary text-xs">
               {shortenAddress(wallet?.address)}
             </p>
           </div>
         )}
+        surface={2}
+        value={fromWallet}
       />
 
       {walletAssets?.length ? (
         <>
           <Select
-            surface={2}
-            placeholder="Select Asset"
             className="mt-5 w-full"
             dialogClassName="w-80"
-            value={selectedAsset}
             onChange={newAsset => setSelectedAsset(newAsset)}
             options={walletAssets}
+            placeholder="Select Asset"
             render={asset =>
               asset && (
                 <div className="flex items-center justify-between">
                   <span className="text-sm">
                     {assetToSymbol(asset.slug)?.name}
                   </span>
-                  <div className="flex items-center gap-2 text-xs text-v1-content-secondary">
+                  <div className="flex items-center gap-2 text-v1-content-secondary text-xs">
                     <img
+                      alt=""
                       className="size-4"
                       src={assetToSymbol(asset.slug)?.logo_url ?? ''}
-                      alt=""
                     />
                     {asset?.amount}
                   </div>
                 </div>
               )
             }
+            surface={2}
+            value={selectedAsset}
           />
 
           <Input
-            value={amount}
+            className="mt-3 w-full"
             onChange={newAmount => setAmount(String(newAmount))}
             placeholder="Enter Withdrawal Amount"
-            className="mt-3 w-full"
-            surface={2}
             suffixIcon={
               selectedAsset && assetToSymbol(selectedAsset?.slug)?.abbreviation
             }
+            surface={2}
+            value={amount}
           />
 
           <SensibleSteps
-            className="my-2"
             balance={selectedAsset?.amount ?? 0}
+            className="my-2"
             onChange={newAmount => setAmount(newAmount)}
             surface={2}
           />
@@ -151,21 +151,21 @@ export default function Transfer({
         <>
           <p className="mb-4">To</p>
           <Select
-            placeholder="Select Your Destination Wallet"
-            surface={2}
             className="!h-16 w-full"
             dialogClassName="w-80"
-            value={internalToWallet}
             onChange={newWallet => setInternalToWallet(newWallet)}
             options={wallets?.results}
+            placeholder="Select Your Destination Wallet"
             render={wallet => (
               <div>
                 <p className="text-sm">{wallet?.name}</p>
-                <p className="text-xs text-v1-content-secondary">
+                <p className="text-v1-content-secondary text-xs">
                   {shortenAddress(wallet?.address)}
                 </p>
               </div>
             )}
+            surface={2}
+            value={internalToWallet}
           />
           {internalToWallet?.address === fromWallet?.address && (
             <p className="mt-3 text-v1-content-negative">
@@ -175,21 +175,21 @@ export default function Transfer({
         </>
       ) : (
         <Input
-          type="string"
-          pattern="^[1-9A-HJ-NP-Za-km-z]{32,44}$"
-          value={toWallet}
-          onChange={value => setToWallet(value)}
-          placeholder="Type Your Wallet Address"
           className="w-full"
+          onChange={value => setToWallet(value)}
+          pattern="^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+          placeholder="Type Your Wallet Address"
           surface={2}
+          type="string"
+          value={toWallet}
         />
       )}
 
       <Button
-        disabled={!isValid}
-        onClick={withdraw}
-        loading={isPending}
         className="mt-7 w-full"
+        disabled={!isValid}
+        loading={isPending}
+        onClick={withdraw}
       >
         {mode === 'internal_transfer' ? 'Transfer' : 'Withdraw'}
       </Button>

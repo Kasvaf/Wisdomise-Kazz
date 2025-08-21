@@ -1,15 +1,15 @@
-import YouTube from 'react-youtube';
-import { useWindowSize } from 'usehooks-ts';
+import { clsx } from 'clsx';
 import {
   type FC,
+  type MouseEventHandler,
   type ReactNode,
   useState,
-  type MouseEventHandler,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import useIsMobile from 'utils/useIsMobile';
+import YouTube from 'react-youtube';
 import { Dialog } from 'shared/v1-components/Dialog';
+import { useWindowSize } from 'usehooks-ts';
+import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as PlayIcon } from './play.svg';
 
 export const YoutubeVideoButton: FC<{
@@ -28,11 +28,11 @@ export const YoutubeVideoButton: FC<{
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
         className={clsx(
-          'flex items-center gap-[2px] text-xs text-[#00A3FF] hover:underline',
+          'flex items-center gap-[2px] text-[#00A3FF] text-xs hover:underline',
           className,
         )}
+        onClick={() => setOpen(true)}
       >
         {children || (
           <>
@@ -44,17 +44,17 @@ export const YoutubeVideoButton: FC<{
 
       {open && (
         <Dialog
-          open={open}
-          footer={false}
           className="w-max"
+          footer={false}
           mode="modal"
           onClose={() => setOpen(false)}
+          open={open}
         >
           <div
-            className="mt-6 mobile:-mx-6 mobile:-mb-6"
+            className="mobile:-mx-6 mobile:-mb-6 mt-6"
             style={{ width: `${width + (isMobile ? 0 : 48)}px` }}
           >
-            <YouTube videoId={videoId} opts={{ width, height }} />
+            <YouTube opts={{ width, height }} videoId={videoId} />
           </div>
         </Dialog>
       )}

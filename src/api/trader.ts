@@ -1,22 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { OpenOrderResponse, Signal, SignalItem } from 'api/builder';
+import type { WhaleCoin, WhaleCoinsFilter } from 'api/discovery';
+import { ofetch } from 'config/ofetch';
+import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { FetchError } from 'ofetch';
 import { useMemo } from 'react';
-import {
-  type OpenOrderResponse,
-  type SignalItem,
-  type Signal,
-} from 'api/builder';
-import { ofetch } from 'config/ofetch';
 import { uniqueBy } from 'utils/uniqueBy';
-import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
-import { type WhaleCoin, type WhaleCoinsFilter } from 'api/discovery';
-import { type PageResponse } from './types/page';
-import { type Coin } from './types/shared';
+import type { PageResponse } from './types/page';
+import type { Coin } from './types/shared';
 
 const NETWORK_MAIN_EXCHANGE = {
   'the-open-network': 'STONFI',
-  'solana': 'RAYDIUM',
-  'polygon': 'UNKOWN',
+  solana: 'RAYDIUM',
+  polygon: 'UNKOWN',
 } as const;
 
 export type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;

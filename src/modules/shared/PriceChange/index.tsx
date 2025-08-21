@@ -35,15 +35,15 @@ const PriceChange: React.FC<Props> = ({
     !colorize || !color
       ? 'bg-white/5'
       : color === 'green'
-      ? 'bg-[#43D76E0D]'
-      : 'bg-[#F140560D]';
+        ? 'bg-[#43D76E0D]'
+        : 'bg-[#F140560D]';
 
   const textColor =
     !colorize || !color
       ? 'text-v1-content-primary'
       : color === 'green'
-      ? 'text-v1-content-positive'
-      : 'text-v1-content-negative';
+        ? 'text-v1-content-positive'
+        : 'text-v1-content-negative';
 
   return (
     <div
@@ -71,12 +71,12 @@ const PriceChange: React.FC<Props> = ({
       >
         {typeof staticValue === 'number' && (
           <>
-            <ReadableNumber value={staticValue} popup={popup} />
+            <ReadableNumber popup={popup} value={staticValue} />
             {' ('}
           </>
         )}
         <ReadableNumber
-          value={typeof value === 'number' ? Math.abs(value) : undefined}
+          className={numberClassName}
           format={{
             minifyDecimalRepeats: false,
             decimalLength: 2,
@@ -85,7 +85,7 @@ const PriceChange: React.FC<Props> = ({
           }}
           label="%"
           popup={popup}
-          className={numberClassName}
+          value={typeof value === 'number' ? Math.abs(value) : undefined}
         />
         {typeof staticValue === 'number' && ')'}
         {suffix && <span>{suffix}</span>}

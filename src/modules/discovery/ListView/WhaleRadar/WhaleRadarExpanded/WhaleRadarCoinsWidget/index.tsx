@@ -1,24 +1,23 @@
-/* eslint-disable import/max-dependencies */
+import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
+import { clsx } from 'clsx';
+import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
+import { RealtimeBadge } from 'modules/discovery/ListView/RealtimeBadge';
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
-import { Coin } from 'shared/v1-components/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
-import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { type TableColumn, Table } from 'shared/v1-components/Table';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { SearchInput } from 'shared/SearchInput';
 import { usePageState } from 'shared/usePageState';
-import { RealtimeBadge } from 'modules/discovery/ListView/RealtimeBadge';
-import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
-import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import { Coin } from 'shared/v1-components/Coin';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
+import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
-import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 
 export function WhaleRadarCoinsWidget({
   className,
@@ -50,13 +49,13 @@ export function WhaleRadarCoinsWidget({
         render: row => (
           <Coin
             abbreviation={row.symbol.abbreviation}
-            name={row.symbol.name}
-            slug={row.symbol.slug}
-            logo={row.symbol.logo_url}
             categories={row.symbol.categories}
             labels={row.symbol_labels}
+            logo={row.symbol.logo_url}
+            name={row.symbol.name}
             networks={row.networks}
             security={row.symbol_security?.data}
+            slug={row.symbol.slug}
             truncate={false}
           />
         ),
@@ -67,10 +66,10 @@ export function WhaleRadarCoinsWidget({
         width: 130,
         render: row => (
           <WhaleRadarSentiment
-            value={row}
             coin={row.symbol}
             marketData={row.data}
             mode="default"
+            value={row}
           />
         ),
       },
@@ -88,13 +87,13 @@ export function WhaleRadarCoinsWidget({
         title: t('top_coins.buy_volume.title'),
         info: t('top_coins.buy_volume.info'),
         width: 170,
-        render: row => <WhaleCoinBuySellInfo value={row} type="buy" />,
+        render: row => <WhaleCoinBuySellInfo type="buy" value={row} />,
       },
       {
         title: t('top_coins.sell_volume.title'),
         info: t('top_coins.sell_volume.info'),
         width: 170,
-        render: row => <WhaleCoinBuySellInfo value={row} type="sell" />,
+        render: row => <WhaleCoinBuySellInfo type="sell" value={row} />,
       },
     ],
     [t],
@@ -102,7 +101,25 @@ export function WhaleRadarCoinsWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[610px] shrink-0 mobile:min-h-[670px]', className)}
+      className={clsx('min-h-[610px] mobile:min-h-[670px] shrink-0', className)}
+      empty={coins.data?.length === 0}
+      headerActions={
+        headerActions || (
+          <div className="flex gap-2">
+            <QuickBuySettings showWallet source="whale_radar" />
+            <div className="flex mobile:w-full grow items-center justify-end mobile:justify-between gap-4">
+              <SearchInput
+                className="w-64 mobile:grow"
+                onChange={query => setPageState(p => ({ ...p, query }))}
+                placeholder={t('coin-radar:common.search_coin')}
+                size="xs"
+                value={pageState.query}
+              />
+            </div>
+          </div>
+        )
+      }
+      headerClassName="flex-wrap"
       title={
         <>
           <WhaleRadarIcon className="size-6" />
@@ -110,32 +127,14 @@ export function WhaleRadarCoinsWidget({
         </>
       }
       titleSuffix={<RealtimeBadge />}
-      empty={coins.data?.length === 0}
-      headerClassName="flex-wrap"
-      headerActions={
-        headerActions || (
-          <div className="flex gap-2">
-            <QuickBuySettings source="whale_radar" showWallet />
-            <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
-              <SearchInput
-                value={pageState.query}
-                onChange={query => setPageState(p => ({ ...p, query }))}
-                placeholder={t('coin-radar:common.search_coin')}
-                className="w-64 mobile:grow"
-                size="xs"
-              />
-            </div>
-          </div>
-        )
-      }
     >
       <WhaleRadarFilters
-        value={pageState}
+        className="mb-4 w-full"
         onChange={newState =>
           setPageState({ query: pageState.query, ...newState })
         }
-        className="mb-4 w-full"
         surface={2}
+        value={pageState}
       />
       <AccessShield
         mode="table"
@@ -147,19 +146,19 @@ export function WhaleRadarCoinsWidget({
         }}
       >
         <Table
-          columns={columns}
-          loading={coins.isLoading}
-          dataSource={coins.data ?? []}
           className="max-h-[470px]"
-          rowKey={r => r.symbol.slug}
-          scrollable
+          columns={columns}
+          dataSource={coins.data ?? []}
+          loading={coins.isLoading}
           rowHoverSuffix={row => (
             <BtnQuickBuy
-              source="whale_radar"
-              slug={row.symbol.slug}
               networks={row.networks}
+              slug={row.symbol.slug}
+              source="whale_radar"
             />
           )}
+          rowKey={r => r.symbol.slug}
+          scrollable
         />
       </AccessShield>
     </OverviewWidget>

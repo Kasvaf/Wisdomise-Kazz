@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type FC, type ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 export const TableRank: FC<{
   highlighted?: boolean;
@@ -10,13 +10,13 @@ export const TableRank: FC<{
       <>
         <div
           className={clsx(
-            'absolute left-0 top-0 h-full w-full opacity-15 mobile:opacity-30',
+            'absolute top-0 left-0 h-full w-full mobile:opacity-30 opacity-15',
             'bg-gradient-to-r from-[#f587ff] via-[#116697b4] to-transparent blur-sm',
           )}
         />
         <div
           className={clsx(
-            'absolute left-0 top-0 h-full w-1 opacity-90 mobile:w-[3px]',
+            'absolute top-0 left-0 h-full mobile:w-[3px] w-1 opacity-90',
             'bg-brand-gradient-vertical',
           )}
         />

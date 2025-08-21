@@ -1,17 +1,17 @@
-import { clsx } from 'clsx';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
-import PositionsList from 'modules/autoTrader/Positions/PositionsList';
-import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import { ActiveNetworkProvider } from 'modules/base/active-network';
-import Button from 'shared/Button';
-import useIsMobile from 'utils/useIsMobile';
-import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
 import { useActiveWallet } from 'api/chains/wallet';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { clsx } from 'clsx';
+import { CoinSelect } from 'modules/alert/components/CoinSelect';
+import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
+import PositionsList from 'modules/autoTrader/Positions/PositionsList';
 import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPair';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'shared/Button';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import useIsMobile from 'utils/useIsMobile';
 
 const PositionsExpandable = ({
   expanded,
@@ -41,39 +41,39 @@ const PositionsExpandable = ({
     <div className={className}>
       <div className="mb-4 flex flex-row-reverse flex-wrap justify-between gap-4">
         <ButtonSelect
+          className={clsx(!expanded && '!w-full', 'mobile:w-full w-60')}
+          onChange={setFilter}
           options={[
             { value: 'active', label: 'Active' },
             { value: 'history', label: 'History' },
           ]}
-          value={filter}
-          onChange={setFilter}
-          className={clsx(!expanded && '!w-full', 'w-60 mobile:w-full')}
           size="sm"
           surface={1}
+          value={filter}
         />
 
         <CoinSelect
-          className={clsx(!expanded && '!w-full', 'w-80 mobile:w-full')}
-          filterTokens={x => x !== 'tether'}
-          value={slug}
-          showPrice
-          onChange={setSlug}
+          className={clsx(!expanded && '!w-full', 'mobile:w-full w-80')}
           emptyOption="All Tradable Coins & Tokens"
+          filterTokens={x => x !== 'tether'}
           mini={false}
+          onChange={setSlug}
+          showPrice
           tradableCoinsOnly
+          value={slug}
         />
       </div>
 
       <PositionsList
-        slug={slug}
-        isOpen={filter === 'active'}
         grid={!isMobile && expanded}
+        isOpen={filter === 'active'}
+        slug={slug}
       />
 
       {filter === 'active' && slug && (
         <div
           className={clsx(
-            isMobile ? 'fixed end-4 start-4 z-50' : 'mt-6 flex justify-center',
+            isMobile ? 'fixed start-4 end-4 z-50' : 'mt-6 flex justify-center',
             isMobile && 'bottom-20',
           )}
         >
@@ -81,7 +81,6 @@ const PositionsExpandable = ({
             {TraderDrawer}
           </ActiveNetworkProvider>
           <Button
-            variant="brand"
             className={clsx('block', isMobile ? 'w-full' : 'w-80')}
             onClick={async () => {
               if (wallet.connected || (await wallet.connect())) {
@@ -92,6 +91,7 @@ const PositionsExpandable = ({
                 }
               }
             }}
+            variant="brand"
           >
             Start Trading
           </Button>

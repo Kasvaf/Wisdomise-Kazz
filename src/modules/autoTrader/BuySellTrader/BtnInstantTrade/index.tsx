@@ -1,4 +1,7 @@
-import Draggable, { type ControlPosition } from 'react-draggable';
+import { notification } from 'antd';
+import { useHasFlag, useLastPriceQuery } from 'api';
+import { useAccountBalance, useMarketSwap } from 'api/chains';
+import { useActiveWallet } from 'api/chains/wallet';
 import {
   bxCheck,
   bxChevronDown,
@@ -6,30 +9,26 @@ import {
   bxEditAlt,
   bxX,
 } from 'boxicons-quasar';
-import { useState } from 'react';
 import { clsx } from 'clsx';
-import { notification } from 'antd';
-import { useLocalStorage } from 'usehooks-ts';
-import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
-import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
+import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
-import { useActiveWallet } from 'api/chains/wallet';
-import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
-import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
-import { useAccountBalance, useMarketSwap } from 'api/chains';
-import { useHasFlag, useLastPriceQuery } from 'api';
 import {
   TraderPresetsSelector,
   TraderPresetValues,
 } from 'modules/autoTrader/BuySellTrader/TraderPresets';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
-import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
-import { ReactComponent as InstantIcon } from './instant.svg';
-// eslint-disable-next-line import/max-dependencies
+import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
+import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
+import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
+import { useState } from 'react';
+import Draggable, { type ControlPosition } from 'react-draggable';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
+import { useLocalStorage } from 'usehooks-ts';
 import { ReactComponent as DragIcon } from './drag.svg';
+import { ReactComponent as InstantIcon } from './instant.svg';
 
 export default function BtnInstantTrade({
   slug,
@@ -134,47 +133,47 @@ export default function BtnInstantTrade({
       <div className="relative mobile:hidden">
         {maskIsOpen && <div className="fixed inset-0 z-30" />}
         <Draggable
-          handle="#instant-trade-drag-handle"
+          bounds="body"
           cancel="button"
           defaultClassName={isOpen ? 'border border-white/10' : 'hidden'}
           defaultClassNameDragging="opacity-60 !border-v1-border-primary"
           defaultPosition={position}
+          handle="#instant-trade-drag-handle"
           onStart={() => setMaskIsOpen(true)}
           onStop={(_, data) => {
             setPosition({ x: data.x, y: data.y });
             setMaskIsOpen(false);
           }}
-          bounds="body"
         >
-          <div className="fixed left-0 top-0 z-50 m-4 w-[20rem] rounded-xl bg-v1-surface-l1 text-xs">
+          <div className="fixed top-0 left-0 z-50 m-4 w-[20rem] rounded-xl bg-v1-surface-l1 text-xs">
             <div
               className="relative min-h-max overflow-hidden rounded-xl"
               style={{ height }}
             >
               <div
+                className="relative flex cursor-move items-center border-white/5 border-b p-3"
                 id="instant-trade-drag-handle"
-                className="relative flex cursor-move items-center border-b border-white/5 p-3"
               >
-                <DragIcon className="absolute left-1/2 top-1 size-3 -translate-x-1/2 cursor-move" />
-                <TraderPresetsSelector surface={2} source="terminal" />
+                <DragIcon className="-translate-x-1/2 absolute top-1 left-1/2 size-3 cursor-move" />
+                <TraderPresetsSelector source="terminal" surface={2} />
                 <Button
-                  size="2xs"
-                  variant="ghost"
-                  className="ml-auto !px-2"
-                  surface={1}
+                  className="!px-2 ml-auto"
                   onClick={() => {
                     setIsEditMode(prev => !prev);
                   }}
+                  size="2xs"
+                  surface={1}
+                  variant="ghost"
                 >
                   <Icon name={isEditMode ? bxCheck : bxEditAlt} size={20} />
                 </Button>
                 <BtnSolanaWallets className="!px-2" size="2xs" />
                 <Button
-                  variant="ghost"
-                  size="2xs"
                   className="!px-2 text-v1-content-secondary"
-                  surface={1}
                   onClick={() => setIsOpen(!isOpen)}
+                  size="2xs"
+                  surface={1}
+                  variant="ghost"
                 >
                   <Icon name={bxX} />
                 </Button>
@@ -186,29 +185,29 @@ export default function BtnInstantTrade({
                     <AccountBalance slug={quote} />
                   </div>
                   <QuoteQuickSet
-                    mode="buy"
-                    enableEdit={isEditMode}
-                    hasEditBtn={false}
-                    quote={quote}
                     btnClassName={clsx(
                       '!border-[0.5px]',
                       !isEditMode &&
                         '!border-v1-border-positive !text-v1-content-positive enabled:hover:!bg-v1-background-positive-subtle/40',
                     )}
                     className="mb-1"
+                    enableEdit={isEditMode}
+                    hasEditBtn={false}
+                    mode="buy"
                     onClick={value => swap(value, 'LONG')}
-                    surface={1}
+                    quote={quote}
                     showAll={height === maxHeight}
+                    surface={1}
                   />
                   <div className="flex items-center">
                     <TraderPresetValues mode="buy" />
                     <span className="ml-auto text-white/70">Pay:</span>
                     <QuoteSelector
-                      className="-mr-3"
                       baseSlug={slug}
-                      value={quote}
+                      className="-mr-3"
                       onChange={setQuote}
                       size="xs"
+                      value={quote}
                     />
                   </div>
                   <hr className="my-3 border-white/5" />
@@ -216,48 +215,48 @@ export default function BtnInstantTrade({
                     <div className="flex items-center gap-1">
                       Sell
                       <AmountTypeSwitch
-                        surface={1}
-                        showIcon
-                        quote={quote}
-                        value={sellAmountType}
                         onChange={newType => {
                           setSellAmountType(newType);
                         }}
+                        quote={quote}
+                        showIcon
+                        surface={1}
+                        value={sellAmountType}
                       />
                     </div>
-                    <AccountBalance slug={slug} quote={quote} />
+                    <AccountBalance quote={quote} slug={slug} />
                   </div>
                   <QuoteQuickSet
-                    mode={
-                      sellAmountType === 'percentage'
-                        ? 'sell_percentage'
-                        : 'sell'
-                    }
-                    quote={quote}
-                    enableEdit={isEditMode}
-                    hasEditBtn={false}
-                    className="mb-1"
                     balance={baseBalance}
                     btnClassName={clsx(
                       '!border-[0.5px]',
                       !isEditMode &&
                         '!border-v1-border-negative !text-v1-content-negative enabled:hover:!bg-v1-background-negative-subtle/40',
                     )}
+                    className="mb-1"
+                    enableEdit={isEditMode}
+                    hasEditBtn={false}
+                    mode={
+                      sellAmountType === 'percentage'
+                        ? 'sell_percentage'
+                        : 'sell'
+                    }
                     onClick={amount => swap(amount, 'SHORT')}
-                    surface={1}
+                    quote={quote}
                     showAll={height === maxHeight}
+                    surface={1}
                   />
                   <div className="flex items-center">
                     <TraderPresetValues mode="sell" />
-                    <span className="ml-auto text-xs text-white/70">
+                    <span className="ml-auto text-white/70 text-xs">
                       Receive:
                     </span>
                     <QuoteSelector
-                      className="-mr-3"
                       baseSlug={slug}
-                      value={quote}
+                      className="-mr-3"
                       onChange={setQuote}
                       size="xs"
+                      value={quote}
                     />
                   </div>
                 </div>
@@ -268,8 +267,8 @@ export default function BtnInstantTrade({
                     trade
                   </p>
                   <BtnAppKitWalletConnect
-                    network="solana"
                     className="mt-3 w-full"
+                    network="solana"
                   />
                 </div>
               )}
@@ -287,14 +286,14 @@ export default function BtnInstantTrade({
         </Draggable>
       </div>
       <Button
-        variant="outline"
-        size="xs"
         className={clsx(
           '!border-v1-border-brand !bg-transparent !text-v1-content-brand mobile:hidden',
           isOpen && '!bg-v1-background-hover',
           className,
         )}
         onClick={() => setIsOpen(!isOpen)}
+        size="xs"
+        variant="outline"
       >
         <InstantIcon />
         Instant Trade

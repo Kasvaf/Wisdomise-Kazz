@@ -1,8 +1,8 @@
-import { Select, Spin, type SelectProps } from 'antd';
-import { type FC } from 'react';
-import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
+import { Select, type SelectProps, Spin } from 'antd';
 import { useNetworks } from 'api/discovery';
+import { clsx } from 'clsx';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const NetworkSelect: FC<SelectProps<string[]>> = ({
   value,
@@ -16,30 +16,26 @@ export const NetworkSelect: FC<SelectProps<string[]>> = ({
 
   return (
     <Select
+      allowClear={false}
+      autoClearSearchValue
       className={clsx(
         '[&_.ant-select-selector]:!min-w-44 [&_.ant-select-selector]:!pl-4 [&_.ant-select-selector]:!text-sm',
         '[&_.ant-select-selection-placeholder]:!text-white/60',
         '[&_.ant-select-selection-item]:bg-white/5',
         className,
       )}
-      value={value}
-      showSearch
-      autoClearSearchValue
-      maxTagCount={2}
-      showArrow={!disabled}
       disabled={disabled}
       filterOption={true}
-      allowClear={false}
-      mode="multiple"
       loading={networks.isLoading}
+      maxTagCount={2}
+      mode="multiple"
       notFoundContent={
         networks.isLoading ? (
-          <div className="animate-pulse px-1 py-8 text-center text-xxs text-v1-content-primary">
+          <div className="animate-pulse px-1 py-8 text-center text-v1-content-primary text-xxs">
             <Spin />
           </div>
         ) : undefined
       }
-      placeholder={<span>{t('common.all-networks')}</span>}
       onChange={(newValue, x) =>
         onChange?.(newValue.includes('') ? [] : newValue, x)
       }
@@ -53,6 +49,10 @@ export const NetworkSelect: FC<SelectProps<string[]>> = ({
           value: net.slug,
         })),
       ]}
+      placeholder={<span>{t('common.all-networks')}</span>}
+      showArrow={!disabled}
+      showSearch
+      value={value}
       {...props}
     />
   );

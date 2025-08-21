@@ -1,6 +1,6 @@
-import { type ComponentProps, type FC } from 'react';
+import type { useTechnicalRadarCoins } from 'api/discovery';
+import type { ComponentProps, FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type useTechnicalRadarCoins } from 'api/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
 import { Filters } from '../Filters';
 import {
@@ -19,8 +19,6 @@ export const TechnicalRadarFilters: FC<
   const { t } = useTranslation('coin-radar');
   return (
     <Filters
-      presets={TECHNICAL_RADAR_PRESETS}
-      sorts={TECHNICAL_RADAR_SORTS}
       dialog={(state, setState) => (
         <>
           {/* <div className="flex items-center gap-2">
@@ -53,17 +51,19 @@ export const TechnicalRadarFilters: FC<
           <div className="flex items-center gap-2">
             <p className="block shrink-0 basis-1/3">{t('common:category')}</p>
             <CategorySelect
-              className="grow"
-              value={state.categories}
-              multiple
-              filter="social-radar-24-hours"
               allowClear
+              className="grow"
+              filter="social-radar-24-hours"
+              multiple
               onChange={categories => setState(p => ({ ...p, categories }))}
+              value={state.categories}
             />
           </div>
         </>
       )}
       excludeKeys={['query']}
+      presets={TECHNICAL_RADAR_PRESETS}
+      sorts={TECHNICAL_RADAR_SORTS}
       {...props}
     />
   );

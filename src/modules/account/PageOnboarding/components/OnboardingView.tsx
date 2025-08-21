@@ -1,8 +1,8 @@
-import { clsx } from 'clsx';
 import { bxsCheckCircle, bxX } from 'boxicons-quasar';
-import { Fragment, useMemo, type ReactNode } from 'react';
-import { Button } from 'shared/v1-components/Button';
+import { clsx } from 'clsx';
+import { Fragment, type ReactNode, useMemo } from 'react';
 import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
 
 export function OnboardingView<V extends string>({
   className,
@@ -35,13 +35,13 @@ export function OnboardingView<V extends string>({
   return (
     <div
       className={clsx(
-        'fixed left-0 top-0 flex h-dvh w-dvw text-v1-content-primary',
+        'fixed top-0 left-0 flex h-dvh w-dvw text-v1-content-primary',
         loading && 'pointer-events-none animate-pulse blur-sm transition-all',
         className,
       )}
     >
       <div className="relative mx-auto flex w-full max-w-7xl grow flex-col">
-        <div className=" flex shrink-0 items-center justify-between px-4 pt-4">
+        <div className="flex shrink-0 items-center justify-between px-4 pt-4">
           {/* <Button */}
           {/*   size="md" */}
           {/*   variant="ghost" */}
@@ -59,11 +59,11 @@ export function OnboardingView<V extends string>({
 
           {onClose && (
             <Button
-              size="md"
-              variant="ghost"
-              onClick={() => onClose('/')}
               block
               className="w-md shrink-0"
+              onClick={() => onClose('/')}
+              size="md"
+              variant="ghost"
             >
               <Icon name={bxX} />
             </Button>
@@ -78,11 +78,11 @@ export function OnboardingView<V extends string>({
         >
           {steps.map(x => (
             <div
-              key={x.key}
               className={clsx(
                 'group flex shrink basis-full cursor-default flex-col items-start gap-3 transition-all',
                 x.isPassed ? 'cursor-pointer' : 'cursor-default',
               )}
+              key={x.key}
               onClick={() => (x.isPassed ? onChange?.(x.key) : null)}
               tabIndex={-1}
             >
@@ -95,17 +95,17 @@ export function OnboardingView<V extends string>({
               <div
                 className={clsx(
                   'flex items-center gap-2',
-                  'w-full rounded-full text-sm font-medium mobile:text-xs',
+                  'w-full rounded-full font-medium mobile:text-xs text-sm',
                   x.isPassed || x.isActive ? 'text-white' : 'text-white/50',
                 )}
               >
                 <Icon
-                  name={bxsCheckCircle}
-                  size={20}
                   className={clsx(
                     'transition-all',
                     !x.isPassed && '-translate-x-3 opacity-0',
                   )}
+                  name={bxsCheckCircle}
+                  size={20}
                 />
                 <span
                   className={clsx(

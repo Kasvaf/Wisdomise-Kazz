@@ -100,13 +100,13 @@ export default function Countdown({ deadline }: { deadline: number }) {
             return (
               <>
                 {index > 0 && ':'}
-                <li key={time.name} className="flex flex-col items-center">
+                <li className="flex flex-col items-center" key={time.name}>
                   <h2 className="flex font-semibold">
                     {time.lettersRefs.map((letter, index) => {
                       return (
                         <div
-                          key={index}
                           className="relative w-3 rounded text-center"
+                          key={index}
                         >
                           <span ref={letter}></span>
                         </div>

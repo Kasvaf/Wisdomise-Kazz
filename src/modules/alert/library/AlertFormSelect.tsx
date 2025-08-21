@@ -1,18 +1,17 @@
-/* eslint-disable import/max-dependencies */
-import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { bxChevronDown, bxChevronRight } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { Fragment, useState } from 'react';
 import AnimateHeight from 'react-animate-height';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
 import { useEditingAlert } from './AlertProvider';
-import { type AlertFormGroup, type AlertForm } from './types';
+import type { AlertForm, AlertFormGroup } from './types';
 
 function Soon() {
   const { t } = useTranslation('alerts');
   return (
-    <span className="h-4 rounded-full bg-v1-background-brand/10 px-2 text-xxs text-v1-content-brand">
+    <span className="h-4 rounded-full bg-v1-background-brand/10 px-2 text-v1-content-brand text-xxs">
       {t('common:soon')}
     </span>
   );
@@ -31,9 +30,9 @@ function AlertFormName({
     <div className={clsx('flex items-center gap-3', className)}>
       {!minimal && <value.icon className="size-8 shrink-0 rounded-lg" />}
       <div className="grow text-start">
-        <h3 className="mb-1 text-xs text-v1-content-primary">{value.title}</h3>
+        <h3 className="mb-1 text-v1-content-primary text-xs">{value.title}</h3>
         {!minimal && (
-          <div className="max-w-56 text-xxs text-v1-content-secondary">
+          <div className="max-w-56 text-v1-content-secondary text-xxs">
             {value.subtitle}
           </div>
         )}
@@ -63,7 +62,7 @@ function AlertFormButton({
       disabled={value.disabled?.() || loading}
       onClick={() => onSelect(value)}
     >
-      <AlertFormName value={value} className="grow" minimal={minimal} />
+      <AlertFormName className="grow" minimal={minimal} value={value} />
       <span className={'shrink-0'}>
         {value.disabled?.() ? <Soon /> : <Icon name={bxChevronRight} />}
       </span>
@@ -93,24 +92,24 @@ function AlertFormGroupButton({
           setExpanded(p => !p);
         }}
       >
-        <AlertFormName value={value} className="grow" />
+        <AlertFormName className="grow" value={value} />
         <span
           className={clsx('shrink-0 transition-all', expanded && 'rotate-180')}
         >
           {value.disabled?.() ? <Soon /> : <Icon name={bxChevronDown} />}
         </span>
       </button>
-      <AnimateHeight height={expanded ? 'auto' : 0} duration={300}>
+      <AnimateHeight duration={300} height={expanded ? 'auto' : 0}>
         <div className="w-full border-t border-t-v1-surface-l3">
           {value.children
             .filter(x => !x.hidden)
             .sort((a, b) => (a.disabled?.() ? 1 : 0) - (b.disabled?.() ? 1 : 0))
             .map(x => (
               <AlertFormButton
-                value={x}
                 key={x.value}
-                onSelect={() => onSelect(x)}
                 minimal
+                onSelect={() => onSelect(x)}
+                value={x}
               />
             ))}
         </div>
@@ -167,9 +166,9 @@ export function AlertFormSelect({
           .map((x, i) => (
             <Fragment key={`${x.value}-${i}`}>
               {'children' in x ? (
-                <AlertFormGroupButton value={x} onSelect={handleSubmit} />
+                <AlertFormGroupButton onSelect={handleSubmit} value={x} />
               ) : (
-                <AlertFormButton value={x} onSelect={handleSubmit} />
+                <AlertFormButton onSelect={handleSubmit} value={x} />
               )}
             </Fragment>
           ))}

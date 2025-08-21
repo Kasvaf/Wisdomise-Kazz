@@ -1,5 +1,5 @@
+import type { MarketTypes } from 'api/types/shared';
 import type React from 'react';
-import { type MarketTypes } from 'api/types/shared';
 import ComboBox from 'shared/ComboBox';
 
 const MarketOptionItem = (item: MarketTypes) => {
@@ -27,11 +27,11 @@ const MarketSelector: React.FC<Props> = ({
       {label && <label className="mb-2 ml-2 block">{label}</label>}
 
       <ComboBox
-        options={markets}
-        selectedItem={selectedItem}
-        onSelect={onSelect}
-        renderItem={MarketOptionItem}
         disabled={disabled}
+        onSelect={onSelect}
+        options={markets}
+        renderItem={MarketOptionItem}
+        selectedItem={selectedItem}
       />
     </div>
   );

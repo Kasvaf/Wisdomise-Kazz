@@ -1,13 +1,13 @@
-import { type FC } from 'react';
-import { type LISTS } from 'modules/discovery/constants';
+import type { LISTS } from 'modules/discovery/constants';
 import { Positions } from 'modules/discovery/ListView/Positions';
-import { SocialRadar } from './SocialRadar';
-import { WhaleRadar } from './WhaleRadar';
-import { TechnicalRadar } from './TechnicalRadar';
-import { NetworkRadar } from './NetworkRadar';
+import type { FC } from 'react';
 import { CoinRadar } from './CoinRadar';
+import { NetworkRadar } from './NetworkRadar';
 import { Portfolio } from './Portfolio';
+import { SocialRadar } from './SocialRadar';
+import { TechnicalRadar } from './TechnicalRadar';
 import { TwitterTracker } from './TwitterTracker';
+import { WhaleRadar } from './WhaleRadar';
 
 export const ListView: FC<{
   list: keyof typeof LISTS;
@@ -16,7 +16,7 @@ export const ListView: FC<{
   className?: string;
 }> = ({ list, className, ...rest }) => {
   return (
-    <div id="app-list" className={className}>
+    <div className={className} id="app-list">
       {list === 'social-radar' ? (
         <SocialRadar {...rest} />
       ) : list === 'whale-radar' ? (

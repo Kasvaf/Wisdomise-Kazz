@@ -1,11 +1,11 @@
 import { notification } from 'antd';
-import { useTWSDMBalance } from 'modules/account/PageToken/web3/twsdm/contract';
-import { useWriteMigrate } from 'modules/account/PageToken/web3/migration/contract';
-import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import {
   TOKEN_MIGRATION_CONTRACT_ADDRESS,
   TWSDM_CONTRACT_ADDRESS,
 } from 'modules/account/PageToken/constants';
+import { useWriteMigrate } from 'modules/account/PageToken/web3/migration/contract';
+import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
+import { useTWSDMBalance } from 'modules/account/PageToken/web3/twsdm/contract';
 import { useEnsureAllowance } from '../shared';
 
 export function useMigration() {

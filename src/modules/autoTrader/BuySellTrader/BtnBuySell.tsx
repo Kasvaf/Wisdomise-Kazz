@@ -1,18 +1,18 @@
-import { clsx } from 'clsx';
-import { Button } from 'shared/v1-components/Button';
-import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
-import usePageTour from 'shared/usePageTour';
-import { useActiveNetwork } from 'modules/base/active-network';
-import useIsMobile from 'utils/useIsMobile';
-import { useModalLogin } from 'modules/base/auth/ModalLogin';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useActiveWallet } from 'api/chains/wallet';
-import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { useSymbolInfo } from 'api/symbol';
+import { clsx } from 'clsx';
 import { SimulatePrepare } from 'modules/autoTrader/BuySellTrader/SimulatePrepare';
 import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulatePrepare';
-import { type SwapState } from './useSwapState';
+import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import usePageTour from 'shared/usePageTour';
+import { Button } from 'shared/v1-components/Button';
+import useIsMobile from 'utils/useIsMobile';
 import useActionHandlers from './useActionHandlers';
+import type { SwapState } from './useSwapState';
 
 const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   state,
@@ -42,7 +42,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
 
   const isMobile = useIsMobile();
   usePageTour({
-    key: (isTon ? 'ton' : 'appkit') + '-connect-tour',
+    key: `${isTon ? 'ton' : 'appkit'}-connect-tour`,
     enabled: !wallet.connected && !isMobile,
     steps: [
       {
@@ -118,11 +118,11 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
           </Button>
         ) : (
           <Button
-            variant={dir === 'buy' ? 'positive' : 'negative'}
-            onClick={isLoggedIn ? firePosition : showModalLogin}
-            loading={isSubmitting || isLoading}
-            disabled={!isEnabled || !ready || !balance}
             className={className}
+            disabled={!isEnabled || !ready || !balance}
+            loading={isSubmitting || isLoading}
+            onClick={isLoggedIn ? firePosition : showModalLogin}
+            variant={dir === 'buy' ? 'positive' : 'negative'}
           >
             {!balanceLoading && balance != null && !balance ? (
               <>
@@ -138,9 +138,9 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
         )
       ) : (
         <Button
-          variant="primary"
-          onClick={() => wallet.connect()}
           className={clsx(className, 'id-tour-wallet-connect')}
+          onClick={() => wallet.connect()}
+          variant="primary"
         >
           Connect Wallet
         </Button>

@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useRef, type FC, type ReactNode } from 'react';
+import { type FC, type ReactNode, useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 
 export const Lazy: FC<{

@@ -1,6 +1,6 @@
+import type { MiniMarketData } from 'api/discovery';
 import { clsx } from 'clsx';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { type MiniMarketData } from 'api/discovery';
 import { ReactComponent as CapIcon } from './cap.svg';
 
 export function CoinMarketCap({
@@ -21,12 +21,12 @@ export function CoinMarketCap({
     <span
       className={clsx(
         'inline-flex flex-col gap-px',
-        singleLine && '[&_svg]:size-3 text-xxs',
+        singleLine && 'text-xxs [&_svg]:size-3',
         className,
       )}
     >
       {!singleLine && (
-        <span className="text-v1-content-secondary text-sm">
+        <span className="text-sm text-v1-content-secondary">
           {marketData?.market_cap_category ?? '-'}
         </span>
       )}
@@ -38,9 +38,6 @@ export function CoinMarketCap({
       >
         <CapIcon />
         <ReadableNumber
-          value={marketData?.market_cap}
-          label="$"
-          popup="never"
           format={
             singleLine
               ? {
@@ -50,6 +47,9 @@ export function CoinMarketCap({
                 }
               : undefined
           }
+          label="$"
+          popup="never"
+          value={marketData?.market_cap}
         />
       </div>
     </span>

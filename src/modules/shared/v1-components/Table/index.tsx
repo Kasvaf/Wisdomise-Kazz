@@ -1,2 +1,2 @@
 export { Table } from './Table';
-export type { TableProps, TableColumn } from './types';
+export type { TableColumn, TableProps } from './types';

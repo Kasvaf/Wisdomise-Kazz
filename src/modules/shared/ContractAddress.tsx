@@ -1,9 +1,9 @@
-import { useMemo, type FC } from 'react';
+import type { CoinNetwork } from 'api/discovery';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shortenAddress } from 'utils/shortenAddress';
-import { type CoinNetwork } from 'api/discovery';
 import Icon from './Icon';
 import { useShare } from './useShare';
 
@@ -100,8 +100,8 @@ export const ContractAddress: FC<{
           {!noLabel && data.title}
           {allowCopy && (
             <button
-              onClick={() => copy(data.value ?? '')}
               className="cursor-copy"
+              onClick={() => copy(data.value ?? '')}
             >
               <Icon name={bxsCopy} size={12} />
             </button>

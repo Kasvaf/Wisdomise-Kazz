@@ -1,3 +1,4 @@
+import configTelegramMiniApp from 'config/telegramMiniApp';
 import {
   createContext,
   type PropsWithChildren,
@@ -6,7 +7,6 @@ import {
   useState,
 } from 'react';
 import { isLocal } from 'utils/version';
-import configTelegramMiniApp from 'config/telegramMiniApp';
 
 const TelegramContext = createContext<Telegram | undefined>(undefined);
 

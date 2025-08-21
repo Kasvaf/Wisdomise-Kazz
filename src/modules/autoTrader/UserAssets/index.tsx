@@ -1,30 +1,29 @@
-/* eslint-disable import/max-dependencies */
+import { useUserAssets } from 'api';
+import { useUserWalletAssets } from 'api/chains';
+import { useActiveWallet, useConnectedWallet } from 'api/chains/wallet';
+import { useSymbolInfo } from 'api/symbol';
+import type { Wallet } from 'api/wallets';
+import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
+import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
+import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
+import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { bxCopy } from 'boxicons-quasar';
-import { useUserAssets } from 'api';
-import { useSymbolInfo } from 'api/symbol';
-import { useUserWalletAssets } from 'api/chains';
-import { isMiniApp } from 'utils/version';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
-import Spin from 'shared/Spin';
-import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { type Wallet } from 'api/wallets';
-import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import Badge from 'shared/Badge';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
-import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
-import { useConnectedWallet, useActiveWallet } from 'api/chains/wallet';
+import Icon from 'shared/Icon';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import Spin from 'shared/Spin';
 import { useShare } from 'shared/useShare';
-import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
+import { Button } from 'shared/v1-components/Button';
 import { Coin } from 'shared/v1-components/Coin';
-import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { isMiniApp } from 'utils/version';
 
 interface AssetData {
   slug: string;
@@ -40,7 +39,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   return (
     <NavLink
       className={clsx(
-        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-4 py-2 mobile:py-3',
+        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-4 mobile:py-3 py-2',
         params.slug === asset.slug && '!bg-v1-surface-l2',
       )}
       to={getUrl({
@@ -52,18 +51,18 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
       {baseInfo ? (
         <Coin
           abbreviation={baseInfo.abbreviation}
-          name={baseInfo.name}
-          logo={baseInfo.logo_url}
-          // networks={baseInfo.networks}
-          href={false}
-          truncate
           extra={
             <ReadableNumber
               className="text-v1-content-secondary"
-              value={(asset.usd_equity ?? 0) / asset.amount}
               label="$"
+              value={(asset.usd_equity ?? 0) / asset.amount}
             />
           }
+          href={false}
+          // networks={baseInfo.networks}
+          logo={baseInfo.logo_url}
+          name={baseInfo.name}
+          truncate
         />
       ) : baseLoading ? (
         <Spin />
@@ -72,14 +71,14 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
       )}
       <div className="flex flex-col items-end">
         <ReadableNumber
-          className="flex text-xs font-medium"
+          className="flex font-medium text-xs"
           value={asset.amount}
         />
         {asset.usd_equity !== 0 && (
           <ReadableNumber
-            className="text-xxs text-v1-content-secondary"
-            value={asset.usd_equity}
+            className="text-v1-content-secondary text-xxs"
             label="$"
+            value={asset.usd_equity}
           />
         )}
       </div>
@@ -101,9 +100,9 @@ const UserAssets: React.FC<
   return (
     <div className={className}>
       {(totalAssets > 0 || title) && showTotal && (
-        <div className="id-title mb-3 gap-2 text-sm mobile:mb-5">
+        <div className="id-title mb-3 mobile:mb-5 gap-2 text-sm">
           {title ? title + (totalAssets > 0 ? ': ' : '') : ' '}
-          {totalAssets > 0 && <ReadableNumber value={totalAssets} label="$" />}
+          {totalAssets > 0 && <ReadableNumber label="$" value={totalAssets} />}
         </div>
       )}
 
@@ -140,9 +139,9 @@ export const UserTradingAssets = ({ className }: { className?: string }) => {
 
   return (
     <div className={className}>
-      <div className="id-title mb-3 gap-2 text-sm mobile:mb-5">
-        {'Trading Assets' + (totalAssets > 0 ? ': ' : '')}
-        {totalAssets > 0 && <ReadableNumber value={totalAssets} label="$" />}
+      <div className="id-title mb-3 mobile:mb-5 gap-2 text-sm">
+        {`Trading Assets${totalAssets > 0 ? ': ' : ''}`}
+        {totalAssets > 0 && <ReadableNumber label="$" value={totalAssets} />}
       </div>
 
       <UserAssets data={tradingAssets} />
@@ -157,15 +156,15 @@ const UserWallets = (props: Props) => {
   );
 
   return net === 'the-open-network' ? (
-    <UserAssets title="Wallet Assets" data={walletAssets} {...props} />
+    <UserAssets data={walletAssets} title="Wallet Assets" {...props} />
   ) : (
     <div>
-      <p className="text-v1-content-secondary my-3 text-xs">Wallets</p>
+      <p className="my-3 text-v1-content-secondary text-xs">Wallets</p>
       <WalletSelector
+        className="-mr-2 -mt-3"
+        expanded={props.expanded}
         radioClassName="w-full [&.ant-radio-wrapper]:!items-start [&_.ant-radio]:!mt-4 [&_.ant-radio]:!self-start"
         WalletOptionComponent={WalletItem}
-        expanded={props.expanded}
-        className="-mr-2 -mt-3"
       />
     </div>
   );
@@ -199,11 +198,11 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
   return (
-    <div className="border-v1-inverse-overlay-10 w-full border-b py-3">
+    <div className="w-full border-v1-inverse-overlay-10 border-b py-3">
       <div className="mb-2 flex items-center justify-between">
         <div
           className={clsx(
-            'flex items-center gap-2 text-xs font-medium',
+            'flex items-center gap-2 font-medium text-xs',
             isActive && 'bg-brand-gradient bg-clip-text text-transparent',
           )}
         >
@@ -212,7 +211,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
             {(wallet?.address || address) && (
               <HoverTooltip title="Copy Wallet Address">
                 <button
-                  className="text-v1-content-secondary mt-1"
+                  className="mt-1 text-v1-content-secondary"
                   onClick={() => copy(wallet?.address ?? address ?? '')}
                 >
                   <Icon name={bxCopy} size={16} />
@@ -225,22 +224,22 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         </div>
         {wallet ? (
           <Button
+            className="!bg-transparent !px-1"
             onClick={() =>
               navigate(
                 getUrl({ slug: wallet.key, detail: 'wallet', view: 'both' }),
               )
             }
-            variant="outline"
             size="2xs"
-            className="!bg-transparent !px-1"
+            variant="outline"
           >
             Details
           </Button>
         ) : (
           <BtnAppKitWalletConnect
             network="solana"
-            variant="outline"
             size="2xs"
+            variant="outline"
           />
         )}
       </div>
@@ -264,10 +263,10 @@ function WalletAssets({ wallet }: { wallet: Wallet }) {
   return walletAssets?.length ? (
     <UserAssets data={walletAssets} />
   ) : (
-    <div className="bg-v1-surface-l1 flex h-44 flex-col items-center justify-center rounded-xl">
+    <div className="flex h-44 flex-col items-center justify-center rounded-xl bg-v1-surface-l1">
       <DepositIcon className="size-8" />
       <p className="my-2 text-xxs">Deposit and start your trade journey</p>
-      <Button size="xs" onClick={() => deposit(wallet.address)}>
+      <Button onClick={() => deposit(wallet.address)} size="xs">
         Deposit
       </Button>
       {withdrawDepositModal}

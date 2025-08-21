@@ -1,11 +1,11 @@
-import { type FC } from 'react';
+import type { TwitterTweet } from 'api/discovery';
 import { clsx } from 'clsx';
-import { type TwitterTweet } from 'api/discovery';
+import type { FC } from 'react';
 import { ReadableDate } from 'shared/ReadableDate';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as QuoteIcon } from './quote.svg';
-import { ReactComponent as RetweetIcon } from './retweet.svg';
 import { ReactComponent as ReplyIcon } from './reply.svg';
+import { ReactComponent as RetweetIcon } from './retweet.svg';
 import { ReactComponent as TweetIcon } from './tweet.svg';
 
 const TweetUser: FC<{
@@ -18,9 +18,9 @@ const TweetUser: FC<{
       className,
     )}
     href={`https://x.com/${value.user.username}`}
-    target="_blank"
     referrerPolicy="no-referrer"
     rel="noreferrer"
+    target="_blank"
   >
     <img
       className="size-6 shrink-0 rounded-full bg-v1-surface-l5"
@@ -36,16 +36,16 @@ const TweetTime: FC<{
   className?: string;
 }> = ({ value, className }) => (
   <a
+    className="hover:underline"
     href={`https://x.com/${value.user.username}/status/${value.tweet_id}`}
-    target="_blank"
     referrerPolicy="no-referrer"
     rel="noreferrer"
-    className="hover:underline"
+    target="_blank"
   >
     <ReadableDate
       className={clsx('text-v1-content-secondary', className)}
-      value={value.related_at}
       popup={false}
+      value={value.related_at}
     />
   </a>
 );
@@ -60,10 +60,10 @@ const TweetType: FC<{
   const Component = isRetweet
     ? RetweetIcon
     : isQuote
-    ? QuoteIcon
-    : isReply
-    ? ReplyIcon
-    : TweetIcon;
+      ? QuoteIcon
+      : isReply
+        ? ReplyIcon
+        : TweetIcon;
   return <Component className={className} />;
 };
 
@@ -84,7 +84,6 @@ const TweetMedia: FC<{
     >
       {value.media.map((m, i, s) => (
         <div
-          key={i}
           className={clsx(
             expanded ? 'h-80' : 'h-48',
             'relative w-full cursor-pointer rounded-lg bg-v1-surface-l2',
@@ -92,22 +91,23 @@ const TweetMedia: FC<{
               ? 'col-span-2'
               : 'col-span-1',
           )}
+          key={i}
           onClick={() => onOpen?.(m)}
         >
           {expanded && (
             <img
-              src={m.url}
               alt={`media-${i}-bg`}
               className="absolute inset-0 size-full scale-110 object-cover opacity-75 blur-sm"
+              src={m.url}
             />
           )}
           <img
-            src={m.url}
             alt={`media-${i}`}
             className={clsx(
               expanded ? 'object-contain' : 'object-cover',
               'relative size-full',
             )}
+            src={m.url}
           />
         </div>
       ))}
@@ -138,23 +138,23 @@ export const TweetCard: FC<{
             'flex max-w-full items-center gap-px overflow-hidden font-normal text-v1-content-secondary',
           )}
         >
-          <TweetUser value={value} className="shrink overflow-hidden text-xs" />
+          <TweetUser className="shrink overflow-hidden text-xs" value={value} />
           <span>.</span>
-          <TweetTime value={value} className="text-xxs" />
+          <TweetTime className="text-xxs" value={value} />
         </div>
-        <TweetType value={value} className="size-4 shrink-0" />
+        <TweetType className="size-4 shrink-0" value={value} />
       </div>
 
       <div className={clsx(nest && 'ps-6', 'flex flex-col gap-2')}>
         {value.replied_tweet && (
-          <div className="text-xs text-v1-content-secondary">
+          <div className="text-v1-content-secondary text-xs">
             {'Replying to '}
             <a
+              className="text-v1-background-brand hover:underline"
               href={`https://x.com/${value.replied_tweet.user.username}`}
-              target="_blank"
               referrerPolicy="no-referrer"
               rel="noreferrer"
-              className="text-v1-background-brand hover:underline"
+              target="_blank"
             >
               @{value.replied_tweet.user.username}
             </a>
@@ -170,12 +170,12 @@ export const TweetCard: FC<{
             {value.text}
           </p>
         )}
-        <TweetMedia value={value} onOpen={onOpenMedia} expanded={expanded} />
+        <TweetMedia expanded={expanded} onOpen={onOpenMedia} value={value} />
         <Button
+          className="!px-2 max-w-max self-end"
           onClick={() => onOpenRelatedTokens?.(value.tweet_id)}
           size={expanded ? 'xs' : '2xs'}
           variant="ghost"
-          className="max-w-max self-end !px-2"
         >
           {'Related Tokens'}
         </Button>
@@ -184,11 +184,11 @@ export const TweetCard: FC<{
       {value.retweeted_tweet && (
         <div className="ps-6">
           <TweetCard
-            value={value.retweeted_tweet}
-            nest={false}
-            className="p-2 bg-v1-surface-l-next"
-            onOpenMedia={onOpenMedia}
+            className="bg-v1-surface-l-next p-2"
             expanded={expanded}
+            nest={false}
+            onOpenMedia={onOpenMedia}
+            value={value.retweeted_tweet}
           />
         </div>
       )}

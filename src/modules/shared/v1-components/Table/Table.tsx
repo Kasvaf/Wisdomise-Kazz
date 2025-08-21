@@ -5,15 +5,15 @@ import './style.css';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { EmptyCell } from 'shared/v1-components/Table/EmptyCell';
 import { DIALOG_OPENER_CLASS } from '../Dialog';
-import { type TableProps } from './types';
-import { ReactComponent as InfoIcon } from './info.svg';
-import { TableSection } from './TableSection';
-import { useChunks } from './useChunks';
 import { EmptyContent } from './EmptyContent';
+import { IntersectionObserverProvider } from './IntersectionProvider';
+import { ReactComponent as InfoIcon } from './info.svg';
 import { SkeletonTrs } from './SkeletonTrs';
 import { Sort, useSorted } from './Sort';
+import { TableSection } from './TableSection';
+import type { TableProps } from './types';
+import { useChunks } from './useChunks';
 import { useRowHeight } from './useRowHeight';
-import { IntersectionObserverProvider } from './IntersectionProvider';
 
 export function Table<RecordType extends object>({
   columns,
@@ -44,7 +44,7 @@ export function Table<RecordType extends object>({
       (columns.filter(col => !col.hidden) ?? []).map((td, index) => ({
         ...td,
         width:
-          typeof td.width === 'number' ? `${td.width}px` : td.width ?? 'auto',
+          typeof td.width === 'number' ? `${td.width}px` : (td.width ?? 'auto'),
         key: td.key ?? index.toString(),
       })),
     [columns],
@@ -76,19 +76,19 @@ export function Table<RecordType extends object>({
               <>
                 {typeof th.sorter === 'function' && (
                   <Sort
-                    value={sort.index === index ? sort.order ?? 'none' : 'none'}
+                    value={
+                      sort.index === index ? (sort.order ?? 'none') : 'none'
+                    }
                   />
                 )}
                 {th.title}
                 {th.info && (
-                  <>
-                    <HoverTooltip title={th.info}>
-                      <InfoIcon
-                        data-info
-                        className={clsx('cursor-help', DIALOG_OPENER_CLASS)}
-                      />
-                    </HoverTooltip>
-                  </>
+                  <HoverTooltip title={th.info}>
+                    <InfoIcon
+                      className={clsx('cursor-help', DIALOG_OPENER_CLASS)}
+                      data-info
+                    />
+                  </HoverTooltip>
                 )}
               </>
             ),
@@ -105,13 +105,13 @@ export function Table<RecordType extends object>({
   return (
     <div
       className={clsx('wsdm-table', className)}
+      data-scrollable={scrollable ? 'true' : 'false'}
+      ref={root}
       style={{
         ['--current-color' as never]: colors.current,
         ['--next-color' as never]: colors.next,
         ['--later-color' as never]: colors.later,
       }}
-      data-scrollable={scrollable ? 'true' : 'false'}
-      ref={root}
     >
       <table>
         {ths.length > 0 && (
@@ -122,18 +122,18 @@ export function Table<RecordType extends object>({
               )}
               {ths.map((th, index, self) => (
                 <th
-                  key={th.key}
-                  style={{
-                    width: th.width,
-                  }}
                   className={th.className}
+                  data-align={th.align ?? 'start'}
+                  data-clickable={typeof th.sorter === 'function'}
                   data-first-child={index === 0}
                   data-last-child={
                     !scrollable && index === self.length - 1 ? 'true' : 'false'
                   }
-                  data-align={th.align ?? 'start'}
                   data-sticky={th.sticky ?? 'none'}
-                  data-clickable={typeof th.sorter === 'function'}
+                  key={th.key}
+                  style={{
+                    width: th.width,
+                  }}
                 >
                   <div
                     onClick={() =>
@@ -147,7 +147,7 @@ export function Table<RecordType extends object>({
                 </th>
               ))}
               {scrollable && (
-                <td style={{ width: 'auto' }} data-last-child="true">
+                <td data-last-child="true" style={{ width: 'auto' }}>
                   <div />
                 </td>
               )}
@@ -175,60 +175,60 @@ export function Table<RecordType extends object>({
           <IntersectionObserverProvider>
             {chunks.map((chunk, index) => (
               <TableSection
+                alwaysVisible={index === 0}
                 key={chunk.key}
                 optimisticStyle={{
                   height: `${chunk.size * (rowHeight + 8)}px`,
                 }}
-                alwaysVisible={index === 0}
               >
                 {trs.slice(...chunk.range).map(tr => (
                   <tr
-                    key={tr.key}
-                    data-key={tr.key}
-                    data-clickable={
-                      typeof onClick === 'function' ? 'true' : 'false'
-                    }
+                    className={rowClassName}
                     data-active={
                       isActive?.(tr.data, tr.index) ? 'true' : 'false'
                     }
+                    data-clickable={
+                      typeof onClick === 'function' ? 'true' : 'false'
+                    }
+                    data-key={tr.key}
+                    key={tr.key}
                     onClick={() => onClick?.(tr.data, tr.index)}
-                    className={rowClassName}
                   >
                     {rowHoverPrefix && (
                       <td
+                        data-hover
                         data-sticky="start"
                         style={{ width: '0px' }}
-                        data-hover
                       >
                         <div>{rowHoverPrefix(tr.data, tr.index)}</div>
                       </td>
                     )}
                     {tr.tds.map((td, index, self) => (
                       <td
-                        key={td.key}
-                        style={{
-                          width: td.width,
-                        }}
                         className={td.className}
+                        data-align={td.align ?? 'start'}
                         data-first-child={index === 0}
                         data-last-child={
                           !scrollable && index === self.length - 1
                             ? 'true'
                             : 'false'
                         }
-                        data-align={td.align ?? 'start'}
                         data-sticky={td.sticky ?? 'none'}
+                        key={td.key}
+                        style={{
+                          width: td.width,
+                        }}
                       >
                         <div>{td.content ?? <EmptyCell />}</div>
                       </td>
                     ))}
                     {scrollable && (
-                      <td style={{ width: 'auto' }} data-last-child="true">
+                      <td data-last-child="true" style={{ width: 'auto' }}>
                         <div />
                       </td>
                     )}
                     {rowHoverSuffix && (
-                      <td data-sticky="end" style={{ width: '0px' }} data-hover>
+                      <td data-hover data-sticky="end" style={{ width: '0px' }}>
                         <div>{rowHoverSuffix(tr.data, tr.index)}</div>
                       </td>
                     )}
@@ -240,7 +240,7 @@ export function Table<RecordType extends object>({
         )}
       </table>
       {footer && (
-        <div className="sticky end-0 start-0 flex w-full items-center justify-center gap-2">
+        <div className="sticky start-0 end-0 flex w-full items-center justify-center gap-2">
           {footer}
         </div>
       )}

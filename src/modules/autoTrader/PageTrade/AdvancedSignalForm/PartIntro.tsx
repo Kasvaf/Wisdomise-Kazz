@@ -1,12 +1,11 @@
-/* eslint-disable import/max-dependencies */
 import { useAccountBalance } from 'api/chains';
-import AmountInputBox from 'shared/AmountInputBox';
 import { useCoinDetails } from 'api/discovery';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
-import { type SignalFormState } from './useSignalFormStates';
+import AmountInputBox from 'shared/AmountInputBox';
+import AIPresets from './AIPressets';
 import AmountBalanceLabel from './AmountBalanceLabel';
 import QuoteSelector from './QuoteSelector';
-import AIPresets from './AIPressets';
+import type { SignalFormState } from './useSignalFormStates';
 
 const PartIntro: React.FC<{
   data: SignalFormState;
@@ -28,45 +27,45 @@ const PartIntro: React.FC<{
   return (
     <div>
       <AmountInputBox
+        className="mb-2"
+        disabled={isUpdate || balanceLoading || !quoteBalance}
         label={
           <AmountBalanceLabel
-            slug={quote}
-            setAmount={setAmount}
             disabled={isUpdate}
+            setAmount={setAmount}
+            slug={quote}
           />
         }
         max={quoteBalance || 0}
-        value={amount}
-        onChange={setAmount}
         noSuffixPad
+        onChange={setAmount}
         suffix={
           <QuoteSelector
             baseSlug={baseSlug}
-            value={quote}
-            onChange={setQuote}
             disabled={isUpdate}
+            onChange={setQuote}
+            value={quote}
           />
         }
-        className="mb-2"
-        disabled={isUpdate || balanceLoading || !quoteBalance}
+        value={amount}
       />
 
       {!isUpdate && (
         <QuoteQuickSet
           className="mb-3"
-          quote={quote}
           mode="buy"
-          value={amount}
           onClick={newAmount => setAmount(newAmount)}
+          quote={quote}
+          value={amount}
         />
       )}
 
       {!isNewBorn && (
         <AIPresets
-          data={data}
           baseSlug={baseSlug}
-          quoteSlug={quote}
+          data={data}
           noManual={noManualPreset}
+          quoteSlug={quote}
         />
       )}
     </div>

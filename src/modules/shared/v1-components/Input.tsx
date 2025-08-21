@@ -2,8 +2,8 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import {
   type ChangeEventHandler,
-  useCallback,
   type ReactNode,
+  useCallback,
   useRef,
 } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
@@ -75,6 +75,7 @@ export function Input<T extends 'number' | 'string'>({
   );
   return (
     <div
+      aria-disabled={disabled}
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
         size === 'xs' && 'h-xs rounded-md px-3 text-xs',
@@ -84,34 +85,33 @@ export function Input<T extends 'number' | 'string'>({
         /* Loading */
         loading && 'animate-pulse',
         /* Disabled */
-        'aria-disabled::cursor-not-allowed aria-disabled:border-transparent aria-disabled:bg-white/5 aria-disabled:bg-none aria-disabled:text-white/50 aria-disabled:grayscale',
+        'aria-disabled::cursor-not-allowed aria-disabled:border-transparent aria-disabled:bg-none aria-disabled:bg-white/5 aria-disabled:text-white/50 aria-disabled:grayscale',
         /* Shared */
-        'focus-within:border-v1-border-focus [&_svg]:size-5 border border-transparent font-normal transition-all',
+        'border border-transparent font-normal transition-all focus-within:border-v1-border-focus [&_svg]:size-5',
         block ? 'flex' : 'inline-flex',
         'items-center justify-between gap-1',
         className,
       )}
+      onClick={() => inputRef.current?.focus()}
       style={{
         backgroundColor: colors.current,
       }}
-      aria-disabled={disabled}
-      onClick={() => inputRef.current?.focus()}
     >
       {prefixIcon}
       <input
         className="block w-full grow border-0 bg-transparent text-inherit outline-none"
-        value={value === undefined ? '' : value}
+        disabled={disabled}
         max={max}
         min={min}
+        onBlur={onBlur}
         onChange={handleChange}
         onKeyDown={onKeyDown}
-        disabled={disabled}
-        readOnly={readOnly}
+        pattern={pattern}
         placeholder={placeholder}
+        readOnly={readOnly}
         ref={inputRef}
         type={type === 'number' ? 'number' : 'text'}
-        pattern={pattern}
-        onBlur={onBlur}
+        value={value === undefined ? '' : value}
       />
       {suffixIcon}
     </div>

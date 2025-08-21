@@ -1,18 +1,18 @@
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import type { Alert } from 'api/alert';
 import { useCoinDetails } from 'api/discovery';
-import { type Alert } from 'api/alert';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Coin } from 'shared/Coin';
-import { ReadableDate } from 'shared/ReadableDate';
-import { AlertType } from 'modules/alert/components/AlertType';
+import { AlertActions } from 'modules/alert/components/AlertActions';
 import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
 import { AlertFrequency } from 'modules/alert/components/AlertFrequency';
 import { AlertStateChanger } from 'modules/alert/components/AlertStateChanger';
-import { AlertActions } from 'modules/alert/components/AlertActions';
 import { AlertTarget } from 'modules/alert/components/AlertTarget';
+import { AlertType } from 'modules/alert/components/AlertType';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Coin } from 'shared/Coin';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { ReadableDate } from 'shared/ReadableDate';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 
 export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
@@ -26,13 +26,13 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
         title: t('tables.creation-date'),
         width: 80,
         render: row => (
-          <ReadableDate value={row.created_at} className="whitespace-nowrap" />
+          <ReadableDate className="whitespace-nowrap" value={row.created_at} />
         ),
       },
       {
         title: t('tables.type'),
         width: 250,
-        render: row => <AlertType value={row} className="whitespace-nowrap" />,
+        render: row => <AlertType className="whitespace-nowrap" value={row} />,
       },
       {
         title: t('tables.target'),
@@ -46,7 +46,7 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
       {
         title: t('tables.frequency'),
         render: row => (
-          <AlertFrequency value={row} className="whitespace-nowrap" />
+          <AlertFrequency className="whitespace-nowrap" value={row} />
         ),
       },
       {
@@ -71,8 +71,8 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
             {coin.data?.symbol && (
               <div className="min-w-36">
                 <Coin
-                  coin={coin.data?.symbol}
                   className="text-xs"
+                  coin={coin.data?.symbol}
                   imageClassName="size-7"
                 />
               </div>
@@ -82,8 +82,8 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
                 {t('common.current-price')}:
               </span>
               <ReadableNumber
-                value={coin.data?.data?.current_price}
                 label="usdt"
+                value={coin.data?.data?.current_price}
               />
             </div>
           </>
@@ -92,8 +92,8 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
       <Table
         columns={columns}
         dataSource={alerts}
-        scrollable
         rowKey={row => row.key ?? row.data_source}
+        scrollable
       />
     </OverviewWidget>
   );

@@ -27,16 +27,16 @@ export const toAmount = (v: string) =>
 const AmountInputBox: React.FC<Props> = ({ min, max, ...props }) => {
   return (
     <TextBox
-      type="number"
       filter={toAmount}
+      type="number"
       {...props}
       onBlur={() => {
         props.onChange?.(
           min !== undefined && +props.value < min
             ? String(min)
             : max !== undefined && +props.value > max
-            ? String(max)
-            : props.value,
+              ? String(max)
+              : props.value,
         );
         props.onBlur?.();
       }}

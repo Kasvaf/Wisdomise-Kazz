@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import dayjs from 'dayjs';
-import { ofetch } from 'config/ofetch';
-import { useActiveNetwork } from 'modules/base/active-network';
 import {
   SOLANA_CONTRACT_ADDRESS,
   USDC_CONTRACT_ADDRESS,
   USDT_CONTRACT_ADDRESS,
 } from 'api/chains/constants';
-import { type MarketTypes } from './types/shared';
+import { ofetch } from 'config/ofetch';
+import dayjs from 'dayjs';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { useSupportedPairs } from './trader';
+import type { MarketTypes } from './types/shared';
 
 export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d';
 export interface Candle {
@@ -192,16 +192,16 @@ const enrichCandleConfig = (userConfig: {
       hoursDiff < 1
         ? '1m'
         : hoursDiff < 2
-        ? '5m'
-        : hoursDiff < 3
-        ? '15m'
-        : hoursDiff < 6
-        ? '30m'
-        : hoursDiff < 24
-        ? '1h'
-        : hoursDiff < 96
-        ? '4h'
-        : '1d';
+          ? '5m'
+          : hoursDiff < 3
+            ? '15m'
+            : hoursDiff < 6
+              ? '30m'
+              : hoursDiff < 24
+                ? '1h'
+                : hoursDiff < 96
+                  ? '4h'
+                  : '1d';
   }
   return config;
 };
@@ -282,9 +282,9 @@ export const useBatchLastPriceQuery = ({
         (base === USDC_CONTRACT_ADDRESS
           ? usdcPrice
           : base === USDT_CONTRACT_ADDRESS
-          ? usdtPrice
-          : batchCandles?.find(res => res.symbol.base === base)?.candles?.[0]
-              ?.close) ?? 0,
+            ? usdtPrice
+            : batchCandles?.find(res => res.symbol.base === base)?.candles?.[0]
+                ?.close) ?? 0,
     ),
     isPending: p1 || p2 || isPending,
   };

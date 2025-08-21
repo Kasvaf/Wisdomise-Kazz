@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { isMiniApp } from 'utils/version';
 
@@ -12,10 +12,10 @@ export const NetworkMenu: FC<
     <NetworkSelect
       {...props}
       allowClear
-      multiple={false}
-      value="solana"
       disabled
       iconOnly
+      multiple={false}
+      value="solana"
     />
   );
 };

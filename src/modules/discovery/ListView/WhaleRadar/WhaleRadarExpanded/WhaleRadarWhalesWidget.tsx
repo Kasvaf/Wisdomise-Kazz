@@ -1,21 +1,20 @@
-import { type ReactNode, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
-
-import { OverviewWidget } from 'shared/OverviewWidget';
 import { useHasFlag } from 'api';
 import { useWhaleRadarWhales, type WhaleShort } from 'api/discovery';
-import { Network } from 'shared/Network';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { Coins } from 'shared/Coins';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { AccessShield } from 'shared/AccessShield';
-import { DebugPin } from 'shared/DebugPin';
-import { SearchInput } from 'shared/SearchInput';
-import { useLoadingBadge } from 'shared/LoadingBadge';
-import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { usePageState } from 'shared/usePageState';
+import { clsx } from 'clsx';
 import { Wallet } from 'modules/discovery/DetailView/WhaleDetail/Wallet';
+import { type ReactNode, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AccessShield } from 'shared/AccessShield';
+import { Coins } from 'shared/Coins';
+import { DebugPin } from 'shared/DebugPin';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { Network } from 'shared/Network';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { SearchInput } from 'shared/SearchInput';
+import { usePageState } from 'shared/usePageState';
+import { Table, type TableColumn } from 'shared/v1-components/Table';
 
 export function WhaleRadarWhalesWidget({
   className,
@@ -58,11 +57,11 @@ export function WhaleRadarWhalesWidget({
         width: 100,
         render: row => (
           <Network
+            imageClassName="size-4"
             network={{
               name: row.network_name,
               icon_url: row.network_icon_url,
             }}
-            imageClassName="size-4"
           />
         ),
       },
@@ -74,7 +73,7 @@ export function WhaleRadarWhalesWidget({
         key: 'balance_usdt',
         sorter: (a, b) => (a.balance_usdt ?? 0) - (b.balance_usdt ?? 0),
         render: row => (
-          <ReadableNumber label="$" value={row.balance_usdt} popup="never" />
+          <ReadableNumber label="$" popup="never" value={row.balance_usdt} />
         ),
       },
       {
@@ -85,8 +84,8 @@ export function WhaleRadarWhalesWidget({
         render: row => (
           <ReadableNumber
             label="$"
-            value={row.recent_trading_volume}
             popup="never"
+            value={row.recent_trading_volume}
           />
         ),
       },
@@ -99,7 +98,7 @@ export function WhaleRadarWhalesWidget({
       {
         title: (
           <>
-            <DebugPin title="/discovery?whale_trading_pnl" color="orange" />
+            <DebugPin color="orange" title="/discovery?whale_trading_pnl" />
             {t('top_whales.trading_pnl.title')}
           </>
         ),
@@ -111,16 +110,16 @@ export function WhaleRadarWhalesWidget({
           (a.recent_trading_pnl ?? 0) - (b.recent_trading_pnl ?? 0),
         render: row => (
           <DirectionalNumber
-            value={row.recent_trading_pnl}
             label="$"
             showSign
+            value={row.recent_trading_pnl}
           />
         ),
       },
       {
         title: (
           <>
-            <DebugPin title="/discovery?whale_trading_pnl" color="orange" />
+            <DebugPin color="orange" title="/discovery?whale_trading_pnl" />
             {t('top_whales.returns.title')}
           </>
         ),
@@ -133,16 +132,16 @@ export function WhaleRadarWhalesWidget({
         hidden: !hasFlag('/discovery?whale_trading_pnl'),
         render: row => (
           <DirectionalNumber
-            value={row.recent_trading_pnl_percentage}
             label="%"
             showSign
+            value={row.recent_trading_pnl_percentage}
           />
         ),
       },
       {
         title: (
           <>
-            <DebugPin title="/discovery?whale_win_lose" color="orange" />
+            <DebugPin color="orange" title="/discovery?whale_win_lose" />
             {t('top_whales.wins_losses')}
           </>
         ),
@@ -163,13 +162,13 @@ export function WhaleRadarWhalesWidget({
         render: row => (
           <div>
             <ReadableNumber
-              value={row.recent_total_buys}
               className="text-v1-content-positive"
+              value={row.recent_total_buys}
             />
             <span className="text-v1-content-secondary">/</span>
             <ReadableNumber
-              value={row.recent_total_sells}
               className="text-v1-content-negative"
+              value={row.recent_total_sells}
             />
           </div>
         ),
@@ -191,8 +190,8 @@ export function WhaleRadarWhalesWidget({
         align: 'end',
         render: row => (
           <ReadableNumber
-            value={row?.recent_average_trades_per_day}
             popup="never"
+            value={row?.recent_average_trades_per_day}
           />
         ),
       },
@@ -203,26 +202,24 @@ export function WhaleRadarWhalesWidget({
   return (
     <OverviewWidget
       className={clsx('min-h-[427px] mobile:min-h-[647px]', className)}
-      title={<>{t('top_whales.title')}</>}
       empty={whales.data?.length === 0}
-      headerClassName="flex-wrap"
       headerActions={
-        <>
-          {headerActions ? (
-            <div className="flex grow justify-end">{headerActions}</div>
-          ) : (
-            <div className="flex justify-between gap-4 mobile:gap-2">
-              <SearchInput
-                value={tableState.query}
-                onChange={query => setTableState({ query })}
-                placeholder={t('top_whales.search')}
-                className="w-64 mobile:grow"
-                size="xs"
-              />
-            </div>
-          )}
-        </>
+        headerActions ? (
+          <div className="flex grow justify-end">{headerActions}</div>
+        ) : (
+          <div className="flex justify-between gap-4 mobile:gap-2">
+            <SearchInput
+              className="w-64 mobile:grow"
+              onChange={query => setTableState({ query })}
+              placeholder={t('top_whales.search')}
+              size="xs"
+              value={tableState.query}
+            />
+          </div>
+        )
       }
+      headerClassName="flex-wrap"
+      title={t('top_whales.title')}
     >
       <AccessShield
         mode="table"
@@ -234,11 +231,11 @@ export function WhaleRadarWhalesWidget({
         }}
       >
         <Table
+          className="max-h-[485px]"
           columns={columns}
           dataSource={whales.data ?? []}
-          rowKey={r => r.holder_address}
           loading={whales.isLoading}
-          className="max-h-[485px]"
+          rowKey={r => r.holder_address}
           scrollable
         />
       </AccessShield>

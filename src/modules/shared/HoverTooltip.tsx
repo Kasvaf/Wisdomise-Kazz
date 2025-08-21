@@ -1,7 +1,7 @@
-import { type Tooltip as AntTooltip } from 'antd';
-import { useState, type ComponentProps, type ReactNode } from 'react';
+import type { Tooltip as AntTooltip } from 'antd';
 import { clsx } from 'clsx';
-import { Dialog, DIALOG_OPENER_CLASS } from './v1-components/Dialog';
+import { type ComponentProps, type ReactNode, useState } from 'react';
+import { DIALOG_OPENER_CLASS, Dialog } from './v1-components/Dialog';
 
 export function HoverTooltip({
   title,
@@ -37,18 +37,18 @@ export function HoverTooltip({
         {children}
       </span>
       <Dialog
-        open={open}
-        mode="popup"
-        className="!max-w-[400px] md:border border-white/10"
+        className="!max-w-[400px] border-white/10 md:border"
         contentClassName="p-3 text-sm text-v1-content-primary"
-        surface={1}
+        ignoreFocus={ignoreFocus}
+        mode="popup"
         onClose={() => onOpenChange?.(false)}
         onOpen={() => onOpenChange?.(true)}
+        open={open}
+        overlay={false}
         popupConfig={{
           position: 'pointer',
         }}
-        overlay={false}
-        ignoreFocus={ignoreFocus}
+        surface={1}
       >
         {title}
       </Dialog>

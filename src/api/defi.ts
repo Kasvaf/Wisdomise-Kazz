@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { useAccountQuery } from 'api/account';
+import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { isProduction } from 'utils/version';
 

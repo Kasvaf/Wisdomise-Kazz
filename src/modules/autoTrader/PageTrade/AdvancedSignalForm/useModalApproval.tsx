@@ -1,18 +1,18 @@
-import { clsx } from 'clsx';
-import { NavLink } from 'react-router-dom';
-import { roundSensible } from 'utils/numbers';
 import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
-import useModal from 'shared/useModal';
-import Spin from 'shared/Spin';
+import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
+import { clsx } from 'clsx';
 import InfoLine from 'modules/autoTrader/components/InfoLine';
 import MessageBox from 'modules/autoTrader/components/MessageBox';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
-import { isMiniApp } from 'utils/version';
+import { NavLink } from 'react-router-dom';
+import Spin from 'shared/Spin';
+import useModal from 'shared/useModal';
 import { Button } from 'shared/v1-components/Button';
-import { type SignalFormState } from './useSignalFormStates';
+import { roundSensible } from 'utils/numbers';
+import { isMiniApp } from 'utils/version';
+import type { SignalFormState } from './useSignalFormStates';
 
 const PriceVol: React.FC<{
   amountRatio: string;
@@ -43,8 +43,8 @@ const PriceVols: React.FC<{
         ? 'None'
         : itemsFiltered.map(x => (
             <PriceVol
-              key={x.key}
               amountRatio={x.amountRatio}
+              key={x.key}
               priceExact={x.priceExact}
             />
           ))}
@@ -92,14 +92,14 @@ const ModalApproval: React.FC<{
         </InfoLine>
 
         <InfoLine
-          label="Gas Fee (Reserved)"
-          info="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
           className="text-sm"
+          info="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
+          label="Gas Fee (Reserved)"
         >
           {isLoading ? (
             <Spin />
           ) : data?.gas_fee ? (
-            String(data.gas_fee) + ' ' + gasAbbr
+            `${String(data.gas_fee)} ${gasAbbr}`
           ) : (
             ''
           )}
@@ -107,13 +107,13 @@ const ModalApproval: React.FC<{
 
         <div className="my-2 border border-white/5" />
 
-        <InfoLine label="Open Orders" className="text-sm">
+        <InfoLine className="text-sm" label="Open Orders">
           <PriceVols items={safetyOpens} />
         </InfoLine>
-        <InfoLine label="Take Profit" className="text-sm">
+        <InfoLine className="text-sm" label="Take Profit">
           <PriceVols items={takeProfits} />
         </InfoLine>
-        <InfoLine label="Stop Loss" className="text-sm">
+        <InfoLine className="text-sm" label="Stop Loss">
           <PriceVols items={stopLosses} />
         </InfoLine>
 
@@ -121,14 +121,14 @@ const ModalApproval: React.FC<{
 
         {data?.trade_fee && (
           <>
-            <InfoLine label="Fee" className="text-sm">
+            <InfoLine className="text-sm" label="Fee">
               {Number(data?.trade_fee) * 100}% of transactions + network gas fee
             </InfoLine>
 
             {!isLoading && !isMiniApp && Number(data?.trade_fee) > 0.6 && (
               <NavLink
-                to="/account/billing"
                 className="mt-2 flex items-center gap-2 text-xs"
+                to="/account/billing"
               >
                 <ProIcon className="size-6" />
                 <div>
@@ -150,13 +150,13 @@ const ModalApproval: React.FC<{
         )}
 
         {impact >= 0.05 ? (
-          <MessageBox variant="error" title="🚨 High Slippage Detected!">
+          <MessageBox title="🚨 High Slippage Detected!" variant="error">
             The price impact for this trade exceeds 5%, which could lead to
             significant losses. Trading has been disabled to protect your funds.
             Please adjust your trade size or try again later.
           </MessageBox>
         ) : impact >= 0.02 ? (
-          <MessageBox variant="warning" title="⚠️ Warning: High Slippage!">
+          <MessageBox title="⚠️ Warning: High Slippage!" variant="warning">
             Your trade has a appriximately {roundSensible(impact * 100)}% price
             impact, which may result in a less favorable execution price.
             Proceed with caution or consider adjusting your trade size.
@@ -174,11 +174,11 @@ const ModalApproval: React.FC<{
           Edit
         </Button>
         <Button
-          onClick={() => onResolve?.(true)}
-          variant="primary"
           className="grow"
           disabled={isLoading || !hasEnoughGas || !!data?.error}
           loading={isLoading}
+          onClick={() => onResolve?.(true)}
+          variant="primary"
         >
           Fire Position
         </Button>

@@ -1,19 +1,19 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Address, beginCell, TonClient } from '@ton/ton';
 import {
   CHAIN,
+  type SendTransactionRequest,
   useTonAddress,
   useTonConnectUI,
-  type SendTransactionRequest,
 } from '@tonconnect/ui-react';
-import { Address, beginCell, TonClient } from '@ton/ton';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ofetch } from 'ofetch';
-import { isProduction } from 'utils/version';
-import { useUserStorage } from 'api/userStorage';
-import { fromBigMoney, toBigMoney } from 'utils/money';
-import { gtag } from 'config/gtag';
+import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
 import { usePendingPositionInCache } from 'api/trader';
-import { useActiveWallet } from 'api/chains/wallet';
+import { useUserStorage } from 'api/userStorage';
+import { gtag } from 'config/gtag';
+import { ofetch } from 'ofetch';
+import { fromBigMoney, toBigMoney } from 'utils/money';
+import { isProduction } from 'utils/version';
 import { queryContractSlugs } from './utils';
 
 const tonClient = new TonClient({
@@ -99,7 +99,7 @@ export const useAccountJettonBalance = (slug?: string, address?: string) => {
 
         if (errorCode === -13) return 0;
         else if (errorCode) {
-          throw new Error('Cannot read user balance ' + errorCode.toString());
+          throw new Error(`Cannot read user balance ${errorCode.toString()}`);
         }
 
         balance = stack.readBigNumber();

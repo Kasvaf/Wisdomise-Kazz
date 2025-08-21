@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 
 export const SkeletonTrs: FC<{ length: number; rowHeight: number }> = ({
   length,
@@ -7,9 +7,9 @@ export const SkeletonTrs: FC<{ length: number; rowHeight: number }> = ({
   <>
     {Array.from({ length }).map((_, i) => (
       <tr
+        data-skeleton="true"
         key={`loading_${i}`}
         style={{ height: `${rowHeight}px` }}
-        data-skeleton="true"
       >
         <td
           colSpan={99}

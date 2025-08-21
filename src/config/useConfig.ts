@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { refreshAccessToken } from 'api/auth';
 import * as dayjs from 'dayjs';
 import { delJwtToken, getJwtToken } from 'modules/base/auth/jwt-store';
-import { refreshAccessToken } from 'api/auth';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import configDayjs from './dayjs';
 import configI18n from './i18n';
-import configSentry from './sentry';
-import { queryClient } from './reactQuery';
 import { configOfetch } from './ofetch';
+import { queryClient } from './reactQuery';
+import configSentry from './sentry';
 
 let lang = 'en';
 

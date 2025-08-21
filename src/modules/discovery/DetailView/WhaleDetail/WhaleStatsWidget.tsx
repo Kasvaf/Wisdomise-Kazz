@@ -1,16 +1,16 @@
-import { clsx } from 'clsx';
-import { type ReactNode } from 'react';
 import { Tooltip } from 'antd';
-import { bxInfoCircle } from 'boxicons-quasar';
-import { useTranslation } from 'react-i18next';
 import { useHasFlag } from 'api';
 import { useWhaleDetails } from 'api/discovery';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import Icon from 'shared/Icon';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { bxInfoCircle } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import BetaVersion from 'shared/BetaVersion';
 import { DebugPin } from 'shared/DebugPin';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import Icon from 'shared/Icon';
 import { ReadableDuration } from 'shared/ReadableDuration';
+import { ReadableNumber } from 'shared/ReadableNumber';
 
 function StatRow({
   className,
@@ -30,11 +30,11 @@ function StatRow({
       {label && (
         <div
           className={
-            'inline-flex items-center gap-1 text-xs font-normal text-v1-content-secondary'
+            'inline-flex items-center gap-1 font-normal text-v1-content-secondary text-xs'
           }
         >
           {label}
-          {beta && <BetaVersion variant="beta" minimal />}
+          {beta && <BetaVersion minimal variant="beta" />}
           {info && (
             <Tooltip title={info}>
               <Icon name={bxInfoCircle} size={18} />
@@ -44,7 +44,7 @@ function StatRow({
       )}
       <div
         className={clsx(
-          'flex grow items-center justify-end gap-2 text-xs font-normal text-v1-content-primary',
+          'flex grow items-center justify-end gap-2 font-normal text-v1-content-primary text-xs',
           className,
         )}
       >
@@ -86,28 +86,28 @@ export function WhaleStatsWidget({
           <StatRow label={t('whale_overview.total_balance')}>
             <div className="flex flex-col items-end">
               <ReadableNumber
-                value={whale.data?.last_30_balance_updates?.[0].balance_usdt}
-                label="$"
                 className="block text-2xl"
+                label="$"
                 popup="never"
+                value={whale.data?.last_30_balance_updates?.[0].balance_usdt}
               />
               <div className="flex items-center justify-start gap-2">
                 <DirectionalNumber
-                  value={whale.data?.last_30_days_balance_change}
-                  label="$"
-                  showSign={false}
                   className="text-xs"
+                  label="$"
                   popup="never"
+                  showSign={false}
+                  value={whale.data?.last_30_days_balance_change}
                 />
                 <DirectionalNumber
                   className="text-xs"
-                  value={whale.data?.last_30_days_balance_change_percentage}
                   label="%"
-                  prefix="("
-                  suffix=")"
-                  showSign
-                  showIcon={false}
                   popup="never"
+                  prefix="("
+                  showIcon={false}
+                  showSign
+                  suffix=")"
+                  value={whale.data?.last_30_days_balance_change_percentage}
                 />
               </div>
             </div>
@@ -116,48 +116,48 @@ export function WhaleStatsWidget({
           {hasFlag('/discovery?whale_trading_pnl') && (
             <>
               <StatRow label={t('whale_overview.trading_pnl')}>
-                <DebugPin title="/discovery?whale_trading_pnl" color="orange" />
+                <DebugPin color="orange" title="/discovery?whale_trading_pnl" />
                 <DirectionalNumber
-                  value={whale.data?.recent_trading_realized_pnl}
                   label="$"
-                  showIcon={false}
                   popup="never"
+                  showIcon={false}
+                  value={whale.data?.recent_trading_realized_pnl}
                 />
               </StatRow>
               <StatRow label={t('whale_overview.unrealized_trading_pnl')}>
-                <DebugPin title="/discovery?whale_trading_pnl" color="orange" />
+                <DebugPin color="orange" title="/discovery?whale_trading_pnl" />
                 <DirectionalNumber
-                  value={whale.data?.recent_trading_pnl}
                   label="$"
-                  showIcon={false}
                   popup="never"
+                  showIcon={false}
+                  value={whale.data?.recent_trading_pnl}
                 />
               </StatRow>
             </>
           )}
           <StatRow
-            label={t('whale_overview.trading_volume')}
             info={t('top_whales.trading_volume.info')}
+            label={t('whale_overview.trading_volume')}
           >
             <ReadableNumber
-              value={whale.data?.recent_trading_volume}
               label="$"
               popup="never"
+              value={whale.data?.recent_trading_volume}
             />
           </StatRow>
           {hasFlag('/discovery?whale_win_lose') && (
             <StatRow
-              label={t('whale_overview.trading_win_rate')}
               className="w-full flex-wrap"
+              label={t('whale_overview.trading_win_rate')}
             >
-              <DebugPin title="/discovery?whale_win_lose" color="orange" />
+              <DebugPin color="orange" title="/discovery?whale_win_lose" />
               <div className="w-full basis-full space-y-2">
                 <div className="relative h-1 w-full overflow-hidden rounded bg-v1-content-secondary">
                   {(whale.data?.recent_trading_losses ?? 0) > 0 && (
-                    <div className="absolute left-0 top-0 h-full w-full bg-v1-content-negative" />
+                    <div className="absolute top-0 left-0 h-full w-full bg-v1-content-negative" />
                   )}
                   <div
-                    className="absolute left-0 top-0 h-full bg-v1-content-positive"
+                    className="absolute top-0 left-0 h-full bg-v1-content-positive"
                     style={{
                       width: `${winPercent * 100}%`,
                     }}
@@ -177,14 +177,14 @@ export function WhaleStatsWidget({
             </StatRow>
           )}
           <StatRow
-            label={t('whale_overview.trading_tokens.title')}
             info={t('whale_overview.trading_tokens.info')}
+            label={t('whale_overview.trading_tokens.title')}
           >
             {whale.data?.assets.filter(x => x.label !== 'holding').length}
           </StatRow>
           <StatRow
-            label={t('whale_overview.holding_tokens.title')}
             info={t('whale_overview.holding_tokens.info')}
+            label={t('whale_overview.holding_tokens.title')}
           >
             {whale.data?.assets.filter(x => x.label === 'holding').length}
           </StatRow>
@@ -200,18 +200,18 @@ export function WhaleStatsWidget({
           </StatRow>
           <StatRow label={t('14d_stats.transfer_volume')}>
             <ReadableNumber
-              value={whale.data?.total_recent_transfer_volume}
               popup="never"
+              value={whale.data?.total_recent_transfer_volume}
             />
           </StatRow>
           <StatRow label={t('14d_stats.avg_trade_day')}>
             <ReadableNumber
+              popup="never"
               value={
                 typeof whale.data?.recent_number_of_trades === 'number'
                   ? whale.data?.recent_number_of_trades / 14
                   : null
               }
-              popup="never"
             />
           </StatRow>
         </div>

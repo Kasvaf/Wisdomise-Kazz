@@ -1,6 +1,6 @@
 import useNotification from 'antd/es/notification/useNotification';
 import { FetchError } from 'ofetch';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BaseError } from 'viem';
 

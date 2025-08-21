@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type FC } from 'react';
+import type { FC } from 'react';
 
 export const MiniBar: FC<{
   className?: string;
@@ -21,16 +21,16 @@ export const MiniBar: FC<{
     >
       {[1, 2, 3].map(size => (
         <div
-          key={size}
           className={clsx(
             'shrink-0 rounded-full',
             size === 1 ? 'h-1/2' : size === 2 ? 'h-3/4' : 'h-full',
             barValue < size
               ? 'bg-white/10'
               : value < 0
-              ? 'bg-v1-content-negative'
-              : 'bg-v1-content-positive',
+                ? 'bg-v1-content-negative'
+                : 'bg-v1-content-positive',
           )}
+          key={size}
           style={{
             width: `${barWidth}px`,
           }}

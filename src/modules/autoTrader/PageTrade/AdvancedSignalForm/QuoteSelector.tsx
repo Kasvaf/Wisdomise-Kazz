@@ -1,5 +1,5 @@
-import { clsx } from 'clsx';
 import { useSupportedPairs } from 'api';
+import { clsx } from 'clsx';
 import { Select } from 'shared/v1-components/Select';
 
 const QuoteSelector: React.FC<{
@@ -14,20 +14,20 @@ const QuoteSelector: React.FC<{
 
   return data ? (
     <Select
-      options={data?.map(p => p.quote.slug)}
-      value={value}
+      className={clsx('!bg-transparent', className)}
+      dialogClassName="w-20"
+      disabled={disabled || !data?.length || data.length <= 1}
       onChange={newValue => {
         if (newValue) {
           onChange?.(newValue);
         }
       }}
-      size={size}
-      dialogClassName="w-20"
-      className={clsx('!bg-transparent', className)}
-      disabled={disabled || !data?.length || data.length <= 1}
+      options={data?.map(p => p.quote.slug)}
       render={value => {
         return data?.find(p => p.quote.slug === value)?.quote?.abbreviation;
       }}
+      size={size}
+      value={value}
     />
   ) : null;
 };

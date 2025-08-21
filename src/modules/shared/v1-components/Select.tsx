@@ -1,21 +1,21 @@
+import { bxChevronDown, bxLoader } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
-  useMemo,
-  useRef,
-  useState,
+  Fragment,
+  memo,
   type ReactNode,
   useCallback,
   useEffect,
-  Fragment,
-  memo,
+  useMemo,
+  useRef,
+  useState,
 } from 'react';
-import { bxChevronDown, bxLoader } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface, useSurface } from 'utils/useSurface';
 import { Button } from './Button';
 import { Checkbox } from './Checkbox';
-import { Dialog, DIALOG_OPENER_CLASS } from './Dialog';
+import { DIALOG_OPENER_CLASS, Dialog } from './Dialog';
 
 interface SelectProps<V, M extends boolean = false> {
   size?: 'xs' | 'sm' | 'md' | 'xl';
@@ -99,6 +99,7 @@ function Option({
   const childRef = useRef<HTMLDivElement>(null);
   return (
     <div
+      aria-selected={selected}
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
         size === 'xs' && 'min-h-xs px-2 text-xs',
@@ -110,19 +111,18 @@ function Option({
         !checkbox && selected && '!bg-white/10',
       )}
       onClick={onClick}
-      aria-selected={selected}
-      onPointerOver={() => {
-        try {
-          childRef.current?.scrollTo({
-            left: 999,
-            behavior: 'smooth',
-          });
-        } catch {}
-      }}
       onPointerLeave={() => {
         try {
           childRef.current?.scrollTo({
             left: 0,
+            behavior: 'smooth',
+          });
+        } catch {}
+      }}
+      onPointerOver={() => {
+        try {
+          childRef.current?.scrollTo({
+            left: 999,
             behavior: 'smooth',
           });
         } catch {}
@@ -133,9 +133,9 @@ function Option({
       </div>
       {checkbox && (
         <Checkbox
+          className="shrink-0 overflow-visible"
           size={size === 'xl' ? 'lg' : 'md'}
           value={selected}
-          className="shrink-0 overflow-visible"
         />
       )}
     </div>
@@ -172,11 +172,11 @@ function InnerContent<V, M extends boolean = false>({
       {isEmpty ? (
         allowClear ? (
           <RenderedValue
-            value={undefined}
-            render={render}
-            target="value"
             loading={loading}
+            render={render}
             size={size}
+            target="value"
+            value={undefined}
           />
         ) : (
           <span className="text-v1-content-secondary">{placeholder}</span>
@@ -189,11 +189,11 @@ function InnerContent<V, M extends boolean = false>({
               key={JSON.stringify(v)}
             >
               <RenderedValue
-                value={v}
-                render={render}
-                target="value"
                 loading={loading}
+                render={render}
                 size={size}
+                target="value"
+                value={v}
               />
             </span>
           ))}
@@ -201,11 +201,11 @@ function InnerContent<V, M extends boolean = false>({
         </div>
       ) : (
         <RenderedValue
-          value={value as never}
-          render={render}
-          target="value"
           loading={loading}
+          render={render}
           size={size}
+          target="value"
+          value={value as never}
         />
       )}
     </>
@@ -323,7 +323,7 @@ export function Select<V, M extends boolean = false>({
           size === 'md' && 'h-md rounded-lg px-3 text-xs',
           size === 'xl' && 'h-xl rounded-xl px-4 text-sm',
           /* Disabled */
-          'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
+          'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-none disabled:bg-white/5 disabled:text-white/50 disabled:grayscale',
           /* Shared */
           'select-none border border-transparent font-normal outline-none transition-all focus:border-v1-border-focus [&_svg]:size-5',
           block ? 'flex' : 'inline-flex',
@@ -339,76 +339,76 @@ export function Select<V, M extends boolean = false>({
         {...(!disabled && {
           tabIndex: 0,
         })}
-        ref={contentRef}
         onClick={() => (disabled ? null : setIsOpen(true))}
+        ref={contentRef}
       >
         {prefixIcon}
         <div className="relative shrink grow truncate">
           <InnerContent
             allowClear={allowClear}
-            multiple={multiple}
-            render={renderFn}
-            placeholder={placeholder}
-            value={value}
             loading={loading}
+            multiple={multiple}
+            placeholder={placeholder}
+            render={renderFn}
             size={size}
+            value={value}
           />
         </div>
         {suffixIcon}
         {chevron && !disabled && (
           <Icon
-            name={bxChevronDown}
             className={clsx(
               'justify-self-end text-inherit opacity-70 transition-all group-hover:opacity-100',
-              isOpen && 'rotate-180 !opacity-100',
+              isOpen && '!opacity-100 rotate-180',
             )}
+            name={bxChevronDown}
             size={16}
           />
         )}
       </div>
 
       <Dialog
-        mode={isMobile ? 'drawer' : 'popup'}
+        className={clsx(
+          '!max-h-96 mobile:!max-h-[90svh] border-white/10 md:border',
+          showSearch && 'mobile:!min-h-[90svh]',
+          dialogClassName,
+        )}
         drawerConfig={{
           closeButton: true,
           position: 'bottom',
         }}
-        popupConfig={{
-          position: 'target',
-        }}
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        surface={dialogSurface}
-        className={clsx(
-          '!max-h-96 mobile:!max-h-[90svh] md:border border-white/10',
-          showSearch && 'mobile:!min-h-[90svh]',
-          dialogClassName,
-        )}
-        header={
-          showSearch && (
-            <input
-              placeholder={searchPlaceholder}
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
-              value={searchValue ?? ''}
-              onChange={e => onSearch?.(e.target.value)}
-              ref={searchRef}
-            />
-          )
-        }
         footer={
           isMobile &&
           !showSearch && (
             <Button
-              variant="ghost"
               block
               className="w-full"
-              surface={5}
               onClick={() => setIsOpen(false)}
+              surface={5}
+              variant="ghost"
             >
               {'OK'}
             </Button>
           )
         }
+        header={
+          showSearch && (
+            <input
+              className="block h-sm mobile:h-md w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand"
+              onChange={e => onSearch?.(e.target.value)}
+              placeholder={searchPlaceholder}
+              ref={searchRef}
+              value={searchValue ?? ''}
+            />
+          )
+        }
+        mode={isMobile ? 'drawer' : 'popup'}
+        onClose={() => setIsOpen(false)}
+        open={isOpen}
+        popupConfig={{
+          position: 'target',
+        }}
+        surface={dialogSurface}
       >
         <div
           className={clsx('flex h-full w-full flex-col overflow-hidden')}
@@ -422,35 +422,33 @@ export function Select<V, M extends boolean = false>({
                 key="loading"
               >
                 <Icon
-                  name={bxLoader}
                   className="inline-block size-4 animate-spin"
+                  name={bxLoader}
                   size={16}
                 />
               </div>
             ) : (
-              <>
-                {visibleOptions.map((opt, index) => (
-                  <Option
-                    key={`${JSON.stringify(opt)}${index}`}
+              visibleOptions.map((opt, index) => (
+                <Option
+                  checkbox={multiple}
+                  key={`${JSON.stringify(opt)}${index}`}
+                  onClick={() => handleOptionClick(opt)}
+                  selected={
+                    opt === undefined
+                      ? valueAsArray.length === 0
+                      : valueAsArray.includes(opt)
+                  }
+                  size={size}
+                >
+                  <RenderedValue
+                    loading={loading}
+                    render={render}
                     size={size}
-                    onClick={() => handleOptionClick(opt)}
-                    selected={
-                      opt === undefined
-                        ? valueAsArray.length === 0
-                        : valueAsArray.includes(opt)
-                    }
-                    checkbox={multiple}
-                  >
-                    <RenderedValue
-                      value={opt}
-                      render={render}
-                      target="option"
-                      loading={loading}
-                      size={size}
-                    />
-                  </Option>
-                ))}
-              </>
+                    target="option"
+                    value={opt}
+                  />
+                </Option>
+              ))
             )}
           </div>
           {}
