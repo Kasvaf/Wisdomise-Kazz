@@ -1,16 +1,19 @@
-import PageDiscovery from 'modules/discovery/PageDiscovery';
-import {
-  createDiscoverySearchParams,
-  parseDiscoverySearchParams,
-} from 'modules/discovery/useDiscoveryRouteMeta';
+import type { DETAILS, LISTS } from 'modules/discovery/constants';
+import PageDiscoveryDetailView from 'modules/discovery/PageDiscoveryDetailView';
+import PageDiscoveryListView from 'modules/discovery/PageDiscoveryListView';
 import { useTranslation } from 'react-i18next';
 import type { RouteObject } from 'react-router-dom';
 import Container from '../Container';
-import { useMenuItems } from '../Layout/MenuItems/useMenuItems';
-import type { RouteHandle } from './types';
+import type { Crumb, RouteHandle } from './types';
+
+const readableParam = (x: string) => {
+  return x
+    .split('-')
+    .map(y => `${y[0].toUpperCase()}${y.slice(1)}`)
+    .join(' ');
+};
 
 const useDiscoveryRoutes = () => {
-  const menuItems = useMenuItems();
   const { t } = useTranslation('base');
   return [
     {
@@ -18,76 +21,49 @@ const useDiscoveryRoutes = () => {
       element: <Container />,
       children: [
         {
-          path: '',
-          element: <PageDiscovery />,
+          id: 'DiscoveryListView',
+          path: ':list',
+          element: <PageDiscoveryListView />,
           handle: {
-            crumb: (_p, s) => {
-              const { list, slug, detail, view } =
-                parseDiscoverySearchParams(s);
-              const matchedListTitle = menuItems.find(
-                x => x.meta.list === list,
-              )?.crumb;
-              if (slug && view !== 'list') {
-                const readableSlug = slug
-                  .split('-')
-                  .map(p => `${p[0].toUpperCase()}${p.slice(1)}`)
-                  .join(' ');
-                return detail === 'whale'
-                  ? [
-                      {
-                        text: t('menu.whale.title'),
-                        href: `/discovery?${createDiscoverySearchParams({
-                          list: 'whale-radar',
-                        }).toString()}`,
-                      },
-                      {
-                        text: readableSlug,
-                        href: `/discovery?${createDiscoverySearchParams({
-                          list: 'whale-radar',
-                          slug,
-                        }).toString()}`,
-                      },
-                    ]
-                  : detail === 'wallet'
-                    ? [
-                        {
-                          text: 'Wallets',
-                          href: '',
-                        },
-                        {
-                          text: slug,
-                          href: '',
-                        },
-                      ]
-                    : [
-                        {
-                          text: t('menu.coin.title'),
-                          href: `/discovery?${createDiscoverySearchParams({
-                            list: 'coin-radar',
-                          }).toString()}`,
-                        },
-                        {
-                          text: readableSlug,
-                          href: `/discovery?${createDiscoverySearchParams({
-                            list: 'coin-radar',
-                            slug,
-                          }).toString()}`,
-                        },
-                      ];
-              }
+            crumb: p => {
+              const list = p.list as keyof typeof LISTS | undefined;
+              if (!list) return [];
               return [
                 {
                   text: t('menu.home.title'),
-                  href: `/discovery?${createDiscoverySearchParams({
-                    list: 'coin-radar',
-                  }).toString()}`,
+                  href: `/`,
                 },
                 {
-                  text: matchedListTitle,
-                  href: `/discovery?${createDiscoverySearchParams({
-                    list,
-                  }).toString()}`,
+                  text: readableParam(list),
+                  href: `/list/${list}`,
                 },
+              ];
+            },
+          } satisfies RouteHandle,
+        },
+        {
+          id: 'DiscoveryDetailView',
+          path: ':detail/:param1/:param2?/:param3?',
+          element: <PageDiscoveryDetailView />,
+          handle: {
+            crumb: p => {
+              const detail = p.detail as keyof typeof DETAILS | undefined;
+              if (!detail) return [];
+              const params = [p.param1, p.param2, p.param3].filter(
+                x => !!x,
+              ) as string[];
+              return [
+                {
+                  text: readableParam(detail),
+                  href: '/',
+                },
+                ...params.map(
+                  x =>
+                    ({
+                      text: readableParam(x),
+                      href: `/${detail}/${params.join('/')}`,
+                    }) as Crumb,
+                ),
               ];
             },
           } satisfies RouteHandle,

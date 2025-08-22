@@ -1,70 +1,8 @@
-import { LISTS } from 'modules/discovery/constants';
-import { createDiscoverySearchParams } from 'modules/discovery/useDiscoveryRouteMeta';
 import { Navigate, useLocation } from 'react-router-dom';
 
 const REDIRECT_MAP: Record<string, string> = {
   // Home
-  '': `/discovery?${createDiscoverySearchParams({
-    list: 'network-radar',
-  }).toString()}`,
-  // Coin Radar
-  '/coin-radar': `/discovery?${createDiscoverySearchParams({
-    list: 'coin-radar',
-  }).toString()}`,
-  '/coin-radar/overview': `/discovery?${createDiscoverySearchParams({
-    list: 'coin-radar',
-  }).toString()}`,
-  // Social Radar
-  '/coin-radar/social-radar': `/discovery?${createDiscoverySearchParams({
-    list: 'social-radar',
-  }).toString()}`,
-  // Social Radar
-  '/coin-radar/technical-radar': `/discovery?${createDiscoverySearchParams({
-    list: 'technical-radar',
-  }).toString()}`,
-  // Whale Radar
-  '/coin-radar/whale-radar': `/discovery?${createDiscoverySearchParams({
-    list: 'whale-radar',
-  }).toString()}`,
-  // Network Radar
-  '/coin-radar/network-radar': `/discovery?${createDiscoverySearchParams({
-    list: 'network-radar',
-  }).toString()}`,
-  // Alerts
-  '/coin-radar/alerts': '/account/alerts',
-  // Whale Details
-  '/whale/{nework}/{address}': `/discovery?${createDiscoverySearchParams({
-    detail: 'whale',
-    slug: '{nework}/{address}',
-  }).toString()}`,
-  '/coin-radar/whale-radar/{nework}/{address}': `/discovery?${createDiscoverySearchParams(
-    {
-      detail: 'whale',
-      slug: '{nework}/{address}',
-    },
-  ).toString()}`,
-  // Coin Details
-  '/token/{nework}/{address}': `/discovery?${createDiscoverySearchParams({
-    detail: 'coin',
-    slug: '{nework}/{address}',
-  }).toString()}`,
-  '/token/{nework}': `/discovery?${createDiscoverySearchParams({
-    detail: 'coin',
-    slug: '{network}/',
-  }).toString()}`,
-  '/coin/{slug}': `/discovery?${createDiscoverySearchParams({
-    detail: 'coin',
-    slug: '{slug}',
-  }).toString()}`,
-
-  ...Object.fromEntries(
-    Object.keys(LISTS).map(list => [
-      `/discovery/${list}`,
-      `/discovery?${createDiscoverySearchParams({
-        list: list as never,
-      }).toString()}`,
-    ]),
-  ),
+  '': `/network-radar`,
 };
 
 const findMatchingRoute = (

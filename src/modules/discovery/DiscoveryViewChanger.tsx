@@ -1,4 +1,5 @@
 import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
+import clsx from 'clsx';
 import {
   type CSSProperties,
   type FC,
@@ -6,22 +7,29 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
-import { useDiscoveryRouteMeta } from './useDiscoveryRouteMeta';
+import {
+  useDiscoveryBackdropParams,
+  useDiscoveryParams,
+  useDiscoveryView,
+} from './lib';
 
-export const ListExpander: FC = () => {
+export const DiscoveryViewChanger: FC = () => {
   const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
-  const { params, getUrl } = useDiscoveryRouteMeta();
+  const view = useDiscoveryView();
+
+  if (!view)
+    throw new Error('DiscoveryViewChanger only works on discovery routes');
+
+  const [params, setParams] = useDiscoveryParams<unknown>();
+  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
+
   const [style, setStyle] = useState<CSSProperties>({});
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (isMobile) return;
-
     const sidebarRect = document
       .querySelector('#sidebar')
       ?.getBoundingClientRect();
@@ -29,68 +37,69 @@ export const ListExpander: FC = () => {
       .querySelector('#app-list')
       ?.getBoundingClientRect();
 
-    if (params.view === 'detail') {
+    if (view === 'detail') {
       setStyle({
         top: (sidebarRect?.top ?? 74) + 12,
-        left: (sidebarRect?.width ?? 68) - 12,
-        position: 'fixed',
-      });
-    } else if (params.view === 'both') {
-      setStyle({
-        top: (sidebarRect?.top ?? 74) + 12,
-        left: (appListRect?.left ?? 68) + (appListRect?.width ?? 384) - 12,
-        position: 'fixed',
+        left: (appListRect?.left ?? 68) + (appListRect?.width ?? 0) - 12,
       });
     } else {
       setStyle({
         top: (sidebarRect?.top ?? 74) + 12,
         right: 6,
-        position: 'fixed',
       });
     }
-  }, [params, isMobile]);
+  }, [view]);
 
   if (isMobile) return null;
 
   const handleExpandClick = () => {
-    if (params.view === 'detail') {
-      navigate(
-        getUrl({
-          view: 'both',
-        }),
-      );
-    } else if (params.view === 'both') {
-      navigate(
-        getUrl({
-          view: 'list',
-        }),
-      );
+    if (view !== 'detail') return;
+    if ('list' in backdropParams && backdropParams.list) {
+      setBackdropParams({
+        slug: params.slug,
+      });
+      setParams({
+        list: backdropParams.list,
+      });
+      return;
+    } else {
+      setBackdropParams({
+        list: 'trench',
+      });
+      return;
     }
   };
 
   const handleCollapseClick = () => {
-    if (params.view === 'list') {
-      navigate(
-        getUrl({
-          view: 'both',
-        }),
-      );
-    } else if (params.view === 'both') {
-      navigate(
-        getUrl({
-          view: 'detail',
-        }),
-      );
+    if (view === 'detail') {
+      return setBackdropParams({
+        list: undefined,
+      });
+    }
+    if (
+      view === 'list' &&
+      'detail' in backdropParams &&
+      'slug' in backdropParams &&
+      backdropParams.detail &&
+      backdropParams.slug
+    ) {
+      setBackdropParams({
+        list: params.list,
+      });
+      setParams({
+        detail: backdropParams.detail,
+        slug: backdropParams.slug,
+      });
     }
   };
 
   return (
     <div
-      className="fixed z-30 flex flex-col items-center gap-1"
+      className={clsx('fixed z-30 flex flex-col items-center gap-1')}
       ref={ref}
       style={style}
     >
-      {(params.view === 'detail' || params.view === 'both') && (
+      {view === 'detail' && (
         <Button
           className="rounded-full"
           fab
@@ -102,7 +111,7 @@ export const ListExpander: FC = () => {
           <Icon name={bxChevronRight} />
         </Button>
       )}
-      {params.view !== 'detail' && params.slug && (
+      {view === 'detail' && 'list' in backdropParams && backdropParams.list && (
         <Button
           className="rounded-full"
           fab

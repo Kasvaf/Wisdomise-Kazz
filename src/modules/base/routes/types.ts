@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { Params } from 'react-router-dom';
 
-interface Crumb {
+export interface Crumb {
   href: string;
   text: ReactNode;
 }
