@@ -1,3 +1,4 @@
+import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { type FC, useState } from 'react';
@@ -30,8 +31,10 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
 
   const navigate = useNavigate();
 
-  const onRowClick = (slug: string) => {
-    navigate(`/token/${slug}`);
+  const onRowClick = (row: TrenchStreamResponseResult) => {
+    if (row.symbol?.network && row.symbol?.base)
+      return navigate(`/token/${row.symbol?.network}/${row.symbol?.base}`);
+    navigate(`/token/${row.symbol?.slug}`);
   };
 
   return (

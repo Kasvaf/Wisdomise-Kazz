@@ -16,8 +16,6 @@ export default function PageDiscovery() {
   const urlParams = useDiscoveryUrlParams();
   const isMobile = useIsMobile();
 
-  console.log({ urlParams, backdropParams });
-
   return (
     <PageWrapper
       extension={<CoinExtensionsGroup />}

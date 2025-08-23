@@ -161,7 +161,15 @@ export const Coin: FC<{
       )}
       onClick={onClick}
       to={
-        typeof href === 'string' ? href : href && slug ? `/token/${slug}` : '#'
+        typeof href === 'string'
+          ? href
+          : !href
+            ? '#'
+            : contractAddress?.network?.slug && contractAddress.value
+              ? `/token/${contractAddress.network.slug}/${contractAddress.value}`
+              : slug
+                ? `/token/${slug}`
+                : '#'
       }
     >
       <div

@@ -31,7 +31,7 @@ export const CoinPriceWidget: FC<{
     if (network?.contract_address) {
       return `${window.location.origin}/token/${network.network.slug}/${network.contract_address}`;
     }
-    return `${window.location.origin}/coin/${slug}`;
+    return `${window.location.origin}/token/${slug}`;
   }, [globalNetwork, data, slug]);
 
   useLoadingBadge(isLoading);
