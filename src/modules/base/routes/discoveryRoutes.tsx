@@ -22,11 +22,11 @@ const useDiscoveryRoutes = () => {
       children: [
         {
           id: 'DiscoveryListView',
-          path: ':list',
+          path: ':slug1',
           element: <PageDiscoveryListView />,
           handle: {
             crumb: p => {
-              const list = p.list as keyof typeof LISTS | undefined;
+              const list = p.slug1 as (typeof LISTS)[number] | undefined;
               if (!list) return [];
               return [
                 {
@@ -35,7 +35,7 @@ const useDiscoveryRoutes = () => {
                 },
                 {
                   text: readableParam(list),
-                  href: `/list/${list}`,
+                  href: `/${list}`,
                 },
               ];
             },
@@ -43,13 +43,13 @@ const useDiscoveryRoutes = () => {
         },
         {
           id: 'DiscoveryDetailView',
-          path: ':detail/:param1/:param2?/:param3?',
+          path: ':detail/:slug1/:slug2?/:slug3?',
           element: <PageDiscoveryDetailView />,
           handle: {
             crumb: p => {
-              const detail = p.detail as keyof typeof DETAILS | undefined;
+              const detail = p.detail as (typeof DETAILS)[number] | undefined;
               if (!detail) return [];
-              const params = [p.param1, p.param2, p.param3].filter(
+              const slugs = [p.slug1, p.slug2, p.slug3].filter(
                 x => !!x,
               ) as string[];
               return [
@@ -57,11 +57,11 @@ const useDiscoveryRoutes = () => {
                   text: readableParam(detail),
                   href: '/',
                 },
-                ...params.map(
+                ...slugs.map(
                   x =>
                     ({
                       text: readableParam(x),
-                      href: `/${detail}/${params.join('/')}`,
+                      href: `/${detail}/${slugs.join('/')}`,
                     }) as Crumb,
                 ),
               ];

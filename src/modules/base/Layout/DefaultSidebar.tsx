@@ -1,16 +1,14 @@
 import { useHasFlag } from 'api';
 import { clsx } from 'clsx';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import type { FC } from 'react';
-import { NavLink, useSearchParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const MenuItems = useMenuItems();
   const hasFlag = useHasFlag();
-  const { params, isMatched, getUrl } = useDiscoveryRouteMeta();
-  const [searchParams] = useSearchParams();
-  const hasSlug = searchParams.has('slug');
+  const [params] = useDiscoveryParams();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
   return (
@@ -24,22 +22,12 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
         <NavLink
           className={clsx(
             'group flex w-full flex-col items-center justify-center py-3 transition-all',
-            isMatched(item.meta) &&
+            item.meta.list === params.list &&
               'bg-v1-surface-l1 font-bold text-v1-content-brand',
             'hover:text-v1-content-link-hover',
           )}
           key={item.link}
-          to={getUrl({
-            ...item.meta,
-            view:
-              params.view === 'list' || !hasSlug
-                ? 'list'
-                : params.view === 'detail'
-                  ? 'both'
-                  : params.list === item.meta.list
-                    ? 'detail'
-                    : 'both',
-          })}
+          to={item.link}
         >
           <item.icon className="size-7" />
           <div className="mt-1 font-normal text-xxs">{item.text}</div>

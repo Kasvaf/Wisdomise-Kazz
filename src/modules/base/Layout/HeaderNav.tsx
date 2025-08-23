@@ -1,8 +1,8 @@
 import { useHasFlag, useTraderPositionsQuery } from 'api';
 import { clsx } from 'clsx';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { useEffect } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import usePageTour from 'shared/usePageTour';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';
@@ -18,8 +18,7 @@ const HeaderNav = () => {
   const { data } = useTraderPositionsQuery({ isOpen: true });
   const openTrades =
     data?.positions.filter(x => x.deposit_status !== 'PENDING').length ?? 0;
-  const [searchParams] = useSearchParams();
-  const { getUrl } = useDiscoveryRouteMeta<'filter'>();
+  const [params] = useDiscoveryParams();
   const hasFlag = useHasFlag();
 
   const [maxOpenTrades, setMaxOpenTrade] = useLocalStorage(
@@ -62,17 +61,14 @@ const HeaderNav = () => {
           className={clsx(
             isMobile && '!px-4',
             pathname.startsWith('/discovery') &&
-              searchParams.get('list') === 'positions' &&
+              params.list === 'positions' &&
               '!text-v1-content-brand',
             'id-tour-trades-btn',
           )}
           onClick={() => {
-            const to = getUrl({
-              list: 'positions',
-              view: 'list',
-              filter: hasClosedTrades && !openTrades ? 'history' : '',
-            });
-            navigate(to);
+            navigate(
+              `/positions?filter=${hasClosedTrades && !openTrades ? 'history' : ''}`,
+            );
           }}
           size="md"
           surface={1}

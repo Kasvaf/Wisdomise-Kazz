@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useMatches, useNavigate, useParams } from 'react-router-dom';
 import { useSessionStorage } from 'usehooks-ts';
 import type { DETAILS, LISTS, VIEWS } from './constants';
@@ -6,26 +6,12 @@ import type { DETAILS, LISTS, VIEWS } from './constants';
 export type DiscoveryView = (typeof VIEWS)[number];
 export type DiscoveryDetail = (typeof DETAILS)[number];
 export type DiscoveryList = (typeof LISTS)[number];
-export type DiscoverySlug = string[];
-
-export type DiscoveryParams<T = DiscoveryView | never> = T extends 'list'
-  ? {
-      list: DiscoveryList;
-    }
-  : T extends 'detail'
-    ? {
-        detail: DiscoveryDetail;
-        slug: DiscoverySlug;
-      }
-    : {
-        list?: DiscoveryList;
-        detail?: DiscoveryDetail;
-        slug?: DiscoverySlug;
-      };
-
-export type SetDiscoveryParams<T = DiscoveryView | never> = (
-  newValue: DiscoveryParams<T>,
-) => void;
+export type DiscoverySlugs = string[];
+export type DiscoveryParams = {
+  list: DiscoveryList;
+  detail: DiscoveryDetail;
+  slugs: DiscoverySlugs;
+};
 
 export const useDiscoveryView = (): DiscoveryView | undefined => {
   const matches = useMatches();
@@ -36,65 +22,64 @@ export const useDiscoveryView = (): DiscoveryView | undefined => {
       : undefined;
 };
 
-export function useDiscoveryBackdropParams(): [
-  DiscoveryParams<any>,
-  SetDiscoveryParams<any>,
-] {
-  return useSessionStorage<DiscoveryParams<unknown>>('discovery-backdrop', {
-    detail: 'token',
-    list: 'trench',
-    slug: [],
-  } as never);
-}
-
-export function useDiscoveryParams<T = DiscoveryView>(): [
-  DiscoveryParams<T>,
-  SetDiscoveryParams<T>,
-] {
-  const navigate = useNavigate();
-  const rawParams = useParams<{
+export const useDiscoveryParams = () => {
+  const view = useDiscoveryView();
+  const urlParams = useParams<{
     list: DiscoveryList;
     detail: DiscoveryDetail;
-    param1: string;
-    param2: string;
-    param3: string;
+    slug1: string;
+    slug2: string;
+    slug3: string;
   }>();
-  const view = useDiscoveryView();
+  const navigate = useNavigate();
+  const [storageParams, setStorageParams] = useSessionStorage<{
+    list?: DiscoveryList;
+    detail?: DiscoveryDetail;
+    slug1?: string;
+    slug2?: string;
+    slug3?: string;
+  }>('discovery-backdrop', {});
 
-  const valueAsDetail = useMemo<DiscoveryParams<'detail'>>(() => {
-    return {
-      detail: rawParams.detail ?? 'token',
-      slug: [rawParams.param1, rawParams.param2, rawParams.param3].filter(
-        x => !!x,
-      ) as DiscoverySlug,
+  return useMemo(() => {
+    const value = (
+      view === 'detail'
+        ? {
+            detail: urlParams.detail,
+            slugs: [urlParams.slug1, urlParams.slug2, urlParams.slug3].filter(
+              x => !!x,
+            ),
+            list: storageParams.list,
+          }
+        : {
+            list: urlParams.list,
+            detail: storageParams.detail,
+            slugs: [
+              storageParams.slug1,
+              storageParams.slug2,
+              storageParams.slug3,
+            ].filter(x => !!x),
+          }
+    ) as Partial<DiscoveryParams>;
+
+    /**
+     * @title Internal Method
+     * @description You probably don't need this. if you want to navigate to a detail or a list, just use navigate or NavLink.
+     */
+    const setValue = (
+      newValue: Partial<DiscoveryParams>,
+      newView: DiscoveryView = view || 'detail',
+    ) => {
+      setStorageParams({
+        ...value,
+        ...newValue,
+      });
+      if (newView === 'detail') {
+        navigate(`/${[newValue.detail, ...(newValue.slugs ?? [])].join('/')}`);
+      } else {
+        navigate(`/${newValue.list}`);
+      }
     };
-  }, [rawParams.detail, rawParams.param1, rawParams.param2, rawParams.param3]);
 
-  const valueAsList = useMemo<DiscoveryParams<'list'>>(() => {
-    return {
-      list: rawParams.list ?? 'trench',
-    };
-  }, [rawParams.list]);
-
-  const setValueAsDetail = useCallback(
-    (newValue: DiscoveryParams<'detail'>) => {
-      navigate(`/${newValue.detail}/${newValue.slug.join('/')}`);
-    },
-    [navigate],
-  );
-
-  const setValueAsList = useCallback(
-    (newValue: DiscoveryParams<'list'>) => {
-      navigate(`/${newValue.list}`);
-    },
-    [navigate],
-  );
-
-  return useMemo(
-    () =>
-      (view === 'detail'
-        ? [valueAsDetail, setValueAsDetail]
-        : [valueAsList, setValueAsList]) as never,
-    [view, valueAsDetail, valueAsList, setValueAsDetail, setValueAsList],
-  );
-}
+    return [value, setValue] as const;
+  }, [view, storageParams, setStorageParams, urlParams, navigate]);
+};

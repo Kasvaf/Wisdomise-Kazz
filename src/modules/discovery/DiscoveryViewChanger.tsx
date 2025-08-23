@@ -10,11 +10,7 @@ import {
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
-import {
-  useDiscoveryBackdropParams,
-  useDiscoveryParams,
-  useDiscoveryView,
-} from './lib';
+import { useDiscoveryParams, useDiscoveryView } from './lib';
 
 export const DiscoveryViewChanger: FC = () => {
   const isMobile = useIsMobile();
@@ -24,8 +20,7 @@ export const DiscoveryViewChanger: FC = () => {
   if (!view)
     throw new Error('DiscoveryViewChanger only works on discovery routes');
 
-  const [params, setParams] = useDiscoveryParams<unknown>();
-  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
+  const [params, setParams] = useDiscoveryParams();
 
   const [style, setStyle] = useState<CSSProperties>({});
 
@@ -54,42 +49,35 @@ export const DiscoveryViewChanger: FC = () => {
 
   const handleExpandClick = () => {
     if (view !== 'detail') return;
-    if ('list' in backdropParams && backdropParams.list) {
-      setBackdropParams({
-        slug: params.slug,
-      });
-      setParams({
-        list: backdropParams.list,
-      });
+    if (params.list) {
+      setParams(
+        {
+          list: params.list,
+        },
+        'list',
+      );
       return;
     } else {
-      setBackdropParams({
-        list: 'trench',
-      });
+      setParams(
+        {
+          list: 'trench',
+        },
+        'detail',
+      );
       return;
     }
   };
 
   const handleCollapseClick = () => {
     if (view === 'detail') {
-      return setBackdropParams({
-        list: undefined,
-      });
-    }
-    if (
-      view === 'list' &&
-      'detail' in backdropParams &&
-      'slug' in backdropParams &&
-      backdropParams.detail &&
-      backdropParams.slug
-    ) {
-      setBackdropParams({
-        list: params.list,
-      });
-      setParams({
-        detail: backdropParams.detail,
-        slug: backdropParams.slug,
-      });
+      setParams(
+        {
+          list: undefined,
+        },
+        'detail',
+      );
+    } else {
+      setParams({}, 'detail');
     }
   };
 
@@ -111,7 +99,8 @@ export const DiscoveryViewChanger: FC = () => {
           <Icon name={bxChevronRight} />
         </Button>
       )}
-      {view === 'detail' && 'list' in backdropParams && backdropParams.list && (
+      {((view === 'detail' && params.list) ||
+        (view === 'list' && params.detail)) && (
         <Button
           className="rounded-full"
           fab
