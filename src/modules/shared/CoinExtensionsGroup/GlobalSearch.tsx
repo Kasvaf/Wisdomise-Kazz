@@ -1,6 +1,5 @@
 import { useDetailedCoins, useNetworks } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type ComponentProps, type FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +42,6 @@ export const GlobalSearch: FC<
   );
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
-  const { getUrl } = useDiscoveryRouteMeta();
 
   const coins = useDetailedCoins({
     query: debouncedQuery,
@@ -58,14 +56,7 @@ export const GlobalSearch: FC<
       loading={coins.isLoading}
       multiple={false}
       onChange={slug => {
-        if (slug)
-          navigate(
-            getUrl({
-              detail: 'coin',
-              slug,
-              view: 'both',
-            }),
-          );
+        if (slug) navigate(`/token/${slug}`);
       }}
       onSearch={setQuery}
       options={coins.data?.map?.(x => x.symbol.slug)}

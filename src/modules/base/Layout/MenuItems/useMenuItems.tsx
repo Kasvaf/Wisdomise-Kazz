@@ -34,9 +34,9 @@ export const useMenuItems = () => {
         crumb: 'Trench',
       },
       {
-        link: '/blue-chips',
+        link: '/bluechips',
         meta: {
-          list: 'blue-chips',
+          list: 'bluechips',
         },
         icon: CoinRadarIcon,
         text: 'Bluechips',

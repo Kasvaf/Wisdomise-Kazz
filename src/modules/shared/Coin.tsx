@@ -2,7 +2,6 @@ import { useNetworks } from 'api/discovery';
 import { useSymbolInfo } from 'api/symbol';
 import type { Coin as CoinType } from 'api/types/shared';
 import { clsx } from 'clsx';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type ReactNode, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { gtmClass } from 'utils/gtmClass';
@@ -97,7 +96,6 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
-  const { getUrl } = useDiscoveryRouteMeta();
 
   useSymbolInfo('the-open-network');
   const content = (
@@ -179,11 +177,7 @@ export function Coin({
         <Link
           className={clsx(rootClassName, gtmClass('coin_list-item'))}
           title={tooltip}
-          to={getUrl({
-            detail: 'coin',
-            slug: coin.slug,
-            view: 'both',
-          })}
+          to={`/token/${coin.slug}`}
         >
           {content}
         </Link>

@@ -2,7 +2,6 @@ import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { HoverTooltip } from 'shared/HoverTooltip';
@@ -38,16 +37,9 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
   } = useNetworkRadarStream(lazyFilters);
 
   const navigate = useNavigate();
-  const { getUrl } = useDiscoveryRouteMeta();
 
   const onRowClick = (_tab: NetworkRadarTab, slug: string) => {
-    navigate(
-      getUrl({
-        detail: 'coin',
-        slug,
-        view: 'both',
-      }),
-    );
+    navigate(`/token/${slug}`);
   };
 
   return (

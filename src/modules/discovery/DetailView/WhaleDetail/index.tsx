@@ -1,6 +1,6 @@
 import type { Coin } from 'api/types/shared';
 import { t } from 'i18next';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useState } from 'react';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { WhaleAssetsTreeMapWidget } from './WhaleAssetsTreeMapWidget';
@@ -14,13 +14,11 @@ export const WhaleDetail: FC<{
   expanded?: boolean;
   focus?: boolean;
 }> = () => {
-  const {
-    params: { slug },
-  } = useDiscoveryRouteMeta();
+  const params = useDiscoveryParams();
+  const [networkName, holderAddress] = params.slugs ?? [];
   const [selectedCoinTrx, setSelectedCoinTrx] = useState<Coin | undefined>(
     undefined,
   );
-  const [networkName, holderAddress] = (slug ?? '').split('/');
   return (
     <>
       {!holderAddress || !networkName ? (

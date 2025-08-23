@@ -15,7 +15,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
   const hasFlag = useHasFlag();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
   const isMobile = useIsMobile();
-  const [params] = useDiscoveryParams();
+  const params = useDiscoveryParams();
 
   return (
     <>

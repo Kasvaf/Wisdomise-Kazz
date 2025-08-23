@@ -45,7 +45,7 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
           My Account
         </MenuItem>
 
-        <MenuItem to="/discovery?list=positions">
+        <MenuItem to="/positions">
           <BoxedIcon icon={IconTrades} />
           Trades
         </MenuItem>

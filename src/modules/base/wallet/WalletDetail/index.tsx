@@ -10,7 +10,7 @@ import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/com
 import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { useRef, useState } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -24,9 +24,8 @@ export default function WalletDetail(_: {
   expanded?: boolean;
   focus?: boolean;
 }) {
-  const {
-    params: { slug },
-  } = useDiscoveryRouteMeta();
+  const params = useDiscoveryParams();
+  const slug = params.slugs?.[0];
   if (!slug) throw new Error('unexpected');
   const { data: wallet } = useWalletQuery(slug);
   const [copy, notif] = useShare('copy');

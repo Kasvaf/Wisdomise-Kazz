@@ -2,7 +2,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 
 const REDIRECT_MAP: Record<string, string> = {
   // Home
-  '': `/network-radar`,
+  '': `/trench`,
 };
 
 const findMatchingRoute = (
@@ -55,6 +55,7 @@ const findMatchingRoute = (
 export default function PageRedirect() {
   const { pathname, search, hash } = useLocation();
   const redirectTo = findMatchingRoute(pathname, search, hash);
+  console.log(pathname, search, hash, redirectTo);
 
   return <Navigate replace to={redirectTo} />;
 }

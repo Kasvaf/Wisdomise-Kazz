@@ -1,6 +1,10 @@
 import { useHasFlag } from 'api';
 import { clsx } from 'clsx';
-import { useDiscoveryParams } from 'modules/discovery/lib';
+import {
+  useDiscoveryBackdropParams,
+  useDiscoveryParams,
+  useDiscoveryUrlParams,
+} from 'modules/discovery/lib';
 import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useMenuItems } from './MenuItems/useMenuItems';
@@ -8,7 +12,9 @@ import { useMenuItems } from './MenuItems/useMenuItems';
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const MenuItems = useMenuItems();
   const hasFlag = useHasFlag();
-  const [params] = useDiscoveryParams();
+  const params = useDiscoveryParams();
+  const urlParams = useDiscoveryUrlParams();
+  const [, setBackdropParams] = useDiscoveryBackdropParams();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
   return (
@@ -27,6 +33,15 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
             'hover:text-v1-content-link-hover',
           )}
           key={item.link}
+          onClick={e => {
+            if (!urlParams.list) {
+              e.preventDefault();
+              e.stopPropagation();
+              setBackdropParams({
+                list: item.meta.list,
+              });
+            }
+          }}
           to={item.link}
         >
           <item.icon className="size-7" />

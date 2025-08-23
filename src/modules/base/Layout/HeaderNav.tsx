@@ -2,7 +2,7 @@ import { useHasFlag, useTraderPositionsQuery } from 'api';
 import { clsx } from 'clsx';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import usePageTour from 'shared/usePageTour';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';
@@ -12,13 +12,12 @@ import { IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
 const HeaderNav = () => {
   const isMobile = useIsMobile();
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const isLoggedIn = useIsLoggedIn();
   const { data } = useTraderPositionsQuery({ isOpen: true });
   const openTrades =
     data?.positions.filter(x => x.deposit_status !== 'PENDING').length ?? 0;
-  const [params] = useDiscoveryParams();
+  const params = useDiscoveryParams();
   const hasFlag = useHasFlag();
 
   const [maxOpenTrades, setMaxOpenTrade] = useLocalStorage(
@@ -60,9 +59,7 @@ const HeaderNav = () => {
         <Button
           className={clsx(
             isMobile && '!px-4',
-            pathname.startsWith('/discovery') &&
-              params.list === 'positions' &&
-              '!text-v1-content-brand',
+            params.list === 'positions' && '!text-v1-content-brand',
             'id-tour-trades-btn',
           )}
           onClick={() => {

@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePageState } from 'shared/usePageState';
@@ -14,7 +13,6 @@ import { NCoinList } from './NCoinList';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
-  const { getUrl } = useDiscoveryRouteMeta();
   const [tab, setTab] = useState<NetworkRadarTab>('new_pairs');
   const [filters, setFilters] = usePageState<NetworkRadarStreamFilters>(
     'network-radar',
@@ -33,13 +31,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
   const navigate = useNavigate();
 
   const onRowClick = (slug: string) => {
-    navigate(
-      getUrl({
-        detail: 'coin',
-        slug,
-        view: 'both',
-      }),
-    );
+    navigate(`/token/${slug}`);
   };
 
   return (

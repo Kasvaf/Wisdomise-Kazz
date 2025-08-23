@@ -12,7 +12,6 @@ import {
 } from 'api/trader';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import useConfirm from 'shared/useConfirm';
@@ -33,7 +32,6 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const network = useActiveNetwork();
-  const { getUrl } = useDiscoveryRouteMeta();
 
   const {
     leverage: [leverage],
@@ -133,9 +131,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
           .finally(() => {
             setConfirming(false);
             if (isMobile) {
-              navigate(
-                getUrl({ list: 'positions', slug: baseSlug, view: 'both' }),
-              );
+              navigate(`/positions/${baseSlug}`);
             }
           });
       } catch (error) {
@@ -215,7 +211,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
-      navigate(getUrl({ list: 'positions', slug: baseSlug, view: 'both' }));
+      navigate(`/positions/${baseSlug}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

@@ -1,5 +1,5 @@
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
@@ -80,9 +80,8 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
-  const {
-    params: { slug: activeSlug },
-  } = useDiscoveryRouteMeta();
+  const params = useDiscoveryParams();
+  const activeSlug = params.slugs?.[0];
 
   return (
     <div className="p-3">

@@ -1,7 +1,7 @@
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
@@ -110,9 +110,8 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     ],
     [],
   );
-  const {
-    params: { slug: activeSlug },
-  } = useDiscoveryRouteMeta();
+  const params = useDiscoveryParams();
+  const activeSlug = params.slugs?.[0];
 
   return (
     <div className="p-3">

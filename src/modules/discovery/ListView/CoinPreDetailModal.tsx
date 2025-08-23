@@ -6,7 +6,6 @@ import type {
 import type { Coin as CoinType } from 'api/types/shared';
 import { bxShareAlt, bxSlider } from 'boxicons-quasar';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   Children,
   cloneElement,
@@ -28,7 +27,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
-import useIsMobile from 'utils/useIsMobile';
 import { usePromise } from 'utils/usePromise';
 import { PriceAlertButton } from '../DetailView/CoinDetail/PriceAlertButton';
 import SocialRadarSharingModal from './SocialRadar/SocialRadarSharingModal';
@@ -152,8 +150,6 @@ export const CoinPreDetailModal: FC<
   }
 > = ({ open, onClose, children, coin, ...props }) => {
   const { t } = useTranslation('insight');
-  const isMobile = useIsMobile();
-  const { getUrl, params } = useDiscoveryRouteMeta();
 
   return (
     <Dialog
@@ -167,15 +163,7 @@ export const CoinPreDetailModal: FC<
         coin && (
           <div className="flex flex-col items-stretch gap-4">
             <div className="flex gap-3">
-              <NavLink
-                className="block basis-1/2"
-                to={getUrl({
-                  detail: 'coin',
-                  slug: coin.slug,
-                  view:
-                    isMobile || params.view === 'detail' ? 'detail' : 'both',
-                })}
-              >
+              <NavLink className="block basis-1/2" to={`/token/${coin.slug}`}>
                 <Button
                   block
                   className="w-full"
@@ -219,25 +207,18 @@ export function useCoinPreDetailModal<T>({
   directNavigate?: boolean;
   slug?: (r: T) => string;
 }) {
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { run: openModal, ...rest } = usePromise<T, boolean>();
 
   const action = useCallback(
     (r: T) => {
       if (directNavigate && slug) {
-        const href = getUrl({
-          view: isMobile || params.view === 'detail' ? 'detail' : 'both',
-          detail: 'coin',
-          slug: slug?.(r),
-        });
-        navigate(href);
+        navigate(`/token/${slug(r)}`);
         return Promise.resolve();
       }
       return openModal(r);
     },
-    [directNavigate, getUrl, isMobile, navigate, openModal, params.view, slug],
+    [directNavigate, navigate, openModal, slug],
   );
 
   return useMemo(

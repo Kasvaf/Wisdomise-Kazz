@@ -3,7 +3,6 @@ import { useSymbolInfo } from 'api/symbol';
 import { bxHistory } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { NavLink } from 'react-router-dom';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -35,7 +34,6 @@ const PositionDetail: React.FC<{
   position: Position;
   className?: string;
 }> = ({ position, className }) => {
-  const { getUrl } = useDiscoveryRouteMeta();
   const initialDeposit = initialQuoteDeposit(position);
   const isOpen = ['OPENING', 'OPEN', 'CLOSING'].includes(position.status);
 
@@ -54,13 +52,7 @@ const PositionDetail: React.FC<{
             <span className="rounded-full bg-white/10 px-2">Swap</span>
           )}
 
-          <NavLink
-            to={getUrl({
-              detail: 'coin',
-              view: 'both',
-              slug: position.base_slug,
-            })}
-          >
+          <NavLink to={`/token/${position.base_slug}`}>
             {position.pair_name}
           </NavLink>
           <span className="text-white/30">on</span>

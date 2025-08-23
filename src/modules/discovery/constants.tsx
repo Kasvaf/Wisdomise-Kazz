@@ -2,7 +2,7 @@ export const VIEWS = ['list', 'detail'] as const;
 
 export const LISTS = [
   'portfolio',
-  'blue-chips',
+  'bluechips',
   'trench',
   'social-radar',
   'technical-radar',

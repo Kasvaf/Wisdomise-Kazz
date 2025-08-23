@@ -20,12 +20,13 @@ function unparam(
 
 const defaultFlags = [
   '/quick-swap',
-  '/discovery',
-  '/discovery?list=coin-radar',
-  '/discovery?list=social-radar',
-  '/discovery?list=technical-radar',
-  '/coin-radar/alerts',
-  '/coin-radar/alerts?price_alert',
+  '/[list]',
+  '/[detail]/[slug1]',
+  '/[detail]/[slug1]/[slug2]',
+  '/[detail]/[slug1]/[slug2]/[slug3]',
+  '/bluechips',
+  '/trench',
+  '/account/alerts',
   '/menu',
 ];
 
@@ -36,7 +37,10 @@ export function useHasFlag() {
   const flagsObj = useMemo(
     () =>
       Object.fromEntries(
-        (acc.data?.features ?? defaultFlags).map(flag => [flag, true]) ?? [],
+        (defaultFlags ?? acc.data?.features ?? defaultFlags).map(flag => [
+          flag,
+          true,
+        ]) ?? [] /* NAITODO: remove defaultFlags as main value */,
       ),
     [acc.data?.features],
   );

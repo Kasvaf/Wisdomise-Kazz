@@ -2,7 +2,6 @@ import { isPositionUpdatable, useTraderPositionQuery } from 'api';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import PageWrapper from 'modules/base/PageWrapper';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
@@ -15,7 +14,6 @@ import Trader from './Trader';
 export default function PageTrade() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const { getUrl } = useDiscoveryRouteMeta();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const [quote, setQuote] = useActiveQuote();
@@ -26,17 +24,11 @@ export default function PageTrade() {
   const position = useTraderPositionQuery({ positionKey });
   useEffect(() => {
     if (!isMobile) {
-      navigate(
-        getUrl({
-          detail: 'coin',
-          slug,
-          view: 'both',
-        }),
-      );
+      navigate(`/token/${slug}`);
     } else if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(getUrl({ list: 'positions', slug, view: 'both' }));
+      navigate(`/positions/${slug}`);
     }
-  }, [getUrl, isMobile, navigate, position.data, slug]);
+  }, [isMobile, navigate, position.data, slug]);
 
   return (
     <PageWrapper

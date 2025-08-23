@@ -6,7 +6,6 @@ import type {
 import type { Coin as CoinType } from 'api/types/shared';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
@@ -152,7 +151,6 @@ export const Coin: FC<{
   }, [globalNetwork, networks]);
 
   const RootComponent = href ? Link : 'div';
-  const { getUrl } = useDiscoveryRouteMeta();
 
   return (
     <RootComponent
@@ -163,15 +161,7 @@ export const Coin: FC<{
       )}
       onClick={onClick}
       to={
-        typeof href === 'string'
-          ? href
-          : href && slug
-            ? getUrl({
-                detail: 'coin',
-                slug,
-                view: 'both',
-              })
-            : '#'
+        typeof href === 'string' ? href : href && slug ? `/token/${slug}` : '#'
       }
     >
       <div

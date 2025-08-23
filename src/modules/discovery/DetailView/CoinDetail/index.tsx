@@ -1,5 +1,5 @@
 import { useDetailedCoins } from 'api/discovery';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +10,8 @@ import { CoinDetailsMeta } from './CoinDetailsMeta';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
 const useCoinSlug = () => {
-  const {
-    params: { slug: query },
-    getUrl,
-  } = useDiscoveryRouteMeta();
+  const params = useDiscoveryParams();
+  const query = params.slugs?.[0];
   const [slugOrNetwork, contractAddress] = (query ?? '').split('/');
   const isSlug = !(query ?? '').includes('/');
   const navigate = useNavigate();
@@ -31,12 +29,9 @@ const useCoinSlug = () => {
             x.contract_address === contractAddress ||
             (!contractAddress && !x.contract_address),
         )?.symbol.slug ?? '';
-      const newUrl = getUrl({
-        slug: calculatedSlug,
-      });
-      navigate(newUrl);
+      navigate(`/token/${calculatedSlug}`);
     }
-  }, [contractAddress, getUrl, isSlug, navigate, searchResult]);
+  }, [contractAddress, isSlug, navigate, searchResult]);
 
   return {
     slug: isSlug ? slugOrNetwork || undefined : undefined,

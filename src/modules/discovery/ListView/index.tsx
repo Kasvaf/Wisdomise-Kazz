@@ -1,16 +1,16 @@
-import type { LISTS } from 'modules/discovery/constants';
-import { Positions } from 'modules/discovery/ListView/Positions';
 import type { FC } from 'react';
+import type { DiscoveryList } from '../lib';
 import { CoinRadar } from './CoinRadar';
 import { NetworkRadar } from './NetworkRadar';
 import { Portfolio } from './Portfolio';
+import { Positions } from './Positions';
 import { SocialRadar } from './SocialRadar';
 import { TechnicalRadar } from './TechnicalRadar';
 import { TwitterTracker } from './TwitterTracker';
 import { WhaleRadar } from './WhaleRadar';
 
 export const ListView: FC<{
-  list: keyof typeof LISTS;
+  list: DiscoveryList;
   expanded?: boolean;
   focus?: boolean;
   className?: string;
@@ -23,9 +23,9 @@ export const ListView: FC<{
         <WhaleRadar {...rest} />
       ) : list === 'technical-radar' ? (
         <TechnicalRadar {...rest} />
-      ) : list === 'network-radar' ? (
+      ) : list === 'trench' ? (
         <NetworkRadar {...rest} />
-      ) : list === 'coin-radar' ? (
+      ) : list === 'bluechips' ? (
         <CoinRadar {...rest} />
       ) : list === 'portfolio' ? (
         <Portfolio {...rest} />

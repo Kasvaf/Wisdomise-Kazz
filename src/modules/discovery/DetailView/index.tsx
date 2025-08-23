@@ -1,11 +1,11 @@
 import WalletDetail from 'modules/base/wallet/WalletDetail';
-import type { DETAILS } from 'modules/discovery/constants';
+import type { DiscoveryDetail } from 'modules/discovery/lib';
 import type { FC } from 'react';
 import { CoinDetail } from './CoinDetail';
 import { WhaleDetail } from './WhaleDetail';
 
 export const DetailView: FC<{
-  detail: keyof typeof DETAILS;
+  detail: DiscoveryDetail;
   expanded?: boolean;
   focus?: boolean;
   className?: string;
