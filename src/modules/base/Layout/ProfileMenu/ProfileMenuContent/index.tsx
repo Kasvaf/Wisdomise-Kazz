@@ -1,11 +1,17 @@
 import { useAccountQuery } from 'api';
-import { RouterBaseName } from 'config/constants';
+import { HELP_ORIGIN, RouterBaseName } from 'config/constants';
 import { RewardIcon, WsdmTokenIcon } from 'modules/account/PageAccount/icons';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import { isMiniApp } from 'utils/version';
 import BranchSelector from '../../BranchSelector';
 import BoxedIcon from './BoxedIcon';
-import { IconAccount, IconAlerts, IconQuests, IconTrades } from './icons';
+import {
+  IconAccount,
+  IconAlerts,
+  IconHelp,
+  IconQuests,
+  IconTrades,
+} from './icons';
 import MenuItem from './MenuItem';
 import MenuItemLogout from './MenuItemLogout';
 import MenuItemReferral from './MenuItemReferral';
@@ -67,6 +73,11 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
         <MenuItem to="/account/rewards">
           <BoxedIcon icon={RewardIcon} />
           Rewards
+        </MenuItem>
+
+        <MenuItem onClick={() => window.open(HELP_ORIGIN, '_blank')}>
+          <BoxedIcon icon={IconHelp} />
+          Help
         </MenuItem>
 
         {/* <MenuItemLang /> */}
