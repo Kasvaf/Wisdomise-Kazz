@@ -14,7 +14,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const hasFlag = useHasFlag();
   const params = useDiscoveryParams();
   const urlParams = useDiscoveryUrlParams();
-  const [, setBackdropParams] = useDiscoveryBackdropParams();
+  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
   return (
@@ -38,7 +38,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
               e.preventDefault();
               e.stopPropagation();
               setBackdropParams({
-                list: item.meta.list,
+                list: backdropParams.list ? undefined : item.meta.list,
               });
             }
           }}

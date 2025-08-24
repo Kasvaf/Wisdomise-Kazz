@@ -20,26 +20,55 @@ export type DiscoveryParams = {
 /**
  * @title Internal Method
  */
-export const useDiscoveryBackdropParams = () =>
-  useSessionStorage<{
+export const useDiscoveryBackdropParams = () => {
+  const [storageParams, setStorageParams] = useSessionStorage<{
     list?: DiscoveryList;
     detail?: DiscoveryDetail;
     slug1?: string;
     slug2?: string;
     slug3?: string;
-  }>('ZZZ', {});
+  }>('discovery', {});
+
+  return useMemo(() => {
+    return [
+      {
+        detail: storageParams.detail,
+        list: storageParams.list,
+        slugs: [
+          storageParams.slug1,
+          storageParams.slug2,
+          storageParams.slug3,
+        ].filter(x => !!x) as string[],
+      } satisfies Partial<DiscoveryParams>,
+      (newValue: Partial<DiscoveryParams>) => {
+        setStorageParams({
+          ...storageParams,
+          ...newValue,
+        });
+      },
+    ] as const;
+  }, [storageParams, setStorageParams]);
+};
 
 /**
  * @title Internal Method
  */
-export const useDiscoveryUrlParams = () =>
-  useParams<{
+export const useDiscoveryUrlParams = (): Partial<DiscoveryParams> => {
+  const nativeParams = useParams<{
     list: DiscoveryList;
     detail: DiscoveryDetail;
     slug1: string;
     slug2: string;
     slug3: string;
   }>();
+  return {
+    list: nativeParams.list,
+    detail: nativeParams.detail,
+    slugs: [nativeParams.slug1, nativeParams.slug2, nativeParams.slug3].filter(
+      x => !!x,
+    ) as string[],
+  };
+};
 
 /**
  * @title Internal Method
@@ -63,25 +92,21 @@ export const useDiscoveryParams = () => {
     const value: Partial<DiscoveryParams> = {
       list: urlParams.list ?? backdropParams.list,
       detail: urlParams.detail ?? backdropParams.detail,
-      slugs: [
-        urlParams.slug1 ?? backdropParams.slug1,
-        urlParams.slug2 ?? backdropParams.slug2,
-        urlParams.slug3 ?? backdropParams.slug3,
-      ].filter(x => !!x) as string[],
+      slugs: urlParams.slugs?.length
+        ? urlParams.slugs
+        : backdropParams.slugs.length
+          ? backdropParams.slugs
+          : [],
     };
 
     return value;
   }, [
     backdropParams.detail,
     backdropParams.list,
-    backdropParams.slug1,
-    backdropParams.slug2,
-    backdropParams.slug3,
+    backdropParams.slugs,
     urlParams.detail,
     urlParams.list,
-    urlParams.slug1,
-    urlParams.slug2,
-    urlParams.slug3,
+    urlParams.slugs,
   ]);
 };
 
@@ -132,7 +157,7 @@ export const DiscoveryExpandCollapser = () => {
     if (urlParams.list && backdropParams.detail) {
       setBackdropParams(urlParams);
       navigate(
-        `/${[backdropParams.detail, backdropParams.slug1, backdropParams.slug2, backdropParams.slug3].filter(x => !!x).join('/')}`,
+        `/${[backdropParams.detail, ...backdropParams.slugs].join('/')}`,
       );
     } else if (urlParams.detail && backdropParams.list) {
       lastList.current = backdropParams.list;

@@ -1,6 +1,6 @@
 import { useHasFlag, useTraderPositionsQuery } from 'api';
 import { clsx } from 'clsx';
-import { useDiscoveryParams } from 'modules/discovery/lib';
+import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePageTour from 'shared/usePageTour';
@@ -17,7 +17,7 @@ const HeaderNav = () => {
   const { data } = useTraderPositionsQuery({ isOpen: true });
   const openTrades =
     data?.positions.filter(x => x.deposit_status !== 'PENDING').length ?? 0;
-  const params = useDiscoveryParams();
+  const params = useDiscoveryUrlParams();
   const hasFlag = useHasFlag();
 
   const [maxOpenTrades, setMaxOpenTrade] = useLocalStorage(
