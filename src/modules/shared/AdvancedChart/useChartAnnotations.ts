@@ -29,10 +29,12 @@ export function useSwapActivityLines(slug: string) {
   const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
 
   const avgBuy = data?.avg_buy_price
-    ? Number(data?.avg_buy_price) * (isMarketCap ? supply : 1)
+    ? Number(convertToUsd ? data?.avg_buy_price_usd : data?.avg_buy_price) *
+      (isMarketCap ? supply : 1)
     : undefined;
   const avgSell = data?.avg_sell_price
-    ? Number(data?.avg_sell_price) * (isMarketCap ? supply : 1)
+    ? Number(convertToUsd ? data?.avg_sell_price_usd : data?.avg_sell_price) *
+      (isMarketCap ? supply : 1)
     : undefined;
 
   const lines = useMemo(() => {
