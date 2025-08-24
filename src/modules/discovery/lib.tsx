@@ -70,21 +70,6 @@ export const useDiscoveryUrlParams = (): Partial<DiscoveryParams> => {
   };
 };
 
-/**
- * @title Internal Method
- */
-export const useDiscoveryUrlManager = () => {
-  const urlParams = useDiscoveryUrlParams();
-  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
-
-  useEffect(() => {
-    setBackdropParams({
-      ...backdropParams,
-      ...urlParams,
-    });
-  }, [urlParams, backdropParams, setBackdropParams]);
-};
-
 export const useDiscoveryParams = () => {
   const urlParams = useDiscoveryUrlParams();
   const [backdropParams] = useDiscoveryBackdropParams();

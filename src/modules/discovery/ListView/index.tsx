@@ -1,5 +1,5 @@
-import type { FC } from 'react';
-import type { DiscoveryList } from '../lib';
+import { type FC, useEffect } from 'react';
+import { type DiscoveryList, useDiscoveryBackdropParams } from '../lib';
 import { CoinRadar } from './CoinRadar';
 import { NetworkRadar } from './NetworkRadar';
 import { Portfolio } from './Portfolio';
@@ -15,6 +15,14 @@ export const ListView: FC<{
   focus?: boolean;
   className?: string;
 }> = ({ list, className, ...rest }) => {
+  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
+  useEffect(() => {
+    if (rest.expanded && backdropParams.list !== list) {
+      setBackdropParams({
+        list,
+      });
+    }
+  }, [list, rest.expanded, backdropParams.list, setBackdropParams]);
   return (
     <div className={className} id="app-list">
       {list === 'social-radar' ? (
