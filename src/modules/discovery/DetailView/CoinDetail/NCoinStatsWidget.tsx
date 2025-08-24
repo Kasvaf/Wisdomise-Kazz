@@ -1,9 +1,10 @@
+import { useNCoinDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { type FC, Fragment, type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
+import { useUnifiedCoinDetails } from './lib';
 
 const StatCol: FC<{
   children: ReactNode;
@@ -59,14 +60,9 @@ const GreenRedChart: FC<{
   );
 };
 
-export function NCoinStatsWidget({
-  className,
-  slug,
-}: {
-  className?: string;
-  slug: ComplexSlug;
-}) {
-  const { rawData } = useUnifiedCoinDetails({ slug });
+export function NCoinStatsWidget({ className }: { className?: string }) {
+  const { symbol } = useUnifiedCoinDetails();
+  const nCoin = useNCoinDetails({ slug: symbol.slug });
   const [timeFramePrefix, setTimeFramePrefix] = useState<'total_' | ''>('');
   const { t } = useTranslation('network-radar');
 
@@ -83,10 +79,10 @@ export function NCoinStatsWidget({
         key: 'txns',
         titles: [t('common.buy_sell'), t('common.buy'), t('common.sell')],
         values: [
-          (rawData?.data2?.update?.[`${timeFramePrefix}num_buys`] ?? 0) +
-            (rawData?.data2?.update?.[`${timeFramePrefix}num_sells`] ?? 0),
-          rawData?.data2?.update?.[`${timeFramePrefix}num_buys`] ?? 0,
-          rawData?.data2?.update?.[`${timeFramePrefix}num_sells`] ?? 0,
+          (nCoin.data?.update?.[`${timeFramePrefix}num_buys`] ?? 0) +
+            (nCoin.data?.update?.[`${timeFramePrefix}num_sells`] ?? 0),
+          nCoin.data?.update?.[`${timeFramePrefix}num_buys`] ?? 0,
+          nCoin.data?.update?.[`${timeFramePrefix}num_sells`] ?? 0,
         ],
         label: '',
       },
@@ -94,16 +90,16 @@ export function NCoinStatsWidget({
         key: 'volume',
         titles: [t('common.volume'), t('common.buy_vol'), t('common.sell_vol')],
         values: [
-          rawData?.data2?.update?.[`${timeFramePrefix}trading_volume`].usd ?? 0,
-          rawData?.data2?.update?.[`${timeFramePrefix}buy_volume`].usd ?? 0,
-          rawData?.data2?.update?.[`${timeFramePrefix}sell_volume`].usd ?? 0,
+          nCoin.data?.update?.[`${timeFramePrefix}trading_volume`].usd ?? 0,
+          nCoin.data?.update?.[`${timeFramePrefix}buy_volume`].usd ?? 0,
+          nCoin.data?.update?.[`${timeFramePrefix}sell_volume`].usd ?? 0,
         ],
         label: '$',
       },
     ];
-  }, [rawData?.data2?.update, t, timeFramePrefix]);
+  }, [nCoin.data?.update, t, timeFramePrefix]);
 
-  if (!rawData?.data2) return null;
+  if (!nCoin.data) return null;
 
   return (
     <div

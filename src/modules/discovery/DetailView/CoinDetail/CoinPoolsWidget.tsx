@@ -1,4 +1,4 @@
-import type { Pool } from 'api/discovery';
+import { type Pool, useNCoinDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import { useMemo, useState } from 'react';
@@ -8,17 +8,15 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
+import { useUnifiedCoinDetails } from './lib';
 
 export function CoinPoolsWidget({
-  slug,
   id,
   title,
   limit: _limit = 6,
   hr,
   className,
 }: {
-  slug: ComplexSlug;
   id?: string;
   title?: boolean;
   limit?: number;
@@ -26,8 +24,9 @@ export function CoinPoolsWidget({
   className?: string;
 }) {
   const { t } = useTranslation('coin-radar');
-  const { data } = useUnifiedCoinDetails({ slug });
-  const pools = data?.pools ?? [];
+  const { symbol } = useUnifiedCoinDetails();
+  const nCoinDetails = useNCoinDetails({ slug: symbol.slug });
+  const pools = nCoinDetails.data?.pools ?? [];
   const [limit, setLimit] = useState<number | undefined>(_limit);
 
   const columns = useMemo<Array<TableColumn<Pool>>>(

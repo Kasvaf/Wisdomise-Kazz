@@ -1,8 +1,8 @@
 export type MarketTypes = 'SPOT' | 'FUTURES';
 
 export interface Coin {
-  abbreviation?: string;
-  name?: string;
+  abbreviation?: string | null;
+  name?: string | null;
   slug: string;
   logo_url?: string | null;
   categories?: null | Array<{

@@ -3,14 +3,12 @@ import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import AdvancedChart from 'shared/AdvancedChart';
 import useIsMobile from 'utils/useIsMobile';
-import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
+import { useUnifiedCoinDetails } from './lib';
 
-const DirtyCoinChart: React.FC<{ slug: ComplexSlug; height?: number }> = ({
-  slug,
-}) => {
+const DirtyCoinChart: React.FC<{ height?: number }> = () => {
   const isMobile = useIsMobile();
-  const { data } = useUnifiedCoinDetails({ slug });
-  const chart = data?.charts ? data?.charts[0] : null;
+  const { charts } = useUnifiedCoinDetails();
+  const chart = charts?.[0] ?? null;
   if (!chart) return null;
 
   return chart.type === 'gecko_terminal' ? (
@@ -50,8 +48,9 @@ const DirtyCoinChart: React.FC<{ slug: ComplexSlug; height?: number }> = ({
   ) : null;
 };
 
-const CoinChart: React.FC<{ slug: ComplexSlug }> = ({ slug: _slug }) => {
-  const slug = _slug.slug === 'solana' ? 'wrapped-solana' : _slug.slug;
+const CoinChart: React.FC = () => {
+  const { symbol } = useUnifiedCoinDetails();
+  const slug = symbol.slug === 'solana' ? 'wrapped-solana' : symbol.slug;
   const [quote] = useActiveQuote();
   const lastCandle = useLastCandleQuery({ slug, quote });
   if (lastCandle.isLoading) return null;
@@ -60,9 +59,9 @@ const CoinChart: React.FC<{ slug: ComplexSlug }> = ({ slug: _slug }) => {
     /^(solana|ton|the-open-network)$/.test(
       lastCandle.data?.symbol.network ?? '',
     ) ? (
-    <AdvancedChart className="size-full" slug={_slug} />
+    <AdvancedChart className="size-full" />
   ) : (
-    <DirtyCoinChart slug={_slug} />
+    <DirtyCoinChart />
   );
 };
 

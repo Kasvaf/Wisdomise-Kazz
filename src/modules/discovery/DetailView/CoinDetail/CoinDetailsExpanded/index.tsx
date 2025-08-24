@@ -21,7 +21,6 @@ import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
 import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
 import { CoinWhalesWidget } from '../CoinWhalesWidget';
-import type { ComplexSlug } from '../lib';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { NCoinSentimentWidget } from '../NCoinSentimentWidget';
@@ -29,7 +28,7 @@ import { NCoinStatsWidget } from '../NCoinStatsWidget';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 import TraderSection from './TraderSection';
 
-export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
+export const CoinDetailsExpanded: FC = () => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
   const [selectedTab, setSelectedTab] = useState<string>();
@@ -64,15 +63,14 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
       >
         {[
           <div className="flex h-full flex-col" key="up-side">
-            <NCoinSentimentWidget className="shrink-0 p-3" hr slug={slug} />
+            <NCoinSentimentWidget className="shrink-0 p-3" hr />
             <CoinTitleWidget
               className="h-16 shrink-0 bg-v1-surface-l-current px-3"
               hr
-              slug={slug}
-              suffix={<CoinSentimentsWidget slug={slug} />}
+              suffix={<CoinSentimentsWidget />}
             />
             <div className="grow">
-              <CoinChart slug={slug} />
+              <CoinChart />
             </div>
           </div>,
           <Fragment key="down-side">
@@ -125,7 +123,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                   selectedTab !== 'coinoverview_introduction' && 'hidden',
                 )}
                 id="coinoverview_introduction"
-                slug={slug}
                 title={false}
               />
               <CoinMessagesWidget
@@ -134,7 +131,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_trading_view"
                 limit={false}
-                slug={slug}
                 title={false}
                 type="technical_ideas"
               />
@@ -144,7 +140,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_socials"
                 limit={false}
-                slug={slug}
                 title={false}
                 type="rest"
               />
@@ -154,7 +149,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_pools"
                 limit={Number.POSITIVE_INFINITY}
-                slug={slug}
                 title={false}
               />
               <CoinExchangesWidget
@@ -163,7 +157,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_exchanges"
                 limit={Number.POSITIVE_INFINITY}
-                slug={slug}
                 title={false}
               />
               <CoinWhalesWidget
@@ -172,7 +165,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_active_whales"
                 limit={Number.POSITIVE_INFINITY}
-                slug={slug}
                 title={false}
                 type="active"
               />
@@ -182,7 +174,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_holding_whales"
                 limit={Number.POSITIVE_INFINITY}
-                slug={slug}
                 title={false}
                 type="holding"
               />
@@ -192,7 +183,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_top_traders"
                 limit={Number.POSITIVE_INFINITY}
-                slug={slug}
                 title={false}
                 type="traders"
               />
@@ -202,7 +192,6 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
                 )}
                 id="coinoverview_top_holders"
                 limit={Number.POSITIVE_INFINITY}
-                slug={slug}
                 title={false}
                 type="holders"
               />
@@ -213,14 +202,14 @@ export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
 
       {/* Trade + Additional */}
       <div className="scrollbar-none sticky top-(--desktop-content-top) z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
-        <NCoinRisksBanner slug={slug} />
-        <CoinPriceWidget className="h-16 px-3" hr slug={slug} />
+        <NCoinRisksBanner />
+        <CoinPriceWidget className="h-16 px-3" hr />
         <div className="space-y-3 px-3 pt-1 pb-3">
-          <TraderSection quote={quote} setQuote={setQuote} slug={slug.slug} />
+          <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
-          <NCoinInsightWidget slug={slug} />
-          <CoinStatsWidget slug={slug} />
-          <NCoinStatsWidget slug={slug} />
+          <NCoinInsightWidget />
+          <CoinStatsWidget />
+          <NCoinStatsWidget />
         </div>
       </div>
     </div>

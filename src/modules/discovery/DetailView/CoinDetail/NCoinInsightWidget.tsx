@@ -1,14 +1,14 @@
 import { useTokenInsight } from 'api/discovery';
 import { NCoinTokenInsight } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight';
 import type { FC } from 'react';
-import type { ComplexSlug } from './lib';
+import { useUnifiedCoinDetails } from './lib';
 
 export const NCoinInsightWidget: FC<{
   className?: string;
-  slug: ComplexSlug;
-}> = ({ className, slug }) => {
+}> = ({ className }) => {
+  const { symbol } = useUnifiedCoinDetails();
   const { data } = useTokenInsight({
-    contractAddress: slug.contractAddress,
+    contractAddress: symbol.contractAddress ?? undefined,
   });
   return (
     <NCoinTokenInsight

@@ -1,12 +1,15 @@
+import { useLastPriceQuery } from 'api';
 import {
+  type CoinChart,
   type CoinCommunityData,
-  type CoinNetwork,
-  type NetworkRadarNCoinDetails,
+  type NCoinDeveloper,
+  type NetworkSecurity,
   useCoinDetails,
   useDetailedCoins,
   useNCoinDetails,
 } from 'api/discovery';
 import { networkRadarGrpc } from 'api/grpc';
+import type { ValidationData } from 'api/proto/network_radar';
 import { useSymbolInfo } from 'api/symbol';
 import type { Coin } from 'api/types/shared';
 import {
@@ -14,7 +17,13 @@ import {
   convertNCoinSecurityFieldToBool,
   doesNCoinHaveSafeTopHolders,
 } from 'modules/discovery/ListView/NetworkRadar/lib';
-import { useMemo } from 'react';
+import {
+  createContext,
+  type FC,
+  type ReactNode,
+  useContext,
+  useMemo,
+} from 'react';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 
 export type ComplexSlug = {
@@ -51,282 +60,290 @@ export const useResolveComplexSlug = (slugs: string[]): ComplexSlug | null => {
   };
 };
 
-export const useUnifiedCoinDetails = ({
-  slug: complexSlug,
-}: {
+export type UnifiedRisks = {
+  level: 'low' | 'medium' | 'high';
+  list: {
+    name?: string | undefined;
+    description?: string | undefined;
+    level?: 'danger' | 'warn' | undefined;
+    score?: number | undefined;
+    value?: string | undefined;
+  }[];
+  percentage: number;
+};
+
+export type RugCheckSecurity = {
+  freezable: boolean;
+  lpBurned: boolean;
+  mintable: boolean;
+  safeTopHolders: boolean;
+  rugged: boolean;
+};
+
+export type UnifiedCoinDetailsContext = {
+  symbol: {
+    slug: string;
+    network: string | null;
+    abbreviation: string | null;
+    name: string | null;
+    contractAddress: string | null;
+    logo: string | null;
+    categories: NonNullable<Coin['categories']>;
+    labels: string[];
+  };
+  marketData: {
+    currentPrice: number | null;
+    totalSupply: number | null;
+    marketCap: number | null;
+    totalVolume: number | null;
+    tradingVolume: number | null;
+    boundingCurve: number | null;
+    totalBuy: number | null;
+    totalSell: number | null;
+    totalNumBuys: number | null;
+    totalNumSells: number | null;
+  };
+  validatedData: ValidationData | null;
+  charts: CoinChart[];
+  communityData: CoinCommunityData;
+  risks: UnifiedRisks | null;
+  goPlusSecurity: NetworkSecurity[];
+  rugCheckSecurity: RugCheckSecurity | null;
+  createdAt: string | null;
+  developer: NCoinDeveloper | null;
+};
+
+const unifiedCoinDetailsContext = createContext<UnifiedCoinDetailsContext>({
+  symbol: {
+    slug: '',
+    network: null,
+    abbreviation: null,
+    name: null,
+    contractAddress: null,
+    logo: null,
+    categories: [],
+    labels: [],
+  },
+  marketData: {
+    currentPrice: null,
+    boundingCurve: null,
+    marketCap: null,
+    totalSupply: null,
+    totalVolume: null,
+    tradingVolume: null,
+    totalBuy: null,
+    totalSell: null,
+    totalNumBuys: null,
+    totalNumSells: null,
+  },
+  validatedData: null,
+  charts: [],
+  communityData: {},
+  risks: null,
+  goPlusSecurity: [],
+  rugCheckSecurity: null,
+  createdAt: null,
+  developer: null,
+});
+
+export const UnifiedCoinDetailsProvider: FC<{
+  children?: ReactNode;
   slug: ComplexSlug;
-}) => {
-  const { slug, network, contractAddress: base } = complexSlug;
-
-  const resp1 = useCoinDetails({ slug });
-  const resp2 = useNCoinDetails({ slug });
+}> = ({ children, slug }) => {
+  const resp1 = useCoinDetails({ slug: slug.slug });
+  const resp2 = useNCoinDetails({ slug: slug.slug });
   const resp3 = networkRadarGrpc.useCoinDetailStreamLastValue({
-    network,
-    base,
+    network: slug.network,
+    base: slug.contractAddress,
   });
-  // const price = useLastPriceQuery({
-  //   convertToUsd: true,
-  //   market: 'SPOT',
-  //   network: (network as never) ?? 'solana',
-  //   slug: base,
-  // });
-
+  const priceResp = useLastPriceQuery({
+    slug: slug.slug,
+    quote: 'wrapped-solana',
+    convertToUsd: true,
+  });
   const data1 = resp1.data;
   const data2 = resp2.data;
-  const data3 = base ? resp3.data : null;
+  const data3 = slug.contractAddress ? resp3.data : null;
+  const price = priceResp.data;
 
-  const isLoading = !data1 && !data2 && !data3;
+  const value = useMemo<UnifiedCoinDetailsContext>(() => {
+    const symbol: UnifiedCoinDetailsContext['symbol'] = (() => {
+      return {
+        slug: slug.slug,
+        abbreviation:
+          data3?.symbol?.abbreviation ??
+          data2?.base_symbol?.abbreviation ??
+          data1?.symbol?.abbreviation ??
+          'Loading...',
+        name:
+          data3?.symbol?.name ??
+          data2?.base_symbol?.name ??
+          data1?.symbol?.name ??
+          '',
+        logo_url:
+          data3?.symbol?.imageUrl ??
+          data2?.base_symbol?.logo_url ??
+          data1?.symbol?.logo_url ??
+          null,
+        categories:
+          data2?.base_symbol?.categories ?? data1?.symbol?.categories ?? [],
+        labels: data2?.base_symbol_labels ?? data1?.symbol_labels ?? [],
+        contractAddress: slug.contractAddress ?? null,
+        logo: data2?.base_symbol.logo_url ?? data1?.symbol.logo_url ?? null,
+        network: slug.network,
+      };
+    })();
 
-  const symbol = useMemo<Coin>(() => {
-    return {
-      slug,
-      abbreviation:
-        data3?.symbol?.abbreviation ??
-        data2?.base_symbol?.abbreviation ??
-        data1?.symbol?.abbreviation ??
-        slug,
-      name:
-        data3?.symbol?.name ??
-        data2?.base_symbol?.name ??
-        data1?.symbol?.name ??
-        slug,
-      logo_url:
-        data3?.symbol?.imageUrl ??
-        data2?.base_symbol?.logo_url ??
-        data1?.symbol?.logo_url ??
-        '',
-      categories:
-        data2?.base_symbol?.categories ?? data1?.symbol?.categories ?? [],
-    };
-  }, [data1, data2, data3, slug]);
+    const marketData: UnifiedCoinDetailsContext['marketData'] = (() => {
+      const currentPrice = price ?? null;
 
-  const labels = useMemo<string[]>(() => {
-    return data2?.base_symbol_labels ?? data1?.symbol_labels ?? [];
-  }, [data1, data2]);
+      const totalSupply =
+        (data3?.networkData?.totalSupply
+          ? +data3?.networkData?.totalSupply
+          : null) ??
+        data2?.update.base_market_data.total_supply ??
+        data1?.data?.total_supply ??
+        null;
 
-  const networks = useMemo<CoinNetwork[]>(() => {
-    if (data1?.networks) return data1.networks;
-    if (data2?.network) {
-      return [
-        {
-          network: data2?.network,
-          contract_address: data2.base_contract_address,
-          symbol_network_type: data2.base_contract_address ? 'TOKEN' : 'COIN',
-        },
-      ];
-    }
-    if (data3?.symbol?.contractAddress) {
-      return [
-        {
-          contract_address: data3?.symbol?.contractAddress,
-          network: {
-            name: 'Solana',
-            slug: network,
-            icon_url: '',
-          },
-          symbol_network_type: data3?.symbol?.contractAddress
-            ? 'TOKEN'
-            : 'COIN',
-        },
-      ];
-    }
-    return [];
-  }, [data1, data2, data3, network]);
+      const marketCap =
+        typeof currentPrice === 'number' && typeof totalSupply === 'number'
+          ? currentPrice * totalSupply
+          : null;
 
-  const marketData = useMemo(() => {
-    const currentPrice =
-      data2?.update.base_market_data.current_price ??
-      data1?.data?.current_price ??
-      null;
-    const priceChange24h =
-      data2?.update.base_market_data.price_change_24h ??
-      data1?.data?.price_change_24h ??
-      null;
-    const priceChangePercentage24h =
-      currentPrice && priceChange24h
-        ? (currentPrice / (currentPrice + priceChange24h)) * 100 - 100
+      const totalVolume = data3?.networkData?.volume
+        ? +data3?.networkData?.volume
         : null;
-    const marketCap =
-      (data3?.networkData?.marketCap
-        ? +data3?.networkData?.marketCap
-        : undefined) ??
-      data2?.update.base_market_data.market_cap ??
-      data1?.data?.market_cap;
-    const marketCapChangePercentage24h =
-      data1?.data?.market_cap_change_percentage_24h ?? null;
 
-    const totalVolume =
-      (data3?.networkData?.volume ? +data3?.networkData?.volume : undefined) ??
-      data2?.update.base_market_data.total_volume ??
-      data1?.data?.total_volume;
-    const totalVolumeChangePercentage24h =
-      data2?.update.base_market_data.volume_change_1d ?? null;
+      const totalBuy = data3?.networkData?.totalBuy ?? null;
+      const totalSell = data3?.networkData?.totalSell ?? null;
+      const tradingVolume =
+        typeof totalBuy === 'number' || typeof totalSell === 'number'
+          ? (totalBuy ?? 0) + (totalSell ?? 0)
+          : null;
 
-    const tradingVolume24h =
-      data2?.update.trading_volume.usd ??
-      (data3?.networkData?.volume ? +data3?.networkData?.volume : null) ??
-      null;
+      const totalNumBuys =
+        data3?.networkData?.totalBuy ?? data2?.update.total_num_buys ?? null;
+      const totalNumSells =
+        data3?.networkData?.totalSell ?? data2?.update.total_num_sells ?? null;
 
-    const fullyDilutedValuation = data1?.data?.fully_diluted_valuation ?? null;
+      const boundingCurve = data3?.networkData?.boundingCurve ?? null;
 
-    const totalSupply =
-      (data3?.networkData?.totalSupply
-        ? +data3?.networkData?.totalSupply
-        : null) ??
-      data2?.update.base_market_data.total_supply ??
-      data1?.data?.total_supply ??
-      null;
-    const maxSupply = data1?.data?.max_supply ?? null;
-    const circulatingSupply = data1?.data?.circulating_supply ?? null;
+      return {
+        currentPrice,
+        totalSupply,
+        marketCap,
+        totalVolume,
+        tradingVolume,
+        boundingCurve,
+        totalBuy,
+        totalSell,
+        totalNumBuys,
+        totalNumSells,
+      };
+    })();
 
-    const boundingCurve = data3?.networkData?.boundingCurve ?? null;
+    const validatedData: UnifiedCoinDetailsContext['validatedData'] =
+      data3?.validatedData ?? null;
 
-    return {
-      current_price: currentPrice,
-      price_change_24h: priceChange24h,
-      price_change_percentage_24h: priceChangePercentage24h,
-      market_cap: marketCap,
-      market_cap_change_percentage_24h: marketCapChangePercentage24h,
-      total_volume: totalVolume,
-      total_volume_change_percentage_24h: totalVolumeChangePercentage24h,
-      fully_diluted_valuation: fullyDilutedValuation,
-      total_supply: totalSupply,
-      max_supply: maxSupply,
-      circulating_supply: circulatingSupply,
-      bounding_curve: boundingCurve,
-      trading_volume_24h: tradingVolume24h,
-    };
-  }, [data1, data2, data3]);
+    const charts: UnifiedCoinDetailsContext['charts'] = (() => {
+      return [...(data2?.charts ?? []), ...(data1?.charts ?? [])].filter(
+        (x, i, s) => s.findIndex(y => y.id === x.id) === i,
+      );
+    })();
 
-  const goPlusSecurity = useMemo(() => {
-    return data1?.security_data
-      ? data1.security_data.map(x => x.symbol_security)
-      : null;
-  }, [data1]);
+    const communityData: UnifiedCoinDetailsContext['communityData'] = (() => {
+      return (
+        (data3
+          ? {
+              telegram_channel_identifier: data3.socials?.telegram,
+              twitter_screen_name: data3.socials?.twitter,
+              homepage: data3.socials?.website ? [data3.socials?.website] : [],
+              description: data3.symbol?.description,
+            }
+          : null) ??
+        data2?.base_community_data ??
+        data1?.community_data ??
+        {}
+      );
+    })();
 
-  const rugCheckSecurity = useMemo(() => {
-    return {
-      freezable:
-        data3?.securityData?.freezable ??
-        convertNCoinSecurityFieldToBool({
-          value: data2?.base_symbol_security.freezable ?? '0',
-          type: 'freezable',
-        }),
-      lpBurned:
-        data3?.securityData?.lpBurned ??
-        convertNCoinSecurityFieldToBool({
-          value: data2?.base_symbol_security.lp_is_burned ?? '0',
-          type: 'lpBurned',
-        }),
-      mintable:
-        data3?.securityData?.mintable ??
-        convertNCoinSecurityFieldToBool({
-          value: data2?.base_symbol_security.mintable ?? '0',
-          type: 'mintable',
-        }),
-      safeTopHolders: doesNCoinHaveSafeTopHolders({
-        topHolders:
-          data3?.validatedData?.top10Holding ??
-          data2?.base_symbol_security.holders.map(x => x.balance) ??
-          0,
-        totalSupply: marketData.total_supply ?? 0,
-      }),
-      rugged: data2?.rugged ?? false,
-    };
-  }, [data2, data3, marketData]);
-
-  const charts = useMemo(() => {
-    return [...(data2?.charts ?? []), ...(data1?.charts ?? [])].filter(
-      (x, i, s) => s.findIndex(y => y.id === x.id) === i,
-    );
-  }, [data2, data1]);
-
-  const risks = useMemo<{
-    level: 'low' | 'medium' | 'high';
-    list: NonNullable<NetworkRadarNCoinDetails['risks']>;
-    percentage: number;
-  } | null>(() => {
-    return data2?.risks && data2?.risk_percent
-      ? {
-          level: calcNCoinRiskLevel({
-            riskPercent: data2?.risk_percent ?? 0,
-          }),
-          list: data2.risks ?? [],
-          percentage: data2.risk_percent ?? 0,
-        }
-      : null;
-  }, [data2]);
-
-  const validatedData = useMemo(() => data3?.validatedData ?? null, [data3]);
-
-  const links = useMemo<CoinCommunityData['links'] | null>(() => {
-    return (
-      data2?.base_community_data.links ??
-      data1?.community_data?.links ??
-      (data3
+    const risks: UnifiedCoinDetailsContext['risks'] = (() => {
+      return data2?.risks && data2?.risk_percent
         ? {
-            telegram_channel_identifier: data3.socials?.telegram,
-            twitter_screen_name: data3.socials?.twitter,
-
-            homepage: data3.socials?.website ? [data3.socials?.website] : [],
+            level: calcNCoinRiskLevel({
+              riskPercent: data2?.risk_percent ?? 0,
+            }),
+            list: data2.risks ?? [],
+            percentage: data2.risk_percent ?? 0,
           }
-        : null) ??
-      null
-    );
-  }, [data3, data2, data1]);
+        : null;
+    })();
 
-  const createdAt = useMemo(() => {
-    return data2?.creation_datetime ?? null;
-  }, [data2]);
+    const goPlusSecurity: UnifiedCoinDetailsContext['goPlusSecurity'] = (() => {
+      return data1?.security_data
+        ? data1.security_data.map(x => x.symbol_security)
+        : [];
+    })();
 
-  const developer = useMemo(() => {
-    return data2?.dev ?? null;
-  }, [data2]);
+    const rugCheckSecurity: UnifiedCoinDetailsContext['rugCheckSecurity'] =
+      (() => {
+        return {
+          freezable:
+            data3?.securityData?.freezable ??
+            convertNCoinSecurityFieldToBool({
+              value: data2?.base_symbol_security.freezable ?? '0',
+              type: 'freezable',
+            }),
+          lpBurned:
+            data3?.securityData?.lpBurned ??
+            convertNCoinSecurityFieldToBool({
+              value: data2?.base_symbol_security.lp_is_burned ?? '0',
+              type: 'lpBurned',
+            }),
+          mintable:
+            data3?.securityData?.mintable ??
+            convertNCoinSecurityFieldToBool({
+              value: data2?.base_symbol_security.mintable ?? '0',
+              type: 'mintable',
+            }),
+          safeTopHolders: doesNCoinHaveSafeTopHolders({
+            topHolders:
+              data3?.validatedData?.top10Holding ??
+              data2?.base_symbol_security.holders.map(x => x.balance) ??
+              0,
+            totalSupply: marketData.totalSupply ?? 0,
+          }),
+          rugged: data2?.rugged ?? false,
+        };
+      })();
 
-  const tradesData = useMemo(() => {
-    const totalNumBuys =
-      data3?.networkData?.totalBuy ?? data2?.update.total_num_buys ?? null;
-    const totalNumSells =
-      data3?.networkData?.totalSell ?? data2?.update.total_num_sells ?? null;
-    return typeof totalNumBuys === 'number' && typeof totalNumSells === 'number'
-      ? {
-          total_num_buys: totalNumBuys,
-          total_num_sells: totalNumSells,
-        }
-      : null;
-  }, [data2, data3]);
+    const createdAt: UnifiedCoinDetailsContext['createdAt'] = (() => {
+      return data2?.creation_datetime ?? null;
+    })();
 
-  const pools = useMemo(() => {
-    return data2?.pools ?? data1?.symbol_pools ?? [];
-  }, [data1, data2]);
+    const developer: UnifiedCoinDetailsContext['developer'] = (() => {
+      return data2?.dev ?? null;
+    })();
 
-  const exchanges = useMemo(() => data1?.exchanges ?? [], [data1]);
-
-  return {
-    data: isLoading
-      ? undefined
-      : {
-          symbol,
-          labels,
-          networks,
-          marketData,
-          goPlusSecurity,
-          rugCheckSecurity,
-          validatedData,
-          links,
-          risks,
-          createdAt,
-          developer,
-          tradesData,
-          pools,
-          charts,
-          exchanges,
-        },
-    rawData: {
-      data1,
-      data2,
-      data3,
-    },
-    isLoading,
-  };
+    return {
+      symbol,
+      marketData,
+      validatedData,
+      charts,
+      communityData,
+      risks,
+      goPlusSecurity,
+      rugCheckSecurity,
+      createdAt,
+      developer,
+    };
+  }, [data1, data2, data3, price, slug]);
+  return (
+    <unifiedCoinDetailsContext.Provider value={value}>
+      {children}
+    </unifiedCoinDetailsContext.Provider>
+  );
 };
+
+export const useUnifiedCoinDetails = () =>
+  useContext(unifiedCoinDetailsContext);

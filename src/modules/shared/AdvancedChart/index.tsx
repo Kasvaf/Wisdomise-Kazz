@@ -3,10 +3,7 @@ import { useGrpcService } from 'api/grpc-utils';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
-import {
-  type ComplexSlug,
-  useUnifiedCoinDetails,
-} from 'modules/discovery/DetailView/CoinDetail/lib';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import {
   createContext,
   type Dispatch,
@@ -49,10 +46,9 @@ export const useAdvancedChartWidget = () => {
 };
 
 const AdvancedChart: React.FC<{
-  slug: ComplexSlug;
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
   className?: string;
-}> = ({ slug, widgetRef, className }) => {
+}> = ({ widgetRef, className }) => {
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
 
@@ -63,17 +59,18 @@ const AdvancedChart: React.FC<{
   const delphinus = useGrpcService('delphinus');
 
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
-  const { data, isLoading } = useCoinPoolInfo(slug.slug);
-  const { data: details } = useUnifiedCoinDetails({ slug });
+  const details = useUnifiedCoinDetails();
+  const slug = details.symbol.slug;
+  const { data, isLoading } = useCoinPoolInfo(slug);
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
     'tv-convert-to-usd',
     false,
   );
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
-  const supply = details?.marketData.total_supply ?? 0;
+  const supply = details?.marketData.totalSupply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
-  const { data: pairs } = useSupportedPairs(slug.slug);
+  const { data: pairs } = useSupportedPairs(slug);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {

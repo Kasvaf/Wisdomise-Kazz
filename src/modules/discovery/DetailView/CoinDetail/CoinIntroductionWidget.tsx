@@ -1,23 +1,21 @@
 import { useTranslation } from 'react-i18next';
-import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
+import { useUnifiedCoinDetails } from './lib';
 
 export function CoinIntroductionWidget({
   id,
   title,
-  slug,
   hr,
   className,
 }: {
-  slug: ComplexSlug;
   title?: boolean;
   id?: string;
   hr?: string;
   className?: string;
 }) {
   const { t } = useTranslation('coin-radar');
-  const { rawData, data } = useUnifiedCoinDetails({ slug });
+  const { communityData, symbol } = useUnifiedCoinDetails();
 
-  if (!rawData.data1?.community_data?.description) return null;
+  if (!communityData?.description) return null;
 
   return (
     <>
@@ -25,8 +23,8 @@ export function CoinIntroductionWidget({
         {title !== false && (
           <h3 className="mb-4 font-semibold text-sm">
             {t('coin-details.tabs.coin_introduction.title', {
-              name: `${data?.symbol.name ?? slug} (${
-                data?.symbol.abbreviation ?? slug
+              name: `${symbol.name ?? symbol.slug} (${
+                symbol.abbreviation ?? symbol.slug
               })`,
             })}
           </h3>
@@ -34,7 +32,7 @@ export function CoinIntroductionWidget({
         <div
           className="font-light mobile:text-xs text-sm text-v1-content-primary leading-relaxed [&_a]:underline"
           dangerouslySetInnerHTML={{
-            __html: rawData.data1?.community_data?.description ?? '',
+            __html: communityData?.description ?? '',
           }}
         />
       </div>
