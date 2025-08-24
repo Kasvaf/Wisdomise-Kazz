@@ -38,7 +38,10 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
               e.preventDefault();
               e.stopPropagation();
               setBackdropParams({
-                list: backdropParams.list ? undefined : item.meta.list,
+                list:
+                  backdropParams.list === item.meta.list
+                    ? undefined
+                    : item.meta.list,
               });
             }
           }}
