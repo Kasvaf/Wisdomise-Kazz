@@ -645,6 +645,7 @@ export function useTraderSwapsQuery({
   page?: number;
   pageSize?: number;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['buys-sells', page, pageSize, address],
     queryFn: async () => {
@@ -660,5 +661,6 @@ export function useTraderSwapsQuery({
     },
     staleTime: 10,
     refetchInterval: 20_000,
+    enabled: isLoggedIn,
   });
 }
