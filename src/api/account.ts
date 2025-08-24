@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react';
 import {
   useMutation,
   useQuery,
@@ -19,7 +18,6 @@ export function useAccountQuery(config?: { suspense?: boolean }) {
       const data = await ofetch<Account>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
       );
-      Sentry.setUser({ email: data.email });
       return data;
     },
     staleTime: Number.POSITIVE_INFINITY,
