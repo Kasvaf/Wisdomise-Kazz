@@ -52,7 +52,7 @@ export default function PageDiscovery() {
           {urlParams.detail && (
             <DetailView
               className="min-w-0 shrink grow p-3"
-              detail={urlParams.detail ?? 'token'}
+              detail={urlParams.detail}
               expanded={!isMobile}
               focus
             />

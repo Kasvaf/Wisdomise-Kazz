@@ -55,17 +55,17 @@ export const GlobalSearch: FC<
       dialogClassName="w-[520px] mobile:w-auto"
       loading={coins.isLoading}
       multiple={false}
-      onChange={slug => {
-        if (slug) navigate(`/token/${slug}`);
+      onChange={ca => {
+        if (network) navigate(`/token/${network}${ca ? `/${ca}` : ''}`);
       }}
       onSearch={setQuery}
-      options={coins.data?.map?.(x => x.symbol.slug)}
+      options={coins.data?.map?.(x => x.contract_address)}
       placeholder={t('search_coins')}
       prefixIcon={
         <Icon className="text-v1-content-secondary" name={bxSearch} />
       }
       render={opt => {
-        const row = coins.data?.find?.(x => x.symbol.slug === opt);
+        const row = coins.data?.find?.(x => x.contract_address === opt);
         if (!row) return '';
         return (
           <div className="flex items-center justify-between gap-4 mobile:px-1 px-2 py-3">

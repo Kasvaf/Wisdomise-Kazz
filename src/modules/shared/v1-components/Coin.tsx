@@ -165,8 +165,8 @@ export const Coin: FC<{
           ? href
           : !href
             ? '#'
-            : contractAddress?.network?.slug && contractAddress.value
-              ? `/token/${contractAddress.network.slug}/${contractAddress.value}`
+            : contractAddress
+              ? `/token/${contractAddress.network?.slug ?? globalNetwork}/${contractAddress.value ? `/${contractAddress.value}` : ''}`
               : slug
                 ? `/token/${slug}`
                 : '#'
