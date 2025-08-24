@@ -24,6 +24,7 @@ export const CoinTitleWidget: FC<{
     marketData,
     rugCheckSecurity,
     risks,
+    isInitiating,
   } = useUnifiedCoinDetails();
 
   return (
@@ -37,7 +38,7 @@ export const CoinTitleWidget: FC<{
       >
         <div className="flex mobile:w-full w-full mobile:flex-wrap items-center justify-start gap-2">
           <Coin
-            abbreviation={symbol.abbreviation}
+            abbreviation={isInitiating ? 'Loading...' : symbol.abbreviation}
             block
             categories={symbol.categories}
             customLabels={
@@ -57,10 +58,12 @@ export const CoinTitleWidget: FC<{
             labels={symbol.labels}
             links={communityData.links}
             logo={symbol.logo}
-            name={symbol.name}
+            name={isInitiating ? '' : symbol.name}
             networks={[
               {
-                contract_address: symbol.contractAddress ?? '',
+                contract_address: isInitiating
+                  ? ''
+                  : (symbol.contractAddress ?? ''),
                 network: {
                   icon_url:
                     'https://coin-images.coingecko.com/asset_platforms/images/5/large/solana.png?1706606708',
@@ -72,13 +75,13 @@ export const CoinTitleWidget: FC<{
             ]}
             security={goPlusSecurity}
             slug={symbol.slug}
-            truncate={false}
+            truncate={isInitiating}
           />
           <div className="flex mobile:w-full items-center justify-start mobile:justify-between gap-4 mobile:gap-2">
-            <div className="mobile:hidden h-4 w-px bg-white/10" />
             {(typeof marketData.totalNumBuys === 'number' ||
               typeof marketData.totalNumSells === 'number') && (
               <>
+                <div className="mobile:hidden h-4 w-px bg-white/10" />
                 <div className="flex flex-col justify-between">
                   <p className="text-v1-content-secondary text-xs">
                     {t('common.buy_sell')}
@@ -114,26 +117,30 @@ export const CoinTitleWidget: FC<{
               </>
             )}
 
-            <div className="h-4 w-px bg-white/10" />
-            <div className="flex flex-col justify-between">
-              <p className="text-v1-content-secondary text-xs">
-                {t('common.risk')}
-              </p>
-              <span className="text-xs">
-                <span
-                  className={clsx(
-                    risks?.level === 'low'
-                      ? 'text-v1-content-positive'
-                      : risks?.level === 'medium'
-                        ? 'text-v1-content-notice'
-                        : 'text-v1-content-negative',
-                  )}
-                >
-                  {risks?.percentage ?? 0}
-                </span>
-                <span className="text-v1-content-secondary">/100</span>
-              </span>
-            </div>
+            {risks && (
+              <>
+                <div className="h-4 w-px bg-white/10" />
+                <div className="flex flex-col justify-between">
+                  <p className="text-v1-content-secondary text-xs">
+                    {t('common.risk')}
+                  </p>
+                  <span className="text-xs">
+                    <span
+                      className={clsx(
+                        risks?.level === 'low'
+                          ? 'text-v1-content-positive'
+                          : risks?.level === 'medium'
+                            ? 'text-v1-content-notice'
+                            : 'text-v1-content-negative',
+                      )}
+                    >
+                      {risks?.percentage ?? 0}
+                    </span>
+                    <span className="text-v1-content-secondary">/100</span>
+                  </span>
+                </div>
+              </>
+            )}
 
             {rugCheckSecurity?.rugged && (
               <>
