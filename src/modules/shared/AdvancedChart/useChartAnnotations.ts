@@ -98,7 +98,7 @@ export function useSwapChartMarks(slug: string) {
           compactInteger: isMarketCap,
           separateByComma: false,
           exactDecimal: isMarketCap,
-        })} Market Cap`;
+        })} SOL ${isMarketCap ? 'Market Cap' : ''}`;
 
         return {
           id: s.created_at,
