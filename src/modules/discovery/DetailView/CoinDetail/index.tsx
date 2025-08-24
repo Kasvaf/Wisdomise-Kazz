@@ -4,22 +4,26 @@ import { ChartWidgetProvider } from 'shared/AdvancedChart';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsMeta } from './CoinDetailsMeta';
+import { useResolveComplexSlug } from './lib';
 
 export const CoinDetail: FC<{
   expanded?: boolean;
   focus?: boolean;
 }> = ({ expanded, focus }) => {
   const params = useDiscoveryParams();
-  const slug = (params.slugs ?? []).join('_');
+  const complexSlug = useResolveComplexSlug(params.slugs ?? []);
 
+  // return <pre>{JSON.stringify(complexSlug, null, 3)}</pre>;
+
+  if (!complexSlug) return <>loading...</>;
   return (
     <>
-      {focus && <CoinDetailsMeta slug={slug} />}
+      {focus && <CoinDetailsMeta slug={complexSlug} />}
       <ChartWidgetProvider>
         {expanded ? (
-          <CoinDetailsExpanded slug={slug} />
+          <CoinDetailsExpanded slug={complexSlug} />
         ) : (
-          <CoinDetailsCompact slug={slug} />
+          <CoinDetailsCompact slug={complexSlug} />
         )}
       </ChartWidgetProvider>
     </>

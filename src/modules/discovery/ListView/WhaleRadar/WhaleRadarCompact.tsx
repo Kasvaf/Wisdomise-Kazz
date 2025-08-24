@@ -6,6 +6,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { usePageState } from 'shared/usePageState';
 import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
@@ -23,6 +24,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     sortBy: 'rank',
     sortOrder: 'ascending',
   });
+  const [globalNetwork] = useGlobalNetwork();
 
   const coins = useWhaleRadarCoins(pageState);
   useLoadingBadge(coins.isFetching);
@@ -30,7 +32,16 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
     useCoinPreDetailModal<WhaleRadarCoin>({
       directNavigate: !focus,
-      slug: r => r.symbol.slug,
+      slug: r => {
+        const contractAddress = r.networks.find(
+          x => x.network.slug === globalNetwork,
+        )?.contract_address;
+        return {
+          slug: r.symbol.slug,
+          network: globalNetwork,
+          contractAddress,
+        };
+      },
     });
 
   const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(

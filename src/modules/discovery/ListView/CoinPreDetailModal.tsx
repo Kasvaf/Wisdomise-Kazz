@@ -28,6 +28,7 @@ import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { usePromise } from 'utils/usePromise';
+import type { ComplexSlug } from '../DetailView/CoinDetail/lib';
 import { PriceAlertButton } from '../DetailView/CoinDetail/PriceAlertButton';
 import SocialRadarSharingModal from './SocialRadar/SocialRadarSharingModal';
 import TechnicalRadarSharingModal from './TechnicalRadar/TechnicalRadarSharingModal';
@@ -205,7 +206,7 @@ export function useCoinPreDetailModal<T>({
   slug,
 }: {
   directNavigate?: boolean;
-  slug?: (r: T) => string;
+  slug?: (r: T) => ComplexSlug;
 }) {
   const navigate = useNavigate();
   const { run: openModal, ...rest } = usePromise<T, boolean>();
@@ -213,7 +214,10 @@ export function useCoinPreDetailModal<T>({
   const action = useCallback(
     (r: T) => {
       if (directNavigate && slug) {
-        navigate(`/token/${slug(r)}`);
+        const s = slug(r);
+        navigate(
+          `/token/${s.network && s.contractAddress ? [s.network, s.contractAddress].join('/') : s.slug}`,
+        );
         return Promise.resolve();
       }
       return openModal(r);

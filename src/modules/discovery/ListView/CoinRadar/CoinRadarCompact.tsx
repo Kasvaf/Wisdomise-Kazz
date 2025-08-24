@@ -10,6 +10,7 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import useIsMobile from 'utils/useIsMobile';
@@ -24,7 +25,7 @@ import useHotCoinsTour from './useHotCoinsTour';
 
 export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const { t } = useTranslation('insight');
-
+  const [globalNetwork] = useGlobalNetwork();
   const coins = useCoinRadarCoins({});
   useLoadingBadge(coins.isFetching);
 
@@ -36,7 +37,16 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
     useCoinPreDetailModal<CoinRadarCoin>({
       directNavigate: !focus,
-      slug: r => r.symbol.slug,
+      slug: r => {
+        const contractAddress = r.networks?.find(
+          x => x.network.slug === globalNetwork,
+        )?.contract_address;
+        return {
+          network: globalNetwork,
+          slug: r.symbol.slug,
+          contractAddress,
+        };
+      },
     });
 
   const selectedRowSparklinePrices =

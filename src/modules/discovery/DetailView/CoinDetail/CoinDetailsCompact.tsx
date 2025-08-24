@@ -12,13 +12,14 @@ import { CoinStatsWidget } from './CoinStatsWidget';
 import { CoinTitleWidget } from './CoinTitleWidget';
 import { CoinTopTraderHoldersWidget } from './CoinTopTraderHoldersWidget';
 import { CoinWhalesWidget } from './CoinWhalesWidget';
+import type { ComplexSlug } from './lib';
 import { NCoinInsightWidget } from './NCoinInsightWidget';
 import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { NCoinSentimentWidget } from './NCoinSentimentWidget';
 import { NCoinStatsWidget } from './NCoinStatsWidget';
 import { useCoinDetailsTabs } from './useCoinDetailsTabs';
 
-export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
+export const CoinDetailsCompact: FC<{ slug: ComplexSlug }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
 
@@ -27,7 +28,7 @@ export const CoinDetailsCompact: FC<{ slug: string }> = ({ slug }) => {
       <NCoinRisksBanner slug={slug} />
       <CoinTitleWidget className="bg-v1-surface-l-current" hr slug={slug} />
       <CoinPriceWidget slug={slug} />
-      <BtnAutoTrade block slug={slug} variant="primary" />
+      <BtnAutoTrade block slug={slug.slug} variant="primary" />
       <CoinSentimentsWidget slug={slug} />
       <NCoinSentimentWidget slug={slug} />
       <CoinStatsWidget slug={slug} />

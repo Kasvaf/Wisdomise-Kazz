@@ -3,7 +3,7 @@ import { type FC, Fragment, type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
 const StatCol: FC<{
   children: ReactNode;
@@ -64,7 +64,7 @@ export function NCoinStatsWidget({
   slug,
 }: {
   className?: string;
-  slug: string;
+  slug: ComplexSlug;
 }) {
   const { rawData } = useUnifiedCoinDetails({ slug });
   const [timeFramePrefix, setTimeFramePrefix] = useState<'total_' | ''>('');

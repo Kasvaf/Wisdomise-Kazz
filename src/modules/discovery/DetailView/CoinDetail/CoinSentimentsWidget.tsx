@@ -8,17 +8,17 @@ import type { FC } from 'react';
 import { SocialRadarSentiment } from '../../ListView/SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../../ListView/TechnicalRadar/TechnicalRadarSentiment';
 import { WhaleRadarSentiment } from '../../ListView/WhaleRadar/WhaleRadarSentiment';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
 export const CoinSentimentsWidget: FC<{
-  slug: string;
+  slug: ComplexSlug;
   className?: string;
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
   const { data, isLoading } = useUnifiedCoinDetails({ slug });
-  const technicalRadar = useTechnicalRadarSentiment({ slug });
-  const socialRadar = useSocialRadarSentiment({ slug });
-  const whaleRadar = useWhaleRadarSentiment({ slug });
+  const technicalRadar = useTechnicalRadarSentiment({ slug: slug.slug });
+  const socialRadar = useSocialRadarSentiment({ slug: slug.slug });
+  const whaleRadar = useWhaleRadarSentiment({ slug: slug.slug });
 
   const isEmpty = !technicalRadar.data && !socialRadar.data && !whaleRadar.data;
 

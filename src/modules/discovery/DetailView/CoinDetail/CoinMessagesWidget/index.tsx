@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
-import { useUnifiedCoinDetails } from '../useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from '../lib';
 import { SocialMessageSummary } from './SocialMessage';
 
 export function CoinMessagesWidget({
@@ -16,7 +16,7 @@ export function CoinMessagesWidget({
   hr,
 }: {
   id?: string;
-  slug: string;
+  slug: ComplexSlug;
   className?: string;
   title?: boolean;
   limit?: boolean;
@@ -24,7 +24,7 @@ export function CoinMessagesWidget({
   hr?: boolean;
 }) {
   const { rawData } = useUnifiedCoinDetails({ slug });
-  const messages = useSocialRadarMessages({ slug });
+  const messages = useSocialRadarMessages({ slug: slug.slug });
   const { t } = useTranslation('coin-radar');
 
   const [expand, setExpand] = useState(!limit);

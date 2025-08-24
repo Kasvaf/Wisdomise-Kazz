@@ -10,6 +10,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Wallet } from '../WhaleDetail/Wallet';
+import type { ComplexSlug } from './lib';
 
 export function CoinTopTraderHoldersWidget({
   type,
@@ -22,7 +23,7 @@ export function CoinTopTraderHoldersWidget({
 }: {
   type: Parameters<typeof useCoinTopTraderHolders>[0]['type'];
   title?: boolean;
-  slug: string;
+  slug: ComplexSlug;
   limit?: number;
   id?: string;
   hr?: boolean;
@@ -32,7 +33,7 @@ export function CoinTopTraderHoldersWidget({
   const [limit, setLimit] = useState<number | undefined>(_limit);
   const resp = useCoinTopTraderHolders({
     type,
-    slug,
+    slug: slug.slug,
   });
 
   const columns = useMemo<Array<TableColumn<CoinTopTraderHolder>>>(

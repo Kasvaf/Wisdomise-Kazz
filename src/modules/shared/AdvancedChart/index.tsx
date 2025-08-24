@@ -3,7 +3,10 @@ import { useGrpcService } from 'api/grpc-utils';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
-import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
+import {
+  type ComplexSlug,
+  useUnifiedCoinDetails,
+} from 'modules/discovery/DetailView/CoinDetail/lib';
 import {
   createContext,
   type Dispatch,
@@ -46,7 +49,7 @@ export const useAdvancedChartWidget = () => {
 };
 
 const AdvancedChart: React.FC<{
-  slug: string;
+  slug: ComplexSlug;
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
   className?: string;
 }> = ({ slug, widgetRef, className }) => {
@@ -60,7 +63,7 @@ const AdvancedChart: React.FC<{
   const delphinus = useGrpcService('delphinus');
 
   const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
-  const { data, isLoading } = useCoinPoolInfo(slug);
+  const { data, isLoading } = useCoinPoolInfo(slug.slug);
   const { data: details } = useUnifiedCoinDetails({ slug });
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
     'tv-convert-to-usd',
@@ -70,7 +73,7 @@ const AdvancedChart: React.FC<{
   const supply = details?.marketData.total_supply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
-  const { data: pairs } = useSupportedPairs(slug);
+  const { data: pairs } = useSupportedPairs(slug.slug);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {

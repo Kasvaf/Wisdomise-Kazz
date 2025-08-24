@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
 export function CoinIntroductionWidget({
   id,
@@ -8,7 +8,7 @@ export function CoinIntroductionWidget({
   hr,
   className,
 }: {
-  slug: string;
+  slug: ComplexSlug;
   title?: boolean;
   id?: string;
   hr?: string;

@@ -6,7 +6,7 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
 function StatRow({
   className,
@@ -52,7 +52,7 @@ export function CoinStatsWidget({
   slug,
 }: {
   className?: string;
-  slug: string;
+  slug: ComplexSlug;
 }) {
   const { data } = useUnifiedCoinDetails({ slug });
   const { t } = useTranslation('coin-radar');

@@ -3,9 +3,9 @@ import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import AdvancedChart from 'shared/AdvancedChart';
 import useIsMobile from 'utils/useIsMobile';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
-const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
+const DirtyCoinChart: React.FC<{ slug: ComplexSlug; height?: number }> = ({
   slug,
 }) => {
   const isMobile = useIsMobile();
@@ -50,8 +50,8 @@ const DirtyCoinChart: React.FC<{ slug: string; height?: number }> = ({
   ) : null;
 };
 
-const CoinChart: React.FC<{ slug: string }> = ({ slug }) => {
-  slug = slug === 'solana' ? 'wrapped-solana' : slug;
+const CoinChart: React.FC<{ slug: ComplexSlug }> = ({ slug: _slug }) => {
+  const slug = _slug.slug === 'solana' ? 'wrapped-solana' : _slug.slug;
   const [quote] = useActiveQuote();
   const lastCandle = useLastCandleQuery({ slug, quote });
   if (lastCandle.isLoading) return null;
@@ -60,9 +60,9 @@ const CoinChart: React.FC<{ slug: string }> = ({ slug }) => {
     /^(solana|ton|the-open-network)$/.test(
       lastCandle.data?.symbol.network ?? '',
     ) ? (
-    <AdvancedChart className="size-full" slug={slug} />
+    <AdvancedChart className="size-full" slug={_slug} />
   ) : (
-    <DirtyCoinChart slug={slug} />
+    <DirtyCoinChart slug={_slug} />
   );
 };
 

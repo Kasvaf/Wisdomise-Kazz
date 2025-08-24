@@ -10,11 +10,11 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 import { PriceAlertButton } from './PriceAlertButton';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
 
 export const CoinPriceWidget: FC<{
-  slug: string;
+  slug: ComplexSlug;
   className?: string;
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
@@ -71,7 +71,7 @@ export const CoinPriceWidget: FC<{
               <PriceAlertButton
                 fab
                 size="sm"
-                slug={slug}
+                slug={slug.slug}
                 surface={1}
                 variant="outline"
               />

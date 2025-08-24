@@ -1,18 +1,15 @@
 import { useTokenInsight } from 'api/discovery';
 import { NCoinTokenInsight } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight';
 import type { FC } from 'react';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import type { ComplexSlug } from './lib';
 
-export const NCoinInsightWidget: FC<{ className?: string; slug: string }> = ({
-  className,
-  slug,
-}) => {
-  const { data: coin } = useUnifiedCoinDetails({ slug });
-  const contractAddress = coin?.networks?.[0]?.contract_address;
+export const NCoinInsightWidget: FC<{
+  className?: string;
+  slug: ComplexSlug;
+}> = ({ className, slug }) => {
   const { data } = useTokenInsight({
-    contractAddress,
+    contractAddress: slug.contractAddress,
   });
-  if (!contractAddress) return null;
   return (
     <NCoinTokenInsight
       className={className}

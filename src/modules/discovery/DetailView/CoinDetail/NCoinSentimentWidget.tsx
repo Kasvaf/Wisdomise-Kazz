@@ -9,6 +9,7 @@ import { NCoinSecurity } from 'modules/discovery/ListView/NetworkRadar/NCoinSecu
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import type { ComplexSlug } from './lib';
 
 const NCoinSentimentCol: FC<{
   label: string;
@@ -28,12 +29,12 @@ const NCoinSentimentCol: FC<{
 );
 
 export const NCoinSentimentWidget: FC<{
-  slug: string;
+  slug: ComplexSlug;
   className?: string;
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
-  const nCoin = useNCoinDetails({ slug });
+  const nCoin = useNCoinDetails({ slug: slug.slug });
   if (!nCoin.data) return null;
 
   return (

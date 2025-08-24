@@ -21,6 +21,7 @@ import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
 import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
 import { CoinWhalesWidget } from '../CoinWhalesWidget';
+import type { ComplexSlug } from '../lib';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { NCoinSentimentWidget } from '../NCoinSentimentWidget';
@@ -28,7 +29,7 @@ import { NCoinStatsWidget } from '../NCoinStatsWidget';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 import TraderSection from './TraderSection';
 
-export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
+export const CoinDetailsExpanded: FC<{ slug: ComplexSlug }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
   const [selectedTab, setSelectedTab] = useState<string>();
@@ -215,7 +216,7 @@ export const CoinDetailsExpanded: FC<{ slug: string }> = ({ slug }) => {
         <NCoinRisksBanner slug={slug} />
         <CoinPriceWidget className="h-16 px-3" hr slug={slug} />
         <div className="space-y-3 px-3 pt-1 pb-3">
-          <TraderSection quote={quote} setQuote={setQuote} slug={slug} />
+          <TraderSection quote={quote} setQuote={setQuote} slug={slug.slug} />
           <hr className="border-white/10" />
           <NCoinInsightWidget slug={slug} />
           <CoinStatsWidget slug={slug} />

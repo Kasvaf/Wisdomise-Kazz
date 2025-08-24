@@ -13,6 +13,7 @@ import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { Wallet } from '../WhaleDetail/Wallet';
+import type { ComplexSlug } from './lib';
 
 export function CoinWhalesWidget({
   type,
@@ -25,14 +26,14 @@ export function CoinWhalesWidget({
 }: {
   type: 'active' | 'holding';
   title?: boolean;
-  slug: string;
+  slug: ComplexSlug;
   limit?: number;
   id?: string;
   hr?: boolean;
   className?: string;
 }) {
   const { t } = useTranslation('whale');
-  const whales = useCoinWhales({ slug, type });
+  const whales = useCoinWhales({ slug: slug.slug, type });
   const [query, setQuery] = useState('');
   const [limit, setLimit] = useState<number | undefined>(_limit);
 

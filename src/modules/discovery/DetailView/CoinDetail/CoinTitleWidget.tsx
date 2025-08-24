@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
 export const CoinTitleWidget: FC<{
-  slug: string;
+  slug: ComplexSlug;
   className?: string;
   hr?: boolean;
   suffix?: ReactNode;

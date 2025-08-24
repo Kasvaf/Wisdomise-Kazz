@@ -3,9 +3,11 @@ import {
   type CoinNetwork,
   type NetworkRadarNCoinDetails,
   useCoinDetails,
+  useDetailedCoins,
   useNCoinDetails,
 } from 'api/discovery';
 import { networkRadarGrpc } from 'api/grpc';
+import { useSymbolInfo } from 'api/symbol';
 import type { Coin } from 'api/types/shared';
 import {
   calcNCoinRiskLevel,
@@ -13,21 +15,65 @@ import {
   doesNCoinHaveSafeTopHolders,
 } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { useMemo } from 'react';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 
-export const useUnifiedCoinDetails = ({ slug }: { slug: string }) => {
-  const [network, base] = slug.startsWith('solana_')
-    ? slug.split('_')
-    : ['', ''];
+export type ComplexSlug = {
+  slug: string;
+  network: string;
+  contractAddress?: string;
+};
+
+export const useResolveComplexSlug = (slugs: string[]): ComplexSlug | null => {
+  const [globalNetwork] = useGlobalNetwork();
+  const isSlug = slugs.length === 1;
+  const isNetworkCa = slugs.length === 2;
+  const searchResult = useDetailedCoins({
+    network: isNetworkCa ? slugs[0] : undefined,
+    query: isNetworkCa ? slugs[1] : undefined,
+  });
+  const slug = isSlug
+    ? (slugs[0] as string)
+    : searchResult.data?.[0]?.symbol.slug ||
+      (isNetworkCa ? slugs.join('_') : undefined);
+  const symbolInfo = useSymbolInfo(slug);
+  const network = isSlug ? globalNetwork : isNetworkCa ? slugs[0] : undefined;
+  const contractAddress = isSlug
+    ? symbolInfo.data?.networks.find(x => x.network.slug === network)
+        ?.contract_address || undefined
+    : isNetworkCa
+      ? slugs[1]
+      : undefined;
+  if (!slug || !network) return null;
+  return {
+    contractAddress,
+    network,
+    slug,
+  };
+};
+
+export const useUnifiedCoinDetails = ({
+  slug: complexSlug,
+}: {
+  slug: ComplexSlug;
+}) => {
+  const { slug, network, contractAddress: base } = complexSlug;
+
   const resp1 = useCoinDetails({ slug });
   const resp2 = useNCoinDetails({ slug });
   const resp3 = networkRadarGrpc.useCoinDetailStreamLastValue({
     network,
     base,
   });
+  // const price = useLastPriceQuery({
+  //   convertToUsd: true,
+  //   market: 'SPOT',
+  //   network: (network as never) ?? 'solana',
+  //   slug: base,
+  // });
 
   const data1 = resp1.data;
   const data2 = resp2.data;
-  const data3 = network.length > 0 && base.length > 0 ? resp3.data : null;
+  const data3 = base ? resp3.data : null;
 
   const isLoading = !data1 && !data2 && !data3;
 

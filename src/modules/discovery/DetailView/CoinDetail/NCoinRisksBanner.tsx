@@ -4,10 +4,10 @@ import { type FC, useMemo } from 'react';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
 export const NCoinRisksBanner: FC<{
-  slug: string;
+  slug: ComplexSlug;
   className?: string;
 }> = ({ slug, className }) => {
   const { data } = useUnifiedCoinDetails({ slug });

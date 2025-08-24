@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { formatNumber } from 'utils/numbers';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
-export function CoinDetailsMeta({ slug }: { slug: string }) {
+export function CoinDetailsMeta({ slug }: { slug: ComplexSlug }) {
   const { data } = useUnifiedCoinDetails({ slug });
   const coinName = data?.symbol
     ? `${data?.symbol.name ?? '---'}${

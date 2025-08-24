@@ -8,7 +8,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { type ComplexSlug, useUnifiedCoinDetails } from './lib';
 
 export function CoinExchangesWidget({
   slug,
@@ -18,7 +18,7 @@ export function CoinExchangesWidget({
   limit: _limit = 6,
   className,
 }: {
-  slug: string;
+  slug: ComplexSlug;
   id?: string;
   hr?: boolean;
   title?: boolean;
