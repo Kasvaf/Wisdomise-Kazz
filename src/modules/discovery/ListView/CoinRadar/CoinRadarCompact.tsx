@@ -120,7 +120,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
   const params = useDiscoveryParams();
-  const activeSlug = params.slugs?.[0];
+  const activeSlug = params.slugs?.[1];
 
   return (
     <div className="p-3">
@@ -131,7 +131,10 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           chunkSize={10}
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}
-          isActive={r => r.symbol.slug === activeSlug}
+          isActive={r =>
+            r.networks?.find(x => x.network.slug === globalNetwork)
+              ?.contract_address === activeSlug
+          }
           loading={coins.isLoading}
           onClick={r => openModal(r)}
           rowClassName="id-tour-row"
