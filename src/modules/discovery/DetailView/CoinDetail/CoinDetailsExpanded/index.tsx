@@ -23,7 +23,6 @@ import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
 import { CoinWhalesWidget } from '../CoinWhalesWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
-import { NCoinSentimentWidget } from '../NCoinSentimentWidget';
 import { NCoinStatsWidget } from '../NCoinStatsWidget';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 import TraderSection from './TraderSection';
@@ -63,7 +62,7 @@ export const CoinDetailsExpanded: FC = () => {
       >
         {[
           <div className="flex h-full flex-col" key="up-side">
-            <NCoinSentimentWidget className="shrink-0 p-3" hr />
+            {/* <NCoinSentimentWidget className="shrink-0 p-3" hr /> */}
             <CoinTitleWidget
               className="h-16 shrink-0 bg-v1-surface-l-current px-3"
               hr

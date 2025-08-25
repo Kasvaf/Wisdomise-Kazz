@@ -14,7 +14,6 @@ import { CoinTopTraderHoldersWidget } from './CoinTopTraderHoldersWidget';
 import { CoinWhalesWidget } from './CoinWhalesWidget';
 import { NCoinInsightWidget } from './NCoinInsightWidget';
 import { NCoinRisksBanner } from './NCoinRisksBanner';
-import { NCoinSentimentWidget } from './NCoinSentimentWidget';
 import { NCoinStatsWidget } from './NCoinStatsWidget';
 import { useCoinDetailsTabs } from './useCoinDetailsTabs';
 
@@ -29,7 +28,7 @@ export const CoinDetailsCompact: FC = () => {
       <CoinPriceWidget />
       <BtnAutoTrade block variant="primary" />
       <CoinSentimentsWidget />
-      <NCoinSentimentWidget />
+      {/* <NCoinSentimentWidget /> */}
       <CoinStatsWidget />
       <NCoinStatsWidget />
       <NCoinInsightWidget />

@@ -37,7 +37,7 @@ export const CoinTitleWidget: FC<{
       >
         <div className="flex mobile:w-full w-full mobile:flex-wrap items-center justify-start gap-2">
           <Coin
-            abbreviation={isInitiating ? 'Loading...' : symbol.abbreviation}
+            abbreviation={isInitiating ? '...' : symbol.abbreviation}
             block
             categories={symbol.categories}
             customLabels={

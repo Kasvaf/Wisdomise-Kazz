@@ -80,7 +80,7 @@ export const CoinSocials: FC<{
           </span>
         </HoverTooltip>
       ))}
-      {hideSearch && (
+      {!hideSearch && (
         <span
           className={clsx(
             'inline-flex cursor-pointer items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:bg-white/5 active:brightness-90',
