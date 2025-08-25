@@ -1,4 +1,4 @@
-import { type Pool, useNCoinDetails } from 'api/discovery';
+import { type Pool, useCoinDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import { useMemo, useState } from 'react';
@@ -25,8 +25,8 @@ export function CoinPoolsWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const { symbol } = useUnifiedCoinDetails();
-  const nCoinDetails = useNCoinDetails({ slug: symbol.slug });
-  const pools = nCoinDetails.data?.pools ?? [];
+  const nCoinDetails = useCoinDetails({ slug: symbol.slug });
+  const pools = nCoinDetails.data?.symbol_pools ?? [];
   const [limit, setLimit] = useState<number | undefined>(_limit);
 
   const columns = useMemo<Array<TableColumn<Pool>>>(

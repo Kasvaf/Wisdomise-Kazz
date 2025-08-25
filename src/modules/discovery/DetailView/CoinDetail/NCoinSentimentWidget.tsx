@@ -1,6 +1,4 @@
-import { useNCoinDetails } from 'api/discovery';
 import { clsx } from 'clsx';
-import { NCoinLiquidity } from 'modules/discovery/ListView/NetworkRadar/NCoinLiquidity';
 import { NCoinSecurity } from 'modules/discovery/ListView/NetworkRadar/NCoinSecurity';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,9 +27,7 @@ export const NCoinSentimentWidget: FC<{
   hr?: boolean;
 }> = ({ className, hr }) => {
   const { t } = useTranslation('network-radar');
-  const { marketData, symbol, rugCheckSecurity } = useUnifiedCoinDetails();
-  const nCoin = useNCoinDetails({ slug: symbol.slug });
-  if (!nCoin.data) return null;
+  const { marketData, securityData } = useUnifiedCoinDetails();
 
   return (
     <>
@@ -41,26 +37,6 @@ export const NCoinSentimentWidget: FC<{
           className,
         )}
       >
-        <NCoinSentimentCol
-          contentClassName="text-xs mt-1"
-          label={t('common.liquidity')}
-        >
-          <NCoinLiquidity
-            imgClassName="size-4"
-            type="update_row"
-            value={nCoin.data}
-          />
-        </NCoinSentimentCol>
-        <NCoinSentimentCol
-          contentClassName="text-xs mt-1"
-          label={t('common.initial_liquidity')}
-        >
-          <NCoinLiquidity
-            imgClassName="size-4"
-            type="initial_row"
-            value={nCoin.data}
-          />
-        </NCoinSentimentCol>
         <NCoinSentimentCol
           contentClassName="text-xs mt-1"
           label={t('common.marketcap')}
@@ -80,7 +56,7 @@ export const NCoinSentimentWidget: FC<{
             className="text-xxs"
             imgClassName="size-4 shrink-0"
             type="row2"
-            value={rugCheckSecurity}
+            value={securityData}
           />
         </NCoinSentimentCol>
       </div>

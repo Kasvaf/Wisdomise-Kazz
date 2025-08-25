@@ -298,13 +298,6 @@ export const NCoinList: FC<{
                       </>
                     }
                     href={false}
-                    links={{
-                      twitter_screen_name: row.socials?.twitter,
-                      telegram_channel_identifier: row.socials?.telegram,
-                      homepage: row.socials?.website
-                        ? [row.socials?.website]
-                        : [],
-                    }}
                     logo={row.symbol?.imageUrl}
                     marker={row.validatedData?.protocol?.logo}
                     name={row.symbol?.name}
@@ -327,6 +320,7 @@ export const NCoinList: FC<{
                     progressTitle="Bounding Curve: "
                     size={mini ? 'md' : 'lg'}
                     slug={row.symbol?.slug}
+                    socials={row.socials}
                     truncate={!!mini}
                   />
                 </div>

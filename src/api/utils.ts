@@ -1,4 +1,3 @@
-import type { NetworkSecurity } from 'api/discovery';
 import type { PageResponse, PageResponse2 } from 'api/types/page';
 import type { Coin } from 'api/types/shared';
 import { ofetch } from 'config/ofetch';
@@ -82,26 +81,10 @@ export const matcher = (search: string | string[] | null | undefined) => {
     return true;
   };
 
-  const security = (source: NetworkSecurity[] | null | undefined) => {
-    const sourceArray = source || [];
-    const sourceLabels = [
-      ...(sourceArray.every(x => !!x.label.trusted) ? ['trusted'] : []),
-      ...(sourceArray.some(x => (x.label.warning ?? 0) > 0) ? ['warning'] : []),
-      ...(sourceArray.some(x => (x.label.risk ?? 0) > 0) ? ['risk'] : []),
-    ];
-    if (
-      searchArray.length > 0 &&
-      !sourceLabels.some(x => searchArray.includes(x))
-    )
-      return false;
-    return true;
-  };
-
   return {
     string,
     coin,
     array,
-    security,
   };
 };
 

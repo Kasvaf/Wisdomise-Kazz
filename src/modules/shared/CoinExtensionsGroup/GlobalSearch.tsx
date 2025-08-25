@@ -74,7 +74,6 @@ export const GlobalSearch: FC<
               categories={row.symbol.categories}
               href={false}
               labels={row.symbol_labels}
-              links={row.symbol_community_links}
               logo={row.symbol?.logo_url}
               name={row.symbol?.name}
               networks={
@@ -92,8 +91,8 @@ export const GlobalSearch: FC<
                   },
                 ]
               }
-              security={row.symbol_security ? [row.symbol_security] : null}
               slug={row.symbol?.slug}
+              socials={row.symbol_community_links}
             />
             <div className="flex grow items-center justify-end gap-4 mobile:gap-2 justify-self-end whitespace-nowrap text-xs [&_label]:text-v1-content-secondary">
               <p>

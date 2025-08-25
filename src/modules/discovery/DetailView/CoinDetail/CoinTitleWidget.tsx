@@ -19,12 +19,11 @@ export const CoinTitleWidget: FC<{
     symbol,
     developer,
     createdAt,
-    communityData,
-    goPlusSecurity,
     marketData,
-    rugCheckSecurity,
     risks,
+    securityData,
     isInitiating,
+    socials,
   } = useUnifiedCoinDetails();
 
   return (
@@ -56,7 +55,6 @@ export const CoinTitleWidget: FC<{
             }
             href={false}
             labels={symbol.labels}
-            links={communityData.links}
             logo={symbol.logo}
             name={isInitiating ? '' : symbol.name}
             networks={[
@@ -71,51 +69,48 @@ export const CoinTitleWidget: FC<{
                   slug: 'solana',
                 },
                 symbol_network_type: symbol.contractAddress ? 'TOKEN' : 'COIN',
-              } /* TODO: fix this */,
+              },
             ]}
-            security={goPlusSecurity}
             slug={symbol.slug}
+            socials={socials}
             truncate={isInitiating}
           />
           <div className="flex mobile:w-full items-center justify-start mobile:justify-between gap-4 mobile:gap-2">
-            {(typeof marketData.totalNumBuys === 'number' ||
-              typeof marketData.totalNumSells === 'number') && (
-              <>
-                <div className="mobile:hidden h-4 w-px bg-white/10" />
-                <div className="flex flex-col justify-between">
-                  <p className="text-v1-content-secondary text-xs">
-                    {t('common.buy_sell')}
-                    {' (24h)'}
-                    {doesNCoinHaveLargeTxns({
-                      totalNumBuys: marketData.totalNumBuys ?? 0,
-                      totalNumSells: marketData.totalNumSells ?? 0,
-                    })
-                      ? ' 🔥'
-                      : ''}
-                  </p>
-                  <NCoinBuySell
-                    className="text-xs"
-                    imgClassName="size-4"
-                    value={{
-                      buys: marketData.totalNumBuys,
-                      sells: marketData.totalNumSells,
-                    }}
-                  />
-                </div>
-                <div className="h-4 w-px bg-white/10" />
-                <div className="flex flex-col justify-between">
-                  <p className="text-v1-content-secondary text-xs">
-                    Trading Volume
-                  </p>
-                  <ReadableNumber
-                    className="text-xs"
-                    label="$"
-                    popup="never"
-                    value={marketData.tradingVolume}
-                  />
-                </div>
-              </>
-            )}
+            <>
+              <div className="mobile:hidden h-4 w-px bg-white/10" />
+              <div className="flex flex-col justify-between">
+                <p className="text-v1-content-secondary text-xs">
+                  {t('common.buy_sell')}
+                  {' (24h)'}
+                  {doesNCoinHaveLargeTxns({
+                    totalNumBuys: marketData.totalNumBuys24h ?? 0,
+                    totalNumSells: marketData.totalNumSells24h ?? 0,
+                  })
+                    ? ' 🔥'
+                    : ''}
+                </p>
+                <NCoinBuySell
+                  className="text-xs"
+                  imgClassName="size-4"
+                  value={{
+                    buys: marketData.totalNumBuys24h ?? 0,
+                    sells: marketData.totalNumSells24h ?? 0,
+                  }}
+                />
+              </div>
+              <div className="h-4 w-px bg-white/10" />
+              <div className="flex flex-col justify-between">
+                <p className="text-v1-content-secondary text-xs">
+                  Total Volume
+                </p>
+                <ReadableNumber
+                  className="text-xs"
+                  label="$"
+                  popup="never"
+                  value={marketData.totalVolume}
+                />
+              </div>
+            </>
 
             {risks && (
               <>
@@ -127,14 +122,14 @@ export const CoinTitleWidget: FC<{
                   <span className="text-xs">
                     <span
                       className={clsx(
-                        risks?.level === 'low'
-                          ? 'text-v1-content-positive'
-                          : risks?.level === 'medium'
+                        risks?.risks.some(x => x.level === 'danger')
+                          ? 'text-v1-content-negative'
+                          : risks?.risks.length
                             ? 'text-v1-content-notice'
-                            : 'text-v1-content-negative',
+                            : 'text-v1-content-positive',
                       )}
                     >
-                      {risks?.percentage ?? 0}
+                      {risks?.riskPercent ?? 0}
                     </span>
                     <span className="text-v1-content-secondary">/100</span>
                   </span>
@@ -142,7 +137,7 @@ export const CoinTitleWidget: FC<{
               </>
             )}
 
-            {rugCheckSecurity?.rugged && (
+            {securityData?.rugged && (
               <>
                 <div className="h-4 w-px bg-white/10" />
                 <span className="rounded-full bg-v1-content-negative/10 p-1 px-2 text-v1-content-negative text-xs">

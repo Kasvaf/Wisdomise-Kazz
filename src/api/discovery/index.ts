@@ -25,7 +25,6 @@ import type {
   IndicatorHeatmapResolution,
   MacdConfirmation,
   Network,
-  NetworkRadarNCoinDetails,
   RadarsMetcis,
   RedditMessage,
   RsiConfirmation,
@@ -130,7 +129,6 @@ export const useSocialRadarCoins = (config: {
   networks?: string[];
   exchanges?: string[];
   sources?: string[];
-  securityLabels?: string[];
   trendLabels?: string[];
 }) => {
   const [globalNetwork] = useGlobalNetwork();
@@ -161,8 +159,7 @@ export const useSocialRadarCoins = (config: {
             ]).array(row.networks?.map(x => x.network.slug)) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
             !matcher(config.exchanges).array(row.exchanges_name) ||
-            !matcher(config.sources).array(row.sources) ||
-            !matcher(config.securityLabels).security(row.symbol_security?.data)
+            !matcher(config.sources).array(row.sources)
           )
             return false;
           return true;
@@ -549,7 +546,6 @@ export const useWhaleRadarCoins = (config: {
   query?: string;
   categories?: string[];
   networks?: string[];
-  securityLabels?: string[];
   trendLabels?: string[];
   profitableOnly?: boolean;
   excludeNativeCoins?: boolean;
@@ -579,9 +575,6 @@ export const useWhaleRadarCoins = (config: {
               ...(config.networks ?? []),
             ]).array(row.networks.map(x => x.network.slug)) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
-            !matcher(config.securityLabels).security(
-              row.symbol_security?.data,
-            ) ||
             (config.profitableOnly && !row.profitable) ||
             (config.excludeNativeCoins &&
               row.networks.some(x => x.symbol_network_type === 'COIN'))
@@ -998,26 +991,6 @@ export const useCoinDetails = ({
     },
     refetchOnMount: true,
     refetchInterval: 5 * 60 * 1000,
-  });
-
-export const useNCoinDetails = ({ slug }: { slug?: string }) =>
-  useQuery({
-    queryKey: ['ncoin-details', slug],
-    queryFn: () => {
-      if (!slug) return null;
-      return ofetch<NetworkRadarNCoinDetails>(
-        'delphi/market/unified-coin-details/',
-        {
-          meta: { auth: false },
-          query: {
-            slug,
-          },
-        },
-      ).catch(() => null);
-    },
-    select: x => (x?.creation_datetime ? x : null),
-    refetchOnMount: true,
-    refetchInterval: 30 * 1000,
   });
 
 export const useRadarsMetrics = () =>

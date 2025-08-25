@@ -12,7 +12,7 @@ export const NCoinRisksBanner: FC<{
   const { risks: rawRisks } = useUnifiedCoinDetails();
 
   const risks = useMemo(() => {
-    const raw = rawRisks?.list ?? [];
+    const raw = rawRisks?.risks ?? [];
     return [...raw]
       .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
       .sort(

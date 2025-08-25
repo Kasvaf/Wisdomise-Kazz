@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import {
   type CSSProperties,
   type FC,
+  type MouseEventHandler,
   type ReactNode,
   type RefObject,
   useCallback,
@@ -154,6 +155,9 @@ export const Dialog: FC<{
     closeButton?: boolean;
   };
   ignoreFocus?: boolean;
+
+  onMouseEnter?: MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: MouseEventHandler<HTMLDivElement>;
 }> = ({
   children,
   open: isOpen = false,
@@ -176,6 +180,9 @@ export const Dialog: FC<{
   modalConfig: userModalConfig,
   drawerConfig: userDrawerConfig,
   ignoreFocus,
+
+  onMouseEnter,
+  onMouseLeave,
 }) => {
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
@@ -287,10 +294,12 @@ export const Dialog: FC<{
                   ],
                   className,
                 )}
-                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
                 onClick={e => {
                   e.stopPropagation();
                 }}
+                onMouseEnter={onMouseEnter}
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
+                onMouseLeave={onMouseLeave}
                 ref={root}
                 style={{
                   ...(mode === 'popup' && popupPosition),

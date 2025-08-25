@@ -149,7 +149,6 @@ export function WhaleCoinsWidget({
             categories={row.symbol.categories}
             labels={row.symbol_labels}
             networks={row.networks}
-            security={row.symbol_security?.data}
           />
         ),
       },

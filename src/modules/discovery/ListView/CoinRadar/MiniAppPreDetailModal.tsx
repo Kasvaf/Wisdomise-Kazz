@@ -97,9 +97,6 @@ const MiniAppPreDetailModal: React.FC<{
                   categories={coinOverview.data?.symbol.categories}
                   labels={coinOverview.data?.symbol_labels}
                   networks={coinOverview.data?.networks}
-                  security={coinOverview.data?.security_data?.map(
-                    x => x.symbol_security,
-                  )}
                 />
               </div>
 

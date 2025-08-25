@@ -77,7 +77,6 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
             labels={row.symbol_labels}
             logo={row.symbol.logo_url}
             networks={row.networks}
-            security={row.symbol_security?.data}
             slug={row.symbol.slug}
           />
         ),
@@ -131,7 +130,6 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         networks={selectedRow?.networks}
         onClose={() => closeModal()}
         open={isModalOpen}
-        security={selectedRow?.symbol_security?.data}
       >
         {selectedRow && (
           <CoinPriceChart

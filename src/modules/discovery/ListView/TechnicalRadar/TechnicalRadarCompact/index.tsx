@@ -62,7 +62,6 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         networks={selectedRow?.networks}
         onClose={() => closeModal()}
         open={isModalOpen}
-        security={selectedRow?.symbol_security?.data}
       >
         {selectedRow?.sparkline && (
           <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />

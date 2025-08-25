@@ -13,9 +13,9 @@ export function CoinIntroductionWidget({
   className?: string;
 }) {
   const { t } = useTranslation('coin-radar');
-  const { communityData, symbol } = useUnifiedCoinDetails();
+  const { symbol } = useUnifiedCoinDetails();
 
-  if (!communityData?.description) return null;
+  if (!symbol?.description) return null;
 
   return (
     <>
@@ -32,7 +32,7 @@ export function CoinIntroductionWidget({
         <div
           className="font-light mobile:text-xs text-sm text-v1-content-primary leading-relaxed [&_a]:underline"
           dangerouslySetInnerHTML={{
-            __html: communityData?.description ?? '',
+            __html: symbol?.description ?? '',
           }}
         />
       </div>

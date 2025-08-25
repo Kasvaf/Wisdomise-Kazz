@@ -63,7 +63,6 @@ export const TechnicalRadarCoinsTable: FC<{
             labels={row.symbol_labels}
             logo={row.symbol.logo_url}
             networks={row.networks}
-            security={row.symbol_security?.data}
             slug={row.symbol.slug}
           />
         ),

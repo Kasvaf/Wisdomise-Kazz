@@ -1,8 +1,4 @@
-import type {
-  CoinNetwork,
-  MiniMarketData,
-  NetworkSecurity,
-} from 'api/discovery';
+import type { CoinNetwork, MiniMarketData } from 'api/discovery';
 import type { Coin as CoinType } from 'api/types/shared';
 import { bxShareAlt, bxSlider } from 'boxicons-quasar';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
@@ -39,7 +35,6 @@ interface PreDetailModalBaseProps {
   labels?: string[] | null;
   networks?: CoinNetwork[] | null;
   categories?: CoinType['categories'] | null;
-  security?: NetworkSecurity[] | null;
   hasShare?: boolean;
 }
 
@@ -53,7 +48,6 @@ const CoinPreDetailsContent: FC<
   labels,
   categories,
   networks,
-  security,
   children,
   hasShare,
 }) => {
@@ -134,7 +128,6 @@ const CoinPreDetailsContent: FC<
           categories={categories}
           labels={labels}
           networks={networks}
-          security={security}
           size="md"
         />
       </div>

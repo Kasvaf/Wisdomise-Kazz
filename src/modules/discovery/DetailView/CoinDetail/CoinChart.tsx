@@ -1,14 +1,17 @@
 import { useLastCandleQuery } from 'api';
+import { useCoinDetails } from 'api/discovery';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import AdvancedChart from 'shared/AdvancedChart';
 import useIsMobile from 'utils/useIsMobile';
 import { useUnifiedCoinDetails } from './lib';
 
+// TODO: follow mahdi bakhshi to remove this
 const DirtyCoinChart: React.FC<{ height?: number }> = () => {
   const isMobile = useIsMobile();
-  const { charts } = useUnifiedCoinDetails();
-  const chart = charts?.[0] ?? null;
+  const { symbol } = useUnifiedCoinDetails();
+  const { data } = useCoinDetails({ slug: symbol.slug });
+  const chart = data?.charts?.[0] ?? null;
   if (!chart) return null;
 
   return chart.type === 'gecko_terminal' ? (
