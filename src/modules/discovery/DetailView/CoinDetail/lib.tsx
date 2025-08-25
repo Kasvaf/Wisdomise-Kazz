@@ -224,7 +224,7 @@ export const UnifiedCoinDetailsProvider: FC<{
     data2?.symbol?.createdAt ?? null;
 
   const developer: UnifiedCoinDetailsContext['developer'] =
-    data2?.devData ?? null; // TODO: use data2 and remove logo and name from component
+    data2?.devData ?? null;
 
   return (
     <unifiedCoinDetailsContext.Provider
