@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import oneSignal from 'config/oneSignal';
+// import oneSignal from 'config/oneSignal';
 import { useCallback } from 'react';
 
 export const useWebPushPermission = () => {
   const { data: hasPermission, refetch } = useQuery({
     queryKey: ['has-web-push-permission'],
     queryFn: () => {
-      const status = oneSignal.getPushStatus();
+      // const status = oneSignal.getPushStatus();
       if (status === 'ok') {
-        return oneSignal.requestPush(); // IDK why, but sometimes the user already gave the push access, but onesignal needs poke!
+        // return oneSignal.requestPush(); // IDK why, but sometimes the user already gave the push access, but onesignal needs poke!
       }
       return status;
     },
@@ -25,7 +25,7 @@ export const useWebPushPermission = () => {
 
   const requestPermission = useCallback(async () => {
     if (hasPermission === 'ok') return;
-    await oneSignal.requestPush();
+    // await oneSignal.requestPush();
     void refetch();
   }, [hasPermission, refetch]);
 
