@@ -1,6 +1,6 @@
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, Suspense } from 'react';
-import { ChartWidgetProvider } from 'shared/AdvancedChart';
+import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsMeta } from './CoinDetailsMeta';

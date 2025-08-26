@@ -1,4 +1,5 @@
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import { type FC, useRef } from 'react';
 import CoinChart from './CoinChart';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
@@ -28,8 +29,10 @@ export const CoinDetailsCompact: FC = () => {
       <CoinSentimentsWidget />
       {/* <NCoinSentimentWidget /> */}
       <CoinStatsWidget />
+      <CoinSwapActivity />
       <NCoinStatsWidget />
       <NCoinInsightWidget />
+      in
       <div className="h-[400px]">
         <CoinChart />
       </div>

@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react';
 import { useDebounce } from 'usehooks-ts';
+import { deepMerge } from 'utils/merge';
 
 export type QuickBuySource =
   | 'new_pairs'
@@ -23,6 +24,7 @@ interface UserSettings {
   quotes_quick_set: QuotesQuickSet;
   presets: TraderPresets;
   quick_buy: Record<QuickBuySource, QuickBuySettings>;
+  showActivityInUsd: boolean;
 }
 
 interface QuickBuySettings {
@@ -115,6 +117,7 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
       tether: [...DEFAULT_PERCENTAGE_PRESETS],
     },
   },
+  showActivityInUsd: false,
 };
 
 const context = createContext<
@@ -141,6 +144,7 @@ const context = createContext<
         patch: Partial<TraderPreset>,
       ) => void;
       updatePreset: (newValue: TraderPresets) => void;
+      toggleShowActivityInUsd: () => void;
     }
   | undefined
 >(undefined);
@@ -165,7 +169,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     if (!isFetching && !isFetched) {
       if (value) {
-        setSettings(value);
+        setSettings(deepMerge(DEFAULT_USER_SETTINGS, value));
       }
       setIsFetched(true);
     }
@@ -265,6 +269,13 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const toggleShowActivityInUsd = () => {
+    setSettings(prev => ({
+      ...prev,
+      showActivityInUsd: !prev.showActivityInUsd,
+    }));
+  };
+
   return (
     <context.Provider
       value={{
@@ -276,6 +287,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         updateQuickBuyActivePreset,
         updateQuickBuyAmount,
         updateQuotesQuickSet,
+        toggleShowActivityInUsd,
       }}
     >
       {children}

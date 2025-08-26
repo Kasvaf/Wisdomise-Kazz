@@ -1,5 +1,5 @@
 import { Pagination } from 'antd';
-import { type Swap, useTraderBuysSellsQuery } from 'api';
+import { type Swap, useTraderSwapsQuery } from 'api';
 import { useSymbolsInfo } from 'api/symbol';
 import type { Wallet } from 'api/wallets';
 import { bxLinkExternal } from 'boxicons-quasar';
@@ -16,7 +16,7 @@ import { roundSensible } from 'utils/numbers';
 const PAGE_SIZE = 30;
 export default function BuysSells({ wallet }: { wallet: Wallet }) {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useTraderBuysSellsQuery({
+  const { data, isLoading } = useTraderSwapsQuery({
     page,
     pageSize: PAGE_SIZE,
     address: wallet.address,

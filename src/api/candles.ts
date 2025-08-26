@@ -4,6 +4,7 @@ import {
   USDC_CONTRACT_ADDRESS,
   USDT_CONTRACT_ADDRESS,
 } from 'api/chains/constants';
+import { delphinusGrpc } from 'api/grpc';
 import { ofetch } from 'config/ofetch';
 import dayjs from 'dayjs';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -67,11 +68,6 @@ export const useCandlesQuery = ({
     staleTime: Number.POSITIVE_INFINITY,
   });
 
-interface LastCandleResponse {
-  symbol: LastCandleSymbol;
-  candle: Candle;
-}
-
 interface LastCandleSymbol {
   id: number;
   name: string;
@@ -93,6 +89,7 @@ interface LastCandleParams {
   network?: 'solana' | 'the-open-network';
   market?: MarketTypes;
   convertToUsd?: boolean;
+  debug?: boolean;
 }
 
 export const useLastCandleQuery = ({
@@ -101,6 +98,7 @@ export const useLastCandleQuery = ({
   quote,
   market = 'SPOT',
   convertToUsd = !quote,
+  debug,
 }: LastCandleParams) => {
   const { data: supportedPairs } = useSupportedPairs(base);
 
@@ -131,32 +129,43 @@ export const useLastCandleQuery = ({
   const theQuote = bestPair?.quote;
   const bestNet = network || bestPair?.net;
 
-  return useQuery({
-    queryKey: ['last-candle', base, theQuote, bestNet, market, convertToUsd],
-    queryFn: async () => {
-      const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
-        query: {
-          base,
-          quote: theQuote,
-          network: bestNet,
-          market,
-          convert_to_usd: convertToUsd,
-          t: String(Date.now()),
-        },
-      });
-      return data;
+  return delphinusGrpc.useLastCandleStreamLastValue(
+    {
+      market,
+      network: bestNet,
+      baseSlug: base,
+      quoteSlug: theQuote,
+      convertToUsd,
     },
-    enabled: Boolean(base && theQuote && bestNet && market),
-    staleTime: 1000,
-    refetchInterval: 10_000,
-  });
+    { enabled: Boolean(base && theQuote && bestNet && market), debug },
+  );
+
+  // return useQuery({
+  //   queryKey: ['last-candle', base, theQuote, bestNet, market, convertToUsd],
+  //   queryFn: async () => {
+  //     const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
+  //       query: {
+  //         base,
+  //         quote: theQuote,
+  //         network: bestNet,
+  //         market,
+  //         convert_to_usd: convertToUsd,
+  //         t: String(Date.now()),
+  //       },
+  //     });
+  //     return data;
+  //   },
+  //   enabled: Boolean(base && theQuote && bestNet && market),
+  //   staleTime: 1000,
+  //   refetchInterval: 10_000,
+  // });
 };
 
 export const useLastPriceQuery = (params: LastCandleParams) => {
   const { data, ...rest } = useLastCandleQuery(params);
   return {
     ...rest,
-    data: data?.candle?.close,
+    data: data?.candle?.close ? Number(data?.candle?.close) : undefined,
   };
 };
 
@@ -257,8 +266,8 @@ export const useBatchLastPriceQuery = ({
   bases?: string[];
   network: 'solana' | 'the-open-network';
 }) => {
-  const { data: usdtPrice, isPending: p1 } = useUSDTLastPrice();
-  const { data: usdcPrice, isPending: p2 } = useUSDCLastPrice();
+  const { data: usdtPrice, isLoading: l1 } = useUSDTLastPrice();
+  const { data: usdcPrice, isLoading: l2 } = useUSDCLastPrice();
 
   const noneUsdBases = bases?.filter(
     base => ![USDT_CONTRACT_ADDRESS, USDC_CONTRACT_ADDRESS].includes(base),
@@ -286,6 +295,6 @@ export const useBatchLastPriceQuery = ({
             : batchCandles?.find(res => res.symbol.base === base)?.candles?.[0]
                 ?.close) ?? 0,
     ),
-    isPending: p1 || p2 || isPending,
+    isPending: l1 || l2 || isPending,
   };
 };

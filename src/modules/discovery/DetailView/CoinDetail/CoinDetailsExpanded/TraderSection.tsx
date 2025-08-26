@@ -1,4 +1,5 @@
 import { useSupportedPairs } from 'api';
+import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
@@ -14,24 +15,27 @@ const TraderSection: React.FC<{
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
 
   return (
-    <div className="relative space-y-4 [&_.id-line]:hidden">
-      {isLoading ? (
-        <div className="m-3 flex justify-center">
-          <Spinner />
-        </div>
-      ) : supportedPairs?.length ? (
-        <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
-          <TraderTrades
-            loadingClassName="bg-v1-surface-l1"
-            quote={quote}
-            setQuote={setQuote}
-            slug={slug}
-          />
-        </ActiveNetworkProvider>
-      ) : (
-        <NotTradable error={error} />
-      )}
-    </div>
+    <>
+      <div className="relative [&_.id-line]:hidden">
+        {isLoading ? (
+          <div className="m-3 flex justify-center">
+            <Spinner />
+          </div>
+        ) : supportedPairs?.length ? (
+          <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
+            <CoinSwapActivity />
+            <TraderTrades
+              loadingClassName="bg-v1-surface-l1"
+              quote={quote}
+              setQuote={setQuote}
+              slug={slug}
+            />
+          </ActiveNetworkProvider>
+        ) : (
+          <NotTradable error={error} />
+        )}
+      </div>
+    </>
   );
 };
 

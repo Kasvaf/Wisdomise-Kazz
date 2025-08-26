@@ -15,6 +15,7 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { Input } from 'shared/v1-components/Input';
 import { preventNonNumericInput } from 'utils/numbers';
+import useIsMobile from 'utils/useIsMobile';
 import type { Surface } from 'utils/useSurface';
 import { ReactComponent as PriorityIcon } from './priority.svg';
 import { ReactComponent as SlippageIcon } from './slippage.svg';
@@ -186,6 +187,7 @@ function TraderPresetSettingsDialog({
   const [presets, setPresets] = useState<TraderPresets>();
   const [currentPreset, setCurrentPreset] = useState(0);
   const [currentMode, setCurrentMode] = useState<'buy' | 'sell'>('buy');
+  const isMobile = useIsMobile();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
@@ -195,8 +197,13 @@ function TraderPresetSettingsDialog({
   }, [open, settings]);
 
   return presets ? (
-    <Dialog contentClassName="p-7" mode="modal" onClose={onResolve} open={open}>
-      <div className="w-96">
+    <Dialog
+      contentClassName="p-7"
+      mode={isMobile ? 'drawer' : 'modal'}
+      onClose={onResolve}
+      open={open}
+    >
+      <div className="md:w-96">
         <h1 className="mb-8 font-medium text-2xl">Quick Settings</h1>
         <p className="mb-3 text-xs">Presets</p>
         <ButtonSelect

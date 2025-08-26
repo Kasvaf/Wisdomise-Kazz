@@ -201,7 +201,7 @@ export const CoinDetailsExpanded: FC = () => {
       <div className="scrollbar-none sticky top-(--desktop-content-top) z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
         <NCoinRisksBanner />
         <CoinPriceWidget className="h-16 px-3" hr />
-        <div className="space-y-3 px-3 pt-1 pb-3">
+        <div className="space-y-3 px-3 pb-3">
           <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget />

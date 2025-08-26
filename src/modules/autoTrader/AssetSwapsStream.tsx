@@ -55,9 +55,9 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   }
 
   return (
-    <div>
+    <div className="text-xs">
       <table className="w-full">
-        <thead className="text-white/50">
+        <thead className="text-white/50 [&>th]:pb-2">
           <th className="text-left font-normal">Amount</th>
           <th className="text-left font-normal">Price</th>
           <th className="text-left font-normal">Trader</th>
@@ -72,7 +72,7 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
               row.fromAsset === asset ? row.fromAssetPrice : row.toAssetPrice;
 
             return (
-              <tr key={row.id}>
+              <tr className="[&>td]:pb-1" key={row.id}>
                 <td
                   className={
                     dir === 'sell'

@@ -49,6 +49,13 @@ const useActionHandlers = (state: SwapState) => {
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
 
+    if (Number(from.amount) < 0.0001) {
+      notification.error({
+        message: 'Minimum amount should be greater than 0.0001 SOL',
+      });
+      return;
+    }
+
     const preset = getActivePreset('terminal');
 
     // direct swap

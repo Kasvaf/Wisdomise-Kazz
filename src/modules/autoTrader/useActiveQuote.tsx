@@ -11,9 +11,8 @@ import {
 import { useSearchParams } from 'react-router-dom';
 
 const context = createContext<
-  | [string, Dispatch<SetStateAction<string>>, Dispatch<SetStateAction<string>>]
-  | undefined
->(undefined);
+  [string, Dispatch<SetStateAction<string>>, Dispatch<SetStateAction<string>>]
+>(['wrapped-solana', () => {}, () => {}]);
 
 export const useActiveQuote = () => {
   const c = useContext(context);

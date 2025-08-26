@@ -3,6 +3,7 @@ import { useAccountNativeBalance } from 'api/chains';
 import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulatePrepare';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { NavLink } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import Spin from 'shared/Spin';
@@ -25,12 +26,15 @@ export const SimulatePrepare: React.FC<{
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
   const { data: nativeBalance } = useAccountNativeBalance();
+  const isLoggedIn = useIsLoggedIn();
 
   const nativeAmount =
     (data && 'gas_fee' in data ? Number(data?.gas_fee) : 0) +
     (from.coinInfo?.abbreviation === gasAbbr ? +from.amount : 0);
 
   const remainingGas = Number(nativeBalance) - nativeAmount;
+
+  if (!isLoggedIn) return null;
 
   return (
     <div className="mt-3 flex h-full flex-col">

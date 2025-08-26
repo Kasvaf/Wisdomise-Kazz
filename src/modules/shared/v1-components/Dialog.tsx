@@ -12,6 +12,7 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { useLocation } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { useDebounce } from 'usehooks-ts';
 import useBodyScroll from 'utils/useBodyScroll';
@@ -187,6 +188,7 @@ export const Dialog: FC<{
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
   const state = useTransition(isOpen, 250);
+  const location = useLocation();
   const lastFocus = useRef<HTMLElement | null>(null);
 
   const drawerConfig: Required<NonNullable<typeof userDrawerConfig>> = {
@@ -241,6 +243,13 @@ export const Dialog: FC<{
       return () => bodyScroll.enable();
     }
   }, [bodyScroll, isOpen, mode]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    if (isOpen) {
+      onClose?.();
+    }
+  }, [location]);
 
   return (
     <>

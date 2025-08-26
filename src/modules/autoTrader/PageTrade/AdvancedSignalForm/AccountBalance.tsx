@@ -5,7 +5,7 @@ import { useSymbolInfo } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { Coin } from 'shared/Coin';
-import { roundSensible } from 'utils/numbers';
+import { formatNumber } from 'utils/numbers';
 
 export const AccountBalance: React.FC<{
   slug?: string;
@@ -51,7 +51,12 @@ export const AccountBalance: React.FC<{
           {symbol && (
             <Coin className="-mr-2 ml-2" coin={symbol} mini nonLink noText />
           )}
-          {balance}
+          {formatNumber(balance ?? 0, {
+            decimalLength: 2,
+            minifyDecimalRepeats: true,
+            compactInteger: false,
+            separateByComma: false,
+          })}
         </span>
         {quote && (
           <>
@@ -66,7 +71,12 @@ export const AccountBalance: React.FC<{
                   noText
                 />
               )}
-              {roundSensible((priceByQuote ?? 0) * (balance ?? 0))}
+              {formatNumber((priceByQuote ?? 0) * (balance ?? 0), {
+                decimalLength: 2,
+                minifyDecimalRepeats: true,
+                compactInteger: false,
+                separateByComma: false,
+              })}
             </span>
           </>
         )}
