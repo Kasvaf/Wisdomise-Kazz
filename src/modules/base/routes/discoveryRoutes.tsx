@@ -9,8 +9,12 @@ const useDiscoveryRoutes = () => {
       element: <Container />,
       children: [
         {
-          path: 'discovery',
+          path: '',
           index: true,
+          element: <Navigate to="/trench" />,
+        },
+        {
+          path: 'discovery',
           element: <Navigate to="/trench" />,
         },
         {
@@ -20,6 +24,10 @@ const useDiscoveryRoutes = () => {
         {
           path: ':detail/:slug1/:slug2?/:slug3?',
           element: <PageDiscovery />,
+        },
+        {
+          path: '*',
+          element: <Navigate to="/trench" />,
         },
       ],
     },
