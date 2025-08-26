@@ -263,10 +263,10 @@ export const Coin: FC<{
               className={clsx(
                 'font-bold',
                 size === 'md' ? 'text-sm' : 'text-base',
-                truncate && [
-                  size === 'md' ? 'max-w-32' : 'max-w-20',
-                  'overflow-hidden truncate',
-                ],
+                truncate
+                  ? [size === 'md' ? 'max-w-32' : 'max-w-20']
+                  : 'max-w-36',
+                'overflow-hidden truncate',
               )}
               title={abbreviation}
             >
@@ -298,10 +298,10 @@ export const Coin: FC<{
               className={clsx(
                 'font-light',
                 size === 'md' ? 'text-xs' : 'text-sm',
-                truncate && [
-                  size === 'md' ? 'max-w-16' : 'max-w-32',
-                  'overflow-hidden truncate',
-                ],
+                truncate
+                  ? [size === 'md' ? 'max-w-16' : 'max-w-12']
+                  : 'max-w-36',
+                'overflow-hidden truncate',
               )}
               title={name}
             >
