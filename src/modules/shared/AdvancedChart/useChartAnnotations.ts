@@ -70,6 +70,7 @@ export function useSwapChartMarks(slug: string) {
   const { data: swaps } = useTraderSwapsQuery({});
   const hasFlag = useHasFlag();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <no need for hasFlag dep>
   return useMemo(() => {
     const supply = coin?.marketData.total_supply ?? 0;
     const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
@@ -117,7 +118,7 @@ export function useSwapChartMarks(slug: string) {
           } as Mark;
         }) ?? []
     );
-  }, [swaps, slug, coin?.marketData.total_supply, hasFlag]);
+  }, [swaps, slug, coin?.marketData.total_supply]);
 }
 
 export function useChartAnnotations(
