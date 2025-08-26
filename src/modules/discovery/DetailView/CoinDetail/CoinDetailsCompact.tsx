@@ -2,7 +2,6 @@ import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { type FC, useRef } from 'react';
 import CoinChart from './CoinChart';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
-import { CoinExchangesWidget } from './CoinExchangesWidget';
 import { CoinIntroductionWidget } from './CoinIntroductionWidget';
 import { CoinMessagesWidget } from './CoinMessagesWidget';
 import { CoinPoolsWidget } from './CoinPoolsWidget';
@@ -11,7 +10,6 @@ import { CoinSentimentsWidget } from './CoinSentimentsWidget';
 import { CoinStatsWidget } from './CoinStatsWidget';
 import { CoinTitleWidget } from './CoinTitleWidget';
 import { CoinTopTraderHoldersWidget } from './CoinTopTraderHoldersWidget';
-import { CoinWhalesWidget } from './CoinWhalesWidget';
 import { NCoinInsightWidget } from './NCoinInsightWidget';
 import { NCoinRisksBanner } from './NCoinRisksBanner';
 import { NCoinStatsWidget } from './NCoinStatsWidget';
@@ -55,9 +53,9 @@ export const CoinDetailsCompact: FC = () => {
           type="holders"
         />
         <CoinPoolsWidget id="coinoverview_pools" />
-        <CoinExchangesWidget id="coinoverview_exchanges" />
+        {/* <CoinExchangesWidget id="coinoverview_exchanges" />
         <CoinWhalesWidget id="coinoverview_active_whales" type="active" />
-        <CoinWhalesWidget id="coinoverview_holding_whales" type="holding" />
+        <CoinWhalesWidget id="coinoverview_holding_whales" type="holding" /> */}
       </div>
     </div>
   );

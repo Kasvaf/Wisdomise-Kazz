@@ -11,7 +11,6 @@ import {
 } from 'shared/v1-components/ResizableSides';
 import { useSessionStorage } from 'usehooks-ts';
 import CoinChart from '../CoinChart';
-import { CoinExchangesWidget } from '../CoinExchangesWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
@@ -20,7 +19,6 @@ import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
 import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
-import { CoinWhalesWidget } from '../CoinWhalesWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { NCoinStatsWidget } from '../NCoinStatsWidget';
@@ -150,15 +148,15 @@ export const CoinDetailsExpanded: FC = () => {
                 limit={Number.POSITIVE_INFINITY}
                 title={false}
               />
-              <CoinExchangesWidget
+              {/* <CoinExchangesWidget
                 className={clsx(
                   selectedTab !== 'coinoverview_exchanges' && 'hidden',
                 )}
                 id="coinoverview_exchanges"
                 limit={Number.POSITIVE_INFINITY}
                 title={false}
-              />
-              <CoinWhalesWidget
+              /> */}
+              {/* <CoinWhalesWidget
                 className={clsx(
                   selectedTab !== 'coinoverview_active_whales' && 'hidden',
                 )}
@@ -175,7 +173,7 @@ export const CoinDetailsExpanded: FC = () => {
                 limit={Number.POSITIVE_INFINITY}
                 title={false}
                 type="holding"
-              />
+              /> */}
               <CoinTopTraderHoldersWidget
                 className={clsx(
                   selectedTab !== 'coinoverview_top_traders' && 'hidden',
