@@ -37,10 +37,7 @@ export function useHasFlag() {
   const flagsObj = useMemo(
     () =>
       Object.fromEntries(
-        (defaultFlags ?? acc.data?.features ?? defaultFlags).map(flag => [
-          flag,
-          true,
-        ]) ?? [] /* NAITODO: remove defaultFlags as main value */,
+        (acc.data?.features ?? defaultFlags).map(flag => [flag, true]) ?? [],
       ),
     [acc.data?.features],
   );
