@@ -40,7 +40,7 @@ const NCoinMarketDataCol: FC<{
       <ReadableNumber
         className="align-middle font-medium text-[1.35em]"
         format={{
-          decimalLength: 2,
+          decimalLength: 1,
         }}
         label="$"
         popup="never"
@@ -54,7 +54,7 @@ const NCoinMarketDataCol: FC<{
       <ReadableNumber
         className="align-middle"
         format={{
-          decimalLength: 2,
+          decimalLength: 1,
         }}
         label="$"
         popup="never"

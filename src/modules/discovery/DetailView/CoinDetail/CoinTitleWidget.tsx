@@ -105,6 +105,9 @@ export const CoinTitleWidget: FC<{
                 </p>
                 <ReadableNumber
                   className="text-xs"
+                  format={{
+                    decimalLength: 1,
+                  }}
                   label="$"
                   popup="never"
                   value={marketData.totalVolume}
