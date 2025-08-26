@@ -43,7 +43,11 @@ export const useDiscoveryBackdropParams = () => {
       (newValue: Partial<DiscoveryParams>) => {
         setStorageParams({
           ...storageParams,
-          ...newValue,
+          list: newValue.list ?? storageParams.list,
+          detail: newValue.detail ?? storageParams.detail,
+          slug1: newValue.slugs?.[0] ?? storageParams.slug1,
+          slug2: newValue.slugs?.[1] ?? storageParams.slug2,
+          slug3: newValue.slugs?.[2] ?? storageParams.slug3,
         });
       },
     ] as const;
@@ -129,8 +133,8 @@ export const DiscoveryExpandCollapser = () => {
 
   const handleExpandClick = () => {
     if (backdropParams.list) {
-      setBackdropParams(urlParams);
       navigate(`/${backdropParams.list}`);
+      setBackdropParams(urlParams);
     } else {
       setBackdropParams({
         list: lastList.current,
@@ -140,10 +144,10 @@ export const DiscoveryExpandCollapser = () => {
 
   const handleCollapseClick = () => {
     if (urlParams.list && backdropParams.detail) {
-      setBackdropParams(urlParams);
       navigate(
         `/${[backdropParams.detail, ...backdropParams.slugs].join('/')}`,
       );
+      setBackdropParams(urlParams);
     } else if (urlParams.detail && backdropParams.list) {
       lastList.current = backdropParams.list;
       setBackdropParams({
