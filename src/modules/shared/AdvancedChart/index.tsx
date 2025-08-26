@@ -4,17 +4,13 @@ import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
-import {
-  createContext,
-  type Dispatch,
-  type PropsWithChildren,
-  type SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
+import {
+  useSwapActivityLines,
+  useSwapChartMarks,
+} from 'shared/AdvancedChart/useChartAnnotations';
 import { useLocalStorage } from 'usehooks-ts';
 import { formatNumber } from 'utils/numbers';
 import type { Timezone } from '../../../../public/charting_library';
@@ -26,25 +22,6 @@ import {
 import makeDataFeed from './makeDataFeed';
 import useCoinPoolInfo from './useCoinPoolInfo';
 
-type OptionalChart = IChartingLibraryWidget | undefined;
-const ChartContext = createContext<
-  [OptionalChart, Dispatch<SetStateAction<OptionalChart>>] | undefined
->(undefined);
-
-export const ChartWidgetProvider: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
-  const chartState = useState<OptionalChart>();
-  return (
-    <ChartContext.Provider value={chartState}>{children}</ChartContext.Provider>
-  );
-};
-
-export const useAdvancedChartWidget = () => {
-  const [chartWidget] = useContext(ChartContext) ?? [];
-  return chartWidget;
-};
-
 const AdvancedChart: React.FC<{
   slug: string;
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
@@ -52,6 +29,7 @@ const AdvancedChart: React.FC<{
 }> = ({ slug, widgetRef, className }) => {
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  useSwapActivityLines(slug);
 
   const {
     i18n: { language },
@@ -59,7 +37,7 @@ const AdvancedChart: React.FC<{
 
   const delphinus = useGrpcService('delphinus');
 
-  const [, setGlobalChartWidget] = useContext(ChartContext) ?? [];
+  const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
   const { data, isLoading } = useCoinPoolInfo(slug);
   const { data: details } = useUnifiedCoinDetails({ slug });
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
@@ -67,10 +45,23 @@ const AdvancedChart: React.FC<{
     false,
   );
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
+  const marks = useSwapChartMarks(slug);
+  const marksRef = useRef(marks);
   const supply = details?.marketData.total_supply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
+
+  useEffect(() => {
+    marksRef.current = marks;
+    if (marks && widget) {
+      widget.onChartReady(() => {
+        try {
+          widget.activeChart()?.resetData();
+        } catch {}
+      });
+    }
+  }, [marks, widget]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
@@ -81,7 +72,12 @@ const AdvancedChart: React.FC<{
 
     const widget = new Widget({
       symbol: data.symbolName,
-      datafeed: makeDataFeed(delphinus, { ...data, isMarketCap, supply }),
+      datafeed: makeDataFeed(delphinus, {
+        ...data,
+        isMarketCap,
+        supply,
+        marksRef,
+      }),
       container: chartContainerRef.current,
       library_path: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/`,
 

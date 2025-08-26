@@ -1,10 +1,10 @@
 import { useLastPriceQuery } from 'api';
 import { useEffect } from 'react';
-import { useAdvancedChartWidget } from 'shared/AdvancedChart';
+import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import type { IChartWidgetApi } from 'shared/AdvancedChart/charting_library/charting_library';
 import { type SignalFormState, sortTpSlItems } from './useSignalFormStates';
 
-function makeLine({
+export function makeLine({
   chart,
   title,
   price,
@@ -30,9 +30,9 @@ function makeLine({
     .setText(title)
     .setPrice(price)
     .setQuantity(quantity ?? '')
-    .setBodyTextColor(textColor)
-    .setBodyBackgroundColor(bgColor)
-    .setBodyBorderColor(bgColor)
+    .setBodyTextColor(bgColor)
+    .setBodyBackgroundColor('#0c0c0c')
+    .setBodyBorderColor('#0c0c0c')
     .setLineColor(bgColor)
     .setQuantityBackgroundColor(bgColor)
     .setQuantityBorderColor('#000');
@@ -68,7 +68,7 @@ const useSyncChartLines = ({ formState }: { formState: SignalFormState }) => {
     convertToUsd: true,
   });
 
-  const widget = useAdvancedChartWidget();
+  const [widget] = useAdvancedChartWidget();
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reson>
   useEffect(() => {
     if (!widget) return;

@@ -40,7 +40,7 @@ export default function useTraderDrawer() {
         mode="drawer"
         onClose={useCallback(() => setOpen(false), [])}
         open={open}
-        surface={2}
+        surface={0}
       >
         {inputs && open && (
           <ActiveNetworkProvider base={inputs.slug} quote={quote}>

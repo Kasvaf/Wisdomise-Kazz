@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 interface SwapRequest {
   network: 'solana';
@@ -10,6 +11,7 @@ interface SwapRequest {
 
 export const useMarketSwapSimulate = (req?: SwapRequest) => {
   const { pairSlug, side, amount, network } = req || {};
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['solana-swap-simulate', pairSlug, side, amount],
     queryFn: async () => {
@@ -34,6 +36,6 @@ export const useMarketSwapSimulate = (req?: SwapRequest) => {
     meta: {
       persist: false,
     },
-    enabled: !!req && !!Number(amount),
+    enabled: !!req && !!Number(amount) && isLoggedIn,
   });
 };

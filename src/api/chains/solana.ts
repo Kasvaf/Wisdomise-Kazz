@@ -337,11 +337,13 @@ export const useSolanaMarketSwap = () => {
   const connection = useSolanaConnection();
   const queryClient = useQueryClient();
 
-  const invalidateQueries = () => {
+  const invalidateQueries = (slug: string) => {
     void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
     void queryClient.invalidateQueries({
       queryKey: ['solana-user-assets'],
     });
+    void queryClient.invalidateQueries({ queryKey: ['buys-sells'] });
+    void queryClient.invalidateQueries({ queryKey: ['trader-asset', slug] });
   };
 
   return async (
@@ -370,7 +372,7 @@ export const useSolanaMarketSwap = () => {
     if (isCustodial) {
       return async () => {
         const res = !!(await swap);
-        setTimeout(() => invalidateQueries(), 5000); // Possibly the transaction is confirmed after this
+        setTimeout(() => invalidateQueries(base), 5000); // Possibly the transaction is confirmed after this
         return res;
       };
     }
@@ -431,7 +433,7 @@ export const useSolanaMarketSwap = () => {
         })
         .then(x => x.value && x.value.err == null)
         .finally(() => {
-          invalidateQueries();
+          invalidateQueries(base);
         });
   };
 };

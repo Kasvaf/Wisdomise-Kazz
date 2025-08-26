@@ -1,6 +1,11 @@
 import { getPairsCached } from 'api';
 import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
+import type {
+  GetMarksCallback,
+  Mark,
+} from '../../../../public/charting_library';
 import type {
   DatafeedConfiguration,
   IBasicDataFeed,
@@ -40,6 +45,7 @@ const config: DatafeedConfiguration = {
   exchanges: [{ value: 'Binance', name: 'Binance', desc: 'Binance' }],
   // The `symbols_types` arguments are used for the `searchSymbols` method if a user selects this symbol type
   symbols_types: [{ name: 'crypto', value: 'crypto' }],
+  supports_marks: true,
 };
 
 const checkConvertToUsd = (quote: string) => {
@@ -66,12 +72,14 @@ const makeDataFeed = (
     network,
     supply,
     isMarketCap,
+    marksRef,
   }: {
     slug: string;
     quote: string;
     network: string;
     supply: number;
     isMarketCap: boolean;
+    marksRef: MutableRefObject<Mark[]>;
   },
 ): IBasicDataFeed => {
   return {
@@ -211,6 +219,15 @@ const makeDataFeed = (
       doSub();
     },
     unsubscribeBars: listenerGuid => listeners[listenerGuid]?.(),
+    getMarks(
+      symbolInfo: LibrarySymbolInfo,
+      from: number,
+      to: number,
+      onDataCallback: GetMarksCallback<Mark>,
+      resolution: ResolutionString,
+    ) {
+      onDataCallback(marksRef.current);
+    },
   };
 };
 

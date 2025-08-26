@@ -80,10 +80,12 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
     service: svc,
     method: methodSelector,
     enabled,
+    debug,
   }: {
     service: K;
     method: (x: ServiceType<K>) => (params: P) => Observable<V>;
     enabled?: boolean;
+    debug?: boolean;
   },
   params: P,
 ) {
@@ -97,6 +99,7 @@ export function useSvcMethodLastValue<K extends ServiceKey, V, P>(
       () => method.call(service, params),
       [service, method, JSON.stringify(params)],
     ),
+    debug,
     enabled,
     key,
   });
@@ -107,10 +110,12 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
     service: svc,
     method: methodSelector,
     enabled,
+    debug,
   }: {
     service: K;
     method: (x: ServiceType<K>) => (params: P) => Observable<V>;
     enabled?: boolean;
+    debug?: boolean;
   },
   params: P,
 ) {
@@ -124,6 +129,7 @@ export function useSvcMethodAllValues<K extends ServiceKey, V, P>(
       () => method.call(service, params),
       [service, method, JSON.stringify(params)],
     ),
+    debug,
     enabled,
     key,
   });
@@ -202,6 +208,7 @@ export function createServiceSingleton<K extends ServiceKey>(svcName: K) {
 
   interface Options {
     enabled?: boolean;
+    debug?: boolean;
   }
   return singleton as {
     [M in keyof MethodMap as MethodMap[M]['type'] extends 'promise'

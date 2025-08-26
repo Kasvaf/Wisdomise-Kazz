@@ -55,6 +55,43 @@ export const useUserAssets = () => {
   });
 };
 
+interface TraderAssetActivity {
+  avg_buy_price?: string;
+  avg_buy_price_usd?: string;
+  avg_sell_price?: string;
+  avg_sell_price_usd?: string;
+  balance: string;
+  hold: string;
+  hold_usd: string;
+  pnl: string;
+  pnl_percent: string;
+  total_bought: string;
+  total_bought_usd: string;
+  total_sold: string;
+  total_sold_usd: string;
+  usd_pnl: string;
+  usd_pnl_percent: string;
+}
+
+export const useTraderAssetActivity = (slug?: string) => {
+  const email = useJwtEmail();
+  slug = slug === 'solana' ? 'wrapped-solana' : slug;
+
+  return useQuery({
+    queryKey: ['trader-asset', slug, email],
+    queryFn: async () => {
+      if (!email) return;
+
+      return await ofetch<TraderAssetActivity>('/trader/asset', {
+        query: { symbol_slug: slug },
+      });
+    },
+    enabled: !!slug,
+    staleTime: 10_000,
+    refetchInterval: 10_000,
+  });
+};
+
 interface PairInfo {
   id: string;
   name: string; // pair name
@@ -599,15 +636,16 @@ export interface Swap {
   wallet_address: string;
 }
 
-export function useTraderBuysSellsQuery({
+export function useTraderSwapsQuery({
   address,
   page,
   pageSize,
 }: {
-  address: string;
-  page: number;
-  pageSize: number;
+  address?: string;
+  page?: number;
+  pageSize?: number;
 }) {
+  const isLoggedIn = useIsLoggedIn();
   return useQuery({
     queryKey: ['buys-sells', page, pageSize, address],
     queryFn: async () => {
@@ -622,6 +660,7 @@ export function useTraderBuysSellsQuery({
       });
     },
     staleTime: 10,
-    refetchInterval: 20_000,
+    refetchInterval: 10_000,
+    enabled: isLoggedIn,
   });
 }

@@ -9,13 +9,7 @@ import type { SwapState } from './useSwapState';
 
 const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    quote: {
-      slug: quoteSlug,
-      setSlug: setQuote,
-      balance,
-      amount,
-      balanceLoading,
-    },
+    quote: { slug: quoteSlug, setSlug: setQuote, balance, amount },
     setAmount,
     base: { slug: baseSlug },
     dir,
@@ -25,7 +19,6 @@ const BuyForm: React.FC<{ state: SwapState }> = ({ state }) => {
     <div>
       <AmountInputBox
         className="mb-2"
-        disabled={balanceLoading || !balance}
         label={<AmountBalanceLabel setAmount={setAmount} slug={quoteSlug} />}
         max={balance || 0}
         noSuffixPad

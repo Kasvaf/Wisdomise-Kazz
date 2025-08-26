@@ -1,8 +1,6 @@
 import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
-import { clsx } from 'clsx';
 import { SimulatePrepare } from 'modules/autoTrader/BuySellTrader/SimulatePrepare';
-import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulatePrepare';
 import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -26,19 +24,19 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   const {
     dir,
     quote,
-    from: { balanceLoading, balance },
+    from: { balanceLoading, balance, amount },
   } = state;
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
   const { data: quoteInfo } = useSymbolInfo(quote.slug);
 
   const { firePosition, isEnabled, isSubmitting } = useActionHandlers(state);
-  const { ready, isLoading } = useSimulatePrepare({
-    formState: state,
-  });
 
   const isTon = net === 'the-open-network';
-  const enableDeposit =
+  const zeroBalance = !balanceLoading && balance != null && !balance;
+  const insufficientBalance = zeroBalance || (balance ?? 0) < Number(amount);
+  const showDeposit =
     wallet.isCustodial && !balance && !balanceLoading && dir === 'buy';
+  const showConnect = isLoggedIn && !wallet.isCustodial && !wallet.connected;
 
   const isMobile = useIsMobile();
   usePageTour({
@@ -108,41 +106,33 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   return (
     <>
       {ModalLogin}
-      {wallet.connected ? (
-        enableDeposit ? (
-          <Button
-            className={className}
-            onClick={() => deposit(wallet.address ?? '')}
-          >
-            Deposit {quoteInfo?.abbreviation} to Buy
-          </Button>
-        ) : (
-          <Button
-            className={className}
-            disabled={!isEnabled || !ready || !balance}
-            loading={isSubmitting || isLoading}
-            onClick={isLoggedIn ? firePosition : showModalLogin}
-            variant={dir === 'buy' ? 'positive' : 'negative'}
-          >
-            {!balanceLoading && balance != null && !balance ? (
-              <>
-                <WarnIcon className="mr-2" />
-                <span className="text-white/70">Insufficient Balance</span>
-              </>
-            ) : dir === 'buy' ? (
-              'Buy'
-            ) : (
-              'Sell'
-            )}
-          </Button>
-        )
+      {showDeposit ? (
+        <Button
+          className={className}
+          onClick={() => deposit(wallet.address ?? '')}
+        >
+          Deposit {quoteInfo?.abbreviation} to Buy
+        </Button>
       ) : (
         <Button
-          className={clsx(className, 'id-tour-wallet-connect')}
-          onClick={() => wallet.connect()}
-          variant="primary"
+          className={className}
+          disabled={isLoggedIn && (!isEnabled || insufficientBalance)}
+          loading={isSubmitting}
+          onClick={isLoggedIn ? firePosition : showModalLogin}
+          variant={dir === 'buy' ? 'positive' : 'negative'}
         >
-          Connect Wallet
+          {showConnect ? (
+            'Connect Wallet'
+          ) : isLoggedIn && insufficientBalance ? (
+            <>
+              <WarnIcon className="mr-2" />
+              <span className="text-white/70">Insufficient Balance</span>
+            </>
+          ) : dir === 'buy' ? (
+            'Buy'
+          ) : (
+            'Sell'
+          )}
         </Button>
       )}
       <SimulatePrepare formState={state} />

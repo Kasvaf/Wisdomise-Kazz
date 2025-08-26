@@ -56,7 +56,7 @@ const CoinChart: React.FC<{ slug: string }> = ({ slug }) => {
   const lastCandle = useLastCandleQuery({ slug, quote });
   if (lastCandle.isLoading) return null;
 
-  return lastCandle.data?.symbol.pool_address &&
+  return lastCandle.data?.symbol?.poolAddress &&
     /^(solana|ton|the-open-network)$/.test(
       lastCandle.data?.symbol.network ?? '',
     ) ? (

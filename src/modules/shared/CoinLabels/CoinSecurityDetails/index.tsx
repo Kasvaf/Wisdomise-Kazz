@@ -43,7 +43,7 @@ export function CoinSecurityDetails({
     <div className="max-h-[350px] mobile:w-full w-[300px] space-y-4">
       {selectedNetworkName && value.length > 1 && (
         <select
-          className="!outline-none block w-full rounded-lg border-r-8 border-r-v1-surface-l5 bg-v1-surface-l5 p-2 px-4"
+          className="!outline-none block w-full rounded-lg border-r-8 border-r-v1-surface-l2 bg-v1-surface-l2 p-2 px-4"
           disabled={value.length === 1}
           onChange={e => setSelectedNetworkName(e.target.value)}
           value={selectedNetworkName}
@@ -55,7 +55,7 @@ export function CoinSecurityDetails({
           ))}
         </select>
       )}
-      <div className="rounded-lg bg-v1-surface-l5 p-4">
+      <div className="rounded-lg bg-v1-surface-l2 p-4">
         <p className="text-v1-content-secondary text-xxs">
           {activeNetwork?.network_name}
         </p>

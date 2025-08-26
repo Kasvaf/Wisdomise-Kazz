@@ -3,7 +3,7 @@ import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ChartWidgetProvider } from 'shared/AdvancedChart';
+import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
 import { CoinDetailsMeta } from './CoinDetailsMeta';

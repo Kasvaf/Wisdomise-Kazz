@@ -260,9 +260,9 @@ export const NCoinList: FC<{
               </>
             );
             return (
-              <button
+              <div
                 className={clsx(
-                  'group relative flex max-w-full rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
+                  'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
                   mini
                     ? 'flex-col justify-start gap-2'
                     : 'items-center justify-between',
@@ -274,7 +274,6 @@ export const NCoinList: FC<{
                 onClick={() =>
                   row.symbol?.slug && onRowClick?.(row.symbol.slug)
                 }
-                type="button"
               >
                 {source === 'final_stretch' &&
                   row.networkData?.boundingCurve === 1 && (
@@ -352,7 +351,7 @@ export const NCoinList: FC<{
                     source={source}
                   />
                 )}
-              </button>
+              </div>
             );
           })}
         </div>
