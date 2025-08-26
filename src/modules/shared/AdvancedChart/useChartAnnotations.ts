@@ -1,4 +1,4 @@
-import { useTraderAssetActivity, useTraderSwapsQuery } from 'api';
+import { useHasFlag, useTraderAssetActivity, useTraderSwapsQuery } from 'api';
 import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyncChartLines';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
 import { useEffect, useMemo, useRef } from 'react';
@@ -24,6 +24,7 @@ interface IconOptions {
 export function useSwapActivityLines(slug: string) {
   const { data } = useTraderAssetActivity(slug);
   const { data: coin } = useUnifiedCoinDetails({ slug });
+  const hasFlag = useHasFlag();
 
   const supply = coin?.marketData.total_supply ?? 0;
   const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
@@ -61,17 +62,20 @@ export function useSwapActivityLines(slug: string) {
     ];
   }, [avgBuy, avgSell]);
 
-  useChartAnnotations(lines, []);
+  useChartAnnotations(hasFlag('/swap-activity') ? lines : [], []);
 }
 
 export function useSwapChartMarks(slug: string) {
   const { data: coin } = useUnifiedCoinDetails({ slug });
   const { data: swaps } = useTraderSwapsQuery({});
+  const hasFlag = useHasFlag();
 
   return useMemo(() => {
     const supply = coin?.marketData.total_supply ?? 0;
     const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
     const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
+
+    if (!hasFlag('/swap-activity')) return [];
 
     return (
       swaps?.results
@@ -113,7 +117,7 @@ export function useSwapChartMarks(slug: string) {
           } as Mark;
         }) ?? []
     );
-  }, [swaps, slug, coin?.marketData.total_supply]);
+  }, [swaps, slug, coin?.marketData.total_supply, hasFlag]);
 }
 
 export function useChartAnnotations(

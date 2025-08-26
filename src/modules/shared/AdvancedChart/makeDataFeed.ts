@@ -226,7 +226,6 @@ const makeDataFeed = (
       onDataCallback: GetMarksCallback<Mark>,
       resolution: ResolutionString,
     ) {
-      console.log('yo', marksRef.current);
       onDataCallback(marksRef.current);
     },
   };

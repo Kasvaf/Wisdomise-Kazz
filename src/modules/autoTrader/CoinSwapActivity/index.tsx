@@ -1,4 +1,4 @@
-import { useTraderAssetActivity } from 'api';
+import { useHasFlag, useTraderAssetActivity } from 'api';
 import { delphinusGrpc } from 'api/grpc';
 import { useSymbolInfo } from 'api/symbol';
 import { clsx } from 'clsx';
@@ -18,6 +18,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     searchParams.get('slug') ?? undefined,
   );
   const isLoggedIn = useIsLoggedIn();
+  const hasFlag = useHasFlag();
 
   const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
   const network = useActiveNetwork();
@@ -60,7 +61,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     });
   };
 
-  if (!isLoggedIn) return null;
+  if (!isLoggedIn || !hasFlag('/swap-activity')) return null;
 
   return (
     <div
