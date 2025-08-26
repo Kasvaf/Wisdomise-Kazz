@@ -1,5 +1,6 @@
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
@@ -126,6 +127,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     <div className="p-3">
       {focus && <UserTradingAssets className="mb-4" />}
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
+      <QuickBuySettings className="mb-4" source="coin_radar" />
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           chunkSize={10}
