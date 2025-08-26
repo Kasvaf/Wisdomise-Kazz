@@ -9,9 +9,9 @@ const useDiscoveryRoutes = () => {
       element: <Container />,
       children: [
         {
-          path: '',
+          path: 'discovery',
           index: true,
-          element: <Navigate to="/bluechips" />,
+          element: <Navigate to="/trench" />,
         },
         {
           path: ':list',
