@@ -1,3 +1,4 @@
+import TrackersContainer from 'modules/base/Container/TrackersContainer';
 import { Outlet } from 'react-router-dom';
 import { useCustomVersion } from 'shared/useCustomVersion';
 import { isMiniApp } from 'utils/version';
@@ -14,15 +15,15 @@ const Container = () => {
   useCustomVersion();
 
   const result = (
-    // <TrackersContainer>
-    <Guard>
-      <WalletProvider>
-        <GeneralMeta />
-        <Outlet />
-        <UserEngageFlow />
-      </WalletProvider>
-    </Guard>
-    // </TrackersContainer>
+    <TrackersContainer>
+      <Guard>
+        <WalletProvider>
+          <GeneralMeta />
+          <Outlet />
+          <UserEngageFlow />
+        </WalletProvider>
+      </Guard>
+    </TrackersContainer>
   );
 
   return isMiniApp ? <TelegramProvider>{result}</TelegramProvider> : result;

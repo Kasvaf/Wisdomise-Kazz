@@ -1,12 +1,8 @@
+import * as Sentry from '@sentry/react';
 import { useAccountQuery } from 'api';
 import { saveUserMultiKeyValue } from 'api/userStorage';
-import configCookieBot from 'config/cookieBot';
-import customerIo from 'config/customerIo';
-import oneSignal from 'config/oneSignal';
-import { analytics, configSegment } from 'config/segment';
 import useStartParams from 'modules/autoTrader/useStartParams';
 import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
-import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isMiniApp } from 'utils/version';
@@ -38,7 +34,6 @@ const getUtmParams = () => ({
 
 const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
   const [initialized, setInitialized] = useState(false);
-  const { isEmbeddedView } = useEmbedView();
   const { webApp } = useTelegram();
   const navigate = useNavigate();
   const startParams = useStartParams();
@@ -76,40 +71,42 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
         }
       }
 
-      !isEmbeddedView && configCookieBot();
+      // !isEmbeddedView && configCookieBot();
       addGtm();
     }
-  }, [initialized, isEmbeddedView, startParams, webApp]);
+  }, [initialized, startParams, webApp]);
 
   useEffect(() => {
     const email = account?.email;
     if (isLoggedIn && email) {
-      customerIo.identify(email);
-
-      configSegment();
-      void analytics.identify(email, {
-        userId: email,
-        email,
-        ...getUtmParams(),
-      });
+      // customerIo.identify(email);
+      //
+      // configSegment();
+      // void analytics.identify(email, {
+      //   userId: email,
+      //   email,
+      //   ...getUtmParams(),
+      // });
       void saveUserMultiKeyValue(getUtmParams());
+      Sentry.setUser({ email });
     }
   }, [account?.email, isLoggedIn]);
 
   // one-signal
-  useEffect(() => {
-    if (!isLoggedIn) {
-      void oneSignal.setExternalId(undefined);
-    } else if (account?.email && account.info) {
-      void oneSignal.setExternalId(account.email);
-    }
-  }, [isLoggedIn, account?.email, account?.info]);
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     void oneSignal.setExternalId(undefined);
+  //   } else if (account?.email && account.info) {
+  //     void oneSignal.setExternalId(account.email);
+  //   }
+  // }, [isLoggedIn, account?.email, account?.info]);
 
   // customerIo once logged in
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (isLoading) return;
-    customerIo.loadScript();
+    //   if (isLoading) return;
+    //   customerIo.loadScript();
   }, [account, navigate, isLoading]);
 
   return <>{children}</>;

@@ -27,6 +27,7 @@ export const GRPC_ORIGIN = makeOrigin('grpc');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const INVESTMENT_ORIGIN = makeOrigin('wsdm-app');
 export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
+export const HELP_ORIGIN = 'https://help.goatx.trade';
 
 export const MAIN_LANDING = (lng: string) => {
   const subdomain = isProduction ? '' : 'stage.';

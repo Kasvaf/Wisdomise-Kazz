@@ -11,6 +11,9 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig(config => ({
   build: {
     sourcemap: true,
+    commonjsOptions: {
+      transformMixedEsModules: true, // transforms CJS in ESM
+    },
   },
   base: `/${process.env.VITE_BRANCH || ''}`,
   plugins: [

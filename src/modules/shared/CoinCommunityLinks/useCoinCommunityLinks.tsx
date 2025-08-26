@@ -1,13 +1,19 @@
 import type { CoinCommunityData } from 'api/discovery';
-import { type ReactNode, useMemo } from 'react';
+import { lazy, type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FacebookEmbed, XEmbed } from 'react-social-media-embed';
 // https://simpleicons.org
 import { ReactComponent as FacebookIcon } from './facebook.svg';
 import { ReactComponent as RedditIcon } from './reddit.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
 import { ReactComponent as TwitterIcon } from './x.svg';
 import { ReactComponent as TwitterPostIcon } from './x_post.svg';
+
+const FacebookEmbed = lazy(() =>
+  import('react-social-media-embed').then(x => ({ default: x.FacebookEmbed })),
+);
+const XEmbed = lazy(() =>
+  import('react-social-media-embed').then(x => ({ default: x.XEmbed })),
+);
 
 function extractTwitterInfo(twitterScreenerName: string): {
   type: 'profile' | 'post' | 'other';
