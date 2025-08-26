@@ -342,6 +342,7 @@ export const useSolanaMarketSwap = () => {
     void queryClient.invalidateQueries({
       queryKey: ['solana-user-assets'],
     });
+    void queryClient.invalidateQueries({ queryKey: ['buys-sells'] });
     void queryClient.invalidateQueries({ queryKey: ['trader-asset', slug] });
   };
 

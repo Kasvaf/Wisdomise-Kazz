@@ -37,7 +37,7 @@ const AdvancedChart: React.FC<{
 
   const delphinus = useGrpcService('delphinus');
 
-  const [, setGlobalChartWidget] = useAdvancedChartWidget();
+  const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
   const { data, isLoading } = useCoinPoolInfo(slug);
   const { data: details } = useUnifiedCoinDetails({ slug });
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
@@ -46,10 +46,22 @@ const AdvancedChart: React.FC<{
   );
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
   const marks = useSwapChartMarks(slug);
+  const marksRef = useRef(marks);
   const supply = details?.marketData.total_supply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
+
+  useEffect(() => {
+    marksRef.current = marks;
+    if (marks && widget) {
+      widget.onChartReady(() => {
+        try {
+          widget.activeChart()?.resetData();
+        } catch {}
+      });
+    }
+  }, [marks, widget]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
@@ -64,7 +76,7 @@ const AdvancedChart: React.FC<{
         ...data,
         isMarketCap,
         supply,
-        marks,
+        marksRef,
       }),
       container: chartContainerRef.current,
       library_path: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/`,

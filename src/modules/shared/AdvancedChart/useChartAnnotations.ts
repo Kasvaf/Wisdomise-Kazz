@@ -68,50 +68,52 @@ export function useSwapChartMarks(slug: string) {
   const { data: coin } = useUnifiedCoinDetails({ slug });
   const { data: swaps } = useTraderSwapsQuery({});
 
-  const supply = coin?.marketData.total_supply ?? 0;
-  const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
-  const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
+  return useMemo(() => {
+    const supply = coin?.marketData.total_supply ?? 0;
+    const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
+    const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
 
-  return (
-    swaps?.results
-      .filter(s => s.base_slug === slug)
-      .map(s => {
-        const fromTo = Number(s.from_amount) / Number(s.to_amount);
-        const price = s.side === 'LONG' ? fromTo : 1 / fromTo;
+    return (
+      swaps?.results
+        .filter(s => s.base_slug === slug)
+        .map(s => {
+          const fromTo = Number(s.from_amount) / Number(s.to_amount);
+          const price = s.side === 'LONG' ? fromTo : 1 / fromTo;
 
-        const usdFromTo = Number(s.trading_volume) / Number(s.to_amount);
-        const usdPrice = s.side === 'LONG' ? usdFromTo : 1 / usdFromTo;
+          const usdFromTo = Number(s.trading_volume) / Number(s.to_amount);
+          const usdPrice = s.side === 'LONG' ? usdFromTo : 1 / usdFromTo;
 
-        const priceOrMc =
-          (convertToUsd ? usdPrice : price) * (isMarketCap ? supply : 1);
-        const text = `You ${s.side === 'LONG' ? 'bought' : 'sold'} $${formatNumber(
-          Number(s.trading_volume ?? '0'),
-          {
+          const priceOrMc =
+            (convertToUsd ? usdPrice : price) * (isMarketCap ? supply : 1);
+          const text = `You ${s.side === 'LONG' ? 'bought' : 'sold'} $${formatNumber(
+            Number(s.trading_volume ?? '0'),
+            {
+              decimalLength: 3,
+              minifyDecimalRepeats: false,
+              compactInteger: false,
+              separateByComma: false,
+            },
+          )} at ${formatNumber(priceOrMc, {
             decimalLength: 3,
-            minifyDecimalRepeats: false,
-            compactInteger: false,
+            minifyDecimalRepeats: !isMarketCap,
+            compactInteger: isMarketCap,
             separateByComma: false,
-          },
-        )} at ${formatNumber(priceOrMc, {
-          decimalLength: 3,
-          minifyDecimalRepeats: !isMarketCap,
-          compactInteger: isMarketCap,
-          separateByComma: false,
-          exactDecimal: isMarketCap,
-        })} SOL ${isMarketCap ? 'Market Cap' : ''}`;
+            exactDecimal: isMarketCap,
+          })} SOL ${isMarketCap ? 'Market Cap' : ''}`;
 
-        return {
-          id: s.created_at,
-          label: s.side === 'LONG' ? 'B' : 'S',
-          labelFontColor: 'white',
-          minSize: 30,
-          time: Math.floor(new Date(s.created_at).getTime() / 1000),
-          price: priceOrMc,
-          text,
-          color: s.side === 'LONG' ? 'green' : 'red',
-        } as Mark;
-      }) ?? []
-  );
+          return {
+            id: s.created_at,
+            label: s.side === 'LONG' ? 'B' : 'S',
+            labelFontColor: 'white',
+            minSize: 30,
+            time: Math.floor(new Date(s.created_at).getTime() / 1000),
+            price: priceOrMc,
+            text,
+            color: s.side === 'LONG' ? 'green' : 'red',
+          } as Mark;
+        }) ?? []
+    );
+  }, [swaps, slug, coin?.marketData.total_supply]);
 }
 
 export function useChartAnnotations(

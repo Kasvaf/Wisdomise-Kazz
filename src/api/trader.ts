@@ -88,7 +88,7 @@ export const useTraderAssetActivity = (slug?: string) => {
     },
     enabled: !!slug,
     staleTime: 10_000,
-    refetchInterval: 30_000,
+    refetchInterval: 10_000,
   });
 };
 
@@ -660,7 +660,7 @@ export function useTraderSwapsQuery({
       });
     },
     staleTime: 10,
-    refetchInterval: 20_000,
+    refetchInterval: 10_000,
     enabled: isLoggedIn,
   });
 }

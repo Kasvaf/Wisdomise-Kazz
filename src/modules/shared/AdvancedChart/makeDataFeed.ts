@@ -1,5 +1,6 @@
 import { getPairsCached } from 'api';
 import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
 import type {
   GetMarksCallback,
@@ -71,14 +72,14 @@ const makeDataFeed = (
     network,
     supply,
     isMarketCap,
-    marks,
+    marksRef,
   }: {
     slug: string;
     quote: string;
     network: string;
     supply: number;
     isMarketCap: boolean;
-    marks: Mark[];
+    marksRef: MutableRefObject<Mark[]>;
   },
 ): IBasicDataFeed => {
   return {
@@ -225,7 +226,8 @@ const makeDataFeed = (
       onDataCallback: GetMarksCallback<Mark>,
       resolution: ResolutionString,
     ) {
-      onDataCallback(marks);
+      console.log('yo', marksRef.current);
+      onDataCallback(marksRef.current);
     },
   };
 };
