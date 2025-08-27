@@ -34,7 +34,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
           )}
           key={item.link}
           onClick={e => {
-            if (!urlParams.list) {
+            if (!urlParams.list && urlParams.detail) {
               e.preventDefault();
               e.stopPropagation();
               setBackdropParams({
