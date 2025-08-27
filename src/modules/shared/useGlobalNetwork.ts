@@ -1,11 +1,8 @@
-import { useLocalStorage } from 'usehooks-ts';
 import { isMiniApp } from 'utils/version';
 
-export const getGlobalNetwork = () =>
-  localStorage.getItem('network') || 'solana';
+const STATIC_NETWORK = isMiniApp ? 'the-open-network' : 'solana';
 
+export const getGlobalNetwork = () => STATIC_NETWORK;
 export const useGlobalNetwork = () => {
-  const [slug, setSlug] = useLocalStorage<string>('network', 'solana');
-
-  return [isMiniApp ? 'the-open-network' : slug, setSlug] as const;
+  return [STATIC_NETWORK, (_newNetwork?: string) => STATIC_NETWORK] as const;
 };

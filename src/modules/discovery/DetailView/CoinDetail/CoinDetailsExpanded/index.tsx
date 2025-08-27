@@ -16,7 +16,6 @@ import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
 import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
@@ -205,7 +204,6 @@ export const CoinDetailsExpanded: FC = () => {
           <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget />
-          <CoinStatsWidget />
           <NCoinStatsWidget />
         </div>
       </div>

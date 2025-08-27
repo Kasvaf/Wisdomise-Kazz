@@ -8,7 +8,6 @@ import { CoinMessagesWidget } from './CoinMessagesWidget';
 import { CoinPoolsWidget } from './CoinPoolsWidget';
 import { CoinPriceWidget } from './CoinPriceWidget';
 import { CoinSentimentsWidget } from './CoinSentimentsWidget';
-import { CoinStatsWidget } from './CoinStatsWidget';
 import { CoinTitleWidget } from './CoinTitleWidget';
 import { CoinTopTraderHoldersWidget } from './CoinTopTraderHoldersWidget';
 import { NCoinInsightWidget } from './NCoinInsightWidget';
@@ -28,7 +27,6 @@ export const CoinDetailsCompact: FC = () => {
       <BtnAutoTrade block variant="primary" />
       <CoinSentimentsWidget />
       {/* <NCoinSentimentWidget /> */}
-      <CoinStatsWidget />
       <NCoinStatsWidget />
       <CoinSwapActivity />
       <NCoinInsightWidget />

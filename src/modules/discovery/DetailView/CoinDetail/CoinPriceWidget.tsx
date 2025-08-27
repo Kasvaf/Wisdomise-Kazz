@@ -1,7 +1,6 @@
 import { bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
-
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';

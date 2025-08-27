@@ -3,6 +3,7 @@ import { doesNCoinHaveLargeTxns } from 'modules/discovery/ListView/NetworkRadar/
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
+import { NCoinBCurve } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -22,6 +23,7 @@ export const CoinTitleWidget: FC<{
     marketData,
     risks,
     securityData,
+    validatedData,
     isInitiating,
     socials,
   } = useUnifiedCoinDetails();
@@ -56,6 +58,7 @@ export const CoinTitleWidget: FC<{
             href={false}
             labels={symbol.labels}
             logo={symbol.logo}
+            marker={validatedData?.protocol?.logo}
             name={isInitiating ? '' : symbol.name}
             networks={[
               {
@@ -71,6 +74,8 @@ export const CoinTitleWidget: FC<{
                 symbol_network_type: symbol.contractAddress ? 'TOKEN' : 'COIN',
               },
             ]}
+            progress={marketData.boundingCurve ?? 1}
+            progressTitle="Bounding Curve: "
             slug={symbol.slug}
             socials={socials}
             truncate={isInitiating}
@@ -100,9 +105,15 @@ export const CoinTitleWidget: FC<{
               </div>
               <div className="h-4 w-px bg-white/10" />
               <div className="flex flex-col justify-between">
-                <p className="text-v1-content-secondary text-xs">
-                  Total Volume
-                </p>
+                <p className="text-v1-content-secondary text-xs">B Curve</p>
+                <NCoinBCurve
+                  className="text-xs"
+                  value={marketData.boundingCurve ?? 1}
+                />
+              </div>
+              <div className="h-4 w-px bg-white/10" />
+              <div className="flex flex-col justify-between">
+                <p className="text-v1-content-secondary text-xs">Volume</p>
                 <ReadableNumber
                   className="text-xs"
                   format={{
@@ -111,6 +122,18 @@ export const CoinTitleWidget: FC<{
                   label="$"
                   popup="never"
                   value={marketData.totalVolume}
+                />
+              </div>
+              <div className="h-4 w-px bg-white/10" />
+              <div className="flex flex-col justify-between">
+                <p className="text-v1-content-secondary text-xs">
+                  Total supply
+                </p>
+                <ReadableNumber
+                  className="text-xs"
+                  label={symbol.abbreviation}
+                  popup="never"
+                  value={marketData.totalSupply}
                 />
               </div>
             </>
