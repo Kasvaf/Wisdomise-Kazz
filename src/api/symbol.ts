@@ -43,6 +43,10 @@ export const useSymbolInfo = (slug?: string) => {
   });
 };
 
+export const useSolanaSymbol = () => {
+  return useSymbolInfo('wrapped-solana');
+};
+
 export const useSymbolsInfo = (slugs: string[] = []) => {
   return useQuery({
     queryKey: ['symbols-info', slugs],

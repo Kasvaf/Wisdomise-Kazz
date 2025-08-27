@@ -104,6 +104,15 @@ export const SCANNERS: Record<
   },
 };
 
+export const openInScan = (
+  network: 'solana' | 'the-open-network',
+  { tx }: { tx?: string },
+) => {
+  if (network === 'solana' && tx) {
+    window.open(`${SCANNERS.solana.baseUrl}tx/${tx}`);
+  }
+};
+
 export const TonViewer: React.FC<{
   link?: string | null;
   network: string;

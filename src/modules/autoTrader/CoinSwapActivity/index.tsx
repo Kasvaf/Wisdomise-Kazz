@@ -1,6 +1,6 @@
 import { useHasFlag, useTraderAssetActivity } from 'api';
 import { delphinusGrpc } from 'api/grpc';
-import { useSymbolInfo } from 'api/symbol';
+import { useSolanaSymbol } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -11,6 +11,13 @@ import { Button } from 'shared/v1-components/Button';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as UsdIcon } from './usd.svg';
 
+export function SolanaCoin() {
+  const { data: solanaSymbol } = useSolanaSymbol();
+  return solanaSymbol ? (
+    <Coin className="-mr-1" coin={solanaSymbol} mini nonLink noText />
+  ) : null;
+}
+
 export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const [searchParams] = useSearchParams();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
@@ -20,7 +27,6 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const isLoggedIn = useIsLoggedIn();
   const hasFlag = useHasFlag();
 
-  const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
   const network = useActiveNetwork();
   const showUsd = settings.showActivityInUsd;
 
@@ -32,11 +38,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     convertToUsd: showUsd,
   });
 
-  const unit = showUsd
-    ? '$'
-    : solanaSymbol && (
-        <Coin className="-mr-1" coin={solanaSymbol} mini nonLink noText />
-      );
+  const unit = showUsd ? '$' : <SolanaCoin />;
 
   const totalBought = Number(
     (showUsd ? data?.total_bought_usd : data?.total_bought) ?? '0',
