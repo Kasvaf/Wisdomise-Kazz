@@ -113,7 +113,7 @@ export function useSwapChartMarks(slug: string) {
             minSize: 30,
             time: Math.floor(new Date(s.created_at).getTime() / 1000),
             price: priceOrMc,
-            text,
+            text: s.status === 'PENDING' ? undefined : text,
             color: s.side === 'LONG' ? 'green' : 'red',
           } as Mark;
         }) ?? []
