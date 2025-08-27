@@ -1,7 +1,7 @@
 import { delphinusGrpc } from 'api/grpc';
 import type { Swap } from 'api/proto/delphinus';
 import { useSymbolInfo } from 'api/symbol';
-import { bxTransfer } from 'boxicons-quasar';
+import { bxPause, bxTransfer } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
   BtnConvertToUsd,
@@ -43,7 +43,7 @@ const usePausedData = <V,>(
       el.removeEventListener('mouseenter', handleEnter);
       el.removeEventListener('mouseleave', handleLeave);
     };
-  }, [hoverElementRef]);
+  }, [hoverElementRef.current]);
 
   useEffect(() => {
     if (!isPaused) {
@@ -214,6 +214,15 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
           })}
         </tbody>
       </table>
+      <div
+        className={clsx(
+          'mt-2 flex w-full items-center justify-center gap-1 text-v1-content-brand opacity-0',
+          isPaused && 'opacity-100',
+        )}
+      >
+        <Icon name={bxPause} />
+        Paused
+      </div>
       {notif}
     </div>
   );
