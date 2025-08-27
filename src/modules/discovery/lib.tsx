@@ -43,11 +43,14 @@ export const useDiscoveryBackdropParams = () => {
       (newValue: Partial<DiscoveryParams>) => {
         setStorageParams({
           ...storageParams,
-          list: newValue.list ?? storageParams.list,
-          detail: newValue.detail ?? storageParams.detail,
-          slug1: newValue.slugs?.[0] ?? storageParams.slug1,
-          slug2: newValue.slugs?.[1] ?? storageParams.slug2,
-          slug3: newValue.slugs?.[2] ?? storageParams.slug3,
+          list: 'list' in newValue ? newValue.list : storageParams.list,
+          detail: 'detail' in newValue ? newValue.detail : storageParams.detail,
+          slug1:
+            'slugs' in newValue ? newValue.slugs?.[0] : storageParams.slug1,
+          slug2:
+            'slugs' in newValue ? newValue.slugs?.[1] : storageParams.slug2,
+          slug3:
+            'slugs' in newValue ? newValue.slugs?.[2] : storageParams.slug3,
         });
       },
     ] as const;
