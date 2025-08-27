@@ -29,8 +29,8 @@ export const CoinDetailsCompact: FC = () => {
       <CoinSentimentsWidget />
       {/* <NCoinSentimentWidget /> */}
       <CoinStatsWidget />
-      <CoinSwapActivity />
       <NCoinStatsWidget />
+      <CoinSwapActivity />
       <NCoinInsightWidget />
       in
       <div className="h-[400px]">
