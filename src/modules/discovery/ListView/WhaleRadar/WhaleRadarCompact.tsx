@@ -1,11 +1,12 @@
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { usePageState } from 'shared/usePageState';
 import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
@@ -23,6 +24,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     sortBy: 'rank',
     sortOrder: 'ascending',
   });
+  const [globalNetwork] = useGlobalNetwork();
 
   const coins = useWhaleRadarCoins(pageState);
   useLoadingBadge(coins.isFetching);
@@ -30,7 +32,16 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
     useCoinPreDetailModal<WhaleRadarCoin>({
       directNavigate: !focus,
-      slug: r => r.symbol.slug,
+      slug: r => {
+        const contractAddress = r.networks.find(
+          x => x.network.slug === globalNetwork,
+        )?.contract_address;
+        return {
+          slug: r.symbol.slug,
+          network: globalNetwork,
+          contractAddress,
+        };
+      },
     });
 
   const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
@@ -66,7 +77,6 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
             labels={row.symbol_labels}
             logo={row.symbol.logo_url}
             networks={row.networks}
-            security={row.symbol_security?.data}
             slug={row.symbol.slug}
           />
         ),
@@ -80,9 +90,8 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     [],
   );
 
-  const {
-    params: { slug: activeSlug },
-  } = useDiscoveryRouteMeta();
+  const params = useDiscoveryParams();
+  const activeSlug = params.slugs?.[0];
 
   return (
     <div className="p-3">
@@ -121,7 +130,6 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         networks={selectedRow?.networks}
         onClose={() => closeModal()}
         open={isModalOpen}
-        security={selectedRow?.symbol_security?.data}
       >
         {selectedRow && (
           <CoinPriceChart

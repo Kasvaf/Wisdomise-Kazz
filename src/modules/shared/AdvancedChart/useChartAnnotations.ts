@@ -1,6 +1,6 @@
 import { useHasFlag, useTraderAssetActivity, useTraderSwapsQuery } from 'api';
 import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyncChartLines';
-import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useMemo, useRef } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { formatNumber } from 'utils/numbers';
@@ -23,10 +23,10 @@ interface IconOptions {
 
 export function useSwapActivityLines(slug: string) {
   const { data } = useTraderAssetActivity(slug);
-  const { data: coin } = useUnifiedCoinDetails({ slug });
+  const details = useUnifiedCoinDetails();
   const hasFlag = useHasFlag();
 
-  const supply = coin?.marketData.total_supply ?? 0;
+  const supply = details?.marketData.totalSupply ?? 0;
   const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
   const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
 
@@ -66,13 +66,13 @@ export function useSwapActivityLines(slug: string) {
 }
 
 export function useSwapChartMarks(slug: string) {
-  const { data: coin } = useUnifiedCoinDetails({ slug });
+  const details = useUnifiedCoinDetails();
   const { data: swaps } = useTraderSwapsQuery({});
   const hasFlag = useHasFlag();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <no need for hasFlag dep>
   return useMemo(() => {
-    const supply = coin?.marketData.total_supply ?? 0;
+    const supply = details?.marketData.totalSupply ?? 0;
     const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
     const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
 
@@ -118,7 +118,7 @@ export function useSwapChartMarks(slug: string) {
           } as Mark;
         }) ?? []
     );
-  }, [swaps, slug, coin?.marketData.total_supply]);
+  }, [swaps, slug, details?.marketData.totalSupply]);
 }
 
 export function useChartAnnotations(

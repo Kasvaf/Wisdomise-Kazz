@@ -1,6 +1,5 @@
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
@@ -18,7 +17,6 @@ export const Wallet: FC<{
 }> = ({ className, wallet, noLink, whale }) => {
   const [copy, notificationContent] = useShare('copy');
   const shortAddress = shortenAddress(wallet.address);
-  const { getUrl } = useDiscoveryRouteMeta();
 
   const avatar = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${(
     wallet.network + wallet.address
@@ -34,14 +32,7 @@ export const Wallet: FC<{
           'bg-transparent text-v1-content-primary transition-all hover:bg-v1-background-hover hover:text-inherit',
         className,
       )}
-      to={
-        whale
-          ? getUrl({
-              detail: 'whale',
-              slug: `${wallet.network}/${wallet.address}`,
-            })
-          : '#'
-      }
+      to={whale ? `/whale/${wallet.network}/${wallet.address}` : '#'}
     >
       <img
         className="size-7 rounded-full"

@@ -220,11 +220,11 @@ const makeDataFeed = (
     },
     unsubscribeBars: listenerGuid => listeners[listenerGuid]?.(),
     getMarks(
-      symbolInfo: LibrarySymbolInfo,
-      from: number,
-      to: number,
+      _symbolInfo: LibrarySymbolInfo,
+      _from: number,
+      _to: number,
       onDataCallback: GetMarksCallback<Mark>,
-      resolution: ResolutionString,
+      _resolution: ResolutionString,
     ) {
       onDataCallback(marksRef.current);
     },

@@ -1,12 +1,7 @@
-import type {
-  CoinNetwork,
-  MiniMarketData,
-  NetworkSecurity,
-} from 'api/discovery';
+import type { CoinNetwork, MiniMarketData } from 'api/discovery';
 import type { Coin as CoinType } from 'api/types/shared';
 import { bxShareAlt, bxSlider } from 'boxicons-quasar';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import {
   Children,
   cloneElement,
@@ -28,8 +23,8 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
-import useIsMobile from 'utils/useIsMobile';
 import { usePromise } from 'utils/usePromise';
+import type { ComplexSlug } from '../DetailView/CoinDetail/lib';
 import { PriceAlertButton } from '../DetailView/CoinDetail/PriceAlertButton';
 import SocialRadarSharingModal from './SocialRadar/SocialRadarSharingModal';
 import TechnicalRadarSharingModal from './TechnicalRadar/TechnicalRadarSharingModal';
@@ -40,7 +35,6 @@ interface PreDetailModalBaseProps {
   labels?: string[] | null;
   networks?: CoinNetwork[] | null;
   categories?: CoinType['categories'] | null;
-  security?: NetworkSecurity[] | null;
   hasShare?: boolean;
 }
 
@@ -54,7 +48,6 @@ const CoinPreDetailsContent: FC<
   labels,
   categories,
   networks,
-  security,
   children,
   hasShare,
 }) => {
@@ -135,7 +128,6 @@ const CoinPreDetailsContent: FC<
           categories={categories}
           labels={labels}
           networks={networks}
-          security={security}
           size="md"
         />
       </div>
@@ -152,8 +144,6 @@ export const CoinPreDetailModal: FC<
   }
 > = ({ open, onClose, children, coin, ...props }) => {
   const { t } = useTranslation('insight');
-  const isMobile = useIsMobile();
-  const { getUrl, params } = useDiscoveryRouteMeta();
 
   return (
     <Dialog
@@ -167,15 +157,7 @@ export const CoinPreDetailModal: FC<
         coin && (
           <div className="flex flex-col items-stretch gap-4">
             <div className="flex gap-3">
-              <NavLink
-                className="block basis-1/2"
-                to={getUrl({
-                  detail: 'coin',
-                  slug: coin.slug,
-                  view:
-                    isMobile || params.view === 'detail' ? 'detail' : 'both',
-                })}
-              >
+              <NavLink className="block basis-1/2" to={`/token/${coin.slug}`}>
                 <Button
                   block
                   className="w-full"
@@ -217,27 +199,23 @@ export function useCoinPreDetailModal<T>({
   slug,
 }: {
   directNavigate?: boolean;
-  slug?: (r: T) => string;
+  slug?: (r: T) => ComplexSlug;
 }) {
-  const { getUrl, params } = useDiscoveryRouteMeta();
-  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { run: openModal, ...rest } = usePromise<T, boolean>();
 
   const action = useCallback(
     (r: T) => {
       if (directNavigate && slug) {
-        const href = getUrl({
-          view: isMobile || params.view === 'detail' ? 'detail' : 'both',
-          detail: 'coin',
-          slug: slug?.(r),
-        });
-        navigate(href);
+        const s = slug(r);
+        navigate(
+          `/token/${s.network && s.contractAddress ? [s.network, s.contractAddress].join('/') : s.slug}`,
+        );
         return Promise.resolve();
       }
       return openModal(r);
     },
-    [directNavigate, getUrl, isMobile, navigate, openModal, params.view, slug],
+    [directNavigate, navigate, openModal, slug],
   );
 
   return useMemo(

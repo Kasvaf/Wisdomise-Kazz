@@ -31,22 +31,6 @@ export const SocialRadarFilters: FC<
             />
           </div>
           <div className="flex items-center gap-2">
-            <p className="block basis-1/3">{t('common:security_label')}</p>
-            <CoinLabelSelect
-              allowClear
-              className="grow"
-              multiple
-              onChange={securityLabels =>
-                setState(p => ({
-                  ...p,
-                  securityLabels,
-                }))
-              }
-              type="security_labels"
-              value={state.securityLabels}
-            />
-          </div>
-          <div className="flex items-center gap-2">
             <p className="block shrink-0 basis-1/3">{t('common:category')}</p>
             <CategorySelect
               allowClear

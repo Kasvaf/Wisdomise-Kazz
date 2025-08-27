@@ -1,4 +1,4 @@
-import type { CoinExchange } from 'api/discovery';
+import { type CoinExchange, useCoinDetails } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
@@ -8,17 +8,15 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { useUnifiedCoinDetails } from './lib';
 
 export function CoinExchangesWidget({
-  slug,
   id,
   hr,
   title,
   limit: _limit = 6,
   className,
 }: {
-  slug: string;
   id?: string;
   hr?: boolean;
   title?: boolean;
@@ -26,7 +24,9 @@ export function CoinExchangesWidget({
   className?: string;
 }) {
   const { t } = useTranslation('coin-radar');
-  const { data: coin } = useUnifiedCoinDetails({ slug });
+  const { symbol } = useUnifiedCoinDetails();
+  const { data: rawData } = useCoinDetails({ slug: symbol.slug });
+  const exchanges = rawData?.exchanges;
   const [query, setQuery] = useState('');
   const [limit, setLimit] = useState<number | undefined>(_limit);
 
@@ -75,13 +75,13 @@ export function CoinExchangesWidget({
 
   const data = useMemo(
     () =>
-      (coin?.exchanges ?? []).filter(row =>
+      (exchanges ?? []).filter(row =>
         row.exchange.name.toLowerCase().includes(query.toLowerCase()),
       ),
-    [coin?.exchanges, query],
+    [exchanges, query],
   );
 
-  if ((coin?.exchanges ?? []).length === 0) return null;
+  if ((exchanges ?? []).length === 0) return null;
 
   return (
     <>

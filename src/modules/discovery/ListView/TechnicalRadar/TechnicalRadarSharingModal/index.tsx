@@ -105,7 +105,6 @@ export default function TechnicalRadarSharingModal({
               clickable={false}
               labels={coin.symbol_labels}
               networks={coin.networks}
-              security={coin.symbol_security?.data}
               size="md"
             />
           </div>

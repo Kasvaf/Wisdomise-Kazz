@@ -1,18 +1,16 @@
-import type { CoinNetwork, NetworkSecurity } from 'api/discovery';
+import type { CoinNetwork } from 'api/discovery';
 import type { Coin } from 'api/types/shared';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { CoinCategoryLabel } from './CoinCategoryLabel';
 import { CoinLabel } from './CoinLabel';
 import { CoinNetworksLabel } from './CoinNetworksLabel';
-import { CoinSecurityLabel } from './CoinSecurityLabel';
 import { icons } from './icons';
 
 export function CoinLabels({
   className,
   categories,
   networks,
-  security,
   labels: _labels,
   prefix,
   suffix,
@@ -23,7 +21,6 @@ export function CoinLabels({
   className?: string;
   categories?: Coin['categories'] | null;
   networks?: CoinNetwork[] | null;
-  security?: NetworkSecurity[] | null;
   labels?: string[] | null;
   prefix?: ReactNode;
   suffix?: ReactNode;
@@ -62,7 +59,6 @@ export function CoinLabels({
       )}
     >
       {prefix}
-      <CoinSecurityLabel clickable={clickable} size={size} value={security} />
       {labels.map(label => (
         <CoinLabel
           clickable={clickable}

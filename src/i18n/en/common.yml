@@ -41,7 +41,7 @@ nothing-to-show: >-
 or: Or
 recently: Recently
 recommended-size: Recommended Size
-reset_filters: Reset Filters
+reset_filters: Reset All Filters
 search_coins: Coins, Abbv and Contract Address
 security_label: Security Label
 select-detail-first: Select a Coin to See Details

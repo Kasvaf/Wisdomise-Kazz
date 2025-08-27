@@ -4,12 +4,16 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
 import { DetailView } from './DetailView';
-import { ListExpander } from './ListExpander';
 import { ListView } from './ListView';
-import { useDiscoveryRouteMeta } from './useDiscoveryRouteMeta';
+import {
+  DiscoveryExpandCollapser,
+  useDiscoveryBackdropParams,
+  useDiscoveryUrlParams,
+} from './lib';
 
 export default function PageDiscovery() {
-  const { params } = useDiscoveryRouteMeta();
+  const [backdropParams] = useDiscoveryBackdropParams();
+  const urlParams = useDiscoveryUrlParams();
   const isMobile = useIsMobile();
 
   return (
@@ -19,40 +23,43 @@ export default function PageDiscovery() {
     >
       <ActiveQuoteProvider>
         <div className="flex justify-start">
-          {(isMobile ? params.view === 'list' : true) && (
+          {/* List Sidebar Mode */}
+          {!urlParams.list && backdropParams.list && !isMobile && (
             <ListView
               className={clsx(
                 'max-w-full',
-                params.view === 'list'
-                  ? 'w-full'
-                  : params.view === 'detail'
-                    ? 'hidden'
-                    : [
-                        'sticky top-(--desktop-content-top) z-30 h-(--desktop-content-height) w-72 min-w-72 max-w-72 overflow-auto',
-                        'scrollbar-none border-white/10 border-r bg-v1-surface-l0',
-                        'tablet:fixed mobile:block tablet:bg-v1-surface-l0/60 tablet:backdrop-blur-lg',
-                      ],
+                'sticky top-(--desktop-content-top) z-30 h-(--desktop-content-height) w-72 min-w-72 max-w-72 overflow-auto',
+                'scrollbar-none border-white/10 border-r bg-v1-surface-l0',
+                'tablet:fixed mobile:block tablet:bg-v1-surface-l0/60 tablet:backdrop-blur-lg',
               )}
-              expanded={params.view === 'list' && !isMobile}
-              focus={params.view === 'list'}
-              list={params.list}
+              expanded={false}
+              focus={false}
+              list={backdropParams.list ?? 'trench'}
             />
           )}
 
-          {params.view !== 'list' && (
-            <DetailView
-              className={clsx(
-                'min-w-0 shrink grow p-3',
-                params.detail === 'coin' && '!p-0 mobile:p-3',
-              )}
-              detail={params.detail}
+          {/* List Full-Page Mode */}
+          {urlParams.list && (
+            <ListView
+              className="w-full max-w-full"
               expanded={!isMobile}
-              focus={true}
+              focus
+              list={urlParams.list ?? 'trench'}
+            />
+          )}
+
+          {/* Detail FullPage/Semi-HalfPage Mode */}
+          {urlParams.detail && (
+            <DetailView
+              className="min-w-0 shrink grow p-3"
+              detail={urlParams.detail}
+              expanded={!isMobile}
+              focus
             />
           )}
         </div>
       </ActiveQuoteProvider>
-      <ListExpander />
+      <DiscoveryExpandCollapser />
     </PageWrapper>
   );
 }

@@ -1,7 +1,8 @@
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
@@ -10,6 +11,7 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import useIsMobile from 'utils/useIsMobile';
@@ -24,7 +26,7 @@ import useHotCoinsTour from './useHotCoinsTour';
 
 export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const { t } = useTranslation('insight');
-
+  const [globalNetwork] = useGlobalNetwork();
   const coins = useCoinRadarCoins({});
   useLoadingBadge(coins.isFetching);
 
@@ -36,7 +38,16 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
     useCoinPreDetailModal<CoinRadarCoin>({
       directNavigate: !focus,
-      slug: r => r.symbol.slug,
+      slug: r => {
+        const contractAddress = r.networks?.find(
+          x => x.network.slug === globalNetwork,
+        )?.contract_address;
+        return {
+          network: globalNetwork,
+          slug: r.symbol.slug,
+          contractAddress,
+        };
+      },
     });
 
   const selectedRowSparklinePrices =
@@ -81,7 +92,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
             labels={row.symbol_labels}
             logo={row.symbol.logo_url}
             networks={row.networks}
-            security={row.symbol_security?.data}
             slug={row.symbol.slug}
           />
         ),
@@ -110,20 +120,23 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     ],
     [],
   );
-  const {
-    params: { slug: activeSlug },
-  } = useDiscoveryRouteMeta();
+  const params = useDiscoveryParams();
+  const activeSlug = params.slugs?.[1];
 
   return (
     <div className="p-3">
       {focus && <UserTradingAssets className="mb-4" />}
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
+      <QuickBuySettings className="mb-4" source="coin_radar" />
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           chunkSize={10}
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}
-          isActive={r => r.symbol.slug === activeSlug}
+          isActive={r =>
+            r.networks?.find(x => x.network.slug === globalNetwork)
+              ?.contract_address === activeSlug
+          }
           loading={coins.isLoading}
           onClick={r => openModal(r)}
           rowClassName="id-tour-row"
@@ -148,7 +161,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         networks={selectedRow?.networks}
         onClose={() => closeModal()}
         open={isModalOpen}
-        security={selectedRow?.symbol_security?.data}
       >
         {selectedRowSparklinePrices && (
           <CoinPriceChart

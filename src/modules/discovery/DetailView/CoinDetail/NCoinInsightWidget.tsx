@@ -1,29 +1,23 @@
-import { useTokenInsight } from 'api/discovery';
 import { NCoinTokenInsight } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight';
 import type { FC } from 'react';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { useUnifiedCoinDetails } from './lib';
 
-export const NCoinInsightWidget: FC<{ className?: string; slug: string }> = ({
-  className,
-  slug,
-}) => {
-  const { data: coin } = useUnifiedCoinDetails({ slug });
-  const contractAddress = coin?.networks?.[0]?.contract_address;
-  const { data } = useTokenInsight({
-    contractAddress,
-  });
-  if (!contractAddress) return null;
+export const NCoinInsightWidget: FC<{
+  className?: string;
+}> = ({ className }) => {
+  const { validatedData } = useUnifiedCoinDetails();
+
   return (
     <NCoinTokenInsight
       className={className}
       type="card"
       value={{
-        boundleHolding: data?.bundlers_holding_percentage,
-        devHolding: data?.dev_holding_percentage,
-        insiderHolding: data?.insiders_holding_percentage,
-        numberOfHolders: data?.total_holders,
-        snipersHolding: data?.insiders_holding_percentage,
-        top10Holding: data?.top_10_holders_holding_percentage,
+        boundleHolding: validatedData?.boundleHolding,
+        devHolding: validatedData?.devHolding,
+        insiderHolding: validatedData?.insiderHolding,
+        numberOfHolders: validatedData?.numberOfHolders,
+        snipersHolding: validatedData?.snipersHolding,
+        top10Holding: validatedData?.top10Holding,
       }}
     />
   );

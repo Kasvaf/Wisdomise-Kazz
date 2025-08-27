@@ -189,7 +189,7 @@ export default function DailyTrade({ className }: { className?: string }) {
             className="!absolute start-4 end-4 bottom-6 z-10"
             onClick={() => {
               setOpen(false);
-              navigate('/');
+              navigate('/trench');
             }}
             variant="primary"
           >
