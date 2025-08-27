@@ -146,7 +146,6 @@ export const UnifiedCoinDetailsProvider: FC<{
   const data1 = resp1.data;
   const data2 = slug.contractAddress ? resp2.data : null;
   const price = priceResp.data;
-  console.log(data2);
 
   const symbol: UnifiedCoinDetailsContext['symbol'] = (() => {
     return {

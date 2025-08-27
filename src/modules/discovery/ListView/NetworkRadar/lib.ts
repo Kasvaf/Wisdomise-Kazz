@@ -87,7 +87,6 @@ export const useNetworkRadarStream = (
   const migrated = networkRadarGrpc.useTrenchMigratedStreamLastValue(
     filters.migrated,
   );
-  console.log({ newPairs, finalStretch, migrated });
 
   return {
     new_pairs: newPairs,
