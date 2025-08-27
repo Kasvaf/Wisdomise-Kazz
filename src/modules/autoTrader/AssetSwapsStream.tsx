@@ -3,11 +3,16 @@ import type { Swap } from 'api/proto/delphinus';
 import { useSymbolInfo } from 'api/symbol';
 import { bxTransfer } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { SolanaCoin } from 'modules/autoTrader/CoinSwapActivity';
+import {
+  BtnConvertToUsd,
+  SolanaCoin,
+} from 'modules/autoTrader/CoinSwapActivity';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
 import { type RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
 import { useShare } from 'shared/useShare';
@@ -51,10 +56,13 @@ const usePausedData = <V,>(
 
 const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isMarketCap, setIsMarketCap] = useState(true);
   const { data: symbol } = useSymbolInfo(slug);
   const { data: coin } = useUnifiedCoinDetails({ slug });
+  const { settings, updateSwapsPartial } = useUserSettings();
+
   const totalSupply = coin?.marketData.total_supply ?? 0;
+  const showAmountInUsd = settings.swaps.showAmountInUsd;
+  const showMarketCap = settings.swaps.showMarketCap;
 
   const network = useActiveNetwork();
   const asset = symbol?.networks.find(
@@ -116,16 +124,29 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
     >
       <table className="w-full">
         <thead className="text-white/50 [&>th]:pb-2">
-          <th className="text-left font-normal">Amount</th>
-          <th className="flex items-center gap-2 text-left font-normal">
-            {isMarketCap ? 'MC' : 'Price'}
+          <th className="text-left font-normal">
+            <div className="flex items-center gap-1">
+              Amount
+              <BtnConvertToUsd
+                isUsd={showAmountInUsd}
+                onChange={() =>
+                  updateSwapsPartial({ showAmountInUsd: !showAmountInUsd })
+                }
+              />
+            </div>
+          </th>
+          <th className="flex items-center gap-1 text-left font-normal">
+            {showMarketCap ? 'MC' : 'Price'}
             <Button
+              className="text-white/50"
               fab
-              onClick={() => setIsMarketCap(!isMarketCap)}
+              onClick={() =>
+                updateSwapsPartial({ showMarketCap: !showMarketCap })
+              }
               size="3xs"
               variant="ghost"
             >
-              <Icon className="[&>svg]:!size-4" name={bxTransfer} />
+              <Icon className="[&>svg]:!size-3" name={bxTransfer} />
             </Button>
           </th>
           <th className="text-left font-normal">Trader</th>
@@ -134,10 +155,16 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
         <tbody>
           {pausedData?.map(row => {
             const dir = row.fromAsset === asset ? 'sell' : 'buy';
-            const amount =
-              row.fromAsset === asset ? row.toAmount : row.fromAmount;
             const price =
-              row.fromAsset === asset ? row.fromAssetPrice : row.toAssetPrice;
+              dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice;
+
+            const tokenAmount = +(dir === 'sell'
+              ? row.fromAmount
+              : row.toAmount);
+            const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
+            const amount = showAmountInUsd
+              ? tokenAmount * +(price ?? '0')
+              : solAmount;
 
             return (
               <tr className="[&>td]:pb-1" key={row.id}>
@@ -149,7 +176,7 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
                     'flex items-center gap-1',
                   )}
                 >
-                  <SolanaCoin />
+                  {showAmountInUsd ? '$' : <SolanaCoin />}
                   {formatNumber(+amount, {
                     compactInteger: true,
                     decimalLength: 3,
@@ -160,7 +187,7 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
                 <td>
                   {price
                     ? '$ ' +
-                      formatNumber(+price * (isMarketCap ? totalSupply : 1), {
+                      formatNumber(+price * (showMarketCap ? totalSupply : 1), {
                         compactInteger: true,
                         decimalLength: 2,
                         separateByComma: false,
@@ -178,7 +205,9 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
                   className="cursor-pointer text-v1-content-secondary hover:underline"
                   onClick={() => openInScan('solana', { tx: row.txId })}
                 >
-                  {timeAgo(new Date(row.relatedAt), new Date(now))}
+                  <HoverTooltip title="Open TX in Solscan">
+                    {timeAgo(new Date(row.relatedAt), new Date(now))}
+                  </HoverTooltip>
                 </td>
               </tr>
             );

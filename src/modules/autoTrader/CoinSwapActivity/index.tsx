@@ -11,6 +11,32 @@ import { Button } from 'shared/v1-components/Button';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as UsdIcon } from './usd.svg';
 
+export const BtnConvertToUsd = ({
+  isUsd = true,
+  onChange,
+  className,
+}: {
+  isUsd?: boolean;
+  onChange: (isUsd: boolean) => void;
+  className?: string;
+}) => {
+  return (
+    <Button
+      className={clsx(
+        className,
+        'text-white/50',
+        isUsd && '!text-v1-content-positive',
+      )}
+      fab
+      onClick={() => onChange(!isUsd)}
+      size="3xs"
+      variant="ghost"
+    >
+      <UsdIcon className="!size-4" />
+    </Button>
+  );
+};
+
 export function SolanaCoin() {
   const { data: solanaSymbol } = useSolanaSymbol();
   return solanaSymbol ? (
@@ -120,18 +146,11 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
             {!mini && (
               <div className="relative mb-2 flex items-center gap-1">
                 <span className="text-v1-content-secondary">PNL</span>
-                <Button
-                  className={clsx(
-                    '!absolute right-0 text-white/70',
-                    showUsd && '!text-v1-content-positive',
-                  )}
-                  fab
-                  onClick={toggleShowActivityInUsd}
-                  size="2xs"
-                  variant="ghost"
-                >
-                  <UsdIcon />
-                </Button>
+                <BtnConvertToUsd
+                  className="!absolute right-0"
+                  isUsd={showUsd}
+                  onChange={toggleShowActivityInUsd}
+                />
               </div>
             )}
             <div

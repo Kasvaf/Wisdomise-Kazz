@@ -25,6 +25,12 @@ interface UserSettings {
   presets: TraderPresets;
   quick_buy: Record<QuickBuySource, QuickBuySettings>;
   showActivityInUsd: boolean;
+  swaps: SwapsSettings;
+}
+
+interface SwapsSettings {
+  showAmountInUsd: boolean;
+  showMarketCap: boolean;
 }
 
 interface QuickBuySettings {
@@ -118,6 +124,10 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     },
   },
   showActivityInUsd: false,
+  swaps: {
+    showAmountInUsd: true,
+    showMarketCap: true,
+  },
 };
 
 const context = createContext<
@@ -145,6 +155,7 @@ const context = createContext<
       ) => void;
       updatePreset: (newValue: TraderPresets) => void;
       toggleShowActivityInUsd: () => void;
+      updateSwapsPartial: (patch: Partial<SwapsSettings>) => void;
     }
   | undefined
 >(undefined);
@@ -276,6 +287,18 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     }));
   };
 
+  const updateSwapsPartial = (patch: Partial<SwapsSettings>) => {
+    setSettings(prev => {
+      return {
+        ...prev,
+        swaps: {
+          ...prev.swaps,
+          ...patch,
+        },
+      };
+    });
+  };
+
   return (
     <context.Provider
       value={{
@@ -288,6 +311,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         updateQuickBuyAmount,
         updateQuotesQuickSet,
         toggleShowActivityInUsd,
+        updateSwapsPartial,
       }}
     >
       {children}

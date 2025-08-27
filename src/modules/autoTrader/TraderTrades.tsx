@@ -25,7 +25,7 @@ const TraderTrades: React.FC<
   return (
     <div className="relative">
       <Tabs
-        className="[&_.ant-tabs-nav]:!-mx-3 [&_.ant-tabs-tab]:!px-4 [&_.ant-tabs-tab]:!text-xs [&_.ant-tabs-nav]:mb-3"
+        className="[&_.ant-tabs-nav]:!-mx-3 [&_.ant-tabs-tab]:!px-4 [&_.ant-tabs-tab]:!text-xs [&_.ant-tabs-nav]:!mb-0"
         defaultActiveKey="terminal"
         items={items}
       />
