@@ -894,20 +894,6 @@ export type RadarsMetcis = Record<
   }
 >;
 
-export interface TokenInsight {
-  contract_address: string;
-  created_at: string;
-  total_supply: number;
-  creator_balance: number;
-  top_10_holders_holding_percentage: number;
-  dev_holding_percentage: number;
-  snipers_holding_percentage: number;
-  lp_burned_percentage: number;
-  total_holders: number;
-  insiders_holding_percentage: number;
-  bundlers_holding_percentage: number;
-}
-
 export interface CoinTopTraderHolder {
   network: string;
   wallet_address: string;
