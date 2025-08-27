@@ -50,14 +50,13 @@ export function SolanaCoin() {
 export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
-  const { data } = useTraderAssetActivity(symbol.slug ?? undefined);
+  const slug = symbol.slug;
+  const { data } = useTraderAssetActivity(symbol.slug);
   const isLoggedIn = useIsLoggedIn();
   const hasFlag = useHasFlag();
 
   const network = useActiveNetwork();
-  const { data: pairs, isPending } = useSupportedPairs(
-    searchParams.get('slug') ?? '',
-  );
+  const { data: pairs, isPending } = useSupportedPairs(slug);
 
   const hasSolanaPair =
     !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
