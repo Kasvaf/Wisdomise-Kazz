@@ -117,17 +117,19 @@ export const resolveSocials = (
 
     const knownHost = KNOWN_HOSTS[rawLink.guess][0];
 
-    const newItem: Social = {
-      type: rawLink.guess,
-      url: new URL(rawLink.data, `https://${knownHost}`),
-    };
+    try {
+      const newItem: Social = {
+        type: rawLink.guess,
+        url: new URL(rawLink.data, `https://${knownHost}`),
+      };
 
-    if (seenUrls.includes(`${newItem.url.origin}${newItem.url.pathname}`)) {
-      continue;
-    }
+      if (seenUrls.includes(`${newItem.url.origin}${newItem.url.pathname}`)) {
+        continue;
+      }
 
-    ret = [...ret, newItem];
-    seenUrls = [...seenUrls, `${newItem.url.origin}${newItem.url.pathname}`];
+      ret = [...ret, newItem];
+      seenUrls = [...seenUrls, `${newItem.url.origin}${newItem.url.pathname}`];
+    } catch {}
   }
   return ret.filter((x, i, s) => s.findLastIndex(y => y.url === x.url) === i);
 };
