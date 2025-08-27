@@ -1,4 +1,4 @@
-import { useHasFlag, useTraderAssetActivity } from 'api';
+import { useHasFlag, useSupportedPairs, useTraderAssetActivity } from 'api';
 import { delphinusGrpc } from 'api/grpc';
 import { useSolanaSymbol } from 'api/symbol';
 import { clsx } from 'clsx';
@@ -15,10 +15,12 @@ export const BtnConvertToUsd = ({
   isUsd = true,
   onChange,
   className,
+  disabled,
 }: {
   isUsd?: boolean;
   onChange: (isUsd: boolean) => void;
   className?: string;
+  disabled?: boolean;
 }) => {
   return (
     <Button
@@ -27,6 +29,7 @@ export const BtnConvertToUsd = ({
         'text-white/50',
         isUsd && '!text-v1-content-positive',
       )}
+      disabled={disabled}
       fab
       onClick={() => onChange(!isUsd)}
       size="3xs"
@@ -54,7 +57,13 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const hasFlag = useHasFlag();
 
   const network = useActiveNetwork();
-  const showUsd = settings.showActivityInUsd;
+  const { data: pairs, isPending } = useSupportedPairs(
+    searchParams.get('slug') ?? '',
+  );
+
+  const hasSolanaPair =
+    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
+  const showUsd = hasSolanaPair ? settings.showActivityInUsd : true;
 
   const lastCandle = delphinusGrpc.useLastCandleStreamLastValue({
     market: 'SPOT',
@@ -148,6 +157,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
                 <span className="text-v1-content-secondary">PNL</span>
                 <BtnConvertToUsd
                   className="!absolute right-0"
+                  disabled={!hasSolanaPair}
                   isUsd={showUsd}
                   onChange={toggleShowActivityInUsd}
                 />

@@ -1,3 +1,4 @@
+import { useSupportedPairs } from 'api';
 import { delphinusGrpc } from 'api/grpc';
 import type { Swap } from 'api/proto/delphinus';
 import { useSymbolInfo } from 'api/symbol';
@@ -60,8 +61,13 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
   const { data: coin } = useUnifiedCoinDetails({ slug });
   const { settings, updateSwapsPartial } = useUserSettings();
 
+  const { data: pairs, isPending } = useSupportedPairs(slug);
+
+  const hasSolanaPair =
+    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
+
   const totalSupply = coin?.marketData.total_supply ?? 0;
-  const showAmountInUsd = settings.swaps.showAmountInUsd;
+  const showAmountInUsd = hasSolanaPair ? settings.swaps.showAmountInUsd : true;
   const showMarketCap = settings.swaps.showMarketCap;
 
   const network = useActiveNetwork();
@@ -128,6 +134,7 @@ const AssetSwapsStream: React.FC<{ slug: string }> = ({ slug }) => {
             <div className="flex items-center gap-1">
               Amount
               <BtnConvertToUsd
+                disabled={!hasSolanaPair}
                 isUsd={showAmountInUsd}
                 onChange={() =>
                   updateSwapsPartial({ showAmountInUsd: !showAmountInUsd })
