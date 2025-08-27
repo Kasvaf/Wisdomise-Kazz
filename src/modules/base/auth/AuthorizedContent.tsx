@@ -17,7 +17,7 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (isLoggedIn && !isAuthorized && !isFetching && !isPending) {
-      navigate('/');
+      navigate('/trench');
     }
   }, [isAuthorized, isFetching, isLoggedIn, navigate, isPending]);
 
