@@ -87,7 +87,7 @@ export const CoinDetailsTabs: FC<{
   }, [tabs, selectedTab, pinnedTab, setSelectedTab]);
 
   return (
-    <div className="flex max-h-full min-h-full flex-col overflow-hidden">
+    <div className="flex max-h-full min-h-full max-w-full flex-col overflow-hidden">
       <div className="absolute top-1 right-0 z-20 flex shrink-0 items-center justify-start gap-px pe-2">
         {collapsable && (
           <Button
