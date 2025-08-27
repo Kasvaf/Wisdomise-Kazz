@@ -2,12 +2,13 @@ import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
+import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
@@ -15,10 +16,6 @@ import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import useIsMobile from 'utils/useIsMobile';
-import {
-  CoinPreDetailModal,
-  useCoinPreDetailModal,
-} from '../CoinPreDetailModal';
 import { SocialRadarSentiment } from '../SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../TechnicalRadar/TechnicalRadarSentiment';
 import { homeSubscriptionsConfig } from './constants';
@@ -35,24 +32,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     enabled: !coins.isLoading && isMobile,
   });
 
-  const [openModal, { closeModal, isModalOpen, selectedRow }] =
-    useCoinPreDetailModal<CoinRadarCoin>({
-      directNavigate: !focus,
-      slug: r => {
-        const contractAddress = r.networks?.find(
-          x => x.network.slug === globalNetwork,
-        )?.contract_address;
-        return {
-          network: globalNetwork,
-          slug: r.symbol.slug,
-          contractAddress,
-        };
-      },
-    });
-
-  const selectedRowSparklinePrices =
-    selectedRow?.social_radar_insight?.signals_analysis?.sparkline?.prices ??
-    selectedRow?.technical_radar_insight?.sparkline?.prices;
+  const navigate = useNavigate();
 
   const columns = useMemo<Array<TableColumn<CoinRadarCoin>>>(
     () => [
@@ -138,7 +118,11 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
               ?.contract_address === activeSlug
           }
           loading={coins.isLoading}
-          onClick={r => openModal(r)}
+          onClick={r => {
+            if (r.networks) {
+              navigate(generateTokenLink(r.networks));
+            }
+          }}
           rowClassName="id-tour-row"
           rowHoverSuffix={row => (
             <BtnQuickBuy
@@ -152,40 +136,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           surface={1}
         />
       </AccessShield>
-
-      <CoinPreDetailModal
-        categories={selectedRow?.symbol.categories}
-        coin={selectedRow?.symbol}
-        labels={selectedRow?.symbol_labels}
-        marketData={selectedRow?.market_data}
-        networks={selectedRow?.networks}
-        onClose={() => closeModal()}
-        open={isModalOpen}
-      >
-        {selectedRowSparklinePrices && (
-          <CoinPriceChart
-            socialIndexes={
-              selectedRow?.social_radar_insight?.signals_analysis?.sparkline
-                ?.indexes
-            }
-            value={selectedRowSparklinePrices ?? []}
-          />
-        )}
-        {selectedRow?.technical_radar_insight && (
-          <TechnicalRadarSentiment
-            className="w-full"
-            mode="semi_expanded"
-            value={selectedRow?.technical_radar_insight}
-          />
-        )}
-        {selectedRow?.social_radar_insight && (
-          <SocialRadarSentiment
-            className="w-full"
-            mode="expanded"
-            value={selectedRow.social_radar_insight}
-          />
-        )}
-      </CoinPreDetailModal>
     </div>
   );
 };

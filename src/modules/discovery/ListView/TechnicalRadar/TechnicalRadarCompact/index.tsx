@@ -1,14 +1,7 @@
-import type { TechnicalRadarCoin } from 'api/discovery';
+import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
 import type { FC } from 'react';
-import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { useNavigate } from 'react-router-dom';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import {
-  CoinPreDetailModal,
-  useCoinPreDetailModal,
-} from '../../CoinPreDetailModal';
-import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
-import TechnicalRadarSharingModal from '../TechnicalRadarSharingModal';
 import {
   type TechnicalRadarView,
   TechnicalRadarViewSelect,
@@ -16,27 +9,13 @@ import {
 import { TechnicalRadarCoinsCharts } from './TechnicalRadarCoinsCharts';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 
-export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
-  const [globalNetwork] = useGlobalNetwork();
+export const TechnicalRadarCompact: FC<{ focus?: boolean }> = () => {
   const [tab, setTab] = useSearchParamAsState<TechnicalRadarView>(
     'technical-radar-tab',
     'table',
   );
 
-  const [openModal, { closeModal, isModalOpen, selectedRow }] =
-    useCoinPreDetailModal<TechnicalRadarCoin>({
-      directNavigate: !focus,
-      slug: r => {
-        const contractAddress = r.networks?.find(
-          x => x.network.slug === globalNetwork,
-        )?.contract_address;
-        return {
-          slug: r.symbol.slug,
-          network: globalNetwork,
-          contractAddress,
-        };
-      },
-    });
+  const navigate = useNavigate();
 
   return (
     <div className="p-3">
@@ -48,35 +27,23 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         value={tab}
       />
       {tab === 'chart' && (
-        <TechnicalRadarCoinsCharts onClick={row => openModal(row)} />
+        <TechnicalRadarCoinsCharts
+          onClick={r => {
+            if (r.networks) {
+              navigate(generateTokenLink(r.networks));
+            }
+          }}
+        />
       )}
       {tab === 'table' && (
-        <TechnicalRadarCoinsTable onClick={row => openModal(row)} />
+        <TechnicalRadarCoinsTable
+          onClick={r => {
+            if (r.networks) {
+              navigate(generateTokenLink(r.networks));
+            }
+          }}
+        />
       )}
-      <CoinPreDetailModal
-        categories={selectedRow?.symbol.categories}
-        coin={selectedRow?.symbol}
-        hasShare={true}
-        labels={selectedRow?.symbol_labels}
-        marketData={selectedRow?.data}
-        networks={selectedRow?.networks}
-        onClose={() => closeModal()}
-        open={isModalOpen}
-      >
-        {selectedRow?.sparkline && (
-          <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />
-        )}
-        {selectedRow && (
-          <TechnicalRadarSentiment
-            className="w-full"
-            mode="expanded"
-            value={selectedRow}
-          />
-        )}
-        {selectedRow && (
-          <TechnicalRadarSharingModal coin={selectedRow} open={false} />
-        )}
-      </CoinPreDetailModal>
     </div>
   );
 };

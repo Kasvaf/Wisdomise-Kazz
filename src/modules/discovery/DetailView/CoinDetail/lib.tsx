@@ -1,5 +1,9 @@
 import { useLastPriceQuery } from 'api';
-import { useCoinDetails, useDetailedCoins } from 'api/discovery';
+import {
+  type CoinNetwork,
+  useCoinDetails,
+  useDetailedCoins,
+} from 'api/discovery';
 import { networkRadarGrpc } from 'api/grpc';
 import type {
   DevData,
@@ -11,7 +15,7 @@ import { useSymbolInfo } from 'api/symbol';
 import type { Coin } from 'api/types/shared';
 import { doesNCoinHaveSafeTopHolders } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { createContext, type FC, type ReactNode, useContext } from 'react';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
+import { getGlobalNetwork, useGlobalNetwork } from 'shared/useGlobalNetwork';
 
 export type ComplexSlug = {
   slug: string;
@@ -45,6 +49,17 @@ export const useResolveComplexSlug = (slugs: string[]): ComplexSlug | null => {
     network,
     slug,
   };
+};
+
+export const generateTokenLink = (coinNetworks: CoinNetwork[]) => {
+  const globalNetwork = getGlobalNetwork();
+  return [
+    '/token',
+    globalNetwork,
+    coinNetworks.find(x => x.network.slug === globalNetwork)?.contract_address,
+  ]
+    .filter(x => !!x)
+    .join('/');
 };
 
 export type UnifiedRisks = {
