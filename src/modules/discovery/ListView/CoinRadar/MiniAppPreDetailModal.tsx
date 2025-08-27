@@ -2,7 +2,6 @@ import { useHasFlag } from 'api';
 import { useCoinDetails } from 'api/discovery';
 import { bxSlider } from 'boxicons-quasar';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
@@ -23,7 +22,6 @@ const MiniAppPreDetailModal: React.FC<{
   const hasFlag = useHasFlag();
   const [slug, setSlug] = useState(slugArg);
   const isOpen = !!slug && !!slugArg;
-  const { getUrl } = useDiscoveryRouteMeta();
   useEffect(() => {
     if (slugArg) {
       setSlug(slugArg);
@@ -99,22 +97,12 @@ const MiniAppPreDetailModal: React.FC<{
                   categories={coinOverview.data?.symbol.categories}
                   labels={coinOverview.data?.symbol_labels}
                   networks={coinOverview.data?.networks}
-                  security={coinOverview.data?.security_data?.map(
-                    x => x.symbol_security,
-                  )}
                 />
               </div>
 
               <div className="flex flex-col items-stretch gap-4">
                 <div className="flex gap-3">
-                  <NavLink
-                    className="block basis-1/2"
-                    to={getUrl({
-                      detail: 'coin',
-                      view: 'both',
-                      slug,
-                    })}
-                  >
+                  <NavLink className="block basis-1/2" to={`/token/${slug}`}>
                     <Button
                       block
                       className="w-full"

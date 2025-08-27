@@ -3,7 +3,7 @@ import { useGrpcService } from 'api/grpc-utils';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
-import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/useUnifiedCoinDetails';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
@@ -23,10 +23,11 @@ import makeDataFeed from './makeDataFeed';
 import useCoinPoolInfo from './useCoinPoolInfo';
 
 const AdvancedChart: React.FC<{
-  slug: string;
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
   className?: string;
-}> = ({ slug, widgetRef, className }) => {
+}> = ({ widgetRef, className }) => {
+  const details = useUnifiedCoinDetails();
+  const slug = details.symbol.slug;
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   useSwapActivityLines(slug);
@@ -39,7 +40,6 @@ const AdvancedChart: React.FC<{
 
   const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
   const { data, isLoading } = useCoinPoolInfo(slug);
-  const { data: details } = useUnifiedCoinDetails({ slug });
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
     'tv-convert-to-usd',
     false,
@@ -47,7 +47,7 @@ const AdvancedChart: React.FC<{
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
   const marks = useSwapChartMarks(slug);
   const marksRef = useRef(marks);
-  const supply = details?.marketData.total_supply ?? 0;
+  const supply = details?.marketData.totalSupply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);

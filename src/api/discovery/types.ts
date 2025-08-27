@@ -51,58 +51,11 @@ export interface ExtendedMarketData extends MarketData {
     mean_price?: number | null;
   }>;
 }
-
-export interface NetworkSecurity {
-  network_name: string;
-  label: {
-    risk: number;
-    warning: number;
-    trusted: boolean;
-  };
-  detail: {
-    anti_whale_modifiable?: string | null;
-    buy_tax?: string | null;
-    can_take_back_ownership?: string | null;
-    cannot_buy?: string | null;
-    cannot_sell_all?: string | null;
-    creator_address?: string | null;
-    creator_balance?: string | null;
-    creator_percent?: string | null;
-    external_call?: string | null;
-    hidden_owner?: string | null;
-    holder_count?: string | null;
-    honeypot_with_same_creator?: string | null;
-    is_anti_whale?: string | null;
-    is_blacklisted?: string | null;
-    is_honeypot?: string | null;
-    is_in_dex?: string | null;
-    is_mintable?: string | null;
-    is_open_source?: string | null;
-    is_proxy?: string | null;
-    is_whitelisted?: string | null;
-    owner_address?: string | null;
-    gas_abuse?: string | null;
-    owner_balance?: string | null;
-    owner_change_balance?: string | null;
-    owner_percen?: string | null;
-    personal_slippage_modifiable?: string | null;
-    selfdestruct?: string | null;
-    sell_tax?: string | null;
-    slippage_modifiable?: string | null;
-    token_name?: string | null;
-    token_symbol?: string | null;
-    total_supply?: string | null;
-    trading_cooldown?: string | null;
-    transfer_pausable?: string | null;
-  };
-}
-
 export interface Network {
   slug: string;
   name: string;
   icon_url: string;
 }
-
 export interface CoinNetwork {
   network: Network;
   contract_address: string;
@@ -248,9 +201,6 @@ export interface CoinDetails {
   networks?: null | CoinNetwork[];
   symbol_labels?: null | string[];
   charts?: null | CoinChart[];
-  security_data?: null | Array<{
-    symbol_security: NetworkSecurity;
-  }>;
   community_data?: CoinCommunityData;
   symbol_pools?: Pool[] | null;
 }
@@ -360,9 +310,6 @@ export interface SingleWhale {
     recent_avg_sold?: null | number;
     remaining_percent?: null | number;
     symbol_labels?: null | string[];
-    symbol_security?: null | {
-      data: NetworkSecurity[];
-    };
     networks?: null | CoinNetwork[];
   }>;
   scanner_link?: null | {
@@ -456,9 +403,6 @@ export interface WhaleRadarCoin extends WhaleRadarSentiment {
   }>;
   networks: CoinNetwork[];
   data?: null | MiniMarketData;
-  symbol_security?: null | {
-    data: NetworkSecurity[];
-  };
   symbol_labels: string[];
 }
 
@@ -599,9 +543,6 @@ export interface IndicatorConfirmationCore {
   symbol: Coin;
   data?: null | MiniMarketData;
   symbol_labels?: null | string[];
-  symbol_security?: null | {
-    data?: null | NetworkSecurity[];
-  };
   networks?: null | CoinNetwork[];
   analysis?: null | string;
 }
@@ -681,9 +622,6 @@ export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
     rsi_score?: null | number;
     macd_score?: null | number;
     technical_sentiment: string;
-    symbol_security?: null | {
-      data?: null | NetworkSecurity[];
-    };
     symbol_labels?: null | string[];
     sparkline?: null | {
       prices?: null | Array<{
@@ -787,9 +725,6 @@ export interface SocialRadarCoin extends SocialRadarSentiment {
   rank: number;
   symbol_market_data: MarketData;
   symbol: Coin;
-  symbol_security?: null | {
-    data: NetworkSecurity[];
-  };
   signals_analysis: CoinSignalAnalysis;
   symbol_labels?: null | string[];
   networks?: null | CoinNetwork[];
@@ -877,136 +812,6 @@ export type SocialMessage =
   | SocialMessageTemplate<'twitter', TwitterMessage>
   | SocialMessageTemplate<'trading_view', TradingViewIdeasMessage>;
 
-/* Network Radar */
-export interface NetworkRadarNCoinStates {
-  mintable: boolean;
-  freezable: boolean;
-  burnt: boolean;
-  rugged: boolean;
-  safeTopHolders: boolean;
-  hasLargeTxns: boolean;
-  riskLevel: 'low' | 'medium' | 'high';
-  isNew: boolean;
-}
-
-export interface NCoinDeveloper {
-  address: string;
-  tokens: Array<{
-    contract_address: string;
-    creation_datetime: string;
-    market_cap: number;
-    symbol: null | Coin;
-  }>;
-}
-export interface NetworkRadarNCoin {
-  address: string;
-  base_contract_address: string;
-  base_symbol: Coin;
-  quote_symbol: Coin;
-  network: Network;
-  creation_datetime: string;
-  initial_liquidity: {
-    native: number;
-    usd: number;
-  };
-  base_symbol_security: {
-    lp_is_burned: {
-      status: string;
-    };
-    holders: Array<{
-      account: string;
-      balance: string;
-    }>;
-    mintable: {
-      status: string;
-    };
-    freezable: {
-      status: string;
-    };
-  };
-  base_community_data: CoinCommunityData;
-  update: {
-    total_num_buys: number;
-    total_num_sells: number;
-    total_trading_volume: {
-      native: number;
-      usd: number;
-    };
-    liquidity: {
-      native: number;
-      usd: number;
-    };
-    liquidity_change?: {
-      native: number;
-      percent: number;
-      usd: number;
-    };
-    base_market_data: {
-      current_price: number;
-      total_supply: number;
-      market_cap: number;
-    };
-  };
-  risks?: Array<{
-    name?: string;
-    description?: string;
-    level?: 'warn' | 'danger';
-    score?: number;
-    value?: string;
-  }>;
-  risk_percent?: number;
-  rugged?: boolean;
-}
-
-export interface NetworkRadarNCoinDetails extends NetworkRadarNCoin {
-  dev: NCoinDeveloper;
-  update: NetworkRadarNCoin['update'] & {
-    resolution: string;
-    num_buys: number;
-    num_sells: number;
-    buy_volume: {
-      native: number;
-      usd: number;
-    };
-    total_buy_volume: {
-      native: number;
-      usd: number;
-    };
-    sell_volume: {
-      native: number;
-      usd: number;
-    };
-    total_sell_volume: {
-      native: number;
-      usd: number;
-    };
-    trading_volume: {
-      native: number;
-      usd: number;
-    };
-    base_market_data: NetworkRadarNCoin['update']['base_market_data'] & {
-      total_volume?: null | number;
-      volume_24h?: null | number;
-      price_change_24h?: null | number;
-      liquidity?: null | {
-        native: number;
-        usd: number;
-      };
-      volume_1m?: null | number;
-      volume_change_1m?: null | number;
-      volume_5m?: null | number;
-      volume_change_5m?: null | number;
-      volume_1h?: null | number;
-      volume_change_1h?: null | number;
-      volume_1d?: null | number;
-      volume_change_1d?: null | number;
-    };
-  };
-  charts: CoinChart[];
-  base_symbol_labels: string[];
-  pools: Pool[];
-}
-
 /* Coin Radar */
 export interface CoinRadarCoin {
   rank: number;
@@ -1016,9 +821,6 @@ export interface CoinRadarCoin {
     | (RsiConfirmation & MacdConfirmation & TechnicalRadarSentiment);
   symbol: Coin;
   symbol_labels?: null | string[];
-  symbol_security?: null | {
-    data: NetworkSecurity[];
-  };
   total_score?: null | number;
   networks?: null | CoinNetwork[];
   market_data?: MiniMarketData;
@@ -1075,7 +877,6 @@ export interface DetailedCoin {
   symbol: Coin;
   symbol_community_links?: null | CoinCommunityData['links'];
   contract_address?: null | string;
-  symbol_security?: null | NetworkSecurity;
   symbol_market_data?: {
     volume_24h?: null | number;
     market_cap?: null | number;
@@ -1092,20 +893,6 @@ export type RadarsMetcis = Record<
     max_average_win_rate?: number | null;
   }
 >;
-
-export interface TokenInsight {
-  contract_address: string;
-  created_at: string;
-  total_supply: number;
-  creator_balance: number;
-  top_10_holders_holding_percentage: number;
-  dev_holding_percentage: number;
-  snipers_holding_percentage: number;
-  lp_burned_percentage: number;
-  total_holders: number;
-  insiders_holding_percentage: number;
-  bundlers_holding_percentage: number;
-}
 
 export interface CoinTopTraderHolder {
   network: string;

@@ -5,7 +5,6 @@ import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
 import PositionsList from 'modules/autoTrader/Positions/PositionsList';
 import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPair';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'shared/Button';
@@ -29,7 +28,6 @@ const PositionsExpandable = ({
 
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const wallet = useActiveWallet();
-  const { getUrl } = useDiscoveryRouteMeta();
   useEnsureIsSupportedPair({
     slug,
     nextPage: '/discovery?list=positions&view=list',
@@ -87,7 +85,7 @@ const PositionsExpandable = ({
                 if (isMobile) {
                   openTraderDrawer({ slug });
                 } else {
-                  navigate(getUrl({ view: 'both', slug }));
+                  navigate(`/trader/bot/${slug}`);
                 }
               }
             }}

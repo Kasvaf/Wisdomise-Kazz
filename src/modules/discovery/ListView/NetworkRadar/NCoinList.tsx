@@ -40,7 +40,7 @@ const NCoinMarketDataCol: FC<{
       <ReadableNumber
         className="align-middle font-medium text-[1.35em]"
         format={{
-          decimalLength: 2,
+          decimalLength: 1,
         }}
         label="$"
         popup="never"
@@ -54,7 +54,7 @@ const NCoinMarketDataCol: FC<{
       <ReadableNumber
         className="align-middle"
         format={{
-          decimalLength: 2,
+          decimalLength: 1,
         }}
         label="$"
         popup="never"
@@ -127,7 +127,7 @@ export const NCoinList: FC<{
   className?: string;
   loading?: boolean;
   mini?: boolean;
-  onRowClick?: (slug: string) => void;
+  onRowClick?: (row: TrenchStreamResponseResult) => void;
   source: 'new_pairs' | 'final_stretch' | 'migrated';
 }> = ({
   dataSource: _dataSource,
@@ -271,9 +271,9 @@ export const NCoinList: FC<{
                     : '-translate-y-14 opacity-0',
                 )}
                 key={row.symbol?.slug ?? ''}
-                onClick={() =>
-                  row.symbol?.slug && onRowClick?.(row.symbol.slug)
-                }
+                onClick={() => row && onRowClick?.(row)}
+                role="button"
+                tabIndex={0}
               >
                 {source === 'final_stretch' &&
                   row.networkData?.boundingCurve === 1 && (
@@ -298,13 +298,6 @@ export const NCoinList: FC<{
                       </>
                     }
                     href={false}
-                    links={{
-                      twitter_screen_name: row.socials?.twitter,
-                      telegram_channel_identifier: row.socials?.telegram,
-                      homepage: row.socials?.website
-                        ? [row.socials?.website]
-                        : [],
-                    }}
                     logo={row.symbol?.imageUrl}
                     marker={row.validatedData?.protocol?.logo}
                     name={row.symbol?.name}
@@ -327,6 +320,7 @@ export const NCoinList: FC<{
                     progressTitle="Bounding Curve: "
                     size={mini ? 'md' : 'lg'}
                     slug={row.symbol?.slug}
+                    socials={row.socials}
                     truncate={!!mini}
                   />
                 </div>

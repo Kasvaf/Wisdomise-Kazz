@@ -3,12 +3,11 @@ import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
-import { useUnifiedCoinDetails } from '../useUnifiedCoinDetails';
+import { useUnifiedCoinDetails } from '../lib';
 import { SocialMessageSummary } from './SocialMessage';
 
 export function CoinMessagesWidget({
   id,
-  slug,
   className,
   type,
   title,
@@ -16,15 +15,14 @@ export function CoinMessagesWidget({
   hr,
 }: {
   id?: string;
-  slug: string;
   className?: string;
   title?: boolean;
   limit?: boolean;
   type: 'technical_ideas' | 'rest';
   hr?: boolean;
 }) {
-  const { rawData } = useUnifiedCoinDetails({ slug });
-  const messages = useSocialRadarMessages({ slug });
+  const { symbol } = useUnifiedCoinDetails();
+  const messages = useSocialRadarMessages({ slug: symbol.slug });
   const { t } = useTranslation('coin-radar');
 
   const [expand, setExpand] = useState(!limit);
@@ -35,7 +33,7 @@ export function CoinMessagesWidget({
       : x.social_type !== 'trading_view',
   );
 
-  if (!msgs?.length || !!rawData.data2) return null;
+  if (!msgs?.length) return null;
 
   return (
     <>

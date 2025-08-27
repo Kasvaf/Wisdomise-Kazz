@@ -38,7 +38,7 @@ export function CoinCategoryLabel({
       disabled={!clickable}
       title={
         <div className="max-h-[300px] mobile:max-h-max min-w-48 space-y-2">
-          <h4 className="border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 font-medium text-base">
+          <h4 className="border-b border-b-v1-content-primary/10 pb-2 font-medium text-base">
             {t('common.categories')}:
           </h4>
           {value.map(cat => (

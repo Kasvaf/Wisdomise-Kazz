@@ -4,16 +4,15 @@ import { type FC, useMemo } from 'react';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { useUnifiedCoinDetails } from './lib';
 
 export const NCoinRisksBanner: FC<{
-  slug: string;
   className?: string;
-}> = ({ slug, className }) => {
-  const { data } = useUnifiedCoinDetails({ slug });
+}> = ({ className }) => {
+  const { risks: rawRisks } = useUnifiedCoinDetails();
 
   const risks = useMemo(() => {
-    const raw = data?.risks?.list ?? [];
+    const raw = rawRisks?.risks ?? [];
     return [...raw]
       .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
       .sort(
@@ -33,7 +32,7 @@ export const NCoinRisksBanner: FC<{
             ? clsx('bg-v1-background-negative/20')
             : clsx('bg-v1-background-notice/15'),
       }));
-  }, [data]);
+  }, [rawRisks]);
 
   if (risks.length === 0) return null;
 

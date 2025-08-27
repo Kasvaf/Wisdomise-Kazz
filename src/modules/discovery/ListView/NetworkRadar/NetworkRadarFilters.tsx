@@ -22,7 +22,8 @@ const TabLabel: FC<{
   onReset: Dispatch<SetStateAction<Partial<NetworkRadarStreamFilters>>>;
   label: ReactNode;
   value: NetworkRadarTab;
-}> = ({ state, onReset, label, value }) => {
+  activeTab: NetworkRadarTab;
+}> = ({ state, onReset, label, value, activeTab }) => {
   const hasCustomFilters = useMemo(
     () =>
       Object.entries(state?.[value] ?? {}).some(([, val]) =>
@@ -38,7 +39,10 @@ const TabLabel: FC<{
       {hasCustomFilters && '*'}{' '}
       {hasCustomFilters && (
         <button
-          onClick={() => onReset(p => ({ ...p, [value]: {} }))}
+          onClick={() => {
+            if (value !== activeTab) return;
+            onReset(p => ({ ...p, [value]: {} }));
+          }}
           type="button"
         >
           <Icon name={bxRotateLeft} size={18} />
@@ -109,6 +113,7 @@ export const NetworkRadarFilters: FC<
                     value: 'new_pairs',
                     label: (
                       <TabLabel
+                        activeTab={tab}
                         label="New Pairs"
                         onReset={setState}
                         state={state}
@@ -120,6 +125,7 @@ export const NetworkRadarFilters: FC<
                     value: 'final_stretch',
                     label: (
                       <TabLabel
+                        activeTab={tab}
                         label="Final Stretch"
                         onReset={setState}
                         state={state}
@@ -131,6 +137,7 @@ export const NetworkRadarFilters: FC<
                     value: 'migrated',
                     label: (
                       <TabLabel
+                        activeTab={tab}
                         label="Migrated"
                         onReset={setState}
                         state={state}

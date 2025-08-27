@@ -1,8 +1,8 @@
+import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { HoverTooltip } from 'shared/HoverTooltip';
@@ -38,16 +38,14 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
   } = useNetworkRadarStream(lazyFilters);
 
   const navigate = useNavigate();
-  const { getUrl } = useDiscoveryRouteMeta();
 
-  const onRowClick = (_tab: NetworkRadarTab, slug: string) => {
-    navigate(
-      getUrl({
-        detail: 'coin',
-        slug,
-        view: 'both',
-      }),
-    );
+  const onRowClick = (
+    _tab: NetworkRadarTab,
+    row: TrenchStreamResponseResult,
+  ) => {
+    if (row.symbol?.network && row.symbol?.base)
+      return navigate(`/token/${row.symbol?.network}/${row.symbol?.base}`);
+    navigate(`/token/${row.symbol?.slug}`);
   };
 
   return (
@@ -70,7 +68,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       <NCoinList
         dataSource={newPairs.data?.results ?? []}
         loading={newPairs.isLoading}
-        onRowClick={slug => onRowClick('new_pairs', slug)}
+        onRowClick={row => onRowClick('new_pairs', row)}
         source="new_pairs"
         title="New Pairs"
         titleSuffix={
@@ -95,7 +93,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       <NCoinList
         dataSource={finalStretch.data?.results ?? []}
         loading={finalStretch.isLoading}
-        onRowClick={slug => onRowClick('final_stretch', slug)}
+        onRowClick={row => onRowClick('final_stretch', row)}
         source="final_stretch"
         title="Final Stretch"
         titleSuffix={
@@ -120,7 +118,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
       <NCoinList
         dataSource={migrated.data?.results ?? []}
         loading={migrated.isLoading}
-        onRowClick={slug => onRowClick('migrated', slug)}
+        onRowClick={row => onRowClick('migrated', row)}
         source="migrated"
         title="Migrated"
         titleSuffix={

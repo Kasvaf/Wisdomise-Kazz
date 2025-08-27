@@ -16,7 +16,6 @@ import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConne
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
 import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Badge from 'shared/Badge';
@@ -137,7 +136,6 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   const { address: activeAddress } = useActiveWallet();
   const { withdrawDepositModal } = useWalletActionHandler();
   const [copy, notif] = useShare('copy');
-  const { getUrl } = useDiscoveryRouteMeta();
   const navigate = useNavigate();
   const { balance } = useSolanaWalletBalanceInUSD(
     wallet ? wallet?.address : address,
@@ -184,11 +182,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         {wallet ? (
           <Button
             className="!bg-transparent"
-            onClick={() =>
-              navigate(
-                getUrl({ slug: wallet.key, detail: 'wallet', view: 'detail' }),
-              )
-            }
+            onClick={() => navigate(`/wallet/${wallet.key}`)}
             size="xs"
             variant="outline"
           >

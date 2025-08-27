@@ -25,7 +25,6 @@ import type {
   IndicatorHeatmapResolution,
   MacdConfirmation,
   Network,
-  NetworkRadarNCoinDetails,
   RadarsMetcis,
   RedditMessage,
   RsiConfirmation,
@@ -37,7 +36,6 @@ import type {
   TechnicalRadarCoin,
   TechnicalRadarSentiment,
   TelegramMessage,
-  TokenInsight,
   TradingViewIdeasMessage,
   TwitterAccount,
   TwitterFollowedAccount,
@@ -130,7 +128,6 @@ export const useSocialRadarCoins = (config: {
   networks?: string[];
   exchanges?: string[];
   sources?: string[];
-  securityLabels?: string[];
   trendLabels?: string[];
 }) => {
   const [globalNetwork] = useGlobalNetwork();
@@ -161,8 +158,7 @@ export const useSocialRadarCoins = (config: {
             ]).array(row.networks?.map(x => x.network.slug)) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
             !matcher(config.exchanges).array(row.exchanges_name) ||
-            !matcher(config.sources).array(row.sources) ||
-            !matcher(config.securityLabels).security(row.symbol_security?.data)
+            !matcher(config.sources).array(row.sources)
           )
             return false;
           return true;
@@ -549,7 +545,6 @@ export const useWhaleRadarCoins = (config: {
   query?: string;
   categories?: string[];
   networks?: string[];
-  securityLabels?: string[];
   trendLabels?: string[];
   profitableOnly?: boolean;
   excludeNativeCoins?: boolean;
@@ -579,9 +574,6 @@ export const useWhaleRadarCoins = (config: {
               ...(config.networks ?? []),
             ]).array(row.networks.map(x => x.network.slug)) ||
             !matcher(config.trendLabels).array(row.symbol_labels) ||
-            !matcher(config.securityLabels).security(
-              row.symbol_security?.data,
-            ) ||
             (config.profitableOnly && !row.profitable) ||
             (config.excludeNativeCoins &&
               row.networks.some(x => x.symbol_network_type === 'COIN'))
@@ -1000,26 +992,6 @@ export const useCoinDetails = ({
     refetchInterval: 5 * 60 * 1000,
   });
 
-export const useNCoinDetails = ({ slug }: { slug?: string }) =>
-  useQuery({
-    queryKey: ['ncoin-details', slug],
-    queryFn: () => {
-      if (!slug) return null;
-      return ofetch<NetworkRadarNCoinDetails>(
-        'delphi/market/unified-coin-details/',
-        {
-          meta: { auth: false },
-          query: {
-            slug,
-          },
-        },
-      ).catch(() => null);
-    },
-    select: x => (x?.creation_datetime ? x : null),
-    refetchOnMount: true,
-    refetchInterval: 30 * 1000,
-  });
-
 export const useRadarsMetrics = () =>
   useQuery({
     queryKey: ['radars-metrics'],
@@ -1027,36 +999,6 @@ export const useRadarsMetrics = () =>
       ofetch<RadarsMetcis>('delphi/intelligence/coin-radar/metrics/'),
     refetchOnMount: true,
     refetchInterval: 30 * 60 * 1000,
-  });
-
-export const useTokenInsight = ({
-  contractAddress,
-}: {
-  contractAddress?: string;
-}) =>
-  useQuery({
-    refetchOnMount: true,
-    refetchInterval: 30 * 1000,
-    queryKey: ['token-insight', contractAddress],
-    queryFn: async () => {
-      if (!contractAddress) return null;
-      try {
-        const data = await ofetch<TokenInsight>(
-          'delphi/intelligence/new-born/insights/',
-          {
-            query: {
-              contract_address: contractAddress,
-            },
-          },
-        );
-        return data;
-      } catch (error) {
-        if (error instanceof FetchError && error.status === 500) {
-          return null;
-        }
-        throw error;
-      }
-    },
   });
 
 export const useCoinTopTraderHolders = (config: {

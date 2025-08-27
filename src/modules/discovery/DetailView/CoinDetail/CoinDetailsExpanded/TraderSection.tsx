@@ -3,14 +3,15 @@ import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
+import { useUnifiedCoinDetails } from '../lib';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
 const TraderSection: React.FC<{
-  slug: string;
   quote: string;
   setQuote: (newVal: string) => void;
-}> = ({ slug, quote, setQuote }) => {
-  slug = slug === 'solana' ? 'wrapped-solana' : slug;
+}> = ({ quote, setQuote }) => {
+  const { symbol } = useUnifiedCoinDetails();
+  const slug = symbol.slug === 'solana' ? 'wrapped-solana' : symbol.slug;
   const { data: supportedPairs, isLoading, error } = useSupportedPairs(slug);
 
   return (

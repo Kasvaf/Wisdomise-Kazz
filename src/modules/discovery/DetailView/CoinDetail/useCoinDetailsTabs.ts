@@ -38,18 +38,18 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
         value: 'coinoverview_pools',
         label: t('coin-details.tabs.pools.label'),
       },
-      {
-        value: 'coinoverview_exchanges',
-        label: t('coin-details.tabs.markets.label'),
-      },
-      {
-        value: 'coinoverview_active_whales',
-        label: 'Active Whales',
-      },
-      {
-        value: 'coinoverview_holding_whales',
-        label: 'Holding Whales',
-      },
+      // {
+      //   value: 'coinoverview_exchanges',
+      //   label: t('coin-details.tabs.markets.label'),
+      // },
+      // {
+      //   value: 'coinoverview_active_whales',
+      //   label: 'Active Whales',
+      // },
+      // {
+      //   value: 'coinoverview_holding_whales',
+      //   label: 'Holding Whales',
+      // },
     ],
   );
 

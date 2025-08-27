@@ -98,7 +98,6 @@ function ConfirmationRow<I extends Indicator>({
             logo={value.symbol.logo_url}
             name={value.symbol.name}
             networks={value.networks}
-            security={value.symbol_security?.data}
             slug={value.symbol.slug}
           />
         </div>

@@ -1,16 +1,12 @@
-import type {
-  CoinCommunityData,
-  CoinNetwork,
-  NetworkSecurity,
-} from 'api/discovery';
+import type { CoinCommunityData, CoinNetwork } from 'api/discovery';
+import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import type { Coin as CoinType } from 'api/types/shared';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { CoinCommunityLinks } from 'shared/CoinCommunityLinks';
 import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
+import { CoinSocials } from 'shared/CoinSocials';
 import Icon from 'shared/Icon';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
@@ -42,9 +38,8 @@ export const Coin: FC<{
   /* Labels */
   categories?: CoinType['categories'] | null;
   networks?: CoinNetwork[] | null;
-  security?: NetworkSecurity[] | null;
   labels?: string[] | null;
-  links?: CoinCommunityData['links'] | null;
+  socials?: CoinCommunityData['links'] | SymbolSocailAddresses | null;
 
   /* Common */
   className?: string;
@@ -70,9 +65,8 @@ export const Coin: FC<{
 
   categories,
   networks,
-  security,
   labels,
-  links,
+  socials,
 
   className,
   block,
@@ -152,7 +146,6 @@ export const Coin: FC<{
   }, [globalNetwork, networks]);
 
   const RootComponent = href ? Link : 'div';
-  const { getUrl } = useDiscoveryRouteMeta();
 
   return (
     <RootComponent
@@ -165,13 +158,13 @@ export const Coin: FC<{
       to={
         typeof href === 'string'
           ? href
-          : href && slug
-            ? getUrl({
-                detail: 'coin',
-                slug,
-                view: 'both',
-              })
-            : '#'
+          : !href
+            ? '#'
+            : contractAddress
+              ? `/token/${contractAddress.network?.slug ?? globalNetwork}${contractAddress.value ? `/${contractAddress.value}` : ''}`
+              : slug
+                ? `/token/${slug}`
+                : '#'
       }
     >
       <div
@@ -270,10 +263,10 @@ export const Coin: FC<{
               className={clsx(
                 'font-bold',
                 size === 'md' ? 'text-sm' : 'text-base',
-                truncate && [
-                  size === 'md' ? 'max-w-32' : 'max-w-20',
-                  'overflow-hidden truncate',
-                ],
+                truncate
+                  ? [size === 'md' ? 'max-w-32' : 'max-w-20']
+                  : 'max-w-36',
+                'overflow-hidden truncate',
               )}
               title={abbreviation}
             >
@@ -283,19 +276,19 @@ export const Coin: FC<{
           <CoinLabels
             categories={categories}
             labels={[...(labels ?? [])].filter(x => !!x)}
-            security={security ?? []}
             size="xs"
             truncate={truncate}
           />
-          <CoinCommunityLinks
+          <CoinSocials
             abbreviation={abbreviation}
-            contractAddresses={networks
-              ?.map(x => x.contract_address)
-              .filter(x => !!x)}
-            includeTwitterSearch={!truncate}
+            contractAddress={
+              networks?.filter(x => x.network.slug === globalNetwork)?.[0]
+                ?.contract_address
+            }
+            hideSearch={truncate}
             name={name}
             size="xs"
-            value={links}
+            value={socials}
           />
           {customLabels}
         </div>
@@ -305,10 +298,10 @@ export const Coin: FC<{
               className={clsx(
                 'font-light',
                 size === 'md' ? 'text-xs' : 'text-sm',
-                truncate && [
-                  size === 'md' ? 'max-w-16' : 'max-w-32',
-                  'overflow-hidden truncate',
-                ],
+                truncate
+                  ? [size === 'md' ? 'max-w-16' : 'max-w-12']
+                  : 'max-w-36',
+                'overflow-hidden truncate',
               )}
               title={name}
             >

@@ -1,6 +1,7 @@
 import type { TechnicalRadarCoin } from 'api/discovery';
 import type { FC } from 'react';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import {
   CoinPreDetailModal,
@@ -16,6 +17,7 @@ import { TechnicalRadarCoinsCharts } from './TechnicalRadarCoinsCharts';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 
 export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
+  const [globalNetwork] = useGlobalNetwork();
   const [tab, setTab] = useSearchParamAsState<TechnicalRadarView>(
     'technical-radar-tab',
     'table',
@@ -24,7 +26,16 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const [openModal, { closeModal, isModalOpen, selectedRow }] =
     useCoinPreDetailModal<TechnicalRadarCoin>({
       directNavigate: !focus,
-      slug: r => r.symbol.slug,
+      slug: r => {
+        const contractAddress = r.networks?.find(
+          x => x.network.slug === globalNetwork,
+        )?.contract_address;
+        return {
+          slug: r.symbol.slug,
+          network: globalNetwork,
+          contractAddress,
+        };
+      },
     });
 
   return (
@@ -51,7 +62,6 @@ export const TechnicalRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         networks={selectedRow?.networks}
         onClose={() => closeModal()}
         open={isModalOpen}
-        security={selectedRow?.symbol_security?.data}
       >
         {selectedRow?.sparkline && (
           <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />

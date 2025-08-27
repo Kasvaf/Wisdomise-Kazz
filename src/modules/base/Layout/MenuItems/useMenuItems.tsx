@@ -1,4 +1,4 @@
-import type { DiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
+import type { DiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
@@ -12,7 +12,7 @@ import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
 
 interface MenuItem {
   link: string;
-  meta: Partial<DiscoveryRouteMeta>;
+  meta: Required<Pick<DiscoveryParams, 'list'>>;
   icon: FC<{ className?: string }>;
   text: string;
   crumb: string;
@@ -25,25 +25,25 @@ export const useMenuItems = () => {
   return useMemo<MenuItem[]>(
     () => [
       {
-        link: '/discovery?list=network-radar',
+        link: '/trench',
         meta: {
-          list: 'network-radar',
+          list: 'trench',
         },
         icon: NetworkRadarIcon,
         text: 'Trench',
         crumb: 'Trench',
       },
       {
-        link: '/discovery?list=coin-radar',
+        link: '/bluechips',
         meta: {
-          list: 'coin-radar',
+          list: 'bluechips',
         },
         icon: CoinRadarIcon,
         text: 'Bluechips',
         crumb: 'Bluechips',
       },
       {
-        link: '/discovery?list=whale-radar',
+        link: '/whale-radar',
         meta: {
           list: 'whale-radar',
         },
@@ -52,7 +52,7 @@ export const useMenuItems = () => {
         crumb: 'Whale Radar',
       },
       {
-        link: '/discovery?list=social-radar',
+        link: '/social-radar',
         meta: {
           list: 'social-radar',
         },
@@ -61,7 +61,7 @@ export const useMenuItems = () => {
         crumb: 'Social Radar',
       },
       {
-        link: '/discovery?list=technical-radar',
+        link: '/technical-radar',
         meta: {
           list: 'technical-radar',
         },
@@ -70,7 +70,7 @@ export const useMenuItems = () => {
         crumb: 'Technical Radar',
       },
       {
-        link: '/discovery?list=portfolio',
+        link: '/portfolio',
         meta: {
           list: 'portfolio',
         },
@@ -79,7 +79,7 @@ export const useMenuItems = () => {
         crumb: 'Portfolio',
       },
       {
-        link: '/discovery?list=positions',
+        link: '/positions',
         meta: {
           list: 'positions',
         },
@@ -89,7 +89,7 @@ export const useMenuItems = () => {
         hide: isMobile,
       },
       {
-        link: '/discovery?list=twitter-tracker',
+        link: '/twitter-tracker',
         meta: {
           list: 'twitter-tracker',
         },

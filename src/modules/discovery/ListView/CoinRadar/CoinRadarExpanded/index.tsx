@@ -47,7 +47,6 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             logo={row.symbol.logo_url}
             name={row.symbol.name}
             networks={row.networks}
-            security={row.symbol_security?.data}
             slug={row.symbol.slug}
             truncate={false}
           />

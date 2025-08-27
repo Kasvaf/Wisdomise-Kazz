@@ -5,7 +5,6 @@ import { bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import type { EChartsOption, ScatterSeriesOption } from 'echarts';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type FC, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +26,6 @@ export const TechnicalRadarChart: FC<{
   const { t } = useTranslation('market-pulse');
   const isMobile = useIsMobile();
   const el = useRef<HTMLDivElement>(null);
-  const { getUrl } = useDiscoveryRouteMeta();
   const { capture } = useScreenshot(el, {
     backgroundColor: '#1D1E23', // v1-surface-l3
     fileName: `${type}-${Date.now()}`,
@@ -319,11 +317,7 @@ export const TechnicalRadarChart: FC<{
                 }, 10);
               } else {
                 navigate(
-                  getUrl({
-                    detail: 'coin',
-                    slug: parsedData.data[e.dataIndex].raw.symbol.slug,
-                    view: 'both',
-                  }),
+                  `/token/${parsedData.data[e.dataIndex].raw.symbol.slug}`,
                 );
               }
             }

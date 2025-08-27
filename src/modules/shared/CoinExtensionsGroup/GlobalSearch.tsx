@@ -1,6 +1,5 @@
 import { useDetailedCoins, useNetworks } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
-import { useDiscoveryRouteMeta } from 'modules/discovery/useDiscoveryRouteMeta';
 import { type ComponentProps, type FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +42,6 @@ export const GlobalSearch: FC<
   );
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
-  const { getUrl } = useDiscoveryRouteMeta();
 
   const coins = useDetailedCoins({
     query: debouncedQuery,
@@ -57,24 +55,17 @@ export const GlobalSearch: FC<
       dialogClassName="w-[520px] mobile:w-auto"
       loading={coins.isLoading}
       multiple={false}
-      onChange={slug => {
-        if (slug)
-          navigate(
-            getUrl({
-              detail: 'coin',
-              slug,
-              view: 'both',
-            }),
-          );
+      onChange={ca => {
+        if (network) navigate(`/token/${network}${ca ? `/${ca}` : ''}`);
       }}
       onSearch={setQuery}
-      options={coins.data?.map?.(x => x.symbol.slug)}
+      options={coins.data?.map?.(x => x.contract_address)}
       placeholder={t('search_coins')}
       prefixIcon={
         <Icon className="text-v1-content-secondary" name={bxSearch} />
       }
       render={opt => {
-        const row = coins.data?.find?.(x => x.symbol.slug === opt);
+        const row = coins.data?.find?.(x => x.contract_address === opt);
         if (!row) return '';
         return (
           <div className="flex items-center justify-between gap-4 mobile:px-1 px-2 py-3">
@@ -83,7 +74,6 @@ export const GlobalSearch: FC<
               categories={row.symbol.categories}
               href={false}
               labels={row.symbol_labels}
-              links={row.symbol_community_links}
               logo={row.symbol?.logo_url}
               name={row.symbol?.name}
               networks={
@@ -101,8 +91,8 @@ export const GlobalSearch: FC<
                   },
                 ]
               }
-              security={row.symbol_security ? [row.symbol_security] : null}
               slug={row.symbol?.slug}
+              socials={row.symbol_community_links}
             />
             <div className="flex grow items-center justify-end gap-4 mobile:gap-2 justify-self-end whitespace-nowrap text-xs [&_label]:text-v1-content-secondary">
               <p>

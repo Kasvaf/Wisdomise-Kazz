@@ -26,7 +26,7 @@ export default function PageRef() {
         return;
       }
     }
-    navigate('/');
+    navigate('/trench');
   }, [navigate, referrerCode, searchParams]);
 
   return null;

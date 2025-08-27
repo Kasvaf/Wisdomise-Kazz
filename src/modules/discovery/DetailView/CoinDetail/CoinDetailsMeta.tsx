@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { formatNumber } from 'utils/numbers';
-import { useUnifiedCoinDetails } from './useUnifiedCoinDetails';
+import { useUnifiedCoinDetails } from './lib';
 
-export function CoinDetailsMeta({ slug }: { slug: string }) {
-  const { data } = useUnifiedCoinDetails({ slug });
+export function CoinDetailsMeta() {
+  const data = useUnifiedCoinDetails();
   const coinName = data?.symbol
     ? `${data?.symbol.name ?? '---'}${
         (data?.symbol.abbreviation ?? '---').toLowerCase() ===
@@ -14,8 +14,8 @@ export function CoinDetailsMeta({ slug }: { slug: string }) {
     : '';
 
   const livePrice =
-    typeof data?.marketData?.current_price === 'number'
-      ? `${formatNumber(data?.marketData?.current_price, {
+    typeof data?.marketData?.currentPrice === 'number'
+      ? `${formatNumber(data?.marketData?.currentPrice, {
           compactInteger: true,
           decimalLength: 2,
           minifyDecimalRepeats: true,

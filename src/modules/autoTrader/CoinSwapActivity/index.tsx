@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { useSearchParams } from 'react-router-dom';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
 import { formatNumber } from 'utils/numbers';
@@ -48,11 +48,9 @@ export function SolanaCoin() {
 }
 
 export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
-  const [searchParams] = useSearchParams();
+  const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
-  const { data } = useTraderAssetActivity(
-    searchParams.get('slug') ?? undefined,
-  );
+  const { data } = useTraderAssetActivity(symbol.slug ?? undefined);
   const isLoggedIn = useIsLoggedIn();
   const hasFlag = useHasFlag();
 
@@ -68,7 +66,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const lastCandle = delphinusGrpc.useLastCandleStreamLastValue({
     market: 'SPOT',
     network,
-    baseSlug: searchParams.get('slug') ?? '',
+    baseSlug: symbol.slug ?? '',
     quoteSlug: 'wrapped-solana',
     convertToUsd: showUsd,
   });
