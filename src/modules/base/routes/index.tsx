@@ -11,9 +11,9 @@ const useRoutes = () => {
       element: <Boundary />,
       children: [
         ...useAccountRoutes(),
-        ...useDiscoveryRoutes(),
         ...useEmbeddedRoutes(),
         ...useAutoTraderRoutes(),
+        ...useDiscoveryRoutes(),
       ],
     },
   ] satisfies RouteObject[];
