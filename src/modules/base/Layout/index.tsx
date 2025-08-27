@@ -45,7 +45,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
           ? '0px'
           : '0px' /* '1.75rem' */,
         ['--desktop-content-height' as never]:
-          'calc(100svh - var(--desktop-header-height) - var(--route-details-height))',
+          'calc(100svh - var(--desktop-header-height) - 1.5rem)',
         ['--desktop-content-top' as never]:
           'calc(var(--desktop-header-height) + var(--route-details-height))',
       }}

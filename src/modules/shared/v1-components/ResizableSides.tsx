@@ -97,7 +97,7 @@ export const ResizableSides: FC<{
     >
       <div
         className={clsx(
-          'scrollbar-thin relative shrink-0 overflow-auto',
+          'scrollbar-none relative shrink-0 overflow-auto',
           direction === 'row'
             ? 'max-h-[calc(100%-0.75rem)]'
             : 'max-w-[calc(100%-0.75rem)]',
@@ -111,8 +111,8 @@ export const ResizableSides: FC<{
         className={clsx(
           'group relative flex shrink-0 items-center justify-center',
           direction === 'row'
-            ? 'h-3 max-h-3 min-h-3 w-full cursor-row-resize'
-            : 'h-full w-3 min-w-3 max-w-3 cursor-col-resize',
+            ? 'h-3 max-h-3 min-h-3 w-auto cursor-row-resize'
+            : 'h-auto w-3 min-w-3 max-w-3 cursor-col-resize',
         )}
         ref={dividerRef}
       >
@@ -133,7 +133,7 @@ export const ResizableSides: FC<{
       </div>
       <div
         className={clsx(
-          'scrollbar-thin relative shrink overflow-auto',
+          'scrollbar-none relative shrink overflow-auto',
           className?.[1],
         )}
       >

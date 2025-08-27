@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
+import { Table } from 'shared/v1-components/Table';
 import { useUnifiedCoinDetails } from '../lib';
 import { SocialMessageSummary } from './SocialMessage';
 
@@ -33,13 +34,11 @@ export function CoinMessagesWidget({
       : x.social_type !== 'trading_view',
   );
 
-  if (!msgs?.length) return null;
-
   return (
     <>
       <div
         className={clsx(
-          'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
+          'relative flex flex-col gap-3 overflow-auto overflow-x-hidden',
           className,
         )}
         id={id}
@@ -51,18 +50,30 @@ export function CoinMessagesWidget({
               : t('coin-details.tabs.socials.title')}
           </h3>
         )}
-        {msgs?.slice(0, expand ? undefined : 3).map(msg => (
-          <SocialMessageSummary key={msg.id} message={msg} />
-        ))}
-        {(msgs?.length ?? 0) > 3 && !expand && (
-          <Button
-            onClick={() => setExpand(true)}
-            size="xs"
+        {messages.isLoading || msgs?.length === 0 ? (
+          <Table
+            columns={[]}
+            dataSource={msgs}
+            loading={messages.isLoading}
+            scrollable
             surface={1}
-            variant="link"
-          >
-            {`Load ${(msgs?.length ?? 0) - 3} More Messages`}
-          </Button>
+          />
+        ) : (
+          <>
+            {msgs?.slice(0, expand ? undefined : 3).map(msg => (
+              <SocialMessageSummary key={msg.id} message={msg} />
+            ))}
+            {(msgs?.length ?? 0) > 3 && !expand && (
+              <Button
+                onClick={() => setExpand(true)}
+                size="xs"
+                surface={1}
+                variant="link"
+              >
+                {`Load ${(msgs?.length ?? 0) - 3} More Messages`}
+              </Button>
+            )}
+          </>
         )}
       </div>
       {hr && <hr className="border-white/10" />}
