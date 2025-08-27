@@ -1,15 +1,8 @@
 common:
-  buy: Buy
   buy_sell: TXNS
-  buy_vol: Buy Vol
-  initial_liquidity: Initial Liquidity
-  liquidity: Liquidity
   marketcap: Market Cap
   risk: Risk
-  sell: Sell
-  sell_vol: Sell Vol
   validation_insights: Validation Insights
-  volume: Volume
 page:
   title: Trenches
   info: >-

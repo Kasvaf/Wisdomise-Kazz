@@ -33,7 +33,6 @@ exchange: Exchange
 filtered-by: Filtered by
 filters: Filters
 load-more: Load More
-loading: Loading…
 not-available: N/A
 nothing-to-show: >-
   Looks like there's nothing here yet! Try adjusting your filters or check back
@@ -43,9 +42,6 @@ recently: Recently
 recommended-size: Recommended Size
 reset_filters: Reset All Filters
 search_coins: Coins, Abbv and Contract Address
-security_label: Security Label
-select-detail-first: Select a Coin to See Details
-select-detail-first-description: For trading please, first you should select a coin from tracker list.
 show-more: Show more
 soon: Soon
 sorted-by: Sorted by

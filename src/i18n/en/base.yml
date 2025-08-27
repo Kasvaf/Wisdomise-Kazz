@@ -28,15 +28,11 @@ menu:
     title: Wise Club
     subtitle: Join Wise Club, manage your subscription, renew, and view invoices
     remains: remains
-  coin:
-    title: Coin
   coin-radar:
     full-title: Top Trending Coins from Socials, Confirmed by Technical Analysis
   game-rewards:
     title: Claim Wiseboy Rewards
     subtitle: Collect your earned rewards in Wiseboy and enjoy the benefits!
-  home:
-    title: Home
   profile:
     title: My Profile
     subtitle: Manage your socials, profile picture, personal info, and bio
@@ -49,8 +45,6 @@ menu:
   token:
     title: WSDM Token
     subtitle: Migrate your tWSDM, withdraw your investments
-  whale:
-    title: Whale
 new: New
 user:
   sign-in: Sign In
