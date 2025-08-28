@@ -226,6 +226,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
         loading={isLoading}
         rowClassName="relative"
         scrollable
+        size="sm"
         surface={1}
       />
     </div>

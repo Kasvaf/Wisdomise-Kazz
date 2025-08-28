@@ -33,6 +33,7 @@ export function Table<RecordType extends object>({
   scrollable,
   chunkSize = 48,
   footer,
+  size = 'md',
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
 
@@ -109,6 +110,7 @@ export function Table<RecordType extends object>({
     <div
       className={clsx('wsdm-table', className)}
       data-scrollable={scrollable ? 'true' : 'false'}
+      data-size={size}
       ref={root}
       style={{
         ['--current-color' as never]: colors.current,
