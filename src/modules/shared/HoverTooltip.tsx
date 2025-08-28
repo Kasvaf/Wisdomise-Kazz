@@ -57,8 +57,8 @@ export function HoverTooltip({
         {children}
       </span>
       <Dialog
-        className="!max-w-[400px] border-white/10 md:border"
-        contentClassName="p-3 text-sm text-v1-content-primary"
+        className="!max-w-[400px] pointer-events-none border-white/10 md:border"
+        contentClassName="p-2 text-xs text-v1-content-primary"
         ignoreFocus={ignoreFocus}
         mode="popup"
         onClose={() => onOpenChange?.(false)}
