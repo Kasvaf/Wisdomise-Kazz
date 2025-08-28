@@ -213,7 +213,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
             render: row => (
               <button onClick={() => openInScan('solana', { tx: row.txId })}>
                 <ReadableDate
-                  className="text-xs"
+                  className="text-xs hover:underline"
                   suffix=""
                   value={row.relatedAt}
                 />
