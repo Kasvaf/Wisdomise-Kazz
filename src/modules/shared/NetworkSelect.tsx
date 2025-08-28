@@ -33,7 +33,7 @@ export function NetworkSelect<M extends boolean>({
     <Select
       chevron={!iconOnly}
       className={clsx(className, iconOnly && ['!p-0 aspect-square'])}
-      loading={options.isLoading}
+      loading={options.isLoading || options.isPending}
       onSearch={setQuery}
       options={options.data?.map(x => x[valueType]).filter(x => !!x) ?? []}
       render={(val, target) => {
@@ -49,6 +49,7 @@ export function NetworkSelect<M extends boolean>({
           );
         }
         const opt = options.data?.find(x => x[valueType] === val);
+        console.log('here', val, target, options, opt, query);
         if (iconOnly && target === 'value')
           return (
             <div className="relative flex size-full items-center justify-center">
