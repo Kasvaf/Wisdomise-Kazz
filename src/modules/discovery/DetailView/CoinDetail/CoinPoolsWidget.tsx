@@ -34,7 +34,6 @@ export function CoinPoolsWidget({
       {
         title: t('pools.table.address'),
         render: row => row.address && <ContractAddress value={row.address} />,
-        sticky: 'start',
       },
       {
         title: t('pools.table.name'),

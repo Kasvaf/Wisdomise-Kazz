@@ -1,6 +1,8 @@
 import { bxChevronDown, bxChevronUp, bxPin, bxX } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import AssetSwapsStream from 'modules/autoTrader/AssetSwapsStream';
+import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
+import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { type FC, Fragment, useEffect } from 'react';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
@@ -13,6 +15,7 @@ import { useSessionStorage } from 'usehooks-ts';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
+import { useUnifiedCoinDetails } from '../lib';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 
 export const CoinDetailsTabs: FC<{
@@ -22,6 +25,9 @@ export const CoinDetailsTabs: FC<{
   onCollapse?: () => void;
   onTabChange?: () => void;
 }> = ({ expandable, collapsable, onExpand, onCollapse, onTabChange }) => {
+  const { symbol } = useUnifiedCoinDetails();
+  const [activeQuote, setActiveQuote] = useActiveQuote();
+
   const tabs = useCoinDetailsTabs();
   const [pinnedTab, setPinnedTab] = useSessionStorage<string>(
     'coin-details-pinned-tab',
@@ -89,6 +95,12 @@ export const CoinDetailsTabs: FC<{
   return (
     <div className="flex max-h-full min-h-full max-w-full flex-col overflow-hidden">
       <div className="absolute top-1 right-0 z-20 flex shrink-0 items-center justify-start gap-px pe-2">
+        <BtnInstantTrade
+          className="me-2"
+          quote={activeQuote}
+          setQuote={setActiveQuote}
+          slug={symbol.slug}
+        />
         {collapsable && (
           <Button
             className="shrink-0 rounded-full"
@@ -139,7 +151,7 @@ export const CoinDetailsTabs: FC<{
             <div
               className={clsx(
                 'sticky top-0 z-10 w-full border-v1-border-tertiary border-b',
-                !pinnedTab && 'pe-16',
+                !pinnedTab && 'pe-52',
               )}
             >
               <ButtonSelect
@@ -188,9 +200,9 @@ export const CoinDetailsTabs: FC<{
             </div>
           </Fragment>,
           <Fragment key="right">
-            <div className="sticky top-0 z-10 w-full">
+            <div className="sticky top-0 z-10 w-full border-v1-border-tertiary border-b">
               <ButtonSelect
-                buttonClassName="grow"
+                buttonClassName="grow !justify-start"
                 className="!max-w-full !w-full rounded-none [&>div]:w-full"
                 innerScroll
                 options={tabs
@@ -219,7 +231,6 @@ export const CoinDetailsTabs: FC<{
                   })}
                 size="xs"
                 surface={0}
-                value={pinnedTab}
                 variant="tab"
               />
             </div>
