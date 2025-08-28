@@ -1,48 +1,29 @@
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
+import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { usePageState } from 'shared/usePageState';
 import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import {
-  CoinPreDetailModal,
-  useCoinPreDetailModal,
-} from '../CoinPreDetailModal';
 import { WhaleRadarFilters } from './WhaleRadarFilters';
 import { WhaleRadarSentiment } from './WhaleRadarSentiment';
 
-export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
+export const WhaleRadarCompact: FC<{ focus?: boolean }> = () => {
   const [pageState, setPageState] = usePageState<
     Parameters<typeof useWhaleRadarCoins>[0]
   >('whale-radar-coins', {
     sortBy: 'rank',
     sortOrder: 'ascending',
   });
-  const [globalNetwork] = useGlobalNetwork();
-
   const coins = useWhaleRadarCoins(pageState);
   useLoadingBadge(coins.isFetching);
 
-  const [openModal, { closeModal, isModalOpen, selectedRow }] =
-    useCoinPreDetailModal<WhaleRadarCoin>({
-      directNavigate: !focus,
-      slug: r => {
-        const contractAddress = r.networks.find(
-          x => x.network.slug === globalNetwork,
-        )?.contract_address;
-        return {
-          slug: r.symbol.slug,
-          network: globalNetwork,
-          contractAddress,
-        };
-      },
-    });
+  const navigate = useNavigate();
 
   const columns = useMemo<Array<TableColumn<WhaleRadarCoin>>>(
     () => [
@@ -116,34 +97,16 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           dataSource={coins.data ?? []}
           isActive={r => r.symbol.slug === activeSlug}
           loading={coins.isLoading}
-          onClick={r => openModal(r)}
+          onClick={r => {
+            if (r.networks) {
+              navigate(generateTokenLink(r.networks));
+            }
+          }}
           rowKey={r => JSON.stringify(r.symbol)}
           scrollable={false}
           surface={2}
         />
       </AccessShield>
-      <CoinPreDetailModal
-        categories={selectedRow?.symbol.categories}
-        coin={selectedRow?.symbol}
-        labels={selectedRow?.symbol_labels}
-        marketData={selectedRow?.data}
-        networks={selectedRow?.networks}
-        onClose={() => closeModal()}
-        open={isModalOpen}
-      >
-        {selectedRow && (
-          <CoinPriceChart
-            value={(selectedRow.chart_data ?? []).map(p => ({
-              related_at: p.related_at,
-              value: p.price,
-            }))}
-            whalesActivity={selectedRow.chart_data}
-          />
-        )}
-        {selectedRow && (
-          <WhaleRadarSentiment mode="expanded" value={selectedRow} />
-        )}
-      </CoinPreDetailModal>
     </div>
   );
 };

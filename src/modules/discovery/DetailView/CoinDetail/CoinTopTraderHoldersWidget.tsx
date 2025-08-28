@@ -39,9 +39,10 @@ export function CoinTopTraderHoldersWidget({
     () => [
       {
         title: 'Address',
-        sticky: 'start',
+        // sticky: 'start',
         render: row => (
           <Wallet
+            className="[&_img]:hidden"
             noLink
             wallet={{
               address: row.wallet_address,
@@ -158,8 +159,6 @@ export function CoinTopTraderHoldersWidget({
     ],
     [type],
   );
-
-  if ((resp.data ?? []).length === 0) return null;
 
   return (
     <>

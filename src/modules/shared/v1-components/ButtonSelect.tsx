@@ -1,14 +1,5 @@
-import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import Icon from 'shared/Icon';
-import { useMutationObserver } from 'utils/useMutationObserver';
+import { type ReactNode, useCallback, useEffect, useRef } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
 export function ButtonSelect<T>({
@@ -41,43 +32,6 @@ export function ButtonSelect<T>({
 }) {
   const buttonsRef = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
-  const [hasOverflow, setHasOverflow] = useState<[boolean, boolean]>([
-    false,
-    false,
-  ] as const);
-  const scroll = useCallback(
-    (direction: 'left' | 'right') => () => {
-      buttonsRef.current?.scrollTo({
-        left:
-          buttonsRef.current.scrollLeft +
-          (buttonsRef.current.offsetWidth / 3) *
-            (direction === 'left' ? -1 : 1),
-        behavior: 'smooth',
-      });
-    },
-    [],
-  );
-
-  const updateInnerScrollBtnsLastCall = useRef<number>(-1);
-  const updateInnerScrollBtns = useCallback(() => {
-    const el = buttonsRef.current;
-    if (
-      !el ||
-      !innerScroll ||
-      updateInnerScrollBtnsLastCall.current === el.scrollWidth
-    )
-      return;
-    updateInnerScrollBtnsLastCall.current = el.scrollWidth;
-    setHasOverflow(
-      el
-        ? [el.scrollLeft > 0, el.offsetWidth + el.scrollLeft < el.scrollWidth]
-        : [false, false],
-    );
-  }, [innerScroll]);
-
-  useMutationObserver(buttonsRef, updateInnerScrollBtns, {
-    childList: true,
-  });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
@@ -126,7 +80,7 @@ export function ButtonSelect<T>({
         className={clsx(
           'flex h-full flex-nowrap items-center gap-0 whitespace-nowrap text-v1-content-primary',
           innerScroll
-            ? ['scrollbar-none', 'w-full overflow-auto']
+            ? 'scrollbar-none w-full overflow-auto'
             : 'w-max min-w-max shrink-0',
         )}
         ref={buttonsRef}
@@ -166,28 +120,6 @@ export function ButtonSelect<T>({
             </button>
           ))}
       </div>
-      {innerScroll
-        ? hasOverflow.map((x, i) => (
-            <div
-              className={clsx(
-                'group absolute top-0 flex h-full w-10 cursor-pointer items-center',
-                '!bg-gradient-to-r',
-                i === 0
-                  ? 'left-0 justify-start from-(--current-color) to-transparent'
-                  : 'right-0 justify-end from-transparent to-(--current-color)',
-                !x && 'hidden',
-              )}
-              key={i}
-              onClick={scroll(i === 0 ? 'left' : 'right')}
-            >
-              <Icon
-                className="text-v1-content-primary opacity-60 group-hover:opacity-100"
-                name={i === 0 ? bxChevronLeft : bxChevronRight}
-                size={20}
-              />
-            </div>
-          ))
-        : null}
     </div>
   );
 }

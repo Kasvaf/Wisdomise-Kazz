@@ -808,31 +808,19 @@ export const useTweetRelatedTokens = (tweetId?: string) =>
   });
 
 /* Rest */
-export const useNetworks = (config: {
-  filter?:
-    | 'social-radar-24-hours'
-    | 'technical-radar'
-    | 'whale-radar'
-    | 'coin-radar';
-  query?: string;
-}) =>
+export const useNetworks = (config: { query?: string }) =>
   useQuery({
-    queryKey: ['networks', config.filter],
+    queryKey: ['networks'],
     staleTime: Number.POSITIVE_INFINITY,
     queryFn: () => {
-      const url =
-        config?.filter === 'whale-radar'
-          ? '/delphi/holders/networks/'
-          : '/delphi/market/networks/';
-      const needToAttachFilter = url === '/delphi/market/networks/';
-      return resolvePageResponseToArray<Network>(url, {
-        query: {
-          ...(needToAttachFilter && {
-            filter: config?.filter,
-          }),
-          page_size: 200,
+      return [
+        {
+          icon_url:
+            'https://coin-images.coingecko.com/asset_platforms/images/5/large/solana.png?1706606708',
+          name: 'Solana',
+          slug: 'solana',
         },
-      });
+      ] satisfies Network[];
     },
     select: data =>
       data.filter(row => {

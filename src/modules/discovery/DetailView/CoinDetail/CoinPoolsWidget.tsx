@@ -83,8 +83,6 @@ export function CoinPoolsWidget({
     [t],
   );
 
-  if (pools.length === 0) return null;
-
   return (
     <>
       <div
@@ -114,6 +112,7 @@ export function CoinPoolsWidget({
               </Button>
             )
           }
+          loading={nCoinDetails.isLoading}
           rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
           scrollable
           surface={1}

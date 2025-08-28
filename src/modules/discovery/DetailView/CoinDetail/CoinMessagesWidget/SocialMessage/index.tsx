@@ -30,6 +30,7 @@ export function SocialMessageSummary({
     <>
       <div
         className={clsx(
+          'scrollbar-none overflow-auto',
           'flex w-full max-w-full mobile:items-start items-stretch justify-between gap-4',
           'flex-row mobile:flex-col rounded-lg bg-v1-surface-l-next p-3',
           className,
@@ -111,7 +112,7 @@ function SocialMessageDetails({
   return (
     <div
       className={clsx(
-        'flex max-h-[70vh] flex-col items-start gap-4 overflow-auto',
+        'flex max-h-[70vh] flex-col items-start gap-2 overflow-auto',
         className,
       )}
     >

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Select } from 'shared/v1-components/Select';
 
 export function NetworkSelect<M extends boolean>({
-  filter,
   valueType = 'slug',
   size,
   iconOnly,
@@ -21,14 +20,12 @@ export function NetworkSelect<M extends boolean>({
   | 'searchValue'
   | 'onSearch'
 > & {
-  filter?: NonNullable<Parameters<typeof useNetworks>['0']>['filter'];
   valueType?: 'name' | 'slug';
   iconOnly?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const [query, setQuery] = useState('');
   const options = useNetworks({
-    filter,
     query,
   });
 

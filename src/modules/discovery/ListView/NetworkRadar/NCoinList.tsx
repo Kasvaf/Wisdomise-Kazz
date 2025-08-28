@@ -93,8 +93,8 @@ const NCoinMarketDataCol: FC<{
   </div>
 );
 
-const NCoinBCurve: FC<{
-  value: TrenchStreamResponseResult;
+export const NCoinBCurve: FC<{
+  value?: number;
   className?: string;
 }> = ({ value, className }) => {
   return (
@@ -102,7 +102,7 @@ const NCoinBCurve: FC<{
       className={className}
       style={{
         color: calcNCoinBCurveColor({
-          bCurvePercent: (value.networkData?.boundingCurve ?? 0) * 100,
+          bCurvePercent: (value ?? 0) * 100,
         }),
       }}
       title="Bonding Curve"
@@ -114,7 +114,7 @@ const NCoinBCurve: FC<{
         }}
         label="%"
         popup="never"
-        value={(value.networkData?.boundingCurve ?? 0) * 100}
+        value={(value ?? 0) * 100}
       />
     </div>
   );
@@ -255,7 +255,10 @@ export const NCoinList: FC<{
             const bCurve = (
               <>
                 {source !== 'migrated' && (
-                  <NCoinBCurve className="pe-1 text-xs" value={row} />
+                  <NCoinBCurve
+                    className="pe-1 text-xs"
+                    value={row.networkData?.boundingCurve}
+                  />
                 )}
               </>
             );
