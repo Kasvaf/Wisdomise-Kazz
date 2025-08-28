@@ -183,7 +183,7 @@ export const CoinDetailsTabs: FC<{
                 variant="tab"
               />
             </div>
-            <div className="overflow-auto pe-1 pt-3">
+            <div className="overflow-auto px-2 pe-1 pt-2">
               {tabContents[selectedTab as never]}
             </div>
           </Fragment>,
@@ -223,7 +223,7 @@ export const CoinDetailsTabs: FC<{
                 variant="tab"
               />
             </div>
-            <div className="ps-1 pe-2 pt-3">
+            <div className="px-2 ps-1 pt-2">
               {tabContents[pinnedTab as never]}
             </div>
           </Fragment>,

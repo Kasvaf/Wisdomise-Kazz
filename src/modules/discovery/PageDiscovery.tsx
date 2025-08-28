@@ -51,7 +51,7 @@ export default function PageDiscovery() {
           {/* Detail FullPage/Semi-HalfPage Mode */}
           {urlParams.detail && (
             <DetailView
-              className="min-w-0 shrink grow p-3"
+              className="min-w-0 shrink grow"
               detail={urlParams.detail}
               expanded={!isMobile}
               focus
