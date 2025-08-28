@@ -9,13 +9,14 @@ const TraderTrades: React.FC<
 > = props => {
   return (
     <div className="relative">
+      <div className="my-2 flex justify-end">
+        <BtnInstantTrade
+          quote={props.quote}
+          setQuote={props.setQuote}
+          slug={props.slug}
+        />
+      </div>
       <BuySellTrader {...props} />
-      <BtnInstantTrade
-        className="!absolute top-0 right-0"
-        quote={props.quote}
-        setQuote={props.setQuote}
-        slug={props.slug}
-      />
     </div>
   );
 };
