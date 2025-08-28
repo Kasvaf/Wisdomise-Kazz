@@ -75,7 +75,7 @@
 /* Cell Styles */
 .wsdm-table tr td,
 .wsdm-table tr th {
-  @apply relative overflow-hidden p-0;
+  @apply overflow-hidden p-0;
 
   &[data-first-child="true"] {
     @apply rounded-s-lg;

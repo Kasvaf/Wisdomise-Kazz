@@ -135,7 +135,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
                     row.dir === 'sell'
                       ? 'to-v1-background-negative/20'
                       : 'to-v1-background-positive/20',
-                    'absolute left-0 h-full min-w-1 bg-gradient-to-r from-transparent to-100%',
+                    'absolute left-0 h-full min-w-1 rounded-l-xl bg-gradient-to-r from-0% from-transparent to-60%',
                   )}
                   style={{ width: `${(row.tokenAmount / maxAmount) * 100}%` }}
                 />
@@ -224,6 +224,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
         dataSource={datasource}
         isPaused={isPaused}
         loading={isLoading}
+        rowClassName="relative"
         scrollable
         surface={1}
       />
