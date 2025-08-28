@@ -96,19 +96,19 @@ export function CoinTopTraderHoldersWidget({
           </div>
         ),
       },
-      {
-        title: 'PnL',
-        render: row => (
-          <DirectionalNumber
-            className="text-xs"
-            label="$"
-            popup="never"
-            showIcon={false}
-            showSign
-            value={row.pnl}
-          />
-        ),
-      },
+      // {
+      //   title: 'PnL',
+      //   render: row => (
+      //     <DirectionalNumber
+      //       className="text-xs"
+      //       label="$"
+      //       popup="never"
+      //       showIcon={false}
+      //       showSign
+      //       value={row.pnl}
+      //     />
+      //   ),
+      // },
       {
         title: 'Realized PnL',
         render: row => (
