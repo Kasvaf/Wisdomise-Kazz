@@ -49,7 +49,6 @@ export function NetworkSelect<M extends boolean>({
           );
         }
         const opt = options.data?.find(x => x[valueType] === val);
-        console.log('here', val, target, options, opt, query);
         if (iconOnly && target === 'value')
           return (
             <div className="relative flex size-full items-center justify-center">
