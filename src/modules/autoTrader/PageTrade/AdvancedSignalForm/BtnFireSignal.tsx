@@ -31,8 +31,9 @@ const BtnFireSignal: React.FC<{
     quote: [quote],
   } = formState;
 
-  const { data: quoteBalance, isLoading: balanceLoading } =
-    useAccountBalance(quote);
+  const { data: quoteBalance, isLoading: balanceLoading } = useAccountBalance({
+    slug: quote,
+  });
   const { data: quoteInfo } = useSymbolInfo(quote);
 
   const userStorage = useUserStorage('auto-trader-waitlist');

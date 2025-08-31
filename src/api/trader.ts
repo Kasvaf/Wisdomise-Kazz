@@ -619,6 +619,7 @@ export function useTraderPositionTransactionsQuery({
 }
 
 export interface Swap {
+  key: string;
   base_slug: string;
   created_at: string;
   from_amount: string;

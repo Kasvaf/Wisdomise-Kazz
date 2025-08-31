@@ -14,7 +14,10 @@ export const AccountBalance: React.FC<{
   setAmount?: (val: string) => void;
 }> = ({ slug, disabled, setAmount, quote }) => {
   const net = useActiveNetwork();
-  const { data: balance, isLoading } = useAccountBalance(slug, net);
+  const { data: balance, isLoading } = useAccountBalance({
+    slug,
+    network: net,
+  });
   const { data: priceByQuote } = useLastPriceQuery({
     slug,
     quote,

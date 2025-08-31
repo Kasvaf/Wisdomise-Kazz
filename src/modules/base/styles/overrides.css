@@ -212,15 +212,19 @@ div[data-tc-modal] {
 /* ------------------------------------------------- */
 
 .ant-notification-notice {
-  @apply !rounded-xl !bg-[#272A32] !text-white;
+  @apply !rounded-xl !bg-v1-surface-l1 border border-white/10 !text-white;
+}
+
+.ant-notification-notice-icon {
+  @apply !text-lg;
 }
 
 .ant-notification-notice-message {
-  @apply !mb-0 !text-white;
+  @apply !mb-0 !text-white !text-sm;
 }
 
 .ant-notification-notice-description {
-  @apply mt-2 !text-white;
+  @apply !text-white;
 }
 
 .ant-notification-notice-close {

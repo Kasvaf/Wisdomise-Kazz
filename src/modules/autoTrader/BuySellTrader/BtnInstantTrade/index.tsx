@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { useHasFlag, useLastPriceQuery } from 'api';
 import { useAccountBalance, useMarketSwap } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
@@ -44,8 +43,7 @@ export default function BtnInstantTrade({
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { connected } = useActiveWallet();
-  const { data: baseBalance } = useAccountBalance(slug);
-  const { data: quoteBalance } = useAccountBalance(quote);
+  const { data: baseBalance } = useAccountBalance({ slug });
   const hasFlag = useHasFlag();
   const [maskIsOpen, setMaskIsOpen] = useState(false);
   const { getActivePreset } = useUserSettings();
@@ -56,7 +54,7 @@ export default function BtnInstantTrade({
     convertToUsd: false,
   });
 
-  const marketSwapHandler = useMarketSwap();
+  const marketSwapHandler = useMarketSwap({ slug, quote });
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
     if (side === 'SHORT') {
       amount = convertToBaseAmount(
@@ -69,22 +67,14 @@ export default function BtnInstantTrade({
     const preset =
       getActivePreset('terminal')[side === 'LONG' ? 'buy' : 'sell'];
 
-    if (
-      (side === 'LONG' && (quoteBalance ?? 0) < +amount) ||
-      (side === 'SHORT' && (baseBalance ?? 0) === 0)
-    ) {
-      notification.error({ message: 'Insufficient balance' });
-      return;
-    }
+    console.log(amount);
+
     await marketSwapHandler(
-      slug,
-      quote,
       side,
       amount,
       preset.slippage,
       preset.sol_priority_fee,
     );
-    notification.success({ message: 'Transaction successfully sent' });
   };
 
   const [isOpen, setIsOpen] = useLocalStorage('instant-open', false);
