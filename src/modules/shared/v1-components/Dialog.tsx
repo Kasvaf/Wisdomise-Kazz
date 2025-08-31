@@ -278,7 +278,7 @@ export const Dialog: FC<{
               )}
               <div
                 className={clsx(
-                  'scrollbar-thin fixed z-[1000] overflow-auto bg-(--current-color) transition-[translate,opacity] duration-100 mobile:duration-300 ease-in-out',
+                  'scrollbar-thin fixed z-[1000] overflow-auto bg-(--current-color) transition-all duration-300 mobile:duration-300 ease-in-out',
                   mode === 'drawer' && [
                     drawerConfig.position === 'bottom' && [
                       'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',

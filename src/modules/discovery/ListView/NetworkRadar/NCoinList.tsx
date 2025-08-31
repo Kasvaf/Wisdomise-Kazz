@@ -2,7 +2,7 @@ import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
-import { type FC, type ReactNode, useEffect, useState } from 'react';
+import { type FC, memo, type ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -17,108 +17,151 @@ const NCoinMarketDataCol: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
   row?: boolean;
-}> = ({ className, value, row }) => (
-  <div
-    className={clsx(
-      'flex gap-1',
-      !row && 'flex-col items-end justify-center',
-      row && 'flex-row-reverse items-center justify-start',
-      className,
-    )}
-  >
+}> = memo(
+  ({ className, value, row }) => (
     <div
-      style={{
-        color: calcNCoinMarketCapColor(
-          +(value.networkData?.marketCap ?? '0') || 0,
-        ),
-      }}
-      title="Market Cap"
+      className={clsx(
+        'flex gap-1',
+        !row && 'flex-col items-end justify-center',
+        row && 'flex-row-reverse items-center justify-start',
+        className,
+      )}
     >
-      <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
-        {'MC'}
-      </span>
-      <ReadableNumber
-        className="align-middle font-medium text-[1.35em]"
-        format={{
-          decimalLength: 1,
+      <div
+        style={{
+          color: calcNCoinMarketCapColor(
+            +(value.networkData?.marketCap ?? '0') || 0,
+          ),
         }}
-        label="$"
-        popup="never"
-        value={+(value.networkData?.marketCap ?? '0') || 0}
-      />
+        title="Market Cap"
+      >
+        <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+          {'MC'}
+        </span>
+        <ReadableNumber
+          className="align-middle font-medium text-[1.35em]"
+          format={{
+            decimalLength: 1,
+          }}
+          label="$"
+          popup="never"
+          value={+(value.networkData?.marketCap ?? '0') || 0}
+        />
+      </div>
+      <div title="Volume">
+        <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
+          {'V'}
+        </span>
+        <ReadableNumber
+          className="align-middle"
+          format={{
+            decimalLength: 1,
+          }}
+          label="$"
+          popup="never"
+          value={+(value.networkData?.volume ?? '0') || 0}
+        />
+      </div>
+      {!row && (
+        <>
+          <div title="Transactions">
+            <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+              {'TX'}
+            </span>
+            <NCoinBuySell
+              className="align-middle"
+              value={{
+                buys: value.networkData?.totalBuy,
+                sells: value.networkData?.totalSell,
+              }}
+            />
+          </div>
+          <div title="Number of Holders">
+            <Icon
+              className="me-1 inline-block align-middle text-v1-content-secondary"
+              name={bxGroup}
+              size={16}
+              strokeWidth={0.1}
+            />
+            <ReadableNumber
+              className="align-middle"
+              popup="never"
+              value={value.validatedData?.numberOfHolders}
+            />
+          </div>
+        </>
+      )}
     </div>
-    <div title="Volume">
-      <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
-        {'V'}
-      </span>
-      <ReadableNumber
-        className="align-middle"
-        format={{
-          decimalLength: 1,
-        }}
-        label="$"
-        popup="never"
-        value={+(value.networkData?.volume ?? '0') || 0}
-      />
-    </div>
-    {!row && (
-      <>
-        <div title="Transactions">
-          <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
-            {'TX'}
-          </span>
-          <NCoinBuySell
-            className="align-middle"
-            value={{
-              buys: value.networkData?.totalBuy,
-              sells: value.networkData?.totalSell,
-            }}
-          />
-        </div>
-        <div title="Number of Holders">
-          <Icon
-            className="me-1 inline-block align-middle text-v1-content-secondary"
-            name={bxGroup}
-            size={16}
-            strokeWidth={0.1}
-          />
-          <ReadableNumber
-            className="align-middle"
-            popup="never"
-            value={value.validatedData?.numberOfHolders}
-          />
-        </div>
-      </>
-    )}
-  </div>
+  ),
+  (prev, current) => {
+    if (
+      prev.value.networkData?.volume !== current.value.networkData?.volume ||
+      prev.value.networkData?.marketCap !==
+        current.value.networkData?.marketCap ||
+      prev.value.networkData?.totalBuy !==
+        current.value.networkData?.totalBuy ||
+      prev.value.networkData?.totalSell !==
+        current.value.networkData?.totalSell ||
+      prev.value.validatedData?.numberOfHolders !==
+        current.value.validatedData?.numberOfHolders ||
+      prev.value.validatedData?.numberOfHolders !==
+        current.value.validatedData?.numberOfHolders ||
+      prev.className !== current.className
+    )
+      return false;
+    return true;
+  },
 );
 
 export const NCoinBCurve: FC<{
   value?: number;
   className?: string;
-}> = ({ value, className }) => {
-  return (
-    <div
-      className={className}
-      style={{
-        color: calcNCoinBCurveColor({
-          bCurvePercent: (value ?? 0) * 100,
-        }),
-      }}
-      title="Bonding Curve"
-    >
-      <ReadableNumber
-        className="font-medium"
-        format={{
-          decimalLength: 1,
+}> = memo(
+  ({ value, className }) => {
+    return (
+      <div
+        className={className}
+        style={{
+          color: calcNCoinBCurveColor({
+            bCurvePercent: (value ?? 0) * 100,
+          }),
         }}
-        label="%"
-        popup="never"
-        value={(value ?? 0) * 100}
+        title="Bonding Curve"
+      >
+        <ReadableNumber
+          className="font-medium"
+          format={{
+            decimalLength: 1,
+          }}
+          label="%"
+          popup="never"
+          value={(value ?? 0) * 100}
+        />
+      </div>
+    );
+  },
+  (prev, current) =>
+    !(prev.value !== current.value || prev.className !== current.className),
+);
+
+const NCoinAgeAndSecurity: FC<{ lpBurned?: boolean; createdAt?: string }> =
+  memo(({ lpBurned, createdAt }) => (
+    <>
+      <NCoinSecurity
+        imgClassName="size-4"
+        type="row"
+        value={{
+          lpBurned: lpBurned ?? false,
+        }}
       />
-    </div>
-  );
-};
+      <NCoinAge
+        className="ms-1 text-xs"
+        imgClassName="hidden"
+        inline
+        value={createdAt}
+      />
+    </>
+  ));
 
 export const NCoinList: FC<{
   dataSource: TrenchStreamResponseResult[];
@@ -235,21 +278,10 @@ export const NCoinList: FC<{
         >
           {dataSource.map(row => {
             const ageAndSecurity = (
-              <>
-                <NCoinSecurity
-                  imgClassName="size-4"
-                  type="row"
-                  value={{
-                    lpBurned: row.securityData?.lpBurned ?? false,
-                  }}
-                />
-                <NCoinAge
-                  className="ms-1 text-xs"
-                  imgClassName="hidden"
-                  inline
-                  value={row.symbol?.createdAt}
-                />
-              </>
+              <NCoinAgeAndSecurity
+                createdAt={row.symbol?.createdAt}
+                lpBurned={row.securityData?.lpBurned}
+              />
             );
 
             const bCurve = (
@@ -262,6 +294,7 @@ export const NCoinList: FC<{
                 )}
               </>
             );
+
             return (
               <div
                 className={clsx(

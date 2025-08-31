@@ -100,9 +100,33 @@ export const useNetworkRadarStream = (
     history: 0,
   });
 
+  const makeResultUnique = (
+    res: GrpcState<TrenchStreamResponse>,
+  ): GrpcState<TrenchStreamResponse> => {
+    const seen = new Set<string>();
+    const cleanedResults = res.data?.results
+      .map(row => {
+        const key = row.symbol?.slug;
+        if (!key || seen.has(key)) return null;
+        seen.add(key);
+        return row;
+      })
+      .filter(x => x !== null);
+
+    return {
+      ...res,
+      data: Array.isArray(cleanedResults)
+        ? {
+            ...res.data,
+            results: cleanedResults,
+          }
+        : undefined,
+    };
+  };
+
   return {
-    new_pairs: newPairs,
-    final_stretch: finalStretch,
-    migrated,
+    new_pairs: makeResultUnique(newPairs),
+    final_stretch: makeResultUnique(finalStretch),
+    migrated: makeResultUnique(migrated),
   };
 };
