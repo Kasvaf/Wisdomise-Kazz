@@ -1,5 +1,5 @@
 import { getPairsCached } from 'api';
-import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import { observeGrpc } from 'api/grpc-v2';
 import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
 import type {
@@ -64,24 +64,21 @@ const convertToMarketCapCandles = (candles: ChartCandle[], supply: number) => {
   }));
 };
 
-const makeDataFeed = (
-  delphinus: DelphinusServiceClientImpl,
-  {
-    slug: baseSlug,
-    quote,
-    network,
-    supply,
-    isMarketCap,
-    marksRef,
-  }: {
-    slug: string;
-    quote: string;
-    network: string;
-    supply: number;
-    isMarketCap: boolean;
-    marksRef: MutableRefObject<Mark[]>;
-  },
-): IBasicDataFeed => {
+const makeDataFeed = ({
+  slug: baseSlug,
+  quote,
+  network,
+  supply,
+  isMarketCap,
+  marksRef,
+}: {
+  slug: string;
+  quote: string;
+  network: string;
+  supply: number;
+  isMarketCap: boolean;
+  marksRef: MutableRefObject<Mark[]>;
+}): IBasicDataFeed => {
   return {
     onReady: async callback => {
       await getPairsCached(baseSlug);
@@ -161,7 +158,7 @@ const makeDataFeed = (
           return;
         }
 
-        let bars = await getCandlesCached(delphinus, {
+        let bars = await getCandlesCached({
           market: 'SPOT',
           network,
           baseSlug,
@@ -185,17 +182,20 @@ const makeDataFeed = (
       }
     },
     subscribeBars: (_symbolInfo, _resolution, onTick, listenerGuid) => {
-      const req = delphinus.lastCandleStream({
-        market: 'SPOT',
-        network,
-        baseSlug,
-        quoteSlug: quote,
-        convertToUsd: checkConvertToUsd(quote),
-      });
-
-      function doSub() {
-        const sub = req.subscribe(
-          ({ candle }) => {
+      const unsubscribe = observeGrpc(
+        {
+          service: 'delphinus',
+          method: 'lastCandleStream',
+          payload: {
+            market: 'SPOT',
+            network,
+            baseSlug,
+            quoteSlug: quote,
+            convertToUsd: checkConvertToUsd(quote),
+          },
+        },
+        {
+          next: ({ candle }) => {
             if (!candle) return;
             onTick({
               open: +candle.open * (isMarketCap ? supply : 1),
@@ -206,17 +206,12 @@ const makeDataFeed = (
               time: +new Date(candle.relatedAt),
             });
           },
-          err => {
+          error: err => {
             console.error(err);
-            try {
-              sub.unsubscribe();
-            } catch {}
-            doSub();
           },
-        );
-        listeners[listenerGuid] = () => sub.unsubscribe();
-      }
-      doSub();
+        },
+      );
+      listeners[listenerGuid] = () => unsubscribe();
     },
     unsubscribeBars: listenerGuid => listeners[listenerGuid]?.(),
     getMarks(

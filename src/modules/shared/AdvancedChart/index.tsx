@@ -1,5 +1,4 @@
 import { useSupportedPairs } from 'api';
-import { useGrpcService } from 'api/grpc-utils';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
@@ -36,8 +35,6 @@ const AdvancedChart: React.FC<{
     i18n: { language },
   } = useTranslation();
 
-  const delphinus = useGrpcService('delphinus');
-
   const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
   const { data, isLoading } = useCoinPoolInfo(slug);
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
@@ -72,7 +69,7 @@ const AdvancedChart: React.FC<{
 
     const widget = new Widget({
       symbol: data.symbolName,
-      datafeed: makeDataFeed(delphinus, {
+      datafeed: makeDataFeed({
         ...data,
         isMarketCap,
         supply,
@@ -210,7 +207,6 @@ const AdvancedChart: React.FC<{
     language,
     setGlobalChartWidget,
     widgetRef,
-    delphinus,
     supply,
     pairs,
     convertToUsd,

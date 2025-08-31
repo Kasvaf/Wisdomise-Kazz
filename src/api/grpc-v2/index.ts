@@ -23,7 +23,7 @@ export interface GrpcState<Res> {
   history: Res[];
 }
 
-export function grpc<
+export function requestGrpc<
   S extends ServiceName,
   M extends MethodName<S>,
   P extends Payload<S, M>,
@@ -38,6 +38,27 @@ export function grpc<
         reject(resp.error);
       }
     });
+  });
+}
+
+export function observeGrpc<
+  S extends ServiceName,
+  M extends MethodName<S>,
+  P extends Payload<S, M>,
+  R extends Response<S, M>,
+>(
+  request: { service: S; method: M; payload: P },
+  callbacks?: {
+    next?: (response: R) => void;
+    error?: (error: any) => void;
+  },
+) {
+  return subscribeWorker(worker, request, resp => {
+    if (resp.data) {
+      callbacks?.next?.(resp.data);
+    } else if (resp.error) {
+      callbacks?.error?.(resp.error);
+    }
   });
 }
 
