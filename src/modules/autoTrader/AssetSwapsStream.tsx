@@ -1,4 +1,4 @@
-import { delphinusGrpc } from 'api/grpc';
+import { useGrpc } from 'api/grpc-v2';
 import type { Swap } from 'api/proto/delphinus';
 import clsx from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -20,21 +20,27 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
   const asset = symbol.contractAddress!;
 
   const enabled = !!network && !!asset;
-  const { data: history, isLoading } = delphinusGrpc.useSwapsHistoryQuery(
-    {
+  const { data: history, isLoading } = useGrpc({
+    service: 'delphinus',
+    method: 'swapsHistory',
+    payload: {
       network,
       asset,
     },
-    { enabled },
-  );
+    enabled,
+    history: 0,
+  });
 
-  const { data: recent } = delphinusGrpc.useSwapsStreamAllValues(
-    {
+  const { history: recent } = useGrpc({
+    service: 'delphinus',
+    method: 'swapsStream',
+    payload: {
       network,
       asset,
     },
-    { enabled },
-  );
+    enabled,
+    history: 20,
+  });
 
   const data = useMemo(
     () =>

@@ -4,7 +4,7 @@ import {
   useCoinDetails,
   useDetailedCoins,
 } from 'api/discovery';
-import { networkRadarGrpc } from 'api/grpc';
+import { useGrpc } from 'api/grpc-v2';
 import type {
   DevData,
   RiskData,
@@ -149,9 +149,15 @@ export const UnifiedCoinDetailsProvider: FC<{
   slug: ComplexSlug;
 }> = ({ children, slug }) => {
   const resp1 = useCoinDetails({ slug: slug.slug });
-  const resp2 = networkRadarGrpc.useCoinDetailStreamLastValue({
-    network: slug.network,
-    base: slug.contractAddress,
+  const resp2 = useGrpc({
+    service: 'network_radar',
+    method: 'coinDetailStream',
+    payload: {
+      network: slug.network,
+      base: slug.contractAddress,
+    },
+    enabled: !!slug.network && !!slug.contractAddress,
+    history: 0,
   });
   const priceResp = useLastPriceQuery({
     slug: slug.slug,

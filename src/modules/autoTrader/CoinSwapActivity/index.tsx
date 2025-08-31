@@ -1,5 +1,5 @@
 import { useHasFlag, useTraderAssetActivity } from 'api';
-import { delphinusGrpc } from 'api/grpc';
+import { useGrpc } from 'api/grpc-v2';
 import { useSymbolInfo } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -22,12 +22,18 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const network = useActiveNetwork();
   const showUsd = settings.showActivityInUsd;
 
-  const lastCandle = delphinusGrpc.useLastCandleStreamLastValue({
-    market: 'SPOT',
-    network,
-    baseSlug: symbol.slug ?? '',
-    quoteSlug: 'wrapped-solana',
-    convertToUsd: showUsd,
+  const lastCandle = useGrpc({
+    service: 'delphinus',
+    method: 'lastCandleStream',
+    payload: {
+      market: 'SPOT',
+      network,
+      baseSlug: symbol.slug ?? '',
+      quoteSlug: 'wrapped-solana',
+      convertToUsd: showUsd,
+    },
+    enabled: true,
+    history: 0,
   });
 
   const unit = showUsd
