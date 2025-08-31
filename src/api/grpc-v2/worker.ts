@@ -18,6 +18,9 @@ self.addEventListener('message', e => {
   const key = generateKey(request);
 
   if (request.action === 'subscribe') {
+    listeners[key] = (listeners[key] ?? 0) + 1;
+    if (subscribtions[key]) return;
+
     const service = SERVICES[request.service as never] as any;
     const impl = new service.ClientImpl(
       new service.GrpcWebImpl(config.GRPC_ORIGIN + service.pathname, {}),
@@ -44,7 +47,13 @@ self.addEventListener('message', e => {
       const subscribe = () =>
         impl[request.method](request.payload).subscribe({
           next: throttle(sendResponse('data'), 1000),
-          error: throttle(sendResponse('error'), 1000),
+          error: throttle(error => {
+            if (subscribtions[key]) {
+              subscribtions[key].unsubscribe();
+              subscribtions[key] = subscribe();
+            }
+            sendResponse('error')(error);
+          }, 2000),
           complete: () => {
             if (subscribtions[key]) {
               subscribtions[key] = subscribe();
@@ -52,8 +61,6 @@ self.addEventListener('message', e => {
           },
         });
       subscribtions[key] = subscribe();
-
-      listeners[key] = (listeners[key] ?? 0) + 1;
     }
   }
 
@@ -61,11 +68,10 @@ self.addEventListener('message', e => {
     listeners[key] = (listeners[key] ?? 0) - 1;
     if (listeners[key] > 0) return;
     delete listeners[key];
-    if (subscribtions[key]) {
-      if (typeof subscribtions[key].unsubscribe === 'function') {
-        subscribtions[key].unsubscribe();
-      }
-      delete subscribtions[key];
+    if (!subscribtions[key]) return;
+    if (typeof subscribtions[key].unsubscribe === 'function') {
+      subscribtions[key].unsubscribe();
     }
+    delete subscribtions[key];
   }
 });
