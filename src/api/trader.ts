@@ -660,7 +660,7 @@ export function useTraderSwapsQuery({
         },
       });
     },
-    staleTime: 10,
+    staleTime: 10_000,
     refetchInterval: 10_000,
     enabled: isLoggedIn,
   });

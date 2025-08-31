@@ -3,7 +3,6 @@ import { delphinusGrpc } from 'api/grpc';
 import { useSymbolInfo } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { Coin } from 'shared/Coin';
@@ -15,7 +14,6 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
   const { data } = useTraderAssetActivity(symbol.slug ?? undefined);
-  const isLoggedIn = useIsLoggedIn();
   const hasFlag = useHasFlag();
 
   const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
@@ -59,7 +57,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     });
   };
 
-  if (!isLoggedIn || !hasFlag('/swap-activity')) return null;
+  if (!hasFlag('/swap-activity')) return null;
 
   return (
     <div

@@ -3,6 +3,8 @@ import { type OmitKeyof, QueryClient } from '@tanstack/react-query';
 import type { PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
 import localForge from 'localforage';
 
+let cleared = false;
+
 const cacheStorage = localForge.createInstance({
   name: 'api-cache',
   driver: [localForge.INDEXEDDB, localForge.WEBSQL, localForge.LOCALSTORAGE],
@@ -38,6 +40,7 @@ export const persisterOptions: OmitKeyof<
   }),
   dehydrateOptions: {
     shouldDehydrateQuery: query =>
+      !cleared &&
       (!query.meta ||
         !('persist' in query.meta) ||
         query.meta.persist !== false) &&
@@ -50,4 +53,7 @@ export const persisterOptions: OmitKeyof<
   maxAge: 1000 * 60 * 60 * 24 * 3,
 };
 
-export const clearPersistCache = () => cacheStorage.clear();
+export const clearPersistCache = () => {
+  cleared = true;
+  void cacheStorage.clear();
+};
