@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import {
   type CSSProperties,
   type FC,
-  type MouseEventHandler,
+  type PointerEventHandler,
   type ReactNode,
   type RefObject,
   useCallback,
@@ -14,6 +14,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import Icon from 'shared/Icon';
+import { animationFrame, debounce } from 'utils/throttle';
 import useBodyScroll from 'utils/useBodyScroll';
 import { type Surface, useSurface } from 'utils/useSurface';
 import {
@@ -39,11 +40,19 @@ const useTransition = (value: boolean) => {
   useEffect(() => {
     const task = tasks[0];
     if (!task) return;
-    const timeout = setTimeout(() => {
+    const handler = () => {
       setState(task[0]);
       setTasks(p => p.slice(1));
-    }, task[1]);
-    return () => clearTimeout(timeout);
+    };
+    if (task[1] === 0) {
+      const deb = animationFrame(handler);
+      deb.run();
+      return () => deb.clear();
+    } else {
+      const deb = debounce(handler, task[1]);
+      deb.run();
+      return () => deb.clear();
+    }
   }, [tasks]);
 
   return state;
@@ -121,18 +130,13 @@ const usePopupPosition = (
 
   useEffect(() => {
     if (!enabled) return;
-    let timeout = setTimeout(() => null);
-    const handleRecompute = () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => computeStyle(), 50);
-    };
-
+    const deb = animationFrame(() => computeStyle());
+    const handleRecompute = () => deb.run();
     computeStyle();
-    window.addEventListener('resize', handleRecompute);
     window.addEventListener('scroll', handleRecompute, { passive: true });
     return () => {
-      window.removeEventListener('resize', handleRecompute);
       window.removeEventListener('scroll', handleRecompute);
+      deb.clear();
     };
   }, [computeStyle, enabled]);
 
@@ -165,8 +169,8 @@ export const Dialog: FC<{
   };
   ignoreFocus?: boolean;
 
-  onMouseEnter?: MouseEventHandler<HTMLDivElement>;
-  onMouseLeave?: MouseEventHandler<HTMLDivElement>;
+  onPointerEnter?: PointerEventHandler<HTMLDivElement>;
+  onPointerLeave?: PointerEventHandler<HTMLDivElement>;
 }> = ({
   children,
   open: isOpen = false,
@@ -190,8 +194,8 @@ export const Dialog: FC<{
   drawerConfig: userDrawerConfig,
   ignoreFocus,
 
-  onMouseEnter,
-  onMouseLeave,
+  onPointerEnter,
+  onPointerLeave,
 }) => {
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
@@ -217,7 +221,7 @@ export const Dialog: FC<{
 
   const popupPosition = usePopupPosition(
     root,
-    (state === true || (isOpen && state === null)) && mode === 'popup',
+    state === false && mode === 'popup',
     popupConfig.position,
   );
 
@@ -306,19 +310,16 @@ export const Dialog: FC<{
                     state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
                   ],
                   mode === 'popup' && [
-                    'max-h-[90svh] max-w-[90svw] rounded-xl shadow-xl',
-                    state
-                      ? 'translate-y-0 opacity-100'
-                      : '-translate-y-4 opacity-0',
+                    '!duration-75 max-h-[90svh] max-w-[90svw] rounded-xl shadow-xl',
+                    state ? 'opacity-100' : 'opacity-0',
                   ],
                   className,
                 )}
                 onClick={e => {
                   e.stopPropagation();
                 }}
-                onMouseEnter={onMouseEnter}
-                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
-                onMouseLeave={onMouseLeave}
+                onPointerEnter={onPointerEnter}
+                onPointerLeave={onPointerLeave}
                 ref={root}
                 style={{
                   ...(mode === 'popup' && popupPosition),

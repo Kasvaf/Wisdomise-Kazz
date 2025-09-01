@@ -53,7 +53,7 @@ export const ComponentsProvider: FC<{
           top: event.clientY,
         };
       },
-      100,
+      1,
     );
 
     document.addEventListener('mousedown', handlePointerDown, true);
