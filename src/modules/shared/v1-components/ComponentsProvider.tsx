@@ -7,6 +7,7 @@ import {
   useMemo,
   useRef,
 } from 'react';
+import { debounce } from 'utils/throttle';
 
 interface Position {
   top: number;
@@ -45,16 +46,20 @@ export const ComponentsProvider: FC<{
         lastClick.current = event.target as HTMLElement | null;
       }
     };
-    const handlePointerMove = (event: MouseEvent) => {
-      pointerPosition.current = {
-        left: event.clientX,
-        top: event.clientY,
-      };
-    };
+    const { run: handlePointerMove, clear: clearDebounce } = debounce(
+      (event: MouseEvent) => {
+        pointerPosition.current = {
+          left: event.clientX,
+          top: event.clientY,
+        };
+      },
+      100,
+    );
 
     document.addEventListener('mousedown', handlePointerDown, true);
     document.addEventListener('mousemove', handlePointerMove);
     return () => {
+      clearDebounce();
       document.removeEventListener('mousedown', handlePointerDown, true);
       document.removeEventListener('mousemove', handlePointerMove);
     };
