@@ -25,30 +25,15 @@ import { Table } from 'shared/v1-components/Table';
 import { uniqueBy } from 'utils/uniqueBy';
 import { ReactComponent as UserIcon } from './user.svg';
 
-const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
-  id,
-  className,
+export const useAssetEnrichedSwaps = ({
+  asset,
+  network,
+  enabled = true,
+}: {
+  asset: string;
+  network: string;
+  enabled?: boolean;
 }) => {
-  const { symbol } = useUnifiedCoinDetails();
-  const network = useActiveNetwork();
-  const asset = symbol.contractAddress!;
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const details = useUnifiedCoinDetails();
-  const slug = details.symbol.slug;
-  const { settings, updateSwapsPartial } = useUserSettings();
-  const wallets = useAllWallets();
-
-  const { data: pairs, isPending } = useSupportedPairs(slug);
-
-  const hasSolanaPair =
-    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
-
-  const totalSupply = details?.marketData.totalSupply ?? 0;
-  const showAmountInUsd = hasSolanaPair ? settings.swaps.showAmountInUsd : true;
-  const showMarketCap = settings.swaps.showMarketCap;
-
-  const enabled = !!network && !!asset;
   const { data: history, isLoading } = delphinusGrpc.useSwapsHistoryQuery(
     {
       network,
@@ -65,49 +50,71 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
     { enabled },
   );
 
-  const updatedData = useMemo(
+  const data = useMemo(
     () =>
       uniqueBy(
         [...(recent?.map(x => x.swap) ?? []), ...(history?.swaps ?? [])]
           .filter((x): x is Swap => !!x)
           .sort((a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt)),
         x => x.id,
-      ),
-    [history, recent],
+      ).map(row => {
+        const dir = row.fromAsset === asset ? 'sell' : 'buy';
+        const price = +(
+          (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
+        );
+
+        const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
+        const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
+        return {
+          ...row,
+          dir,
+          price,
+          tokenAmount,
+          solAmount,
+        };
+      }),
+    [history, recent, asset],
   );
 
-  const { data: pausedData, isPaused } = usePausedData(
-    updatedData,
-    containerRef,
-  );
+  return {
+    data,
+    isLoading,
+  };
+};
 
-  const datasource = useMemo(() => {
-    return pausedData.map(row => {
-      const dir = row.fromAsset === asset ? 'sell' : 'buy';
-      const price = +(
-        (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
-      );
+const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
+  id,
+  className,
+}) => {
+  const { symbol, marketData } = useUnifiedCoinDetails();
+  const network = useActiveNetwork();
+  const asset = symbol.contractAddress!;
+  const slug = symbol.slug;
 
-      const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
-      const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
-      const amount = showAmountInUsd ? tokenAmount * price : solAmount;
-      const isUser = wallets.includes(row.wallet);
-      return {
-        ...row,
-        dir,
-        price,
-        tokenAmount,
-        solAmount,
-        amount,
-        isUser,
-      };
-    });
-  }, [pausedData, showAmountInUsd, wallets, asset]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { settings, updateSwapsPartial } = useUserSettings();
+  const wallets = useAllWallets();
+
+  const { data: pairs, isPending } = useSupportedPairs(slug);
+
+  const hasSolanaPair =
+    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
+
+  const totalSupply = marketData.totalSupply ?? 0;
+  const showAmountInUsd = hasSolanaPair ? settings.swaps.showAmountInUsd : true;
+  const showMarketCap = settings.swaps.showMarketCap;
+
+  const enabled = !!network && !!asset;
+  const { data, isLoading } = useAssetEnrichedSwaps({
+    network,
+    asset,
+    enabled,
+  });
+
+  const { data: pausedData, isPaused } = usePausedData(data, containerRef);
 
   const maxAmount = pausedData.reduce((max, s) => {
-    const dir = s.fromAsset === asset ? 'sell' : 'buy';
-    const tokenAmount = +(dir === 'sell' ? s.fromAmount : s.toAmount);
-    return Math.max(max, tokenAmount);
+    return Math.max(max, s.tokenAmount);
   }, 0);
 
   return (
@@ -149,7 +156,11 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
                   label={showAmountInUsd ? '$' : ''}
                   showIcon={false}
                   showSign={false}
-                  value={row.amount}
+                  value={
+                    showAmountInUsd
+                      ? row.tokenAmount * row.price
+                      : row.solAmount
+                  }
                 />
               </div>
             ),
@@ -188,7 +199,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
             key: 'trader',
             render: row => (
               <div className="relative flex items-center gap-1">
-                {row.isUser && (
+                {wallets.includes(row.wallet) && (
                   <HoverTooltip className="mb-4" title="You">
                     <UserIcon className="-left-3 absolute size-4 text-v1-content-brand" />
                   </HoverTooltip>
@@ -221,7 +232,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
             ),
           },
         ]}
-        dataSource={datasource}
+        dataSource={pausedData}
         isPaused={isPaused}
         loading={isLoading}
         rowClassName="relative"

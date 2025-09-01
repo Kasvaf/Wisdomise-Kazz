@@ -1,39 +1,41 @@
+import { useAssetEnrichedSwaps } from 'modules/autoTrader/AssetSwapsStream';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { Helmet } from 'react-helmet-async';
 import { formatNumber } from 'utils/numbers';
 import { useUnifiedCoinDetails } from './lib';
 
 export function CoinDetailsMeta() {
-  const data = useUnifiedCoinDetails();
-  const coinName = data?.symbol
-    ? `${data?.symbol.name ?? '---'}${
-        (data?.symbol.abbreviation ?? '---').toLowerCase() ===
-        (data?.symbol.name ?? '---').toLowerCase()
-          ? ''
-          : ` (${data?.symbol.abbreviation ?? '---'})`
-      }`
-    : '';
+  const { symbol, marketData } = useUnifiedCoinDetails();
+  const network = useActiveNetwork();
+  const asset = symbol.contractAddress!;
+  const swaps = useAssetEnrichedSwaps({
+    asset,
+    network,
+  });
+  const abbreviation = symbol.abbreviation;
+  const lastSwap = swaps.data[0];
+  const dir = lastSwap?.fromAsset === asset ? 'sell' : 'buy';
+  const mc =
+    +(
+      (dir === 'sell' ? lastSwap?.fromAssetPrice : lastSwap?.toAssetPrice) ??
+      '0'
+    ) * (marketData.totalSupply ?? 0);
 
-  const livePrice =
-    typeof data?.marketData?.currentPrice === 'number'
-      ? `${formatNumber(data?.marketData?.currentPrice, {
-          compactInteger: true,
-          decimalLength: 2,
-          minifyDecimalRepeats: true,
-          separateByComma: true,
-        })} USDT`
-      : 'unknown';
-  /* eslint-disable i18next/no-literal-string */
   return (
     <Helmet>
-      {coinName && (
+      {lastSwap && (
         <>
           <title>
-            {coinName} Live Price + Indicators, Prediction, Analysis
+            {abbreviation} {dir === 'buy' ? '↑' : '↓'} $
+            {formatNumber(mc, {
+              compactInteger: true,
+              decimalLength: 2,
+              minifyDecimalRepeats: false,
+              exactDecimal: true,
+              separateByComma: false,
+            })}{' '}
+            | GoatX
           </title>
-          <meta
-            content={`${coinName}'s live price is ${livePrice} | You're planning to buy or sell ${coinName}? Check the indicators and charts and find out analysis, signals and AI-powered predictions for ${coinName} provided by Wisdomise`}
-            name="description"
-          />
         </>
       )}
     </Helmet>
