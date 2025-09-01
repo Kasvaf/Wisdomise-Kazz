@@ -84,7 +84,7 @@ export function useGrpc<
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: its safe to check only key and not the entire object
   useEffect(() => {
-    if (!request.enabled) return;
+    if (request.enabled === false) return;
 
     const unsubscribe = subscribeWorker(worker, request, resp => {
       setResponse(p => {
