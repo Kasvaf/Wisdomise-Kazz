@@ -16,6 +16,7 @@ export function HoverTooltip({
   onOpenChange,
   ignoreFocus,
   className,
+  dialogClassName,
 }: {
   title?: ReactNode;
   children?: ReactNode;
@@ -24,6 +25,7 @@ export function HoverTooltip({
   onOpenChange?: (v: boolean) => void;
   ignoreFocus?: boolean;
   className?: string;
+  dialogClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const mouseRef = useRef(false);
@@ -57,7 +59,10 @@ export function HoverTooltip({
         {children}
       </span>
       <Dialog
-        className="!max-w-[400px] pointer-events-none border-white/10 md:border"
+        className={clsx(
+          dialogClassName,
+          '!max-w-[400px] pointer-events-none border-white/10 md:border',
+        )}
         contentClassName="p-2 text-xs text-v1-content-primary"
         ignoreFocus={ignoreFocus}
         mode="popup"

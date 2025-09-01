@@ -39,6 +39,7 @@ export const CoinSocials: FC<{
       {/* Socials */}
       {socials?.map(social => (
         <HoverTooltip
+          dialogClassName="!pointer-events-auto"
           key={social.url.href}
           placement="bottom"
           title={<SocialPreview social={social} />}
