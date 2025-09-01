@@ -2,7 +2,15 @@ import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
-import { type FC, memo, type ReactNode, useEffect, useState } from 'react';
+import {
+  type FC,
+  memo,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -182,12 +190,18 @@ export const NCoinList: FC<{
   onRowClick,
   source,
 }) => {
+  const listRef = useRef<HTMLDivElement>(null);
+
   const [dataSource, setDataSource] = useState(_dataSource);
   const [shown, setShown] = useState<Set<string>>(
     new Set(dataSource.map(x => x.symbol?.slug ?? '')),
   );
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
+
+  const autoSetHovered = useCallback(() => {
+    setHovered(listRef.current?.matches?.(':hover') ?? false);
+  }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
@@ -234,7 +248,7 @@ export const NCoinList: FC<{
       {title && (
         <div
           className="scrollbar-none sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg bg-v1-surface-l-next px-3 py-2 text-sm shadow-xl"
-          onPointerEnter={() => setHovered(false)}
+          onPointerEnter={autoSetHovered}
         >
           <div
             className={clsx(
@@ -273,8 +287,9 @@ export const NCoinList: FC<{
       ) : (
         <div
           className="flex flex-col gap-3"
-          onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
+          onPointerEnter={autoSetHovered}
+          onPointerLeave={autoSetHovered}
+          ref={listRef}
         >
           {dataSource.map(row => {
             const ageAndSecurity = (
