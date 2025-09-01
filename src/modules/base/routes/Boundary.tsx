@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/react';
 import { analytics } from 'config/segment';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import PageError from '../PageError';
+import Splash from '../Splash';
 
 const Boundary = () => {
   const location = useLocation();
@@ -14,7 +15,9 @@ const Boundary = () => {
     <Sentry.ErrorBoundary
       fallback={x => <PageError errorObject={x} level="router" />}
     >
-      <Outlet />
+      <Suspense fallback={<Splash />}>
+        <Outlet />
+      </Suspense>
     </Sentry.ErrorBoundary>
   );
 };
