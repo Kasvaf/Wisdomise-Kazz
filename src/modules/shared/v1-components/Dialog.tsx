@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import {
   type CSSProperties,
   type FC,
-  type PointerEventHandler,
+  type MouseEventHandler,
   type ReactNode,
   type RefObject,
   useCallback,
@@ -14,7 +14,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { animationFrame, debounce } from 'utils/throttle';
+import { useDebounce } from 'usehooks-ts';
 import useBodyScroll from 'utils/useBodyScroll';
 import { type Surface, useSurface } from 'utils/useSurface';
 import {
@@ -24,36 +24,19 @@ import {
 
 export const DIALOG_OPENER_CLASS = 'custom-popover';
 
-const useTransition = (value: boolean) => {
-  const [tasks, setTasks] = useState<[boolean | null, number][]>([]);
-
+const useTransition = (value: boolean, timeout: number) => {
+  const shortDebounce = useDebounce(value, 25);
+  const longDebounce = useDebounce(value, timeout);
   const [state, setState] = useState<boolean | null>(value);
 
   useEffect(() => {
-    if (value) {
-      setTasks(p => [...p, [false, 0], [true, 0]]);
-    } else {
-      setTasks(p => [...p, [false, 0], [null, 300]]);
-    }
-  }, [value]);
-
-  useEffect(() => {
-    const task = tasks[0];
-    if (!task) return;
-    const handler = () => {
-      setState(task[0]);
-      setTasks(p => p.slice(1));
-    };
-    if (task[1] === 0) {
-      const deb = animationFrame(handler);
-      deb.run();
-      return () => deb.clear();
-    } else {
-      const deb = debounce(handler, task[1]);
-      deb.run();
-      return () => deb.clear();
-    }
-  }, [tasks]);
+    const animationFrame = requestAnimationFrame(() => {
+      const nextState =
+        value === (value ? shortDebounce : longDebounce) ? value : null;
+      setState(prev => (prev === nextState ? prev : nextState));
+    });
+    return () => cancelAnimationFrame(animationFrame);
+  }, [value, shortDebounce, longDebounce]);
 
   return state;
 };
@@ -130,13 +113,18 @@ const usePopupPosition = (
 
   useEffect(() => {
     if (!enabled) return;
-    const deb = animationFrame(() => computeStyle());
-    const handleRecompute = () => deb.run();
+    let timeout = setTimeout(() => null);
+    const handleRecompute = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => computeStyle(), 50);
+    };
+
     computeStyle();
+    window.addEventListener('resize', handleRecompute);
     window.addEventListener('scroll', handleRecompute, { passive: true });
     return () => {
+      window.removeEventListener('resize', handleRecompute);
       window.removeEventListener('scroll', handleRecompute);
-      deb.clear();
     };
   }, [computeStyle, enabled]);
 
@@ -169,8 +157,8 @@ export const Dialog: FC<{
   };
   ignoreFocus?: boolean;
 
-  onPointerEnter?: PointerEventHandler<HTMLDivElement>;
-  onPointerLeave?: PointerEventHandler<HTMLDivElement>;
+  onMouseEnter?: MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: MouseEventHandler<HTMLDivElement>;
 }> = ({
   children,
   open: isOpen = false,
@@ -194,12 +182,12 @@ export const Dialog: FC<{
   drawerConfig: userDrawerConfig,
   ignoreFocus,
 
-  onPointerEnter,
-  onPointerLeave,
+  onMouseEnter,
+  onMouseLeave,
 }) => {
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
-  const state = useTransition(isOpen);
+  const state = useTransition(isOpen, 250);
   const location = useLocation();
   const lastFocus = useRef<HTMLElement | null>(null);
 
@@ -221,7 +209,7 @@ export const Dialog: FC<{
 
   const popupPosition = usePopupPosition(
     root,
-    state === false && mode === 'popup',
+    (state === true || (isOpen && state === null)) && mode === 'popup',
     popupConfig.position,
   );
 
@@ -265,14 +253,14 @@ export const Dialog: FC<{
 
   return (
     <>
-      {state === null
+      {state === false
         ? null
         : createPortal(
             <>
               {overlay && (
                 <div
                   className={clsx(
-                    'fixed inset-0 z-[1000] transition-all duration-200',
+                    'fixed inset-0 z-[1000] transition-all duration-300',
                     mode === 'popup'
                       ? 'bg-transparent'
                       : 'bg-black/40 backdrop-blur-sm',
@@ -290,7 +278,7 @@ export const Dialog: FC<{
               )}
               <div
                 className={clsx(
-                  'scrollbar-thin fixed z-[1000] overflow-auto bg-(--current-color) transition-all duration-200 ease-in-out',
+                  'scrollbar-thin fixed z-[1000] overflow-auto bg-(--current-color) transition-all duration-100 mobile:duration-300 ease-in-out',
                   mode === 'drawer' && [
                     drawerConfig.position === 'bottom' && [
                       'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
@@ -310,7 +298,7 @@ export const Dialog: FC<{
                     state ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
                   ],
                   mode === 'popup' && [
-                    '!duration-75 max-h-[90svh] max-w-[90svw] rounded-xl shadow-xl',
+                    'max-h-[90svh] max-w-[90svw] rounded-xl shadow-xl',
                     state ? 'opacity-100' : 'opacity-0',
                   ],
                   className,
@@ -318,8 +306,9 @@ export const Dialog: FC<{
                 onClick={e => {
                   e.stopPropagation();
                 }}
-                onPointerEnter={onPointerEnter}
-                onPointerLeave={onPointerLeave}
+                onMouseEnter={onMouseEnter}
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
+                onMouseLeave={onMouseLeave}
                 ref={root}
                 style={{
                   ...(mode === 'popup' && popupPosition),
