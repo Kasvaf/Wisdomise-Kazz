@@ -22,14 +22,14 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const networks = useSupportedNetworks(base, quote);
   const selectedNet = networks?.[0] ?? 'solana';
 
-  const { data: quoteBalance, isLoading: quoteLoading } = useAccountBalance(
-    quote,
-    selectedNet,
-  );
-  const { data: baseBalance, isLoading: baseLoading } = useAccountBalance(
-    base,
-    selectedNet,
-  );
+  const { data: quoteBalance, isLoading: quoteLoading } = useAccountBalance({
+    slug: quote,
+    network: selectedNet,
+  });
+  const { data: baseBalance, isLoading: baseLoading } = useAccountBalance({
+    slug: base,
+    network: selectedNet,
+  });
 
   const { data: basePriceByQuote } = useLastPriceQuery({
     slug: base,

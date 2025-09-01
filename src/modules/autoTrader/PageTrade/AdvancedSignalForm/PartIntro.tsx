@@ -18,8 +18,9 @@ const PartIntro: React.FC<{
     quote: [quote, setQuote],
   } = data;
 
-  const { data: quoteBalance, isLoading: balanceLoading } =
-    useAccountBalance(quote);
+  const { data: quoteBalance, isLoading: balanceLoading } = useAccountBalance({
+    slug: quote,
+  });
 
   const coin = useCoinDetails({ slug: baseSlug });
   const isNewBorn = coin?.data?.symbol_labels?.includes('new_born');

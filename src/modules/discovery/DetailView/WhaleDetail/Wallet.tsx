@@ -14,9 +14,10 @@ export const Wallet: FC<{
   whale?: boolean;
   noLink?: boolean;
   className?: string;
-}> = ({ className, wallet, noLink, whale }) => {
+  formatter?: (address: string) => string;
+}> = ({ className, wallet, noLink, whale, formatter = shortenAddress }) => {
   const [copy, notificationContent] = useShare('copy');
-  const shortAddress = shortenAddress(wallet.address);
+  const shortAddress = formatter(wallet.address);
 
   const avatar = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${(
     wallet.network + wallet.address

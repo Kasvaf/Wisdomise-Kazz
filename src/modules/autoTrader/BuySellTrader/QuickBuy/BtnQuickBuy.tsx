@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { useSupportedPairs } from 'api';
-import { useAccountNativeBalance, useMarketSwap } from 'api/chains';
+import { useMarketSwap } from 'api/chains';
 import type { CoinNetwork } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -23,9 +23,9 @@ export default function BtnQuickBuy({
   className?: string;
   networks?: CoinNetwork[] | null;
 }) {
+  const quote = 'wrapped-solana';
   const { settings, getActivePreset } = useUserSettings();
-  const marketSwapHandler = useMarketSwap();
-  const { data: balance } = useAccountNativeBalance();
+  const marketSwapHandler = useMarketSwap({ slug, quote });
   const { refetch } = useSupportedPairs(slug, { enabled: false });
   const isLoggedIn = useIsLoggedIn();
   const [modal, ensureAuthenticated] = useEnsureAuthenticated();
@@ -40,34 +40,19 @@ export default function BtnQuickBuy({
     const preset = getActivePreset(source).buy;
 
     const supportedPairs = (await refetch()).data;
-    if (!supportedPairs?.find(p => p.quote.slug === 'wrapped-solana')) {
+    if (!supportedPairs?.find(p => p.quote.slug === quote)) {
       notification.error({
         message: 'This coin does not have a Solana trading pair.',
       });
       return;
     }
 
-    if (+amount === 0) {
-      notification.error({
-        message: 'Minimum amount should be greater than 0.0001 SOL',
-      });
-      return;
-    }
-
-    if (+amount > (balance ?? 0)) {
-      notification.error({ message: 'Insufficient balance' });
-      return;
-    }
-
     await marketSwapHandler(
-      slug,
-      'wrapped-solana',
       'LONG',
       amount,
       preset.slippage,
       preset.sol_priority_fee,
     );
-    notification.success({ message: 'Transaction successfully sent' });
   };
 
   return isSolana ? (

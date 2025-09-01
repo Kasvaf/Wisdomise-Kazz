@@ -16,6 +16,7 @@ import { usePromiseOfEffect } from 'api/chains/utils';
 import { useWalletsQuery } from 'api/wallets';
 import { trackClick } from 'config/segment';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -83,16 +84,22 @@ export const useCustodialWallet = () => {
     undefined,
   );
   const cw = wallets?.results.find(w => w.key === cwKey);
+  const isLoggedIn = useIsLoggedIn();
 
   const delCw = () => {
     localStorage.removeItem('custodial-key');
   };
 
   useEffect(() => {
-    if (cwKey === undefined && wallets?.results.length !== 0) {
-      setCw(wallets?.results[0]?.key);
+    if (
+      cwKey === undefined &&
+      wallets &&
+      wallets.results.length !== 0 &&
+      isLoggedIn
+    ) {
+      setCw(wallets.results[0]?.key);
     }
-  }, [cwKey, setCw, wallets]);
+  }, [cwKey, setCw, wallets, isLoggedIn]);
 
   return { cw, setCw, delCw };
 };
