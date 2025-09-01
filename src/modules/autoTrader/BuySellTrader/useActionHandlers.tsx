@@ -44,7 +44,10 @@ const useActionHandlers = (state: SwapState) => {
     useTraderFirePositionMutation();
 
   const transferAssetsHandler = useTransferAssetsMutation(from.slug);
-  const marketSwapHandler = useMarketSwap();
+  const marketSwapHandler = useMarketSwap({
+    slug: base.slug,
+    quote: quote.slug,
+  });
 
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
@@ -62,19 +65,12 @@ const useActionHandlers = (state: SwapState) => {
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
-        awaitConfirm(
-          await marketSwapHandler(
-            base.slug,
-            quote.slug,
-            dir === 'buy' ? 'LONG' : 'SHORT',
-            from.amount,
-            preset[dir].slippage,
-            preset[dir].sol_priority_fee,
-          ),
-          'Swap completed successfully',
+        await marketSwapHandler(
+          dir === 'buy' ? 'LONG' : 'SHORT',
+          from.amount,
+          preset[dir].slippage,
+          preset[dir].sol_priority_fee,
         );
-      } catch (error) {
-        notification.error({ message: unwrapErrorMessage(error) });
       } finally {
         setFiring(false);
       }

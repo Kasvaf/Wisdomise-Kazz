@@ -24,6 +24,10 @@ import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
 import { usePendingPositionInCache } from 'api/trader';
 import { ofetch } from 'config/ofetch';
+import {
+  useConfirmTransaction,
+  useSwapSignature,
+} from 'modules/autoTrader/BuySellTrader/useConfirmSwap';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { queryContractSlugs } from './utils';
 
@@ -49,7 +53,15 @@ const useContractInfo = (slug?: string) => {
   });
 };
 
-export const useSolanaAccountBalance = (slug?: string, address?: string) => {
+export const useSolanaAccountBalance = ({
+  slug,
+  address,
+  enabled = true,
+}: {
+  slug?: string;
+  address?: string;
+  enabled?: boolean;
+}) => {
   const { address: activeAddress } = useActiveWallet();
   const { data: { contract } = {}, isLoading: contractIsLoading } =
     useContractInfo(slug);
@@ -98,7 +110,7 @@ export const useSolanaAccountBalance = (slug?: string, address?: string) => {
     },
     refetchInterval: 10_000,
     staleTime: 10_000,
-    enabled: !!contract,
+    enabled: !!contract && enabled,
   });
 
   return {
@@ -314,8 +326,19 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
 
 interface SwapResponse {
   key: string;
+
+  // none-custodial wallet response
   instructions: Instruction[];
   lookup_table_address?: string[];
+
+  // custodial wallet response
+  pair_slug: `${string}/${string}`;
+  network_slug: string;
+  side: 'SHORT' | 'LONG';
+  amount: string;
+  wallet_address: string;
+  simulate_data: unknown;
+  is_custodial: boolean;
 }
 
 interface Instruction {
@@ -335,16 +358,8 @@ export const useSolanaMarketSwap = () => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
   const { address, isCustodial } = useActiveWallet();
   const connection = useSolanaConnection();
-  const queryClient = useQueryClient();
-
-  const invalidateQueries = (slug: string) => {
-    void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
-    void queryClient.invalidateQueries({
-      queryKey: ['solana-user-assets'],
-    });
-    void queryClient.invalidateQueries({ queryKey: ['buys-sells'] });
-    void queryClient.invalidateQueries({ queryKey: ['trader-asset', slug] });
-  };
+  const { confirm } = useConfirmTransaction();
+  const { getSignature } = useSwapSignature();
 
   return async (
     base: string,
@@ -369,72 +384,63 @@ export const useSolanaMarketSwap = () => {
         priority_fee: priorityFee,
       },
     });
-    if (isCustodial) {
-      return async () => {
-        const res = !!(await swap);
-        setTimeout(() => invalidateQueries(base), 5000); // Possibly the transaction is confirmed after this
-        return res;
-      };
-    }
 
-    if (!connection) throw new Error('Appkit connection not found');
+    let signature: string | undefined;
 
     const [
       { key, instructions, lookup_table_address: lookupTableAddresses },
       latestBlockhash,
     ] = await Promise.all([swap, connection.getLatestBlockhash()]);
 
-    // Fetch the address lookup tables if provided
-    const lookupTableAccounts = (
-      await Promise.all(
-        (lookupTableAddresses || []).map(
-          async address =>
-            (
-              await connection.getAddressLookupTable(new PublicKey(address))
-            ).value || null,
-        ),
-      )
-    ).filter((table): table is AddressLookupTableAccount => table != null);
+    if (isCustodial) {
+      signature = await getSignature(key);
+    } else {
+      // Fetch the address lookup tables if provided
+      const lookupTableAccounts = (
+        await Promise.all(
+          (lookupTableAddresses || []).map(
+            async address =>
+              (
+                await connection.getAddressLookupTable(new PublicKey(address))
+              ).value || null,
+          ),
+        )
+      ).filter((table): table is AddressLookupTableAccount => table != null);
 
-    // Create a versioned transaction
-    const transaction = new VersionedTransaction(
-      new TransactionMessage({
-        payerKey: publicKey,
-        recentBlockhash: latestBlockhash.blockhash,
-        instructions: instructions.map(
-          inst =>
-            new TransactionInstruction({
-              programId: new PublicKey(inst.programId),
-              data: Buffer.from(inst.data),
-              keys: inst.accounts.map(acc => ({
-                pubkey: new PublicKey(acc.pubkey),
-                isSigner: acc.is_signer,
-                isWritable: acc.is_writable,
-              })),
-            }),
-        ),
-      }).compileToV0Message(lookupTableAccounts),
-    );
+      // Create a versioned transaction
+      const transaction = new VersionedTransaction(
+        new TransactionMessage({
+          payerKey: publicKey,
+          recentBlockhash: latestBlockhash.blockhash,
+          instructions: instructions.map(
+            inst =>
+              new TransactionInstruction({
+                programId: new PublicKey(inst.programId),
+                data: Buffer.from(inst.data),
+                keys: inst.accounts.map(acc => ({
+                  pubkey: new PublicKey(acc.pubkey),
+                  isSigner: acc.is_signer,
+                  isWritable: acc.is_writable,
+                })),
+              }),
+          ),
+        }).compileToV0Message(lookupTableAccounts),
+      );
 
-    const signature = await walletProvider.signAndSendTransaction(transaction);
+      const signature =
+        await walletProvider.signAndSendTransaction(transaction);
 
-    await ofetch<SwapResponse>(`/trader/swap/${key}`, {
-      method: 'patch',
-      body: { transaction_hash: signature },
-    });
+      await ofetch<SwapResponse>(`/trader/swap/${key}`, {
+        method: 'patch',
+        body: { transaction_hash: signature },
+      });
+    }
 
-    return () =>
-      connection
-        .confirmTransaction({
-          signature,
-          blockhash: latestBlockhash.blockhash,
-          lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
-          abortSignal: timeoutSignal(),
-        })
-        .then(x => x.value && x.value.err == null)
-        .finally(() => {
-          invalidateQueries(base);
-        });
+    if (!signature) {
+      throw new Error('Signature not found');
+    }
+
+    return confirm({ slug: base, signature, latestBlockhash });
   };
 };
 

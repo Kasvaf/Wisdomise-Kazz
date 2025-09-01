@@ -619,6 +619,7 @@ export function useTraderPositionTransactionsQuery({
 }
 
 export interface Swap {
+  key: string;
   base_slug: string;
   created_at: string;
   from_amount: string;
@@ -659,7 +660,7 @@ export function useTraderSwapsQuery({
         },
       });
     },
-    staleTime: 10,
+    staleTime: 10_000,
     refetchInterval: 10_000,
     enabled: isLoggedIn,
   });
