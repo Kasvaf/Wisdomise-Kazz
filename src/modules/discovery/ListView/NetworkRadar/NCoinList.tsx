@@ -280,7 +280,7 @@ export const NCoinList: FC<{
           )}
         </div>
       )}
-      {dataSource.length === 0 && !loading ? (
+      {_dataSource.length === 0 && !loading ? (
         <p className="p-3 text-center text-v1-content-secondary text-xs leading-relaxed">
           {t('common:nothing-to-show')}
         </p>
