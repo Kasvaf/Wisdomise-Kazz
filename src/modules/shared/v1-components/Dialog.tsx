@@ -14,7 +14,6 @@ import {
 import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import Icon from 'shared/Icon';
-import { useDebounce } from 'usehooks-ts';
 import useBodyScroll from 'utils/useBodyScroll';
 import { type Surface, useSurface } from 'utils/useSurface';
 import {
@@ -24,19 +23,28 @@ import {
 
 export const DIALOG_OPENER_CLASS = 'custom-popover';
 
-const useTransition = (value: boolean, timeout: number) => {
-  const shortDebounce = useDebounce(value, 25);
-  const longDebounce = useDebounce(value, timeout);
+const useTransition = (value: boolean) => {
+  const [tasks, setTasks] = useState<[boolean | null, number][]>([]);
+
   const [state, setState] = useState<boolean | null>(value);
 
   useEffect(() => {
-    const animationFrame = requestAnimationFrame(() => {
-      const nextState =
-        value === (value ? shortDebounce : longDebounce) ? value : null;
-      setState(prev => (prev === nextState ? prev : nextState));
-    });
-    return () => cancelAnimationFrame(animationFrame);
-  }, [value, shortDebounce, longDebounce]);
+    if (value) {
+      setTasks(p => [...p, [false, 0], [true, 0]]);
+    } else {
+      setTasks(p => [...p, [false, 0], [null, 300]]);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    const task = tasks[0];
+    if (!task) return;
+    const timeout = setTimeout(() => {
+      setState(task[0]);
+      setTasks(p => p.slice(1));
+    }, task[1]);
+    return () => clearTimeout(timeout);
+  }, [tasks]);
 
   return state;
 };
@@ -187,7 +195,7 @@ export const Dialog: FC<{
 }) => {
   const root = useRef<HTMLDivElement>(null);
   const colors = useSurface(surface);
-  const state = useTransition(isOpen, 250);
+  const state = useTransition(isOpen);
   const location = useLocation();
   const lastFocus = useRef<HTMLElement | null>(null);
 
@@ -253,14 +261,14 @@ export const Dialog: FC<{
 
   return (
     <>
-      {state === false
+      {state === null
         ? null
         : createPortal(
             <>
               {overlay && (
                 <div
                   className={clsx(
-                    'fixed inset-0 z-[1000] transition-all duration-300',
+                    'fixed inset-0 z-[1000] transition-all duration-200',
                     mode === 'popup'
                       ? 'bg-transparent'
                       : 'bg-black/40 backdrop-blur-sm',
@@ -278,7 +286,7 @@ export const Dialog: FC<{
               )}
               <div
                 className={clsx(
-                  'scrollbar-thin fixed z-[1000] overflow-auto bg-(--current-color) transition-all duration-300 mobile:duration-300 ease-in-out',
+                  'scrollbar-thin fixed z-[1000] overflow-auto bg-(--current-color) transition-all duration-200 ease-in-out',
                   mode === 'drawer' && [
                     drawerConfig.position === 'bottom' && [
                       'inset-x-0 bottom-0 h-auto max-h-[90svh] min-h-32 w-full rounded-t-2xl',
@@ -299,7 +307,9 @@ export const Dialog: FC<{
                   ],
                   mode === 'popup' && [
                     'max-h-[90svh] max-w-[90svw] rounded-xl shadow-xl',
-                    state ? 'opacity-100' : 'opacity-0',
+                    state
+                      ? 'translate-y-0 opacity-100'
+                      : '-translate-y-4 opacity-0',
                   ],
                   className,
                 )}

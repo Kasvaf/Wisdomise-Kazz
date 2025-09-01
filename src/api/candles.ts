@@ -98,7 +98,6 @@ export const useLastCandleQuery = ({
   quote,
   market = 'SPOT',
   convertToUsd = !quote,
-  debug,
 }: LastCandleParams) => {
   const { data: supportedPairs } = useSupportedPairs(base);
 
