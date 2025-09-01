@@ -10,7 +10,7 @@ export const TableRank: FC<{
       <>
         <div
           className={clsx(
-            'absolute top-0 left-0 h-full w-full mobile:opacity-30 opacity-15',
+            'absolute top-0 left-0 h-full w-16 rounded-l-xl mobile:opacity-30 opacity-15',
             'bg-gradient-to-r from-[#f587ff] via-[#116697b4] to-transparent blur-sm',
           )}
         />
