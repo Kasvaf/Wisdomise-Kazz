@@ -1,4 +1,4 @@
-import { throttle } from 'utils/throttle';
+import { debounce, throttle } from 'utils/throttle';
 import {
   type GrpcWorkerRequest,
   type GrpcWorkerResponse,
@@ -60,19 +60,16 @@ self.addEventListener('message', e => {
         log('subscribe', request.payload);
         return impl[request.method](request.payload).subscribe({
           next: throttle(sendResponse('data'), 1000),
-          error: throttle(error => {
-            if (subscribtions[key]) {
-              subscribtions[key].unsubscribe();
-              subscribtions[key] = subscribe();
-            }
+          error: (error: any) => {
             sendResponse('error')(error);
-          }, 2000),
-          complete: () => {
-            log('complete', {});
             if (subscribtions[key]) {
-              subscribtions[key] = subscribe();
+              debounce(() => {
+                subscribtions[key].unsubscribe();
+                subscribtions[key] = subscribe();
+              }, 5000).run();
             }
           },
+          complete: () => log('complete', {}),
         });
       };
       subscribtions[key] = subscribe();
