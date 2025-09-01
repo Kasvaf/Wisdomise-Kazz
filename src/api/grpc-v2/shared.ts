@@ -60,6 +60,7 @@ export type Response<
 
 export type GrpcWorkerConfig = {
   GRPC_ORIGIN: string;
+  isDebugMode: boolean;
 };
 
 export type GrpcWorkerRequest = {

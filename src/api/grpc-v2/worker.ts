@@ -17,9 +17,20 @@ self.addEventListener('message', e => {
 
   const key = generateKey(request);
 
+  const log = (title: string, body: any) => {
+    if (config.isDebugMode) {
+      const logPrefix = '[grpc]';
+      const logIdentifier = `${request.service}/${request.method.toString()}`;
+      console.groupCollapsed(`${logPrefix} [${title}] ${logIdentifier}`);
+      console.log(body);
+      console.groupEnd();
+    }
+  };
+
   if (request.action === 'subscribe') {
     listeners[key] = (listeners[key] ?? 0) + 1;
     if (subscribtions[key]) return;
+    log(`connect ${typeof subscribtions[key]}`, {});
 
     const service = SERVICES[request.service as never] as any;
     const impl = new service.ClientImpl(
@@ -29,23 +40,25 @@ self.addEventListener('message', e => {
 
     const sendResponse = (type: 'error' | 'data') => {
       return (content: any) => {
+        const body =
+          typeof content.toObject === 'function' ? content.toObject() : content;
+        log(type, content);
         self.postMessage({
           key,
           request,
-          [type]:
-            typeof content.toObject === 'function'
-              ? content.toObject()
-              : content,
+          [type]: body,
         } satisfies GrpcWorkerResponse);
       };
     };
     if (call instanceof Promise) {
+      log('fetch', request.payload);
       subscribtions[key] = call
         .then(sendResponse('data'))
         .catch(sendResponse('error'));
     } else {
-      const subscribe = () =>
-        impl[request.method](request.payload).subscribe({
+      const subscribe = () => {
+        log('subscribe', request.payload);
+        return impl[request.method](request.payload).subscribe({
           next: throttle(sendResponse('data'), 1000),
           error: throttle(error => {
             if (subscribtions[key]) {
@@ -55,11 +68,13 @@ self.addEventListener('message', e => {
             sendResponse('error')(error);
           }, 2000),
           complete: () => {
+            log('complete', {});
             if (subscribtions[key]) {
               subscribtions[key] = subscribe();
             }
           },
         });
+      };
       subscribtions[key] = subscribe();
     }
   }
@@ -70,6 +85,7 @@ self.addEventListener('message', e => {
     delete listeners[key];
     if (!subscribtions[key]) return;
     if (typeof subscribtions[key].unsubscribe === 'function') {
+      log('unsubscribe', request.payload);
       subscribtions[key].unsubscribe();
     }
     delete subscribtions[key];

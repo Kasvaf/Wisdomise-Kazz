@@ -1,5 +1,6 @@
 import { GRPC_ORIGIN } from 'config/constants';
 import { useEffect, useState } from 'react';
+import { isDebugMode } from 'utils/version';
 import {
   createWorkerConfig,
   generateKey,
@@ -14,6 +15,7 @@ import GrpcWorker from './worker?worker';
 const worker = new GrpcWorker(
   createWorkerConfig({
     GRPC_ORIGIN,
+    isDebugMode,
   }),
 );
 
