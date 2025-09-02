@@ -65,6 +65,7 @@ export const useSwapSignature = () => {
 
     return new Promise<string>((resolve, reject) => {
       const fetchSwaps = async () => {
+        console.log('fetchSwaps', fetchAttempts, Date.now());
         if (Date.now() - dataUpdatedAt < 1000) return;
 
         if (fetchAttempts === 10) {
@@ -77,6 +78,8 @@ export const useSwapSignature = () => {
         const signature = swap ? extractSignature(swap.transaction_link) : null;
         if (signature && signature !== 'None') {
           clearInterval(intervalId);
+          console.log('signature', signature, Date.now());
+          console.log(swap?.status);
           resolve(signature);
         }
       };

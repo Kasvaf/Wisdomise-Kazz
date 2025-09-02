@@ -174,6 +174,7 @@ export const useMarketSwap = ({
         slippage,
         priorityFee,
       );
+      console.log('confirmed', Date.now());
 
       if (confirmed) {
         notification.success({

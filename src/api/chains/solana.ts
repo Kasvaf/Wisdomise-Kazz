@@ -387,10 +387,12 @@ export const useSolanaMarketSwap = () => {
 
     let signature: string | undefined;
 
+    console.log('attempt', Date.now());
     const [
       { key, instructions, lookup_table_address: lookupTableAddresses },
       latestBlockhash,
     ] = await Promise.all([swap, connection.getLatestBlockhash()]);
+    console.log('swap 200', Date.now());
 
     if (isCustodial) {
       signature = await getSignature(key);
