@@ -2,13 +2,11 @@ import {
   type MiniMarketData,
   useSocialRadarSentiment,
   useTechnicalRadarSentiment,
-  useWhaleRadarSentiment,
 } from 'api/discovery';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { SocialRadarSentiment } from '../../ListView/SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../../ListView/TechnicalRadar/TechnicalRadarSentiment';
-import { WhaleRadarSentiment } from '../../ListView/WhaleRadar/WhaleRadarSentiment';
 import { useUnifiedCoinDetails } from './lib';
 
 export const CoinSentimentsWidget: FC<{
@@ -18,9 +16,10 @@ export const CoinSentimentsWidget: FC<{
   const { symbol, marketData } = useUnifiedCoinDetails();
   const technicalRadar = useTechnicalRadarSentiment({ slug: symbol.slug });
   const socialRadar = useSocialRadarSentiment({ slug: symbol.slug });
-  const whaleRadar = useWhaleRadarSentiment({ slug: symbol.slug });
+  // const whaleRadar = useWhaleRadarSentiment({ slug: symbol.slug });
 
-  const isEmpty = !technicalRadar.data && !socialRadar.data && !whaleRadar.data;
+  const isEmpty =
+    !technicalRadar.data && !socialRadar.data /* && !whaleRadar.data*/;
 
   const coin = {
     ...symbol,
@@ -58,13 +57,13 @@ export const CoinSentimentsWidget: FC<{
           }}
         />
 
-        <WhaleRadarSentiment
+        {/* <WhaleRadarSentiment
           className={clsx(whaleRadar.isLoading && 'animate-pulse')}
           coin={coin}
           marketData={miniMarketData}
           mode="card"
           value={whaleRadar.data}
-        />
+        /> */}
       </div>
       {hr && <hr className="border-white/10" />}
     </>
