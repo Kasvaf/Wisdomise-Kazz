@@ -207,7 +207,9 @@ export const UnifiedCoinDetailsProvider: FC<{
     const totalNumBuys24h = data2?.networkData?.totalBuy ?? null;
     const totalNumSells24h = data2?.networkData?.totalSell ?? null;
 
-    const volume24h = null; // TODO: roohi (data2) should add volume24h,
+    const volume24h = data2?.networkData?.volume24
+      ? +data2?.networkData?.volume24
+      : null;
 
     const boundingCurve = data2?.networkData?.boundingCurve ?? null;
 
