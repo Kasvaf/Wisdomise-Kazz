@@ -1,5 +1,5 @@
 import { useDiscoveryParams } from 'modules/discovery/lib';
-import { type FC, Suspense } from 'react';
+import { type FC } from 'react';
 import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
@@ -15,13 +15,11 @@ export const CoinDetail: FC<{
   if (!complexSlug) return <>loading...</>;
 
   return (
-    <Suspense fallback={<>loading...</>}>
-      <UnifiedCoinDetailsProvider slug={complexSlug}>
-        {focus && <CoinDetailsMeta />}
-        <ChartWidgetProvider>
-          {expanded ? <CoinDetailsExpanded /> : <CoinDetailsCompact />}
-        </ChartWidgetProvider>
-      </UnifiedCoinDetailsProvider>
-    </Suspense>
+    <UnifiedCoinDetailsProvider slug={complexSlug}>
+      {focus && <CoinDetailsMeta />}
+      <ChartWidgetProvider>
+        {expanded ? <CoinDetailsExpanded /> : <CoinDetailsCompact />}
+      </ChartWidgetProvider>
+    </UnifiedCoinDetailsProvider>
   );
 };
