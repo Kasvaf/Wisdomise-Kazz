@@ -19,6 +19,12 @@
   }
 }
 
+.wsdm-table[data-size="sm"] {
+  td > div {
+    @apply !min-h-8 !py-0;
+  }
+}
+
 /* Non-Scrollable Table */
 .wsdm-table[data-scrollable="false"] {
   @apply overflow-x-hidden overflow-y-visible;
@@ -75,7 +81,7 @@
 /* Cell Styles */
 .wsdm-table tr td,
 .wsdm-table tr th {
-  @apply relative overflow-hidden p-0;
+  @apply overflow-hidden p-0;
 
   &[data-first-child="true"] {
     @apply rounded-s-lg;

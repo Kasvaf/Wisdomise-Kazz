@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
-import FiringHolder from '../PageTrade/FiringHolder';
 import Trader from '../PageTrade/Trader';
 import type { TraderInputs } from '../PageTrade/types';
 import BuyForm from './BuyForm';
@@ -11,15 +10,15 @@ import useSwapState from './useSwapState';
 const BuySellForms: React.FC<
   TraderInputs & { mode: 'buy' | 'sell'; loadingClassName?: string }
 > = inputs => {
-  const { mode, slug, loadingClassName } = inputs;
+  const { mode, slug } = inputs;
   const swapState = useSwapState(inputs);
 
   const {
     base: { setSlug: setBase },
     setDir,
     setIsMarketPrice,
-    firing: [firing],
-    confirming: [confirming],
+    firing: [_firing],
+    confirming: [_confirming],
     setAmount,
   } = swapState;
 
@@ -37,10 +36,6 @@ const BuySellForms: React.FC<
     <>
       {mode === 'buy' && <BuyForm state={swapState} />}
       {mode === 'sell' && <SellForm state={swapState} />}
-
-      {(confirming || firing) && (
-        <FiringHolder className={loadingClassName} firing={firing} />
-      )}
     </>
   );
 };
@@ -55,7 +50,7 @@ const BuySellTrader: React.FC<
 
   const isMobile = useIsMobile();
   return (
-    <div className="[&_.id-input]:bg-v1-surface-l1">
+    <div className="pt-3 [&_.id-input]:bg-v1-surface-l1">
       {!positionKey && (
         <ModeSelector className="mb-4" mode={mode} setMode={setMode} />
       )}

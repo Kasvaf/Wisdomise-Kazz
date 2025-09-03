@@ -2,7 +2,9 @@ import { clsx } from 'clsx';
 import { useMemo, useRef } from 'react';
 import { useSurface } from 'utils/useSurface';
 import './style.css';
+import { bxPauseCircle } from 'boxicons-quasar';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import Icon from 'shared/Icon';
 import { EmptyCell } from 'shared/v1-components/Table/EmptyCell';
 import { DIALOG_OPENER_CLASS } from '../Dialog';
 import { EmptyContent } from './EmptyContent';
@@ -24,12 +26,14 @@ export function Table<RecordType extends object>({
   surface,
   onClick,
   isActive,
+  isPaused,
   rowHoverPrefix,
   rowHoverSuffix,
   rowClassName,
   scrollable,
   chunkSize = 48,
   footer,
+  size = 'md',
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
 
@@ -106,6 +110,7 @@ export function Table<RecordType extends object>({
     <div
       className={clsx('wsdm-table', className)}
       data-scrollable={scrollable ? 'true' : 'false'}
+      data-size={size}
       ref={root}
       style={{
         ['--current-color' as never]: colors.current,
@@ -113,10 +118,17 @@ export function Table<RecordType extends object>({
         ['--later-color' as never]: colors.later,
       }}
     >
+      {isPaused && (
+        <Icon
+          className="absolute top-2 right-3 z-10 text-v1-content-brand"
+          name={bxPauseCircle}
+          size={18}
+        />
+      )}
       <table>
         {ths.length > 0 && (
           <thead>
-            <tr>
+            <tr className={clsx(isPaused && '!bg-v1-background-brand/10')}>
               {rowHoverPrefix && (
                 <th data-sticky="start" style={{ width: '0px' }} />
               )}

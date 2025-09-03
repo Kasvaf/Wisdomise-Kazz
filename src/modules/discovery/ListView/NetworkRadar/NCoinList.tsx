@@ -267,7 +267,7 @@ export const NCoinList: FC<{
           </div>
           <div
             className={clsx(
-              'flex items-center gap-1 text-v1-content-info text-xs transition-all',
+              'flex items-center gap-1 text-v1-content-brand text-xs transition-all',
               !hovered && 'hidden',
             )}
           >

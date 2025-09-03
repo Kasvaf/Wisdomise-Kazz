@@ -1,9 +1,8 @@
-import { useHasFlag, useTraderAssetActivity } from 'api';
+import { useHasFlag, useSupportedPairs, useTraderAssetActivity } from 'api';
 import { useGrpc } from 'api/grpc-v2';
-import { useSymbolInfo } from 'api/symbol';
+import { useSolanaSymbol } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { Coin } from 'shared/Coin';
@@ -11,16 +10,55 @@ import { Button } from 'shared/v1-components/Button';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as UsdIcon } from './usd.svg';
 
+export const BtnConvertToUsd = ({
+  isUsd = true,
+  onChange,
+  className,
+  disabled,
+}: {
+  isUsd?: boolean;
+  onChange: (isUsd: boolean) => void;
+  className?: string;
+  disabled?: boolean;
+}) => {
+  return (
+    <Button
+      className={clsx(
+        className,
+        'text-white/50',
+        isUsd && '!text-v1-content-positive',
+      )}
+      disabled={disabled}
+      fab
+      onClick={() => onChange(!isUsd)}
+      size="3xs"
+      variant="ghost"
+    >
+      <UsdIcon className="!size-4" />
+    </Button>
+  );
+};
+
+export function SolanaCoin() {
+  const { data: solanaSymbol } = useSolanaSymbol();
+  return solanaSymbol ? (
+    <Coin className="-mr-1" coin={solanaSymbol} mini nonLink noText />
+  ) : null;
+}
+
 export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
-  const { data } = useTraderAssetActivity(symbol.slug ?? undefined);
-  const isLoggedIn = useIsLoggedIn();
+  const slug = symbol.slug;
+  const { data } = useTraderAssetActivity(symbol.slug);
   const hasFlag = useHasFlag();
 
-  const { data: solanaSymbol } = useSymbolInfo('wrapped-solana');
   const network = useActiveNetwork();
-  const showUsd = settings.showActivityInUsd;
+  const { data: pairs, isPending } = useSupportedPairs(slug);
+
+  const hasSolanaPair =
+    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
+  const showUsd = hasSolanaPair ? settings.showActivityInUsd : true;
 
   const lastCandle = useGrpc({
     service: 'delphinus',
@@ -36,11 +74,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     history: 0,
   });
 
-  const unit = showUsd
-    ? '$'
-    : solanaSymbol && (
-        <Coin className="-mr-1" coin={solanaSymbol} mini nonLink noText />
-      );
+  const unit = showUsd ? '$' : <SolanaCoin />;
 
   const totalBought = Number(
     (showUsd ? data?.total_bought_usd : data?.total_bought) ?? '0',
@@ -65,7 +99,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     });
   };
 
-  if (!isLoggedIn || !hasFlag('/swap-activity')) return null;
+  if (!hasFlag('/swap-activity')) return null;
 
   return (
     <div
@@ -122,18 +156,12 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
             {!mini && (
               <div className="relative mb-2 flex items-center gap-1">
                 <span className="text-v1-content-secondary">PNL</span>
-                <Button
-                  className={clsx(
-                    '!absolute right-0 text-white/70',
-                    showUsd && '!text-v1-content-positive',
-                  )}
-                  fab
-                  onClick={toggleShowActivityInUsd}
-                  size="2xs"
-                  variant="ghost"
-                >
-                  <UsdIcon />
-                </Button>
+                <BtnConvertToUsd
+                  className="!absolute right-0"
+                  disabled={!hasSolanaPair}
+                  isUsd={showUsd}
+                  onChange={toggleShowActivityInUsd}
+                />
               </div>
             )}
             <div

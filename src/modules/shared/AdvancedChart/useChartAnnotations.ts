@@ -80,7 +80,7 @@ export function useSwapChartMarks(slug: string) {
 
     return (
       swaps?.results
-        .filter(s => s.base_slug === slug)
+        .filter(s => s.base_slug === slug && s.status !== 'PENDING')
         .map(s => {
           const fromTo = Number(s.from_amount) / Number(s.to_amount);
           const price = s.side === 'LONG' ? fromTo : 1 / fromTo;
@@ -113,7 +113,7 @@ export function useSwapChartMarks(slug: string) {
             minSize: 30,
             time: Math.floor(new Date(s.created_at).getTime() / 1000),
             price: priceOrMc,
-            text,
+            text: s.status === 'PENDING' ? undefined : text,
             color: s.side === 'LONG' ? 'green' : 'red',
           } as Mark;
         }) ?? []

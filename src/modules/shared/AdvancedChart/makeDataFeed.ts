@@ -79,6 +79,7 @@ const makeDataFeed = ({
   isMarketCap: boolean;
   marksRef: MutableRefObject<Mark[]>;
 }): IBasicDataFeed => {
+  let lastBarClose: number | undefined;
   return {
     onReady: async callback => {
       await getPairsCached(baseSlug);
@@ -174,6 +175,8 @@ const makeDataFeed = ({
           bars = convertToMarketCapCandles(bars, supply);
         }
 
+        lastBarClose ||= bars?.at(-1)?.close;
+
         onResult(bars, {
           noData: bars.length < periodParams.countBack,
         });
@@ -181,7 +184,15 @@ const makeDataFeed = ({
         onError(error.message);
       }
     },
-    subscribeBars: (_symbolInfo, _resolution, onTick, listenerGuid) => {
+    subscribeBars: (_symbolInfo, resolution, onTick, listenerGuid) => {
+      let lastBar: any = null; // last bar sent to TradingView
+      let currentBucketStart: number | null = null; // start of current candle bucket
+
+      // how many seconds each bar represents
+      const dur = resolution.endsWith('S')
+        ? Number.parseInt(resolution) // e.g. "1S", "5S"
+        : Number.parseInt(resolution) * 60; // e.g. "1", "5" minutes
+
       const unsubscribe = observeGrpc(
         {
           service: 'delphinus',
@@ -197,14 +208,49 @@ const makeDataFeed = ({
         {
           next: ({ candle }) => {
             if (!candle) return;
-            onTick({
-              open: +candle.open * (isMarketCap ? supply : 1),
-              high: +candle.high * (isMarketCap ? supply : 1),
-              low: +candle.low * (isMarketCap ? supply : 1),
-              close: +candle.close * (isMarketCap ? supply : 1),
-              volume: +candle.volume,
-              time: +new Date(candle.relatedAt),
-            });
+            const ts = Math.floor(+new Date(candle.relatedAt) / 1000); // seconds
+            const bucketStart = ts - (ts % dur); // normalize to resolution bucket
+
+            const close = +candle.close * (isMarketCap ? supply : 1);
+
+            let bar: any;
+            if (bucketStart !== currentBucketStart) {
+              // new candle interval → start fresh
+              const open = lastBar?.close
+                ? lastBar.close
+                : lastBarClose
+                  ? lastBarClose
+                  : +candle.open * (isMarketCap ? supply : 1);
+
+              bar = {
+                time: bucketStart * 1000,
+                open,
+                high: close,
+                low: close,
+                close,
+                volume: +candle.volume,
+              };
+
+              currentBucketStart = bucketStart;
+            } else {
+              // update existing bar → preserve open
+              bar = {
+                ...lastBar,
+                high: Math.max(
+                  lastBar.high,
+                  +candle.high * (isMarketCap ? supply : 1),
+                ),
+                low: Math.min(
+                  lastBar.low,
+                  +candle.low * (isMarketCap ? supply : 1),
+                ),
+                close,
+                volume: lastBar.volume + +candle.volume,
+              };
+            }
+
+            lastBar = bar;
+            onTick(bar);
           },
           error: err => {
             console.error(err);
