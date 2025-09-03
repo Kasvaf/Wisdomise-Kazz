@@ -12,6 +12,7 @@ import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConne
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Badge from 'shared/Badge';
@@ -33,11 +34,14 @@ interface AssetData {
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
-
   return (
     <NavLink
-      className="!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-4 mobile:py-3 py-2"
-      to={`/token/${asset.slug}`}
+      className={clsx(
+        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-4 mobile:py-3 py-2',
+        baseLoading && 'animate-pulse',
+        !baseInfo && 'pointer-events-none',
+      )}
+      to={generateTokenLink(baseInfo?.networks ?? [])}
     >
       {baseInfo ? (
         <Coin
