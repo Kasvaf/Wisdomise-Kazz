@@ -6,7 +6,6 @@ import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
-import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { NCoinStatsWidget } from '../NCoinStatsWidget';
@@ -38,14 +37,6 @@ export const CoinDetailsCompact: FC = () => {
           type="technical_ideas"
         />
         <CoinMessagesWidget id="coinoverview_socials" type="rest" />
-        <CoinTopTraderHoldersWidget
-          id="coinoverview_top_traders"
-          type="traders"
-        />
-        <CoinTopTraderHoldersWidget
-          id="coinoverview_top_holders"
-          type="holders"
-        />
         <CoinPoolsWidget id="coinoverview_pools" />
         {/* <CoinExchangesWidget id="coinoverview_exchanges" />
         <CoinWhalesWidget id="coinoverview_active_whales" type="active" />

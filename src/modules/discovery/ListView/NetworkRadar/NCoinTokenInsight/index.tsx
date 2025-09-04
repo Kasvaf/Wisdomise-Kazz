@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
-import { type FC, useMemo } from 'react';
+import { type FC, memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReactComponent as BundleHolding } from './bundle_holding.svg';
 import { ReactComponent as DevHolding } from './dev_holding.svg';
@@ -21,7 +20,7 @@ export const NCoinTokenInsight: FC<{
     boundleHolding?: number;
   };
   type: 'row' | 'card';
-}> = ({ type, className, imgClassName, value }) => {
+}> = memo(({ type, className, imgClassName, value }) => {
   const { t } = useTranslation('network-radar');
 
   const items = useMemo<
@@ -115,37 +114,37 @@ export const NCoinTokenInsight: FC<{
           )}
         >
           {items.map(item => (
-            <HoverTooltip key={item.key} title={item.fullTitle}>
-              <div
+            <div
+              className={clsx(
+                'relative flex shrink-0 items-center justify-start gap-px',
+                item.color === 'green'
+                  ? 'text-v1-background-positive'
+                  : item.color === 'red'
+                    ? 'text-v1-background-negative'
+                    : 'opacity-80',
+              )}
+              key={item.key}
+              title={item.fullTitle}
+            >
+              <item.icon
                 className={clsx(
-                  'relative flex shrink-0 items-center justify-start gap-px',
                   item.color === 'green'
-                    ? 'text-v1-background-positive'
+                    ? 'stroke-v1-background-positive-subtle'
                     : item.color === 'red'
-                      ? 'text-v1-background-negative'
-                      : 'opacity-80',
+                      ? 'stroke-v1-background-negative-subtle'
+                      : '',
+                  'size-4',
+                  imgClassName,
                 )}
-              >
-                <item.icon
-                  className={clsx(
-                    item.color === 'green'
-                      ? 'stroke-v1-background-positive-subtle'
-                      : item.color === 'red'
-                        ? 'stroke-v1-background-negative-subtle'
-                        : '',
-                    'size-4',
-                    imgClassName,
-                  )}
-                />{' '}
-                <ReadableNumber
-                  emptyText=""
-                  format={{ decimalLength: 1 }}
-                  popup="never"
-                  value={item.value}
-                />
-                %
-              </div>
-            </HoverTooltip>
+              />{' '}
+              <ReadableNumber
+                emptyText=""
+                format={{ decimalLength: 1 }}
+                popup="never"
+                value={item.value}
+              />
+              %
+            </div>
           ))}
         </div>
       ) : (
@@ -160,46 +159,48 @@ export const NCoinTokenInsight: FC<{
           </p>
           <div className="grid grid-cols-3 gap-3">
             {items.map(item => (
-              <HoverTooltip key={item.key} title={item.fullTitle}>
-                <div className={clsx('flex flex-col gap-1')}>
-                  <p className="text-v1-content-secondary text-xxs">
-                    {item.title}
-                  </p>
+              <div
+                className={clsx('flex flex-col gap-1')}
+                key={item.key}
+                title={item.fullTitle}
+              >
+                <p className="text-v1-content-secondary text-xxs">
+                  {item.title}
+                </p>
 
-                  <div
+                <div
+                  className={clsx(
+                    'relative flex shrink-0 items-center justify-start gap-1',
+                    item.color === 'green'
+                      ? 'text-v1-background-positive'
+                      : item.color === 'red'
+                        ? 'text-v1-background-negative'
+                        : 'opacity-80',
+                  )}
+                >
+                  <item.icon
                     className={clsx(
-                      'relative flex shrink-0 items-center justify-start gap-1',
                       item.color === 'green'
-                        ? 'text-v1-background-positive'
+                        ? 'stroke-v1-background-positive-subtle'
                         : item.color === 'red'
-                          ? 'text-v1-background-negative'
-                          : 'opacity-80',
+                          ? 'stroke-v1-background-negative-subtle'
+                          : '',
+                      'size-5',
+                      imgClassName,
                     )}
-                  >
-                    <item.icon
-                      className={clsx(
-                        item.color === 'green'
-                          ? 'stroke-v1-background-positive-subtle'
-                          : item.color === 'red'
-                            ? 'stroke-v1-background-negative-subtle'
-                            : '',
-                        'size-5',
-                        imgClassName,
-                      )}
-                    />
-                    <ReadableNumber
-                      format={{ decimalLength: 1 }}
-                      label="%"
-                      popup="never"
-                      value={item.value}
-                    />
-                  </div>
+                  />
+                  <ReadableNumber
+                    format={{ decimalLength: 1 }}
+                    label="%"
+                    popup="never"
+                    value={item.value}
+                  />
                 </div>
-              </HoverTooltip>
+              </div>
             ))}
           </div>
         </div>
       )}
     </>
   );
-};
+});

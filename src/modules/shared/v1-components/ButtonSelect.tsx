@@ -88,8 +88,9 @@ export function ButtonSelect<T>({
         {options
           .filter(x => !x.hidden)
           .map((option, index) => (
-            <button
+            <div
               aria-checked={value === option.value}
+              aria-disabled={option.disabled}
               className={clsx(
                 'relative h-full shrink-0 overflow-hidden',
                 size === 'xl' ? 'px-3' : 'px-2',
@@ -98,26 +99,29 @@ export function ButtonSelect<T>({
                   '!rounded-none border-x-0 border-t-0 border-b',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'border border-transparent enabled:hover:text-v1-content-primary/80',
+                'border border-transparent data-enabled:cursor-pointer data-enabled:hover:text-v1-content-primary/80',
                 variant === 'primary'
-                  ? 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-v1-background-brand enabled:aria-checked:text-v1-content-primary-inverse'
+                  ? 'aria-checked:text-v1-content-primary data-enabled:aria-checked:bg-v1-background-brand data-enabled:aria-checked:text-v1-content-primary-inverse'
                   : variant === 'white'
-                    ? 'enabled:aria-checked:bg-v1-content-primary enabled:aria-checked:text-v1-content-primary-inverse'
+                    ? 'data-enabled:aria-checked:bg-v1-content-primary data-enabled:aria-checked:text-v1-content-primary-inverse'
                     : variant === 'tab'
-                      ? 'border-v1-content-primary/10 enabled:aria-checked:border-v1-background-brand enabled:aria-checked:text-v1-content-brand'
-                      : 'aria-checked:text-v1-content-primary enabled:aria-checked:bg-(--active-color)',
+                      ? 'border-v1-content-primary/10 data-enabled:aria-checked:border-v1-background-brand data-enabled:aria-checked:text-v1-content-brand'
+                      : 'aria-checked:text-v1-content-primary data-enabled:aria-checked:bg-(--active-color)',
                 'focus-visible:border-v1-border-focus',
-                'disabled:opacity-40',
+                'aria-disabled:opacity-40',
                 buttonClassName,
                 option.className,
               )}
-              disabled={option.disabled}
+              {...(!option.disabled && {
+                'data-enabled': true,
+              })}
               key={`${option.value?.toString() || ''}-${index}`}
               onClick={handleClick(option)}
               role="radio"
+              tabIndex={0}
             >
               {option.label}
-            </button>
+            </div>
           ))}
       </div>
     </div>

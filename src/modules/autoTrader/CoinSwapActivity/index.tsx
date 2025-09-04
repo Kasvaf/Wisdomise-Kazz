@@ -1,5 +1,5 @@
 import { useHasFlag, useSupportedPairs, useTraderAssetActivity } from 'api';
-import { delphinusGrpc } from 'api/grpc';
+import { useGrpc } from 'api/grpc-v2';
 import { useSolanaSymbol } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -60,12 +60,18 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
   const showUsd = hasSolanaPair ? settings.showActivityInUsd : true;
 
-  const lastCandle = delphinusGrpc.useLastCandleStreamLastValue({
-    market: 'SPOT',
-    network,
-    baseSlug: symbol.slug ?? '',
-    quoteSlug: 'wrapped-solana',
-    convertToUsd: showUsd,
+  const lastCandle = useGrpc({
+    service: 'delphinus',
+    method: 'lastCandleStream',
+    payload: {
+      market: 'SPOT',
+      network,
+      baseSlug: symbol.slug ?? '',
+      quoteSlug: 'wrapped-solana',
+      convertToUsd: showUsd,
+    },
+    enabled: true,
+    history: 0,
   });
 
   const unit = showUsd ? '$' : <SolanaCoin />;

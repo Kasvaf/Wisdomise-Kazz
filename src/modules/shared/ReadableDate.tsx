@@ -1,10 +1,35 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { type FC, useMemo, useState } from 'react';
+import { type FC, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInterval } from 'usehooks-ts';
-import { HoverTooltip } from './HoverTooltip';
 
+// --- Shared ticker (module-level singleton) ---
+const subscribers = new Set<React.Dispatch<React.SetStateAction<number>>>();
+let intervalId: number | null = null;
+let tickValue = 0;
+
+function subscribe(setter: React.Dispatch<React.SetStateAction<number>>) {
+  subscribers.add(setter);
+
+  if (intervalId == null) {
+    intervalId = window.setInterval(() => {
+      tickValue++;
+      for (const dispatch of subscribers) {
+        dispatch(tickValue);
+      }
+    }, 1000);
+  }
+
+  return () => {
+    subscribers.delete(setter);
+    if (subscribers.size === 0 && intervalId != null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  };
+}
+
+// --- Component ---
 export const ReadableDate: FC<{
   value?: Date | string | number | null;
   format?: string;
@@ -14,18 +39,15 @@ export const ReadableDate: FC<{
   suffix?: string | boolean;
 }> = ({ value, className, format, popup = true, emptyText, suffix }) => {
   const { t } = useTranslation('common');
-  const [tick, setTick] = useState(1); // used as dependency to update content
+  const [tick, setTick] = useState(tickValue);
+
+  // subscribe to global ticker
+  useEffect(() => subscribe(setTick), []);
 
   const date = useMemo(
     () => (value === undefined || value === null ? null : dayjs(value)),
     [value],
   );
-
-  const refreshTime = useMemo(() => {
-    if (!date || !tick) return null;
-    const diff = Math.abs(date.diff(Date.now(), 'milliseconds'));
-    return diff < 120_000 ? 1000 : diff < 3_600_000 ? 60_000 : 600_000;
-  }, [date, tick]);
 
   const content = useMemo(() => {
     if (!date || !tick) return null;
@@ -61,30 +83,21 @@ export const ReadableDate: FC<{
             }`.trim();
     }
     const tooltip = date.format('ddd, MMM D, YYYY h:mm:ss A');
-    return {
-      label,
-      tooltip,
-    };
+    return { label, tooltip };
   }, [date, format, suffix, tick]);
-
-  useInterval(() => {
-    if (!date) return;
-    setTick(p => p + 1);
-  }, refreshTime);
 
   const disabled = !popup || !content?.tooltip;
 
   return (
-    <HoverTooltip disabled={disabled} title={content?.tooltip}>
-      <time
-        className={clsx(
-          content?.label && !disabled && 'cursor-help',
-          !content?.label && 'font-light opacity-70',
-          className,
-        )}
-      >
-        {content?.label ?? emptyText ?? t('not-available')}
-      </time>
-    </HoverTooltip>
+    <time
+      className={clsx(
+        content?.label && !disabled && 'cursor-help',
+        !content?.label && 'font-light opacity-70',
+        className,
+      )}
+      {...(!disabled && { title: content?.tooltip })}
+    >
+      {content?.label ?? emptyText ?? t('not-available')}
+    </time>
   );
 };

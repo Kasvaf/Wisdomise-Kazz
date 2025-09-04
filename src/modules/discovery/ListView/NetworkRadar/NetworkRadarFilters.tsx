@@ -1,4 +1,4 @@
-import { networkRadarGrpc } from 'api/grpc';
+import { useGrpc } from 'api/grpc-v2';
 import { bxRotateLeft, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
@@ -67,7 +67,13 @@ export const NetworkRadarFilters: FC<
     'audit',
   );
 
-  const { data: protocols } = networkRadarGrpc.useTrenchProtocolsQuery({});
+  const { data: protocols } = useGrpc({
+    service: 'network_radar',
+    method: 'trenchProtocols',
+    payload: {},
+    enabled: true,
+    history: 0,
+  });
   const currentTabProtocols = useMemo(() => {
     return (
       (tab === 'final_stretch'
