@@ -41,7 +41,11 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
         baseLoading && 'animate-pulse',
         !baseInfo && 'pointer-events-none',
       )}
-      to={generateTokenLink(baseInfo?.networks ?? [])}
+      to={
+        asset.slug !== 'solana'
+          ? generateTokenLink(baseInfo?.networks ?? [])
+          : '#'
+      }
     >
       {baseInfo ? (
         <Coin
