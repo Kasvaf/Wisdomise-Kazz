@@ -30,7 +30,7 @@ self.addEventListener('message', e => {
   if (request.action === 'subscribe') {
     listeners[key] = (listeners[key] ?? 0) + 1;
     if (subscribtions[key]) return;
-    log(`connect ${typeof subscribtions[key]}`, {});
+    log(`connect`, request.payload);
 
     const service = SERVICES[request.service as never] as any;
     const impl = new service.ClientImpl(
@@ -78,11 +78,12 @@ self.addEventListener('message', e => {
 
   if (request.action === 'unsubscribe') {
     listeners[key] = (listeners[key] ?? 0) - 1;
+    log('unsubscribe', request.payload);
     if (listeners[key] > 0) return;
     delete listeners[key];
     if (!subscribtions[key]) return;
     if (typeof subscribtions[key].unsubscribe === 'function') {
-      log('unsubscribe', request.payload);
+      log(`disconnect`, request.payload);
       subscribtions[key].unsubscribe();
     }
     delete subscribtions[key];
