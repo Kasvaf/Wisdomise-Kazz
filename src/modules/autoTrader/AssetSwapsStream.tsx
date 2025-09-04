@@ -1,4 +1,5 @@
 import { useSupportedPairs } from 'api';
+import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
 import { useAllWallets } from 'api/chains/wallet';
 import { delphinusGrpc } from 'api/grpc';
 import type { Swap } from 'api/proto/delphinus';
@@ -28,9 +29,11 @@ import { ReactComponent as UserIcon } from './user.svg';
 export const useAssetEnrichedSwaps = ({
   asset,
   network,
+  wallets,
   enabled = true,
 }: {
-  asset: string;
+  asset?: string;
+  wallets?: string[];
   network: string;
   enabled?: boolean;
 }) => {
@@ -46,35 +49,38 @@ export const useAssetEnrichedSwaps = ({
     {
       network,
       asset,
+      wallets,
     },
     { enabled },
   );
 
-  const data = useMemo(
-    () =>
-      uniqueBy(
-        [...(recent?.map(x => x.swap) ?? []), ...(history?.swaps ?? [])]
-          .filter((x): x is Swap => !!x)
-          .sort((a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt)),
-        x => x.id,
-      ).map(row => {
-        const dir = row.fromAsset === asset ? 'sell' : 'buy';
-        const price = +(
-          (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
-        );
+  const data = useMemo(() => {
+    const swaps = uniqueBy(
+      [...(recent?.map(x => x.swap) ?? []), ...(history?.swaps ?? [])]
+        .filter((x): x is Swap => !!x)
+        .sort((a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt)),
+      x => x.id,
+    );
 
-        const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
-        const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
-        return {
-          ...row,
-          dir,
-          price,
-          tokenAmount,
-          solAmount,
-        };
-      }),
-    [history, recent, asset],
-  );
+    return swaps.map(row => {
+      const dir = row.toAsset === SOLANA_CONTRACT_ADDRESS ? 'sell' : 'buy';
+      const price = +(
+        (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
+      );
+
+      const tokenAddress = dir === 'sell' ? row.fromAsset : row.toAsset;
+      const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
+      const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
+      return {
+        ...row,
+        dir,
+        price,
+        tokenAmount,
+        solAmount,
+        tokenAddress,
+      };
+    });
+  }, [history, recent]);
 
   return {
     data,
@@ -101,8 +107,10 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
     !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
 
   const totalSupply = marketData.totalSupply ?? 0;
-  const showAmountInUsd = hasSolanaPair ? settings.swaps.showAmountInUsd : true;
-  const showMarketCap = settings.swaps.showMarketCap;
+  const showAmountInUsd = hasSolanaPair
+    ? settings.swaps.show_amount_in_usd
+    : true;
+  const showMarketCap = settings.swaps.show_market_cap;
 
   const enabled = !!network && !!asset;
   const { data, isLoading } = useAssetEnrichedSwaps({
@@ -129,7 +137,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
                   disabled={!hasSolanaPair}
                   isUsd={showAmountInUsd}
                   onChange={() =>
-                    updateSwapsPartial({ showAmountInUsd: !showAmountInUsd })
+                    updateSwapsPartial({ show_amount_in_usd: !showAmountInUsd })
                   }
                 />
               </div>
@@ -173,7 +181,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
                   className="text-white/50"
                   fab
                   onClick={() =>
-                    updateSwapsPartial({ showMarketCap: !showMarketCap })
+                    updateSwapsPartial({ show_market_cap: !showMarketCap })
                   }
                   size="3xs"
                   variant="ghost"

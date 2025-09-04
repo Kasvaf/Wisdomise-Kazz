@@ -1,3 +1,4 @@
+import { WalletTracker } from 'modules/discovery/ListView/WalletTracker';
 import { type FC, useEffect } from 'react';
 import { type DiscoveryList, useDiscoveryBackdropParams } from '../lib';
 import { CoinRadar } from './CoinRadar';
@@ -39,6 +40,8 @@ export const ListView: FC<{
         <Portfolio {...rest} />
       ) : list === 'positions' ? (
         <Positions {...rest} />
+      ) : list === 'wallet-tracker' ? (
+        <WalletTracker {...rest} />
       ) : list === 'twitter-tracker' ? (
         <TwitterTracker {...rest} />
       ) : null}

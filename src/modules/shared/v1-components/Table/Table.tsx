@@ -118,13 +118,6 @@ export function Table<RecordType extends object>({
         ['--later-color' as never]: colors.later,
       }}
     >
-      {isPaused && (
-        <Icon
-          className="absolute top-2 right-3 z-10 text-v1-content-brand"
-          name={bxPauseCircle}
-          size={18}
-        />
-      )}
       <table>
         {ths.length > 0 && (
           <thead>
@@ -154,6 +147,13 @@ export function Table<RecordType extends object>({
                         : undefined
                     }
                   >
+                    {index === 0 && isPaused && (
+                      <Icon
+                        className={'text-v1-content-brand'}
+                        name={bxPauseCircle}
+                        size={16}
+                      />
+                    )}
                     {th.content}
                   </div>
                 </th>

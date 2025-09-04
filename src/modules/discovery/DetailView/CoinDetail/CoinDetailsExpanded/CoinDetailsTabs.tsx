@@ -150,7 +150,7 @@ export const CoinDetailsTabs: FC<{
           <Fragment key="leftside">
             <div
               className={clsx(
-                'sticky top-0 z-10 w-full border-v1-border-tertiary border-b',
+                'sticky top-0 z-10 w-full border-v1-border-tertiary border-b bg-v1-surface-l0',
                 !pinnedTab && 'pe-52',
               )}
             >
