@@ -198,7 +198,7 @@ export const useMarketSwap = ({
 };
 
 const NotificationContent = () => {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

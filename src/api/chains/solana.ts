@@ -395,7 +395,12 @@ export const useSolanaMarketSwap = () => {
     console.log('swap 200', Date.now());
 
     if (isCustodial) {
-      signature = await getSignature(key);
+      const { signature: sig, status } = await getSignature(key);
+      if (status === 'CONFIRMED') {
+        return true;
+      } else {
+        signature = sig;
+      }
     } else {
       // Fetch the address lookup tables if provided
       const lookupTableAccounts = (
@@ -440,6 +445,9 @@ export const useSolanaMarketSwap = () => {
 
     if (!signature) {
       throw new Error('Signature not found');
+    }
+
+    if (status === 'CONFIRMED') {
     }
 
     return confirm({ slug: base, signature, latestBlockhash });
