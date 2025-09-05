@@ -14,7 +14,10 @@ import {
 import { useSessionStorage } from 'usehooks-ts';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
-import { CoinTopTraderHoldersWidget } from '../CoinTopTraderHoldersWidget';
+import {
+  CoinTopHoldersWidget,
+  CoinTopTradersWidget,
+} from '../CoinTopTraderHoldersWidget';
 import { useUnifiedCoinDetails } from '../lib';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 
@@ -67,20 +70,10 @@ export const CoinDetailsTabs: FC<{
       />
     ),
     coinoverview_top_traders: (
-      <CoinTopTraderHoldersWidget
-        className="w-full"
-        limit={Number.POSITIVE_INFINITY}
-        title={false}
-        type="traders"
-      />
+      <CoinTopTradersWidget className="w-full" title={false} />
     ),
     coinoverview_top_holders: (
-      <CoinTopTraderHoldersWidget
-        className="w-full"
-        limit={Number.POSITIVE_INFINITY}
-        title={false}
-        type="holders"
-      />
+      <CoinTopHoldersWidget className="w-full" title={false} />
     ),
   };
 

@@ -113,7 +113,9 @@ export const CoinTitleWidget: FC<{
               </div>
               <div className="h-4 w-px bg-white/10" />
               <div className="flex flex-col justify-between">
-                <p className="text-v1-content-secondary text-xs">Volume</p>
+                <p className="text-v1-content-secondary text-xs">
+                  Trading Volume (24h)
+                </p>
                 <ReadableNumber
                   className="text-xs"
                   format={{
@@ -121,7 +123,7 @@ export const CoinTitleWidget: FC<{
                   }}
                   label="$"
                   popup="never"
-                  value={marketData.totalVolume}
+                  value={marketData.volume24h}
                 />
               </div>
               <div className="h-4 w-px bg-white/10" />

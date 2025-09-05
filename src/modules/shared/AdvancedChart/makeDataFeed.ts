@@ -1,5 +1,5 @@
 import { getPairsCached } from 'api';
-import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import { observeGrpc } from 'api/grpc-v2';
 import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
 import type {
@@ -64,24 +64,21 @@ const convertToMarketCapCandles = (candles: ChartCandle[], supply: number) => {
   }));
 };
 
-const makeDataFeed = (
-  delphinus: DelphinusServiceClientImpl,
-  {
-    slug: baseSlug,
-    quote,
-    network,
-    supply,
-    isMarketCap,
-    marksRef,
-  }: {
-    slug: string;
-    quote: string;
-    network: string;
-    supply: number;
-    isMarketCap: boolean;
-    marksRef: MutableRefObject<Mark[]>;
-  },
-): IBasicDataFeed => {
+const makeDataFeed = ({
+  slug: baseSlug,
+  quote,
+  network,
+  supply,
+  isMarketCap,
+  marksRef,
+}: {
+  slug: string;
+  quote: string;
+  network: string;
+  supply: number;
+  isMarketCap: boolean;
+  marksRef: MutableRefObject<Mark[]>;
+}): IBasicDataFeed => {
   let lastBarClose: number | undefined;
   return {
     onReady: async callback => {
@@ -162,7 +159,7 @@ const makeDataFeed = (
           return;
         }
 
-        let bars = await getCandlesCached(delphinus, {
+        let bars = await getCandlesCached({
           market: 'SPOT',
           network,
           baseSlug,
@@ -178,7 +175,6 @@ const makeDataFeed = (
           bars = convertToMarketCapCandles(bars, supply);
         }
 
-        console.log(bars);
         lastBarClose ||= bars?.at(-1)?.close;
 
         onResult(bars, {
@@ -189,13 +185,6 @@ const makeDataFeed = (
       }
     },
     subscribeBars: (_symbolInfo, resolution, onTick, listenerGuid) => {
-      const req = delphinus.lastCandleStream({
-        market: 'SPOT',
-        network,
-        baseSlug,
-        quoteSlug: quote,
-        convertToUsd: checkConvertToUsd(quote),
-      });
       let lastBar: any = null; // last bar sent to TradingView
       let currentBucketStart: number | null = null; // start of current candle bucket
 
@@ -204,11 +193,21 @@ const makeDataFeed = (
         ? Number.parseInt(resolution) // e.g. "1S", "5S"
         : Number.parseInt(resolution) * 60; // e.g. "1", "5" minutes
 
-      function doSub() {
-        const sub = req.subscribe(
-          ({ candle }) => {
+      const unsubscribe = observeGrpc(
+        {
+          service: 'delphinus',
+          method: 'lastCandleStream',
+          payload: {
+            market: 'SPOT',
+            network,
+            baseSlug,
+            quoteSlug: quote,
+            convertToUsd: checkConvertToUsd(quote),
+          },
+        },
+        {
+          next: ({ candle }) => {
             if (!candle) return;
-
             const ts = Math.floor(+new Date(candle.relatedAt) / 1000); // seconds
             const bucketStart = ts - (ts % dur); // normalize to resolution bucket
 
@@ -253,17 +252,12 @@ const makeDataFeed = (
             lastBar = bar;
             onTick(bar);
           },
-          err => {
+          error: err => {
             console.error(err);
-            try {
-              sub.unsubscribe();
-            } catch {}
-            doSub();
           },
-        );
-        listeners[listenerGuid] = () => sub.unsubscribe();
-      }
-      doSub();
+        },
+      );
+      listeners[listenerGuid] = () => unsubscribe();
     },
     unsubscribeBars: listenerGuid => listeners[listenerGuid]?.(),
     getMarks(
