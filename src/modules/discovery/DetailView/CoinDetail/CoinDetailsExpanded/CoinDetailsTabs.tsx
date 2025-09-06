@@ -87,7 +87,7 @@ export const CoinDetailsTabs: FC<{
 
   return (
     <div className="flex max-h-full min-h-full max-w-full flex-col overflow-hidden">
-      <div className="absolute top-1 right-0 z-20 flex shrink-0 items-center justify-start gap-px pe-2">
+      <div className="absolute top-1 right-0 z-[100] flex shrink-0 items-center justify-start gap-px pe-2">
         <BtnInstantTrade
           className="me-2"
           quote={activeQuote}
@@ -143,7 +143,7 @@ export const CoinDetailsTabs: FC<{
           <Fragment key="leftside">
             <div
               className={clsx(
-                'sticky top-0 z-10 w-full border-v1-border-tertiary border-b',
+                'sticky top-0 z-10 w-full border-v1-border-tertiary border-b bg-v1-surface-l0',
                 !pinnedTab && 'pe-52',
               )}
             >
