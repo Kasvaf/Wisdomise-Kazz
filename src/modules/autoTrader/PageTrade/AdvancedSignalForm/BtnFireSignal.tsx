@@ -7,6 +7,7 @@ import { useUserStorage } from 'api/userStorage';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useMarketCap } from 'modules/discovery/DetailView/CoinDetail/useMarketCap';
 import { useTranslation } from 'react-i18next';
 import { DebugPin } from 'shared/DebugPin';
 import { Button } from 'shared/v1-components/Button';
@@ -25,6 +26,8 @@ const BtnFireSignal: React.FC<{
   const hasFlag = useHasFlag();
   const wallet = useActiveWallet();
   const isLoggedIn = useIsLoggedIn();
+  const mc = useMarketCap({});
+  const lowMc = mc.data < 10 ** 6;
 
   const {
     isUpdate: [isUpdate],
@@ -114,8 +117,8 @@ const BtnFireSignal: React.FC<{
           ) : (
             <Button
               className={className}
-              disabled={!isEnabled}
-              loading={isSubmitting}
+              disabled={!isEnabled || lowMc}
+              loading={isSubmitting || mc.isLoading}
               onClick={fireHandler}
             >
               <DebugPin color="orange" title="/trader/positions" />
@@ -124,6 +127,8 @@ const BtnFireSignal: React.FC<{
                   <WarnIcon className="mr-2" />
                   <span className="text-white/70">Insufficient Balance</span>
                 </>
+              ) : !mc.isLoading && lowMc ? (
+                'Low Market Cap (min. $1M)'
               ) : (
                 t('signal-form.btn-fire-signal')
               )}
