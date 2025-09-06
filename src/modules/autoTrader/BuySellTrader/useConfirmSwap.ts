@@ -1,7 +1,8 @@
 import type { BlockhashWithExpiryBlockHeight } from '@solana/web3.js';
 import { useQueryClient } from '@tanstack/react-query';
-import { useTraderSwapsQuery } from 'api';
+import type { Swap, SwapStatus } from 'api';
 import { useSolanaConnection } from 'api/chains/connection';
+import { ofetch } from 'config/ofetch';
 
 export const useConfirmTransaction = () => {
   const connection = useSolanaConnection();
@@ -52,37 +53,45 @@ export const useConfirmTransaction = () => {
 };
 
 export const useSwapSignature = () => {
-  const { refetch, dataUpdatedAt } = useTraderSwapsQuery({});
-
   const getSignature = async (swapKey: string) => {
     let fetchAttempts = 0;
+
     const extractSignature = (urlStr: string) => {
       const url = new URL(urlStr);
       const pathSegments = url.pathname.split('/').filter(Boolean);
-      console.log(pathSegments[1]);
       return pathSegments[1];
     };
 
-    return new Promise<string>((resolve, reject) => {
-      const fetchSwaps = async () => {
-        if (Date.now() - dataUpdatedAt < 1000) return;
+    return new Promise<{ signature: string; status: SwapStatus }>(
+      (resolve, reject) => {
+        const fetchSwaps = async () => {
+          console.log('fetch swap', fetchAttempts, Date.now());
 
-        if (fetchAttempts === 10) {
-          clearInterval(intervalId);
-          reject('Signature not found');
-        }
-        fetchAttempts++;
-        const { data: swaps } = await refetch();
-        const swap = swaps?.results.find(s => s.key === swapKey);
-        const signature = swap ? extractSignature(swap.transaction_link) : null;
-        if (signature && signature !== 'None') {
-          clearInterval(intervalId);
-          resolve(signature);
-        }
-      };
+          if (fetchAttempts === 10) {
+            clearInterval(intervalId);
+            reject('Signature not found');
+          }
 
-      const intervalId = setInterval(fetchSwaps, 1000);
-    });
+          fetchAttempts++;
+          const swap = await ofetch<Swap>(`/trader/swap/${swapKey}`, {
+            method: 'get',
+          });
+          console.log('swap fetched', Date.now());
+          const signature = swap
+            ? extractSignature(swap.transaction_link)
+            : null;
+          if (signature && signature !== 'None') {
+            clearInterval(intervalId);
+            console.log(swap?.status);
+            console.log('signature', signature, Date.now());
+            resolve({ signature, status: swap.status });
+          }
+        };
+
+        fetchSwaps();
+        const intervalId = setInterval(fetchSwaps, 1000);
+      },
+    );
   };
 
   return { getSignature };

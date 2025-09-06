@@ -120,7 +120,7 @@ export function Table<RecordType extends object>({
     >
       {isPaused && (
         <Icon
-          className="absolute top-2 right-3 z-10 text-v1-content-brand"
+          className="absolute top-2 right-3 text-v1-content-brand"
           name={bxPauseCircle}
           size={18}
         />
