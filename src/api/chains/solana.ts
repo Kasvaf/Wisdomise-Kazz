@@ -447,9 +447,6 @@ export const useSolanaMarketSwap = () => {
       throw new Error('Signature not found');
     }
 
-    if (status === 'CONFIRMED') {
-    }
-
     return confirm({ slug: base, signature, latestBlockhash });
   };
 };
