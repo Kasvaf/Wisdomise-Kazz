@@ -63,6 +63,7 @@ export default function BtnQuickBuy({
       )}
       onClick={async e => {
         e.stopPropagation();
+        e.preventDefault();
         const isLoggedIn = await ensureAuthenticated();
         if (isLoggedIn) {
           void swap();

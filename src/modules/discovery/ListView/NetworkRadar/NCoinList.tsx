@@ -12,6 +12,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
@@ -315,7 +316,7 @@ export const NCoinList: FC<{
             );
 
             return (
-              <div
+              <Link
                 className={clsx(
                   'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
                   mini
@@ -326,9 +327,8 @@ export const NCoinList: FC<{
                     : '-translate-y-14 opacity-0',
                 )}
                 key={row.symbol?.slug ?? ''}
-                onClick={() => row && onRowClick?.(row)}
-                role="button"
                 tabIndex={0}
+                to={`/token/${row.symbol?.network}/${row.symbol?.base}`}
               >
                 {source === 'final_stretch' &&
                   row.networkData?.boundingCurve === 1 && (
@@ -400,7 +400,7 @@ export const NCoinList: FC<{
                     source={source}
                   />
                 )}
-              </div>
+              </Link>
             );
           })}
         </div>
