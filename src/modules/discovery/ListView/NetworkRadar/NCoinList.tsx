@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
+import { useInterval } from 'usehooks-ts';
 import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 import { NCoinAge } from './NCoinAge';
 import { NCoinBuySell } from './NCoinBuySell';
@@ -203,6 +204,8 @@ export const NCoinList: FC<{
     setHovered(listRef.current?.matches?.(':hover') ?? false);
   }, []);
 
+  useInterval(autoSetHovered, 5000);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (hovered) {
@@ -248,7 +251,8 @@ export const NCoinList: FC<{
       {title && (
         <div
           className="scrollbar-none sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg bg-v1-surface-l-next px-3 py-2 text-sm shadow-xl"
-          onPointerEnter={autoSetHovered}
+          onMouseEnter={autoSetHovered}
+          onMouseLeave={autoSetHovered}
         >
           <div
             className={clsx(
@@ -287,8 +291,8 @@ export const NCoinList: FC<{
       ) : (
         <div
           className="flex flex-col gap-3"
-          onPointerEnter={autoSetHovered}
-          onPointerLeave={autoSetHovered}
+          onMouseEnter={autoSetHovered}
+          onMouseLeave={autoSetHovered}
           ref={listRef}
         >
           {dataSource.map(row => {
