@@ -89,12 +89,20 @@ export function useGrpc<
   const [response, setResponse] = useState<GrpcState<R>>({
     data: lastObservedData.get(key),
     history: [],
-    isLoading: true,
+    isLoading: !lastObservedData.has(key),
   });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: its safe to check only key and not the entire object
   useEffect(() => {
     if (request.enabled === false) return;
+
+    if (lastObservedData.has(key)) {
+      setResponse({
+        data: lastObservedData.get(key),
+        history: [],
+        isLoading: !lastObservedData.has(key),
+      });
+    }
 
     const unsubscribe = subscribeWorker(worker, request, resp => {
       lastObservedData.set(resp.key, resp.data);
