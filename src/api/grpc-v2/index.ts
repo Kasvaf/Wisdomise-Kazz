@@ -43,6 +43,8 @@ export function requestGrpc<
   });
 }
 
+const lastObservedData = new Map<string, any>();
+
 export function observeGrpc<
   S extends ServiceName,
   M extends MethodName<S>,
@@ -55,8 +57,14 @@ export function observeGrpc<
     error?: (error: any) => void;
   },
 ) {
+  const key = generateKey(request);
+  if (lastObservedData.has(key)) {
+    callbacks?.next?.(lastObservedData.get(key));
+  }
+
   return subscribeWorker(worker, request, resp => {
     if (resp.data) {
+      lastObservedData.set(resp.key, resp.data);
       callbacks?.next?.(resp.data);
     } else if (resp.error) {
       callbacks?.error?.(resp.error);
@@ -76,18 +84,30 @@ export function useGrpc<
   history?: number;
   enabled?: boolean;
 }): GrpcState<R> {
+  const key = generateKey(request);
+
   const [response, setResponse] = useState<GrpcState<R>>({
-    data: undefined,
+    data: lastObservedData.get(key),
     history: [],
-    isLoading: true,
+    isLoading: !lastObservedData.has(key),
   });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: its safe to check only key and not the entire object
   useEffect(() => {
     if (request.enabled === false) return;
 
+    if (lastObservedData.has(key)) {
+      setResponse({
+        data: lastObservedData.get(key),
+        history: [],
+        isLoading: !lastObservedData.has(key),
+      });
+    }
+
     const unsubscribe = subscribeWorker(worker, request, resp => {
+      lastObservedData.set(resp.key, resp.data);
       setResponse(p => {
+        lastObservedData.set(resp.key, resp.data);
         const newHistory = resp.data ? [...p.history, resp.data] : p.history;
         const historySize = request.history ?? 0;
         return {
@@ -105,7 +125,7 @@ export function useGrpc<
     return () => {
       unsubscribe();
     };
-  }, [generateKey(request), request.enabled]);
+  }, [key, request.enabled]);
 
   return response;
 }
