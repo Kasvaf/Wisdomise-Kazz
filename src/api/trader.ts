@@ -635,6 +635,7 @@ export interface Swap {
   trading_volume: string;
   transaction_link: string;
   wallet_address: string;
+  fail_reason: string;
 }
 
 export type SwapStatus = 'PENDING' | 'CONFIRMED';

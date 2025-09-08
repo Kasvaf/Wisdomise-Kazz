@@ -77,6 +77,11 @@ export const useSwapSignature = () => {
             method: 'get',
           });
           console.log('swap fetched', Date.now());
+
+          if (swap.fail_reason) {
+            reject(swap.fail_reason);
+          }
+
           const signature = swap
             ? extractSignature(swap.transaction_link)
             : null;
