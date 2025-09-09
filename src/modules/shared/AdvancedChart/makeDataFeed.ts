@@ -68,14 +68,14 @@ const makeDataFeed = ({
   slug: baseSlug,
   quote,
   network,
-  supply,
+  totalSupply,
   isMarketCap,
   marksRef,
 }: {
   slug: string;
   quote: string;
   network: string;
-  supply: number;
+  totalSupply: number;
   isMarketCap: boolean;
   marksRef: MutableRefObject<Mark[]>;
 }): IBasicDataFeed => {
@@ -171,8 +171,8 @@ const makeDataFeed = ({
           convertToUsd: checkConvertToUsd(quote),
         });
 
-        if (isMarketCap && supply) {
-          bars = convertToMarketCapCandles(bars, supply);
+        if (isMarketCap && totalSupply) {
+          bars = convertToMarketCapCandles(bars, totalSupply);
         }
 
         lastBarClose ||= bars?.at(-1)?.close;
@@ -211,7 +211,7 @@ const makeDataFeed = ({
             const ts = Math.floor(+new Date(candle.relatedAt) / 1000); // seconds
             const bucketStart = ts - (ts % dur); // normalize to resolution bucket
 
-            const close = +candle.close * (isMarketCap ? supply : 1);
+            const close = +candle.close * (isMarketCap ? totalSupply : 1);
 
             let bar: any;
             if (bucketStart !== currentBucketStart) {
@@ -220,7 +220,7 @@ const makeDataFeed = ({
                 ? lastBar.close
                 : lastBarClose
                   ? lastBarClose
-                  : +candle.open * (isMarketCap ? supply : 1);
+                  : +candle.open * (isMarketCap ? totalSupply : 1);
 
               bar = {
                 time: bucketStart * 1000,
@@ -238,11 +238,11 @@ const makeDataFeed = ({
                 ...lastBar,
                 high: Math.max(
                   lastBar.high,
-                  +candle.high * (isMarketCap ? supply : 1),
+                  +candle.high * (isMarketCap ? totalSupply : 1),
                 ),
                 low: Math.min(
                   lastBar.low,
-                  +candle.low * (isMarketCap ? supply : 1),
+                  +candle.low * (isMarketCap ? totalSupply : 1),
                 ),
                 close,
                 volume: lastBar.volume + +candle.volume,

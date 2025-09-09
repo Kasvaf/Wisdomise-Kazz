@@ -44,7 +44,7 @@ const AdvancedChart: React.FC<{
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
   const marks = useSwapChartMarks(slug);
   const marksRef = useRef(marks);
-  const supply = details?.marketData.totalSupply ?? 0;
+  const totalSupply = details?.marketData.totalSupply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
@@ -62,7 +62,7 @@ const AdvancedChart: React.FC<{
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (isLoading || !data?.network) return;
+    if (isLoading || !data?.network || !totalSupply) return;
     const savedResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
     ) || '30') as ResolutionString;
@@ -72,7 +72,7 @@ const AdvancedChart: React.FC<{
       datafeed: makeDataFeed({
         ...data,
         isMarketCap,
-        supply,
+        totalSupply,
         marksRef,
       }),
       container: chartContainerRef.current,
@@ -207,7 +207,7 @@ const AdvancedChart: React.FC<{
     language,
     setGlobalChartWidget,
     widgetRef,
-    supply,
+    totalSupply,
     pairs,
     convertToUsd,
     isMarketCap,
@@ -216,7 +216,6 @@ const AdvancedChart: React.FC<{
     setConvertToUsd,
   ]);
 
-  if (isLoading || !data?.network) return null;
   return <div className={clsx(className)} ref={chartContainerRef} />;
 };
 

@@ -111,7 +111,7 @@ export function useGrpc<
         const newHistory = resp.data ? [...p.history, resp.data] : p.history;
         const historySize = request.history ?? 0;
         return {
-          data: resp.data,
+          data: resp.data ?? p.data,
           error: resp.error,
           isLoading: false,
           history:

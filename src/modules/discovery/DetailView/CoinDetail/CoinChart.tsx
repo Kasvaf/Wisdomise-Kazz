@@ -1,13 +1,11 @@
-import { useLastCandleQuery } from 'api';
 import { useCoinDetails } from 'api/discovery';
-import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import AdvancedChart from 'shared/AdvancedChart';
 import useIsMobile from 'utils/useIsMobile';
 import { useUnifiedCoinDetails } from './lib';
 
 // TODO: follow mahdi bakhshi to remove this
-const DirtyCoinChart: React.FC<{ height?: number }> = () => {
+const _DirtyCoinChart: React.FC<{ height?: number }> = () => {
   const isMobile = useIsMobile();
   const { symbol } = useUnifiedCoinDetails();
   const { data } = useCoinDetails({ slug: symbol.slug });
@@ -52,20 +50,7 @@ const DirtyCoinChart: React.FC<{ height?: number }> = () => {
 };
 
 const CoinChart: React.FC = () => {
-  const { symbol } = useUnifiedCoinDetails();
-  const slug = symbol.slug === 'solana' ? 'wrapped-solana' : symbol.slug;
-  const [quote] = useActiveQuote();
-  const lastCandle = useLastCandleQuery({ slug, quote });
-  if (lastCandle.isLoading) return null;
-
-  return lastCandle.data?.symbol?.poolAddress &&
-    /^(solana|ton|the-open-network)$/.test(
-      lastCandle.data?.symbol.network ?? '',
-    ) ? (
-    <AdvancedChart className="size-full" />
-  ) : (
-    <DirtyCoinChart />
-  );
+  return <AdvancedChart className="size-full" />;
 };
 
 export default CoinChart;
