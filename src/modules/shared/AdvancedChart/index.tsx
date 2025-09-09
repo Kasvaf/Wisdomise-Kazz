@@ -92,7 +92,6 @@ const AdvancedChart: React.FC<{
       ],
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
       enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
-      timeframe: '7D', // initial zoom on chart
       interval: savedResolution,
       time_frames: [
         { title: '3m', text: '3m', resolution: '60' as ResolutionString },
