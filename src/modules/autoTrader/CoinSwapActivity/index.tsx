@@ -106,7 +106,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
       className={clsx(
         mini
           ? 'cursor-pointer border-white/5 border-t'
-          : 'mb-1 border-white/10 border-b',
+          : 'border-white/10 border-b',
       )}
       onClick={() => mini && toggleShowActivityInUsd()}
     >

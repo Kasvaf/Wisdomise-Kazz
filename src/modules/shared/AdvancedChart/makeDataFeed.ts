@@ -184,8 +184,8 @@ const makeDataFeed = ({
 
       // how many seconds each bar represents
       const dur = resolution.endsWith('S')
-        ? Number.parseInt(resolution) // e.g. "1S", "5S"
-        : Number.parseInt(resolution) * 60; // e.g. "1", "5" minutes
+        ? Number.parseInt(resolution, 10) // e.g. "1S", "5S"
+        : Number.parseInt(resolution, 10) * 60; // e.g. "1", "5" minutes
 
       const unsubscribe = observeGrpc(
         {

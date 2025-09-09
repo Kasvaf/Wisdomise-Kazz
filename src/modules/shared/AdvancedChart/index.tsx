@@ -62,7 +62,15 @@ const AdvancedChart: React.FC<{
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (isLoading || !data?.network || !totalSupply) return;
+    if (
+      isLoading ||
+      !data?.network ||
+      !data.symbolName ||
+      !totalSupply ||
+      !pairs ||
+      !pairs.length
+    )
+      return;
     const savedResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
     ) || '30') as ResolutionString;
@@ -77,6 +85,7 @@ const AdvancedChart: React.FC<{
       }),
       container: chartContainerRef.current,
       library_path: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/`,
+      custom_css_url: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/custom.css`,
 
       locale: language as any,
       // enabled_features: ['study_templates'],
@@ -201,7 +210,10 @@ const AdvancedChart: React.FC<{
     };
   }, [
     slug,
-    data,
+    data?.quote,
+    data?.network,
+    data?.slug,
+    data?.symbolName,
     isLoading,
     language,
     setGlobalChartWidget,

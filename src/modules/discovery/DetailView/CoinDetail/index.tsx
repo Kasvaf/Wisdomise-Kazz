@@ -1,5 +1,5 @@
 import { useDiscoveryParams } from 'modules/discovery/lib';
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
 import { CoinDetailsExpanded } from './CoinDetailsExpanded';
