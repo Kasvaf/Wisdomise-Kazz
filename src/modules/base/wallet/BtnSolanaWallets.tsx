@@ -5,7 +5,7 @@ import {
   useConnectedWallet,
   useCustodialWallet,
 } from 'api/chains/wallet';
-import { useSymbolsInfo } from 'api/symbol';
+import { type CoinSymbol, useSymbolsInfo } from 'api/symbol';
 import { useWalletsQuery, type Wallet } from 'api/wallets';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
@@ -208,7 +208,7 @@ function UserMiniAssets({ wallet }: { wallet?: Wallet }) {
 
   return symbols && (wallet?.address || address) ? (
     <div className="flex items-center justify-center rounded-md border border-v1-inverse-overlay-10 px-2">
-      <Coins coins={symbols} />
+      <Coins coins={symbols.filter(Boolean) as CoinSymbol[]} />
     </div>
   ) : null;
 }

@@ -21,7 +21,7 @@ export default function BuysSells({ wallet }: { wallet: Wallet }) {
     pageSize: PAGE_SIZE,
     address: wallet.address,
   });
-  const { data: symbols } = useSymbolsInfo(
+  const { data: symbols, isPending } = useSymbolsInfo(
     data?.results?.map(s => s.base_slug),
   );
 
@@ -31,14 +31,14 @@ export default function BuysSells({ wallet }: { wallet: Wallet }) {
         key: 'token',
         title: 'Token',
         sticky: 'start',
-        render: row => (
-          <div className="text-xs">
-            {(() => {
-              const coin = symbols?.find(s => s.slug === row.base_slug);
-              return coin ? <Coin coin={coin} /> : null;
-            })()}
-          </div>
-        ),
+        render: row => {
+          const coin = symbols?.find(s => s?.slug === row.base_slug);
+          return (
+            <div className="text-xs">
+              {coin ? <Coin coin={coin} /> : !isPending && row.base_slug}
+            </div>
+          );
+        },
       },
       {
         key: 'type',
@@ -88,7 +88,7 @@ export default function BuysSells({ wallet }: { wallet: Wallet }) {
         ),
       },
     ],
-    [symbols],
+    [symbols, isPending],
   );
 
   return (
@@ -107,7 +107,7 @@ export default function BuysSells({ wallet }: { wallet: Wallet }) {
         />
       }
       loading={isLoading}
-      rowKey={r => r.transaction_link}
+      rowKey={r => r.key}
       scrollable
       surface={1}
     />

@@ -32,7 +32,7 @@ export default function AccountPnL({
         render: row => (
           <div className="text-xs">
             {(() => {
-              const coin = symbols?.find(s => s.slug === row.slug);
+              const coin = symbols?.find(s => s?.slug === row.slug);
               return coin ? <Coin coin={coin} /> : null;
             })()}
           </div>

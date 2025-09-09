@@ -137,19 +137,24 @@ function PairAssets({ base, quote }: { base: string; quote: string }) {
 
   return (
     <div className="flex items-center">
-      {coins?.map((coin, index) => (
-        <Coin
-          className={clsx(
-            'relative z-10',
-            index !== 0 && '!z-0 -ml-6 absolute',
-          )}
-          coin={coin}
-          key={coin.slug}
-          nonLink={index !== 0}
-          noText
-        />
-      ))}
-      <span className="ml-2">{coins?.map(c => c.abbreviation)?.join('/')}</span>
+      {coins?.map(
+        (coin, index) =>
+          coin && (
+            <Coin
+              className={clsx(
+                'relative z-10',
+                index !== 0 && '!z-0 -ml-6 absolute',
+              )}
+              coin={coin}
+              key={coin.slug}
+              nonLink={index !== 0}
+              noText
+            />
+          ),
+      )}
+      <span className="ml-2">
+        {coins?.map(c => c?.abbreviation)?.join('/')}
+      </span>
     </div>
   );
 }
