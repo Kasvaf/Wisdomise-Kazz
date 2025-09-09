@@ -94,7 +94,7 @@ export const useSwapSignature = () => {
         };
 
         fetchSwaps();
-        const intervalId = setInterval(fetchSwaps, 1000);
+        const intervalId = setInterval(fetchSwaps, 500);
       },
     );
   };
