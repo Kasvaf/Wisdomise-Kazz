@@ -8,10 +8,12 @@ const chainId = 'solana';
 const clusterPublicKey = '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'; // mainnet-beta
 const rpc = `rpc.walletconnect.org/v1/?chainId=${chainId}:${clusterPublicKey}&projectId=${projectId}`;
 const httpsRpc = `https://${rpc}`;
-const wsRpc = `https://${rpc}`;
+const wsRpc = `wss://${rpc}`;
 
 const backupRpc =
-  'https://young-old-tree.solana-mainnet.quiknode.pro/ca99ef43426d07e0838047552f4ad5fe58a1dd6a/';
+  'young-old-tree.solana-mainnet.quiknode.pro/ca99ef43426d07e0838047552f4ad5fe58a1dd6a/';
+const httpsBackupRpc = `https://${backupRpc}`;
+const wsBackupRpc = `wss://${backupRpc}`;
 
 const context = createContext<Connection | null>(null);
 
@@ -34,7 +36,10 @@ export const SolanaConnectionProvider: React.FC<{
         await connection.getEpochInfo();
       } catch {
         Sentry.captureException('Primary RPC failed, switching backup');
-        const backup = new Connection(backupRpc, 'confirmed');
+        const backup = new Connection(httpsBackupRpc, {
+          commitment: 'confirmed',
+          wsEndpoint: wsBackupRpc,
+        });
         try {
           await backup.getEpochInfo();
           setConnection(backup);
