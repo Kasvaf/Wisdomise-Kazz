@@ -24,10 +24,7 @@ import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
 import { usePendingPositionInCache } from 'api/trader';
 import { ofetch } from 'config/ofetch';
-import {
-  useConfirmTransaction,
-  useSwapSignature,
-} from 'modules/autoTrader/BuySellTrader/useConfirmSwap';
+import { useConfirmTransaction } from 'modules/autoTrader/BuySellTrader/useConfirmSwap';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { queryContractSlugs } from './utils';
 
@@ -339,6 +336,8 @@ interface SwapResponse {
   wallet_address: string;
   simulate_data: unknown;
   is_custodial: boolean;
+  transaction_hash: string;
+  transaction_link: string;
 }
 
 interface Instruction {
@@ -359,7 +358,6 @@ export const useSolanaMarketSwap = () => {
   const { address, isCustodial } = useActiveWallet();
   const connection = useSolanaConnection();
   const { confirm } = useConfirmTransaction();
-  const { getSignature } = useSwapSignature();
 
   return async (
     base: string,
@@ -389,18 +387,18 @@ export const useSolanaMarketSwap = () => {
 
     console.log('attempt', Date.now());
     const [
-      { key, instructions, lookup_table_address: lookupTableAddresses },
+      {
+        key,
+        instructions,
+        lookup_table_address: lookupTableAddresses,
+        transaction_hash,
+      },
       latestBlockhash,
     ] = await Promise.all([swap, connection.getLatestBlockhash()]);
     console.log('swap 200', Date.now());
 
     if (isCustodial) {
-      const { signature: sig, status } = await getSignature(key);
-      if (status === 'CONFIRMED') {
-        return true;
-      } else {
-        signature = sig;
-      }
+      signature = transaction_hash;
     } else {
       // Fetch the address lookup tables if provided
       const lookupTableAccounts = (

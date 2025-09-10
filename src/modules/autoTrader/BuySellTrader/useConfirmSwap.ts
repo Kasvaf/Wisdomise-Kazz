@@ -18,12 +18,24 @@ export const useConfirmTransaction = () => {
     signature: string;
   }) => {
     const invalidateQueries = () => {
+      let fetchAttempts = 0;
       void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
       void queryClient.invalidateQueries({
         queryKey: ['solana-user-assets'],
       });
       void queryClient.invalidateQueries({ queryKey: ['buys-sells'] });
+
       void queryClient.invalidateQueries({ queryKey: ['trader-asset', slug] });
+      const intervalId = setInterval(() => {
+        if (fetchAttempts <= 10) {
+          void queryClient.invalidateQueries({
+            queryKey: ['trader-asset', slug],
+          });
+          fetchAttempts++;
+        } else {
+          clearInterval(intervalId);
+        }
+      }, 1000);
     };
 
     const timoutSignal = (timeout = 20_000) => {
@@ -32,6 +44,20 @@ export const useConfirmTransaction = () => {
       return abortController.signal;
     };
 
+    const now = new Date();
+
+    const time = now.toLocaleTimeString('en-US', {
+      hour12: false, // 24h format
+      timeZone: 'Asia/Tehran',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+
+    // append milliseconds
+    const ms = String(now.getMilliseconds()).padStart(3, '0');
+
+    console.log(`${time}.${ms}`);
     return connection
       .confirmTransaction({
         signature,
