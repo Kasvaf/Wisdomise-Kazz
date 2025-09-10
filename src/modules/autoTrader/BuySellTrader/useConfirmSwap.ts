@@ -18,12 +18,24 @@ export const useConfirmTransaction = () => {
     signature: string;
   }) => {
     const invalidateQueries = () => {
+      let fetchAttempts = 0;
       void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
       void queryClient.invalidateQueries({
         queryKey: ['solana-user-assets'],
       });
       void queryClient.invalidateQueries({ queryKey: ['buys-sells'] });
+
       void queryClient.invalidateQueries({ queryKey: ['trader-asset', slug] });
+      const intervalId = setInterval(() => {
+        if (fetchAttempts <= 10) {
+          void queryClient.invalidateQueries({
+            queryKey: ['trader-asset', slug],
+          });
+          fetchAttempts++;
+        } else {
+          clearInterval(intervalId);
+        }
+      }, 1000);
     };
 
     const timoutSignal = (timeout = 20_000) => {
