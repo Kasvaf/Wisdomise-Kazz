@@ -18,7 +18,7 @@ export function useCustomVersion() {
       if (requestProductionModeChange) {
         const productionModeValue =
           searchParams.get('production') === 'false' ? 'false' : 'true';
-        localStorage.setItem('production2', productionModeValue);
+        localStorage.setItem('production', productionModeValue);
         searchParams.delete('production');
       }
 

@@ -9,7 +9,7 @@ import {
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function BtnQuickBuy({
@@ -17,11 +17,13 @@ export default function BtnQuickBuy({
   source,
   className,
   networks,
+  size = 'xs',
 }: {
   slug: string;
   source: QuickBuySource;
   className?: string;
   networks?: CoinNetwork[] | null;
+  size?: ButtonSize;
 }) {
   const quote = 'wrapped-solana';
   const { settings, getActivePreset } = useUserSettings();
@@ -69,7 +71,7 @@ export default function BtnQuickBuy({
           void swap();
         }
       }}
-      size="xs"
+      size={size}
     >
       <InstantIcon />
       <span className="shrink-0">

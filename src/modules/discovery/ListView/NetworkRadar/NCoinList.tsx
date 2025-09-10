@@ -2,6 +2,7 @@ import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import NCoinTransactions from 'modules/discovery/ListView/NetworkRadar/NCoinTransactions';
 import {
   type FC,
   memo,
@@ -19,7 +20,6 @@ import { Coin } from 'shared/v1-components/Coin';
 import { useInterval } from 'usehooks-ts';
 import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 import { NCoinAge } from './NCoinAge';
-import { NCoinBuySell } from './NCoinBuySell';
 import { NCoinSecurity } from './NCoinSecurity';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 
@@ -37,49 +37,50 @@ const NCoinMarketDataCol: FC<{
         className,
       )}
     >
-      <div
-        style={{
-          color: calcNCoinMarketCapColor(
-            +(value.networkData?.marketCap ?? '0') || 0,
-          ),
-        }}
-        title="Market Cap"
-      >
-        <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
-          {'MC'}
-        </span>
-        <ReadableNumber
-          className="align-middle font-medium text-[1.35em]"
-          format={{
-            decimalLength: 1,
+      <div className="flex items-center gap-1">
+        <div className="flex items-center" title="Volume">
+          <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
+            {'V'}
+          </span>
+          <ReadableNumber
+            className="align-middle"
+            format={{
+              decimalLength: 1,
+            }}
+            label="$"
+            popup="never"
+            value={+(value.networkData?.volume ?? '0') || 0}
+          />
+        </div>
+        <div
+          style={{
+            color: calcNCoinMarketCapColor(
+              +(value.networkData?.marketCap ?? '0') || 0,
+            ),
           }}
-          label="$"
-          popup="never"
-          value={+(value.networkData?.marketCap ?? '0') || 0}
-        />
-      </div>
-      <div title="Volume">
-        <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
-          {'V'}
-        </span>
-        <ReadableNumber
-          className="align-middle"
-          format={{
-            decimalLength: 1,
-          }}
-          label="$"
-          popup="never"
-          value={+(value.networkData?.volume ?? '0') || 0}
-        />
+          title="Market Cap"
+        >
+          <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+            {'MC'}
+          </span>
+          <ReadableNumber
+            className="align-middle font-medium text-base"
+            format={{
+              decimalLength: 1,
+            }}
+            label="$"
+            popup="never"
+            value={+(value.networkData?.marketCap ?? '0') || 0}
+          />
+        </div>
       </div>
       {!row && (
-        <>
-          <div title="Transactions">
+        <div className="flex items-center gap-1">
+          <div className="flex items-center" title="Transactions">
             <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
               {'TX'}
             </span>
-            <NCoinBuySell
-              className="align-middle"
+            <NCoinTransactions
               value={{
                 buys: value.networkData?.totalBuy,
                 sells: value.networkData?.totalSell,
@@ -99,7 +100,7 @@ const NCoinMarketDataCol: FC<{
               value={value.validatedData?.numberOfHolders}
             />
           </div>
-        </>
+        </div>
       )}
     </div>
   ),
@@ -333,7 +334,7 @@ export const NCoinList: FC<{
                 {source === 'final_stretch' &&
                   row.networkData?.boundingCurve === 1 && (
                     <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
-                      <div className="-mt-28 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-[#00FFA3] to-[#00A3FF] opacity-45 blur-2xl" />
+                      <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-35 blur-2xl" />
                     </div>
                   )}
                 <div className="relative flex flex-col gap-1 overflow-hidden">
@@ -382,8 +383,8 @@ export const NCoinList: FC<{
                 <div
                   className={clsx(
                     mini
-                      ? 'flex items-center justify-between text-xxs'
-                      : 'absolute end-2 flex h-full flex-col justify-center text-xs',
+                      ? 'flex items-center text-xxs'
+                      : 'absolute end-2 top-2 flex h-full flex-col text-xs',
                   )}
                 >
                   {mini && bCurve}
@@ -395,7 +396,8 @@ export const NCoinList: FC<{
                 </div>
                 {row.symbol && (
                   <BtnQuickBuy
-                    className="!absolute !hidden group-hover:!flex right-2 bottom-2"
+                    className="!absolute !hidden group-hover:!flex !px-2 right-2 bottom-2"
+                    size="2xs"
                     slug={row.symbol.slug}
                     source={source}
                   />

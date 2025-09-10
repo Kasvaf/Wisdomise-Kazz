@@ -105,7 +105,7 @@ export const NCoinTokenInsight: FC<{
       {type === 'row' ? (
         <div
           className={clsx(
-            'flex items-center gap-1',
+            'flex items-center gap-2',
             !value && 'animate-pulse',
             className,
           )}

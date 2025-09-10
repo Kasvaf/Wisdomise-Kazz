@@ -27,7 +27,7 @@ export function HoverTooltip({
         arrow={false}
         autoAdjustOverflow
         onOpenChange={onOpenChange}
-        rootClassName="!max-w-[450px] p-3 text-sm text-v1-content-primary [&_.ant-tooltip-inner]:!bg-v1-surface-l0"
+        rootClassName="!max-w-[450px] p-3 text-sm text-v1-content-primary [&_.ant-tooltip-inner]:!bg-v1-surface-l1 border border-white/10 rounded-lg"
         title={title}
       >
         <span className={clsx('cursor-help', DIALOG_OPENER_CLASS, className)}>
