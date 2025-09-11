@@ -1,4 +1,4 @@
-import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import { requestGrpc } from 'api/grpc-v2';
 import { isProduction } from 'utils/version';
 
 export type Resolution =
@@ -23,25 +23,25 @@ export interface ChartCandle {
 }
 
 const caches: Record<string, Promise<ChartCandle[]> | undefined> = {};
-const getCandlesCached = async (
-  delphinus: DelphinusServiceClientImpl,
-  params: {
-    network: string;
-    baseSlug: string;
-    quoteSlug: string;
-    resolution: Resolution;
-    startTime?: string;
-    limit?: number;
-    endTime: string;
-    skipEmptyCandles: boolean;
-    market: string;
-    convertToUsd: boolean;
-  },
-) => {
+const getCandlesCached = async (params: {
+  network: string;
+  baseSlug: string;
+  quoteSlug: string;
+  resolution: Resolution;
+  startTime?: string;
+  limit?: number;
+  endTime: string;
+  skipEmptyCandles: boolean;
+  market: string;
+  convertToUsd: boolean;
+}) => {
   const cacheKey = JSON.stringify(params);
   if (!caches[cacheKey]) {
-    caches[cacheKey] = delphinus
-      .getCandles(params)
+    caches[cacheKey] = requestGrpc({
+      service: 'delphinus',
+      method: 'getCandles',
+      payload: params,
+    })
       .then(data => {
         return data.candles.map(c => ({
           open: +c.open,

@@ -14,7 +14,7 @@ interface SymbolNetwork {
   decimals: number;
 }
 
-interface CoinSymbol extends Coin {
+export interface CoinSymbol extends Coin {
   networks: SymbolNetwork[];
 }
 
@@ -51,11 +51,11 @@ export const useSymbolsInfo = (slugs: string[] = []) => {
   return useQuery({
     queryKey: ['symbols-info', slugs],
     queryFn: async () =>
-      await Promise.all(
+      (await Promise.all(
         slugs.map(slug =>
           load(getCoins, slug === 'wrapped-solana' ? 'solana' : slug),
         ),
-      ),
+      )) as (CoinSymbol | null)[],
     staleTime: Number.POSITIVE_INFINITY,
     enabled: slugs.length > 0,
   });

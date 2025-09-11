@@ -630,12 +630,15 @@ export interface Swap {
   pnl_usd_percent: null;
   quote_slug: string;
   side: 'LONG' | 'SHORT';
-  status: 'PENDING' | 'CONFIRMED';
+  status: SwapStatus;
   to_amount: string;
   trading_volume: string;
   transaction_link: string;
   wallet_address: string;
+  fail_reason: string;
 }
+
+export type SwapStatus = 'PENDING' | 'CONFIRMED';
 
 export function useTraderSwapsQuery({
   address,

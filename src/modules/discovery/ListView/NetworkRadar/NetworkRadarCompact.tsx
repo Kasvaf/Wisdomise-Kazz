@@ -1,8 +1,6 @@
-import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { type FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { usePageState } from 'shared/usePageState';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import {
@@ -28,14 +26,6 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
     final_stretch: finalStretch,
     migrated,
   } = useNetworkRadarStream(filters);
-
-  const navigate = useNavigate();
-
-  const onRowClick = (row: TrenchStreamResponseResult) => {
-    if (row.symbol?.network && row.symbol?.base)
-      return navigate(`/token/${row.symbol?.network}/${row.symbol?.base}`);
-    navigate(`/token/${row.symbol?.slug}`);
-  };
 
   return (
     <>
@@ -81,7 +71,6 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           dataSource={newPairs.data?.results ?? []}
           loading={newPairs.isLoading}
           mini
-          onRowClick={onRowClick}
           source="new_pairs"
         />
         <NCoinList
@@ -89,7 +78,6 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           dataSource={finalStretch.data?.results ?? []}
           loading={finalStretch.isLoading}
           mini
-          onRowClick={onRowClick}
           source="final_stretch"
         />
         <NCoinList
@@ -97,7 +85,6 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           dataSource={migrated.data?.results ?? []}
           loading={migrated.isLoading}
           mini
-          onRowClick={onRowClick}
           source="migrated"
         />
       </div>

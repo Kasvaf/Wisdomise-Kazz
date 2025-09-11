@@ -1,41 +1,26 @@
-import {
-  type CoinTopTraderHolder,
-  useCoinTopTraderHolders,
-} from 'api/discovery';
+import { type GrpcState, useGrpc } from 'api/grpc-v2';
+import type {
+  TopHolderStreamResponse,
+  TopTraderStreamResponse,
+  WalletUpdate,
+} from 'api/proto/network_radar';
 import { clsx } from 'clsx';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { type FC, useMemo } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Button } from 'shared/v1-components/Button';
+import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Wallet } from '../WhaleDetail/Wallet';
 import { useUnifiedCoinDetails } from './lib';
 
-export function CoinTopTraderHoldersWidget({
-  type,
-  title,
-  id,
-  limit: _limit = 6,
-  hr,
-  className,
-}: {
-  type: Parameters<typeof useCoinTopTraderHolders>[0]['type'];
-  title?: boolean;
-  limit?: number;
-  id?: string;
-  hr?: boolean;
-  className?: string;
-}) {
-  const { t } = useTranslation();
-  const [limit, setLimit] = useState<number | undefined>(_limit);
-  const { symbol } = useUnifiedCoinDetails();
-  const resp = useCoinTopTraderHolders({
-    type,
-    slug: symbol.slug,
-  });
-
-  const columns = useMemo<Array<TableColumn<CoinTopTraderHolder>>>(
+const SharedTable: FC<{
+  type: 'holders' | 'traders';
+  grpcState:
+    | GrpcState<TopHolderStreamResponse>
+    | GrpcState<TopTraderStreamResponse>;
+}> = ({ type, grpcState: resp }) => {
+  const [globalNetwork] = useGlobalNetwork();
+  const columns = useMemo<Array<TableColumn<WalletUpdate>>>(
     () => [
       {
         title: 'Address',
@@ -45,8 +30,8 @@ export function CoinTopTraderHoldersWidget({
             className="[&_img]:hidden"
             noLink
             wallet={{
-              address: row.wallet_address,
-              network: row.network,
+              address: row.walletAddress,
+              network: globalNetwork,
             }}
             whale={false}
           />
@@ -60,7 +45,7 @@ export function CoinTopTraderHoldersWidget({
               className="text-xs"
               label="$"
               popup="never"
-              value={row.volume_inflow}
+              value={row.volumeInflow}
             />
             <ReadableNumber
               className="text-v1-content-secondary text-xxs"
@@ -69,7 +54,7 @@ export function CoinTopTraderHoldersWidget({
               }}
               label="TXs"
               popup="never"
-              value={row.num_inflows}
+              value={row.numInflows}
             />
           </div>
         ),
@@ -82,7 +67,7 @@ export function CoinTopTraderHoldersWidget({
               className="text-xs"
               label="$"
               popup="never"
-              value={row.volume_outflow}
+              value={row.volumeOutflow}
             />
             <ReadableNumber
               className="text-v1-content-secondary text-xxs"
@@ -91,7 +76,7 @@ export function CoinTopTraderHoldersWidget({
               }}
               label="TXs"
               popup="never"
-              value={row.num_outflows}
+              value={row.numOutflows}
             />
           </div>
         ),
@@ -118,7 +103,7 @@ export function CoinTopTraderHoldersWidget({
             popup="never"
             showIcon={false}
             showSign
-            value={row.realized_pnl}
+            value={row.realizedPnl}
           />
         ),
       },
@@ -129,7 +114,7 @@ export function CoinTopTraderHoldersWidget({
             className="text-xs"
             label="$"
             popup="never"
-            value={row.average_buy}
+            value={row.averageBuy}
           />
         ),
       },
@@ -151,14 +136,49 @@ export function CoinTopTraderHoldersWidget({
               showIcon={false}
               showSign
               suffix="(7D)"
-              value={(row.balance - row.balance_first) / (row.balance / 100)}
+              value={(row.balance - row.balanceFirst) / (row.balance / 100)}
             />
           </div>
         ),
       },
     ],
-    [type],
+    [type, globalNetwork],
   );
+
+  return (
+    <Table
+      columns={columns}
+      loading={resp.isLoading}
+      rowKey={row => row.walletAddress}
+      scrollable
+      surface={1}
+    />
+  );
+};
+
+export function CoinTopHoldersWidget({
+  title,
+  id,
+  hr,
+  className,
+}: {
+  title?: boolean;
+  id?: string;
+  hr?: boolean;
+  className?: string;
+}) {
+  const { symbol } = useUnifiedCoinDetails();
+  const topHolders = useGrpc({
+    service: 'network_radar',
+    method: 'topHolderStream',
+    payload: {
+      network: symbol.network ?? undefined,
+      tokenAddress: symbol.contractAddress ?? undefined,
+      slug: symbol.slug,
+      resolution: '1h',
+      window: 24,
+    },
+  });
 
   return (
     <>
@@ -170,30 +190,52 @@ export function CoinTopTraderHoldersWidget({
         id={id}
       >
         {title !== false && (
-          <h3 className="font-semibold text-sm">
-            {type === 'holders' ? 'Top Holders' : 'Top Traders'}
-          </h3>
+          <h3 className="font-semibold text-sm">Top Holders</h3>
         )}
-        <Table
-          columns={columns}
-          dataSource={resp.data?.slice?.(0, limit) ?? []}
-          footer={
-            typeof limit === 'number' &&
-            (resp.data?.length ?? 0) > limit && (
-              <Button
-                onClick={() => setLimit(undefined)}
-                size="xs"
-                variant="link"
-              >
-                {t('common:load-more')}
-              </Button>
-            )
-          }
-          loading={resp.isLoading}
-          rowKey={row => `${row.wallet_address}${row.network ?? ''}`}
-          scrollable
-          surface={1}
-        />
+        <SharedTable grpcState={topHolders} type="holders" />
+      </div>
+      {hr && <hr className="border-white/10" />}
+    </>
+  );
+}
+
+export function CoinTopTradersWidget({
+  title,
+  id,
+  hr,
+  className,
+}: {
+  title?: boolean;
+  id?: string;
+  hr?: boolean;
+  className?: string;
+}) {
+  const { symbol } = useUnifiedCoinDetails();
+  const topTraders = useGrpc({
+    service: 'network_radar',
+    method: 'topTraderStream',
+    payload: {
+      network: symbol.network ?? undefined,
+      tokenAddress: symbol.contractAddress ?? undefined,
+      slug: symbol.slug,
+      resolution: '1h',
+      window: 24,
+    },
+  });
+
+  return (
+    <>
+      <div
+        className={clsx(
+          'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
+          className,
+        )}
+        id={id}
+      >
+        {title !== false && (
+          <h3 className="font-semibold text-sm">Top Traders</h3>
+        )}
+        <SharedTable grpcState={topTraders} type="traders" />
       </div>
       {hr && <hr className="border-white/10" />}
     </>

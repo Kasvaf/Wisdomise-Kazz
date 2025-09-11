@@ -1,7 +1,7 @@
 import { useSupportedPairs } from 'api';
 import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
 import { useAllWallets } from 'api/chains/wallet';
-import { delphinusGrpc } from 'api/grpc';
+import { useGrpc } from 'api/grpc-v2';
 import type { Swap } from 'api/proto/delphinus';
 import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
@@ -37,22 +37,28 @@ export const useAssetEnrichedSwaps = ({
   network: string;
   enabled?: boolean;
 }) => {
-  const { data: history, isLoading } = delphinusGrpc.useSwapsHistoryQuery(
-    {
+  const { data: history, isLoading } = useGrpc({
+    service: 'delphinus',
+    method: 'swapsHistory',
+    payload: {
       network,
       asset,
     },
-    { enabled },
-  );
+    enabled,
+    history: 0,
+  });
 
-  const { data: recent } = delphinusGrpc.useSwapsStreamAllValues(
-    {
+  const { history: recent } = useGrpc({
+    service: 'delphinus',
+    method: 'swapsStream',
+    payload: {
       network,
       asset,
       wallets,
     },
-    { enabled },
-  );
+    enabled,
+    history: Number.POSITIVE_INFINITY,
+  });
 
   const data = useMemo(() => {
     const swaps = uniqueBy(

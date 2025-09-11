@@ -4,10 +4,10 @@ import {
   USDC_CONTRACT_ADDRESS,
   USDT_CONTRACT_ADDRESS,
 } from 'api/chains/constants';
-import { delphinusGrpc } from 'api/grpc';
 import { ofetch } from 'config/ofetch';
 import dayjs from 'dayjs';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useGrpc } from './grpc-v2';
 import { useSupportedPairs } from './trader';
 import type { MarketTypes } from './types/shared';
 
@@ -98,7 +98,6 @@ export const useLastCandleQuery = ({
   quote,
   market = 'SPOT',
   convertToUsd = !quote,
-  debug,
 }: LastCandleParams) => {
   const { data: supportedPairs } = useSupportedPairs(base);
 
@@ -129,16 +128,19 @@ export const useLastCandleQuery = ({
   const theQuote = bestPair?.quote;
   const bestNet = network || bestPair?.net;
 
-  return delphinusGrpc.useLastCandleStreamLastValue(
-    {
+  return useGrpc({
+    service: 'delphinus',
+    method: 'lastCandleStream',
+    payload: {
       market,
       network: bestNet,
       baseSlug: base,
       quoteSlug: theQuote,
       convertToUsd,
     },
-    { enabled: Boolean(base && theQuote && bestNet && market), debug },
-  );
+    enabled: Boolean(base && theQuote && bestNet && market),
+    history: 0,
+  });
 
   // return useQuery({
   //   queryKey: ['last-candle', base, theQuote, bestNet, market, convertToUsd],

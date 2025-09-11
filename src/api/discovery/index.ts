@@ -66,6 +66,7 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) => {
       ),
     select: data =>
       data
+        .filter(row => row.symbol.slug !== 'solana')
         .map(row => ({
           ...row,
           _highlighted:
@@ -141,6 +142,7 @@ export const useSocialRadarCoins = (config: {
       }).then(x => x ?? []),
     select: data =>
       data
+        .filter(row => row.symbol.slug !== 'solana')
         .map(row => ({
           ...row,
           _highlighted:
@@ -409,6 +411,7 @@ export const useTechnicalRadarCoins = (config: {
       ),
     select: data => {
       return data
+        .filter(row => row.symbol.slug !== 'solana')
         .map(row => ({
           ...row,
           _highlighted:
@@ -563,6 +566,7 @@ export const useWhaleRadarCoins = (config: {
       }),
     select: data =>
       data
+        .filter(row => row.symbol.slug !== 'solana')
         .filter(row => {
           if (
             !matcher(config.query).coin(row.symbol) ||
@@ -912,6 +916,7 @@ export const useDetailedCoins = (config: {
         },
       });
     },
+    select: data => data.filter(row => row.symbol.slug !== 'solana'),
   });
 };
 

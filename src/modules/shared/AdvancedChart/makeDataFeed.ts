@@ -1,5 +1,5 @@
 import { getPairsCached } from 'api';
-import type { DelphinusServiceClientImpl } from 'api/proto/delphinus';
+import { observeGrpc } from 'api/grpc-v2';
 import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
 import type {
@@ -54,35 +54,35 @@ const checkConvertToUsd = (quote: string) => {
     : false;
 };
 
-const convertToMarketCapCandles = (candles: ChartCandle[], supply: number) => {
-  return candles.map(bar => ({
-    ...bar,
-    open: Number(bar.open) * supply,
-    high: Number(bar.high) * supply,
-    low: Number(bar.low) * supply,
-    close: Number(bar.close) * supply,
+const convertToMarketCapCandles = (
+  candles: ChartCandle[],
+  totalSupply: number,
+) => {
+  return candles.map(candle => ({
+    ...candle,
+    open: candle.open * totalSupply,
+    high: candle.high * totalSupply,
+    low: candle.low * totalSupply,
+    close: candle.close * totalSupply,
   }));
 };
 
-const makeDataFeed = (
-  delphinus: DelphinusServiceClientImpl,
-  {
-    slug: baseSlug,
-    quote,
-    network,
-    supply,
-    isMarketCap,
-    marksRef,
-  }: {
-    slug: string;
-    quote: string;
-    network: string;
-    supply: number;
-    isMarketCap: boolean;
-    marksRef: MutableRefObject<Mark[]>;
-  },
-): IBasicDataFeed => {
-  let lastBarClose: number | undefined;
+const makeDataFeed = ({
+  slug: baseSlug,
+  quote,
+  network,
+  totalSupply,
+  isMarketCap,
+  marksRef,
+}: {
+  slug: string;
+  quote: string;
+  network: string;
+  totalSupply: number;
+  isMarketCap: boolean;
+  marksRef: MutableRefObject<Mark[]>;
+}): IBasicDataFeed => {
+  let lastCandleClose: number | undefined;
   return {
     onReady: async callback => {
       await getPairsCached(baseSlug);
@@ -153,48 +153,32 @@ const makeDataFeed = (
       if (!res) return onError('Unsupported');
 
       try {
-        const dur = resolutionToSeconds[res];
-        const _start = Math.ceil(periodParams.from / dur);
-        const end = Math.ceil(periodParams.to / dur);
-
-        if (periodParams.countBack > 1000) {
-          onResult([]);
-          return;
-        }
-
-        let bars = await getCandlesCached(delphinus, {
+        let candles = await getCandlesCached({
           market: 'SPOT',
           network,
           baseSlug,
           quoteSlug: quote,
           resolution: res,
-          endTime: new Date(end * dur * 1000).toISOString(),
+          endTime: new Date(periodParams.to * 1000).toISOString(),
           limit: periodParams.countBack,
           skipEmptyCandles: true,
           convertToUsd: checkConvertToUsd(quote),
         });
 
-        if (isMarketCap && supply) {
-          bars = convertToMarketCapCandles(bars, supply);
+        if (isMarketCap) {
+          candles = convertToMarketCapCandles(candles, totalSupply);
         }
 
-        lastBarClose ||= bars?.at(-1)?.close;
+        lastCandleClose ||= candles?.at(-1)?.close;
 
-        onResult(bars, {
-          noData: bars.length < periodParams.countBack,
+        onResult(candles, {
+          noData: candles.length < periodParams.countBack,
         });
       } catch (error: any) {
         onError(error.message);
       }
     },
     subscribeBars: (_symbolInfo, resolution, onTick, listenerGuid) => {
-      const req = delphinus.lastCandleStream({
-        market: 'SPOT',
-        network,
-        baseSlug,
-        quoteSlug: quote,
-        convertToUsd: checkConvertToUsd(quote),
-      });
       let lastBar: any = null; // last bar sent to TradingView
       let currentBucketStart: number | null = null; // start of current candle bucket
 
@@ -203,24 +187,34 @@ const makeDataFeed = (
         ? Number.parseInt(resolution, 10) // e.g. "1S", "5S"
         : Number.parseInt(resolution, 10) * 60; // e.g. "1", "5" minutes
 
-      function doSub() {
-        const sub = req.subscribe(
-          ({ candle }) => {
+      const unsubscribe = observeGrpc(
+        {
+          service: 'delphinus',
+          method: 'lastCandleStream',
+          payload: {
+            market: 'SPOT',
+            network,
+            baseSlug,
+            quoteSlug: quote,
+            convertToUsd: checkConvertToUsd(quote),
+          },
+        },
+        {
+          next: ({ candle }) => {
             if (!candle) return;
-
             const ts = Math.floor(+new Date(candle.relatedAt) / 1000); // seconds
             const bucketStart = ts - (ts % dur); // normalize to resolution bucket
 
-            const close = +candle.close * (isMarketCap ? supply : 1);
+            const close = +candle.close * (isMarketCap ? totalSupply : 1);
 
             let bar: any;
             if (bucketStart !== currentBucketStart) {
               // new candle interval → start fresh
               const open = lastBar?.close
                 ? lastBar.close
-                : lastBarClose
-                  ? lastBarClose
-                  : +candle.open * (isMarketCap ? supply : 1);
+                : lastCandleClose
+                  ? lastCandleClose
+                  : +candle.open * (isMarketCap ? totalSupply : 1);
 
               bar = {
                 time: bucketStart * 1000,
@@ -238,11 +232,11 @@ const makeDataFeed = (
                 ...lastBar,
                 high: Math.max(
                   lastBar.high,
-                  +candle.high * (isMarketCap ? supply : 1),
+                  +candle.high * (isMarketCap ? totalSupply : 1),
                 ),
                 low: Math.min(
                   lastBar.low,
-                  +candle.low * (isMarketCap ? supply : 1),
+                  +candle.low * (isMarketCap ? totalSupply : 1),
                 ),
                 close,
                 volume: lastBar.volume + +candle.volume,
@@ -252,17 +246,12 @@ const makeDataFeed = (
             lastBar = bar;
             onTick(bar);
           },
-          err => {
+          error: err => {
             console.error(err);
-            try {
-              sub.unsubscribe();
-            } catch {}
-            doSub();
           },
-        );
-        listeners[listenerGuid] = () => sub.unsubscribe();
-      }
-      doSub();
+        },
+      );
+      listeners[listenerGuid] = () => unsubscribe();
     },
     unsubscribeBars: listenerGuid => listeners[listenerGuid]?.(),
     getMarks(

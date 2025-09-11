@@ -1,0 +1,10 @@
+:root {
+  --tv-color-toolbar-button-text-active: #beff21;
+  --tv-color-toolbar-button-text-active-hover: #beff21;
+  --tv-spinner-color: #beff21;
+  --tv-spinner-background: red;
+}
+
+.loading-indicator {
+  background-color: #0c0c0c !important;
+}

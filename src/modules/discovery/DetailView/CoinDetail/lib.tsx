@@ -4,7 +4,7 @@ import {
   useCoinDetails,
   useDetailedCoins,
 } from 'api/discovery';
-import { networkRadarGrpc } from 'api/grpc';
+import { useGrpc } from 'api/grpc-v2';
 import type {
   DevData,
   RiskData,
@@ -149,9 +149,15 @@ export const UnifiedCoinDetailsProvider: FC<{
   slug: ComplexSlug;
 }> = ({ children, slug }) => {
   const resp1 = useCoinDetails({ slug: slug.slug });
-  const resp2 = networkRadarGrpc.useCoinDetailStreamLastValue({
-    network: slug.network,
-    base: slug.contractAddress,
+  const resp2 = useGrpc({
+    service: 'network_radar',
+    method: 'coinDetailStream',
+    payload: {
+      network: slug.network,
+      base: slug.contractAddress,
+    },
+    enabled: !!slug.network && !!slug.contractAddress,
+    history: 0,
   });
   const priceResp = useLastPriceQuery({
     slug: slug.slug,
@@ -201,7 +207,9 @@ export const UnifiedCoinDetailsProvider: FC<{
     const totalNumBuys24h = data2?.networkData?.totalBuy ?? null;
     const totalNumSells24h = data2?.networkData?.totalSell ?? null;
 
-    const volume24h = null; // TODO: roohi (data2) should add volume24h,
+    const volume24h = data2?.networkData?.volume24
+      ? +data2?.networkData?.volume24
+      : null;
 
     const boundingCurve = data2?.networkData?.boundingCurve ?? null;
 

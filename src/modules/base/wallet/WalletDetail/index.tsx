@@ -34,7 +34,7 @@ export default function WalletDetail(_: {
   const [window, setWindow] = useState(24);
 
   return wallet ? (
-    <div>
+    <div className="p-3">
       <div className="flex items-center gap-2">
         <WalletName wallet={wallet} />
         <HoverTooltip className="inline" title="Copy Wallet Address">

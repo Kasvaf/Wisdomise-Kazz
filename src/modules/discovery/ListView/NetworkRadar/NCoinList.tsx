@@ -2,14 +2,24 @@ import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
-import { type FC, type ReactNode, useEffect, useState } from 'react';
+import NCoinTransactions from 'modules/discovery/ListView/NetworkRadar/NCoinTransactions';
+import {
+  type FC,
+  memo,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
+import { useInterval } from 'usehooks-ts';
 import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 import { NCoinAge } from './NCoinAge';
-import { NCoinBuySell } from './NCoinBuySell';
 import { NCoinSecurity } from './NCoinSecurity';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
 
@@ -17,108 +27,152 @@ const NCoinMarketDataCol: FC<{
   className?: string;
   value: TrenchStreamResponseResult;
   row?: boolean;
-}> = ({ className, value, row }) => (
-  <div
-    className={clsx(
-      'flex gap-1',
-      !row && 'flex-col items-end justify-center',
-      row && 'flex-row-reverse items-center justify-start',
-      className,
-    )}
-  >
+}> = memo(
+  ({ className, value, row }) => (
     <div
-      style={{
-        color: calcNCoinMarketCapColor(
-          +(value.networkData?.marketCap ?? '0') || 0,
-        ),
-      }}
-      title="Market Cap"
+      className={clsx(
+        'flex gap-1',
+        !row && 'flex-col items-end justify-center',
+        row && 'flex-row-reverse items-center justify-start',
+        className,
+      )}
     >
-      <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
-        {'MC'}
-      </span>
-      <ReadableNumber
-        className="align-middle font-medium text-[1.35em]"
-        format={{
-          decimalLength: 1,
-        }}
-        label="$"
-        popup="never"
-        value={+(value.networkData?.marketCap ?? '0') || 0}
-      />
-    </div>
-    <div title="Volume">
-      <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
-        {'V'}
-      </span>
-      <ReadableNumber
-        className="align-middle"
-        format={{
-          decimalLength: 1,
-        }}
-        label="$"
-        popup="never"
-        value={+(value.networkData?.volume ?? '0') || 0}
-      />
-    </div>
-    {!row && (
-      <>
-        <div title="Transactions">
-          <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
-            {'TX'}
+      <div className="flex items-center gap-1">
+        <div className="flex items-center" title="Volume">
+          <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
+            {'V'}
           </span>
-          <NCoinBuySell
-            className="align-middle"
-            value={{
-              buys: value.networkData?.totalBuy,
-              sells: value.networkData?.totalSell,
-            }}
-          />
-        </div>
-        <div title="Number of Holders">
-          <Icon
-            className="me-1 inline-block align-middle text-v1-content-secondary"
-            name={bxGroup}
-            size={16}
-            strokeWidth={0.1}
-          />
           <ReadableNumber
             className="align-middle"
+            format={{
+              decimalLength: 1,
+            }}
+            label="$"
             popup="never"
-            value={value.validatedData?.numberOfHolders}
+            value={+(value.networkData?.volume ?? '0') || 0}
           />
         </div>
-      </>
-    )}
-  </div>
+        <div
+          style={{
+            color: calcNCoinMarketCapColor(
+              +(value.networkData?.marketCap ?? '0') || 0,
+            ),
+          }}
+          title="Market Cap"
+        >
+          <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+            {'MC'}
+          </span>
+          <ReadableNumber
+            className="align-middle font-medium text-base"
+            format={{
+              decimalLength: 1,
+            }}
+            label="$"
+            popup="never"
+            value={+(value.networkData?.marketCap ?? '0') || 0}
+          />
+        </div>
+      </div>
+      {!row && (
+        <div className="flex items-center gap-1">
+          <div className="flex items-center" title="Transactions">
+            <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+              {'TX'}
+            </span>
+            <NCoinTransactions
+              value={{
+                buys: value.networkData?.totalBuy,
+                sells: value.networkData?.totalSell,
+              }}
+            />
+          </div>
+          <div title="Number of Holders">
+            <Icon
+              className="me-1 inline-block align-middle text-v1-content-secondary"
+              name={bxGroup}
+              size={16}
+              strokeWidth={0.1}
+            />
+            <ReadableNumber
+              className="align-middle"
+              popup="never"
+              value={value.validatedData?.numberOfHolders}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  ),
+  (prev, current) => {
+    if (
+      prev.value.networkData?.volume !== current.value.networkData?.volume ||
+      prev.value.networkData?.marketCap !==
+        current.value.networkData?.marketCap ||
+      prev.value.networkData?.totalBuy !==
+        current.value.networkData?.totalBuy ||
+      prev.value.networkData?.totalSell !==
+        current.value.networkData?.totalSell ||
+      prev.value.validatedData?.numberOfHolders !==
+        current.value.validatedData?.numberOfHolders ||
+      prev.value.validatedData?.numberOfHolders !==
+        current.value.validatedData?.numberOfHolders ||
+      prev.className !== current.className
+    )
+      return false;
+    return true;
+  },
 );
 
 export const NCoinBCurve: FC<{
   value?: number;
   className?: string;
-}> = ({ value, className }) => {
-  return (
-    <div
-      className={className}
-      style={{
-        color: calcNCoinBCurveColor({
-          bCurvePercent: (value ?? 0) * 100,
-        }),
-      }}
-      title="Bonding Curve"
-    >
-      <ReadableNumber
-        className="font-medium"
-        format={{
-          decimalLength: 1,
+}> = memo(
+  ({ value, className }) => {
+    return (
+      <div
+        className={className}
+        style={{
+          color: calcNCoinBCurveColor({
+            bCurvePercent: (value ?? 0) * 100,
+          }),
         }}
-        label="%"
-        popup="never"
-        value={(value ?? 0) * 100}
+        title="Bonding Curve"
+      >
+        <ReadableNumber
+          className="font-medium"
+          format={{
+            decimalLength: 1,
+          }}
+          label="%"
+          popup="never"
+          value={(value ?? 0) * 100}
+        />
+      </div>
+    );
+  },
+  (prev, current) =>
+    !(prev.value !== current.value || prev.className !== current.className),
+);
+
+const NCoinAgeAndSecurity: FC<{ lpBurned?: boolean; createdAt?: string }> =
+  memo(({ lpBurned, createdAt }) => (
+    <>
+      <NCoinSecurity
+        imgClassName="size-4"
+        type="row"
+        value={{
+          lpBurned: lpBurned ?? false,
+        }}
       />
-    </div>
-  );
-};
+      <NCoinAge
+        className="ms-1 text-xs"
+        imgClassName="hidden"
+        inline
+        value={createdAt}
+      />
+    </>
+  ));
 
 export const NCoinList: FC<{
   dataSource: TrenchStreamResponseResult[];
@@ -139,12 +193,20 @@ export const NCoinList: FC<{
   onRowClick,
   source,
 }) => {
+  const listRef = useRef<HTMLDivElement>(null);
+
   const [dataSource, setDataSource] = useState(_dataSource);
   const [shown, setShown] = useState<Set<string>>(
     new Set(dataSource.map(x => x.symbol?.slug ?? '')),
   );
   const [hovered, setHovered] = useState(false);
   const { t } = useTranslation();
+
+  const autoSetHovered = useCallback(() => {
+    setHovered(listRef.current?.matches?.(':hover') ?? false);
+  }, []);
+
+  useInterval(autoSetHovered, 5000);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
@@ -191,7 +253,8 @@ export const NCoinList: FC<{
       {title && (
         <div
           className="scrollbar-none sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg bg-v1-surface-l-next px-3 py-2 text-sm shadow-xl"
-          onPointerEnter={() => setHovered(false)}
+          onMouseEnter={autoSetHovered}
+          onMouseLeave={autoSetHovered}
         >
           <div
             className={clsx(
@@ -230,26 +293,16 @@ export const NCoinList: FC<{
       ) : (
         <div
           className="flex flex-col gap-3"
-          onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
+          onMouseEnter={autoSetHovered}
+          onMouseLeave={autoSetHovered}
+          ref={listRef}
         >
           {dataSource.map(row => {
             const ageAndSecurity = (
-              <>
-                <NCoinSecurity
-                  imgClassName="size-4"
-                  type="row"
-                  value={{
-                    lpBurned: row.securityData?.lpBurned ?? false,
-                  }}
-                />
-                <NCoinAge
-                  className="ms-1 text-xs"
-                  imgClassName="hidden"
-                  inline
-                  value={row.symbol?.createdAt}
-                />
-              </>
+              <NCoinAgeAndSecurity
+                createdAt={row.symbol?.createdAt}
+                lpBurned={row.securityData?.lpBurned}
+              />
             );
 
             const bCurve = (
@@ -262,8 +315,9 @@ export const NCoinList: FC<{
                 )}
               </>
             );
+
             return (
-              <div
+              <Link
                 className={clsx(
                   'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
                   mini
@@ -274,14 +328,13 @@ export const NCoinList: FC<{
                     : '-translate-y-14 opacity-0',
                 )}
                 key={row.symbol?.slug ?? ''}
-                onClick={() => row && onRowClick?.(row)}
-                role="button"
                 tabIndex={0}
+                to={`/token/${row.symbol?.network}/${row.symbol?.base}`}
               >
                 {source === 'final_stretch' &&
                   row.networkData?.boundingCurve === 1 && (
                     <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
-                      <div className="-mt-28 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-[#00FFA3] to-[#00A3FF] opacity-45 blur-2xl" />
+                      <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-35 blur-2xl" />
                     </div>
                   )}
                 <div className="relative flex flex-col gap-1 overflow-hidden">
@@ -330,8 +383,8 @@ export const NCoinList: FC<{
                 <div
                   className={clsx(
                     mini
-                      ? 'flex items-center justify-between text-xxs'
-                      : 'absolute end-2 flex h-full flex-col justify-center text-xs',
+                      ? 'flex items-center text-xxs'
+                      : 'absolute end-2 top-2 flex h-full flex-col text-xs',
                   )}
                 >
                   {mini && bCurve}
@@ -343,12 +396,13 @@ export const NCoinList: FC<{
                 </div>
                 {row.symbol && (
                   <BtnQuickBuy
-                    className="!absolute !hidden group-hover:!flex right-2 bottom-2"
+                    className="!absolute !hidden group-hover:!flex !px-2 right-2 bottom-2"
+                    size="2xs"
                     slug={row.symbol.slug}
                     source={source}
                   />
                 )}
-              </div>
+              </Link>
             );
           })}
         </div>

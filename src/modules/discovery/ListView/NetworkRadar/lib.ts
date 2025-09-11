@@ -1,5 +1,8 @@
-import { networkRadarGrpc } from 'api/grpc';
-import type { TrenchStreamRequest } from 'api/proto/network_radar';
+import { type GrpcState, useGrpc } from 'api/grpc-v2';
+import type {
+  TrenchStreamRequest,
+  TrenchStreamResponse,
+} from 'api/proto/network_radar';
 
 export const doesNCoinHaveSafeTopHolders = ({
   topHolders,
@@ -74,23 +77,56 @@ export type NetworkRadarStreamFilters = Record<
 
 export const useNetworkRadarStream = (
   filters: NetworkRadarStreamFilters,
-): Record<
-  NetworkRadarTab,
-  ReturnType<typeof networkRadarGrpc.useTrenchNewBornStreamLastValue>
-> => {
-  const newPairs = networkRadarGrpc.useTrenchNewBornStreamLastValue(
-    filters.new_pairs,
-  );
-  const finalStretch = networkRadarGrpc.useTrenchFinalStretchStreamLastValue(
-    filters.final_stretch,
-  );
-  const migrated = networkRadarGrpc.useTrenchMigratedStreamLastValue(
-    filters.migrated,
-  );
+): Record<NetworkRadarTab, GrpcState<TrenchStreamResponse>> => {
+  const newPairs = useGrpc({
+    service: 'network_radar',
+    method: 'trenchNewBornStream',
+    payload: filters.new_pairs,
+    enabled: true,
+    history: 0,
+  });
+  const finalStretch = useGrpc({
+    service: 'network_radar',
+    method: 'trenchFinalStretchStream',
+    payload: filters.final_stretch,
+    enabled: true,
+    history: 0,
+  });
+  const migrated = useGrpc({
+    service: 'network_radar',
+    method: 'trenchMigratedStream',
+    payload: filters.migrated,
+    enabled: true,
+    history: 0,
+  });
+
+  const makeResultUnique = (
+    res: GrpcState<TrenchStreamResponse>,
+  ): GrpcState<TrenchStreamResponse> => {
+    const seen = new Set<string>();
+    const cleanedResults = res.data?.results
+      .map(row => {
+        const key = row.symbol?.slug;
+        if (!key || seen.has(key)) return null;
+        seen.add(key);
+        return row;
+      })
+      .filter(x => x !== null);
+
+    return {
+      ...res,
+      data: Array.isArray(cleanedResults)
+        ? {
+            ...res.data,
+            results: cleanedResults,
+          }
+        : undefined,
+    };
+  };
 
   return {
-    new_pairs: newPairs,
-    final_stretch: finalStretch,
-    migrated,
+    new_pairs: makeResultUnique(newPairs),
+    final_stretch: makeResultUnique(finalStretch),
+    migrated: makeResultUnique(migrated),
   };
 };

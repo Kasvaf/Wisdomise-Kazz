@@ -83,7 +83,7 @@ export const CoinTitleWidget: FC<{
           <div className="flex mobile:w-full items-center justify-start mobile:justify-between gap-4 mobile:gap-2">
             <>
               <div className="mobile:hidden h-4 w-px bg-white/10" />
-              <div className="flex flex-col justify-between">
+              <div className="flex flex-col justify-between gap-2">
                 <p className="text-v1-content-secondary text-xs">
                   {t('common.buy_sell')}
                   {' (24h)'}
@@ -104,7 +104,7 @@ export const CoinTitleWidget: FC<{
                 />
               </div>
               <div className="h-4 w-px bg-white/10" />
-              <div className="flex flex-col justify-between">
+              <div className="flex flex-col justify-between gap-2">
                 <p className="text-v1-content-secondary text-xs">B Curve</p>
                 <NCoinBCurve
                   className="text-xs"
@@ -112,8 +112,10 @@ export const CoinTitleWidget: FC<{
                 />
               </div>
               <div className="h-4 w-px bg-white/10" />
-              <div className="flex flex-col justify-between">
-                <p className="text-v1-content-secondary text-xs">Volume</p>
+              <div className="flex flex-col justify-between gap-2">
+                <p className="text-v1-content-secondary text-xs">
+                  Trading Volume (24h)
+                </p>
                 <ReadableNumber
                   className="text-xs"
                   format={{
@@ -121,17 +123,16 @@ export const CoinTitleWidget: FC<{
                   }}
                   label="$"
                   popup="never"
-                  value={marketData.totalVolume}
+                  value={marketData.volume24h}
                 />
               </div>
               <div className="h-4 w-px bg-white/10" />
-              <div className="flex flex-col justify-between">
+              <div className="flex flex-col justify-between gap-2">
                 <p className="text-v1-content-secondary text-xs">
                   Total supply
                 </p>
                 <ReadableNumber
                   className="text-xs"
-                  label={symbol.abbreviation}
                   popup="never"
                   value={marketData.totalSupply}
                 />
@@ -141,7 +142,7 @@ export const CoinTitleWidget: FC<{
             {risks && (
               <>
                 <div className="h-4 w-px bg-white/10" />
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between gap-2">
                   <p className="text-v1-content-secondary text-xs">
                     {t('common.risk')}
                   </p>

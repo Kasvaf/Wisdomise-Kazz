@@ -48,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: |-
           python3 -m pipx install awscli
-          yarn install --production=false
+          yarn install --frozen-lockfile --production=false
 
       # - name: Run linter and prettier
       #   run: |-

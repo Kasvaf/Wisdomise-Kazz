@@ -64,7 +64,7 @@ export default function Transfer({
   }, [walletAssets]);
 
   const assetToSymbol = (slug: string) => {
-    return symbols?.find(s => s.slug === slug);
+    return symbols?.find(s => s?.slug === slug);
   };
 
   return (

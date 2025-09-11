@@ -1,5 +1,4 @@
 import { useSupportedPairs } from 'api';
-import { useGrpcService } from 'api/grpc-utils';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
@@ -36,8 +35,6 @@ const AdvancedChart: React.FC<{
     i18n: { language },
   } = useTranslation();
 
-  const delphinus = useGrpcService('delphinus');
-
   const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
   const { data, isLoading } = useCoinPoolInfo(slug);
   const [convertToUsd, setConvertToUsd] = useLocalStorage(
@@ -47,7 +44,7 @@ const AdvancedChart: React.FC<{
   const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
   const marks = useSwapChartMarks(slug);
   const marksRef = useRef(marks);
-  const supply = details?.marketData.totalSupply ?? 0;
+  const totalSupply = details?.marketData.totalSupply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
   const { data: pairs } = useSupportedPairs(slug);
@@ -65,21 +62,30 @@ const AdvancedChart: React.FC<{
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (isLoading || !data?.network) return;
+    if (
+      isLoading ||
+      !data?.network ||
+      !data.symbolName ||
+      !totalSupply ||
+      !pairs ||
+      !pairs.length
+    )
+      return;
     const savedResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
     ) || '30') as ResolutionString;
 
     const widget = new Widget({
       symbol: data.symbolName,
-      datafeed: makeDataFeed(delphinus, {
+      datafeed: makeDataFeed({
         ...data,
         isMarketCap,
-        supply,
+        totalSupply,
         marksRef,
       }),
       container: chartContainerRef.current,
       library_path: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/`,
+      custom_css_url: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/custom.css`,
 
       locale: language as any,
       // enabled_features: ['study_templates'],
@@ -95,7 +101,6 @@ const AdvancedChart: React.FC<{
       ],
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
       enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
-      timeframe: '7D', // initial zoom on chart
       interval: savedResolution,
       time_frames: [
         { title: '3m', text: '3m', resolution: '60' as ResolutionString },
@@ -205,13 +210,15 @@ const AdvancedChart: React.FC<{
     };
   }, [
     slug,
-    data,
+    data?.quote,
+    data?.network,
+    data?.slug,
+    data?.symbolName,
     isLoading,
     language,
     setGlobalChartWidget,
     widgetRef,
-    delphinus,
-    supply,
+    totalSupply,
     pairs,
     convertToUsd,
     isMarketCap,
@@ -220,7 +227,6 @@ const AdvancedChart: React.FC<{
     setConvertToUsd,
   ]);
 
-  if (isLoading || !data?.network) return null;
   return <div className={clsx(className)} ref={chartContainerRef} />;
 };
 
