@@ -65,6 +65,7 @@
     "dayjs": "^1.11.9",
     "dldr": "^0.0.10",
     "echarts": "^5.5.1",
+    "emoji-picker-react": "^4.13.2",
     "html-to-image": "^1.11.13",
     "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",

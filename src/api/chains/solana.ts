@@ -455,11 +455,11 @@ const timeoutSignal = (timeout = 7000) => {
   return abortController.signal;
 };
 
-function isValidSolanaAddress(address: string): boolean {
+export const isValidSolanaAddress = (address: string) => {
   try {
     const _pk = new PublicKey(address);
     return true;
   } catch {
     return false;
   }
-}
+};

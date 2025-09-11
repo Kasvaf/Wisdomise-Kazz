@@ -346,6 +346,20 @@ div[data-tc-modal] {
 
 /* ------------------------------------------------- */
 
+.ant-collapse {
+  @apply border-none bg-v1-surface-l1;
+}
+
+.ant-collapse-content {
+  @apply !border-t-0 !bg-transparent;
+}
+
+.ant-collapse > .ant-collapse-item {
+  @apply !border-b-0;
+}
+
+/* ------------------------------------------------- */
+
 .ant-tooltip {
   @apply text-xs;
 }

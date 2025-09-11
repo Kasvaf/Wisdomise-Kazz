@@ -8,6 +8,7 @@ export const LISTS = [
   'technical-radar',
   'whale-radar',
   'positions',
+  'wallet-tracker',
   'twitter-tracker',
 ] as const;
 

@@ -23,21 +23,22 @@ export function CoinDetailsMeta() {
 
   return (
     <Helmet>
-      {lastSwap && (
-        <>
-          <title>
-            {abbreviation} {dir === 'buy' ? '↑' : '↓'} $
-            {formatNumber(mc, {
-              compactInteger: true,
-              decimalLength: 2,
-              minifyDecimalRepeats: false,
-              exactDecimal: true,
-              separateByComma: false,
-            })}{' '}
-            | GoatX
-          </title>
-        </>
-      )}
+      <>
+        <title>
+          {lastSwap
+            ? `${abbreviation} ${dir === 'buy' ? '↑' : '↓'} $${formatNumber(
+                mc,
+                {
+                  compactInteger: true,
+                  decimalLength: 2,
+                  minifyDecimalRepeats: false,
+                  exactDecimal: true,
+                  separateByComma: false,
+                },
+              )} | GoatX`
+            : 'GoatX'}
+        </title>
+      </>
     </Helmet>
   );
 }

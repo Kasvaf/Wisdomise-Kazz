@@ -24,13 +24,23 @@ interface UserSettings {
   quotes_quick_set: QuotesQuickSet;
   presets: TraderPresets;
   quick_buy: Record<QuickBuySource, QuickBuySettings>;
-  showActivityInUsd: boolean;
+  show_activity_in_usd: boolean;
   swaps: SwapsSettings;
+  wallet_tracker: {
+    selected_libraries: { key: string }[];
+    imported_wallets: ImportedWallet[];
+  };
+}
+
+interface ImportedWallet {
+  name: string;
+  address: string;
+  emoji: string;
 }
 
 interface SwapsSettings {
-  showAmountInUsd: boolean;
-  showMarketCap: boolean;
+  show_amount_in_usd: boolean;
+  show_market_cap: boolean;
 }
 
 interface QuickBuySettings {
@@ -123,10 +133,14 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
       tether: [...DEFAULT_PERCENTAGE_PRESETS],
     },
   },
-  showActivityInUsd: false,
+  show_activity_in_usd: false,
   swaps: {
-    showAmountInUsd: true,
-    showMarketCap: true,
+    show_amount_in_usd: true,
+    show_market_cap: true,
+  },
+  wallet_tracker: {
+    selected_libraries: [],
+    imported_wallets: [],
   },
 };
 
@@ -156,6 +170,10 @@ const context = createContext<
       updatePreset: (newValue: TraderPresets) => void;
       toggleShowActivityInUsd: () => void;
       updateSwapsPartial: (patch: Partial<SwapsSettings>) => void;
+      upsertImportedWallet: (wallet: ImportedWallet) => void;
+      deleteImportedWallet: (address: string) => void;
+      deleteAllImportedWallets: () => void;
+      updateSelectedLibs: (libs: { key: string }[]) => void;
     }
   | undefined
 >(undefined);
@@ -283,7 +301,63 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   const toggleShowActivityInUsd = () => {
     setSettings(prev => ({
       ...prev,
-      showActivityInUsd: !prev.showActivityInUsd,
+      show_activity_in_usd: !prev.show_activity_in_usd,
+    }));
+  };
+
+  const upsertImportedWallet = (wallet: ImportedWallet) => {
+    setSettings(prev => {
+      const importedWallets = [...prev.wallet_tracker.imported_wallets];
+      let w = importedWallets.find(w => w.address === wallet.address);
+      if (w) {
+        w = { ...w, ...wallet };
+      } else {
+        importedWallets.unshift(wallet);
+      }
+
+      return {
+        ...prev,
+        wallet_tracker: {
+          ...prev.wallet_tracker,
+          imported_wallets: importedWallets,
+        },
+      };
+    });
+  };
+
+  const deleteImportedWallet = (address: string) => {
+    setSettings(prev => {
+      const importedWallets = [...prev.wallet_tracker.imported_wallets];
+      const index = importedWallets.findIndex(w => w.address === address);
+      importedWallets.splice(index, 1);
+
+      return {
+        ...prev,
+        wallet_tracker: {
+          ...prev.wallet_tracker,
+          imported_wallets: importedWallets,
+        },
+      };
+    });
+  };
+
+  const deleteAllImportedWallets = () => {
+    setSettings(prev => ({
+      ...prev,
+      wallet_tracker: {
+        ...prev.wallet_tracker,
+        imported_wallets: [],
+      },
+    }));
+  };
+
+  const updateSelectedLibs = (libs: { key: string }[]) => {
+    setSettings(prev => ({
+      ...prev,
+      wallet_tracker: {
+        ...prev.wallet_tracker,
+        selected_libraries: libs,
+      },
     }));
   };
 
@@ -312,6 +386,10 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         updateQuotesQuickSet,
         toggleShowActivityInUsd,
         updateSwapsPartial,
+        upsertImportedWallet,
+        deleteImportedWallet,
+        deleteAllImportedWallets,
+        updateSelectedLibs,
       }}
     >
       {children}
