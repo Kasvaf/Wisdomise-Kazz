@@ -1,5 +1,4 @@
 import AddWalletDialog from 'modules/discovery/ListView/WalletTracker/AddWallet';
-import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import WalletManager from 'modules/discovery/ListView/WalletTracker/WalletManager';
 import WalletsSwaps from 'modules/discovery/ListView/WalletTracker/WalletsSwaps';
 import { type FC, useState } from 'react';
@@ -9,7 +8,6 @@ export const WalletTracker: FC<{
   focus?: boolean;
   expanded?: boolean;
 }> = () => {
-  useTrackedWallets();
   const [open, setOpen] = useState(false);
 
   return (

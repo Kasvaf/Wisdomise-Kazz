@@ -55,10 +55,10 @@ function AddWalletManually({ onClose }: { onClose: () => void }) {
   const [address, setAddress] = useState('');
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState('');
-  const { upsertManualWallet } = useUserSettings();
+  const { upsertImportedWallet } = useUserSettings();
 
   const upsertWallet = () => {
-    upsertManualWallet({ address, name, emoji });
+    upsertImportedWallet({ address, name, emoji });
     onClose();
   };
 

@@ -11,7 +11,7 @@ export const useTrackedWallets = () => {
     const selectedLibs = settings.wallet_tracker.selected_libraries;
 
     const libsWallets = selectedLibs.flatMap(
-      key => libs?.results.find(lib => lib.key === key)?.wallets ?? [],
+      ({ key }) => libs?.results.find(lib => lib.key === key)?.wallets ?? [],
     );
 
     return [...libsWallets, ...importedWallets];

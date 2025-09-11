@@ -23,6 +23,7 @@ export const useWalletsQuery = () => {
     },
     select: data => ({ ...data, results: data.results.toReversed() }),
     enabled: isLoggedIn,
+    staleTime: 1000 * 60,
   });
 };
 

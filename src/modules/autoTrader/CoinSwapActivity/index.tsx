@@ -58,7 +58,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
 
   const hasSolanaPair =
     !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
-  const showUsd = hasSolanaPair ? settings.showActivityInUsd : true;
+  const showUsd = hasSolanaPair ? settings.show_activity_in_usd : true;
 
   const lastCandle = useGrpc({
     service: 'delphinus',
