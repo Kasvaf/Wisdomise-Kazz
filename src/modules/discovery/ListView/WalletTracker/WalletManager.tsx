@@ -1,13 +1,14 @@
-import { Collapse } from 'antd';
+import { Collapse, notification } from 'antd';
 import {
   type Library,
   type LibraryWallet,
   useLibrariesQuery,
 } from 'api/library';
-import { bxTrash } from 'boxicons-quasar';
+import { bxCopy, bxTrash } from 'boxicons-quasar';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useMemo } from 'react';
 import Icon from 'shared/Icon';
+import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { Table } from 'shared/v1-components/Table';
 import { shortenAddress } from 'utils/shortenAddress';
@@ -37,6 +38,7 @@ export default function WalletManager({ className }: { className?: string }) {
             children: (
               <div>
                 <Collapse
+                  className="!bg-v1-surface-l2"
                   items={[
                     {
                       key: 'manual',
@@ -74,21 +76,28 @@ function WalletGroup({
   hasActions?: boolean;
 }) {
   const { deleteImportedWallet, deleteAllImportedWallets } = useUserSettings();
+  const [copy, notif] = useShare('copy');
+
   return (
-    <div>
+    <div className="-mb-2">
       <Table
         columns={[
           {
             key: 'name',
             title: 'Name',
             render: row => (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-3">
                 <div className="text-lg">{row.emoji}</div>
                 <div>
                   <div className="text-xs">{row.name}</div>
-                  <div className="text-v1-content-secondary text-xxs">
+                  <button
+                    className="flex items-center gap-1 text-v1-content-secondary text-xxs"
+                    onClick={() => copy(row.address)}
+                  >
                     {shortenAddress(row.address)}
-                  </div>
+                    <Icon name={bxCopy} size={10} />
+                  </button>
+                  {notif}
                 </div>
               </div>
             ),
@@ -100,8 +109,14 @@ function WalletGroup({
               <div className="flex w-full justify-end">
                 <Button
                   className="!text-v1-content-negative"
-                  onClick={deleteAllImportedWallets}
+                  onClick={() => {
+                    deleteAllImportedWallets();
+                    notification.success({
+                      message: 'All Wallets Removed Successfully',
+                    });
+                  }}
                   size="3xs"
+                  surface={3}
                   variant="ghost"
                 >
                   Remove All
@@ -114,8 +129,14 @@ function WalletGroup({
                   <Button
                     className="text-white/70"
                     fab
-                    onClick={() => deleteImportedWallet(row.address)}
+                    onClick={() => {
+                      deleteImportedWallet(row.address);
+                      notification.success({
+                        message: 'Wallet Removed Successfully',
+                      });
+                    }}
                     size="xs"
+                    surface={3}
                     variant="ghost"
                   >
                     <Icon name={bxTrash} />
@@ -127,7 +148,7 @@ function WalletGroup({
           },
         ]}
         dataSource={wallets}
-        surface={1}
+        surface={3}
       />
     </div>
   );

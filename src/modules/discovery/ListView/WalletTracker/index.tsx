@@ -11,14 +11,14 @@ export const WalletTracker: FC<{
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex h-full flex-col justify-start p-3">
+    <div className="flex h-full flex-col justify-start px-3 pt-3">
       <Button
         className="w-max shrink-0"
         onClick={() => setOpen(true)}
         size="md"
         variant="outline"
       >
-        Add Wallet
+        Add Wallets
       </Button>
       <AddWalletDialog onClose={() => setOpen(false)} open={open} />
       <hr className="my-3 border-white/10" />

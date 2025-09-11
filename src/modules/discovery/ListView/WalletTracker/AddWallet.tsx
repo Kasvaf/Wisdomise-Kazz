@@ -1,7 +1,10 @@
+import { notification } from 'antd';
+import { isValidSolanaAddress } from 'api/chains/solana';
 import { useLibrariesQuery } from 'api/library';
 import { bxCheck, bxPlus } from 'boxicons-quasar';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { useEffect, useState } from 'react';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
@@ -54,11 +57,23 @@ export default function AddWalletDialog({
 function AddWalletManually({ onClose }: { onClose: () => void }) {
   const [address, setAddress] = useState('');
   const [name, setName] = useState('');
-  const [emoji, setEmoji] = useState('');
+  const [emoji, setEmoji] = useState('🐐');
   const { upsertImportedWallet } = useUserSettings();
+  const trackedWallets = useTrackedWallets();
 
-  const upsertWallet = () => {
+  const addWallet = () => {
+    if (!isValidSolanaAddress(address)) {
+      notification.error({ message: 'Invalid wallet address' });
+      return;
+    }
+
+    if (trackedWallets.map(w => w.address).includes(address)) {
+      notification.error({ message: 'This wallet is already being tracked' });
+      return;
+    }
+
     upsertImportedWallet({ address, name, emoji });
+    notification.success({ message: 'Wallet Added Successfully' });
     onClose();
   };
 
@@ -72,38 +87,39 @@ function AddWalletManually({ onClose }: { onClose: () => void }) {
         type="string"
         value={address}
       />
-      <div className="mb-1">Wallet Name</div>
-      <Input
-        className="mb-3 w-full"
-        onChange={newValue => setName(newValue)}
-        size="sm"
-        type="string"
-        value={name}
-      />
-      <ClickableTooltip
-        chevron={false}
-        title={
-          <EmojiPicker
-            height={400}
-            onEmojiClick={data => setEmoji(data.emoji)}
-            previewConfig={{ showPreview: false }}
-            skinTonesDisabled={true}
-            theme={Theme.DARK}
+      <div className="flex items-start gap-2">
+        <ClickableTooltip
+          chevron={false}
+          title={
+            <EmojiPicker
+              height={400}
+              onEmojiClick={data => setEmoji(data.emoji)}
+              previewConfig={{ showPreview: false }}
+              skinTonesDisabled={true}
+              theme={Theme.DARK}
+            />
+          }
+        >
+          <Button className="!text-lg mt-5" size="sm" variant="outline">
+            {emoji}
+          </Button>
+        </ClickableTooltip>
+        <div className="grow">
+          <div className="mb-1">Wallet Name</div>
+          <Input
+            className="mb-3 w-full"
+            onChange={newValue => setName(newValue)}
+            size="sm"
+            type="string"
+            value={name}
           />
-        }
+        </div>
+      </div>
+      <Button
+        className="mt-auto w-full"
+        disabled={!address || !name}
+        onClick={addWallet}
       >
-        <Button className="relative" size="sm" variant="outline">
-          {emoji ? (
-            <span className="text-lg">{emoji}</span>
-          ) : (
-            <>
-              <Icon name={bxPlus} />
-              Add Emoji
-            </>
-          )}
-        </Button>
-      </ClickableTooltip>
-      <Button className="mt-auto w-full" onClick={upsertWallet}>
         Add Wallet
       </Button>
     </div>
