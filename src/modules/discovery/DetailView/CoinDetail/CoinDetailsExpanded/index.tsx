@@ -10,9 +10,9 @@ import CoinChart from '../CoinChart';
 import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
+import { CoinUpdateWidget } from '../CoinUpdateWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
-import { NCoinStatsWidget } from '../NCoinStatsWidget';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
 import TraderSection from './TraderSection';
 
@@ -75,7 +75,7 @@ export const CoinDetailsExpanded: FC = () => {
           <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <NCoinInsightWidget />
-          <NCoinStatsWidget />
+          <CoinUpdateWidget />
         </div>
       </div>
     </div>
