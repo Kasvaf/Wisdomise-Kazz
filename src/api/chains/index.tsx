@@ -2,6 +2,10 @@ import { notification, Spin } from 'antd';
 import type { SupportedNetworks } from 'api';
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import { useActiveNetwork } from 'modules/base/active-network';
+import {
+  type TradeSettingsSource,
+  useUserSettings,
+} from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
 import {
   useSolanaAccountBalance,
@@ -120,9 +124,11 @@ export const useTransferAssetsMutation = (quote?: string) => {
 export const useMarketSwap = ({
   slug,
   quote,
+  source,
 }: {
   slug?: string;
   quote?: string;
+  source: TradeSettingsSource;
 }) => {
   const net = useActiveNetwork();
   const solanaMarketSwap = useSolanaMarketSwap();
@@ -130,16 +136,21 @@ export const useMarketSwap = ({
     slug,
     enabled: false,
   });
+  const { getActivePreset } = useUserSettings();
   const { data: quoteBalance } = useAccountBalance({ slug: quote });
 
-  const handleMarketSwap = async (
-    side: 'LONG' | 'SHORT',
-    amount: string,
-    slippage?: string,
-    priorityFee?: string,
-  ) => {
+  const handleMarketSwap = async (side: 'LONG' | 'SHORT', amount: string) => {
     const notificationKey = Date.now();
     const balance = baseBalance ?? (await refetch())?.data;
+
+    const preset = getActivePreset(source)[side === 'LONG' ? 'buy' : 'sell'];
+    const priorityFee = preset.sol_priority_fee;
+    const slippage = preset.slippage;
+
+    const coverPriorityFee =
+      side === 'LONG' && quote === 'wrapped-solana'
+        ? +amount + +priorityFee < (quoteBalance ?? 0)
+        : +priorityFee < (quoteBalance ?? 0);
 
     if (
       (side === 'LONG' && (quoteBalance ?? 0) < +amount) ||
@@ -149,7 +160,14 @@ export const useMarketSwap = ({
       return;
     }
 
-    if (+amount === 0) {
+    if (!coverPriorityFee) {
+      notification.error({
+        message: 'Insufficient SOL balance to cover priority fee',
+      });
+      return;
+    }
+
+    if (+amount < 0.0001) {
       notification.error({
         message: 'Minimum amount should be greater than 0.0001 SOL',
       });

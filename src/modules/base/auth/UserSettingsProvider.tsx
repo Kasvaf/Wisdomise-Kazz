@@ -10,7 +10,7 @@ import {
 import { useDebounce } from 'usehooks-ts';
 import { deepMerge } from 'utils/merge';
 
-export type QuickBuySource =
+export type TradeSettingsSource =
   | 'new_pairs'
   | 'final_stretch'
   | 'migrated'
@@ -23,7 +23,7 @@ export type QuickBuySource =
 interface UserSettings {
   quotes_quick_set: QuotesQuickSet;
   presets: TraderPresets;
-  quick_buy: Record<QuickBuySource, QuickBuySettings>;
+  quick_buy: Record<TradeSettingsSource, QuickBuySettings>;
   show_activity_in_usd: boolean;
   swaps: SwapsSettings;
   wallet_tracker: {
@@ -148,7 +148,7 @@ const context = createContext<
   | {
       settings: UserSettings;
       getActivePreset: (
-        source: QuickBuySource,
+        source: TradeSettingsSource,
       ) => Record<TraderPresetMode, TraderPreset>;
       update: (newValue: UserSettings) => void;
       updateQuotesQuickSet: (
@@ -158,10 +158,13 @@ const context = createContext<
         newValue: string,
       ) => void;
       updateQuickBuyActivePreset: (
-        source: QuickBuySource,
+        source: TradeSettingsSource,
         index: number,
       ) => void;
-      updateQuickBuyAmount: (source: QuickBuySource, amount: string) => void;
+      updateQuickBuyAmount: (
+        source: TradeSettingsSource,
+        amount: string,
+      ) => void;
       updatePresetPartial: (
         index: number,
         type: 'buy' | 'sell',
@@ -211,7 +214,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     }
   }, [changedSettings, isFetched, isLoggedIn]);
 
-  const getActivePreset = (source: QuickBuySource) => {
+  const getActivePreset = (source: TradeSettingsSource) => {
     const activeIndex = settings.quick_buy[source].active_preset;
     return settings.presets[activeIndex];
   };
@@ -241,7 +244,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   };
 
   const updateQuickBuyActivePreset = (
-    source: QuickBuySource,
+    source: TradeSettingsSource,
     index: number,
   ) => {
     setSettings(prev => ({
@@ -256,7 +259,10 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     }));
   };
 
-  const updateQuickBuyAmount = (source: QuickBuySource, amount: string) => {
+  const updateQuickBuyAmount = (
+    source: TradeSettingsSource,
+    amount: string,
+  ) => {
     setSettings(prev => ({
       ...prev,
       quick_buy: {

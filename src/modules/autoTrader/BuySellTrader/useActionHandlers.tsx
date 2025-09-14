@@ -47,17 +47,11 @@ const useActionHandlers = (state: SwapState) => {
   const marketSwapHandler = useMarketSwap({
     slug: base.slug,
     quote: quote.slug,
+    source: 'terminal',
   });
 
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
-
-    if (Number(from.amount) < 0.0001) {
-      notification.error({
-        message: 'Minimum amount should be greater than 0.0001 SOL',
-      });
-      return;
-    }
 
     const preset = getActivePreset('terminal');
 
@@ -65,12 +59,7 @@ const useActionHandlers = (state: SwapState) => {
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
-        await marketSwapHandler(
-          dir === 'buy' ? 'LONG' : 'SHORT',
-          from.amount,
-          preset[dir].slippage,
-          preset[dir].sol_priority_fee,
-        );
+        await marketSwapHandler(dir === 'buy' ? 'LONG' : 'SHORT', from.amount);
       } finally {
         setFiring(false);
       }

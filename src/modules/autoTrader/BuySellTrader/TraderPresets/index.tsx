@@ -1,9 +1,9 @@
 import { bxChevronDown, bxCog } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import {
-  type QuickBuySource,
   type TraderPreset,
   type TraderPresets,
+  type TradeSettingsSource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
@@ -90,7 +90,7 @@ export function TraderPresetsSelector({
   showValue,
 }: {
   surface?: Surface;
-  source: QuickBuySource;
+  source: TradeSettingsSource;
   size?: ButtonSize;
   showValue?: boolean;
 }) {
@@ -140,7 +140,7 @@ export function TraderPresetValues({
   className?: string;
   showMode?: boolean;
   presetIndex?: number;
-  source?: QuickBuySource;
+  source?: TradeSettingsSource;
 }) {
   const { settings, getActivePreset } = useUserSettings();
   const activePreset = (

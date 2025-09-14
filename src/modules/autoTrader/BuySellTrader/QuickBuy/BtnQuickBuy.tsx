@@ -5,7 +5,7 @@ import type { CoinNetwork } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
-  type QuickBuySource,
+  type TradeSettingsSource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
@@ -20,14 +20,14 @@ export default function BtnQuickBuy({
   size = 'xs',
 }: {
   slug: string;
-  source: QuickBuySource;
+  source: TradeSettingsSource;
   className?: string;
   networks?: CoinNetwork[] | null;
   size?: ButtonSize;
 }) {
   const quote = 'wrapped-solana';
-  const { settings, getActivePreset } = useUserSettings();
-  const marketSwapHandler = useMarketSwap({ slug, quote });
+  const { settings } = useUserSettings();
+  const marketSwapHandler = useMarketSwap({ slug, quote, source });
   const { refetch } = useSupportedPairs(slug, { enabled: false });
   const isLoggedIn = useIsLoggedIn();
   const [modal, ensureAuthenticated] = useEnsureAuthenticated();
@@ -39,8 +39,6 @@ export default function BtnQuickBuy({
   const amount = settings.quick_buy[source].amount || '0';
 
   const swap = async () => {
-    const preset = getActivePreset(source).buy;
-
     const supportedPairs = (await refetch()).data;
     if (!supportedPairs?.find(p => p.quote.slug === quote)) {
       notification.error({
@@ -49,12 +47,7 @@ export default function BtnQuickBuy({
       return;
     }
 
-    await marketSwapHandler(
-      'LONG',
-      amount,
-      preset.slippage,
-      preset.sol_priority_fee,
-    );
+    await marketSwapHandler('LONG', amount);
   };
 
   return isSolana ? (

@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { TraderPresetsSelector } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
-  type QuickBuySource,
+  type TradeSettingsSource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
@@ -18,7 +18,7 @@ export default function QuickBuySettings({
   className,
   showWallet,
 }: {
-  source: QuickBuySource;
+  source: TradeSettingsSource;
   className?: string;
   showWallet?: boolean;
 }) {
