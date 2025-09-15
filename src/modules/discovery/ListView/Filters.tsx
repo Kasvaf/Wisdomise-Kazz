@@ -48,13 +48,15 @@ export function Filters<T extends object>({
   mini,
   size: _size,
   className,
-  surface = 2,
+  surface = 1,
   onOpen,
+  resetValue,
 }: {
   presets?: Array<PresetFilter<T>>;
   sorts?: Array<PresetFilter<T>>;
   excludeKeys?: Array<keyof T>;
   value: Partial<T>;
+  resetValue?: Partial<T>;
   onChange?: (newValue: Partial<T>) => void;
   dialog?: (
     value: Partial<T>,
@@ -151,11 +153,7 @@ export function Filters<T extends object>({
               }}
               size={size}
               surface={isMini ? ((surface + 1) as never) : surface}
-              variant={
-                isFiltersApplied && !selectedPreset && showLabels
-                  ? 'primary'
-                  : 'ghost'
-              }
+              variant="ghost"
             >
               <FilterIcon className="!size-4" />
             </Button>
@@ -252,15 +250,10 @@ export function Filters<T extends object>({
                 block
                 className="shrink-0 grow"
                 onClick={() => {
-                  onChange?.(
-                    Object.fromEntries(
-                      Object.entries(localValue).filter(
-                        ([k]) =>
-                          sortKeys.includes(k as never) ||
-                          excludeKeys?.includes(k as never),
-                      ),
-                    ) as Partial<T>,
-                  );
+                  if (resetValue) {
+                    setLocalValue(resetValue);
+                    onChange?.(resetValue);
+                  }
                   setOpen(false);
                 }}
                 size="lg"

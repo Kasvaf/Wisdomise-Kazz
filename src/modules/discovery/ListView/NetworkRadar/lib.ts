@@ -3,6 +3,7 @@ import type {
   TrenchStreamRequest,
   TrenchStreamResponse,
 } from 'api/proto/network_radar';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 
 export const doesNCoinHaveSafeTopHolders = ({
   topHolders,
@@ -75,27 +76,30 @@ export type NetworkRadarStreamFilters = Record<
   Partial<TrenchStreamRequest>
 >;
 
-export const useNetworkRadarStream = (
-  filters: NetworkRadarStreamFilters,
-): Record<NetworkRadarTab, GrpcState<TrenchStreamResponse>> => {
+export const useNetworkRadarStream = (): Record<
+  NetworkRadarTab,
+  GrpcState<TrenchStreamResponse>
+> => {
+  const { settings } = useUserSettings();
+
   const newPairs = useGrpc({
     service: 'network_radar',
     method: 'trenchNewBornStream',
-    payload: filters.new_pairs,
+    payload: settings.trench_filters.new_pairs,
     enabled: true,
     history: 0,
   });
   const finalStretch = useGrpc({
     service: 'network_radar',
     method: 'trenchFinalStretchStream',
-    payload: filters.final_stretch,
+    payload: settings.trench_filters.final_stretch,
     enabled: true,
     history: 0,
   });
   const migrated = useGrpc({
     service: 'network_radar',
     method: 'trenchMigratedStream',
-    payload: filters.migrated,
+    payload: settings.trench_filters.migrated,
     enabled: true,
     history: 0,
   });

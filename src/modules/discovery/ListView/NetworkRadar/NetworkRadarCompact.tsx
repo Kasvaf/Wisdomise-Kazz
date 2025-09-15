@@ -1,31 +1,19 @@
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { type FC, useState } from 'react';
-import { usePageState } from 'shared/usePageState';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import {
-  type NetworkRadarStreamFilters,
-  type NetworkRadarTab,
-  useNetworkRadarStream,
-} from './lib';
+import { type NetworkRadarTab, useNetworkRadarStream } from './lib';
 import { NCoinList } from './NCoinList';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
   const [tab, setTab] = useState<NetworkRadarTab>('new_pairs');
-  const [filters, setFilters] = usePageState<NetworkRadarStreamFilters>(
-    'network-radar',
-    {
-      final_stretch: {},
-      migrated: {},
-      new_pairs: {},
-    },
-  );
+
   const {
     new_pairs: newPairs,
     final_stretch: finalStretch,
     migrated,
-  } = useNetworkRadarStream(filters);
+  } = useNetworkRadarStream();
 
   return (
     <>
@@ -51,18 +39,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
           surface={1}
           value={tab}
         />
-        <NetworkRadarFilters
-          initialTab={tab}
-          onChange={newFilters =>
-            setFilters({
-              new_pairs: {},
-              final_stretch: {},
-              migrated: {},
-              ...newFilters,
-            })
-          }
-          value={filters}
-        />
+        <NetworkRadarFilters initialTab={tab} />
       </div>
       <QuickBuySettings className="mb-3 px-3" source={tab} />
       <div className="px-3">
