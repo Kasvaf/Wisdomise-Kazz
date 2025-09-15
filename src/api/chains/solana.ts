@@ -385,7 +385,6 @@ export const useSolanaMarketSwap = () => {
 
     let signature: string | undefined;
 
-    console.log('attempt', Date.now());
     const [
       {
         key,
@@ -395,7 +394,6 @@ export const useSolanaMarketSwap = () => {
       },
       latestBlockhash,
     ] = await Promise.all([swap, connection.getLatestBlockhash()]);
-    console.log('swap 200', Date.now());
 
     if (isCustodial) {
       signature = transaction_hash;
@@ -432,8 +430,7 @@ export const useSolanaMarketSwap = () => {
         }).compileToV0Message(lookupTableAccounts),
       );
 
-      const signature =
-        await walletProvider.signAndSendTransaction(transaction);
+      signature = await walletProvider.signAndSendTransaction(transaction);
 
       await ofetch<SwapResponse>(`/trader/swap/${key}`, {
         method: 'patch',

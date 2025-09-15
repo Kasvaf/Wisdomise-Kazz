@@ -192,21 +192,6 @@ export const useMarketSwap = ({
         slippage,
         priorityFee,
       );
-      const now = new Date();
-
-      const time = now.toLocaleTimeString('en-US', {
-        hour12: false, // 24h format
-        timeZone: 'Asia/Tehran',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      });
-
-      // append milliseconds
-      const ms = String(now.getMilliseconds()).padStart(3, '0');
-
-      console.log(`${time}.${ms}`);
-      console.log('confirmed', Date.now());
 
       if (confirmed) {
         notification.success({
