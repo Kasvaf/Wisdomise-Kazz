@@ -7,14 +7,14 @@ import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import Badge from 'shared/Badge';
 import { Coin } from 'shared/Coin';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
-import PriceChange from 'shared/PriceChange';
 import { Button } from 'shared/v1-components/Button';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { roundSensible } from 'utils/numbers';
 
 const PAGE_SIZE = 30;
-export default function BuysSells({ wallet }: { wallet: Wallet }) {
+export default function Swaps({ wallet }: { wallet: Wallet }) {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useTraderSwapsQuery({
     page,
@@ -63,7 +63,20 @@ export default function BuysSells({ wallet }: { wallet: Wallet }) {
         title: 'Pnl',
         render: row =>
           row.pnl_usd ? (
-            <PriceChange className="text-xs" value={Number(row.pnl_usd)} />
+            <span className="text-xs">
+              <DirectionalNumber
+                prefix="$"
+                showIcon={false}
+                value={Number(row.pnl_usd)}
+              />{' '}
+              (
+              <DirectionalNumber
+                showIcon={false}
+                suffix="%"
+                value={Number(row.pnl_usd_percent)}
+              />
+              )
+            </span>
           ) : null,
       },
       {
