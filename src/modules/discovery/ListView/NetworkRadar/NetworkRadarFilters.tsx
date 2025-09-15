@@ -466,7 +466,6 @@ export const NetworkRadarFilters: FC<{
                     <Input
                       block
                       className="basis-1/2"
-                      max={100}
                       min={0}
                       onChange={minHolders =>
                         setState(p => ({
@@ -482,7 +481,7 @@ export const NetworkRadarFilters: FC<{
                     <Input
                       block
                       className="basis-1/2"
-                      max={100}
+                      min={0}
                       onChange={maxHolders =>
                         setState(p => ({
                           ...p,
