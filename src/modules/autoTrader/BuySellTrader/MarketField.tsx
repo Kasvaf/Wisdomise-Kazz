@@ -1,4 +1,5 @@
 import { Tooltip } from 'antd';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import Spin from 'shared/Spin';
 import { Toggle } from 'shared/Toggle';
 import { Button } from 'shared/v1-components/Button';
@@ -29,7 +30,10 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
           {from.priceByOther ? (
             <>
               1 {from.coinInfo?.abbreviation} ≈{' '}
-              {roundSensible(+from.priceByOther * (1 + percentage / 100))}{' '}
+              <ReadableNumber
+                format={{ decimalLength: 3, compactInteger: true }}
+                value={+from.priceByOther * (1 + percentage / 100)}
+              />{' '}
               {to.coinInfo?.abbreviation}
             </>
           ) : (

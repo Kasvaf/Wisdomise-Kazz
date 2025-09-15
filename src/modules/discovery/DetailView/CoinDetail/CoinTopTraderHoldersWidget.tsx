@@ -148,6 +148,7 @@ const SharedTable: FC<{
   return (
     <Table
       columns={columns}
+      dataSource={resp.data?.wallets}
       loading={resp.isLoading}
       rowKey={row => row.walletAddress}
       scrollable
@@ -174,9 +175,6 @@ export function CoinTopHoldersWidget({
     payload: {
       network: symbol.network ?? undefined,
       tokenAddress: symbol.contractAddress ?? undefined,
-      slug: symbol.slug,
-      resolution: '1h',
-      window: 24,
     },
   });
 
@@ -217,9 +215,7 @@ export function CoinTopTradersWidget({
     payload: {
       network: symbol.network ?? undefined,
       tokenAddress: symbol.contractAddress ?? undefined,
-      slug: symbol.slug,
-      resolution: '1h',
-      window: 24,
+      resolution: '1d',
     },
   });
 
