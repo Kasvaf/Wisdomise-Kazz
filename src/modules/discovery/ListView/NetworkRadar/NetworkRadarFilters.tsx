@@ -461,12 +461,49 @@ export const NetworkRadarFilters: FC<{
                 </div>
 
                 <div className="flex flex-col items-start gap-2">
+                  <p className="text-xs">Holders</p>
+                  <div className="flex w-full items-center gap-3">
+                    <Input
+                      block
+                      className="basis-1/2"
+                      max={100}
+                      min={0}
+                      onChange={minHolders =>
+                        setState(p => ({
+                          ...p,
+                          [tab]: { ...p[tab], minHolders },
+                        }))
+                      }
+                      placeholder="Min"
+                      size="md"
+                      type="number"
+                      value={state[tab]?.minHolders}
+                    />
+                    <Input
+                      block
+                      className="basis-1/2"
+                      max={100}
+                      onChange={maxHolders =>
+                        setState(p => ({
+                          ...p,
+                          [tab]: { ...p[tab], maxHolders },
+                        }))
+                      }
+                      placeholder="Max"
+                      size="md"
+                      type="number"
+                      value={state[tab]?.maxHolders}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-2">
                   <p className="text-xs">{'Risk %'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
                       block
                       className="basis-1/2"
-                      max={state[tab]?.maxRisk ?? 100}
+                      max={100}
                       min={0}
                       onChange={minRisk =>
                         setState(p => ({
