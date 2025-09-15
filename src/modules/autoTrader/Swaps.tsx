@@ -65,13 +65,15 @@ export default function Swaps({ wallet }: { wallet: Wallet }) {
           row.pnl_usd ? (
             <span className="text-xs">
               <DirectionalNumber
-                prefix="$"
+                label="$"
                 showIcon={false}
+                showSign={true}
                 value={Number(row.pnl_usd)}
               />{' '}
               (
               <DirectionalNumber
                 showIcon={false}
+                showSign={true}
                 suffix="%"
                 value={Number(row.pnl_usd_percent)}
               />
