@@ -24,6 +24,6 @@ export function useLibrariesQuery() {
     queryFn: async () => {
       return await ofetch<PageResponse<Library>>(`library/`);
     },
-    staleTime: Number.POSITIVE_INFINITY,
+    staleTime: 60 * 1000,
   });
 }

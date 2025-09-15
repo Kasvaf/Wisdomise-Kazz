@@ -1,5 +1,7 @@
+import type { TrenchStreamRequest } from 'api/proto/network_radar';
 import { useUserStorage } from 'api/userStorage';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import type { NetworkRadarTab } from 'modules/discovery/ListView/NetworkRadar/lib';
 import {
   createContext,
   type PropsWithChildren,
@@ -30,7 +32,13 @@ interface UserSettings {
     selected_libraries: { key: string }[];
     imported_wallets: ImportedWallet[];
   };
+  trench_filters: NetworkRadarStreamFilters;
 }
+
+type NetworkRadarStreamFilters = Record<
+  NetworkRadarTab,
+  Partial<TrenchStreamRequest>
+>;
 
 interface ImportedWallet {
   name: string;
@@ -142,6 +150,11 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     selected_libraries: [],
     imported_wallets: [],
   },
+  trench_filters: {
+    new_pairs: {},
+    final_stretch: {},
+    migrated: {},
+  },
 };
 
 const context = createContext<
@@ -177,6 +190,7 @@ const context = createContext<
       deleteImportedWallet: (address: string) => void;
       deleteAllImportedWallets: () => void;
       updateSelectedLibs: (libs: { key: string }[]) => void;
+      updateTrenchFilters: (patch: Partial<NetworkRadarStreamFilters>) => void;
     }
   | undefined
 >(undefined);
@@ -379,6 +393,18 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const updateTrenchFilters = (patch: Partial<NetworkRadarStreamFilters>) => {
+    setSettings(prev => {
+      return {
+        ...prev,
+        trench_filters: {
+          ...prev.trench_filters,
+          ...patch,
+        },
+      };
+    });
+  };
+
   return (
     <context.Provider
       value={{
@@ -396,6 +422,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         deleteImportedWallet,
         deleteAllImportedWallets,
         updateSelectedLibs,
+        updateTrenchFilters,
       }}
     >
       {children}

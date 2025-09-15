@@ -23,7 +23,7 @@ const cachedCoinsMap: Record<string, CoinSymbol> = {};
 const getCoins = async (slugs: string[]) => {
   const unseenSlugs = slugs.filter(x => !cachedCoinsMap[x]);
   if (unseenSlugs.length > 0) {
-    const data = await ofetch<CoinSymbol[]>('delphi/symbol/search', {
+    const data = await ofetch<CoinSymbol[]>('delphi/symbol/search/', {
       query: { slugs: unseenSlugs.join(',') },
     });
     Object.assign(

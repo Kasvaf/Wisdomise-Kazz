@@ -67,6 +67,7 @@ export default function WalletsSwaps() {
           {
             title: 'Amount',
             key: 'amount',
+            width: 100,
             render: row => (
               <div className="relative flex w-full items-center justify-center px-2">
                 <DirectionalNumber

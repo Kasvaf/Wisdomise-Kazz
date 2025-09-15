@@ -5,9 +5,9 @@ import {
   type Wallet,
 } from 'api/wallets';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
-import BuysSells from 'modules/autoTrader/BuysSells';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
+import Swaps from 'modules/autoTrader/Swaps';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { useDiscoveryParams } from 'modules/discovery/lib';
@@ -121,7 +121,7 @@ export default function WalletDetail(_: {
           {
             key: '2',
             label: 'Buys/Sells',
-            children: <BuysSells wallet={wallet} />,
+            children: <Swaps wallet={wallet} />,
           },
           {
             key: '3',

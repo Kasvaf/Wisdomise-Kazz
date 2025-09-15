@@ -624,10 +624,10 @@ export interface Swap {
   created_at: string;
   from_amount: string;
   network_slug: string;
-  pnl_quote: null;
-  pnl_quote_percent: null;
-  pnl_usd: null;
-  pnl_usd_percent: null;
+  pnl_quote: string;
+  pnl_quote_percent: string;
+  pnl_usd: string;
+  pnl_usd_percent: string;
   quote_slug: string;
   side: 'LONG' | 'SHORT';
   status: SwapStatus;

@@ -5,31 +5,18 @@ import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useTranslation } from 'react-i18next';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
-import { usePageState } from 'shared/usePageState';
-import { useDebounce } from 'usehooks-ts';
-import { type NetworkRadarStreamFilters, useNetworkRadarStream } from './lib';
+import { useNetworkRadarStream } from './lib';
 import { NCoinList } from './NCoinList';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export function NetworkRadarExpanded({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
 
-  const [filters, setFilters] = usePageState<NetworkRadarStreamFilters>(
-    'network-radar',
-    {
-      final_stretch: {},
-      migrated: {},
-      new_pairs: {},
-    },
-  );
-
-  const lazyFilters = useDebounce(filters, 150);
-
   const {
     new_pairs: newPairs,
     final_stretch: finalStretch,
     migrated,
-  } = useNetworkRadarStream(lazyFilters);
+  } = useNetworkRadarStream();
 
   return (
     <div
@@ -56,19 +43,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         titleSuffix={
           <div className="flex items-center">
             <QuickBuySettings className="mr-11" source="new_pairs" />
-            <NetworkRadarFilters
-              initialTab="new_pairs"
-              onChange={newFilters =>
-                setFilters({
-                  new_pairs: {},
-                  final_stretch: {},
-                  migrated: {},
-                  ...newFilters,
-                })
-              }
-              searchShortcut
-              value={filters}
-            />
+            <NetworkRadarFilters initialTab="new_pairs" searchShortcut />
           </div>
         }
       />
@@ -80,19 +55,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         titleSuffix={
           <div className="flex items-center">
             <QuickBuySettings className="mr-11" source="final_stretch" />
-            <NetworkRadarFilters
-              initialTab="final_stretch"
-              onChange={newFilters =>
-                setFilters({
-                  new_pairs: {},
-                  final_stretch: {},
-                  migrated: {},
-                  ...newFilters,
-                })
-              }
-              searchShortcut
-              value={filters}
-            />
+            <NetworkRadarFilters initialTab="final_stretch" searchShortcut />
           </div>
         }
       />
@@ -104,19 +67,7 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         titleSuffix={
           <div className="flex items-center">
             <QuickBuySettings className="mr-11" source="migrated" />
-            <NetworkRadarFilters
-              initialTab="migrated"
-              onChange={newFilters =>
-                setFilters({
-                  new_pairs: {},
-                  final_stretch: {},
-                  migrated: {},
-                  ...newFilters,
-                })
-              }
-              searchShortcut
-              value={filters}
-            />
+            <NetworkRadarFilters initialTab="migrated" searchShortcut />
           </div>
         }
       />
