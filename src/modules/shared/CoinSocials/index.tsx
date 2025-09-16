@@ -1,7 +1,8 @@
+import { Spin } from 'antd';
 import type { CoinCommunityData } from 'api/discovery';
 import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
-import { type FC, memo, useMemo } from 'react';
+import { type FC, memo, Suspense, useMemo } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { getLogo, resolveSocials } from './lib';
 import { SocialPreview } from './SocialPreview';
@@ -42,7 +43,11 @@ export const CoinSocials: FC<{
           <HoverTooltip
             key={social.url.href}
             placement="bottom"
-            title={<SocialPreview social={social} />}
+            title={
+              <Suspense fallback={<Spin />}>
+                <SocialPreview social={social} />
+              </Suspense>
+            }
           >
             <span
               className={clsx(
