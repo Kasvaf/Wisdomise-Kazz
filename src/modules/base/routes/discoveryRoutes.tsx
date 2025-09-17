@@ -1,6 +1,9 @@
 import PageDiscovery from 'modules/discovery/PageDiscovery';
+import { lazy } from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import Container from '../Container';
+
+const PageMeta = lazy(() => import('modules/discovery/PageMeta'));
 
 const useDiscoveryRoutes = () => {
   return [
@@ -16,6 +19,10 @@ const useDiscoveryRoutes = () => {
         {
           path: 'discovery',
           element: <Navigate to="/trench" />,
+        },
+        {
+          path: 'meta',
+          element: <PageMeta />,
         },
         {
           path: ':list',
