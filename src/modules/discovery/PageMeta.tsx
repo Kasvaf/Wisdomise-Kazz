@@ -1,9 +1,12 @@
-import { Pagination } from 'antd';
 import { type MetaToken, useMetaListQuery } from 'api/meta';
+import { bxSearch } from 'boxicons-quasar';
 import dayjs from 'dayjs';
 import PageWrapper from 'modules/base/PageWrapper';
 import { Filters } from 'modules/discovery/ListView/Filters';
-import { useMemo, useState } from 'react';
+import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import Icon from 'shared/Icon';
 import { PageTitle } from 'shared/PageTitle';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Spinner from 'shared/Spinner';
@@ -13,6 +16,7 @@ import { Coin } from 'shared/v1-components/Coin';
 import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
+import { useDebounce, useIntersectionObserver } from 'usehooks-ts';
 
 interface MetaFilters {
   minTotalVolume?: number;
@@ -30,20 +34,44 @@ const defaultValue = {
 
 export default function PageMeta() {
   const [sortByActivate, setSortByActivate] = useState(false);
+  const [skipSimilar, setSkipSimilar] = useState(false);
+  const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 300);
   const [filters, setFilters] = useState<MetaFilters>(defaultValue);
-  const [page, setPage] = useState(1);
 
-  const { data, isPending } = useMetaListQuery({
-    page,
-    recentlyActive: sortByActivate,
-    minTotalVolume: filters?.minTotalVolume,
-    maxTotalVolume: filters?.maxTotalVolume,
-    minTotalMarketCap: filters?.minTotalMarketCap,
-    maxTotalMarketCap: filters?.maxTotalMarketCap,
-  });
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const io = useIntersectionObserver(loadMoreRef, {});
+
+  const getMcColor = (mc?: number) => {
+    return calcColorByThreshold({
+      value: mc,
+      rules: [
+        { limit: 200_000, color: '#0edcdc' },
+        { limit: 1_000_000, color: '#FFDA6C' },
+      ],
+      fallback: '#00ffa3',
+    });
+  };
+
+  const { data, isPending, fetchNextPage, isFetchingNextPage } =
+    useMetaListQuery({
+      recentlyActive: sortByActivate,
+      minTotalVolume: filters?.minTotalVolume,
+      maxTotalVolume: filters?.maxTotalVolume,
+      minTotalMarketCap: filters?.minTotalMarketCap,
+      maxTotalMarketCap: filters?.maxTotalMarketCap,
+      skipSimilar,
+      query: debouncedQuery,
+    });
+
+  useEffect(() => {
+    if (io?.isIntersecting && !isPending) {
+      void fetchNextPage();
+    }
+  }, [io?.isIntersecting, fetchNextPage, isPending]);
 
   return (
-    <PageWrapper>
+    <PageWrapper extension={<CoinExtensionsGroup />}>
       <PageTitle className="mb-3" title="Meta" />
       <div className="flex items-center gap-2 max-md:flex-wrap">
         <span className="shrink-0 text-white/50 text-xs">Sorted By</span>
@@ -143,102 +171,100 @@ export default function PageMeta() {
         <Checkbox
           className="ml-auto shrink-0"
           label="Skip Similar Groups"
+          onChange={setSkipSimilar}
           size="md"
+          value={skipSimilar}
         />
-        {/* <Input */}
-        {/*   className="shrink-0" */}
-        {/*   onChange={setSearch} */}
-        {/*   placeholder="Search Narrative" */}
-        {/*   prefixIcon={<Icon className="text-white/50" name={bxSearch} />} */}
-        {/*   size="sm" */}
-        {/*   surface={1} */}
-        {/*   type="string" */}
-        {/*   value={search} */}
-        {/* /> */}
+        <Input
+          className="shrink-0"
+          onChange={setQuery}
+          placeholder="Search Narrative"
+          prefixIcon={<Icon className="text-white/50" name={bxSearch} />}
+          size="sm"
+          surface={1}
+          type="string"
+          value={query}
+        />
       </div>
 
-      {isPending ? (
-        <Spinner className="mx-auto mt-10" />
-      ) : data?.results.length === 0 ? (
+      {data?.pages.length === 0 ? (
         <EmptyContent />
       ) : (
         <div className="mx-auto mt-5 max-w-[40rem] text-xs">
-          {data?.results.map(meta => {
-            const lastToken = meta.trench.sort(
-              (a, b) =>
-                new Date(b.symbol.created_at).getTime() -
-                new Date(a.symbol.created_at).getTime(),
-            )[0];
+          {data?.pages.flatMap(page =>
+            page.results.map(meta => {
+              const lastToken = meta.trench.sort(
+                (a, b) =>
+                  new Date(b.symbol.created_at).getTime() -
+                  new Date(a.symbol.created_at).getTime(),
+              )[0];
 
-            return (
-              <div
-                className="mb-3 flex h-[35rem] gap-3 rounded-xl bg-v1-surface-l1 p-3"
-                key={meta.id}
-              >
-                <div className="flex h-full min-w-[16rem] flex-col">
-                  <div className="rounded-xl bg-v1-surface-l2 p-3">
-                    <h2 className="mb-3 text-white/70">Narrative</h2>
-                    <h3 className="mb-4 text-lg">{meta.title}</h3>
-                    <p className="text-white/70">{meta.description}</p>
-                    <hr className="my-3 border-white/10" />
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-white/70">Created at</span>
-                        <span>{dayjs(meta.created_at).fromNow()}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-white/70">Last Token</span>
-                        <span>
-                          {dayjs(lastToken?.symbol.created_at).fromNow()}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-white/70">Total MarketCap</span>
-                        <ReadableNumber value={meta.total_market_cap} />
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-white/70">Total Volume</span>
-                        <ReadableNumber value={meta.total_volume} />
+              return (
+                <div
+                  className="mb-3 flex h-[35rem] gap-3 rounded-xl bg-v1-surface-l1 p-3"
+                  key={meta.id}
+                >
+                  <div className="flex h-full w-[16rem] min-w-[16rem] flex-col">
+                    <div className="rounded-xl bg-v1-surface-l2 p-3">
+                      <h2 className="mb-3 text-white/70">Narrative</h2>
+                      <h3 className="mb-4 text-lg">{meta.title}</h3>
+                      <p className="text-white/70">{meta.description}</p>
+                      <hr className="my-3 border-white/10" />
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <span className="text-white/70">Created at</span>
+                          <span>{dayjs(meta.created_at).fromNow()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-white/70">Last Token</span>
+                          <span>
+                            {dayjs(lastToken?.symbol.created_at).fromNow()}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-white/70">Total Volume</span>
+                          <ReadableNumber value={meta.total_volume} />
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-white/70">Total MarketCap</span>
+                          <div
+                            className="font-medium text-base"
+                            style={{ color: getMcColor(meta.total_market_cap) }}
+                          >
+                            <ReadableNumber value={meta.total_market_cap} />
+                          </div>
+                        </div>
                       </div>
                     </div>
+                    <div className="mt-3 grow overflow-auto rounded-xl bg-v1-surface-l2 p-3">
+                      <h2 className="mb-3 text-white/70">Tokens</h2>
+                      <TokensTable dataSource={meta.trench} />
+                    </div>
                   </div>
-                  <div className="mt-3 grow overflow-auto rounded-xl bg-v1-surface-l2 p-3">
-                    <h2 className="mb-3 text-white/70">Tokens</h2>
-                    <TokensTable dataSource={meta.trench} />
+                  <div className="h-full grow overflow-auto rounded-xl bg-v1-surface-l2 p-3">
+                    <h2 className="mb-3 text-white/70">Gallery</h2>
+                    <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+                      {meta.trench.map(token => (
+                        <img
+                          alt={token.symbol.abbreviation}
+                          className="aspect-square rounded-xl bg-v1-surface-l0 object-cover"
+                          key={token.symbol.contract_address}
+                          loading="lazy"
+                          src={token.symbol.logo_url}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="h-full grow overflow-auto rounded-xl bg-v1-surface-l2 p-3">
-                  <h2 className="mb-3 text-white/70">Gallery</h2>
-                  <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-                    {meta.trench.map(token => (
-                      <img
-                        alt={token.symbol.abbreviation}
-                        className="aspect-square rounded-xl bg-v1-surface-l0"
-                        key={token.contract_address}
-                        loading="lazy"
-                        src={token.symbol.logo_url}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            }),
+          )}
         </div>
       )}
-      <div className="flex justify-center">
-        <Pagination
-          current={+page}
-          hideOnSinglePage
-          onChange={x => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setPage(x);
-          }}
-          pageSize={10}
-          responsive
-          total={data?.count}
-        />
-      </div>
+      <div ref={loadMoreRef} />
+      {(isFetchingNextPage || isPending) && (
+        <Spinner className="mx-auto my-10" />
+      )}
     </PageWrapper>
   );
 }
@@ -251,7 +277,7 @@ function TokensTable({ dataSource }: { dataSource: MetaToken[] }) {
         render: row => (
           <Coin
             abbreviation={row.symbol.abbreviation}
-            href={`/token/solana/${row.contract_address}`}
+            href={`/token/solana/${row.symbol.contract_address}`}
             logo={row.symbol.logo_url}
             name={row.symbol.name}
           />

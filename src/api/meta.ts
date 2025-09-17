@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 
@@ -18,6 +18,7 @@ interface Meta {
 export interface MetaToken {
   symbol: {
     slug: string;
+    contract_address: string;
     name: string;
     abbreviation: string;
     logo_url: string;
@@ -28,7 +29,6 @@ export interface MetaToken {
     homepage: string[];
     twitter_screen_name: string;
   };
-  contract_address: string;
   symbol_security: unknown;
   symbol_market_data: {
     volume_24h: number;
@@ -43,37 +43,49 @@ export function useMetaListQuery({
   minTotalVolume,
   minTotalMarketCap,
   maxTotalMarketCap,
-  page,
+  skipSimilar,
+  query,
 }: {
-  page?: number;
   recentlyActive?: boolean;
   minTotalVolume?: number;
   maxTotalVolume?: number;
   minTotalMarketCap?: number;
   maxTotalMarketCap?: number;
+  skipSimilar?: boolean;
+  query?: string;
 }) {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: [
       'meta-list',
-      page,
       recentlyActive,
       minTotalVolume,
       maxTotalVolume,
       minTotalMarketCap,
       maxTotalMarketCap,
+      skipSimilar,
+      query,
     ],
-    queryFn: async () => {
+    queryFn: async ({ pageParam = 1 }) => {
       const data = await ofetch<PageResponse<Meta>>(`delphi/meta/list/`, {
         query: {
-          page,
+          page: pageParam,
           recently_active: recentlyActive,
           min_total_volume: minTotalVolume,
           max_total_volume: maxTotalVolume,
           min_total_market_cap: minTotalMarketCap,
           max_total_market_cap: maxTotalMarketCap,
+          skip_similar: skipSimilar,
+          query,
         },
       });
       return data;
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.next) {
+        return allPages.length + 1;
+      }
+    },
+    refetchInterval: 1000 * 60,
   });
 }
