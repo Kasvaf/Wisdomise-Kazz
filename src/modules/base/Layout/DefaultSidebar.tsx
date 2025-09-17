@@ -6,7 +6,7 @@ import {
   useDiscoveryUrlParams,
 } from 'modules/discovery/lib';
 import type { FC } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
@@ -16,6 +16,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const urlParams = useDiscoveryUrlParams();
   const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
+  const location = useLocation();
 
   return (
     <div
@@ -28,13 +29,16 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
         <NavLink
           className={clsx(
             'group flex w-full flex-col items-center justify-center py-3 transition-all',
-            item.meta.list === params.list &&
+            // todo: not a good solution
+            (location.pathname === '/meta'
+              ? item.link.includes(location.pathname)
+              : item.meta.list === params.list) &&
               'bg-v1-surface-l1 font-bold text-v1-content-brand',
             'hover:text-v1-content-link-hover',
           )}
           key={item.link}
           onClick={e => {
-            if (!urlParams.list && urlParams.detail) {
+            if (!urlParams.list && urlParams.detail && item.link !== '/meta') {
               e.preventDefault();
               e.stopPropagation();
               setBackdropParams({

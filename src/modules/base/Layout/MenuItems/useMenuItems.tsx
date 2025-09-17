@@ -2,6 +2,7 @@ import type { DiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as CoinRadarIcon } from './icons/home.svg';
+import { ReactComponent as MetaIcon } from './icons/meta.svg';
 import { ReactComponent as PortfolioIcon } from './icons/portfolio.svg';
 import { ReactComponent as PositionsIcon } from './icons/positions.svg';
 import { ReactComponent as SocialRadarIcon } from './icons/social.svg';
@@ -108,6 +109,17 @@ export const useMenuItems = () => {
         text: 'X Tracker',
         crumb: 'X Tracker',
         hide: isMobile,
+      },
+      {
+        link: '/meta',
+        meta: {
+          // @ts-expect-error
+          list: '',
+        },
+        icon: MetaIcon,
+        text: 'Meta',
+        hide: isMobile,
+        crumb: 'Meta',
       },
     ],
     [isMobile],
