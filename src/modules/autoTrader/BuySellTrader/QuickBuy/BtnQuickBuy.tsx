@@ -1,6 +1,6 @@
 import { notification } from 'antd';
-import { useSupportedPairs } from 'api';
-import { useMarketSwap } from 'api/chains';
+import { useTokenPairsQuery } from 'api';
+import { useSwap } from 'api/chains';
 import type { CoinNetwork } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -13,22 +13,25 @@ import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 export default function BtnQuickBuy({
-  slug,
   source,
+  slug,
+  tokenAddress,
   className,
   networks,
   size = 'xs',
 }: {
-  slug: string;
   source: TradeSettingsSource;
+  slug: string;
+  tokenAddress?: string;
   className?: string;
   networks?: CoinNetwork[] | null;
   size?: ButtonSize;
 }) {
   const quote = 'wrapped-solana';
+
   const { settings } = useUserSettings();
-  const marketSwapHandler = useMarketSwap({ slug, quote, source });
-  const { refetch } = useSupportedPairs(slug, { enabled: false });
+  const swapAsync = useSwap({ slug, quote, source, tokenAddress });
+  const { refetch } = useTokenPairsQuery(slug, { enabled: false });
   const isLoggedIn = useIsLoggedIn();
   const [modal, ensureAuthenticated] = useEnsureAuthenticated();
 
@@ -47,7 +50,7 @@ export default function BtnQuickBuy({
       return;
     }
 
-    await marketSwapHandler('LONG', amount);
+    await swapAsync('LONG', amount);
   };
 
   return isSolana ? (

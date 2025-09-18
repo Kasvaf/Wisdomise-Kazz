@@ -1,5 +1,5 @@
 import { Select, type SelectProps } from 'antd';
-import { useLastPriceQuery } from 'api';
+import { useLastPriceStream } from 'api';
 import { useCoinDetails, useCoins } from 'api/discovery';
 import type { Coin as CoinType } from 'api/types/shared';
 import { bxChevronDown } from 'boxicons-quasar';
@@ -36,7 +36,7 @@ export const CoinSelect: FC<
   const coinList = useCoins({ query: q, tradableCoinsOnly });
 
   const coin = useCoinDetails({ slug: value ?? undefined });
-  const { data: lastPrice } = useLastPriceQuery({
+  const { data: lastPrice } = useLastPriceStream({
     slug: value == null ? undefined : value,
   });
 

@@ -1,5 +1,5 @@
 import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
-import { useAccountNativeBalance } from 'api/chains';
+import { useNativeTokenBalance } from 'api/chains';
 import { useMarketSwapSimulate } from 'api/chains/simulate';
 import type { SwapState } from 'modules/autoTrader/BuySellTrader/useSwapState';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -27,7 +27,7 @@ export const useSimulatePrepare = ({
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
-  const { data: nativeBalance } = useAccountNativeBalance();
+  const { data: nativeBalance } = useNativeTokenBalance();
   const { data: d1, isLoading: l1 } = usePreparePositionQuery(createData);
   const { data: d2, isLoading: l2 } = useMarketSwapSimulate(swapData);
   const data = createData ? d1 : d2;

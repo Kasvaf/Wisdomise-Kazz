@@ -1,4 +1,4 @@
-import { useHasFlag, useSupportedPairs, useTraderAssetActivity } from 'api';
+import { useHasFlag, useTokenActivityQuery, useTokenPairsQuery } from 'api';
 import { useGrpc } from 'api/grpc-v2';
 import { useSolanaSymbol } from 'api/symbol';
 import { clsx } from 'clsx';
@@ -39,10 +39,16 @@ export const BtnConvertToUsd = ({
   );
 };
 
-export function SolanaCoin() {
+export function SolanaCoin({ className }: { className?: string }) {
   const { data: solanaSymbol } = useSolanaSymbol();
   return solanaSymbol ? (
-    <Coin className="-mr-1" coin={solanaSymbol} mini nonLink noText />
+    <Coin
+      className={clsx('-mr-1', className)}
+      coin={solanaSymbol}
+      mini
+      nonLink
+      noText
+    />
   ) : null;
 }
 
@@ -50,11 +56,11 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
   const slug = symbol.slug;
-  const { data } = useTraderAssetActivity(symbol.slug);
+  const { data } = useTokenActivityQuery(symbol.slug);
   const hasFlag = useHasFlag();
 
   const network = useActiveNetwork();
-  const { data: pairs, isPending } = useSupportedPairs(slug);
+  const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
   const hasSolanaPair =
     !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');

@@ -1,4 +1,4 @@
-import { useHasFlag, useTraderAssetActivity, useTraderSwapsQuery } from 'api';
+import { useHasFlag, useTokenActivityQuery, useTraderSwapsQuery } from 'api';
 import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyncChartLines';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useMemo, useRef } from 'react';
@@ -22,7 +22,7 @@ interface IconOptions {
 }
 
 export function useSwapActivityLines(slug: string) {
-  const { data } = useTraderAssetActivity(slug);
+  const { data } = useTokenActivityQuery(slug);
   const details = useUnifiedCoinDetails();
   const hasFlag = useHasFlag();
 

@@ -8,42 +8,37 @@ import {
 } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
 import {
-  useSolanaAccountBalance,
-  useSolanaMarketSwap,
+  useSolanaSwap,
+  useSolanaTokenBalance,
   useSolanaTransferAssetsMutation,
 } from './solana';
-import {
-  useAccountJettonBalance,
-  useTonTransferAssetsMutation,
-  useTonUserAssets,
-} from './ton';
+import { useTonTransferAssetsMutation, useTonUserAssets } from './ton';
 
-export const useAccountBalance = ({
-  slug,
+export const useTokenBalance = ({
   network,
-  address,
+  slug,
+  tokenAddress,
+  walletAddress,
   enabled = true,
 }: {
+  network?: SupportedNetworks;
   slug?: string;
-  network?: SupportedNetworks | null;
-  address?: string;
+  tokenAddress?: string;
+  walletAddress?: string;
   enabled?: boolean;
 }) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
 
-  const solResult = useSolanaAccountBalance({
-    slug: net === 'solana' ? slug : undefined,
-    address,
-    enabled,
+  const solResult = useSolanaTokenBalance({
+    slug,
+    tokenAddress,
+    walletAddress,
+    enabled: enabled && net === 'solana',
   });
-  const tonResult = useAccountJettonBalance(
-    net === 'the-open-network' ? slug : undefined,
-    address,
-  );
 
   if (net === 'solana') return solResult;
-  if (net === 'the-open-network') return tonResult;
+
   return {
     data: null,
     isLoading: !net,
@@ -68,30 +63,30 @@ export const useUserWalletAssets = (
   return { data: null, isLoading: false };
 };
 
-export const useAccountNativeBalance = (address?: string) => {
+export const useNativeTokenBalance = (walletAddress?: string) => {
   const network = useActiveNetwork();
-  return useAccountBalance({
+  return useTokenBalance({
     slug:
       network === 'the-open-network' ? 'the-open-network' : 'wrapped-solana',
-    address,
+    walletAddress,
   });
 };
 
-export const useAccountAllQuotesBalance = () => {
+export const useAllQuotesBalance = () => {
   const network = useActiveNetwork();
-  const { data: tonBalance, isLoading: l1 } = useAccountBalance({
+  const { data: tonBalance, isLoading: l1 } = useTokenBalance({
     slug: 'the-open-network',
     network,
   });
-  const { data: tetherBalance, isLoading: l2 } = useAccountBalance({
+  const { data: tetherBalance, isLoading: l2 } = useTokenBalance({
     slug: 'tether',
     network,
   });
-  const { data: usdCoinBalance, isLoading: l3 } = useAccountBalance({
+  const { data: usdCoinBalance, isLoading: l3 } = useTokenBalance({
     slug: 'usd-coin',
     network,
   });
-  const { data: solBalance, isLoading: l4 } = useAccountBalance({
+  const { data: solBalance, isLoading: l4 } = useTokenBalance({
     slug: 'wrapped-solana',
     network,
   });
@@ -121,25 +116,28 @@ export const useTransferAssetsMutation = (quote?: string) => {
   };
 };
 
-export const useMarketSwap = ({
+export const useSwap = ({
   slug,
+  tokenAddress,
   quote,
   source,
 }: {
   slug?: string;
+  tokenAddress?: string;
   quote?: string;
   source: TradeSettingsSource;
 }) => {
   const net = useActiveNetwork();
-  const solanaMarketSwap = useSolanaMarketSwap();
-  const { data: baseBalance, refetch } = useAccountBalance({
+  const solanaSwap = useSolanaSwap();
+  const { data: baseBalance, refetch } = useTokenBalance({
     slug,
+    tokenAddress,
     enabled: false,
   });
   const { getActivePreset } = useUserSettings();
-  const { data: quoteBalance } = useAccountBalance({ slug: quote });
+  const { data: quoteBalance } = useTokenBalance({ slug: quote });
 
-  const handleMarketSwap = async (side: 'LONG' | 'SHORT', amount: string) => {
+  const attemptSolanaSwap = async (side: 'LONG' | 'SHORT', amount: string) => {
     const notificationKey = Date.now();
     const balance = baseBalance ?? (await refetch())?.data;
 
@@ -184,7 +182,7 @@ export const useMarketSwap = ({
         message: <NotificationContent />,
         duration: 30_000,
       });
-      const confirmed = await solanaMarketSwap(
+      const confirmed = await solanaSwap(
         slug,
         quote,
         side,
@@ -207,7 +205,7 @@ export const useMarketSwap = ({
     }
   };
 
-  if (net === 'solana') return handleMarketSwap;
+  if (net === 'solana') return attemptSolanaSwap;
 
   return () => {
     throw new Error('Invalid network');

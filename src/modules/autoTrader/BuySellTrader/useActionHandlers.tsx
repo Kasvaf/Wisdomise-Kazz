@@ -5,7 +5,7 @@ import {
   useTraderCancelPositionMutation,
   useTraderFirePositionMutation,
 } from 'api';
-import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
+import { useSwap, useTransferAssetsMutation } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { unwrapErrorMessage } from 'utils/error';
@@ -44,10 +44,10 @@ const useActionHandlers = (state: SwapState) => {
     useTraderFirePositionMutation();
 
   const transferAssetsHandler = useTransferAssetsMutation(from.slug);
-  const marketSwapHandler = useMarketSwap({
+  const swapAsync = useSwap({
+    source: 'terminal',
     slug: base.slug,
     quote: quote.slug,
-    source: 'terminal',
   });
 
   const firePosition = async () => {
@@ -59,7 +59,7 @@ const useActionHandlers = (state: SwapState) => {
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
-        await marketSwapHandler(dir === 'buy' ? 'LONG' : 'SHORT', from.amount);
+        await swapAsync(dir === 'buy' ? 'LONG' : 'SHORT', from.amount);
       } finally {
         setFiring(false);
       }

@@ -1,4 +1,4 @@
-import { initialQuoteAsset, type Position, useLastPriceQuery } from 'api';
+import { initialQuoteAsset, type Position, useLastPriceStream } from 'api';
 import { useCoinDetails } from 'api/discovery';
 import logo from 'assets/logo-white.svg';
 import { useRef, useState } from 'react';
@@ -28,7 +28,7 @@ export default function PositionSharingModal({
   const initialQuote = initialQuoteAsset(position);
   const el = useRef<HTMLDivElement>(null);
 
-  const { data: lastPrice } = useLastPriceQuery({
+  const { data: lastPrice } = useLastPriceStream({
     slug: position.base_slug,
     quote: position.quote_slug,
   });

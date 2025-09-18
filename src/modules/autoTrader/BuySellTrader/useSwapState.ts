@@ -1,5 +1,5 @@
-import { useLastPriceQuery, useSupportedNetworks } from 'api';
-import { useAccountBalance } from 'api/chains';
+import { useLastPriceStream, useSupportedNetworks } from 'api';
+import { useTokenBalance } from 'api/chains';
 import { useCoinDetails } from 'api/discovery';
 import { useSymbolInfo } from 'api/symbol';
 import { useCallback, useEffect, useState } from 'react';
@@ -17,33 +17,33 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const firing = useState(false);
   const { data: details } = useCoinDetails({ slug: base });
 
-  const { data: baseInfo } = useSymbolInfo(base);
-  const { data: quoteInfo } = useSymbolInfo(quote);
+  const { data: baseInfo } = useSymbolInfo({ slug: base });
+  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
   const networks = useSupportedNetworks(base, quote);
   const selectedNet = networks?.[0] ?? 'solana';
 
-  const { data: quoteBalance, isLoading: quoteLoading } = useAccountBalance({
+  const { data: quoteBalance, isLoading: quoteLoading } = useTokenBalance({
     slug: quote,
     network: selectedNet,
   });
-  const { data: baseBalance, isLoading: baseLoading } = useAccountBalance({
+  const { data: baseBalance, isLoading: baseLoading } = useTokenBalance({
     slug: base,
     network: selectedNet,
   });
 
-  const { data: basePriceByQuote } = useLastPriceQuery({
+  const { data: basePriceByQuote } = useLastPriceStream({
     slug: base,
     quote,
     convertToUsd: false,
   });
 
-  const { data: basePrice } = useLastPriceQuery({
+  const { data: basePrice } = useLastPriceStream({
     slug: base,
     quote,
     convertToUsd: true,
   });
 
-  const { data: quotePrice } = useLastPriceQuery({
+  const { data: quotePrice } = useLastPriceStream({
     slug: quote,
     convertToUsd: true,
   });

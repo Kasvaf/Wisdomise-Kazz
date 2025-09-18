@@ -34,6 +34,11 @@
   height: 100%;
 }
 
+[role="button"],
+button {
+  @apply cursor-pointer;
+}
+
 @media screen and (max-width: 740px) {
   :root {
     font-size: 15px;

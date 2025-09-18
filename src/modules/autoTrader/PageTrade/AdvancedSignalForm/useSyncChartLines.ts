@@ -1,4 +1,4 @@
-import { useLastPriceQuery } from 'api';
+import { useLastPriceStream } from 'api';
 import { useEffect } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import type { IChartWidgetApi } from 'shared/AdvancedChart/charting_library/charting_library';
@@ -62,7 +62,7 @@ const useSyncChartLines = ({ formState }: { formState: SignalFormState }) => {
     safetyOpens: [safetyOpens, setSafetyOpens],
   } = formState;
 
-  const { data: marketPrice } = useLastPriceQuery({
+  const { data: marketPrice } = useLastPriceStream({
     slug: base,
     quote,
     convertToUsd: true,

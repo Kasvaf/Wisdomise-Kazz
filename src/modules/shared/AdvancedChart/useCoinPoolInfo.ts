@@ -1,4 +1,4 @@
-import { useLastCandleQuery } from 'api';
+import { useLastCandleStream } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useMemo } from 'react';
@@ -7,8 +7,8 @@ import { useDebounce } from 'usehooks-ts';
 const useCoinPoolInfo = (slug: string) => {
   const [pageQuote] = useActiveQuote();
   const quote = useDebounce(pageQuote, 300);
-  const lastCandle = useLastCandleQuery({ slug, quote });
-  const info = useSymbolInfo(slug);
+  const lastCandle = useLastCandleStream({ slug, quote });
+  const info = useSymbolInfo({ slug });
 
   const net = info.data?.networks.find(
     x => x.network.slug === lastCandle.data?.symbol?.network,

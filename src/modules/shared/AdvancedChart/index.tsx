@@ -1,4 +1,4 @@
-import { useSupportedPairs } from 'api';
+import { useTokenPairsQuery } from 'api';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
@@ -47,7 +47,7 @@ const AdvancedChart: React.FC<{
   const totalSupply = details?.marketData.totalSupply ?? 0;
 
   const [, setPageQuote] = useActiveQuote();
-  const { data: pairs } = useSupportedPairs(slug);
+  const { data: pairs } = useTokenPairsQuery(slug);
 
   useEffect(() => {
     marksRef.current = marks;

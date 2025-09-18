@@ -48,7 +48,7 @@ export function Coins({
         {coins.slice(0, 3).map(coin => (
           <div
             className={clsx(
-              'inline-flex rounded-full border border-v1-surface-l3 bg-black bg-center bg-cover bg-no-repeat',
+              'inline-flex rounded-sm border border-v1-surface-l3 bg-black bg-center bg-cover bg-no-repeat',
               imageClassName ?? 'size-4',
             )}
             key={JSON.stringify(coin)}

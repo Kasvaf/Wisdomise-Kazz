@@ -169,7 +169,7 @@ export function StatusBadge({
 }
 
 function PrizeCoin({ slug, amount }: { slug: string; amount: number }) {
-  const { data: coin } = useSymbolInfo(slug);
+  const { data: coin } = useSymbolInfo({ slug });
 
   return coin ? (
     <div className="flex items-center">

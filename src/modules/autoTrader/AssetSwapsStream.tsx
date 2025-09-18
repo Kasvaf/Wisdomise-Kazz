@@ -1,4 +1,4 @@
-import { useSupportedPairs } from 'api';
+import { useTokenPairsQuery } from 'api';
 import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
 import { useAllWallets } from 'api/chains/wallet';
 import { useGrpc } from 'api/grpc-v2';
@@ -107,7 +107,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
   const { settings, updateSwapsPartial } = useUserSettings();
   const wallets = useAllWallets();
 
-  const { data: pairs, isPending } = useSupportedPairs(slug);
+  const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
   const hasSolanaPair =
     !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');

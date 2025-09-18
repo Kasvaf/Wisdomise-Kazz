@@ -1,4 +1,4 @@
-import { useLastCandleQuery } from 'api';
+import { useLastCandleStream } from 'api';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
@@ -12,7 +12,7 @@ export const useMarketCap = ({
   const { marketData, symbol } = useUnifiedCoinDetails();
   const [quote] = useActiveQuote();
   const network = useActiveNetwork();
-  const { data: lastCandle, isLoading } = useLastCandleQuery({
+  const { data: lastCandle, isLoading } = useLastCandleStream({
     market: 'SPOT',
     network: network as 'solana' | 'the-open-network',
     slug: symbol.slug,
