@@ -2,7 +2,7 @@
   --tv-color-toolbar-button-text-active: #beff21;
   --tv-color-toolbar-button-text-active-hover: #beff21;
   --tv-spinner-color: #beff21;
-  --tv-spinner-background: red;
+  --tv-color-platform-background: #0c0c0c;
 }
 
 .loading-indicator {

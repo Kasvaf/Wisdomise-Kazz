@@ -1,4 +1,6 @@
 import { type FC, lazy } from 'react';
+import XCommunityEmbed from 'shared/CoinSocials/XCommunityEmbed';
+import XProfileEmbed from 'shared/CoinSocials/XProfileEmbed';
 import type { Social } from './lib';
 
 const FacebookEmbed = lazy(() =>
@@ -15,11 +17,6 @@ const TikTokEmbed = lazy(() =>
 );
 const YouTubeEmbed = lazy(() =>
   import('react-social-media-embed').then(x => ({ default: x.YouTubeEmbed })),
-);
-const PlaceholderEmbed = lazy(() =>
-  import('react-social-media-embed').then(x => ({
-    default: x.PlaceholderEmbed,
-  })),
 );
 
 export const SocialPreview: FC<{ social: Social }> = ({ social }) => {
@@ -43,20 +40,12 @@ export const SocialPreview: FC<{ social: Social }> = ({ social }) => {
     );
 
     if (cleanedPathName && !cleanedPathName.includes('/')) {
-      return (
-        <PlaceholderEmbed
-          color="black"
-          imageUrl={`https://unavatar.io/x/${cleanedPathName}`}
-          linkText="View Profile on X"
-          spinnerDisabled
-          style={{
-            width: 250,
-            height: 250,
-            background: 'black',
-          }}
-          url={social.url.href}
-        />
-      );
+      return <XProfileEmbed username={cleanedPathName} />;
+    }
+
+    if (cleanedPathName.startsWith('i/communities')) {
+      const id = cleanedPathName.split('/').pop() ?? '';
+      return <XCommunityEmbed communityId={id} />;
     }
   }
   return (

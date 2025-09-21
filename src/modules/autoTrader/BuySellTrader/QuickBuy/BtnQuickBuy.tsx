@@ -55,10 +55,7 @@ export default function BtnQuickBuy({
 
   return isSolana ? (
     <Button
-      className={clsx(
-        className,
-        '!rounded-3xl flex items-center disabled:bg-v1-surface-l2',
-      )}
+      className={clsx(className, 'flex items-center')}
       onClick={async e => {
         e.stopPropagation();
         e.preventDefault();

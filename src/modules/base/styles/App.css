@@ -30,6 +30,13 @@
   }
 }
 
+a {
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+}
+
 #root {
   height: 100%;
 }

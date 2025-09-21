@@ -6,6 +6,7 @@ import { type FC, memo, Suspense, useMemo } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { getLogo, resolveSocials } from './lib';
 import { SocialPreview } from './SocialPreview';
+import { ReactComponent as XIcon } from './x.svg';
 import { ReactComponent as XPostIcon } from './x_post.svg';
 
 export const CoinSocials: FC<{
@@ -43,6 +44,7 @@ export const CoinSocials: FC<{
           <HoverTooltip
             key={social.url.href}
             placement="bottom"
+            rootClassName="[&_.ant-tooltip-inner]:!p-0 [&_.ant-tooltip-inner]:overflow-auto [&_.ant-tooltip-inner]:max-h-96"
             title={
               <Suspense fallback={<Spin />}>
                 <SocialPreview social={social} />
@@ -64,14 +66,14 @@ export const CoinSocials: FC<{
               }}
             >
               <div
-                className="relative size-full overflow-hidden rounded-full"
-                style={{
-                  backgroundColor: social.type === 'x' ? 'black' : 'white',
-                }}
+                className="relative size-full overflow-hidden rounded-full bg-v1-surface-l2"
+                // style={{
+                //   backgroundColor: social.type === 'x' ? 'black' : 'white',
+                // }}
               >
                 {social.type === 'x' && social.url.href.includes('/status/') ? (
                   <XPostIcon
-                    className="size-full scale-75 rounded-full fill-white/90"
+                    className="size-full scale-75 rounded-full"
                     height="14"
                     width="14"
                   />
@@ -90,7 +92,7 @@ export const CoinSocials: FC<{
         {!hideSearch && (
           <span
             className={clsx(
-              'inline-flex cursor-pointer items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:bg-white/5 active:brightness-90',
+              'inline-flex cursor-pointer items-center gap-1 rounded-full bg-v1-surface-l2 px-1 text-[9px] text-white/60 transition-all hover:bg-white/5 active:brightness-90',
               'h-4 shrink-0 justify-center',
               '[&_svg]:size-[9px]',
             )}
@@ -108,7 +110,7 @@ export const CoinSocials: FC<{
               );
             }}
           >
-            <b>X</b>
+            <XIcon />
             {'Search'}
           </span>
         )}

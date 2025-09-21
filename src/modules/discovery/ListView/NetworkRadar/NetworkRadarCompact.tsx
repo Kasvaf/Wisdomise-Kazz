@@ -41,7 +41,7 @@ export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
         />
         <NetworkRadarFilters initialTab={tab} />
       </div>
-      <QuickBuySettings className="mb-3 px-3" source={tab} />
+      <QuickBuySettings className="mb-3 px-3" source={tab} surface={1} />
       <div className="px-3">
         <NCoinList
           className={clsx(tab !== 'new_pairs' && 'hidden')}

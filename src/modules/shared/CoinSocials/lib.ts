@@ -1,5 +1,6 @@
 import type { CoinCommunityData } from 'api/discovery';
 import type { SymbolSocailAddresses } from 'api/proto/network_radar';
+import dayjs from 'dayjs';
 
 type KnownSocialType =
   | 'reddit'
@@ -44,6 +45,26 @@ export const KNOWN_HOSTS: Record<KnownSocialType, string[]> = {
     'www.telegram.me',
   ],
   github: ['github.com', 'www.github.com'],
+};
+
+export const shortFromNow = (date: string | Date) => {
+  const now = dayjs();
+  const target = dayjs(date);
+
+  const diffInMinutes = now.diff(target, 'minute');
+  if (diffInMinutes < 60) return `${diffInMinutes}m`;
+
+  const diffInHours = now.diff(target, 'hour');
+  if (diffInHours < 24) return `${diffInHours}h`;
+
+  const diffInDays = now.diff(target, 'day');
+  if (diffInDays < 30) return `${diffInDays}d`;
+
+  const diffInMonths = now.diff(target, 'month');
+  if (diffInMonths < 12) return `${diffInMonths}M`;
+
+  const diffInYears = now.diff(target, 'year');
+  return `${diffInYears}y`;
 };
 
 export const getLogo = (type: Social['type']) =>
