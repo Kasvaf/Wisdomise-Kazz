@@ -43,6 +43,7 @@ export const useAssetEnrichedSwaps = ({
     payload: {
       network,
       asset,
+      enrichAssetDetails: false,
     },
     enabled,
     history: 0,
@@ -55,6 +56,7 @@ export const useAssetEnrichedSwaps = ({
       network,
       asset,
       wallets,
+      enrichAssetDetails: false,
     },
     enabled,
     history: Number.POSITIVE_INFINITY,
@@ -77,6 +79,8 @@ export const useAssetEnrichedSwaps = ({
       const tokenAddress = dir === 'sell' ? row.fromAsset : row.toAsset;
       const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
       const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
+      const assetDetail =
+        dir === 'sell' ? row.fromAssetDetails : row.toAssetDetails;
       return {
         ...row,
         dir,
@@ -84,6 +88,7 @@ export const useAssetEnrichedSwaps = ({
         tokenAmount,
         solAmount,
         tokenAddress,
+        assetDetail,
       };
     });
   }, [history, recent]);

@@ -31,6 +31,8 @@ export default function WalletManager({ className }: { className?: string }) {
   return (
     <div className={className}>
       <Collapse
+        className="!bg-v1-surface-l0 !-mx-3"
+        defaultActiveKey={1}
         items={[
           {
             key: '1',
@@ -38,7 +40,7 @@ export default function WalletManager({ className }: { className?: string }) {
             children: (
               <div>
                 <Collapse
-                  className="!bg-v1-surface-l2"
+                  defaultActiveKey="manual"
                   items={[
                     {
                       key: 'manual',
@@ -148,7 +150,7 @@ function WalletGroup({
           },
         ]}
         dataSource={wallets}
-        surface={3}
+        surface={2}
       />
     </div>
   );

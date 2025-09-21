@@ -4,10 +4,12 @@ import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import { type FC, memo, Suspense, useMemo } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { getLogo, resolveSocials } from './lib';
-import { SocialPreview } from './SocialPreview';
+import { getLogo, resolveSocials, type Social } from './lib';
+import { parseXUrl, SocialPreview } from './SocialPreview';
 import { ReactComponent as XIcon } from './x.svg';
-import { ReactComponent as XPostIcon } from './x_post.svg';
+import { ReactComponent as XCommunityIcon } from './x-community.svg';
+import { ReactComponent as XPostIcon } from './x-post.svg';
+import { ReactComponent as XProfileIcon } from './x-profile.svg';
 
 export const CoinSocials: FC<{
   abbreviation?: string | null;
@@ -65,27 +67,7 @@ export const CoinSocials: FC<{
                 go(social.url.href);
               }}
             >
-              <div
-                className="relative size-full overflow-hidden rounded-full bg-v1-surface-l2"
-                // style={{
-                //   backgroundColor: social.type === 'x' ? 'black' : 'white',
-                // }}
-              >
-                {social.type === 'x' && social.url.href.includes('/status/') ? (
-                  <XPostIcon
-                    className="size-full scale-75 rounded-full"
-                    height="14"
-                    width="14"
-                  />
-                ) : (
-                  <img
-                    className="size-full rounded-full p-px contrast-125"
-                    height="14"
-                    src={getLogo(social.type)}
-                    width="14"
-                  />
-                )}
-              </div>
+              {social && <SocialIcon social={social} />}
             </span>
           </HoverTooltip>
         ))}
@@ -118,3 +100,25 @@ export const CoinSocials: FC<{
     );
   },
 );
+
+const SocialIcon = ({ social }: { social: Social }) => {
+  if (social.type === 'x') {
+    const res = parseXUrl(social.url.href);
+    if (res.type === 'post') return <XPostIcon className="size-3" />;
+    if (res.type === 'profile' && res.username)
+      return <XProfileIcon className="size-4" />;
+    if (res.type === 'community' && res.communityId)
+      return <XCommunityIcon className="size-4" />;
+    return <XIcon className="size-3" />;
+  } else {
+    return (
+      <img
+        alt=""
+        className="size-full rounded-full p-px contrast-125"
+        height="14"
+        src={getLogo(social.type)}
+        width="14"
+      />
+    );
+  }
+};

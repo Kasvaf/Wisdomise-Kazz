@@ -19,6 +19,42 @@ const YouTubeEmbed = lazy(() =>
   import('react-social-media-embed').then(x => ({ default: x.YouTubeEmbed })),
 );
 
+export function parseXUrl(url: string) {
+  try {
+    const { pathname } = new URL(url);
+    const parts = pathname.split('/').filter(Boolean);
+
+    // /username
+    if (parts.length === 1) {
+      return {
+        type: 'profile',
+        username: parts[0],
+      };
+    }
+
+    // /i/communities/:communityId
+    if (parts[0] === 'i' && parts[1] === 'communities' && parts[2]) {
+      return {
+        type: 'community',
+        communityId: parts[2],
+      };
+    }
+
+    // /username/status/:postId
+    if (parts.length >= 3 && parts[1] === 'status') {
+      return {
+        type: 'post',
+        username: parts[0],
+        postId: parts[2],
+      };
+    }
+
+    return { type: 'unknown' };
+  } catch {
+    return { type: 'invalid' };
+  }
+}
+
 export const SocialPreview: FC<{ social: Social }> = ({ social }) => {
   if (social.type === 'youtube')
     return <YouTubeEmbed height={140} url={social.url.href} width={325} />;
@@ -32,24 +68,21 @@ export const SocialPreview: FC<{ social: Social }> = ({ social }) => {
     // TODO: test
     return <InstagramEmbed url={social.url.href} width={325} />;
   if (social.type === 'x') {
-    if (social.url.href.includes('/status/'))
+    const res = parseXUrl(social.url.href);
+    if (res.type === 'post')
       return <XEmbed url={social.url.href} width={325} />;
-    const cleanedPathName = social.url.pathname.slice(
-      social.url.pathname.startsWith('/') ? 1 : 0,
-      social.url.pathname.endsWith('/') ? -1 : undefined,
-    );
-
-    if (cleanedPathName && !cleanedPathName.includes('/')) {
-      return <XProfileEmbed username={cleanedPathName} />;
-    }
-
-    if (cleanedPathName.startsWith('i/communities')) {
-      const id = cleanedPathName.split('/').pop() ?? '';
-      return <XCommunityEmbed communityId={id} />;
-    }
+    if (res.type === 'profile' && res.username)
+      return <XProfileEmbed username={res.username} />;
+    if (res.type === 'community' && res.communityId)
+      return <XCommunityEmbed communityId={res.communityId} />;
   }
   return (
-    <a className="text-sm" href={social.url.href} target="_blank">
+    <a
+      className="mx-3 flex h-8 items-center justify-center text-sm"
+      href={social.url.href}
+      onClick={e => e.stopPropagation()}
+      target="_blank"
+    >
       Visit Url
     </a>
   );
