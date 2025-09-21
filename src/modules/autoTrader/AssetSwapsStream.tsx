@@ -1,4 +1,4 @@
-import { useSupportedPairs } from 'api';
+import { useTokenPairsQuery } from 'api';
 import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
 import { useAllWallets } from 'api/chains/wallet';
 import { useGrpc } from 'api/grpc-v2';
@@ -43,6 +43,7 @@ export const useAssetEnrichedSwaps = ({
     payload: {
       network,
       asset,
+      enrichAssetDetails: false,
     },
     enabled,
     history: 0,
@@ -55,6 +56,7 @@ export const useAssetEnrichedSwaps = ({
       network,
       asset,
       wallets,
+      enrichAssetDetails: false,
     },
     enabled,
     history: Number.POSITIVE_INFINITY,
@@ -77,6 +79,8 @@ export const useAssetEnrichedSwaps = ({
       const tokenAddress = dir === 'sell' ? row.fromAsset : row.toAsset;
       const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
       const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
+      const assetDetail =
+        dir === 'sell' ? row.fromAssetDetails : row.toAssetDetails;
       return {
         ...row,
         dir,
@@ -84,6 +88,7 @@ export const useAssetEnrichedSwaps = ({
         tokenAmount,
         solAmount,
         tokenAddress,
+        assetDetail,
       };
     });
   }, [history, recent]);
@@ -107,7 +112,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
   const { settings, updateSwapsPartial } = useUserSettings();
   const wallets = useAllWallets();
 
-  const { data: pairs, isPending } = useSupportedPairs(slug);
+  const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
   const hasSolanaPair =
     !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');

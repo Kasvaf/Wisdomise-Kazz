@@ -8,7 +8,7 @@ import { ofetch } from 'config/ofetch';
 import dayjs from 'dayjs';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useGrpc } from './grpc-v2';
-import { useSupportedPairs } from './trader';
+import { useTokenPairsQuery } from './trader';
 import type { MarketTypes } from './types/shared';
 
 export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d';
@@ -92,14 +92,14 @@ interface LastCandleParams {
   debug?: boolean;
 }
 
-export const useLastCandleQuery = ({
+export const useLastCandleStream = ({
   network,
   slug: base,
   quote,
   market = 'SPOT',
   convertToUsd = !quote,
 }: LastCandleParams) => {
-  const { data: supportedPairs } = useSupportedPairs(base);
+  const { data: supportedPairs } = useTokenPairsQuery(base);
 
   // list of all quote+networks for this base-slug
   const netPairs = supportedPairs?.flatMap(sp =>
@@ -141,42 +141,23 @@ export const useLastCandleQuery = ({
     enabled: Boolean(base && theQuote && bestNet && market),
     history: 0,
   });
-
-  // return useQuery({
-  //   queryKey: ['last-candle', base, theQuote, bestNet, market, convertToUsd],
-  //   queryFn: async () => {
-  //     const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
-  //       query: {
-  //         base,
-  //         quote: theQuote,
-  //         network: bestNet,
-  //         market,
-  //         convert_to_usd: convertToUsd,
-  //         t: String(Date.now()),
-  //       },
-  //     });
-  //     return data;
-  //   },
-  //   enabled: Boolean(base && theQuote && bestNet && market),
-  //   staleTime: 1000,
-  //   refetchInterval: 10_000,
-  // });
 };
 
-export const useLastPriceQuery = (params: LastCandleParams) => {
-  const { data, ...rest } = useLastCandleQuery(params);
+export const useLastPriceStream = (params: LastCandleParams) => {
+  const { data, ...rest } = useLastCandleStream(params);
+
   return {
     ...rest,
     data: data?.candle?.close ? Number(data?.candle?.close) : undefined,
   };
 };
 
-const useUSDTLastPrice = () => {
-  return useLastPriceQuery({ slug: 'tether', quote: 'usd-coin' });
+const useUSDTLastPriceStream = () => {
+  return useLastPriceStream({ slug: 'tether', quote: 'usd-coin' });
 };
 
-const useUSDCLastPrice = () => {
-  return useLastPriceQuery({ slug: 'usd-coin', quote: 'tether' });
+const useUSDCLastPriceStream = () => {
+  return useLastPriceStream({ slug: 'usd-coin', quote: 'tether' });
 };
 
 const enrichCandleConfig = (userConfig: {
@@ -268,8 +249,8 @@ export const useBatchLastPriceQuery = ({
   bases?: string[];
   network: 'solana' | 'the-open-network';
 }) => {
-  const { data: usdtPrice, isLoading: l1 } = useUSDTLastPrice();
-  const { data: usdcPrice, isLoading: l2 } = useUSDCLastPrice();
+  const { data: usdtPrice, isLoading: l1 } = useUSDTLastPriceStream();
+  const { data: usdcPrice, isLoading: l2 } = useUSDCLastPriceStream();
 
   const noneUsdBases = bases?.filter(
     base => ![USDT_CONTRACT_ADDRESS, USDC_CONTRACT_ADDRESS].includes(base),

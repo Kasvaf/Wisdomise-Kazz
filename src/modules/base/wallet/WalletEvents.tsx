@@ -1,4 +1,4 @@
-import { useAccountAllQuotesBalance } from 'api/chains';
+import { useAllQuotesBalance } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
 import { gtag } from 'config/gtag';
 import { track } from 'config/segment';
@@ -10,7 +10,7 @@ const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
   const { address, name } = useActiveWallet();
   const net = useActiveNetwork();
   const [done, setDone] = useState(false);
-  const { isLoading, ...quotesBalance } = useAccountAllQuotesBalance();
+  const { isLoading, ...quotesBalance } = useAllQuotesBalance();
   const [walletConnectedFirstTime, setWalletConnected] = useLocalStorage(
     'wallet-connected-first-time',
     false,

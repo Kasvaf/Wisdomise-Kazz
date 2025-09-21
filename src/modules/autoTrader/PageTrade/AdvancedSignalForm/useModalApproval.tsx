@@ -1,5 +1,5 @@
 import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
-import { useAccountNativeBalance } from 'api/chains';
+import { useNativeTokenBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
 import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
@@ -72,10 +72,10 @@ const ModalApproval: React.FC<{
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
-  const { data: nativeBalance } = useAccountNativeBalance();
+  const { data: nativeBalance } = useNativeTokenBalance();
   const { data, isLoading } = usePreparePositionQuery(createData);
 
-  const { data: quoteInfo } = useSymbolInfo(quote);
+  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
   const nativeAmount =
     Number(data?.gas_fee) + (quoteInfo?.abbreviation === gasAbbr ? +amount : 0);
   const remainingGas = Number(nativeBalance) - nativeAmount;

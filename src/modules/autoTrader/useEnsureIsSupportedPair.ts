@@ -1,4 +1,4 @@
-import { useSupportedPairs } from 'api';
+import { useTokenPairsQuery } from 'api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const useEnsureIsSupportedPair = ({
   nextPage: string;
 }) => {
   const navigate = useNavigate();
-  const supportedPairs = useSupportedPairs(slug);
+  const supportedPairs = useTokenPairsQuery(slug);
   useEffect(() => {
     if (
       slug &&

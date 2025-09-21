@@ -9,6 +9,7 @@ export function HoverTooltip({
   disabled,
   onOpenChange,
   className,
+  rootClassName,
 }: {
   title?: ReactNode;
   children?: ReactNode;
@@ -17,6 +18,7 @@ export function HoverTooltip({
   onOpenChange?: (v: boolean) => void;
   ignoreFocus?: boolean;
   className?: string;
+  rootClassName?: string;
 }) {
   if (disabled) {
     return <>{children}</>;
@@ -27,7 +29,10 @@ export function HoverTooltip({
         arrow={false}
         autoAdjustOverflow
         onOpenChange={onOpenChange}
-        rootClassName="!max-w-[450px] p-3 text-sm text-v1-content-primary [&_.ant-tooltip-inner]:!bg-v1-surface-l1 border border-white/10 rounded-lg"
+        rootClassName={clsx(
+          '!max-w-[450px] p-3 text-sm text-v1-content-primary [&_.ant-tooltip-inner]:!bg-v1-surface-l1 border border-white/10 rounded-lg',
+          rootClassName,
+        )}
         title={title}
       >
         <span className={clsx('cursor-help', DIALOG_OPENER_CLASS, className)}>

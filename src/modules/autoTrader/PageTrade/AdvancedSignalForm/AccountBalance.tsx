@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
-import { useLastPriceQuery } from 'api';
-import { useAccountBalance } from 'api/chains';
+import { useLastPriceStream } from 'api';
+import { useTokenBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -14,17 +14,17 @@ export const AccountBalance: React.FC<{
   setAmount?: (val: string) => void;
 }> = ({ slug, disabled, setAmount, quote }) => {
   const net = useActiveNetwork();
-  const { data: balance, isLoading } = useAccountBalance({
+  const { data: balance, isLoading } = useTokenBalance({
     slug,
     network: net,
   });
-  const { data: priceByQuote } = useLastPriceQuery({
+  const { data: priceByQuote } = useLastPriceStream({
     slug,
     quote,
     convertToUsd: false,
   });
-  const { data: symbol } = useSymbolInfo(slug);
-  const { data: quoteSymbol } = useSymbolInfo(quote);
+  const { data: symbol } = useSymbolInfo({ slug });
+  const { data: quoteSymbol } = useSymbolInfo({ slug: quote });
 
   const isNativeQuote =
     (net === 'the-open-network' && slug === 'the-open-network') ||

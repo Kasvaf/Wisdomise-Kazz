@@ -3,6 +3,7 @@ import WalletManager from 'modules/discovery/ListView/WalletTracker/WalletManage
 import WalletsSwaps from 'modules/discovery/ListView/WalletTracker/WalletsSwaps';
 import { type FC, useState } from 'react';
 import { Button } from 'shared/v1-components/Button';
+import { ResizableSides } from 'shared/v1-components/ResizableSides';
 
 export const WalletTracker: FC<{
   focus?: boolean;
@@ -23,8 +24,10 @@ export const WalletTracker: FC<{
       <AddWalletDialog onClose={() => setOpen(false)} open={open} />
       <hr className="my-3 border-white/10" />
       <p className="mb-3 text-sm">Live Trades</p>
-      <WalletsSwaps />
-      <WalletManager className="mt-auto" />
+      <ResizableSides className={['h-96', '']} direction="row">
+        <WalletsSwaps />
+        <WalletManager className="mt-auto" />
+      </ResizableSides>
     </div>
   );
 };

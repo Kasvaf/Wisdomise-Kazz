@@ -1,5 +1,5 @@
-import { useHasFlag, useLastPriceQuery } from 'api';
-import { useAccountBalance, useMarketSwap } from 'api/chains';
+import { useHasFlag, useLastPriceStream } from 'api';
+import { useSwap, useTokenBalance } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
 import {
   bxCheck,
@@ -42,17 +42,17 @@ export default function BtnInstantTrade({
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { connected } = useActiveWallet();
-  const { data: baseBalance } = useAccountBalance({ slug });
+  const { data: baseBalance } = useTokenBalance({ slug });
   const hasFlag = useHasFlag();
   const [maskIsOpen, setMaskIsOpen] = useState(false);
 
-  const { data: basePriceByQuote } = useLastPriceQuery({
+  const { data: basePriceByQuote } = useLastPriceStream({
     slug,
     quote,
     convertToUsd: false,
   });
 
-  const marketSwapHandler = useMarketSwap({ slug, quote, source: 'terminal' });
+  const swapAsync = useSwap({ source: 'terminal', slug, quote });
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
     if (side === 'SHORT') {
       amount = convertToBaseAmount(
@@ -63,7 +63,7 @@ export default function BtnInstantTrade({
       );
     }
 
-    await marketSwapHandler(side, amount);
+    await swapAsync(side, amount);
   };
 
   const [isOpen, setIsOpen] = useLocalStorage('instant-open', false);

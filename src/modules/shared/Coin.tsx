@@ -1,5 +1,4 @@
 import { useNetworks } from 'api/discovery';
-import { useSymbolInfo } from 'api/symbol';
 import type { Coin as CoinType } from 'api/types/shared';
 import { clsx } from 'clsx';
 import { type ReactNode, useMemo } from 'react';
@@ -33,7 +32,7 @@ export function CoinLogo({
   return (
     <div className={clsx('relative inline-block overflow-hidden', className)}>
       <div
-        className="size-full overflow-hidden rounded-full bg-black bg-center bg-cover bg-no-repeat"
+        className="size-full overflow-hidden rounded-sm bg-black bg-center bg-cover bg-no-repeat"
         style={{
           ...(url && {
             backgroundImage: `url("${
@@ -46,7 +45,7 @@ export function CoinLogo({
       {networkObj?.icon_url && (
         <img
           alt={network}
-          className="absolute right-0 bottom-0 size-[40%] rounded-full"
+          className="absolute right-0 bottom-0 size-[40%] rounded-sm"
           src={networkObj?.icon_url}
         />
       )}
@@ -97,7 +96,6 @@ export function Coin({
     className,
   );
 
-  useSymbolInfo('the-open-network');
   const content = (
     <>
       <CoinLogo

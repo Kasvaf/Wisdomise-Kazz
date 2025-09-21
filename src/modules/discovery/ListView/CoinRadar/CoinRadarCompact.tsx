@@ -107,7 +107,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
     <div className="p-3">
       {focus && <UserTradingAssets className="mb-4" />}
       {focus && <h1 className="mb-4 text-sm">{t('table.mobile_title')}</h1>}
-      <QuickBuySettings className="mb-4" source="coin_radar" />
+      <QuickBuySettings className="mb-4" source="coin_radar" surface={1} />
       <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           chunkSize={10}

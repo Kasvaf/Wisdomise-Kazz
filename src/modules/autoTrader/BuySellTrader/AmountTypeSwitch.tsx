@@ -21,8 +21,8 @@ export default function AmountTypeSwitch({
   showIcon?: boolean;
   surface?: Surface;
 }) {
-  const { data: baseInfo } = useSymbolInfo(base);
-  const { data: quoteInfo } = useSymbolInfo(quote);
+  const { data: baseInfo } = useSymbolInfo({ slug: base });
+  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
 
   const symbol = value === 'quote' ? quoteInfo : baseInfo;
 

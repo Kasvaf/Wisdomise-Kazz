@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { useAccountNativeBalance } from 'api/chains';
+import { useNativeTokenBalance } from 'api/chains';
 import { useSymbolsInfo } from 'api/symbol';
 import {
   useWalletsQuery,
@@ -35,7 +35,7 @@ export default function Transfer({
   const { data: symbols } = useSymbolsInfo(
     walletAssets?.map(asset => asset.slug),
   );
-  const { data: nativeBalance } = useAccountNativeBalance(fromWallet?.address);
+  const { data: nativeBalance } = useNativeTokenBalance(fromWallet?.address);
 
   const sameAddress =
     (toWallet || internalToWallet?.address) === fromWallet?.address;

@@ -1,4 +1,4 @@
-import { useLastPriceQuery } from 'api';
+import { useLastPriceStream } from 'api';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,7 @@ const PartTpSl: React.FC<{
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
     isOrderLimitReached,
   } = data;
-  const { data: assetPrice } = useLastPriceQuery({
+  const { data: assetPrice } = useLastPriceStream({
     slug: baseSlug,
     quote,
     convertToUsd: true,
