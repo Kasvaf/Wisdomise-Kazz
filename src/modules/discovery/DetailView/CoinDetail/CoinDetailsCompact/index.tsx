@@ -3,12 +3,11 @@ import type { FC } from 'react';
 import CoinChart from '../CoinChart';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
-import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
-import { NCoinStatsWidget } from '../NCoinStatsWidget';
+import { TokenUpdateWidget } from '../TokenUpdateWidget';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
 
@@ -19,10 +18,9 @@ export const CoinDetailsCompact: FC = () => {
     <div className="flex flex-col gap-3 p-3">
       <NCoinRisksBanner />
       <CoinTitleWidget className="bg-v1-surface-l-current" hr />
-      <CoinPriceWidget />
       <BtnAutoTrade block variant="primary" />
       <CoinSentimentsWidget />
-      <NCoinStatsWidget />
+      <TokenUpdateWidget />
       <NCoinInsightWidget />
       <div className="h-[400px]">
         <CoinChart />
