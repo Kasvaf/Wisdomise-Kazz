@@ -20,7 +20,9 @@ export default function useTraderDrawer() {
   const [quote, setQuote, setBaseSlug] = useActiveQuote();
 
   const normSlug = inputs?.slug === 'solana' ? 'wrapped-solana' : inputs?.slug;
-  const { data: coin, isLoading: coinLoading } = useSymbolInfo(normSlug);
+  const { data: coin, isLoading: coinLoading } = useSymbolInfo({
+    slug: normSlug,
+  });
 
   useEffect(() => {
     if (normSlug) {

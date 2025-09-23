@@ -2,44 +2,43 @@ import { notification, Spin } from 'antd';
 import type { SupportedNetworks } from 'api';
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import { useActiveNetwork } from 'modules/base/active-network';
+import {
+  type TradeSettingsSource,
+  useUserSettings,
+} from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
 import {
-  useSolanaAccountBalance,
-  useSolanaMarketSwap,
+  useSolanaSwap,
+  useSolanaTokenBalance,
   useSolanaTransferAssetsMutation,
 } from './solana';
-import {
-  useAccountJettonBalance,
-  useTonTransferAssetsMutation,
-  useTonUserAssets,
-} from './ton';
+import { useTonTransferAssetsMutation, useTonUserAssets } from './ton';
 
-export const useAccountBalance = ({
-  slug,
+export const useTokenBalance = ({
   network,
-  address,
+  slug,
+  tokenAddress,
+  walletAddress,
   enabled = true,
 }: {
+  network?: SupportedNetworks;
   slug?: string;
-  network?: SupportedNetworks | null;
-  address?: string;
+  tokenAddress?: string;
+  walletAddress?: string;
   enabled?: boolean;
 }) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
 
-  const solResult = useSolanaAccountBalance({
-    slug: net === 'solana' ? slug : undefined,
-    address,
-    enabled,
+  const solResult = useSolanaTokenBalance({
+    slug,
+    tokenAddress,
+    walletAddress,
+    enabled: enabled && net === 'solana',
   });
-  const tonResult = useAccountJettonBalance(
-    net === 'the-open-network' ? slug : undefined,
-    address,
-  );
 
   if (net === 'solana') return solResult;
-  if (net === 'the-open-network') return tonResult;
+
   return {
     data: null,
     isLoading: !net,
@@ -64,30 +63,30 @@ export const useUserWalletAssets = (
   return { data: null, isLoading: false };
 };
 
-export const useAccountNativeBalance = (address?: string) => {
+export const useNativeTokenBalance = (walletAddress?: string) => {
   const network = useActiveNetwork();
-  return useAccountBalance({
+  return useTokenBalance({
     slug:
       network === 'the-open-network' ? 'the-open-network' : 'wrapped-solana',
-    address,
+    walletAddress,
   });
 };
 
-export const useAccountAllQuotesBalance = () => {
+export const useAllQuotesBalance = () => {
   const network = useActiveNetwork();
-  const { data: tonBalance, isLoading: l1 } = useAccountBalance({
+  const { data: tonBalance, isLoading: l1 } = useTokenBalance({
     slug: 'the-open-network',
     network,
   });
-  const { data: tetherBalance, isLoading: l2 } = useAccountBalance({
+  const { data: tetherBalance, isLoading: l2 } = useTokenBalance({
     slug: 'tether',
     network,
   });
-  const { data: usdCoinBalance, isLoading: l3 } = useAccountBalance({
+  const { data: usdCoinBalance, isLoading: l3 } = useTokenBalance({
     slug: 'usd-coin',
     network,
   });
-  const { data: solBalance, isLoading: l4 } = useAccountBalance({
+  const { data: solBalance, isLoading: l4 } = useTokenBalance({
     slug: 'wrapped-solana',
     network,
   });
@@ -117,29 +116,39 @@ export const useTransferAssetsMutation = (quote?: string) => {
   };
 };
 
-export const useMarketSwap = ({
+export const useSwap = ({
   slug,
+  tokenAddress,
   quote,
+  source,
 }: {
   slug?: string;
+  tokenAddress?: string;
   quote?: string;
+  source: TradeSettingsSource;
 }) => {
   const net = useActiveNetwork();
-  const solanaMarketSwap = useSolanaMarketSwap();
-  const { data: baseBalance, refetch } = useAccountBalance({
+  const solanaSwap = useSolanaSwap();
+  const { data: baseBalance, refetch } = useTokenBalance({
     slug,
+    tokenAddress,
     enabled: false,
   });
-  const { data: quoteBalance } = useAccountBalance({ slug: quote });
+  const { getActivePreset } = useUserSettings();
+  const { data: quoteBalance } = useTokenBalance({ slug: quote });
 
-  const handleMarketSwap = async (
-    side: 'LONG' | 'SHORT',
-    amount: string,
-    slippage?: string,
-    priorityFee?: string,
-  ) => {
+  const attemptSolanaSwap = async (side: 'LONG' | 'SHORT', amount: string) => {
     const notificationKey = Date.now();
     const balance = baseBalance ?? (await refetch())?.data;
+
+    const preset = getActivePreset(source)[side === 'LONG' ? 'buy' : 'sell'];
+    const priorityFee = preset.sol_priority_fee;
+    const slippage = preset.slippage;
+
+    const coverPriorityFee =
+      side === 'LONG' && quote === 'wrapped-solana'
+        ? +amount + +priorityFee < (quoteBalance ?? 0)
+        : +priorityFee < (quoteBalance ?? 0);
 
     if (
       (side === 'LONG' && (quoteBalance ?? 0) < +amount) ||
@@ -149,7 +158,14 @@ export const useMarketSwap = ({
       return;
     }
 
-    if (+amount === 0) {
+    if (!coverPriorityFee) {
+      notification.error({
+        message: 'Insufficient SOL balance to cover priority fee',
+      });
+      return;
+    }
+
+    if (+amount < 0.0001) {
       notification.error({
         message: 'Minimum amount should be greater than 0.0001 SOL',
       });
@@ -166,7 +182,7 @@ export const useMarketSwap = ({
         message: <NotificationContent />,
         duration: 30_000,
       });
-      const confirmed = await solanaMarketSwap(
+      const confirmed = await solanaSwap(
         slug,
         quote,
         side,
@@ -174,21 +190,6 @@ export const useMarketSwap = ({
         slippage,
         priorityFee,
       );
-      const now = new Date();
-
-      const time = now.toLocaleTimeString('en-US', {
-        hour12: false, // 24h format
-        timeZone: 'Asia/Tehran',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      });
-
-      // append milliseconds
-      const ms = String(now.getMilliseconds()).padStart(3, '0');
-
-      console.log(`${time}.${ms}`);
-      console.log('confirmed', Date.now());
 
       if (confirmed) {
         notification.success({
@@ -204,7 +205,7 @@ export const useMarketSwap = ({
     }
   };
 
-  if (net === 'solana') return handleMarketSwap;
+  if (net === 'solana') return attemptSolanaSwap;
 
   return () => {
     throw new Error('Invalid network');

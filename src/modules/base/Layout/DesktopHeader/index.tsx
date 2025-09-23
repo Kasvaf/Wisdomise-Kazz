@@ -1,5 +1,5 @@
 import { useHasFlag } from 'api';
-import { ReactComponent as Logo } from 'assets/logo-white.svg';
+import { ReactComponent as Logo } from 'assets/logo-green.svg';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { IconReferral } from 'modules/base/Layout/ProfileMenu/ProfileMenuContent/icons';
@@ -27,7 +27,7 @@ const DesktopHeader: React.FC<{
       <div className="flex h-full items-center gap-2 border border-white/10 bg-v1-surface-l0 px-3">
         <div className="relative flex shrink-0 grow flex-nowrap items-center gap-4 tablet:gap-3 overflow-auto whitespace-nowrap">
           <NavLink className="pe-4 tablet:pe-3" to="/">
-            <Logo className="h-10 w-auto" />
+            <Logo className="h-8 w-auto" />
           </NavLink>
         </div>
 

@@ -33,7 +33,9 @@ interface AssetData {
 }
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
-  const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
+  const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo({
+    slug: asset.slug,
+  });
   return (
     <NavLink
       className={clsx(

@@ -115,7 +115,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
     <div className="p-3">
       <OverviewWidget
         className="min-h-[500px]"
-        headerActions={<QuickBuySettings showWallet source="coin_radar" />}
+        headerActions={<QuickBuySettings source="coin_radar" />}
         title={
           <>
             <Logo className="size-6 shrink-0" />

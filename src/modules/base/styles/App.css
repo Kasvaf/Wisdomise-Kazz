@@ -30,8 +30,20 @@
   }
 }
 
+a {
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+}
+
 #root {
   height: 100%;
+}
+
+[role="button"],
+button {
+  @apply cursor-pointer;
 }
 
 @media screen and (max-width: 740px) {

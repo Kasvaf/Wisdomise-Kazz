@@ -73,7 +73,7 @@ interface TraderAssetActivity {
   usd_pnl_percent: string;
 }
 
-export const useTraderAssetActivity = (slug?: string) => {
+export const useTokenActivityQuery = (slug?: string) => {
   const email = useJwtEmail();
   slug = slug === 'solana' ? 'wrapped-solana' : slug;
 
@@ -115,7 +115,7 @@ export const getPairsCached = async (baseSlug: string) => {
   return cachedPairs[baseSlug];
 };
 
-export const useSupportedPairs = (
+export const useTokenPairsQuery = (
   baseSlug?: string,
   config?: { enabled: boolean },
 ) => {
@@ -132,7 +132,7 @@ export const useSupportedPairs = (
 };
 
 export const useSupportedNetworks = (base?: string, quote?: string) => {
-  const { data: supportedPairs } = useSupportedPairs(base);
+  const { data: supportedPairs } = useTokenPairsQuery(base);
   return useMemo(
     () =>
       supportedPairs
@@ -624,10 +624,10 @@ export interface Swap {
   created_at: string;
   from_amount: string;
   network_slug: string;
-  pnl_quote: null;
-  pnl_quote_percent: null;
-  pnl_usd: null;
-  pnl_usd_percent: null;
+  pnl_quote: string;
+  pnl_quote_percent: string;
+  pnl_usd: string;
+  pnl_usd_percent: string;
   quote_slug: string;
   side: 'LONG' | 'SHORT';
   status: SwapStatus;

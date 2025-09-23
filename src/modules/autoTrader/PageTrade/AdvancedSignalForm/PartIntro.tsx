@@ -1,4 +1,4 @@
-import { useAccountBalance } from 'api/chains';
+import { useTokenBalance } from 'api/chains';
 import { useCoinDetails } from 'api/discovery';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import AmountInputBox from 'shared/AmountInputBox';
@@ -18,7 +18,7 @@ const PartIntro: React.FC<{
     quote: [quote, setQuote],
   } = data;
 
-  const { data: quoteBalance, isLoading: balanceLoading } = useAccountBalance({
+  const { data: quoteBalance, isLoading: balanceLoading } = useTokenBalance({
     slug: quote,
   });
 

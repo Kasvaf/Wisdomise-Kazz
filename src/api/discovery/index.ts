@@ -904,7 +904,6 @@ export const useDetailedCoins = (config: {
   const network = config.network ?? globalNetwork;
   return useQuery({
     queryKey: ['coinsV2', config.query, network],
-    staleTime: Number.POSITIVE_INFINITY,
     queryFn: () => {
       if (!network) {
         return [];

@@ -1,4 +1,4 @@
-import { useSupportedPairs } from 'api';
+import { useTokenPairsQuery } from 'api';
 import {
   createContext,
   type Dispatch,
@@ -26,7 +26,7 @@ export const ActiveQuoteProvider = ({ children }: PropsWithChildren) => {
   const [activeQuote, setActiveQuote] = useState('wrapped-solana');
   const [searchParams] = useSearchParams();
   const [baseSlug, setBaseSlug] = useState<string>('');
-  const { data } = useSupportedPairs(searchParams.get('slug') || baseSlug);
+  const { data } = useTokenPairsQuery(searchParams.get('slug') || baseSlug);
 
   const firstSupported = data?.[0]?.quote?.slug;
   const isValueSupported = data

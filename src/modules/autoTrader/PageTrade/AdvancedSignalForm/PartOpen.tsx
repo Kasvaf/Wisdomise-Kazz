@@ -1,4 +1,4 @@
-import { useLastPriceQuery } from 'api';
+import { useLastPriceStream } from 'api';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
@@ -24,7 +24,7 @@ const PartOpen: React.FC<{
     remainingVolume,
   } = data;
 
-  const { data: assetPrice } = useLastPriceQuery({
+  const { data: assetPrice } = useLastPriceStream({
     slug: baseSlug,
     quote,
     convertToUsd: true,

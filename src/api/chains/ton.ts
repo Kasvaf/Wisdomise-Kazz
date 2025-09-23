@@ -32,7 +32,7 @@ const useJettonWalletAddress = (slug?: string, address?: string) => {
   const { address: activeAddress } = useActiveWallet();
   const addr = address ?? activeAddress;
   const isNative = slug === 'the-open-network';
-  const { data } = useSymbolInfo(slug);
+  const { data } = useSymbolInfo({ slug });
   const netInfo = data?.networks.find(
     x => x.network.slug === 'the-open-network',
   );

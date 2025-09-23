@@ -1,6 +1,6 @@
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
 import { notification } from 'antd';
-import { useLastPriceQuery } from 'api';
+import { useLastPriceStream } from 'api';
 import { useTransferAssetsMutation } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
 import {
@@ -50,7 +50,7 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     firing: [isFiring, setIsFiring],
   } = data;
 
-  const { data: assetPrice } = useLastPriceQuery({
+  const { data: assetPrice } = useLastPriceStream({
     slug: baseSlug,
     quote,
     convertToUsd: true,

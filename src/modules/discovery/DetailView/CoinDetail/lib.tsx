@@ -1,4 +1,4 @@
-import { useLastPriceQuery } from 'api';
+import { useLastPriceStream } from 'api';
 import {
   type CoinNetwork,
   useCoinDetails,
@@ -35,7 +35,7 @@ export const useResolveComplexSlug = (slugs: string[]): ComplexSlug | null => {
     ? (slugs[0] as string)
     : searchResult.data?.[0]?.symbol.slug ||
       (isNetworkCa ? slugs.join('_') : undefined);
-  const symbolInfo = useSymbolInfo(slug);
+  const symbolInfo = useSymbolInfo({ slug });
   const network = isSlug ? globalNetwork : isNetworkCa ? slugs[0] : undefined;
   const contractAddress = isSlug
     ? symbolInfo.data?.networks.find(x => x.network.slug === network)
@@ -159,7 +159,7 @@ export const UnifiedCoinDetailsProvider: FC<{
     enabled: !!slug.network && !!slug.contractAddress,
     history: 0,
   });
-  const priceResp = useLastPriceQuery({
+  const priceResp = useLastPriceStream({
     slug: slug.slug,
     quote: 'wrapped-solana',
     convertToUsd: true,

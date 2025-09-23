@@ -59,7 +59,7 @@ export const GlobalSearch: FC<
         if (network) navigate(`/token/${network}${ca ? `/${ca}` : ''}`);
       }}
       onSearch={setQuery}
-      options={coins.data?.map?.(x => x.contract_address)}
+      options={coins.data?.map?.(x => x.contract_address ?? null)}
       placeholder={t('search_coins')}
       prefixIcon={
         <Icon className="text-v1-content-secondary" name={bxSearch} />

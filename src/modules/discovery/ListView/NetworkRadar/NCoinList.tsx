@@ -400,6 +400,7 @@ export const NCoinList: FC<{
                     size="2xs"
                     slug={row.symbol.slug}
                     source={source}
+                    tokenAddress={row.symbol.base}
                   />
                 )}
               </Link>

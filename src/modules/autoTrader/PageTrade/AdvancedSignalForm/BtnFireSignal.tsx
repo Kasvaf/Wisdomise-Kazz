@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { type Position, useHasFlag } from 'api';
-import { useAccountBalance } from 'api/chains';
+import { useTokenBalance } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
 import { useUserStorage } from 'api/userStorage';
@@ -34,10 +34,10 @@ const BtnFireSignal: React.FC<{
     quote: [quote],
   } = formState;
 
-  const { data: quoteBalance, isLoading: balanceLoading } = useAccountBalance({
+  const { data: quoteBalance, isLoading: balanceLoading } = useTokenBalance({
     slug: quote,
   });
-  const { data: quoteInfo } = useSymbolInfo(quote);
+  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
 
   const userStorage = useUserStorage('auto-trader-waitlist');
 

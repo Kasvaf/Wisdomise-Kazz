@@ -27,7 +27,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
     from: { balanceLoading, balance, amount },
   } = state;
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
-  const { data: quoteInfo } = useSymbolInfo(quote.slug);
+  const { data: quoteInfo } = useSymbolInfo({ slug: quote.slug });
 
   const { firePosition, isEnabled, isSubmitting } = useActionHandlers(state);
 

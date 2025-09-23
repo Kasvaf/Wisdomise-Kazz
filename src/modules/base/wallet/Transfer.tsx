@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+import { useNativeTokenBalance } from 'api/chains';
 import { useSymbolsInfo } from 'api/symbol';
 import {
   useWalletsQuery,
@@ -34,6 +35,7 @@ export default function Transfer({
   const { data: symbols } = useSymbolsInfo(
     walletAssets?.map(asset => asset.slug),
   );
+  const { data: nativeBalance } = useNativeTokenBalance(fromWallet?.address);
 
   const sameAddress =
     (toWallet || internalToWallet?.address) === fromWallet?.address;
@@ -45,6 +47,14 @@ export default function Transfer({
 
   const withdraw = () => {
     const isMax = Number(amount) === selectedAsset?.amount;
+
+    if (!nativeBalance) {
+      notification.error({
+        message: 'Not enough SOL balance to cover gas fee',
+      });
+      return;
+    }
+
     if (isValid)
       void mutateAsync({
         symbol_slug: selectedAsset?.slug,

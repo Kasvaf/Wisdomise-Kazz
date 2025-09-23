@@ -5,7 +5,7 @@ import {
   useTraderCancelPositionMutation,
   useTraderFirePositionMutation,
 } from 'api';
-import { useMarketSwap, useTransferAssetsMutation } from 'api/chains';
+import { useSwap, useTransferAssetsMutation } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { unwrapErrorMessage } from 'utils/error';
@@ -44,7 +44,8 @@ const useActionHandlers = (state: SwapState) => {
     useTraderFirePositionMutation();
 
   const transferAssetsHandler = useTransferAssetsMutation(from.slug);
-  const marketSwapHandler = useMarketSwap({
+  const swapAsync = useSwap({
+    source: 'terminal',
     slug: base.slug,
     quote: quote.slug,
   });
@@ -52,25 +53,13 @@ const useActionHandlers = (state: SwapState) => {
   const firePosition = async () => {
     if (!base.slug || !quote.slug || !address) return;
 
-    if (Number(from.amount) < 0.0001) {
-      notification.error({
-        message: 'Minimum amount should be greater than 0.0001 SOL',
-      });
-      return;
-    }
-
     const preset = getActivePreset('terminal');
 
     // direct swap
     if (network === 'solana' && isMarketPrice) {
       setFiring(true);
       try {
-        await marketSwapHandler(
-          dir === 'buy' ? 'LONG' : 'SHORT',
-          from.amount,
-          preset[dir].slippage,
-          preset[dir].sol_priority_fee,
-        );
+        await swapAsync(dir === 'buy' ? 'LONG' : 'SHORT', from.amount);
       } finally {
         setFiring(false);
       }

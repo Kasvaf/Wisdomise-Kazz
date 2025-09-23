@@ -1,4 +1,4 @@
-import { useAccountNativeBalance } from 'api/chains';
+import { useNativeTokenBalance } from 'api/chains';
 import type { Wallet } from 'api/wallets';
 import { bxCopy, bxInfoCircle } from 'boxicons-quasar';
 import { QRCodeSVG } from 'qrcode.react';
@@ -9,7 +9,7 @@ import { shortenAddress } from 'utils/shortenAddress';
 import { ReactComponent as SolanaIcon } from './solana.svg';
 
 export default function Deposit({ wallet }: { wallet: Wallet }) {
-  const { data } = useAccountNativeBalance(wallet.address);
+  const { data } = useNativeTokenBalance(wallet.address);
   const [copy, notif] = useShare('copy');
 
   return (

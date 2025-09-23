@@ -105,7 +105,7 @@ export function WhaleRadarCoinsWidget({
       headerActions={
         headerActions || (
           <div className="flex gap-2">
-            <QuickBuySettings showWallet source="whale_radar" />
+            <QuickBuySettings source="whale_radar" />
             <div className="flex mobile:w-full grow items-center justify-end mobile:justify-between gap-4">
               <SearchInput
                 className="w-64 mobile:grow"

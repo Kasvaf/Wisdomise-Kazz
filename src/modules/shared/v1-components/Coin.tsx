@@ -52,7 +52,7 @@ export const Coin: FC<{
   customLabels?: ReactNode;
   extra?: ReactNode;
   underLogo?: ReactNode;
-  size?: 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
 }> = ({
   slug,
   abbreviation,
@@ -170,13 +170,15 @@ export const Coin: FC<{
       <div
         className={clsx(
           'relative flex shrink-0 flex-col items-center justify-center gap-1',
-          size === 'md' ? 'w-11' : 'w-20',
+          size === 'sm' && 'w-8',
+          size === 'md' && 'w-11',
+          size === 'lg' && 'w-20',
         )}
       >
         <div
           className={clsx(
             'relative shrink-0 overflow-visible rounded-md bg-v1-surface-l0',
-            size === 'md' ? 'size-11' : 'size-20',
+            size === 'md' ? 'size-11' : size === 'sm' ? 'size-6' : 'size-20',
           )}
           title={
             typeof progress === 'number'

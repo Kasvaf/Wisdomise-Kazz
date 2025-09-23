@@ -51,6 +51,7 @@ export const Checkbox: FC<{
     >
       <Component
         className={clsx(
+          'text-v1-content-brand',
           variant === 'button' && 'hidden',
           size === 'lg' ? 'size-5' : 'size-4',
           'overflow-visible',

@@ -1,5 +1,7 @@
+import type { TrenchStreamRequest } from 'api/proto/network_radar';
 import { useUserStorage } from 'api/userStorage';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import type { NetworkRadarTab } from 'modules/discovery/ListView/NetworkRadar/lib';
 import {
   createContext,
   type PropsWithChildren,
@@ -10,7 +12,7 @@ import {
 import { useDebounce } from 'usehooks-ts';
 import { deepMerge } from 'utils/merge';
 
-export type QuickBuySource =
+export type TradeSettingsSource =
   | 'new_pairs'
   | 'final_stretch'
   | 'migrated'
@@ -23,14 +25,20 @@ export type QuickBuySource =
 interface UserSettings {
   quotes_quick_set: QuotesQuickSet;
   presets: TraderPresets;
-  quick_buy: Record<QuickBuySource, QuickBuySettings>;
+  quick_buy: Record<TradeSettingsSource, QuickBuySettings>;
   show_activity_in_usd: boolean;
   swaps: SwapsSettings;
   wallet_tracker: {
     selected_libraries: { key: string }[];
     imported_wallets: ImportedWallet[];
   };
+  trench_filters: NetworkRadarStreamFilters;
 }
+
+type NetworkRadarStreamFilters = Record<
+  NetworkRadarTab,
+  Partial<TrenchStreamRequest>
+>;
 
 interface ImportedWallet {
   name: string;
@@ -142,13 +150,18 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     selected_libraries: [],
     imported_wallets: [],
   },
+  trench_filters: {
+    new_pairs: {},
+    final_stretch: {},
+    migrated: {},
+  },
 };
 
 const context = createContext<
   | {
       settings: UserSettings;
       getActivePreset: (
-        source: QuickBuySource,
+        source: TradeSettingsSource,
       ) => Record<TraderPresetMode, TraderPreset>;
       update: (newValue: UserSettings) => void;
       updateQuotesQuickSet: (
@@ -158,10 +171,13 @@ const context = createContext<
         newValue: string,
       ) => void;
       updateQuickBuyActivePreset: (
-        source: QuickBuySource,
+        source: TradeSettingsSource,
         index: number,
       ) => void;
-      updateQuickBuyAmount: (source: QuickBuySource, amount: string) => void;
+      updateQuickBuyAmount: (
+        source: TradeSettingsSource,
+        amount: string,
+      ) => void;
       updatePresetPartial: (
         index: number,
         type: 'buy' | 'sell',
@@ -174,6 +190,7 @@ const context = createContext<
       deleteImportedWallet: (address: string) => void;
       deleteAllImportedWallets: () => void;
       updateSelectedLibs: (libs: { key: string }[]) => void;
+      updateTrenchFilters: (patch: Partial<NetworkRadarStreamFilters>) => void;
     }
   | undefined
 >(undefined);
@@ -189,29 +206,27 @@ export const useUserSettings = () => {
 export function UserSettingsProvider({ children }: PropsWithChildren) {
   const [settings, setSettings] = useState<UserSettings>(DEFAULT_USER_SETTINGS);
   const [isFetched, setIsFetched] = useState(false);
-  const { value, isFetching, save } = useUserStorage<UserSettings>('settings', {
+  const { value, save } = useUserStorage<UserSettings>('settings', {
     serializer: 'json',
   });
   const changedSettings = useDebounce(settings, 2000);
   const isLoggedIn = useIsLoggedIn();
 
   useEffect(() => {
-    if (!isFetching && !isFetched) {
-      if (value) {
-        setSettings(deepMerge(DEFAULT_USER_SETTINGS, value));
-      }
+    if (!isFetched && value) {
+      setSettings(deepMerge(DEFAULT_USER_SETTINGS, value));
       setIsFetched(true);
     }
-  }, [value, isFetched, isFetching]);
+  }, [value, isFetched]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (isFetched && isLoggedIn) {
+    if (isFetched && isLoggedIn && changedSettings) {
       void save(changedSettings);
     }
-  }, [changedSettings, isFetched, isLoggedIn]);
+  }, [changedSettings]);
 
-  const getActivePreset = (source: QuickBuySource) => {
+  const getActivePreset = (source: TradeSettingsSource) => {
     const activeIndex = settings.quick_buy[source].active_preset;
     return settings.presets[activeIndex];
   };
@@ -241,7 +256,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   };
 
   const updateQuickBuyActivePreset = (
-    source: QuickBuySource,
+    source: TradeSettingsSource,
     index: number,
   ) => {
     setSettings(prev => ({
@@ -256,7 +271,10 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     }));
   };
 
-  const updateQuickBuyAmount = (source: QuickBuySource, amount: string) => {
+  const updateQuickBuyAmount = (
+    source: TradeSettingsSource,
+    amount: string,
+  ) => {
     setSettings(prev => ({
       ...prev,
       quick_buy: {
@@ -373,6 +391,18 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const updateTrenchFilters = (patch: Partial<NetworkRadarStreamFilters>) => {
+    setSettings(prev => {
+      return {
+        ...prev,
+        trench_filters: {
+          ...prev.trench_filters,
+          ...patch,
+        },
+      };
+    });
+  };
+
   return (
     <context.Provider
       value={{
@@ -390,6 +420,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         deleteImportedWallet,
         deleteAllImportedWallets,
         updateSelectedLibs,
+        updateTrenchFilters,
       }}
     >
       {children}

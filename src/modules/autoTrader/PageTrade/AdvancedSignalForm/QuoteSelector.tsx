@@ -1,4 +1,4 @@
-import { useSupportedPairs } from 'api';
+import { useTokenPairsQuery } from 'api';
 import { clsx } from 'clsx';
 import { Select } from 'shared/v1-components/Select';
 
@@ -10,7 +10,7 @@ const QuoteSelector: React.FC<{
   className?: string;
   size?: 'xs' | 'sm' | 'md' | 'xl';
 }> = ({ baseSlug, value, onChange, disabled, className, size = 'md' }) => {
-  const { data } = useSupportedPairs(baseSlug);
+  const { data } = useTokenPairsQuery(baseSlug);
 
   return data ? (
     <Select

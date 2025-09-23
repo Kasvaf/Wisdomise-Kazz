@@ -28,9 +28,16 @@ import { useConfirmTransaction } from 'modules/autoTrader/BuySellTrader/useConfi
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { queryContractSlugs } from './utils';
 
-const useContractInfo = (slug?: string) => {
-  const { data } = useSymbolInfo(slug);
+const useContractInfo = ({
+  slug,
+  enabled,
+}: {
+  slug?: string;
+  enabled?: boolean;
+}) => {
+  const { data } = useSymbolInfo({ slug, enabled });
   const netInfo = data?.networks.find(x => x.network.slug === 'solana');
+
   return useQuery({
     queryKey: ['sol-contract-info', slug],
     queryFn: async () => {
@@ -50,27 +57,31 @@ const useContractInfo = (slug?: string) => {
   });
 };
 
-export const useSolanaAccountBalance = ({
+export const useSolanaTokenBalance = ({
   slug,
-  address,
+  tokenAddress,
+  walletAddress,
   enabled = true,
 }: {
   slug?: string;
-  address?: string;
+  tokenAddress?: string;
+  walletAddress?: string;
   enabled?: boolean;
 }) => {
-  const { address: activeAddress } = useActiveWallet();
-  const { data: { contract } = {}, isLoading: contractIsLoading } =
-    useContractInfo(slug);
   const connection = useSolanaConnection();
 
-  const addr = address ?? activeAddress;
+  const { address: activeAddress } = useActiveWallet();
+  const { data: { contract } = {}, isLoading: contractIsLoading } =
+    useContractInfo({ slug, enabled: !tokenAddress });
+
+  const queryWalletAddress = walletAddress ?? activeAddress;
+  const queryTokenAddress = contract || tokenAddress;
 
   const query = useQuery({
-    queryKey: ['sol-balance', slug, addr],
+    queryKey: ['sol-balance', slug, queryWalletAddress],
     queryFn: async () => {
-      if (!addr || !slug || !contract) return null;
-      const publicKey = new PublicKey(addr);
+      if (!queryWalletAddress || !slug || !queryTokenAddress) return null;
+      const publicKey = new PublicKey(queryWalletAddress);
 
       try {
         if (slug === 'wrapped-solana') {
@@ -78,7 +89,7 @@ export const useSolanaAccountBalance = ({
             fromBigMoney(await connection.getBalance(publicKey), 9),
           );
         } else {
-          const mint = new PublicKey(contract);
+          const mint = new PublicKey(queryTokenAddress);
           const accountInfo = await connection.getAccountInfo(mint);
           if (!accountInfo) return 0;
 
@@ -107,7 +118,7 @@ export const useSolanaAccountBalance = ({
     },
     refetchInterval: 10_000,
     staleTime: 10_000,
-    enabled: !!contract && enabled,
+    enabled: !!queryTokenAddress && enabled,
   });
 
   return {
@@ -194,7 +205,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
   const { address } = useActiveWallet();
   const queryClient = useQueryClient();
-  const { data: { contract, decimals } = {} } = useContractInfo(slug);
+  const { data: { contract, decimals } = {} } = useContractInfo({ slug });
   const awaitPositionInCache = usePendingPositionInCache();
   const connection = useSolanaConnection();
 
@@ -353,7 +364,7 @@ interface Account {
 }
 
 // gas-fee: 0.005
-export const useSolanaMarketSwap = () => {
+export const useSolanaSwap = () => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
   const { address, isCustodial } = useActiveWallet();
   const connection = useSolanaConnection();
@@ -385,7 +396,6 @@ export const useSolanaMarketSwap = () => {
 
     let signature: string | undefined;
 
-    console.log('attempt', Date.now());
     const [
       {
         key,
@@ -395,7 +405,6 @@ export const useSolanaMarketSwap = () => {
       },
       latestBlockhash,
     ] = await Promise.all([swap, connection.getLatestBlockhash()]);
-    console.log('swap 200', Date.now());
 
     if (isCustodial) {
       signature = transaction_hash;
@@ -432,8 +441,7 @@ export const useSolanaMarketSwap = () => {
         }).compileToV0Message(lookupTableAccounts),
       );
 
-      const signature =
-        await walletProvider.signAndSendTransaction(transaction);
+      signature = await walletProvider.signAndSendTransaction(transaction);
 
       await ofetch<SwapResponse>(`/trader/swap/${key}`, {
         method: 'patch',

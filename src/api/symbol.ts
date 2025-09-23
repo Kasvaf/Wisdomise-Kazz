@@ -23,7 +23,7 @@ const cachedCoinsMap: Record<string, CoinSymbol> = {};
 const getCoins = async (slugs: string[]) => {
   const unseenSlugs = slugs.filter(x => !cachedCoinsMap[x]);
   if (unseenSlugs.length > 0) {
-    const data = await ofetch<CoinSymbol[]>('delphi/symbol/search', {
+    const data = await ofetch<CoinSymbol[]>('delphi/symbol/search/', {
       query: { slugs: unseenSlugs.join(',') },
     });
     Object.assign(
@@ -34,17 +34,25 @@ const getCoins = async (slugs: string[]) => {
   return slugs.map(x => cachedCoinsMap[String(x)]);
 };
 
-export const useSymbolInfo = (slug?: string) => {
+export const useSymbolInfo = ({
+  slug,
+  enabled = true,
+}: {
+  slug?: string;
+  enabled?: boolean;
+}) => {
   const s = slug === 'wrapped-solana' ? 'solana' : slug;
+
   return useQuery({
     queryKey: ['symbol-info', s],
     queryFn: async () => (s && (await load(getCoins, s))) || null,
     staleTime: Number.POSITIVE_INFINITY,
+    enabled,
   });
 };
 
 export const useSolanaSymbol = () => {
-  return useSymbolInfo('wrapped-solana');
+  return useSymbolInfo({ slug: 'wrapped-solana' });
 };
 
 export const useSymbolsInfo = (slugs: string[] = []) => {

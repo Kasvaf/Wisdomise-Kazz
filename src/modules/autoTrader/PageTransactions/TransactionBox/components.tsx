@@ -141,7 +141,7 @@ export const AssetIcon: React.FC<{ slug: string; className?: string }> = ({
   slug,
   className,
 }) => {
-  const { data } = useSymbolInfo(slug);
+  const { data } = useSymbolInfo({ slug });
   if (!data?.logo_url) return null;
   return <img className={clsx('size-4', className)} src={data?.logo_url} />;
 };

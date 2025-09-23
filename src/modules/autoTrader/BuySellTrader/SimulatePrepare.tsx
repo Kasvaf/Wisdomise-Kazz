@@ -1,5 +1,5 @@
 import type { CreatePositionRequest } from 'api';
-import { useAccountNativeBalance } from 'api/chains';
+import { useNativeTokenBalance } from 'api/chains';
 import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulatePrepare';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -25,7 +25,7 @@ export const SimulatePrepare: React.FC<{
 
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
-  const { data: nativeBalance } = useAccountNativeBalance();
+  const { data: nativeBalance } = useNativeTokenBalance();
   const isLoggedIn = useIsLoggedIn();
 
   const nativeAmount =

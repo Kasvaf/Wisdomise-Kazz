@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Coin } from 'shared/v1-components/Coin';
 import { Table } from 'shared/v1-components/Table';
 import { shortenAddress } from 'utils/shortenAddress';
 
@@ -60,13 +61,22 @@ export default function WalletsSwaps() {
                 className="cursor-pointer hover:underline"
                 onClick={() => navigate(`/token/solana/${row.tokenAddress}`)}
               >
-                {shortenAddress(row.tokenAddress)}
+                {row.assetDetail?.name ? (
+                  <Coin
+                    logo={row.assetDetail?.image}
+                    name={row.assetDetail?.name}
+                    size="sm"
+                  />
+                ) : (
+                  shortenAddress(row.tokenAddress)
+                )}
               </button>
             ),
           },
           {
             title: 'Amount',
             key: 'amount',
+            width: 100,
             render: row => (
               <div className="relative flex w-full items-center justify-center px-2">
                 <DirectionalNumber

@@ -1,8 +1,8 @@
 import { useGrpc } from 'api/grpc-v2';
 import { bxRotateLeft, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import {
-  type ComponentProps,
   type Dispatch,
   type FC,
   type ReactNode,
@@ -52,15 +52,11 @@ const TabLabel: FC<{
   );
 };
 
-export const NetworkRadarFilters: FC<
-  Pick<
-    ComponentProps<typeof Filters<NetworkRadarStreamFilters>>,
-    'value' | 'onChange'
-  > & {
-    initialTab: NetworkRadarTab;
-    searchShortcut?: boolean;
-  }
-> = ({ initialTab, value, onChange, searchShortcut, ...props }) => {
+export const NetworkRadarFilters: FC<{
+  initialTab: NetworkRadarTab;
+  searchShortcut?: boolean;
+}> = ({ initialTab, searchShortcut, ...props }) => {
+  const { settings, updateTrenchFilters } = useUserSettings();
   const [tab, setTab] = useState<NetworkRadarTab>(initialTab);
 
   const [subTab, setSubTab] = useState<'audit' | 'metrics' | 'socials'>(
@@ -90,10 +86,10 @@ export const NetworkRadarFilters: FC<
         <Input
           className="!px-2 absolute right-9 z-10 w-9 focus-within:w-72 focus-within:px-3"
           onChange={newVal =>
-            onChange?.({
-              ...value,
+            updateTrenchFilters({
+              ...settings.trench_filters,
               [initialTab]: {
-                ...value[initialTab],
+                ...settings.trench_filters[initialTab],
                 searchKeywords: newVal.split(','),
               },
             })
@@ -103,7 +99,9 @@ export const NetworkRadarFilters: FC<
           size="xs"
           surface={2}
           type="string"
-          value={value[initialTab]?.searchKeywords?.join(',') ?? ''}
+          value={
+            settings.trench_filters[initialTab]?.searchKeywords?.join(',') ?? ''
+          }
         />
       )}
       <Filters
@@ -232,7 +230,7 @@ export const NetworkRadarFilters: FC<
                       ...state,
                       [tab]: {
                         ...state[tab],
-                        searchKeywords: newVal.split(','),
+                        searchKeywords: newVal ? newVal.split(',') : undefined,
                       },
                     })
                   }
@@ -252,7 +250,7 @@ export const NetworkRadarFilters: FC<
                       ...state,
                       [tab]: {
                         ...state[tab],
-                        excludeKeywords: newVal.split(','),
+                        excludeKeywords: newVal ? newVal.split(',') : undefined,
                       },
                     })
                   }
@@ -289,7 +287,6 @@ export const NetworkRadarFilters: FC<
                   block
                   className="basis-1/2"
                   max={100}
-                  min={state[tab]?.minBoundingCurve ?? 0}
                   onChange={maxBoundingCurve =>
                     setState(p => ({
                       ...p,
@@ -464,12 +461,48 @@ export const NetworkRadarFilters: FC<
                 </div>
 
                 <div className="flex flex-col items-start gap-2">
+                  <p className="text-xs">Holders</p>
+                  <div className="flex w-full items-center gap-3">
+                    <Input
+                      block
+                      className="basis-1/2"
+                      min={0}
+                      onChange={minHolders =>
+                        setState(p => ({
+                          ...p,
+                          [tab]: { ...p[tab], minHolders },
+                        }))
+                      }
+                      placeholder="Min"
+                      size="md"
+                      type="number"
+                      value={state[tab]?.minHolders}
+                    />
+                    <Input
+                      block
+                      className="basis-1/2"
+                      min={0}
+                      onChange={maxHolders =>
+                        setState(p => ({
+                          ...p,
+                          [tab]: { ...p[tab], maxHolders },
+                        }))
+                      }
+                      placeholder="Max"
+                      size="md"
+                      type="number"
+                      value={state[tab]?.maxHolders}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-2">
                   <p className="text-xs">{'Risk %'}</p>
                   <div className="flex w-full items-center gap-3">
                     <Input
                       block
                       className="basis-1/2"
-                      max={state[tab]?.maxRisk ?? 100}
+                      max={100}
                       min={0}
                       onChange={minRisk =>
                         setState(p => ({
@@ -486,7 +519,6 @@ export const NetworkRadarFilters: FC<
                       block
                       className="basis-1/2"
                       max={100}
-                      min={state[tab]?.minRisk ?? 0}
                       onChange={maxRisk =>
                         setState(p => ({
                           ...p,
@@ -527,7 +559,6 @@ export const NetworkRadarFilters: FC<
                     <Input
                       block
                       className="basis-1/2"
-                      min={state[tab]?.minAge ?? 0}
                       onChange={maxAge =>
                         setState(p => ({
                           ...p,
@@ -563,7 +594,6 @@ export const NetworkRadarFilters: FC<
                     <Input
                       block
                       className="basis-1/2"
-                      min={state[tab]?.minLiquidity ?? 0}
                       onChange={maxLiquidity =>
                         setState(p => ({
                           ...p,
@@ -599,7 +629,6 @@ export const NetworkRadarFilters: FC<
                     <Input
                       block
                       className="basis-1/2"
-                      min={state[tab]?.minVolume ?? 0}
                       onChange={maxVolume =>
                         setState(p => ({
                           ...p,
@@ -635,7 +664,6 @@ export const NetworkRadarFilters: FC<
                     <Input
                       block
                       className="basis-1/2"
-                      min={state[tab]?.minMarketcap ?? 0}
                       onChange={maxMarketcap =>
                         setState(p => ({
                           ...p,
@@ -671,7 +699,6 @@ export const NetworkRadarFilters: FC<
                     <Input
                       block
                       className="basis-1/2"
-                      min={state[tab]?.minTransactions ?? 0}
                       onChange={maxTransactions =>
                         setState(p => ({
                           ...p,
@@ -707,7 +734,6 @@ export const NetworkRadarFilters: FC<
                     <Input
                       block
                       className="basis-1/2"
-                      min={state[tab]?.minBuys ?? 0}
                       onChange={maxBuys =>
                         setState(p => ({
                           ...p,
@@ -743,7 +769,6 @@ export const NetworkRadarFilters: FC<
                     <Input
                       block
                       className="basis-1/2"
-                      min={state[tab]?.minSells ?? 0}
                       onChange={maxSells =>
                         setState(p => ({
                           ...p,
@@ -780,7 +805,6 @@ export const NetworkRadarFilters: FC<
                       block
                       className="basis-1/2"
                       max={100}
-                      min={state[tab]?.minLiquidityChangePercent ?? 0}
                       onChange={maxLiquidityChangePercent =>
                         setState(p => ({
                           ...p,
@@ -865,10 +889,11 @@ export const NetworkRadarFilters: FC<
           </>
         )}
         mini
-        onChange={onChange}
+        onChange={updateTrenchFilters}
         onOpen={() => setTab(initialTab)}
+        resetValue={{ new_pairs: {}, final_stretch: {}, migrated: {} }}
         size="xs"
-        value={value}
+        value={settings.trench_filters}
         {...props}
       />
     </>
