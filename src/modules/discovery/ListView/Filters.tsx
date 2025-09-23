@@ -248,7 +248,7 @@ export function Filters<T extends object>({
             <div className="flex items-center gap-2">
               <Button
                 block
-                className="shrink-0 grow"
+                className="w-1/2"
                 onClick={() => {
                   if (resetValue) {
                     setLocalValue(resetValue);
@@ -264,7 +264,7 @@ export function Filters<T extends object>({
               </Button>
               <Button
                 block
-                className="shrink-0 grow"
+                className="w-1/2"
                 onClick={() => {
                   onChange?.(localValue);
                   setOpen(false);

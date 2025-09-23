@@ -32,7 +32,7 @@ export function TechnicalRadarExpanded() {
         empty={technicalTopCoins.data?.length === 0}
         headerActions={
           <div className="flex gap-2">
-            <QuickBuySettings showWallet source="technical_radar" />
+            <QuickBuySettings source="technical_radar" />
             <TechnicalRadarViewSelect
               className="w-min"
               onChange={setTab}

@@ -65,10 +65,10 @@ export default function XCommunityEmbed({
               profilePicture={admin.profile_image_url_https}
               username={admin.screen_name}
             />
-            <p className="mt-3 mb-1 flex items-center gap-1 text-v1-content-secondary">
+            <div className="mt-3 mb-1 flex items-center gap-1 text-v1-content-secondary">
               <Icon name={bxCalendar} size={14} />
               Created {dayjs(data.community_info.created_at).format('MMM YYYY')}
-            </p>
+            </div>
             <div className="mb-3 flex items-center gap-1">
               <ReadableNumber
                 className="font-medium"
@@ -92,7 +92,7 @@ export default function XCommunityEmbed({
           </div>
         </>
       ) : (
-        'Profile Not Found'
+        'Community Not Found'
       )}
     </div>
   );

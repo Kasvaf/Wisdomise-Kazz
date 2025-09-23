@@ -33,7 +33,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
             (location.pathname === '/meta'
               ? item.link.includes(location.pathname)
               : item.meta.list === params.list) &&
-              'bg-v1-surface-l1 font-bold text-v1-content-brand',
+              '!text-v1-content-brand bg-v1-surface-l1 font-bold',
             'hover:text-v1-content-link-hover',
           )}
           key={item.link}

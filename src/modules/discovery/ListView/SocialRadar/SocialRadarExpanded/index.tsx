@@ -118,7 +118,7 @@ export function SocialRadarExpanded() {
         )}
         headerActions={
           <div className="flex gap-2">
-            <QuickBuySettings showWallet source="social_radar" />
+            <QuickBuySettings source="social_radar" />
             <SearchInput
               onChange={query => setPageState(p => ({ ...p, query }))}
               placeholder={t('common.search_coin')}

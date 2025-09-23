@@ -6,7 +6,6 @@ import {
   type TradeSettingsSource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
-import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Input } from 'shared/v1-components/Input';
 import { preventNonNumericInput } from 'utils/numbers';
@@ -16,12 +15,10 @@ import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 export default function QuickBuySettings({
   source,
   className,
-  showWallet,
   surface = 2,
 }: {
   source: TradeSettingsSource;
   className?: string;
-  showWallet?: boolean;
   surface?: Surface;
 }) {
   const { settings, updateQuickBuyAmount } = useUserSettings();
@@ -29,11 +26,6 @@ export default function QuickBuySettings({
 
   return isLoggedIn ? (
     <div className={clsx(className, 'flex items-center gap-2')}>
-      {showWallet && (
-        <HoverTooltip title="Balance">
-          <BtnSolanaWallets showBalance={true} surface={surface} />
-        </HoverTooltip>
-      )}
       <HoverTooltip ignoreFocus title="Quick Buy Amount">
         <Input
           className="!flex w-28"

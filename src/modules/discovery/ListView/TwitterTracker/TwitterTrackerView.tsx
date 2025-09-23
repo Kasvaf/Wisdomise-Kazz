@@ -58,6 +58,7 @@ export const TwitterTrackerView: FC<{
               : 'None of your followed accounts have posted tweets in the last 24 hours'}
           </p>
           <Button
+            className="!hidden"
             onClick={onRequestEdit}
             size="xs"
             surface={2}

@@ -230,7 +230,7 @@ export const NetworkRadarFilters: FC<{
                       ...state,
                       [tab]: {
                         ...state[tab],
-                        searchKeywords: newVal.split(','),
+                        searchKeywords: newVal ? newVal.split(',') : undefined,
                       },
                     })
                   }
@@ -250,7 +250,7 @@ export const NetworkRadarFilters: FC<{
                       ...state,
                       [tab]: {
                         ...state[tab],
-                        excludeKeywords: newVal.split(','),
+                        excludeKeywords: newVal ? newVal.split(',') : undefined,
                       },
                     })
                   }

@@ -206,27 +206,25 @@ export const useUserSettings = () => {
 export function UserSettingsProvider({ children }: PropsWithChildren) {
   const [settings, setSettings] = useState<UserSettings>(DEFAULT_USER_SETTINGS);
   const [isFetched, setIsFetched] = useState(false);
-  const { value, isFetching, save } = useUserStorage<UserSettings>('settings', {
+  const { value, save } = useUserStorage<UserSettings>('settings', {
     serializer: 'json',
   });
   const changedSettings = useDebounce(settings, 2000);
   const isLoggedIn = useIsLoggedIn();
 
   useEffect(() => {
-    if (!isFetching && !isFetched) {
-      if (value) {
-        setSettings(deepMerge(DEFAULT_USER_SETTINGS, value));
-      }
+    if (!isFetched && value) {
+      setSettings(deepMerge(DEFAULT_USER_SETTINGS, value));
       setIsFetched(true);
     }
-  }, [value, isFetched, isFetching]);
+  }, [value, isFetched]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (isFetched && isLoggedIn) {
+    if (isFetched && isLoggedIn && changedSettings) {
       void save(changedSettings);
     }
-  }, [changedSettings, isFetched, isLoggedIn]);
+  }, [changedSettings]);
 
   const getActivePreset = (source: TradeSettingsSource) => {
     const activeIndex = settings.quick_buy[source].active_preset;

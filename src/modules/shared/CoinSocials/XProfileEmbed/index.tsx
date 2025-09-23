@@ -44,10 +44,10 @@ export default function XProfileEmbed({ username }: { username: string }) {
             <p className="mt-3 mb-5 text-v1-content-secondary">
               {data.description}
             </p>
-            <p className="mt-auto mb-1 flex items-center gap-1 text-v1-content-secondary">
+            <div className="mt-auto mb-1 flex items-center gap-1 text-v1-content-secondary">
               <Icon name={bxCalendar} size={14} />
               Joined {dayjs(data.createdAt).format('MMM YYYY')}
-            </p>
+            </div>
             <div className="mb-3 flex items-center gap-1">
               <ReadableNumber className="font-medium" value={data.following} />
               <span className="text-v1-content-secondary">Following</span>
