@@ -7,12 +7,11 @@ import {
 } from 'shared/v1-components/ResizableSides';
 import { useSessionStorage } from 'usehooks-ts';
 import CoinChart from '../CoinChart';
-import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
-import { CoinUpdateWidget } from '../CoinUpdateWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
+import { TokenUpdateWidget } from '../TokenUpdateWidget';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
 import TraderSection from './TraderSection';
 
@@ -70,12 +69,11 @@ export const CoinDetailsExpanded: FC = () => {
       {/* Trade + Additional */}
       <div className="scrollbar-none sticky top-(--desktop-content-top) z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
         <NCoinRisksBanner />
-        <CoinPriceWidget className="h-16 px-3" hr />
         <div className="space-y-3 px-3 pb-3">
           <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
+          <TokenUpdateWidget />
           <NCoinInsightWidget />
-          <CoinUpdateWidget />
         </div>
       </div>
     </div>

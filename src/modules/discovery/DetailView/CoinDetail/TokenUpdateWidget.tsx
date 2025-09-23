@@ -56,9 +56,9 @@ const resolutions = [
   { value: 'all-time', label: 'All' },
 ];
 
-export function CoinUpdateWidget({ className }: { className?: string }) {
+export function TokenUpdateWidget({ className }: { className?: string }) {
   const { symbol } = useUnifiedCoinDetails();
-  const [resolution, setResolution] = useState<string>('5m');
+  const [resolution, setResolution] = useState<string>('1h');
 
   const { data } = useGrpc({
     service: 'network_radar',

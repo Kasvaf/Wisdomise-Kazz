@@ -1,6 +1,5 @@
 import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
-import { SimulatePrepare } from 'modules/autoTrader/BuySellTrader/SimulatePrepare';
 import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -135,7 +134,6 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
           )}
         </Button>
       )}
-      <SimulatePrepare formState={state} />
       {withdrawDepositModal}
     </>
   );

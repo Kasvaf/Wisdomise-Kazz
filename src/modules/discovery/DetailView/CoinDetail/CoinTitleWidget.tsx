@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { BtnTokenShare } from 'modules/discovery/DetailView/CoinDetail/BtnTokenShare';
 import { doesNCoinHaveLargeTxns } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
@@ -6,6 +7,7 @@ import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDev
 import { NCoinBCurve } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
 import { useUnifiedCoinDetails } from './lib';
@@ -80,8 +82,33 @@ export const CoinTitleWidget: FC<{
             socials={socials}
             truncate={isInitiating}
           />
-          <div className="flex mobile:w-full items-center justify-start mobile:justify-between gap-4 mobile:gap-2">
+          <div className="flex mobile:w-full items-center justify-start mobile:justify-between gap-3 mobile:gap-2">
             <>
+              <div className="mobile:hidden h-4 w-px bg-white/10" />
+              <div className="flex flex-col justify-between gap-1">
+                <p className="text-v1-content-secondary text-xs">{'MC'}</p>
+                <ReadableNumber
+                  className="text-base"
+                  format={{
+                    decimalLength: 1,
+                  }}
+                  label="$"
+                  popup="never"
+                  value={marketData.marketCap}
+                />
+              </div>
+              <div className="h-4 w-px bg-white/10" />
+              <div className="flex flex-col justify-between gap-2">
+                <p className="text-v1-content-secondary text-xs">{'Price'}</p>
+                <DirectionalNumber
+                  className="text-xs"
+                  direction="up"
+                  label="$"
+                  showIcon={false}
+                  showSign={false}
+                  value={marketData.currentPrice}
+                />
+              </div>
               <div className="mobile:hidden h-4 w-px bg-white/10" />
               <div className="flex flex-col justify-between gap-2">
                 <p className="text-v1-content-secondary text-xs">
@@ -174,7 +201,10 @@ export const CoinTitleWidget: FC<{
             )}
           </div>
           {suffix && (
-            <div className="flex grow items-center justify-end">{suffix}</div>
+            <div className="flex grow items-center justify-end">
+              {suffix}
+              <BtnTokenShare className="ml-auto" />
+            </div>
           )}
         </div>
       </div>
