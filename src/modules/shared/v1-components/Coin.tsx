@@ -3,6 +3,7 @@ import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import type { Coin as CoinType } from 'api/types/shared';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
@@ -204,40 +205,7 @@ export const Coin: FC<{
               src={logo}
             />
           )}
-          {typeof progress === 'number' && (
-            <svg
-              className="absolute inset-0 rounded-md"
-              height="100%"
-              style={{ ['--value' as never]: progress * 100 }}
-              viewBox="0 0 40 40"
-              width="100%"
-            >
-              <path
-                d="M1 1 H39 V39 H1 V1 Z"
-                fill="none"
-                stroke="rgba(0,0,0,0.5)"
-                strokeWidth={2}
-              />
-              <path
-                d="M1 1 H39 V39 H1 V1 Z"
-                fill="none"
-                stroke={
-                  progress <= 0.33
-                    ? '#FFF'
-                    : progress <= 0.66
-                      ? '#00A3FF'
-                      : progress <= 0.99
-                        ? '#00FFA3'
-                        : '#FFDA6C'
-                }
-                strokeDasharray={152}
-                strokeDashoffset={152 - progress * 100 * 1.52}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-              />
-            </svg>
-          )}
+          {typeof progress === 'number' && <Progress progress={progress} />}
           {(marker || contractAddress?.network?.logo) && (
             <div
               className={clsx(
@@ -346,5 +314,56 @@ export const Coin: FC<{
         )}
       </div>
     </RootComponent>
+  );
+};
+
+const Progress = ({ progress }: { progress: number }) => {
+  return (
+    <svg
+      className="absolute inset-0 rounded-md"
+      height="100%"
+      style={{ ['--value' as never]: progress * 100 }}
+      viewBox="0 0 40 40"
+      width="100%"
+    >
+      {/* Background track */}
+      <rect
+        fill="none"
+        height="38"
+        rx="2"
+        ry="2"
+        stroke="rgba(0,0,0,0.5)"
+        strokeWidth={2}
+        width="38"
+        x="1"
+        y="1"
+      />
+
+      {/* Progress stroke */}
+      <rect
+        className="transition-[stroke-dashoffset]"
+        fill="none"
+        height="38"
+        rx="2"
+        ry="2"
+        stroke={calcColorByThreshold({
+          value: progress,
+          rules: [
+            { limit: 0.33, color: '#FFF' },
+            { limit: 0.66, color: '#00A3FF' },
+            { limit: 0.99, color: '#00FFA3' },
+          ],
+          fallback: '#FFDA6C',
+        })}
+        strokeDasharray={152}
+        strokeDashoffset={152 - progress * 100 * 1.52}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        width="38"
+        x="1"
+        y="1"
+      />
+    </svg>
   );
 };
