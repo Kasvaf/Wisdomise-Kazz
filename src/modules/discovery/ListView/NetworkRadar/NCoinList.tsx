@@ -18,6 +18,7 @@ import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
 import { useInterval } from 'usehooks-ts';
+import { openInNewTab } from 'utils/click';
 import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
@@ -328,6 +329,7 @@ export const NCoinList: FC<{
                     : '-translate-y-14 opacity-0',
                 )}
                 key={row.symbol?.slug ?? ''}
+                onContextMenu={openInNewTab}
                 tabIndex={0}
                 to={`/token/${row.symbol?.network}/${row.symbol?.base}`}
               >

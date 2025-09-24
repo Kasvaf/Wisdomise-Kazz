@@ -10,6 +10,7 @@ import { CoinSocials } from 'shared/CoinSocials';
 import Icon from 'shared/Icon';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
+import { openInNewTab } from 'utils/click';
 import { formatNumber } from 'utils/numbers';
 import { shortenAddress } from 'utils/shortenAddress';
 
@@ -53,6 +54,7 @@ export const Coin: FC<{
   extra?: ReactNode;
   underLogo?: ReactNode;
   size?: 'sm' | 'md' | 'lg';
+  disableRightClick?: boolean;
 }> = ({
   slug,
   abbreviation,
@@ -78,6 +80,7 @@ export const Coin: FC<{
   underLogo,
   extra,
   size = 'md',
+  disableRightClick,
 }) => {
   const [globalNetwork] = useGlobalNetwork();
   const [copy, copyNotif] = useShare('copy');
@@ -155,6 +158,7 @@ export const Coin: FC<{
         className,
       )}
       onClick={onClick}
+      onContextMenu={e => href && openInNewTab(e)}
       to={
         typeof href === 'string'
           ? href
@@ -263,7 +267,7 @@ export const Coin: FC<{
           {abbreviation && (
             <p
               className={clsx(
-                'font-bold',
+                'font-medium',
                 size === 'md' ? 'text-sm' : 'text-base',
                 truncate
                   ? [size === 'md' ? 'max-w-32' : 'max-w-20']
@@ -298,7 +302,7 @@ export const Coin: FC<{
           {name && (
             <p
               className={clsx(
-                'font-light',
+                'font-light text-white/70',
                 size === 'md' ? 'text-xs' : 'text-sm',
                 truncate
                   ? [size === 'md' ? 'max-w-16' : 'max-w-12']
