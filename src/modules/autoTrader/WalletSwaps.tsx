@@ -14,7 +14,7 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { roundSensible } from 'utils/numbers';
 
 const PAGE_SIZE = 30;
-export default function Swaps({ wallet }: { wallet: Wallet }) {
+export default function WalletSwaps({ wallet }: { wallet: Wallet }) {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useTraderSwapsQuery({
     page,
@@ -63,7 +63,7 @@ export default function Swaps({ wallet }: { wallet: Wallet }) {
         title: 'Pnl',
         render: row =>
           row.pnl_usd ? (
-            <span className="text-xs">
+            <span className="text-v1-content-secondary text-xs">
               <DirectionalNumber
                 label="$"
                 showIcon={false}

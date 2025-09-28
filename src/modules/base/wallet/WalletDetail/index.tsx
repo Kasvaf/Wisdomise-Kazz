@@ -7,18 +7,22 @@ import {
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
-import Swaps from 'modules/autoTrader/Swaps';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useWalletStatus } from 'modules/base/wallet/WalletDetail/useWalletStatus';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { useRef, useState } from 'react';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { roundSensible } from 'utils/numbers';
 import { shortenAddress } from 'utils/shortenAddress';
+import WalletStatus from './WalletStatus';
 
 export default function WalletDetail(_: {
   expanded?: boolean;
@@ -31,7 +35,9 @@ export default function WalletDetail(_: {
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
   const { balance, isPending } = useSolanaWalletBalanceInUSD(wallet?.address);
-  const [window, setWindow] = useState(24);
+  const [resolution, setResolution] = useState<'1d' | '7d' | '30d'>('1d');
+  const { realizedPnl, realizedPnlPercentage, numBuys, numSells, winRate } =
+    useWalletStatus({ resolution, address: wallet?.address });
 
   return wallet ? (
     <div className="p-3">
@@ -60,8 +66,8 @@ export default function WalletDetail(_: {
       <p className="text-v1-content-secondary text-xs">
         {shortenAddress(wallet.address)}
       </p>
-      <div className="mt-4 grid grid-cols-5 gap-3">
-        <div className="col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4">
+      <div className="my-4 grid grid-cols-5 gap-3">
+        <div className="col-span-3 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4">
           <p className="text-v1-content-secondary text-xs">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
@@ -70,58 +76,92 @@ export default function WalletDetail(_: {
             <WalletActions wallet={wallet} />
           </div>
         </div>
-        <div className="col-span-2 hidden rounded-xl bg-v1-surface-l1 p-4 pt-3">
+        <div className="col-span-2 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3">
           <div className="mb-7 flex items-center justify-between text-v1-content-secondary text-xs">
             Details
             <ButtonSelect
               buttonClassName="w-12"
-              onChange={newValue => setWindow(newValue)}
-              options={[
-                { value: 24, label: '1D' },
-                { value: 24 * 7, label: '7D' },
-              ]}
+              onChange={newValue => setResolution(newValue)}
+              options={
+                [
+                  { value: '1d', label: '1D' },
+                  { value: '7d', label: '7D' },
+                  { value: '30d', label: '30D' },
+                ] as const
+              }
               size="xs"
-              surface={3}
-              value={window}
+              surface={2}
+              value={resolution}
               variant="white"
             />
           </div>
           <div className="flex items-center justify-between gap-2">
             <div className="text-xxs">
               <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
-              <p className="font-medium text-lg text-v1-content-positive">
-                0% (0 USD)
-              </p>
+              <span className="text-base text-v1-content-secondary">
+                <DirectionalNumber
+                  label="$"
+                  showIcon={false}
+                  showSign={true}
+                  value={realizedPnl}
+                />{' '}
+                (
+                <DirectionalNumber
+                  format={{
+                    decimalLength: 1,
+                  }}
+                  showIcon={false}
+                  showSign={true}
+                  suffix="%"
+                  value={realizedPnlPercentage}
+                />
+                )
+              </span>
             </div>
             <div className="h-10 border-v1-inverse-overlay-10 border-r" />
             <div className="text-xxs">
               <p className="pb-3 text-v1-content-secondary">Win Rate</p>
-              <p className="font-medium text-lg">0%</p>
+              <ReadableNumber
+                className="text-base"
+                format={{ decimalLength: 1 }}
+                label="%"
+                value={winRate}
+              />
             </div>
             <div className="h-10 border-v1-inverse-overlay-10 border-r" />
             <div className="text-xxs">
               <p className="pb-3 text-v1-content-secondary">TXs</p>
-              <p className="font-medium text-lg">
-                <span className="text-v1-content-positive">0</span>/
-                <span className="text-v1-content-negative">0</span>
+              <p className="text-base text-v1-content-secondary">
+                <DirectionalNumber
+                  direction="up"
+                  showIcon={false}
+                  showSign={false}
+                  value={numBuys}
+                />
+                /
+                <DirectionalNumber
+                  direction="down"
+                  showIcon={false}
+                  showSign={false}
+                  value={numSells}
+                />
               </p>
             </div>
           </div>
         </div>
       </div>
       <Tabs
-        className="mt-4"
-        defaultActiveKey="2"
+        defaultActiveKey="1"
         items={[
-          // {
-          //   key: '1',
-          //   label: 'Account PnL',
-          //   children: <AccountPnL wallet={wallet} window={window} />,
-          // },
+          {
+            key: '1',
+            label: 'Account PnL',
+            children: <WalletStatus wallet={wallet} />,
+          },
           {
             key: '2',
             label: 'Buys/Sells',
-            children: <Swaps wallet={wallet} />,
+            children: <WalletSwaps wallet={wallet} />,
           },
           {
             key: '3',
