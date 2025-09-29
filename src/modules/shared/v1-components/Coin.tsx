@@ -373,7 +373,7 @@ const ImageWithFallback = ({
   const [fallbackFailed, setFallbackFailed] = useState(false);
 
   const setFallback = () => {
-    if (isFallback) {
+    if (isFallback || !src?.includes('cdn-trench')) {
       setFallbackFailed(true);
       return;
     }
