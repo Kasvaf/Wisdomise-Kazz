@@ -4,7 +4,7 @@ import type { Coin as CoinType } from 'api/types/shared';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
-import { type FC, type ReactNode, useMemo, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
 import { CoinSocials } from 'shared/CoinSocials';
@@ -385,6 +385,10 @@ const ImageWithFallback = ({
       setIsFallback(true);
     }
   };
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
 
   return (
     <div className="flex h-full items-center justify-center overflow-hidden rounded-md text-3xl text-white/70">
