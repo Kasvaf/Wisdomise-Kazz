@@ -1,4 +1,5 @@
 import { getPairsCached } from 'api';
+import type { Resolution } from 'api/discovery';
 import { observeGrpc, requestGrpc } from 'api/grpc-v2';
 import type { Candle } from 'api/proto/delphinus';
 import type { MutableRefObject } from 'react';
@@ -23,18 +24,6 @@ interface ChartCandle {
   volume: number;
   time: number;
 }
-
-export type Resolution =
-  | '1s'
-  | '5s'
-  | '15s'
-  | '30s'
-  | '1m'
-  | '5m'
-  | '15m'
-  | '30m'
-  | '1h'
-  | '4h';
 
 const resolutionToSeconds: Record<Resolution, number> = {
   '1s': 1,
