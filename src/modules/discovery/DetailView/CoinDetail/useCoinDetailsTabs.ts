@@ -32,6 +32,10 @@ export const useCoinDetailsTabs = () => {
       value: 'coinoverview_socials',
       label: t('coin-details.tabs.socials.label'),
     },
+    {
+      value: 'coinoverview_faster_100x',
+      label: 'Faster100x',
+    },
     // {
     //   value: 'coinoverview_exchanges',
     //   label: t('coin-details.tabs.markets.label'),

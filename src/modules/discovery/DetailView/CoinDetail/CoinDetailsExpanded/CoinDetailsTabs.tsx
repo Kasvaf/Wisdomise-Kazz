@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import AssetSwapsStream from 'modules/autoTrader/AssetSwapsStream';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
 import { type FC, Fragment, useEffect } from 'react';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
@@ -75,6 +76,7 @@ export const CoinDetailsTabs: FC<{
     coinoverview_top_holders: (
       <CoinTopHoldersWidget className="w-full" title={false} />
     ),
+    coinoverview_faster_100x: <Faster100xWidget className="h-64 w-full" />,
   };
 
   useEffect(() => {
