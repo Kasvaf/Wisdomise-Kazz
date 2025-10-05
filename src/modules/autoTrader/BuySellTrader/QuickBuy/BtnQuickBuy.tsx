@@ -18,7 +18,7 @@ export default function BtnQuickBuy({
   tokenAddress,
   className,
   networks,
-  size = 'xs',
+  size = '2xs',
 }: {
   source: TradeSettingsSource;
   slug: string;
@@ -55,7 +55,7 @@ export default function BtnQuickBuy({
 
   return isSolana ? (
     <Button
-      className={clsx(className, 'flex items-center')}
+      className={clsx(className, '!px-2 flex items-center')}
       onClick={async e => {
         e.stopPropagation();
         e.preventDefault();

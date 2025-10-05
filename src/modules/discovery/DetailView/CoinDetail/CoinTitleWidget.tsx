@@ -7,7 +7,6 @@ import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDev
 import { NCoinBCurve } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
 import { useUnifiedCoinDetails } from './lib';
@@ -100,12 +99,9 @@ export const CoinTitleWidget: FC<{
               <div className="h-4 w-px bg-white/10" />
               <div className="flex flex-col justify-between gap-2">
                 <p className="text-v1-content-secondary text-xs">{'Price'}</p>
-                <DirectionalNumber
+                <ReadableNumber
                   className="text-xs"
-                  direction="up"
                   label="$"
-                  showIcon={false}
-                  showSign={false}
                   value={marketData.currentPrice}
                 />
               </div>

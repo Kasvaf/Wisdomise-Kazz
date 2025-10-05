@@ -111,6 +111,7 @@ export function TokenUpdateWidget({ className }: { className?: string }) {
                 decimalLength: 1,
                 compactInteger: true,
               }}
+              label="$"
               popup="never"
               value={volume}
             />

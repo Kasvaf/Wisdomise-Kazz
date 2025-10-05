@@ -15,6 +15,7 @@ import { openInNewTab } from 'utils/click';
 import { base64UrlDecode } from 'utils/encode';
 import { formatNumber } from 'utils/numbers';
 import { shortenAddress } from 'utils/shortenAddress';
+import { isProduction } from 'utils/version';
 
 interface ContractAddressRow {
   value?: string;
@@ -325,7 +326,7 @@ const Progress = ({ progress }: { progress: number }) => {
         height="38"
         rx="2"
         ry="2"
-        stroke="rgba(0,0,0,0.5)"
+        stroke="rgba(0,0,0,0.3)"
         strokeWidth={2}
         width="38"
         x="1"
@@ -369,11 +370,12 @@ const ImageWithFallback = ({
   name?: string | null;
 }) => {
   const [imgSrc, setImgSrc] = useState(src);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isFallback, setIsFallback] = useState(false);
   const [fallbackFailed, setFallbackFailed] = useState(false);
 
   const setFallback = () => {
-    if (isFallback || !src?.includes('cdn-trench')) {
+    if (isFallback || !src?.includes('cdn-trench') || !isProduction) {
       setFallbackFailed(true);
       return;
     }
@@ -392,13 +394,18 @@ const ImageWithFallback = ({
 
   return (
     <div className="flex h-full items-center justify-center overflow-hidden rounded-md text-3xl text-white/70">
-      <span className="absolute">{name?.split('').shift()?.toUpperCase()}</span>
+      {!isLoaded && (
+        <span className="absolute">
+          {name?.split('').shift()?.toUpperCase()}
+        </span>
+      )}
       {imgSrc && !fallbackFailed && (
         <img
           alt=""
           className="relative size-full object-cover"
           loading="lazy"
           onError={setFallback}
+          onLoad={() => setIsLoaded(true)}
           src={imgSrc}
         />
       )}

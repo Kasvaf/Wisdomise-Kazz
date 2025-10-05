@@ -398,8 +398,7 @@ export const NCoinList: FC<{
                 </div>
                 {row.symbol && (
                   <BtnQuickBuy
-                    className="!absolute !hidden group-hover:!flex !px-2 right-2 bottom-2"
-                    size="2xs"
+                    className="!absolute !hidden group-hover:!flex right-2 bottom-2"
                     slug={row.symbol.slug}
                     source={source}
                     tokenAddress={row.symbol.base}
