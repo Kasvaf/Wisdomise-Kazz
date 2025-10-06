@@ -1,5 +1,5 @@
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
-import { isProduction } from 'utils/version';
+import { isLocal } from 'utils/version';
 
 export default function Faster100xWidget({
   className,
@@ -7,7 +7,7 @@ export default function Faster100xWidget({
   className?: string;
 }) {
   const { symbol } = useUnifiedCoinDetails();
-  const platform = isProduction ? 'goatx' : 'dev';
+  const platform = isLocal ? 'dev' : 'goatx';
 
   return (
     <iframe
