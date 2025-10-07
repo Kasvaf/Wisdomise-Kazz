@@ -273,7 +273,7 @@ export default function BtnInstantTrade({
           className,
         )}
         onClick={() => setIsOpen(!isOpen)}
-        size="3xs"
+        size="2xs"
         variant="outline"
       >
         <InstantIcon />

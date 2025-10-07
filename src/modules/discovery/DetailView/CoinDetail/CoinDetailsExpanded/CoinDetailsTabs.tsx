@@ -21,6 +21,7 @@ import {
 } from '../CoinTopTraderHoldersWidget';
 import { useUnifiedCoinDetails } from '../lib';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
+import { ReactComponent as BubbleIcon } from './bubble.svg';
 
 export const CoinDetailsTabs: FC<{
   expandable?: boolean;
@@ -89,7 +90,17 @@ export const CoinDetailsTabs: FC<{
 
   return (
     <div className="flex max-h-full min-h-full max-w-full flex-col overflow-hidden">
-      <div className="absolute top-1 right-0 z-[100] flex shrink-0 items-center justify-start gap-px pe-2">
+      <div className="absolute top-0.5 right-0 z-[100] flex shrink-0 items-center justify-start gap-px pe-2">
+        <Button
+          className="mr-2"
+          onClick={() => setPinnedTab('coinoverview_faster_100x')}
+          size="2xs"
+          surface={0}
+          variant="outline"
+        >
+          <BubbleIcon />
+          Bubble Chart
+        </Button>
         <BtnInstantTrade
           className="me-2"
           quote={activeQuote}
@@ -146,7 +157,7 @@ export const CoinDetailsTabs: FC<{
             <div
               className={clsx(
                 'sticky top-0 z-10 w-full border-v1-border-tertiary border-b bg-v1-surface-l0',
-                !pinnedTab && 'pe-52',
+                !pinnedTab && 'pe-96',
               )}
             >
               <ButtonSelect
@@ -158,7 +169,11 @@ export const CoinDetailsTabs: FC<{
                   onTabChange?.();
                 }}
                 options={tabs
-                  .filter(x => x.value !== pinnedTab)
+                  .filter(
+                    x =>
+                      x.value !== pinnedTab &&
+                      x.value !== 'coinoverview_faster_100x',
+                  )
                   .map(x => {
                     return {
                       ...x,
@@ -213,7 +228,6 @@ export const CoinDetailsTabs: FC<{
                             fab
                             onClick={() => {
                               setPinnedTab('');
-                              setSelectedTab(x.value);
                             }}
                             size="3xs"
                             variant="outline"
