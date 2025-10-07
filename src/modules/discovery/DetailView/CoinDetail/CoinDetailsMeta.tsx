@@ -1,4 +1,4 @@
-import { useAssetEnrichedSwaps } from 'modules/autoTrader/AssetSwapsStream';
+import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { Helmet } from 'react-helmet-async';
 import { formatNumber } from 'utils/numbers';
@@ -8,7 +8,7 @@ export function CoinDetailsMeta() {
   const { symbol, marketData } = useUnifiedCoinDetails();
   const network = useActiveNetwork();
   const asset = symbol.contractAddress!;
-  const swaps = useAssetEnrichedSwaps({
+  const swaps = useEnrichedSwaps({
     asset,
     network,
   });

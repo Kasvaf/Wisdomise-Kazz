@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { useAssetEnrichedSwaps } from 'modules/autoTrader/AssetSwapsStream';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
+import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
@@ -21,7 +21,7 @@ export default function WalletsSwaps() {
 
   const navigate = useNavigate();
 
-  const { data, isLoading } = useAssetEnrichedSwaps({
+  const { data, isLoading } = useEnrichedSwaps({
     network,
     wallets: wallets.map(w => w.address),
   });
@@ -29,8 +29,10 @@ export default function WalletsSwaps() {
   const { data: pausedData, isPaused } = usePausedData(data, containerRef);
 
   return (
-    <div className="mb-3 grow overflow-auto" ref={containerRef}>
+    <div className="mb-3 grow overflow-auto px-3" ref={containerRef}>
+      <p className="mb-3 text-xs">Live Trades</p>
       <Table
+        chunkSize={5}
         columns={[
           {
             title: '',

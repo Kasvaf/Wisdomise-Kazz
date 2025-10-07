@@ -1,7 +1,7 @@
 import { bxChevronDown, bxChevronUp, bxPin, bxX } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import AssetSwapsStream from 'modules/autoTrader/AssetSwapsStream';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
+import TokenSwaps from 'modules/autoTrader/TokenSwaps';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { type FC, Fragment, useEffect } from 'react';
 import Icon from 'shared/Icon';
@@ -45,7 +45,7 @@ export const CoinDetailsTabs: FC<{
   >('coin-details-leftside-sizes', '60%');
 
   const tabContents = {
-    coinoverview_swaps: <AssetSwapsStream />,
+    coinoverview_swaps: <TokenSwaps />,
     coinoverview_trading_view: (
       <CoinMessagesWidget
         className="w-full"

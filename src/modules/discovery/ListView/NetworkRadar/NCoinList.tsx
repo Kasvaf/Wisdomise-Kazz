@@ -182,7 +182,6 @@ export const NCoinList: FC<{
   className?: string;
   loading?: boolean;
   mini?: boolean;
-  onRowClick?: (row: TrenchStreamResponseResult) => void;
   source: 'new_pairs' | 'final_stretch' | 'migrated';
 }> = ({
   dataSource: _dataSource,
@@ -191,7 +190,6 @@ export const NCoinList: FC<{
   loading,
   className,
   mini,
-  onRowClick,
   source,
 }) => {
   const listRef = useRef<HTMLDivElement>(null);

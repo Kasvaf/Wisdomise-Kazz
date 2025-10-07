@@ -57,7 +57,6 @@ export const Coin: FC<{
   extra?: ReactNode;
   underLogo?: ReactNode;
   size?: 'sm' | 'md' | 'lg';
-  disableRightClick?: boolean;
 }> = ({
   slug,
   abbreviation,
@@ -83,7 +82,6 @@ export const Coin: FC<{
   underLogo,
   extra,
   size = 'md',
-  disableRightClick,
 }) => {
   const [globalNetwork] = useGlobalNetwork();
   const [copy, copyNotif] = useShare('copy');

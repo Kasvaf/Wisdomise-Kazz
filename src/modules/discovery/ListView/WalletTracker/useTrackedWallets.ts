@@ -1,19 +1,24 @@
-import { useLibrariesQuery } from 'api/library';
+import { useTrackerSubscribeMutation } from 'api/tracker';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { useMemo } from 'react';
+import { useSelectedLibraries } from 'modules/discovery/ListView/WalletTracker/useSelectedLibraries';
+import { useEffect, useMemo } from 'react';
 
 export const useTrackedWallets = () => {
   const { settings } = useUserSettings();
-  const { data: libs } = useLibrariesQuery();
+  const libs = useSelectedLibraries();
+  const { mutate: subscribe } = useTrackerSubscribeMutation();
 
-  return useMemo(() => {
+  const trackedWallets = useMemo(() => {
     const importedWallets = settings.wallet_tracker.imported_wallets;
-    const selectedLibs = settings.wallet_tracker.selected_libraries;
-
-    const libsWallets = selectedLibs.flatMap(
-      ({ key }) => libs?.results.find(lib => lib.key === key)?.wallets ?? [],
-    );
+    const libsWallets = libs.flatMap(l => l.wallets);
 
     return [...libsWallets, ...importedWallets];
-  }, [settings, libs]);
+  }, [settings.wallet_tracker.imported_wallets, libs]);
+
+  useEffect(() => {
+    console.log('here');
+    subscribe({ addresses: trackedWallets.map(w => w.address) });
+  }, [trackedWallets, subscribe]);
+
+  return trackedWallets;
 };

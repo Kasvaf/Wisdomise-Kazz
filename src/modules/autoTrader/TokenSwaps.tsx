@@ -1,8 +1,5 @@
 import { useTokenPairsQuery } from 'api';
-import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
 import { useAllWallets } from 'api/chains/wallet';
-import { useGrpc } from 'api/grpc-v2';
-import type { Swap } from 'api/proto/delphinus';
 import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
 import {
@@ -10,12 +7,13 @@ import {
   SolanaCoin,
 } from 'modules/autoTrader/CoinSwapActivity';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
+import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { Wallet } from 'modules/discovery/DetailView/WhaleDetail/Wallet';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -23,86 +21,9 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Table } from 'shared/v1-components/Table';
-import { uniqueBy } from 'utils/uniqueBy';
 import { ReactComponent as UserIcon } from './user.svg';
 
-export const useAssetEnrichedSwaps = ({
-  asset,
-  network,
-  wallets,
-  enabled = true,
-}: {
-  asset?: string;
-  wallets?: string[];
-  network: string;
-  enabled?: boolean;
-}) => {
-  const { data: history, isLoading } = useGrpc({
-    service: 'delphinus',
-    method: 'swapsHistory',
-    payload: {
-      network,
-      asset,
-      enrichAssetDetails: false,
-    },
-    enabled,
-    history: 0,
-  });
-
-  const { history: recent } = useGrpc({
-    service: 'delphinus',
-    method: 'swapsStream',
-    payload: {
-      network,
-      asset,
-      wallets,
-      enrichAssetDetails: false,
-    },
-    enabled,
-    history: Number.POSITIVE_INFINITY,
-  });
-
-  const data = useMemo(() => {
-    const swaps = uniqueBy(
-      [...(recent?.map(x => x.swap) ?? []), ...(history?.swaps ?? [])]
-        .filter((x): x is Swap => !!x)
-        .sort((a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt)),
-      x => x.id,
-    );
-
-    return swaps.map(row => {
-      const dir = row.toAsset === SOLANA_CONTRACT_ADDRESS ? 'sell' : 'buy';
-      const price = +(
-        (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
-      );
-
-      const tokenAddress = dir === 'sell' ? row.fromAsset : row.toAsset;
-      const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
-      const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
-      const assetDetail =
-        dir === 'sell' ? row.fromAssetDetails : row.toAssetDetails;
-      return {
-        ...row,
-        dir,
-        price,
-        tokenAmount,
-        solAmount,
-        tokenAddress,
-        assetDetail,
-      };
-    });
-  }, [history, recent]);
-
-  return {
-    data,
-    isLoading,
-  };
-};
-
-const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
-  id,
-  className,
-}) => {
+const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const { symbol, marketData } = useUnifiedCoinDetails();
   const network = useActiveNetwork();
   const asset = symbol.contractAddress!;
@@ -124,7 +45,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
   const showMarketCap = settings.swaps.show_market_cap;
 
   const enabled = !!network && !!asset;
-  const { data, isLoading } = useAssetEnrichedSwaps({
+  const { data, isLoading } = useEnrichedSwaps({
     network,
     asset,
     enabled,
@@ -137,7 +58,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
   }, 0);
 
   return (
-    <div className={clsx(className)} id={id!} ref={containerRef}>
+    <div className={clsx(className)} ref={containerRef}>
       <Table
         columns={[
           {
@@ -263,4 +184,4 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
   );
 };
 
-export default AssetSwapsStream;
+export default TokenSwaps;

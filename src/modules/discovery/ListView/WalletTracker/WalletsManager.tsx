@@ -1,68 +1,40 @@
 import { Collapse, notification } from 'antd';
-import {
-  type Library,
-  type LibraryWallet,
-  useLibrariesQuery,
-} from 'api/library';
+import type { LibraryWallet } from 'api/library';
 import { bxCopy, bxTrash } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { useMemo } from 'react';
 import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { Table } from 'shared/v1-components/Table';
 import { shortenAddress } from 'utils/shortenAddress';
+import { useSelectedLibraries } from './useSelectedLibraries';
 
-const useSelectedLibs = () => {
-  const { settings } = useUserSettings();
-  const { data: libs } = useLibrariesQuery();
-
-  return useMemo(() => {
-    return settings.wallet_tracker.selected_libraries
-      .map(({ key }) => libs?.results.find(l => l.key === key))
-      .filter(Boolean) as Library[];
-  }, [settings.wallet_tracker.selected_libraries, libs]);
-};
-
-export default function WalletManager({ className }: { className?: string }) {
-  const selectedLibs = useSelectedLibs();
+export default function WalletsManager({ className }: { className?: string }) {
+  const selectedLibs = useSelectedLibraries();
   const { settings } = useUserSettings();
 
   return (
-    <div className={className}>
+    <div className={clsx('px-3', className)}>
+      <h2 className="my-3 text-xs">Wallet Manager</h2>
       <Collapse
-        className="!bg-v1-surface-l0 !-mx-3"
-        defaultActiveKey={1}
+        defaultActiveKey="manual"
         items={[
           {
-            key: '1',
-            label: 'Wallet Manager',
+            key: 'manual',
+            label: 'Manual List',
             children: (
-              <div>
-                <Collapse
-                  defaultActiveKey="manual"
-                  items={[
-                    {
-                      key: 'manual',
-                      label: 'Manual List',
-                      children: (
-                        <WalletGroup
-                          hasActions={true}
-                          wallets={settings.wallet_tracker.imported_wallets}
-                        />
-                      ),
-                    },
-                    ...selectedLibs.map(lib => ({
-                      key: lib.key,
-                      label: `${lib.name} (${lib.wallets.length} Wallets)`,
-                      children: <WalletGroup wallets={lib.wallets} />,
-                    })),
-                  ]}
-                  size="small"
-                />
-              </div>
+              <WalletGroup
+                hasActions={true}
+                wallets={settings.wallet_tracker.imported_wallets}
+              />
             ),
           },
+          ...selectedLibs.map(lib => ({
+            key: lib.key,
+            label: `${lib.name} (${lib.wallets.length} Wallets)`,
+            children: <WalletGroup wallets={lib.wallets} />,
+          })),
         ]}
         size="small"
       />
