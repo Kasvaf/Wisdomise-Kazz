@@ -93,6 +93,7 @@ const makeDataFeed = ({
   marksRef: MutableRefObject<Mark[]>;
 }): IBasicDataFeed => {
   let lastCandle: ChartCandle | undefined;
+  let lastRes: Resolution | undefined;
 
   return {
     onReady: async callback => {
@@ -188,8 +189,9 @@ const makeDataFeed = ({
           );
         }
 
-        if (!lastCandle && periodParams.firstDataRequest) {
-          lastCandle = chartCandles.at(-2); // select one before the last candle
+        if (periodParams.firstDataRequest || lastRes !== res) {
+          lastCandle = chartCandles.at(res === '1s' ? -2 : -1);
+          lastRes = res;
         }
 
         onResult(chartCandles, {
@@ -220,11 +222,15 @@ const makeDataFeed = ({
               chartCandle = convertToMarketCapCandle(chartCandle, totalSupply);
             }
 
+            // For solving detached candles problem
             if (lastCandle && isProduction) {
-              chartCandle.open = lastCandle.close;
+              if (chartCandle.time === lastCandle.time) {
+                chartCandle.open = lastCandle.open;
+              } else {
+                chartCandle.open = lastCandle.close;
+              }
+              lastCandle = chartCandle;
             }
-            lastCandle = chartCandle;
-
             onTick(chartCandle);
           },
         },
