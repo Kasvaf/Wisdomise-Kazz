@@ -1,4 +1,5 @@
 import { useTokenPairsQuery } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import {
   createContext,
   type Dispatch,
@@ -12,7 +13,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const context = createContext<
   [string, Dispatch<SetStateAction<string>>, Dispatch<SetStateAction<string>>]
->(['wrapped-solana', () => {}, () => {}]);
+>([WRAPPED_SOLANA_SLUG, () => {}, () => {}]);
 
 export const useActiveQuote = () => {
   const c = useContext(context);
@@ -23,7 +24,7 @@ export const useActiveQuote = () => {
 };
 
 export const ActiveQuoteProvider = ({ children }: PropsWithChildren) => {
-  const [activeQuote, setActiveQuote] = useState('wrapped-solana');
+  const [activeQuote, setActiveQuote] = useState(WRAPPED_SOLANA_SLUG);
   const [searchParams] = useSearchParams();
   const [baseSlug, setBaseSlug] = useState<string>('');
   const { data } = useTokenPairsQuery(searchParams.get('slug') || baseSlug);

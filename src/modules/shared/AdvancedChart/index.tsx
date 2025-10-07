@@ -1,4 +1,5 @@
 import { useTokenPairsQuery } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
@@ -7,10 +8,13 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import {
+  useChartConvertToUSD,
+  useChartIsMarketCap,
+} from 'shared/AdvancedChart/chartSettings';
+import {
   useSwapActivityLines,
   useSwapChartMarks,
 } from 'shared/AdvancedChart/useChartAnnotations';
-import { useLocalStorage } from 'usehooks-ts';
 import { formatNumber } from 'utils/numbers';
 import type { Timezone } from '../../../../public/charting_library';
 import {
@@ -37,11 +41,8 @@ const AdvancedChart: React.FC<{
 
   const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
   const { data, isLoading } = useCoinPoolInfo(slug);
-  const [convertToUsd, setConvertToUsd] = useLocalStorage(
-    'tv-convert-to-usd',
-    false,
-  );
-  const [isMarketCap, setIsMarketCap] = useLocalStorage('tv-market-cap', true);
+  const [convertToUsd, setConvertToUsd] = useChartConvertToUSD();
+  const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
   const marks = useSwapChartMarks(slug);
   const marksRef = useRef(marks);
   const totalSupply = details?.marketData.totalSupply ?? 0;
@@ -166,7 +167,7 @@ const AdvancedChart: React.FC<{
           '',
       });
 
-      if (data.quote !== 'tether' && data.quote !== 'usd-coin') {
+      if (data.quote === WRAPPED_SOLANA_SLUG) {
         const convertToUsdButton = widget.createButton();
         function setConvertButtonInnerContent() {
           const colorStyle = 'style="color:#beff21"';

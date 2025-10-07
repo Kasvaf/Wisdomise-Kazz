@@ -1,4 +1,5 @@
 import { isPositionUpdatable, useTraderPositionQuery } from 'api';
+import { USDT_SLUG } from 'api/chains/constants';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -38,7 +39,7 @@ export default function PageTrade() {
     >
       <CoinSelect
         className="[&_.ant-select-selector]:!bg-v1-surface-l2 [&_.ant-select-selector]:!py-1 mb-4 w-full"
-        filterTokens={x => x !== 'tether'}
+        filterTokens={x => x !== USDT_SLUG}
         mini={false}
         onChange={selectedSlug =>
           navigate(`/trader/bot/${selectedSlug}`, { replace: true })

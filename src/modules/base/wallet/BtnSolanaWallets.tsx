@@ -1,5 +1,6 @@
 import { Radio } from 'antd';
 import { useUserWalletAssets } from 'api/chains';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import {
   useActiveWallet,
   useConnectedWallet,
@@ -67,7 +68,7 @@ export default function BtnSolanaWallets({
           <WalletIcon />
         )}
         {showAddress && (address ? shortenAddress(address) : 'Not Connected')}
-        {showBalance && <AccountBalance slug="wrapped-solana" />}
+        {showBalance && <AccountBalance slug={WRAPPED_SOLANA_SLUG} />}
       </Button>
     </ClickableTooltip>
   );

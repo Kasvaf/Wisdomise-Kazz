@@ -126,19 +126,16 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
   },
   quotes_quick_set: {
     buy: {
-      'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
-      'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
-      tether: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      sol: ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      usd: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell: {
-      'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
-      'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
-      tether: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      sol: ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      usd: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell_percentage: {
-      'wrapped-solana': [...DEFAULT_PERCENTAGE_PRESETS],
-      'usd-coin': [...DEFAULT_PERCENTAGE_PRESETS],
-      tether: [...DEFAULT_PERCENTAGE_PRESETS],
+      sol: [...DEFAULT_PERCENTAGE_PRESETS],
+      usd: [...DEFAULT_PERCENTAGE_PRESETS],
     },
   },
   show_activity_in_usd: false,
@@ -165,7 +162,7 @@ const context = createContext<
       ) => Record<TraderPresetMode, TraderPreset>;
       update: (newValue: UserSettings) => void;
       updateQuotesQuickSet: (
-        quote: string,
+        quote: 'usd' | 'sol',
         type: keyof QuotesQuickSet,
         index: number,
         newValue: string,
@@ -236,7 +233,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   };
 
   const updateQuotesQuickSet = (
-    quote: string,
+    quote: 'usd' | 'sol',
     type: keyof QuotesQuickSet,
     index: number,
     newValue: string,

@@ -1,3 +1,4 @@
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
@@ -40,7 +41,8 @@ export default function QuoteQuickSet({
   const [isEditMode, setIsEditMode] = useState(false);
   const { settings, updateQuotesQuickSet } = useUserSettings();
   const preset = settings.quotes_quick_set[mode ?? 'buy'];
-  const presetOptions = preset?.[quote];
+  const normQuote = quote === WRAPPED_SOLANA_SLUG ? 'sol' : 'usd';
+  const presetOptions = preset?.[normQuote];
 
   useEffect(() => {
     if (enableEdit !== undefined) {
@@ -82,9 +84,9 @@ export default function QuoteQuickSet({
                     className="w-full bg-transparent text-center outline-none"
                     inputMode="numeric"
                     onChange={e => {
-                      if (quote && mode) {
+                      if (normQuote && mode) {
                         updateQuotesQuickSet(
-                          quote,
+                          normQuote,
                           mode,
                           index,
                           e.target.value,

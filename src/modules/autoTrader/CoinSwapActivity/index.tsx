@@ -1,4 +1,5 @@
 import { useHasFlag, useTokenActivityQuery, useTokenPairsQuery } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { useGrpc } from 'api/grpc-v2';
 import { useSolanaSymbol } from 'api/symbol';
 import { clsx } from 'clsx';
@@ -63,7 +64,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
   const hasSolanaPair =
-    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
+    !isPending && pairs?.some(p => p.quote.slug === WRAPPED_SOLANA_SLUG);
   const showUsd = hasSolanaPair ? settings.show_activity_in_usd : true;
 
   const lastCandle = useGrpc({
@@ -73,7 +74,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
       market: 'SPOT',
       network,
       baseSlug: symbol.slug ?? '',
-      quoteSlug: 'wrapped-solana',
+      quoteSlug: WRAPPED_SOLANA_SLUG,
       convertToUsd: showUsd,
     },
     enabled: true,

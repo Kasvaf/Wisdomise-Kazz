@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import {
-  SOLANA_CONTRACT_ADDRESS,
   USDC_CONTRACT_ADDRESS,
+  USDC_SLUG,
   USDT_CONTRACT_ADDRESS,
+  USDT_SLUG,
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
 } from 'api/chains/constants';
 import { ofetch } from 'config/ofetch';
 import dayjs from 'dayjs';
@@ -153,11 +155,11 @@ export const useLastPriceStream = (params: LastCandleParams) => {
 };
 
 const useUSDTLastPriceStream = () => {
-  return useLastPriceStream({ slug: 'tether', quote: 'usd-coin' });
+  return useLastPriceStream({ slug: USDT_SLUG, quote: USDC_SLUG });
 };
 
 const useUSDCLastPriceStream = () => {
-  return useLastPriceStream({ slug: 'usd-coin', quote: 'tether' });
+  return useLastPriceStream({ slug: USDC_SLUG, quote: USDT_SLUG });
 };
 
 const enrichCandleConfig = (userConfig: {
@@ -257,9 +259,9 @@ export const useBatchLastPriceQuery = ({
   );
 
   const quotes = noneUsdBases?.map(base =>
-    base === SOLANA_CONTRACT_ADDRESS
+    base === WRAPPED_SOLANA_CONTRACT_ADDRESS
       ? USDC_CONTRACT_ADDRESS
-      : SOLANA_CONTRACT_ADDRESS,
+      : WRAPPED_SOLANA_CONTRACT_ADDRESS,
   );
 
   const { data: batchCandles, isPending } = useBatchCandlesQuery({

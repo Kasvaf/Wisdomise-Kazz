@@ -1,5 +1,8 @@
 import { useTokenPairsQuery } from 'api';
-import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
+import {
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from 'api/chains/constants';
 import { useAllWallets } from 'api/chains/wallet';
 import { useGrpc } from 'api/grpc-v2';
 import type { Swap } from 'api/proto/delphinus';
@@ -71,7 +74,8 @@ export const useAssetEnrichedSwaps = ({
     );
 
     return swaps.map(row => {
-      const dir = row.toAsset === SOLANA_CONTRACT_ADDRESS ? 'sell' : 'buy';
+      const dir =
+        row.toAsset === WRAPPED_SOLANA_CONTRACT_ADDRESS ? 'sell' : 'buy';
       const price = +(
         (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
       );
@@ -115,7 +119,7 @@ const AssetSwapsStream: React.FC<{ id?: string; className?: string }> = ({
   const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
   const hasSolanaPair =
-    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
+    !isPending && pairs?.some(p => p.quote.slug === WRAPPED_SOLANA_SLUG);
 
   const totalSupply = marketData.totalSupply ?? 0;
   const showAmountInUsd = hasSolanaPair
