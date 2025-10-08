@@ -5,6 +5,7 @@ import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
 import { Fragment, useEffect } from 'react';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
@@ -85,16 +86,24 @@ export const CoinDetailsTabs = () => {
   return (
     <div className="flex h-[calc(var(--desktop-content-height)-64px)] max-h-[calc(var(--desktop-content-height)-64px)] max-w-full flex-col overflow-hidden">
       <div className="absolute top-1 right-0 z-30 flex shrink-0 items-center justify-start gap-px pe-2">
-        <Button
-          className="mr-2"
-          onClick={() => setPinnedTab('coinoverview_bubble_chart')}
-          size="2xs"
-          surface={0}
-          variant="outline"
-        >
-          <BubbleIcon />
-          Bubble Chart
-        </Button>
+        <HoverTooltip className="flex" title="Bubble Chart - Faster 100x">
+          <Button
+            className="mr-1"
+            fab
+            onClick={() =>
+              setPinnedTab(
+                pinnedTab === 'coinoverview_bubble_chart'
+                  ? ''
+                  : 'coinoverview_bubble_chart',
+              )
+            }
+            size="2xs"
+            surface={0}
+            variant="outline"
+          >
+            <BubbleIcon />
+          </Button>
+        </HoverTooltip>
         <BtnInstantTrade
           quote={activeQuote}
           setQuote={setActiveQuote}
