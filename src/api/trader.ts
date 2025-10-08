@@ -639,7 +639,7 @@ export interface Swap {
   fail_reason: string;
 }
 
-export type SwapStatus = 'PENDING' | 'CONFIRMED';
+export type SwapStatus = 'PENDING' | 'CONFIRMED' | 'FAILED';
 
 export function useTraderSwapsQuery({
   address,

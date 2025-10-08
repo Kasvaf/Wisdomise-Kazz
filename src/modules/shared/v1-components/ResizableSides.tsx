@@ -89,7 +89,7 @@ export const ResizableSides: FC<{
   return (
     <div
       className={clsx(
-        'flex flex-nowrap items-stretch justify-stretch overflow-hidden',
+        'flex flex-nowrap items-stretch',
         direction === 'row' && 'flex-col',
         rootClassName,
       )}
@@ -111,15 +111,15 @@ export const ResizableSides: FC<{
         className={clsx(
           'group relative flex shrink-0 items-center justify-center',
           direction === 'row'
-            ? 'h-3 max-h-3 min-h-3 w-auto cursor-row-resize'
-            : 'h-auto w-3 min-w-3 max-w-3 cursor-col-resize',
+            ? 'h-[5px] cursor-row-resize'
+            : 'w-[5px] cursor-col-resize',
         )}
         ref={dividerRef}
       >
         <div
           className={clsx(
             'absolute bg-v1-surface-l2 transition-all group-hover:bg-v1-surface-l3',
-            direction === 'row' ? 'h-[5px] w-full' : 'h-full w-[5px]',
+            'h-full w-full',
           )}
         />
         <div
@@ -131,12 +131,7 @@ export const ResizableSides: FC<{
           )}
         />
       </div>
-      <div
-        className={clsx(
-          'scrollbar-none relative shrink overflow-auto',
-          className?.[1],
-        )}
-      >
+      <div className={clsx('scrollbar-none relative shrink', className?.[1])}>
         {children[1]}
       </div>
     </div>
