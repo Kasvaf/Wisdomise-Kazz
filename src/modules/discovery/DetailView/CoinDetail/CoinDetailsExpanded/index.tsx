@@ -35,14 +35,6 @@ export const CoinDetailsExpanded: FC = () => {
           className={[
             'max-h-[calc(var(--desktop-content-height)-64px-36px)] min-h-52',
             'min-h-8',
-            // clsx(
-            //   upSideSize === '0%'
-            //     ? '!h-[60px]'
-            //     : upSideSize === '100%'
-            //       ? '!h-[calc(100%-3rem)]'
-            //       : '!max-h-[calc(100%-8rem)] !min-h-[8rem]',
-            // ),
-            // clsx(upSideSize === '100%' && 'overflow-hidden', 'h-full'),
           ]}
           direction="row"
           onChange={setUpSideSize}
@@ -62,7 +54,7 @@ export const CoinDetailsExpanded: FC = () => {
         </ResizableSides>
       </div>
 
-      <div className="scrollbar-none sticky top-0 z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
+      <div className="scrollbar-none sticky top-0 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
         <NCoinRisksBanner />
         <div className="space-y-3 px-3 pb-3">
           <TraderSection quote={quote} setQuote={setQuote} />

@@ -84,7 +84,7 @@ export const CoinDetailsTabs = () => {
 
   return (
     <div className="flex h-[calc(var(--desktop-content-height)-64px)] max-h-[calc(var(--desktop-content-height)-64px)] max-w-full flex-col overflow-hidden">
-      <div className="absolute top-1 right-0 z-20 flex shrink-0 items-center justify-start gap-px pe-2">
+      <div className="absolute top-1 right-0 z-30 flex shrink-0 items-center justify-start gap-px pe-2">
         <Button
           className="mr-2"
           onClick={() => setPinnedTab('coinoverview_bubble_chart')}
