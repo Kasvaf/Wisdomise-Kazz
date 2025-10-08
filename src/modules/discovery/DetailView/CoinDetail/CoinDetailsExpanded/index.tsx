@@ -1,6 +1,5 @@
-import { clsx } from 'clsx';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
-import { type FC, Fragment } from 'react';
+import { type FC, Fragment, useRef } from 'react';
 import {
   ResizableSides,
   type ResizableSidesValue,
@@ -19,55 +18,51 @@ export const CoinDetailsExpanded: FC = () => {
   const [quote, setQuote] = useActiveQuote();
   const [upSideSize, setUpSideSize] = useSessionStorage<
     ResizableSidesValue | undefined
-  >('coin-details-upside-sizes', '60%');
+  >('coin-details-upside-sizes', '50%');
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex h-(--desktop-content-height) w-full min-w-0 max-w-full flex-nowrap justify-between overflow-hidden">
-      {/* Validate */}
-      <ResizableSides
-        className={[
-          clsx(
-            'overflow-hidden',
-            upSideSize === '0%'
-              ? '!h-[60px]'
-              : upSideSize === '100%'
-                ? '!h-[calc(100%-3rem)]'
-                : '!max-h-[calc(100%-8rem)] !min-h-[8rem]',
-          ),
-          clsx(upSideSize === '100%' && 'overflow-hidden', 'h-full'),
-        ]}
-        direction="row"
-        onChange={setUpSideSize}
-        rootClassName="relative h-(--desktop-content-height) max-h-(--desktop-content-height) w-full min-w-0 shrink grow border-r border-white/10"
-        value={upSideSize}
+    <div className="flex h-(--desktop-content-height) max-h-(--desktop-content-height) w-full min-w-0 max-w-full flex-nowrap justify-between">
+      <div
+        className="flex w-full flex-col overflow-auto border-white/10 border-r"
+        ref={containerRef}
       >
-        {[
-          <div className="flex h-full flex-col" key="up-side">
-            <CoinTitleWidget
-              className="h-16 shrink-0 bg-v1-surface-l-current px-3"
-              hr
-              suffix={<CoinSentimentsWidget />}
-            />
-            <div className="grow">
-              <CoinChart />
-            </div>
-          </div>,
-          <Fragment key="down-side">
-            <CoinDetailsTabs
-              collapsable={upSideSize !== '100%'}
-              expandable={upSideSize !== '0%'}
-              onCollapse={() =>
-                setUpSideSize(p => (p === '0%' ? '60%' : '100%'))
-              }
-              onExpand={() => setUpSideSize(p => (p === '100%' ? '60%' : '0%'))}
-              onTabChange={() => setUpSideSize(p => (p === '100%' ? '60%' : p))}
-            />
-          </Fragment>,
-        ]}
-      </ResizableSides>
+        <CoinTitleWidget
+          className="sticky top-0 z-10 h-16 shrink-0 border-white/10 border-b bg-v1-surface-l-current px-3"
+          suffix={<CoinSentimentsWidget />}
+        />
+        <ResizableSides
+          className={[
+            'max-h-[calc(var(--desktop-content-height)-64px-36px)] min-h-52',
+            'min-h-8',
+            // clsx(
+            //   upSideSize === '0%'
+            //     ? '!h-[60px]'
+            //     : upSideSize === '100%'
+            //       ? '!h-[calc(100%-3rem)]'
+            //       : '!max-h-[calc(100%-8rem)] !min-h-[8rem]',
+            // ),
+            // clsx(upSideSize === '100%' && 'overflow-hidden', 'h-full'),
+          ]}
+          direction="row"
+          onChange={setUpSideSize}
+          rootClassName="relative w-full min-w-0 shrink grow border-white/10"
+          value={upSideSize}
+        >
+          {[
+            <div className="flex h-full flex-col" key="up-side">
+              <div className="grow">
+                <CoinChart />
+              </div>
+            </div>,
+            <Fragment key="down-side">
+              <CoinDetailsTabs />
+            </Fragment>,
+          ]}
+        </ResizableSides>
+      </div>
 
-      {/* Trade + Additional */}
-      <div className="scrollbar-none sticky top-(--desktop-content-top) z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
+      <div className="scrollbar-none sticky top-0 z-50 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
         <NCoinRisksBanner />
         <div className="space-y-3 px-3 pb-3">
           <TraderSection quote={quote} setQuote={setQuote} />

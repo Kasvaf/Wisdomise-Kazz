@@ -33,8 +33,8 @@ export const useCoinDetailsTabs = () => {
       label: t('coin-details.tabs.socials.label'),
     },
     {
-      value: 'coinoverview_faster_100x',
-      label: 'Faster100x',
+      value: 'coinoverview_bubble_chart',
+      label: 'Bubble Chart',
     },
     // {
     //   value: 'coinoverview_exchanges',
