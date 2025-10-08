@@ -3,6 +3,7 @@ import { useGrpc } from 'api/grpc-v2';
 import type { Swap } from 'api/proto/delphinus';
 import { useTrackerHistoryQuery } from 'api/tracker';
 import { useMemo } from 'react';
+import { toCamelCaseObject } from 'utils/object';
 import { uniqueBy } from 'utils/uniqueBy';
 
 export const useEnrichedSwaps = ({
@@ -34,15 +35,13 @@ export const useEnrichedSwaps = ({
       network,
       asset,
       wallets,
-      enrichAssetDetails: false,
+      enrichAssetDetails: !!wallets,
     },
-    enabled: false,
+    enabled,
     history: Number.POSITIVE_INFINITY,
   });
 
   const { data: trackerHistory, isLoading: l3 } = useTrackerHistoryQuery({});
-
-  console.log({ history, streamHistory, trackerHistory });
 
   const data = useMemo(() => {
     const swaps = uniqueBy(
@@ -51,7 +50,8 @@ export const useEnrichedSwaps = ({
         ...(history?.swaps ?? []),
         ...(trackerHistory?.results ?? []),
       ]
-        .filter((x): x is Swap => !!x)
+        .filter(s => !!s)
+        .map(s => ('relatedAt' in s ? s : toCamelCaseObject<Swap>(s)))
         .sort((a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt)),
       x => x.id,
     );

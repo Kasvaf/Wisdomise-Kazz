@@ -104,18 +104,19 @@ export default function WalletsSwaps() {
             ),
           },
           {
-            title: 'Price',
-            key: 'price',
-            render: row => (
-              <ReadableNumber
-                className="text-xs"
-                format={{
-                  decimalLength: 2,
-                }}
-                label="$"
-                value={row.price}
-              />
-            ),
+            title: 'MC',
+            key: 'mc',
+            render: row =>
+              row.assetDetail?.totalSupply && (
+                <ReadableNumber
+                  className="text-xs"
+                  format={{
+                    decimalLength: 2,
+                  }}
+                  label="$"
+                  value={row.price * Number(row.assetDetail.totalSupply)}
+                />
+              ),
           },
         ]}
         dataSource={pausedData}

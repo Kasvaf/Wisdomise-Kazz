@@ -1,13 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { Swap } from 'api/proto/delphinus';
 import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
+
+export interface TrackedSwap {
+  id: string;
+  tx_id: string;
+  wallet: string;
+  network: string;
+  to_asset: string;
+  to_amount: number;
+  from_asset: string;
+  related_at: string;
+  from_amount: number;
+  to_asset_price?: number;
+  from_asset_price?: number;
+  to_asset_details?: AssetDetails;
+  from_asset_details?: AssetDetails;
+}
+
+interface AssetDetails {
+  name: string;
+  image: string;
+  detected_at?: string;
+  total_supply: string;
+}
 
 export const useTrackerHistoryQuery = ({ page = 1 }: { page?: number }) => {
   return useQuery({
     queryKey: ['tracker-history', page],
     queryFn: async () => {
-      return await ofetch<PageResponse<Swap>>('tracker/history/', {
+      return await ofetch<PageResponse<TrackedSwap>>('tracker/history/', {
         query: { page },
       });
     },
@@ -23,6 +45,22 @@ export const useTrackerSubscribeMutation = () => {
   return useMutation({
     mutationFn: async (body: TrackerSubscribeRequest) => {
       return await ofetch<void>('tracker/subscribe/', { body, method: 'POST' });
+    },
+    onSuccess: () =>
+      client.invalidateQueries({
+        queryKey: ['tracker-history'],
+      }),
+  });
+};
+
+export const useTrackerUnsubscribeMutation = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async (body: TrackerSubscribeRequest) => {
+      return await ofetch<void>('tracker/unsubscribe/', {
+        body,
+        method: 'POST',
+      });
     },
     onSuccess: () =>
       client.invalidateQueries({

@@ -90,7 +90,7 @@ function WalletGroup({
                     });
                   }}
                   size="3xs"
-                  surface={3}
+                  surface={2}
                   variant="ghost"
                 >
                   Remove All
@@ -110,7 +110,7 @@ function WalletGroup({
                       });
                     }}
                     size="xs"
-                    surface={3}
+                    surface={2}
                     variant="ghost"
                   >
                     <Icon name={bxTrash} />
