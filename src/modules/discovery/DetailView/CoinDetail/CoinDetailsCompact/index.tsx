@@ -1,4 +1,5 @@
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
 import type { FC } from 'react';
 import CoinChart from '../CoinChart';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
@@ -36,6 +37,11 @@ export const CoinDetailsCompact: FC = () => {
         />
         <CoinMessagesWidget id="coinoverview_socials" type="rest" />
         <CoinPoolsWidget id="coinoverview_pools" />
+        <Faster100xWidget
+          className="h-96 w-full"
+          id="coinoverview_bubble_chart"
+        />
+        ,
         {/* <CoinExchangesWidget id="coinoverview_exchanges" />
         <CoinWhalesWidget id="coinoverview_active_whales" type="active" />
         <CoinWhalesWidget id="coinoverview_holding_whales" type="holding" /> */}
