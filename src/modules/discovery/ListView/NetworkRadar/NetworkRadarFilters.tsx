@@ -14,6 +14,7 @@ import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import { Input } from 'shared/v1-components/Input';
+import { hasAnyValue } from 'utils/object';
 import { Filters } from '../Filters';
 import type { NetworkRadarStreamFilters, NetworkRadarTab } from './lib';
 
@@ -79,6 +80,10 @@ export const NetworkRadarFilters: FC<{
           : protocols?.newBornProtocols) ?? []
     );
   }, [tab, protocols]);
+
+  const isFiltersApplied = useMemo(() => {
+    return hasAnyValue(settings.trench_filters[initialTab]);
+  }, [settings.trench_filters, initialTab]);
 
   return (
     <>
@@ -888,6 +893,7 @@ export const NetworkRadarFilters: FC<{
             )}
           </>
         )}
+        isFiltersApplied={isFiltersApplied}
         mini
         onChange={updateTrenchFilters}
         onOpen={() => setTab(initialTab)}
