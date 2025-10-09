@@ -175,7 +175,7 @@ const makeDataFeed = ({
             quoteSlug: quote,
             resolution: res,
             endTime: new Date(periodParams.to * 1000).toISOString(),
-            limit: periodParams.countBack,
+            limit: Math.min(periodParams.countBack, 1000),
             skipEmptyCandles: true,
             convertToUsd: checkConvertToUsd(quote),
           },
