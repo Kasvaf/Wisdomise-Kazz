@@ -638,7 +638,7 @@ export interface Swap {
   fail_reason: string;
 }
 
-export type SwapStatus = 'PENDING' | 'CONFIRMED' | 'FAILED';
+export type SwapStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'FAILED';
 
 export function useTraderSwapsQuery({
   address,
