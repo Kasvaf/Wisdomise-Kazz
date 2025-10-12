@@ -84,7 +84,12 @@ export function useSwapChartMarks(slug: string) {
 
     return (
       swaps?.results
-        .filter(s => s.base_slug === slug && s.status === 'CONFIRMED')
+        .filter(
+          s =>
+            s.base_slug === slug &&
+            s.status !== 'FAILED' &&
+            s.status !== 'PENDING',
+        )
         .map(s => {
           const fromTo = Number(s.from_amount) / Number(s.to_amount);
           const price = s.side === 'LONG' ? fromTo : 1 / fromTo;
