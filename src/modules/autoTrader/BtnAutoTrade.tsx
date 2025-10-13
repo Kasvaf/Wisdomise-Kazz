@@ -1,4 +1,5 @@
 import { useHasFlag, useTokenPairsQuery } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { useActiveWallet } from 'api/chains/wallet';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -11,7 +12,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   slug,
   ...buttonProps
 }) => {
-  const normSlug = slug === 'solana' ? 'wrapped-solana' : slug;
+  const normSlug = slug === 'solana' ? WRAPPED_SOLANA_SLUG : slug;
   const { data: supportedPairs, isLoading } = useTokenPairsQuery(normSlug);
   const isSupported = !!supportedPairs?.length;
   const isMobile = useIsMobile();

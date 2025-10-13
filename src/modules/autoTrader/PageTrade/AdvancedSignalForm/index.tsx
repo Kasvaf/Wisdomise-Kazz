@@ -1,4 +1,5 @@
 import type { Position } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { useCoinDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPresets';
@@ -32,7 +33,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
     confirming: [confirming],
   } = formState;
 
-  const normSlug = baseSlug === 'solana' ? 'wrapped-solana' : baseSlug;
+  const normSlug = baseSlug === 'solana' ? WRAPPED_SOLANA_SLUG : baseSlug;
 
   const coin = useCoinDetails({ slug: baseSlug });
   const isNewBorn = coin?.data?.symbol_labels?.includes('new_born');

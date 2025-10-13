@@ -20,12 +20,6 @@ const tonClient = new TonClient({
   endpoint: `${String(import.meta.env.VITE_TONCENTER_BASE_URL)}/api/v2/jsonRPC`,
 });
 
-export const WSDM_CONTRACT_ADDRESS = String(
-  import.meta.env.VITE_WSDM_CONTRACT_ADDRESS,
-);
-
-export type AutoTraderTonSupportedQuotes = 'tether' | 'the-open-network';
-
 const TON_API = 'https://tonapi.io/v2';
 
 const useJettonWalletAddress = (slug?: string, address?: string) => {

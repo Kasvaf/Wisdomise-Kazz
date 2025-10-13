@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { ofetch } from 'config/ofetch';
 import { load } from 'dldr';
 import type { Coin } from './types/shared';
@@ -41,7 +42,7 @@ export const useSymbolInfo = ({
   slug?: string;
   enabled?: boolean;
 }) => {
-  const s = slug === 'wrapped-solana' ? 'solana' : slug;
+  const s = slug === WRAPPED_SOLANA_SLUG ? 'solana' : slug;
 
   return useQuery({
     queryKey: ['symbol-info', s],
@@ -52,7 +53,7 @@ export const useSymbolInfo = ({
 };
 
 export const useSolanaSymbol = () => {
-  return useSymbolInfo({ slug: 'wrapped-solana' });
+  return useSymbolInfo({ slug: WRAPPED_SOLANA_SLUG });
 };
 
 export const useSymbolsInfo = (slugs: string[] = []) => {
@@ -60,9 +61,7 @@ export const useSymbolsInfo = (slugs: string[] = []) => {
     queryKey: ['symbols-info', slugs],
     queryFn: async () =>
       (await Promise.all(
-        slugs.map(slug =>
-          load(getCoins, slug === 'wrapped-solana' ? 'solana' : slug),
-        ),
+        slugs.map(slug => load(getCoins, slug)),
       )) as (CoinSymbol | null)[],
     staleTime: Number.POSITIVE_INFINITY,
     enabled: slugs.length > 0,

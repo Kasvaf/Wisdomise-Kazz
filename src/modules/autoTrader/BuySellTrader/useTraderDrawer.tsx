@@ -1,3 +1,4 @@
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { useSymbolInfo } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
@@ -19,7 +20,8 @@ export default function useTraderDrawer() {
   const [inputs, setInputs] = useState<DrawerInputs>();
   const [quote, setQuote, setBaseSlug] = useActiveQuote();
 
-  const normSlug = inputs?.slug === 'solana' ? 'wrapped-solana' : inputs?.slug;
+  const normSlug =
+    inputs?.slug === 'solana' ? WRAPPED_SOLANA_SLUG : inputs?.slug;
   const { data: coin, isLoading: coinLoading } = useSymbolInfo({
     slug: normSlug,
   });

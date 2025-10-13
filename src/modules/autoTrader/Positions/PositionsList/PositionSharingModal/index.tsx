@@ -1,4 +1,5 @@
 import { initialQuoteAsset, type Position, useLastPriceStream } from 'api';
+import { USDT_SLUG } from 'api/chains/constants';
 import { useCoinDetails } from 'api/discovery';
 import logo from 'assets/logo-white.svg';
 import { useRef, useState } from 'react';
@@ -23,7 +24,7 @@ export default function PositionSharingModal({
   const [showExtra, setShowExtra] = useState(false);
 
   const { data: coin } = useCoinDetails({
-    slug: position.base_slug ?? 'tether',
+    slug: position.base_slug ?? USDT_SLUG,
   });
   const initialQuote = initialQuoteAsset(position);
   const el = useRef<HTMLDivElement>(null);

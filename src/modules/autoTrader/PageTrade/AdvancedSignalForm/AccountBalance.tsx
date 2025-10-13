@@ -1,6 +1,7 @@
 import { Spin } from 'antd';
 import { useLastPriceStream } from 'api';
 import { useTokenBalance } from 'api/chains';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { useSymbolInfo } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -28,7 +29,7 @@ export const AccountBalance: React.FC<{
 
   const isNativeQuote =
     (net === 'the-open-network' && slug === 'the-open-network') ||
-    (net === 'solana' && slug === 'wrapped-solana');
+    (net === 'solana' && slug === WRAPPED_SOLANA_SLUG);
 
   return slug ? (
     isLoading ? (

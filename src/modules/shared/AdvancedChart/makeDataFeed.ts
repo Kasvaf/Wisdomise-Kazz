@@ -1,4 +1,5 @@
 import { getPairsCached } from 'api';
+import { USDC_SLUG, USDT_SLUG } from 'api/chains/constants';
 import type { Resolution } from 'api/discovery';
 import { observeGrpc, requestGrpc } from 'api/grpc-v2';
 import type { Candle } from 'api/proto/delphinus';
@@ -51,7 +52,7 @@ const config: DatafeedConfiguration = {
 };
 
 const checkConvertToUsd = (quote: string) => {
-  return quote !== 'tether' && quote !== 'usd-coin'
+  return quote !== USDT_SLUG && quote !== USDC_SLUG
     ? localStorage.getItem('tv-convert-to-usd') === 'true'
     : false;
 };

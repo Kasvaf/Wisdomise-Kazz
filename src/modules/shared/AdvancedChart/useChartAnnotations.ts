@@ -3,6 +3,10 @@ import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyn
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useMemo, useRef } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
+import {
+  useChartConvertToUSD,
+  useChartIsMarketCap,
+} from 'shared/AdvancedChart/chartSettings';
 import { formatNumber } from 'utils/numbers';
 import type { Mark } from '../../../../public/charting_library';
 
@@ -69,12 +73,12 @@ export function useSwapChartMarks(slug: string) {
   const details = useUnifiedCoinDetails();
   const { data: swaps } = useTraderSwapsQuery({});
   const hasFlag = useHasFlag();
+  const [isMarketCap] = useChartIsMarketCap();
+  const [convertToUsd] = useChartConvertToUSD();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <no need for hasFlag dep>
   return useMemo(() => {
     const supply = details?.marketData.totalSupply ?? 0;
-    const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
-    const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
 
     if (!hasFlag('/swap-activity')) return [];
 
@@ -95,21 +99,20 @@ export function useSwapChartMarks(slug: string) {
 
           const priceOrMc =
             (convertToUsd ? usdPrice : price) * (isMarketCap ? supply : 1);
-          const text = `You ${s.side === 'LONG' ? 'bought' : 'sold'} $${formatNumber(
-            Number(s.trading_volume ?? '0'),
-            {
-              decimalLength: 3,
-              minifyDecimalRepeats: false,
-              compactInteger: false,
-              separateByComma: false,
-            },
-          )} at ${formatNumber(priceOrMc, {
+          const formatedPriceOrMc = formatNumber(priceOrMc, {
             decimalLength: 3,
             minifyDecimalRepeats: !isMarketCap,
             compactInteger: isMarketCap,
             separateByComma: false,
             exactDecimal: isMarketCap,
-          })} SOL ${isMarketCap ? 'Market Cap' : ''}`;
+          });
+          const formatedVolume = formatNumber(Number(s.trading_volume ?? '0'), {
+            decimalLength: 3,
+            minifyDecimalRepeats: false,
+            compactInteger: false,
+            separateByComma: false,
+          });
+          const text = `You ${s.side === 'LONG' ? 'bought' : 'sold'} $${formatedVolume} at ${formatedPriceOrMc} ${convertToUsd ? 'USD' : 'SOL'} ${isMarketCap ? 'Market Cap' : ''}`;
 
           return {
             id: s.created_at,
@@ -123,7 +126,7 @@ export function useSwapChartMarks(slug: string) {
           } as Mark;
         }) ?? []
     );
-  }, [swaps, slug, details?.marketData.totalSupply]);
+  }, [swaps, slug, details?.marketData.totalSupply, isMarketCap, convertToUsd]);
 }
 
 export function useChartAnnotations(
