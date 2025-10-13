@@ -195,7 +195,7 @@ export default function PageMeta() {
         <div className="mx-auto mt-5 max-w-[40rem] text-xs">
           {data?.pages.flatMap(page =>
             page.results.map(meta => {
-              const lastToken = meta.trench.sort(
+              const latestToken = [...meta.trench].sort(
                 (a, b) =>
                   new Date(b.symbol.created_at).getTime() -
                   new Date(a.symbol.created_at).getTime(),
@@ -225,7 +225,7 @@ export default function PageMeta() {
                         <div className="flex justify-between">
                           <span className="text-white/70">Last Token</span>
                           <span>
-                            {dayjs(lastToken?.symbol.created_at).fromNow()}
+                            {dayjs(latestToken?.symbol.created_at).fromNow()}
                           </span>
                         </div>
                         <div className="flex justify-between">
