@@ -1,4 +1,8 @@
-import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
+import {
+  USDC_CONTRACT_ADDRESS,
+  USDT_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+} from 'api/chains/constants';
 import { useGrpc } from 'api/grpc-v2';
 import type { Swap } from 'api/proto/delphinus';
 import { useTrackerHistoryQuery } from 'api/tracker';
@@ -6,13 +10,19 @@ import { useMemo } from 'react';
 import { toCamelCaseObject } from 'utils/object';
 import { uniqueBy } from 'utils/uniqueBy';
 
+const QUOTES_ADDRESSES = [
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  USDC_CONTRACT_ADDRESS,
+  USDT_CONTRACT_ADDRESS,
+];
+
 export const useEnrichedSwaps = ({
-  asset,
+  tokenAddress,
   network,
   wallets,
   enabled = true,
 }: {
-  asset?: string;
+  tokenAddress?: string;
   wallets?: string[];
   network: string;
   enabled?: boolean;
@@ -22,7 +32,7 @@ export const useEnrichedSwaps = ({
     method: 'swapsHistory',
     payload: {
       network,
-      asset,
+      asset: tokenAddress,
     },
     enabled: enabled && !wallets,
     history: 0,
@@ -33,7 +43,7 @@ export const useEnrichedSwaps = ({
     method: 'swapsStream',
     payload: {
       network,
-      asset,
+      asset: tokenAddress,
       wallets,
       enrichAssetDetails: !!wallets,
     },
@@ -57,12 +67,12 @@ export const useEnrichedSwaps = ({
     );
 
     return swaps.map(row => {
-      const dir = row.toAsset === SOLANA_CONTRACT_ADDRESS ? 'sell' : 'buy';
+      const dir = QUOTES_ADDRESSES.includes(row.toAsset) ? 'sell' : 'buy';
       const price = +(
         (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
       );
 
-      const tokenAddress = dir === 'sell' ? row.fromAsset : row.toAsset;
+      const asset = dir === 'sell' ? row.fromAsset : row.toAsset;
       const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
       const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
       const assetDetail =
@@ -73,16 +83,14 @@ export const useEnrichedSwaps = ({
         price,
         tokenAmount,
         solAmount,
-        tokenAddress,
+        asset,
         assetDetail,
       };
     });
   }, [history, streamHistory, trackerHistory]);
 
-  console.log(l1, l2, l3);
-
   return {
     data,
-    isLoading: l1 || l3,
+    isLoading: l1 || l2 || l3,
   };
 };

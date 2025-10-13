@@ -1,3 +1,4 @@
+import { useSyncWalletSubscription } from 'modules/discovery/ListView/WalletTracker/useSyncWalletSubscription';
 import { type FC, useState } from 'react';
 import { Button } from 'shared/v1-components/Button';
 import { ResizableSides } from 'shared/v1-components/ResizableSides';
@@ -9,6 +10,7 @@ export const WalletTracker: FC<{
   focus?: boolean;
   expanded?: boolean;
 }> = () => {
+  useSyncWalletSubscription();
   const [open, setOpen] = useState(false);
 
   return (

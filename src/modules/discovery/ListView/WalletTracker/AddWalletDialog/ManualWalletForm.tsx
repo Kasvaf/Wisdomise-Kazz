@@ -1,6 +1,5 @@
 import { notification } from 'antd';
 import { isValidSolanaAddress } from 'api/chains/solana';
-import { useTrackerSubscribeMutation } from 'api/tracker';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useState } from 'react';
@@ -15,7 +14,6 @@ export function ManualWalletForm({ onClose }: { onClose: () => void }) {
   const [emoji, setEmoji] = useState('🐐');
   const { upsertImportedWallet } = useUserSettings();
   const trackedWallets = useTrackedWallets();
-  const { mutate: subscribe } = useTrackerSubscribeMutation();
 
   const addWallet = () => {
     if (!isValidSolanaAddress(address)) {
@@ -30,7 +28,6 @@ export function ManualWalletForm({ onClose }: { onClose: () => void }) {
     }
 
     upsertImportedWallet({ address, name, emoji });
-    subscribe({ addresses: [address] });
     notification.success({ message: 'Wallet Added Successfully' });
     onClose();
   };

@@ -7,26 +7,23 @@ import { useUnifiedCoinDetails } from './lib';
 export function CoinDetailsMeta() {
   const { symbol, marketData } = useUnifiedCoinDetails();
   const network = useActiveNetwork();
-  const asset = symbol.contractAddress!;
+  const tokenAddress = symbol.contractAddress!;
+  const abbreviation = symbol.abbreviation;
+
   const swaps = useEnrichedSwaps({
-    asset,
+    tokenAddress,
     network,
   });
-  const abbreviation = symbol.abbreviation;
+
   const lastSwap = swaps.data[0];
-  const dir = lastSwap?.fromAsset === asset ? 'sell' : 'buy';
-  const mc =
-    +(
-      (dir === 'sell' ? lastSwap?.fromAssetPrice : lastSwap?.toAssetPrice) ??
-      '0'
-    ) * (marketData.totalSupply ?? 0);
+  const mc = +lastSwap?.price * (marketData.totalSupply ?? 0);
 
   return (
     <Helmet>
       <>
         <title>
           {lastSwap
-            ? `${abbreviation} ${dir === 'buy' ? '↑' : '↓'} $${formatNumber(
+            ? `${abbreviation} ${lastSwap.dir === 'buy' ? '↑' : '↓'} $${formatNumber(
                 mc,
                 {
                   compactInteger: true,

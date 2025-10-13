@@ -16,10 +16,8 @@ import { shortenAddress } from 'utils/shortenAddress';
 export default function WalletsSwaps() {
   const network = useActiveNetwork();
   const wallets = useTrackedWallets();
-
-  const containerRef = useRef<HTMLDivElement>(null);
-
   const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { data, isLoading } = useEnrichedSwaps({
     network,
@@ -61,16 +59,16 @@ export default function WalletsSwaps() {
             render: row => (
               <button
                 className="cursor-pointer hover:underline"
-                onClick={() => navigate(`/token/solana/${row.tokenAddress}`)}
+                onClick={() => navigate(`/token/solana/${row.asset}`)}
               >
                 {row.assetDetail?.name ? (
                   <Coin
+                    abbreviation={row.assetDetail.name}
                     logo={row.assetDetail?.image}
-                    name={row.assetDetail?.name}
                     size="sm"
                   />
                 ) : (
-                  shortenAddress(row.tokenAddress)
+                  shortenAddress(row.asset)
                 )}
               </button>
             ),

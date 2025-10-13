@@ -1,4 +1,5 @@
 import { useTokenPairsQuery } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { useAllWallets } from 'api/chains/wallet';
 import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
@@ -47,7 +48,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const enabled = !!network && !!asset;
   const { data, isLoading } = useEnrichedSwaps({
     network,
-    asset,
+    tokenAddress: asset,
     enabled,
   });
 
@@ -82,7 +83,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
                     row.dir === 'sell'
                       ? 'to-v1-background-negative/20'
                       : 'to-v1-background-positive/20',
-                    'absolute left-0 h-full min-w-1 rounded-l-xl bg-gradient-to-r from-0% from-transparent to-60%',
+                    'pointer-events-none absolute left-0 h-full min-w-1 rounded-l-xl bg-gradient-to-r from-0% from-transparent to-60%',
                   )}
                   style={{ width: `${(row.tokenAmount / maxAmount) * 100}%` }}
                 />
