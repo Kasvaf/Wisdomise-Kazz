@@ -1,4 +1,5 @@
 import { useTokenPairsQuery } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
@@ -11,7 +12,7 @@ const TraderSection: React.FC<{
   setQuote: (newVal: string) => void;
 }> = ({ quote, setQuote }) => {
   const { symbol } = useUnifiedCoinDetails();
-  const slug = symbol.slug === 'solana' ? 'wrapped-solana' : symbol.slug;
+  const slug = symbol.slug === 'solana' ? WRAPPED_SOLANA_SLUG : symbol.slug;
   const { data: supportedPairs, isLoading, error } = useTokenPairsQuery(slug);
 
   return (

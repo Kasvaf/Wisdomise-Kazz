@@ -1,6 +1,7 @@
 import { type MetaToken, useMetaListQuery } from 'api/meta';
 import { bxSearch } from 'boxicons-quasar';
 import dayjs from 'dayjs';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import PageWrapper from 'modules/base/PageWrapper';
 import { Filters } from 'modules/discovery/ListView/Filters';
 import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
@@ -12,13 +13,13 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Spinner from 'shared/Spinner';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
-import { Coin } from 'shared/v1-components/Coin';
+import { Coin, CoinImage } from 'shared/v1-components/Coin';
 import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
 import { useDebounce, useIntersectionObserver } from 'usehooks-ts';
 
-interface MetaFilters {
+export interface MetaFilters {
   minTotalVolume?: number;
   maxTotalVolume?: number;
   minTotalMarketCap?: number;
@@ -37,7 +38,7 @@ export default function PageMeta() {
   const [skipSimilar, setSkipSimilar] = useState(false);
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 300);
-  const [filters, setFilters] = useState<MetaFilters>(defaultValue);
+  const { settings, updateMetaFilters } = useUserSettings();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const io = useIntersectionObserver(loadMoreRef, {});
@@ -53,6 +54,7 @@ export default function PageMeta() {
     });
   };
 
+  const filters = settings.meta.filters;
   const { data, isPending, fetchNextPage, isFetchingNextPage } =
     useMetaListQuery({
       recentlyActive: sortByActivate,
@@ -163,7 +165,7 @@ export default function PageMeta() {
               </div>
             </div>
           )}
-          onChange={setFilters}
+          onChange={updateMetaFilters}
           resetValue={defaultValue}
           size="sm"
           value={filters}
@@ -208,7 +210,12 @@ export default function PageMeta() {
                     <div className="rounded-xl bg-v1-surface-l2 p-3">
                       <h2 className="mb-3 text-white/70">Narrative</h2>
                       <h3 className="mb-4 text-lg">{meta.title}</h3>
-                      <p className="text-white/70">{meta.description}</p>
+                      <div className="relative h-24">
+                        <p className="h-full overflow-auto pb-4 text-white/70">
+                          {meta.description}
+                        </p>
+                        <div className="absolute bottom-0 h-4 w-full bg-gradient-to-b from-transparent to-v1-surface-l2"></div>
+                      </div>
                       <hr className="my-3 border-white/10" />
                       <div className="space-y-2">
                         <div className="flex justify-between">
@@ -237,23 +244,21 @@ export default function PageMeta() {
                       </div>
                     </div>
                     <div className="mt-3 grow overflow-auto rounded-xl bg-v1-surface-l2 p-3">
-                      <h2 className="mb-3 text-white/70">Tokens</h2>
-                      <TokensTable dataSource={meta.trench} />
+                      <h2 className="mb-3 text-white/70">Gallery</h2>
+                      <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+                        {meta.trench.map(token => (
+                          <CoinImage
+                            key={token.symbol.contract_address}
+                            name={token.symbol.abbreviation}
+                            src={token.symbol.logo_url}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div className="h-full grow overflow-auto rounded-xl bg-v1-surface-l2 p-3">
-                    <h2 className="mb-3 text-white/70">Gallery</h2>
-                    <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-                      {meta.trench.map(token => (
-                        <img
-                          alt={token.symbol.abbreviation}
-                          className="aspect-square rounded-xl bg-v1-surface-l0 object-cover"
-                          key={token.symbol.contract_address}
-                          loading="lazy"
-                          src={token.symbol.logo_url}
-                        />
-                      ))}
-                    </div>
+                    <h2 className="mb-3 text-white/70">Tokens</h2>
+                    <TokensTable dataSource={meta.trench} />
                   </div>
                 </div>
               );

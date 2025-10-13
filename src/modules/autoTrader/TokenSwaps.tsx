@@ -36,7 +36,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
   const hasSolanaPair =
-    !isPending && pairs?.some(p => p.quote.slug === 'wrapped-solana');
+    !isPending && pairs?.some(p => p.quote.slug === WRAPPED_SOLANA_SLUG);
 
   const totalSupply = marketData.totalSupply ?? 0;
   const showAmountInUsd = hasSolanaPair

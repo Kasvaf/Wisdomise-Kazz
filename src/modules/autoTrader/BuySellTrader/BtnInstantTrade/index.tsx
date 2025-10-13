@@ -111,7 +111,7 @@ export default function BtnInstantTrade({
   return (
     <>
       <div className="relative mobile:hidden">
-        {maskIsOpen && <div className="fixed inset-0 z-30" />}
+        {maskIsOpen && <div className="fixed inset-0 z-50" />}
         <Draggable
           bounds="body"
           cancel="button"
@@ -273,7 +273,7 @@ export default function BtnInstantTrade({
           className,
         )}
         onClick={() => setIsOpen(!isOpen)}
-        size="3xs"
+        size="2xs"
         variant="outline"
       >
         <InstantIcon />

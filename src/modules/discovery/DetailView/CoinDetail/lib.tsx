@@ -1,4 +1,5 @@
 import { useLastPriceStream } from 'api';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import {
   type CoinNetwork,
   useCoinDetails,
@@ -161,7 +162,7 @@ export const UnifiedCoinDetailsProvider: FC<{
   });
   const priceResp = useLastPriceStream({
     slug: slug.slug,
-    quote: 'wrapped-solana',
+    quote: WRAPPED_SOLANA_SLUG,
     convertToUsd: true,
   });
   const data1 = resp1.data;

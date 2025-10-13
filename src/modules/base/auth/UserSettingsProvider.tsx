@@ -2,6 +2,7 @@ import type { TrenchStreamRequest } from 'api/proto/network_radar';
 import { useUserStorage } from 'api/userStorage';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import type { NetworkRadarTab } from 'modules/discovery/ListView/NetworkRadar/lib';
+import type { MetaFilters } from 'modules/discovery/PageMeta';
 import {
   createContext,
   type PropsWithChildren,
@@ -33,6 +34,9 @@ interface UserSettings {
     imported_wallets: ImportedWallet[];
   };
   trench_filters: NetworkRadarStreamFilters;
+  meta: {
+    filters: MetaFilters;
+  };
 }
 
 type NetworkRadarStreamFilters = Record<
@@ -126,19 +130,16 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
   },
   quotes_quick_set: {
     buy: {
-      'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
-      'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
-      tether: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      sol: ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      usd: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell: {
-      'wrapped-solana': ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
-      'usd-coin': ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
-      tether: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
+      sol: ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      usd: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell_percentage: {
-      'wrapped-solana': [...DEFAULT_PERCENTAGE_PRESETS],
-      'usd-coin': [...DEFAULT_PERCENTAGE_PRESETS],
-      tether: [...DEFAULT_PERCENTAGE_PRESETS],
+      sol: [...DEFAULT_PERCENTAGE_PRESETS],
+      usd: [...DEFAULT_PERCENTAGE_PRESETS],
     },
   },
   show_activity_in_usd: false,
@@ -155,6 +156,9 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     final_stretch: {},
     migrated: {},
   },
+  meta: {
+    filters: {},
+  },
 };
 
 const context = createContext<
@@ -165,7 +169,7 @@ const context = createContext<
       ) => Record<TraderPresetMode, TraderPreset>;
       update: (newValue: UserSettings) => void;
       updateQuotesQuickSet: (
-        quote: string,
+        quote: 'usd' | 'sol',
         type: keyof QuotesQuickSet,
         index: number,
         newValue: string,
@@ -191,6 +195,7 @@ const context = createContext<
       deleteAllImportedWallets: () => void;
       updateSelectedLibs: (libs: { key: string }[]) => void;
       updateTrenchFilters: (patch: Partial<NetworkRadarStreamFilters>) => void;
+      updateMetaFilters: (meta: MetaFilters) => void;
     }
   | undefined
 >(undefined);
@@ -236,7 +241,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   };
 
   const updateQuotesQuickSet = (
-    quote: string,
+    quote: 'usd' | 'sol',
     type: keyof QuotesQuickSet,
     index: number,
     newValue: string,
@@ -403,6 +408,20 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const updateMetaFilters = (patch: MetaFilters) => {
+    setSettings(prev => {
+      return {
+        ...prev,
+        meta: {
+          filters: {
+            ...prev.meta.filters,
+            ...patch,
+          },
+        },
+      };
+    });
+  };
+
   return (
     <context.Provider
       value={{
@@ -421,6 +440,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         deleteAllImportedWallets,
         updateSelectedLibs,
         updateTrenchFilters,
+        updateMetaFilters,
       }}
     >
       {children}

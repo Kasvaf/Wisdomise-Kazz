@@ -1,3 +1,4 @@
+import { USDT_SLUG } from 'api/chains/constants';
 import { useActiveWallet } from 'api/chains/wallet';
 import { clsx } from 'clsx';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
@@ -53,7 +54,7 @@ const PositionsExpandable = ({
         <CoinSelect
           className={clsx(!expanded && '!w-full', 'mobile:w-full w-80')}
           emptyOption="All Tradable Coins & Tokens"
-          filterTokens={x => x !== 'tether'}
+          filterTokens={x => x !== USDT_SLUG}
           mini={false}
           onChange={setSlug}
           showPrice

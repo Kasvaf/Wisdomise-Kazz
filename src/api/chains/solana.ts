@@ -19,7 +19,10 @@ import {
 } from '@solana/web3.js';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSolanaConnection } from 'api/chains/connection';
-import { SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
+import {
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from 'api/chains/constants';
 import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
 import { usePendingPositionInCache } from 'api/trader';
@@ -41,9 +44,9 @@ const useContractInfo = ({
   return useQuery({
     queryKey: ['sol-contract-info', slug],
     queryFn: async () => {
-      if (slug === 'wrapped-solana') {
+      if (slug === WRAPPED_SOLANA_SLUG) {
         return {
-          contract: SOLANA_CONTRACT_ADDRESS,
+          contract: WRAPPED_SOLANA_CONTRACT_ADDRESS,
           decimals: 9,
         };
       }
@@ -84,7 +87,10 @@ export const useSolanaTokenBalance = ({
       const publicKey = new PublicKey(queryWalletAddress);
 
       try {
-        if (slug === 'wrapped-solana') {
+        if (
+          slug === WRAPPED_SOLANA_SLUG ||
+          tokenAddress === WRAPPED_SOLANA_CONTRACT_ADDRESS
+        ) {
           return Number(
             fromBigMoney(await connection.getBalance(publicKey), 9),
           );
@@ -179,7 +185,7 @@ export const useSolanaUserRawAssets = (address?: string) => {
           assetBalances.unshift({
             network: 'solana',
             slug: 'solana',
-            address: SOLANA_CONTRACT_ADDRESS,
+            address: WRAPPED_SOLANA_CONTRACT_ADDRESS,
             amount: +fromBigMoney(solBalance, 9),
           });
         }
@@ -227,7 +233,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
     const tokenMint = new PublicKey(contract);
     const transaction = new Transaction();
 
-    if (slug === 'wrapped-solana') {
+    if (slug === WRAPPED_SOLANA_SLUG) {
       // Native SOL transfer
       transaction.add(
         SystemProgram.transfer({

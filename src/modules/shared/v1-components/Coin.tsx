@@ -55,7 +55,6 @@ export const Coin: FC<{
 
   customLabels?: ReactNode;
   extra?: ReactNode;
-  underLogo?: ReactNode;
   size?: 'sm' | 'md' | 'lg';
 }> = ({
   slug,
@@ -79,7 +78,6 @@ export const Coin: FC<{
 
   truncate = true,
   customLabels,
-  underLogo,
   extra,
   size = 'md',
 }) => {
@@ -182,7 +180,7 @@ export const Coin: FC<{
       >
         <div
           className={clsx(
-            'relative shrink-0 overflow-visible rounded-md bg-v1-surface-l0',
+            'relative shrink-0',
             size === 'md' ? 'size-11' : size === 'sm' ? 'size-6' : 'size-20',
           )}
           title={
@@ -196,7 +194,7 @@ export const Coin: FC<{
               : undefined
           }
         >
-          <ImageWithFallback name={abbreviation} src={logo} />
+          <CoinImage name={abbreviation} src={logo} />
           {typeof progress === 'number' && <Progress progress={progress} />}
           {(marker || contractAddress?.network?.logo) && (
             <div
@@ -214,7 +212,6 @@ export const Coin: FC<{
             </div>
           )}
         </div>
-        {underLogo}
       </div>
 
       <div
@@ -360,7 +357,7 @@ const Progress = ({ progress }: { progress: number }) => {
   );
 };
 
-const ImageWithFallback = ({
+export const CoinImage = ({
   src,
   name,
 }: {
@@ -391,7 +388,7 @@ const ImageWithFallback = ({
   }, [src]);
 
   return (
-    <div className="flex h-full items-center justify-center overflow-hidden rounded-md text-3xl text-white/70">
+    <div className="relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-md bg-v1-surface-l0 text-3xl text-white/70">
       {!isLoaded && (
         <span className="absolute">
           {name?.split('').shift()?.toUpperCase()}

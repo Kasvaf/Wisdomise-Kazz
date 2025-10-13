@@ -1,4 +1,5 @@
 import { getPairsCached } from 'api';
+import { USDC_SLUG, USDT_SLUG } from 'api/chains/constants';
 import type { Resolution } from 'api/discovery';
 import { observeGrpc, requestGrpc } from 'api/grpc-v2';
 import type { Candle } from 'api/proto/delphinus';
@@ -51,7 +52,7 @@ const config: DatafeedConfiguration = {
 };
 
 const checkConvertToUsd = (quote: string) => {
-  return quote !== 'tether' && quote !== 'usd-coin'
+  return quote !== USDT_SLUG && quote !== USDC_SLUG
     ? localStorage.getItem('tv-convert-to-usd') === 'true'
     : false;
 };
@@ -93,6 +94,7 @@ const makeDataFeed = ({
   marksRef: MutableRefObject<Mark[]>;
 }): IBasicDataFeed => {
   let lastCandle: ChartCandle | undefined;
+  let lastRes: Resolution | undefined;
 
   return {
     onReady: async callback => {
@@ -174,7 +176,7 @@ const makeDataFeed = ({
             quoteSlug: quote,
             resolution: res,
             endTime: new Date(periodParams.to * 1000).toISOString(),
-            limit: periodParams.countBack,
+            limit: Math.min(periodParams.countBack, 1000),
             skipEmptyCandles: true,
             convertToUsd: checkConvertToUsd(quote),
           },
@@ -188,8 +190,9 @@ const makeDataFeed = ({
           );
         }
 
-        if (!lastCandle && periodParams.firstDataRequest) {
-          lastCandle = chartCandles.at(-2); // select one before the last candle
+        if (periodParams.firstDataRequest || lastRes !== res) {
+          lastCandle = chartCandles.at(res === '1s' ? -2 : -1);
+          lastRes = res;
         }
 
         onResult(chartCandles, {
@@ -220,11 +223,15 @@ const makeDataFeed = ({
               chartCandle = convertToMarketCapCandle(chartCandle, totalSupply);
             }
 
+            // For solving detached candles problem
             if (lastCandle && isProduction) {
-              chartCandle.open = lastCandle.close;
+              if (chartCandle.time === lastCandle.time) {
+                chartCandle.open = lastCandle.open;
+              } else {
+                chartCandle.open = lastCandle.close;
+              }
+              lastCandle = chartCandle;
             }
-            lastCandle = chartCandle;
-
             onTick(chartCandle);
           },
         },

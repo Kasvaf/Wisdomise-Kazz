@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { OpenOrderResponse, Signal, SignalItem } from 'api/builder';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import type { WhaleCoin, WhaleCoinsFilter } from 'api/discovery';
 import { ofetch } from 'config/ofetch';
 import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
@@ -75,7 +76,7 @@ interface TraderAssetActivity {
 
 export const useTokenActivityQuery = (slug?: string) => {
   const email = useJwtEmail();
-  slug = slug === 'solana' ? 'wrapped-solana' : slug;
+  slug = slug === 'solana' ? WRAPPED_SOLANA_SLUG : slug;
 
   return useQuery({
     queryKey: ['trader-asset', slug, email],
@@ -119,7 +120,7 @@ export const useTokenPairsQuery = (
   baseSlug?: string,
   config?: { enabled: boolean },
 ) => {
-  baseSlug = baseSlug === 'solana' ? 'wrapped-solana' : baseSlug;
+  baseSlug = baseSlug === 'solana' ? WRAPPED_SOLANA_SLUG : baseSlug;
   return useQuery({
     queryKey: ['supported-pairs', baseSlug],
     queryFn: async () => {
@@ -638,7 +639,7 @@ export interface Swap {
   fail_reason: string;
 }
 
-export type SwapStatus = 'PENDING' | 'CONFIRMED';
+export type SwapStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'FAILED';
 
 export function useTraderSwapsQuery({
   address,
