@@ -38,7 +38,7 @@ export const useEnrichedSwaps = ({
     history: 0,
   });
 
-  const { history: streamHistory, isLoading: l2 } = useGrpc({
+  const { history: streamHistory } = useGrpc({
     service: 'delphinus',
     method: 'swapsStream',
     payload: {
@@ -51,7 +51,7 @@ export const useEnrichedSwaps = ({
     history: Number.POSITIVE_INFINITY,
   });
 
-  const { data: trackerHistory, isLoading: l3 } = useTrackerHistoryQuery({
+  const { data: trackerHistory, isLoading: l2 } = useTrackerHistoryQuery({
     enabled: !!wallets,
   });
 
@@ -93,6 +93,6 @@ export const useEnrichedSwaps = ({
 
   return {
     data,
-    isLoading: l1 || l2 || l3,
+    isLoading: l1 || l2,
   };
 };
