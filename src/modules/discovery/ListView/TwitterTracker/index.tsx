@@ -1,4 +1,5 @@
-import type { ComponentProps, FC } from 'react';
+import { useTwitterFollowedAccounts } from 'api/discovery';
+import { type ComponentProps, type FC, useEffect } from 'react';
 import { usePageState } from 'shared/usePageState';
 import { TwitterTrackerEdit } from './TwitterTrackerEdit';
 import { TwitterTrackerTabSelect } from './TwitterTrackerTabSelect';
@@ -8,11 +9,20 @@ export const TwitterTracker: FC<{
   focus?: boolean;
   expanded?: boolean;
 }> = ({ expanded }) => {
+  const followings = useTwitterFollowedAccounts();
+
   const [pageState, setPageState] = usePageState<{
     tab: NonNullable<ComponentProps<typeof TwitterTrackerTabSelect>['value']>;
   }>('twitter-tracker', {
     tab: 'view',
   });
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (!followings.isLoading && followings.value.length === 0) {
+      setPageState({ tab: 'edit' });
+    }
+  }, [followings]);
 
   return (
     <>
