@@ -1,5 +1,6 @@
 import { Collapse, notification } from 'antd';
 import type { LibraryWallet } from 'api/library';
+import { useTrackerUnsubscribeMutation } from 'api/tracker';
 import { bxCopy, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
@@ -15,7 +16,7 @@ export default function WalletsManager({ className }: { className?: string }) {
   const { settings } = useUserSettings();
 
   return (
-    <div className={clsx('px-3', className)}>
+    <div className={clsx('px-3 pb-3', className)}>
       <h2 className="my-3 text-xs">Wallet Manager</h2>
       <Collapse
         defaultActiveKey="manual"
@@ -50,7 +51,24 @@ function WalletGroup({
   hasActions?: boolean;
 }) {
   const { deleteImportedWallet, deleteAllImportedWallets } = useUserSettings();
+  const { mutate } = useTrackerUnsubscribeMutation();
   const [copy, notif] = useShare('copy');
+
+  const deleteWallet = (address: string) => {
+    deleteImportedWallet(address);
+    mutate({ addresses: [address] });
+    notification.success({
+      message: 'Wallet Removed Successfully',
+    });
+  };
+
+  const deleteAllWallets = () => {
+    deleteAllImportedWallets();
+    mutate({ addresses: wallets.map(w => w.address) });
+    notification.success({
+      message: 'All Wallets Removed Successfully',
+    });
+  };
 
   return (
     <div className="-mb-2">
@@ -83,12 +101,7 @@ function WalletGroup({
               <div className="flex w-full justify-end">
                 <Button
                   className="!text-v1-content-negative"
-                  onClick={() => {
-                    deleteAllImportedWallets();
-                    notification.success({
-                      message: 'All Wallets Removed Successfully',
-                    });
-                  }}
+                  onClick={deleteAllWallets}
                   size="3xs"
                   surface={2}
                   variant="ghost"
@@ -103,12 +116,7 @@ function WalletGroup({
                   <Button
                     className="text-white/70"
                     fab
-                    onClick={() => {
-                      deleteImportedWallet(row.address);
-                      notification.success({
-                        message: 'Wallet Removed Successfully',
-                      });
-                    }}
+                    onClick={() => deleteWallet(row.address)}
                     size="xs"
                     surface={2}
                     variant="ghost"

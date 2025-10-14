@@ -7,6 +7,8 @@ export const useSyncWalletSubscription = () => {
   const { mutate } = useTrackerSubscribeMutation();
 
   useEffect(() => {
-    mutate({ addresses: trackedWallets.map(w => w.address) });
+    if (trackedWallets.length) {
+      mutate({ addresses: trackedWallets.map(w => w.address) });
+    }
   }, [trackedWallets, mutate]);
 };

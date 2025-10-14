@@ -58,7 +58,7 @@ export default function WalletsSwaps() {
             key: 'token',
             render: row => (
               <button
-                className="cursor-pointer hover:underline"
+                className="mt-1 cursor-pointer hover:underline"
                 onClick={() => navigate(`/token/solana/${row.asset}`)}
               >
                 {row.assetDetail?.name ? (

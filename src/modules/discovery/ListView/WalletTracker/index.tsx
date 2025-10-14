@@ -25,7 +25,14 @@ export const WalletTracker: FC<{
       </Button>
       <AddWalletDialog onClose={() => setOpen(false)} open={open} />
       <hr className="my-3 border-white/10" />
-      <ResizableSides direction="row">
+      <ResizableSides
+        className={[
+          'h-full max-h-[calc(var(--desktop-content-height)-120px)]',
+          '',
+        ]}
+        direction="row"
+        rootClassName="h-[calc(var(--desktop-content-height))]"
+      >
         <WalletsSwaps />
         <WalletsManager />
       </ResizableSides>
