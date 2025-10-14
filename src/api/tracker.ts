@@ -25,7 +25,13 @@ interface AssetDetails {
   total_supply: string;
 }
 
-export const useTrackerHistoryQuery = ({ page = 1 }: { page?: number }) => {
+export const useTrackerHistoryQuery = ({
+  page = 1,
+  enabled = true,
+}: {
+  page?: number;
+  enabled?: boolean;
+}) => {
   return useQuery({
     queryKey: ['tracker-history', page],
     queryFn: async () => {
@@ -33,6 +39,7 @@ export const useTrackerHistoryQuery = ({ page = 1 }: { page?: number }) => {
         query: { page },
       });
     },
+    enabled,
   });
 };
 

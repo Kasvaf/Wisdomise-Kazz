@@ -83,6 +83,7 @@ export function useGrpc<
   payload: P;
   history?: number;
   enabled?: boolean;
+  debug?: boolean;
 }): GrpcState<R> {
   const key = generateKey(request);
 

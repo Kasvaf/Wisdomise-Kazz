@@ -136,7 +136,7 @@ export const CoinDetailsTabs = () => {
               <div
                 className={clsx(
                   'sticky top-0 z-10 w-full',
-                  !pinnedTab && 'pe-96',
+                  !pinnedTab && 'pe-48',
                 )}
               >
                 <ButtonSelect

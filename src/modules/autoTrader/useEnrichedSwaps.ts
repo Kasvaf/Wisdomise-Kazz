@@ -51,7 +51,9 @@ export const useEnrichedSwaps = ({
     history: Number.POSITIVE_INFINITY,
   });
 
-  const { data: trackerHistory, isLoading: l3 } = useTrackerHistoryQuery({});
+  const { data: trackerHistory, isLoading: l3 } = useTrackerHistoryQuery({
+    enabled: !!wallets,
+  });
 
   const data = useMemo(() => {
     const swaps = uniqueBy(
