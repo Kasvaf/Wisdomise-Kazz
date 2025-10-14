@@ -1,3 +1,4 @@
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { clsx } from 'clsx';
 import useSensibleSteps from 'modules/base/wallet/useSensibleSteps';
 import { Button } from 'shared/v1-components/Button';
@@ -19,7 +20,7 @@ export default function SensibleSteps({
   const noMax =
     token === 'the-open-network' ||
     token === 'solana' ||
-    token === 'wrapped-solana';
+    token === WRAPPED_SOLANA_SLUG;
   const steps = useSensibleSteps(balance, noMax);
 
   return (

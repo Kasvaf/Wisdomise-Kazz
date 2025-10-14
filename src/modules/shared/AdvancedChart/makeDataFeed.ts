@@ -1,7 +1,11 @@
 import { getPairsCached } from 'api';
-import { observeGrpc } from 'api/grpc-v2';
+import { USDC_SLUG, USDT_SLUG } from 'api/chains/constants';
+import type { Resolution } from 'api/discovery';
+import { observeGrpc, requestGrpc } from 'api/grpc-v2';
+import type { Candle } from 'api/proto/delphinus';
 import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
+import { isProduction } from 'utils/version';
 import type {
   GetMarksCallback,
   Mark,
@@ -12,10 +16,15 @@ import type {
   LibrarySymbolInfo,
   ResolutionString,
 } from './charting_library/charting_library';
-import getCandlesCached, {
-  type ChartCandle,
-  type Resolution,
-} from './getCandlesCached';
+
+interface ChartCandle {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  time: number;
+}
 
 const resolutionToSeconds: Record<Resolution, number> = {
   '1s': 1,
@@ -38,33 +47,35 @@ const minutesToResolution: Record<string, Resolution> = Object.fromEntries(
 );
 
 const config: DatafeedConfiguration = {
-  // Represents the resolutions for bars supported by your datafeed
-  // '5m' | '15m' | '30m' | '1h'
   supported_resolutions: Object.keys(minutesToResolution) as ResolutionString[],
-  // The `exchanges` arguments are used for the `searchSymbols` method if a user selects the exchange
-  exchanges: [{ value: 'Binance', name: 'Binance', desc: 'Binance' }],
-  // The `symbols_types` arguments are used for the `searchSymbols` method if a user selects this symbol type
-  symbols_types: [{ name: 'crypto', value: 'crypto' }],
   supports_marks: true,
 };
 
 const checkConvertToUsd = (quote: string) => {
-  return quote !== 'tether' && quote !== 'usd-coin'
+  return quote !== USDT_SLUG && quote !== USDC_SLUG
     ? localStorage.getItem('tv-convert-to-usd') === 'true'
     : false;
 };
 
-const convertToMarketCapCandles = (
-  candles: ChartCandle[],
-  totalSupply: number,
-) => {
-  return candles.map(candle => ({
+const convertToChartCandle = (candle: Candle): ChartCandle => {
+  return {
+    open: +candle.open,
+    high: +candle.high,
+    low: +candle.low,
+    close: +candle.close,
+    volume: +candle.volume,
+    time: +new Date(candle.relatedAt),
+  };
+};
+
+const convertToMarketCapCandle = (candle: ChartCandle, totalSupply: number) => {
+  return {
     ...candle,
     open: candle.open * totalSupply,
     high: candle.high * totalSupply,
     low: candle.low * totalSupply,
     close: candle.close * totalSupply,
-  }));
+  };
 };
 
 const makeDataFeed = ({
@@ -82,7 +93,9 @@ const makeDataFeed = ({
   isMarketCap: boolean;
   marksRef: MutableRefObject<Mark[]>;
 }): IBasicDataFeed => {
-  let lastCandleClose: number | undefined;
+  let lastCandle: ChartCandle | undefined;
+  let lastRes: Resolution | undefined;
+
   return {
     onReady: async callback => {
       await getPairsCached(baseSlug);
@@ -153,40 +166,43 @@ const makeDataFeed = ({
       if (!res) return onError('Unsupported');
 
       try {
-        let candles = await getCandlesCached({
-          market: 'SPOT',
-          network,
-          baseSlug,
-          quoteSlug: quote,
-          resolution: res,
-          endTime: new Date(periodParams.to * 1000).toISOString(),
-          limit: periodParams.countBack,
-          skipEmptyCandles: true,
-          convertToUsd: checkConvertToUsd(quote),
+        const resp = await requestGrpc({
+          service: 'delphinus',
+          method: 'getCandles',
+          payload: {
+            market: 'SPOT',
+            network,
+            baseSlug,
+            quoteSlug: quote,
+            resolution: res,
+            endTime: new Date(periodParams.to * 1000).toISOString(),
+            limit: Math.min(periodParams.countBack, 1000),
+            skipEmptyCandles: true,
+            convertToUsd: checkConvertToUsd(quote),
+          },
         });
+        const candles = resp.candles;
 
+        let chartCandles = candles.map(c => convertToChartCandle(c));
         if (isMarketCap) {
-          candles = convertToMarketCapCandles(candles, totalSupply);
+          chartCandles = chartCandles.map(c =>
+            convertToMarketCapCandle(c, totalSupply),
+          );
         }
 
-        lastCandleClose ||= candles?.at(-1)?.close;
+        if (periodParams.firstDataRequest || lastRes !== res) {
+          lastCandle = chartCandles.at(res === '1s' ? -2 : -1);
+          lastRes = res;
+        }
 
-        onResult(candles, {
-          noData: candles.length < periodParams.countBack,
+        onResult(chartCandles, {
+          noData: chartCandles.length < periodParams.countBack,
         });
       } catch (error: any) {
         onError(error.message);
       }
     },
-    subscribeBars: (_symbolInfo, resolution, onTick, listenerGuid) => {
-      let lastBar: any = null; // last bar sent to TradingView
-      let currentBucketStart: number | null = null; // start of current candle bucket
-
-      // how many seconds each bar represents
-      const dur = resolution.endsWith('S')
-        ? Number.parseInt(resolution, 10) // e.g. "1S", "5S"
-        : Number.parseInt(resolution, 10) * 60; // e.g. "1", "5" minutes
-
+    subscribeBars: (_symbolInfo, _resolution, onTick, listenerGuid) => {
       const unsubscribe = observeGrpc(
         {
           service: 'delphinus',
@@ -202,52 +218,21 @@ const makeDataFeed = ({
         {
           next: ({ candle }) => {
             if (!candle) return;
-            const ts = Math.floor(+new Date(candle.relatedAt) / 1000); // seconds
-            const bucketStart = ts - (ts % dur); // normalize to resolution bucket
-
-            const close = +candle.close * (isMarketCap ? totalSupply : 1);
-
-            let bar: any;
-            if (bucketStart !== currentBucketStart) {
-              // new candle interval → start fresh
-              const open = lastBar?.close
-                ? lastBar.close
-                : lastCandleClose
-                  ? lastCandleClose
-                  : +candle.open * (isMarketCap ? totalSupply : 1);
-
-              bar = {
-                time: bucketStart * 1000,
-                open,
-                high: close,
-                low: close,
-                close,
-                volume: +candle.volume,
-              };
-
-              currentBucketStart = bucketStart;
-            } else {
-              // update existing bar → preserve open
-              bar = {
-                ...lastBar,
-                high: Math.max(
-                  lastBar.high,
-                  +candle.high * (isMarketCap ? totalSupply : 1),
-                ),
-                low: Math.min(
-                  lastBar.low,
-                  +candle.low * (isMarketCap ? totalSupply : 1),
-                ),
-                close,
-                volume: lastBar.volume + +candle.volume,
-              };
+            let chartCandle = convertToChartCandle(candle);
+            if (isMarketCap) {
+              chartCandle = convertToMarketCapCandle(chartCandle, totalSupply);
             }
 
-            lastBar = bar;
-            onTick(bar);
-          },
-          error: err => {
-            console.error(err);
+            // For solving detached candles problem
+            if (lastCandle && isProduction) {
+              if (chartCandle.time === lastCandle.time) {
+                chartCandle.open = lastCandle.open;
+              } else {
+                chartCandle.open = lastCandle.close;
+              }
+              lastCandle = chartCandle;
+            }
+            onTick(chartCandle);
           },
         },
       );

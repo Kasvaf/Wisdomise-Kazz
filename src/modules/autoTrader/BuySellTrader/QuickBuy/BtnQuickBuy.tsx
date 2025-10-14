@@ -1,6 +1,7 @@
 import { notification } from 'antd';
 import { useTokenPairsQuery } from 'api';
 import { useSwap } from 'api/chains';
+import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import type { CoinNetwork } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -18,7 +19,7 @@ export default function BtnQuickBuy({
   tokenAddress,
   className,
   networks,
-  size = 'xs',
+  size = '2xs',
 }: {
   source: TradeSettingsSource;
   slug: string;
@@ -27,7 +28,7 @@ export default function BtnQuickBuy({
   networks?: CoinNetwork[] | null;
   size?: ButtonSize;
 }) {
-  const quote = 'wrapped-solana';
+  const quote = WRAPPED_SOLANA_SLUG;
 
   const { settings } = useUserSettings();
   const swapAsync = useSwap({ slug, quote, source, tokenAddress });
@@ -55,7 +56,7 @@ export default function BtnQuickBuy({
 
   return isSolana ? (
     <Button
-      className={clsx(className, 'flex items-center')}
+      className={clsx(className, '!px-2 flex items-center')}
       onClick={async e => {
         e.stopPropagation();
         e.preventDefault();

@@ -13,6 +13,8 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
+import Dot from 'shared/v1-components/Dot';
+import { hasAnyValue } from 'utils/object';
 import useIsMobile from 'utils/useIsMobile';
 import type { Surface } from 'utils/useSurface';
 import { ReactComponent as FilterIcon } from './filter.svg';
@@ -46,11 +48,12 @@ export function Filters<T extends object>({
   onChange,
   dialog,
   mini,
-  size: _size,
+  size = 'md',
   className,
   surface = 1,
   onOpen,
   resetValue,
+  isFiltersApplied,
 }: {
   presets?: Array<PresetFilter<T>>;
   sorts?: Array<PresetFilter<T>>;
@@ -67,11 +70,11 @@ export function Filters<T extends object>({
   size?: 'xs' | 'sm' | 'md';
   surface?: Surface;
   onOpen?: () => void;
+  isFiltersApplied?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const isMobile = useIsMobile();
   const isMini = typeof mini === 'boolean' ? mini : isMobile;
-  const size = _size ?? (isMini ? 'sm' : 'md');
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState(value);
 
@@ -121,16 +124,7 @@ export function Filters<T extends object>({
     );
   }, [sortKeys, sorts, value]);
 
-  const isFiltersApplied = useMemo(
-    () =>
-      Object.entries(value ?? {}).some(
-        ([fieldKey, fieldValue]) =>
-          !sortKeys.includes(fieldKey as never) &&
-          !excludeKeys?.includes(fieldKey as never) &&
-          fieldValue !== undefined,
-      ),
-    [excludeKeys, sortKeys, value],
-  );
+  const _isFiltersApplied = useMemo(() => hasAnyValue(value), [value]);
 
   useEffect(() => {
     setLocalValue(value);
@@ -146,7 +140,7 @@ export function Filters<T extends object>({
           {dialog && (
             <Button
               className="shrink-0"
-              fab
+              fab={isMini}
               onClick={() => {
                 onOpen?.();
                 setOpen(true);
@@ -155,7 +149,11 @@ export function Filters<T extends object>({
               surface={isMini ? ((surface + 1) as never) : surface}
               variant="ghost"
             >
+              {(isFiltersApplied !== undefined
+                ? isFiltersApplied
+                : _isFiltersApplied) && <Dot />}
               <FilterIcon className="!size-4" />
+              {!isMini && 'Filters'}
             </Button>
           )}
           {(presets?.length ?? 0) > 0 && (

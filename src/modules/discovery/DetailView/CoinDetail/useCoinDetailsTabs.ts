@@ -32,6 +32,10 @@ export const useCoinDetailsTabs = () => {
       value: 'coinoverview_socials',
       label: t('coin-details.tabs.socials.label'),
     },
+    {
+      value: 'coinoverview_bubble_chart',
+      label: 'Bubble Chart',
+    },
     // {
     //   value: 'coinoverview_exchanges',
     //   label: t('coin-details.tabs.markets.label'),

@@ -1,5 +1,11 @@
 import { notification, Spin } from 'antd';
 import type { SupportedNetworks } from 'api';
+import {
+  USDC_CONTRACT_ADDRESS,
+  USDT_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from 'api/chains/constants';
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import { useActiveNetwork } from 'modules/base/active-network';
 import {
@@ -67,7 +73,7 @@ export const useNativeTokenBalance = (walletAddress?: string) => {
   const network = useActiveNetwork();
   return useTokenBalance({
     slug:
-      network === 'the-open-network' ? 'the-open-network' : 'wrapped-solana',
+      network === 'the-open-network' ? 'the-open-network' : WRAPPED_SOLANA_SLUG,
     walletAddress,
   });
 };
@@ -79,15 +85,15 @@ export const useAllQuotesBalance = () => {
     network,
   });
   const { data: tetherBalance, isLoading: l2 } = useTokenBalance({
-    slug: 'tether',
+    tokenAddress: USDT_CONTRACT_ADDRESS,
     network,
   });
   const { data: usdCoinBalance, isLoading: l3 } = useTokenBalance({
-    slug: 'usd-coin',
+    tokenAddress: USDC_CONTRACT_ADDRESS,
     network,
   });
   const { data: solBalance, isLoading: l4 } = useTokenBalance({
-    slug: 'wrapped-solana',
+    tokenAddress: WRAPPED_SOLANA_CONTRACT_ADDRESS,
     network,
   });
 
@@ -146,7 +152,7 @@ export const useSwap = ({
     const slippage = preset.slippage;
 
     const coverPriorityFee =
-      side === 'LONG' && quote === 'wrapped-solana'
+      side === 'LONG' && quote === WRAPPED_SOLANA_SLUG
         ? +amount + +priorityFee < (quoteBalance ?? 0)
         : +priorityFee < (quoteBalance ?? 0);
 

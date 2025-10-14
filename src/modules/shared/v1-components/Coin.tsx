@@ -4,7 +4,7 @@ import type { Coin as CoinType } from 'api/types/shared';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
-import { type FC, type ReactNode, useMemo } from 'react';
+import { type FC, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CoinLabels, CoinNetworksLabel } from 'shared/CoinLabels';
 import { CoinSocials } from 'shared/CoinSocials';
@@ -12,8 +12,10 @@ import Icon from 'shared/Icon';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
 import { openInNewTab } from 'utils/click';
+import { base64UrlDecode } from 'utils/encode';
 import { formatNumber } from 'utils/numbers';
 import { shortenAddress } from 'utils/shortenAddress';
+import { isProduction } from 'utils/version';
 
 interface ContractAddressRow {
   value?: string;
@@ -53,9 +55,7 @@ export const Coin: FC<{
 
   customLabels?: ReactNode;
   extra?: ReactNode;
-  underLogo?: ReactNode;
   size?: 'sm' | 'md' | 'lg';
-  disableRightClick?: boolean;
 }> = ({
   slug,
   abbreviation,
@@ -78,10 +78,8 @@ export const Coin: FC<{
 
   truncate = true,
   customLabels,
-  underLogo,
   extra,
   size = 'md',
-  disableRightClick,
 }) => {
   const [globalNetwork] = useGlobalNetwork();
   const [copy, copyNotif] = useShare('copy');
@@ -182,7 +180,7 @@ export const Coin: FC<{
       >
         <div
           className={clsx(
-            'relative shrink-0 overflow-visible rounded-md bg-v1-surface-l0',
+            'relative shrink-0',
             size === 'md' ? 'size-11' : size === 'sm' ? 'size-6' : 'size-20',
           )}
           title={
@@ -196,15 +194,7 @@ export const Coin: FC<{
               : undefined
           }
         >
-          {logo && (
-            <img
-              className={clsx(
-                'absolute inset-0 size-full overflow-hidden rounded-md bg-v1-surface-l0 object-cover',
-              )}
-              loading="lazy"
-              src={logo}
-            />
-          )}
+          <CoinImage name={abbreviation} src={logo} />
           {typeof progress === 'number' && <Progress progress={progress} />}
           {(marker || contractAddress?.network?.logo) && (
             <div
@@ -222,7 +212,6 @@ export const Coin: FC<{
             </div>
           )}
         </div>
-        {underLogo}
       </div>
 
       <div
@@ -332,7 +321,7 @@ const Progress = ({ progress }: { progress: number }) => {
         height="38"
         rx="2"
         ry="2"
-        stroke="rgba(0,0,0,0.5)"
+        stroke="rgba(0,0,0,0.3)"
         strokeWidth={2}
         width="38"
         x="1"
@@ -365,5 +354,56 @@ const Progress = ({ progress }: { progress: number }) => {
         y="1"
       />
     </svg>
+  );
+};
+
+export const CoinImage = ({
+  src,
+  name,
+}: {
+  src?: string | null;
+  name?: string | null;
+}) => {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isFallback, setIsFallback] = useState(false);
+  const [fallbackFailed, setFallbackFailed] = useState(false);
+
+  const setFallback = () => {
+    if (isFallback || !src?.includes('cdn-trench') || !isProduction) {
+      setFallbackFailed(true);
+      return;
+    }
+
+    const fallbackSrcBase64 = src?.split('/').pop();
+    if (fallbackSrcBase64) {
+      const fallbackSrc = base64UrlDecode(fallbackSrcBase64);
+      setImgSrc(fallbackSrc);
+      setIsFallback(true);
+    }
+  };
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
+
+  return (
+    <div className="relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-md bg-v1-surface-l0 text-3xl text-white/70">
+      {!isLoaded && (
+        <span className="absolute">
+          {name?.split('').shift()?.toUpperCase()}
+        </span>
+      )}
+      {imgSrc && !fallbackFailed && (
+        <img
+          alt=""
+          className="relative size-full object-cover"
+          loading="lazy"
+          onError={setFallback}
+          onLoad={() => setIsLoaded(true)}
+          src={imgSrc}
+        />
+      )}
+    </div>
   );
 };
