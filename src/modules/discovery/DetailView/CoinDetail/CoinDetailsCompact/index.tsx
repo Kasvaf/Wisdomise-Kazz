@@ -1,5 +1,6 @@
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import type { FC } from 'react';
 import CoinChart from '../CoinChart';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
@@ -14,12 +15,13 @@ import { CoinDetailsTabs } from './CoinDetailsTabs';
 
 export const CoinDetailsCompact: FC = () => {
   const tabs = useCoinDetailsTabs();
+  const { symbol } = useUnifiedCoinDetails();
 
   return (
     <div className="flex flex-col gap-3 p-3">
       <NCoinRisksBanner />
       <CoinTitleWidget className="bg-v1-surface-l-current" hr />
-      <BtnAutoTrade block variant="primary" />
+      <BtnAutoTrade block slug={symbol.slug} variant="primary" />
       <CoinSentimentsWidget />
       <TokenUpdateWidget />
       <NCoinInsightWidget />
@@ -41,7 +43,6 @@ export const CoinDetailsCompact: FC = () => {
           className="h-96 w-full"
           id="coinoverview_bubble_chart"
         />
-        ,
         {/* <CoinExchangesWidget id="coinoverview_exchanges" />
         <CoinWhalesWidget id="coinoverview_active_whales" type="active" />
         <CoinWhalesWidget id="coinoverview_holding_whales" type="holding" /> */}
