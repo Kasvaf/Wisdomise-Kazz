@@ -124,6 +124,11 @@ export function useGrpc<
 
     return () => {
       unsubscribe();
+      setResponse({
+        data: lastObservedData.get(key),
+        history: [],
+        isLoading: true,
+      });
     };
   }, [key, request.enabled]);
 
