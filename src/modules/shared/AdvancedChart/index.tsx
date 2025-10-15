@@ -75,6 +75,7 @@ const AdvancedChart: React.FC<{
     const savedResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
     ) || '30') as ResolutionString;
+    let intervalId: ReturnType<typeof setInterval>;
 
     const widget = new Widget({
       symbol: data.symbolName,
@@ -140,6 +141,19 @@ const AdvancedChart: React.FC<{
 
     widget.onChartReady(async () => {
       await widget.headerReady();
+
+      const autoSave = () => {
+        widget.save(state => {
+          localStorage.setItem('tv-chart-state', JSON.stringify(state));
+        });
+      };
+
+      intervalId = setInterval(autoSave, 5000);
+
+      const saved = localStorage.getItem('tv-chart-state');
+      if (saved) {
+        widget.load(JSON.parse(saved));
+      }
 
       // Create quote selector
       const dropDown = await widget.createDropdown({
@@ -208,6 +222,7 @@ const AdvancedChart: React.FC<{
     return () => {
       setGlobalChartWidget?.(undefined);
       widget.remove();
+      clearInterval(intervalId);
     };
   }, [
     slug,
