@@ -83,13 +83,14 @@ export function useGrpc<
   payload: P;
   history?: number;
   enabled?: boolean;
+  debug?: boolean;
 }): GrpcState<R> {
   const key = generateKey(request);
 
   const [response, setResponse] = useState<GrpcState<R>>({
     data: lastObservedData.get(key),
     history: [],
-    isLoading: !lastObservedData.has(key),
+    isLoading: !!request.enabled && !lastObservedData.has(key),
   });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: its safe to check only key and not the entire object

@@ -1,20 +1,22 @@
-import AddWalletDialog from 'modules/discovery/ListView/WalletTracker/AddWallet';
-import WalletManager from 'modules/discovery/ListView/WalletTracker/WalletManager';
-import WalletsSwaps from 'modules/discovery/ListView/WalletTracker/WalletsSwaps';
+import { useSyncWalletSubscription } from 'modules/discovery/ListView/WalletTracker/useSyncWalletSubscription';
 import { type FC, useState } from 'react';
 import { Button } from 'shared/v1-components/Button';
 import { ResizableSides } from 'shared/v1-components/ResizableSides';
+import AddWalletDialog from './AddWalletDialog';
+import WalletsManager from './WalletsManager';
+import WalletsSwaps from './WalletsSwaps';
 
 export const WalletTracker: FC<{
   focus?: boolean;
   expanded?: boolean;
 }> = () => {
+  useSyncWalletSubscription();
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex h-full flex-col justify-start px-3 pt-3">
+    <div className="flex h-full flex-col justify-start pt-3">
       <Button
-        className="w-max shrink-0"
+        className="ml-3 w-max shrink-0"
         onClick={() => setOpen(true)}
         size="md"
         variant="outline"
@@ -23,10 +25,16 @@ export const WalletTracker: FC<{
       </Button>
       <AddWalletDialog onClose={() => setOpen(false)} open={open} />
       <hr className="my-3 border-white/10" />
-      <p className="mb-3 text-sm">Live Trades</p>
-      <ResizableSides className={['h-96', '']} direction="row">
+      <ResizableSides
+        className={[
+          'h-full max-h-[calc(var(--desktop-content-height)-120px)]',
+          '',
+        ]}
+        direction="row"
+        rootClassName="h-[calc(var(--desktop-content-height))]"
+      >
         <WalletsSwaps />
-        <WalletManager className="mt-auto" />
+        <WalletsManager />
       </ResizableSides>
     </div>
   );

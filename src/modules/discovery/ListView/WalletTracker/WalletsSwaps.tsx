@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { useAssetEnrichedSwaps } from 'modules/autoTrader/AssetSwapsStream';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
+import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
@@ -16,12 +16,10 @@ import { shortenAddress } from 'utils/shortenAddress';
 export default function WalletsSwaps() {
   const network = useActiveNetwork();
   const wallets = useTrackedWallets();
-
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const navigate = useNavigate();
-
-  const { data, isLoading } = useAssetEnrichedSwaps({
+  const { data, isLoading } = useEnrichedSwaps({
     network,
     wallets: wallets.map(w => w.address),
   });
@@ -29,8 +27,10 @@ export default function WalletsSwaps() {
   const { data: pausedData, isPaused } = usePausedData(data, containerRef);
 
   return (
-    <div className="mb-3 grow overflow-auto" ref={containerRef}>
+    <div className="mb-3 grow overflow-auto px-3" ref={containerRef}>
+      <p className="mb-3 text-xs">Live Trades</p>
       <Table
+        chunkSize={5}
         columns={[
           {
             title: '',
@@ -58,17 +58,17 @@ export default function WalletsSwaps() {
             key: 'token',
             render: row => (
               <button
-                className="cursor-pointer hover:underline"
-                onClick={() => navigate(`/token/solana/${row.tokenAddress}`)}
+                className="mt-1 cursor-pointer hover:underline"
+                onClick={() => navigate(`/token/solana/${row.asset}`)}
               >
                 {row.assetDetail?.name ? (
                   <Coin
+                    abbreviation={row.assetDetail.name}
                     logo={row.assetDetail?.image}
-                    name={row.assetDetail?.name}
                     size="sm"
                   />
                 ) : (
-                  shortenAddress(row.tokenAddress)
+                  shortenAddress(row.asset)
                 )}
               </button>
             ),
@@ -102,18 +102,19 @@ export default function WalletsSwaps() {
             ),
           },
           {
-            title: 'Price',
-            key: 'price',
-            render: row => (
-              <ReadableNumber
-                className="text-xs"
-                format={{
-                  decimalLength: 2,
-                }}
-                label="$"
-                value={row.price}
-              />
-            ),
+            title: 'MC',
+            key: 'mc',
+            render: row =>
+              row.assetDetail?.totalSupply && (
+                <ReadableNumber
+                  className="text-xs"
+                  format={{
+                    decimalLength: 2,
+                  }}
+                  label="$"
+                  value={row.price * Number(row.assetDetail.totalSupply)}
+                />
+              ),
           },
         ]}
         dataSource={pausedData}

@@ -153,7 +153,7 @@ export const Coin: FC<{
     <RootComponent
       className={clsx(
         block ? 'flex' : 'inline-flex',
-        'relative items-stretch justify-start gap-2 leading-normal',
+        'relative items-center justify-start gap-2 leading-normal',
         className,
       )}
       onClick={onClick}
@@ -225,7 +225,11 @@ export const Coin: FC<{
             <p
               className={clsx(
                 'font-medium',
-                size === 'md' ? 'text-sm' : 'text-base',
+                size === 'md'
+                  ? 'text-sm'
+                  : size === 'sm'
+                    ? 'text-xs'
+                    : 'text-base',
                 truncate
                   ? [size === 'md' ? 'max-w-32' : 'max-w-20']
                   : 'max-w-36',

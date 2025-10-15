@@ -18,7 +18,7 @@ self.addEventListener('message', e => {
   const key = generateKey(request);
 
   const log = (title: string, body: any) => {
-    if (config.isDebugMode) {
+    if (config.isDebugMode || request.debug) {
       const logPrefix = '[grpc]';
       const logIdentifier = `${request.service}/${request.method.toString()}`;
       console.groupCollapsed(`${logPrefix} [${title}] ${logIdentifier}`);

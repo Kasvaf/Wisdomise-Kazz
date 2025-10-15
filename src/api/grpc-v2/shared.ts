@@ -68,6 +68,7 @@ export type GrpcWorkerRequest = {
   service: string;
   method: string | number | symbol;
   payload?: any;
+  debug?: boolean;
 };
 
 export type GrpcWorkerResponse = {

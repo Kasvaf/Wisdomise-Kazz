@@ -22,7 +22,7 @@ export function useLibrariesQuery() {
   return useQuery({
     queryKey: ['library'],
     queryFn: async () => {
-      return await ofetch<PageResponse<Library>>(`library/`);
+      return await ofetch<PageResponse<Library>>(`tracker/library/`);
     },
     staleTime: 60 * 1000,
   });

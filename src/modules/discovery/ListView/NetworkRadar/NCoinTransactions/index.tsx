@@ -2,10 +2,8 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 
 export default function NCoinTransactions({
-  className,
   value,
 }: {
-  className?: string;
   value?: {
     buys?: number | null;
     sells?: number | null;

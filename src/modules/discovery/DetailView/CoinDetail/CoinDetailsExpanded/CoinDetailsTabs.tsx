@@ -1,7 +1,7 @@
 import { bxPin, bxX } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import AssetSwapsStream from 'modules/autoTrader/AssetSwapsStream';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
+import TokenSwaps from 'modules/autoTrader/TokenSwaps';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
 import { Fragment, useEffect } from 'react';
@@ -42,7 +42,7 @@ export const CoinDetailsTabs = () => {
   >('coin-details-leftside-sizes', '60%');
 
   const tabContents = {
-    coinoverview_swaps: <AssetSwapsStream />,
+    coinoverview_swaps: <TokenSwaps />,
     coinoverview_trading_view: (
       <CoinMessagesWidget
         className="w-full"
@@ -136,7 +136,7 @@ export const CoinDetailsTabs = () => {
               <div
                 className={clsx(
                   'sticky top-0 z-10 w-full',
-                  !pinnedTab && 'pe-96',
+                  !pinnedTab && 'pe-48',
                 )}
               >
                 <ButtonSelect
