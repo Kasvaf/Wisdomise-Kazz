@@ -34,7 +34,7 @@ const defaultValue = {
 };
 
 export default function PageMeta() {
-  const [sortByActivate, setSortByActivate] = useState(false);
+  const [sortBy, setSortBy] = useState<'created' | 'active' | 'mc'>('mc');
   const [skipSimilar, setSkipSimilar] = useState(false);
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 300);
@@ -57,7 +57,8 @@ export default function PageMeta() {
   const filters = settings.meta.filters;
   const { data, isPending, fetchNextPage, isFetchingNextPage } =
     useMetaListQuery({
-      recentlyActive: sortByActivate,
+      recentlyActive: sortBy === 'active',
+      recentlyCreated: sortBy === 'created',
       minTotalVolume: filters?.minTotalVolume,
       maxTotalVolume: filters?.maxTotalVolume,
       minTotalMarketCap: filters?.minTotalMarketCap,
@@ -79,14 +80,15 @@ export default function PageMeta() {
         <span className="shrink-0 text-white/50 text-xs">Sorted By</span>
         <ButtonSelect
           className="shrink-0"
-          onChange={setSortByActivate}
+          onChange={setSortBy}
           options={[
-            { value: false, label: 'Recently Created' },
-            { value: true, label: 'Recently Active' },
+            { value: 'mc', label: 'Higher MarketCap' },
+            { value: 'created', label: 'Recently Created' },
+            { value: 'active', label: 'Recently Active' },
           ]}
           size="sm"
           surface={1}
-          value={sortByActivate}
+          value={sortBy}
           variant="primary"
         />
         <Filters

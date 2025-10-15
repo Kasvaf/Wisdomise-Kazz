@@ -111,7 +111,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
                     ))
               }
               size="xs"
-              surface={2}
+              surface={1}
               variant="ghost"
             >
               <Icon
@@ -177,7 +177,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
             fab
             onClick={() => !followings.isLoading && followings.unFollow(row)}
             size="xs"
-            surface={2}
+            surface={1}
             variant="ghost"
           >
             <Icon className="opacity-60" name={bxTrash} />
@@ -207,7 +207,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
             loading={suggestions.isLoading}
             rowKey={r => r.user_id}
             scrollable={false}
-            surface={2}
+            surface={1}
           />
         )}
         {tab === 'followings' &&
@@ -228,7 +228,7 @@ export const TwitterTrackerEdit: FC<{ className?: string }> = ({
               loading={followings.value.length === 0 && followings.isLoading}
               rowKey={r => r.user_id}
               scrollable={false}
-              surface={2}
+              surface={1}
             />
           ))}
       </div>
