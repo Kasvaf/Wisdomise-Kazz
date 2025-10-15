@@ -39,6 +39,7 @@ export interface MetaToken {
 
 export function useMetaListQuery({
   recentlyActive,
+  recentlyCreated,
   maxTotalVolume,
   minTotalVolume,
   minTotalMarketCap,
@@ -47,6 +48,7 @@ export function useMetaListQuery({
   query,
 }: {
   recentlyActive?: boolean;
+  recentlyCreated?: boolean;
   minTotalVolume?: number;
   maxTotalVolume?: number;
   minTotalMarketCap?: number;
@@ -58,6 +60,7 @@ export function useMetaListQuery({
     queryKey: [
       'meta-list',
       recentlyActive,
+      recentlyCreated,
       minTotalVolume,
       maxTotalVolume,
       minTotalMarketCap,
@@ -70,6 +73,7 @@ export function useMetaListQuery({
         query: {
           page: pageParam,
           recently_active: recentlyActive,
+          recently_created: recentlyCreated,
           min_total_volume: minTotalVolume,
           max_total_volume: maxTotalVolume,
           min_total_market_cap: minTotalMarketCap,
