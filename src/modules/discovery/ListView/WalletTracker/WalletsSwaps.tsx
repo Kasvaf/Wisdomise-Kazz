@@ -5,7 +5,6 @@ import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -16,7 +15,6 @@ import { shortenAddress } from 'utils/shortenAddress';
 export default function WalletsSwaps() {
   const network = useActiveNetwork();
   const wallets = useTrackedWallets();
-  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { data, isLoading } = useEnrichedSwaps({
@@ -56,22 +54,17 @@ export default function WalletsSwaps() {
           {
             title: 'Token',
             key: 'token',
-            render: row => (
-              <button
-                className="mt-1 cursor-pointer hover:underline"
-                onClick={() => navigate(`/token/solana/${row.asset}`)}
-              >
-                {row.assetDetail?.name ? (
-                  <Coin
-                    abbreviation={row.assetDetail.name}
-                    logo={row.assetDetail?.image}
-                    size="sm"
-                  />
-                ) : (
-                  shortenAddress(row.asset)
-                )}
-              </button>
-            ),
+            render: row =>
+              row.assetDetail?.name ? (
+                <Coin
+                  abbreviation={row.assetDetail.name}
+                  href={`/token/solana/${row.asset}`}
+                  logo={row.assetDetail?.image}
+                  size="sm"
+                />
+              ) : (
+                shortenAddress(row.asset)
+              ),
           },
           {
             title: 'Amount',

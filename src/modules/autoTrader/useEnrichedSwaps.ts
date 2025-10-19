@@ -64,6 +64,7 @@ export const useEnrichedSwaps = ({
       ]
         .filter(s => !!s)
         .map(s => ('relatedAt' in s ? s : toCamelCaseObject<Swap>(s)))
+        .filter(s => !SwapAssetsAreBothQuotes(s))
         .sort((a, b) => +new Date(b.relatedAt) - +new Date(a.relatedAt)),
       x => x.id,
     );
@@ -95,4 +96,11 @@ export const useEnrichedSwaps = ({
     data,
     isLoading: l1 || l2,
   };
+};
+
+const SwapAssetsAreBothQuotes = (s: Swap) => {
+  return (
+    QUOTES_ADDRESSES.includes(s.toAsset) &&
+    QUOTES_ADDRESSES.includes(s.fromAsset)
+  );
 };

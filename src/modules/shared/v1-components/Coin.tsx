@@ -194,7 +194,7 @@ export const Coin: FC<{
               : undefined
           }
         >
-          <CoinImage name={abbreviation} src={logo} />
+          <CoinImage name={abbreviation} size={size} src={logo} />
           {typeof progress === 'number' && <Progress progress={progress} />}
           {(marker || contractAddress?.network?.logo) && (
             <div
@@ -364,9 +364,11 @@ const Progress = ({ progress }: { progress: number }) => {
 export const CoinImage = ({
   src,
   name,
+  size,
 }: {
   src?: string | null;
   name?: string | null;
+  size?: 'sm' | 'md' | 'lg';
 }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -392,7 +394,12 @@ export const CoinImage = ({
   }, [src]);
 
   return (
-    <div className="relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-md bg-v1-surface-l0 text-3xl text-white/70">
+    <div
+      className={clsx(
+        'relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-md bg-v1-surface-l0 text-3xl text-white/70',
+        size === 'sm' && '!text-base',
+      )}
+    >
       {!isLoaded && (
         <span className="absolute">
           {name?.split('').shift()?.toUpperCase()}
