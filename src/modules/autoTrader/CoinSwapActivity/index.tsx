@@ -1,15 +1,63 @@
-import { useHasFlag, useTokenActivityQuery, useTokenPairsQuery } from 'api';
+import {
+  useAccountQuery,
+  useHasFlag,
+  useLastCandleStream,
+  useTokenActivityQuery,
+  useTokenPairsQuery,
+} from 'api';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { useGrpc } from 'api/grpc-v2';
+import { type TradeActivity, WatchEventType } from 'api/proto/wealth_manager';
 import { useSolanaSymbol } from 'api/symbol';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import { useMemo } from 'react';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
 import { formatNumber } from 'utils/numbers';
+import { toCamelCaseObject } from 'utils/object';
 import { ReactComponent as UsdIcon } from './usd.svg';
+
+export const useSwapUpdateStream = ({ slug }: { slug?: string }) => {
+  const { data: account } = useAccountQuery();
+  return useGrpc({
+    service: 'wealth_manager',
+    method: 'watch',
+    payload: {
+      username: account?.username,
+      symbolSlug: slug,
+    },
+    history: 0,
+    filter: r => r.type === WatchEventType.SWAP_UPDATE,
+  });
+};
+
+export const useTokenActivity = ({ slug }: { slug?: string }) => {
+  const { data: history } = useTokenActivityQuery(slug);
+
+  const { data: account } = useAccountQuery();
+  const { data: stream } = useGrpc({
+    service: 'wealth_manager',
+    method: 'watch',
+    payload: {
+      username: account?.username,
+      symbolSlug: slug,
+    },
+    history: 0,
+    filter: r => r.type === WatchEventType.TRADE_ACTIVITY_UPDATE,
+  });
+
+  return useMemo(() => {
+    console.log(history, stream);
+    return {
+      data:
+        stream?.activityPayload ??
+        toCamelCaseObject<TradeActivity | undefined>(history),
+    };
+  }, [history, stream]);
+};
 
 export const BtnConvertToUsd = ({
   isUsd = true,
@@ -57,7 +105,7 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
   const slug = symbol.slug;
-  const { data } = useTokenActivityQuery(symbol.slug);
+  const { data } = useTokenActivity({ slug });
   const hasFlag = useHasFlag();
 
   const network = useActiveNetwork();
@@ -67,27 +115,21 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     !isPending && pairs?.some(p => p.quote.slug === WRAPPED_SOLANA_SLUG);
   const showUsd = hasSolanaPair ? settings.show_activity_in_usd : true;
 
-  const lastCandle = useGrpc({
-    service: 'delphinus',
-    method: 'lastCandleStream',
-    payload: {
-      market: 'SPOT',
-      network,
-      baseSlug: symbol.slug ?? '',
-      quoteSlug: WRAPPED_SOLANA_SLUG,
-      convertToUsd: showUsd,
-    },
-    enabled: true,
-    history: 0,
+  const lastCandle = useLastCandleStream({
+    market: 'SPOT',
+    network,
+    slug: symbol.slug ?? '',
+    quote: WRAPPED_SOLANA_SLUG,
+    convertToUsd: showUsd,
   });
 
   const unit = showUsd ? '$' : <SolanaCoin />;
 
   const totalBought = Number(
-    (showUsd ? data?.total_bought_usd : data?.total_bought) ?? '0',
+    (showUsd ? data?.totalBoughtUsd : data?.totalBought) ?? '0',
   );
   const totalSold = Number(
-    (showUsd ? data?.total_sold_usd : data?.total_sold) ?? '0',
+    (showUsd ? data?.totalSoldUsd : data?.totalSold) ?? '0',
   );
   const hold =
     Number(data?.balance ?? '0') *
