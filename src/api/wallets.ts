@@ -106,28 +106,30 @@ export interface TokenRecord {
   pnl: number;
 }
 
-export const useWalletStatus = ({
+export const useWalletStatusQuery = ({
   network = 'solana',
   address,
-  window,
-  resolution = '1h',
+  resolution,
 }: {
   network?: 'solana';
-  address: string;
-  window: number;
-  resolution?: '1h';
+  address?: string;
+  resolution: '1d' | '7d' | '30d';
 }) => {
   const isLoggedIn = useIsLoggedIn();
   return useQuery({
-    queryKey: ['wallet-status', network, address, window, resolution],
+    queryKey: ['wallet-status', network, address, resolution],
     queryFn: async () => {
       return await ofetch<WalletStatusResponse>(
         'network-radar/wallet-status/',
         {
-          query: { network, wallet_address: address, window, resolution },
+          query: {
+            network,
+            wallet_address: address,
+            resolution,
+          },
         },
       );
     },
-    enabled: isLoggedIn,
+    enabled: isLoggedIn && !!address,
   });
 };

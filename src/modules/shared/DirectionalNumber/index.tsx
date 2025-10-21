@@ -53,10 +53,10 @@ export function DirectionalNumber({
 }) {
   const direction = useMemo(() => {
     if (!directionType || directionType === 'auto') {
-      if (typeof value !== 'number' || value === 0) {
+      if (typeof value !== 'number') {
         return 'neutral';
       }
-      return value > 0 ? 'up' : 'down';
+      return value >= 0 ? 'up' : 'down';
     }
     return directionType;
   }, [value, directionType]);
