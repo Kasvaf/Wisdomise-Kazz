@@ -6,6 +6,7 @@ import {
   WRAPPED_SOLANA_CONTRACT_ADDRESS,
   WRAPPED_SOLANA_SLUG,
 } from 'api/chains/constants';
+import { useConfirmTransaction } from 'modules/autoTrader/BuySellTrader/useConfirmTransaction';
 import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
 import { useActiveNetwork } from 'modules/base/active-network';
 import {
@@ -122,6 +123,8 @@ export const useTransferAssetsMutation = (quote?: string) => {
   };
 };
 
+export const swapsNotifications = new Map<string, number>();
+
 export const useSwap = ({
   slug,
   tokenAddress,
@@ -142,9 +145,9 @@ export const useSwap = ({
   });
   const { getActivePreset } = useUserSettings();
   const { data: quoteBalance } = useTokenBalance({ slug: quote });
+  const { confirm } = useConfirmTransaction({ slug });
 
   const attemptSolanaSwap = async (side: 'LONG' | 'SHORT', amount: string) => {
-    const notificationKey = Date.now();
     const balance = baseBalance ?? (await refetch())?.data;
 
     const preset = getActivePreset(source)[side === 'LONG' ? 'buy' : 'sell'];
@@ -182,13 +185,15 @@ export const useSwap = ({
       throw new Error('slug or quote not found');
     }
 
+    const notificationKey = Date.now();
     try {
       notification.open({
         key: notificationKey,
         message: <NotificationContent />,
         duration: 30_000,
       });
-      const confirmed = await solanaSwap(
+      console.log('attempt', new Date().toISOString());
+      const { swapKey, signature, latestBlockhash } = await solanaSwap(
         slug,
         quote,
         side,
@@ -196,13 +201,9 @@ export const useSwap = ({
         slippage,
         priorityFee,
       );
-
-      if (confirmed) {
-        notification.success({
-          key: notificationKey,
-          message: 'Transaction confirmed!',
-        });
-      }
+      console.log('swap created', new Date().toISOString());
+      swapsNotifications.set(swapKey, notificationKey);
+      await confirm({ signature, latestBlockhash, swapKey });
     } catch (error) {
       notification.error({
         key: notificationKey,

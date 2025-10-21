@@ -85,7 +85,7 @@ export function useGrpc<
   history?: number;
   enabled?: boolean;
   debug?: boolean;
-  filter?: (data: R) => boolean;
+  filter?: (data: R | undefined) => boolean;
 }): GrpcState<R> {
   const key = generateKey(request);
 
@@ -116,22 +116,20 @@ export function useGrpc<
 
     const unsubscribe = subscribeWorker(worker, workerReq, resp => {
       lastObservedData.set(resp.key, resp.data);
-      if (!request.filter || request.filter(resp.data)) {
-        setResponse(p => {
-          lastObservedData.set(resp.key, resp.data);
-          const newHistory = resp.data ? [...p.history, resp.data] : p.history;
-          const historySize = request.history ?? 0;
-          return {
-            data: resp.data ?? p.data,
-            error: resp.error,
-            isLoading: false,
-            history:
-              newHistory.length < historySize
-                ? newHistory
-                : newHistory.slice(newHistory.length - historySize),
-          };
-        });
-      }
+      setResponse(p => {
+        lastObservedData.set(resp.key, resp.data);
+        const newHistory = resp.data ? [...p.history, resp.data] : p.history;
+        const historySize = request.history ?? 0;
+        return {
+          data: resp.data ?? p.data,
+          error: resp.error,
+          isLoading: false,
+          history:
+            newHistory.length < historySize
+              ? newHistory
+              : newHistory.slice(newHistory.length - historySize),
+        };
+      });
     });
 
     return () => {
@@ -144,5 +142,11 @@ export function useGrpc<
     };
   }, [key, request.enabled]);
 
-  return response;
+  return request.filter
+    ? {
+        ...response,
+        data: response.history.findLast(h => request.filter?.(h)),
+        history: response.history.filter(request.filter),
+      }
+    : response;
 }
