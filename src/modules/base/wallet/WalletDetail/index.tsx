@@ -1,10 +1,12 @@
 import { Tabs } from 'antd';
+import { useHasFlag } from 'api';
 import {
   useUpdateWalletMutation,
   useWalletQuery,
   type Wallet,
 } from 'api/wallets';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
+import clsx from 'clsx';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
@@ -38,6 +40,7 @@ export default function WalletDetail(_: {
   const [resolution, setResolution] = useState<'1d' | '7d' | '30d'>('1d');
   const { realizedPnl, realizedPnlPercentage, numBuys, numSells, winRate } =
     useWalletStatus({ resolution, address: wallet?.address });
+  const hasFlag = useHasFlag();
 
   return wallet ? (
     <div className="p-3">
@@ -67,7 +70,12 @@ export default function WalletDetail(_: {
         {shortenAddress(wallet.address)}
       </p>
       <div className="my-4 grid grid-cols-5 gap-3">
-        <div className="col-span-3 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4">
+        <div
+          className={clsx(
+            hasFlag('/wallet/status') ? 'col-span-3' : 'col-span-5',
+            'flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4',
+          )}
+        >
           <p className="text-v1-content-secondary text-xs">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
@@ -76,88 +84,94 @@ export default function WalletDetail(_: {
             <WalletActions wallet={wallet} />
           </div>
         </div>
-        <div className="col-span-2 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3">
-          <div className="mb-7 flex items-center justify-between text-v1-content-secondary text-xs">
-            Details
-            <ButtonSelect
-              buttonClassName="w-12"
-              onChange={newValue => setResolution(newValue)}
-              options={
-                [
-                  { value: '1d', label: '1D' },
-                  { value: '7d', label: '7D' },
-                  { value: '30d', label: '30D' },
-                ] as const
-              }
-              size="xs"
-              surface={2}
-              value={resolution}
-              variant="white"
-            />
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <div className="text-xxs">
-              <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
-              <span className="text-base text-v1-content-secondary">
-                <DirectionalNumber
-                  label="$"
-                  showIcon={false}
-                  showSign={true}
-                  value={realizedPnl}
-                />{' '}
-                (
-                <DirectionalNumber
-                  format={{
-                    decimalLength: 1,
-                  }}
-                  showIcon={false}
-                  showSign={true}
-                  suffix="%"
-                  value={realizedPnlPercentage}
-                />
-                )
-              </span>
-            </div>
-            <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-            <div className="text-xxs">
-              <p className="pb-3 text-v1-content-secondary">Win Rate</p>
-              <ReadableNumber
-                className="text-base"
-                format={{ decimalLength: 1 }}
-                label="%"
-                value={winRate}
+        {hasFlag('/wallet/status') && (
+          <div className="col-span-2 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3">
+            <div className="mb-7 flex items-center justify-between text-v1-content-secondary text-xs">
+              Details
+              <ButtonSelect
+                buttonClassName="w-12"
+                onChange={newValue => setResolution(newValue)}
+                options={
+                  [
+                    { value: '1d', label: '1D' },
+                    { value: '7d', label: '7D' },
+                    { value: '30d', label: '30D' },
+                  ] as const
+                }
+                size="xs"
+                surface={2}
+                value={resolution}
+                variant="white"
               />
             </div>
-            <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-            <div className="text-xxs">
-              <p className="pb-3 text-v1-content-secondary">TXs</p>
-              <p className="text-base text-v1-content-secondary">
-                <DirectionalNumber
-                  direction="up"
-                  showIcon={false}
-                  showSign={false}
-                  value={numBuys}
+            <div className="flex items-center justify-between gap-2">
+              <div className="text-xxs">
+                <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
+                <span className="text-base text-v1-content-secondary">
+                  <DirectionalNumber
+                    label="$"
+                    showIcon={false}
+                    showSign={true}
+                    value={realizedPnl}
+                  />{' '}
+                  (
+                  <DirectionalNumber
+                    format={{
+                      decimalLength: 1,
+                    }}
+                    showIcon={false}
+                    showSign={true}
+                    suffix="%"
+                    value={realizedPnlPercentage}
+                  />
+                  )
+                </span>
+              </div>
+              <div className="h-10 border-v1-inverse-overlay-10 border-r" />
+              <div className="text-xxs">
+                <p className="pb-3 text-v1-content-secondary">Win Rate</p>
+                <ReadableNumber
+                  className="text-base"
+                  format={{ decimalLength: 1 }}
+                  label="%"
+                  value={winRate}
                 />
-                /
-                <DirectionalNumber
-                  direction="down"
-                  showIcon={false}
-                  showSign={false}
-                  value={numSells}
-                />
-              </p>
+              </div>
+              <div className="h-10 border-v1-inverse-overlay-10 border-r" />
+              <div className="text-xxs">
+                <p className="pb-3 text-v1-content-secondary">TXs</p>
+                <p className="text-base text-v1-content-secondary">
+                  <DirectionalNumber
+                    direction="up"
+                    showIcon={false}
+                    showSign={false}
+                    value={numBuys}
+                  />
+                  /
+                  <DirectionalNumber
+                    direction="down"
+                    showIcon={false}
+                    showSign={false}
+                    value={numSells}
+                  />
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <Tabs
-        defaultActiveKey="1"
+        defaultActiveKey={hasFlag('/wallet/status') ? '1' : '2'}
         items={[
-          {
-            key: '1',
-            label: 'Account PnL',
-            children: <WalletStatus wallet={wallet} />,
-          },
+          ...(hasFlag('/wallet/status')
+            ? [
+                {
+                  key: '1',
+                  label: 'Account PnL',
+                  children: <WalletStatus wallet={wallet} />,
+                },
+              ]
+            : []),
           {
             key: '2',
             label: 'Buys/Sells',
