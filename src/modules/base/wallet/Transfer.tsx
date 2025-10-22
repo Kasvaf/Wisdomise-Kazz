@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Select } from 'shared/v1-components/Select';
-import { shortenAddress } from 'utils/shortenAddress';
+import { shortenAddress } from 'utils/address';
 
 export default function Transfer({
   wallet,

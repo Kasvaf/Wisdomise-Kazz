@@ -1,7 +1,6 @@
 import { useHasFlag } from 'api';
 import { useWhaleRadarWhales, type WhaleShort } from 'api/discovery';
 import { clsx } from 'clsx';
-import { Wallet } from 'modules/discovery/DetailView/WhaleDetail/Wallet';
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
@@ -15,6 +14,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { SearchInput } from 'shared/SearchInput';
 import { usePageState } from 'shared/usePageState';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Wallet } from 'shared/v1-components/Wallet';
 
 export function WhaleRadarWhalesWidget({
   className,
@@ -42,15 +42,7 @@ export function WhaleRadarWhalesWidget({
         title: t('top_whales.address'),
         sticky: 'start',
         width: 180,
-        render: row => (
-          <Wallet
-            wallet={{
-              address: row.holder_address,
-              network: row.network_name,
-            }}
-            whale
-          />
-        ),
+        render: row => <Wallet address={row.holder_address} />,
       },
       {
         title: t('top_whales.network'),

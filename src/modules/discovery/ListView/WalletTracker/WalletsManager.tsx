@@ -8,7 +8,7 @@ import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { Table } from 'shared/v1-components/Table';
-import { shortenAddress } from 'utils/shortenAddress';
+import { shortenAddress } from 'utils/address';
 import { useSelectedLibraries } from './useSelectedLibraries';
 
 export default function WalletsManager({ className }: { className?: string }) {

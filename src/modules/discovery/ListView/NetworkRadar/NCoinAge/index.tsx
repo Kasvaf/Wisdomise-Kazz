@@ -9,12 +9,12 @@ export const NCoinAge: FC<{
   value?: string | null;
   inline?: boolean;
 }> = ({ className, imgClassName, inline, value }) => {
-  const timestap = useMemo(
+  const timestamp = useMemo(
     () => (value ? new Date(value).getTime() : null),
     [value],
   );
 
-  const isNew = (timestap ?? 0) + 1000 * 60 * 60 > Date.now();
+  const isNew = (timestamp ?? 0) + 1000 * 60 * 60 > Date.now();
 
   return (
     <div
@@ -28,7 +28,7 @@ export const NCoinAge: FC<{
       )}
     >
       <ClockIcon className={clsx('shrink-0', imgClassName)} />
-      <ReadableDate popup={false} suffix={false} value={timestap} />
+      <ReadableDate popup={false} suffix={false} value={timestamp} />
     </div>
   );
 };

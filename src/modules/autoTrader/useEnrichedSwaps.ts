@@ -60,7 +60,7 @@ export const useEnrichedSwaps = ({
       [
         ...(streamHistory?.map(x => x.swap) ?? []),
         ...(history?.swaps ?? []),
-        ...(trackerHistory?.results ?? []),
+        ...(wallets ? (trackerHistory?.results ?? []) : []),
       ]
         .filter(s => !!s)
         .map(s => ('relatedAt' in s ? s : toCamelCaseObject<Swap>(s)))
@@ -90,7 +90,7 @@ export const useEnrichedSwaps = ({
         assetDetail,
       };
     });
-  }, [history, streamHistory, trackerHistory]);
+  }, [history, streamHistory, trackerHistory, wallets]);
 
   return {
     data,

@@ -1,6 +1,5 @@
 import { useTokenPairsQuery } from 'api';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useAllWallets } from 'api/chains/wallet';
 import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
 import {
@@ -13,16 +12,14 @@ import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
-import { Wallet } from 'modules/discovery/DetailView/WhaleDetail/Wallet';
 import { useRef } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Table } from 'shared/v1-components/Table';
-import { ReactComponent as UserIcon } from './user.svg';
+import { Wallet } from 'shared/v1-components/Wallet';
 
 const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const { symbol, marketData } = useUnifiedCoinDetails();
@@ -32,7 +29,6 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { settings, updateSwapsPartial } = useUserSettings();
-  const wallets = useAllWallets();
 
   const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
@@ -139,23 +135,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
             title: 'Trader',
             key: 'trader',
             render: row => (
-              <div className="relative flex items-center gap-1">
-                {wallets.includes(row.wallet) && (
-                  <HoverTooltip className="mb-4" title="You">
-                    <UserIcon className="-left-3 absolute size-4 text-v1-content-brand" />
-                  </HoverTooltip>
-                )}
-                <Wallet
-                  className="text-xs [&_img]:hidden"
-                  formatter={address => address.slice(-3)}
-                  noLink
-                  wallet={{
-                    address: row.wallet,
-                    network: symbol.network!,
-                  }}
-                  whale={false}
-                />
-              </div>
+              <Wallet address={row.wallet} className="text-xs" mode="mini" />
             ),
           },
           {

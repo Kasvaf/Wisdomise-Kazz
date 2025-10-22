@@ -5,7 +5,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
-import { shortenAddress } from 'utils/shortenAddress';
+import { shortenAddress } from 'utils/address';
 import { ReactComponent as SolanaIcon } from './solana.svg';
 
 export default function Deposit({ wallet }: { wallet: Wallet }) {

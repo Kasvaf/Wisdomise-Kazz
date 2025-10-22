@@ -22,8 +22,8 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { shortenAddress } from 'utils/address';
 import { roundSensible } from 'utils/numbers';
-import { shortenAddress } from 'utils/shortenAddress';
 import WalletStatus from './WalletStatus';
 
 export default function WalletDetail(_: {

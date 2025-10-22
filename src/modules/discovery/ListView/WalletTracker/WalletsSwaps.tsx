@@ -10,7 +10,8 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/v1-components/Coin';
 import { Table } from 'shared/v1-components/Table';
-import { shortenAddress } from 'utils/shortenAddress';
+import { Wallet } from 'shared/v1-components/Wallet';
+import { shortenAddress } from 'utils/address';
 
 export default function WalletsSwaps() {
   const network = useActiveNetwork();
@@ -46,10 +47,7 @@ export default function WalletsSwaps() {
           {
             title: 'Name',
             key: 'name',
-            render: row => {
-              const wallet = wallets.find(w => w.address === row.wallet);
-              return <span>{wallet && `${wallet.emoji} ${wallet.name}`}</span>;
-            },
+            render: row => <Wallet address={row.wallet} mode="name" />,
           },
           {
             title: 'Token',

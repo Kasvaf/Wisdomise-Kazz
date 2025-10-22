@@ -11,8 +11,8 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Wallet } from 'shared/v1-components/Wallet';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
-import { Wallet } from '../WhaleDetail/Wallet';
 import { useUnifiedCoinDetails } from './lib';
 
 export function CoinWhalesWidget({
@@ -41,14 +41,7 @@ export function CoinWhalesWidget({
       {
         title: t('whales_on_coin.address'),
         sticky: 'start',
-        render: row => (
-          <Wallet
-            wallet={{
-              address: row.holder_address,
-              network: row.network_name,
-            }}
-          />
-        ),
+        render: row => <Wallet address={row.holder_address} />,
       },
       {
         title: t('whales_on_coin.badge'),

@@ -1,6 +1,5 @@
 import { type CoinWhale, useCoinWhales } from 'api/discovery';
 import type { Coin as CoinType } from 'api/types/shared';
-import { Wallet } from 'modules/discovery/DetailView/WhaleDetail/Wallet';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
@@ -10,6 +9,7 @@ import { Network } from 'shared/Network';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Wallet } from 'shared/v1-components/Wallet';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 export const CoinWhalesWidget: FC<{
@@ -25,15 +25,7 @@ export const CoinWhalesWidget: FC<{
     () => [
       {
         title: t('whales_on_coin.address'),
-        render: row => (
-          <Wallet
-            wallet={{
-              address: row.holder_address,
-              network: row.network_name,
-            }}
-            whale
-          />
-        ),
+        render: row => <Wallet address={row.holder_address} />,
       },
       {
         title: t('whales_on_coin.badge'),

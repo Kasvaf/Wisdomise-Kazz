@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import Card from 'shared/Card';
 import Spinner from 'shared/Spinner';
 import { Button } from 'shared/v1-components/Button';
-import { shortenAddress } from 'utils/shortenAddress';
+import { shortenAddress } from 'utils/address';
 import { useDisconnect } from 'wagmi';
 import { ReactComponent as Key } from '../../images/key.svg';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';

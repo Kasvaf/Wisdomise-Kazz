@@ -8,9 +8,8 @@ import { clsx } from 'clsx';
 import { type FC, useMemo } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Wallet } from '../WhaleDetail/Wallet';
+import { Wallet } from 'shared/v1-components/Wallet';
 import { useUnifiedCoinDetails } from './lib';
 
 const SharedTable: FC<{
@@ -19,23 +18,14 @@ const SharedTable: FC<{
     | GrpcState<TopHolderStreamResponse>
     | GrpcState<TopTraderStreamResponse>;
 }> = ({ type, grpcState: resp }) => {
-  const [globalNetwork] = useGlobalNetwork();
+  const {
+    marketData: { currentPrice, totalSupply },
+  } = useUnifiedCoinDetails();
   const columns = useMemo<Array<TableColumn<WalletUpdate>>>(
     () => [
       {
         title: 'Address',
-        // sticky: 'start',
-        render: row => (
-          <Wallet
-            className="[&_img]:hidden"
-            noLink
-            wallet={{
-              address: row.walletAddress,
-              network: globalNetwork,
-            }}
-            whale={false}
-          />
-        ),
+        render: row => <Wallet address={row.walletAddress} />,
       },
       {
         title: 'Bought',
@@ -121,28 +111,37 @@ const SharedTable: FC<{
       {
         hidden: type === 'traders',
         title: 'Balance',
-        render: row => (
-          <div className="flex flex-col items-start gap-px">
-            <ReadableNumber
-              className="text-xs"
-              label="$"
-              popup="never"
-              value={row.balance}
-            />
-            <DirectionalNumber
-              className="text-xxs"
-              label="%"
-              popup="never"
-              showIcon={false}
-              showSign
-              suffix="(7D)"
-              value={(row.balance - row.balanceFirst) / (row.balance / 100)}
-            />
-          </div>
-        ),
+        render: row => {
+          const percentage = (row.balance / (totalSupply ?? 1)) * 100;
+          return (
+            <div className="flex flex-col items-start gap-px">
+              <div className="flex items-center gap-1">
+                <ReadableNumber
+                  className="text-xs"
+                  label="$"
+                  popup="never"
+                  value={row.balance * (currentPrice ?? 0)}
+                />
+                <div className="rounded-md bg-white/10 px-1 text-xxs">
+                  <ReadableNumber
+                    format={{ decimalLength: 3 }}
+                    value={percentage}
+                  />
+                  %
+                </div>
+              </div>
+              <div className="mt-1 h-1 w-28 overflow-hidden rounded-xl bg-white/10">
+                <div
+                  className="h-full bg-v1-background-brand"
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+            </div>
+          );
+        },
       },
     ],
-    [type, globalNetwork],
+    [type, currentPrice, totalSupply],
   );
 
   return (

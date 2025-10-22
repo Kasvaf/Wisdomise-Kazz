@@ -11,10 +11,10 @@ import { CoinSocials } from 'shared/CoinSocials';
 import Icon from 'shared/Icon';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
+import { shortenAddress } from 'utils/address';
 import { openInNewTab } from 'utils/click';
 import { base64UrlDecode } from 'utils/encode';
 import { formatNumber } from 'utils/numbers';
-import { shortenAddress } from 'utils/shortenAddress';
 import { isProduction } from 'utils/version';
 
 interface ContractAddressRow {

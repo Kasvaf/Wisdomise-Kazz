@@ -1,5 +1,5 @@
 import { useWhaleDetails } from 'api/discovery';
-import { Wallet } from './Wallet';
+import { Wallet } from 'shared/v1-components/Wallet';
 
 export const WhaleTitleWidget = ({
   holderAddress,
@@ -23,13 +23,8 @@ export const WhaleTitleWidget = ({
     <>
       <div>
         <Wallet
+          address={holderAddress}
           className="col-span-2 mobile:col-span-6"
-          noLink
-          wallet={{
-            network: networkName,
-            address: holderAddress,
-          }}
-          whale
         />
         <div className="flex gap-1 ps-10 text-xs">
           <p className="text-v1-content-secondary">{`${networkName} Chain${

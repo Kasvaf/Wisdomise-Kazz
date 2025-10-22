@@ -3,7 +3,7 @@ import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { shortenAddress } from 'utils/shortenAddress';
+import { shortenAddress } from 'utils/address';
 import Icon from './Icon';
 import { useShare } from './useShare';
 

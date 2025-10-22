@@ -14,7 +14,7 @@ import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { shortenAddress } from 'utils/shortenAddress';
+import { shortenAddress } from 'utils/address';
 import useIsMobile from 'utils/useIsMobile';
 import { isProduction } from 'utils/version';
 import dailySrc from './images/daily.png';
