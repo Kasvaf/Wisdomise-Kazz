@@ -85,7 +85,7 @@ export const CoinDetailsTabs = () => {
 
   return (
     <div className="flex h-[calc(var(--desktop-content-height)-64px)] max-h-[calc(var(--desktop-content-height)-64px)] max-w-full flex-col overflow-hidden">
-      <div className="absolute top-1 right-0 z-30 flex shrink-0 items-center justify-start gap-px pe-2">
+      <div className="absolute top-1.5 right-0 z-30 flex shrink-0 items-center justify-start gap-px pe-2">
         <HoverTooltip className="flex" title="Bubble Chart - Faster 100x">
           <Button
             className="mr-1"
@@ -177,7 +177,7 @@ export const CoinDetailsTabs = () => {
                         ),
                       };
                     })}
-                  size="xs"
+                  size="sm"
                   surface={0}
                   value={selectedTab}
                   variant="tab"
@@ -218,7 +218,7 @@ export const CoinDetailsTabs = () => {
                         ),
                       };
                     })}
-                  size="xs"
+                  size="sm"
                   surface={0}
                   variant="tab"
                 />

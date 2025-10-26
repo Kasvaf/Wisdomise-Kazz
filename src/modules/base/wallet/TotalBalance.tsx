@@ -1,6 +1,6 @@
 import { useAllWallets } from 'api/chains/wallet';
 import { clsx } from 'clsx';
-import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useEffect, useMemo, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
 

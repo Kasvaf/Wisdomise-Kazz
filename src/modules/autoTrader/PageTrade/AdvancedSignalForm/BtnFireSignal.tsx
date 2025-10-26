@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import { type Position, useHasFlag } from 'api';
 import { useTokenBalance } from 'api/chains';
 import { useActiveWallet } from 'api/chains/wallet';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { useUserStorage } from 'api/userStorage';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
@@ -37,7 +37,7 @@ const BtnFireSignal: React.FC<{
   const { data: quoteBalance, isLoading: balanceLoading } = useTokenBalance({
     slug: quote,
   });
-  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
+  const { data: quoteInfo } = useTokenInfo({ slug: quote });
 
   const userStorage = useUserStorage('auto-trader-waitlist');
 
@@ -112,7 +112,7 @@ const BtnFireSignal: React.FC<{
               className={className}
               onClick={() => deposit(wallet.address ?? '')}
             >
-              Deposit {quoteInfo?.abbreviation} to Fire Position
+              Deposit {quoteInfo?.symbol} to Fire Position
             </Button>
           ) : (
             <Button

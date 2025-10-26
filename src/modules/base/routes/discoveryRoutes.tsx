@@ -17,10 +17,6 @@ const useDiscoveryRoutes = () => {
           element: <Navigate to="/trench" />,
         },
         {
-          path: 'discovery',
-          element: <Navigate to="/trench" />,
-        },
-        {
           path: 'meta',
           element: <PageMeta />,
         },

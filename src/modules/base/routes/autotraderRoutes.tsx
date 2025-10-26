@@ -1,15 +1,9 @@
 import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
-import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
 import LeagueMaintenance from 'modules/quest/PageLeague/Maintenance';
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
-import { ActiveNetworkProvider } from '../active-network';
 import Container from '../Container';
 import type { RouteHandle } from './types';
-
-const PageGameReward = React.lazy(
-  () => import('modules/autoTrader/PageGameRewards'),
-);
 
 const PageQuests = React.lazy(() => import('modules/quest/PageQuests'));
 
@@ -38,22 +32,6 @@ const useAutoTraderRoutes = () => {
         {
           path: '',
           element: <Navigate replace to={`/${qs}`} />,
-        },
-        {
-          path: 'claim-reward',
-          element: (
-            <ActiveNetworkProvider network="the-open-network" setOnLayout>
-              <GameAuthGuard>
-                <PageGameReward />
-              </GameAuthGuard>
-            </ActiveNetworkProvider>
-          ),
-          handle: {
-            crumb: {
-              text: 'Claim Reward',
-              href: '/trader/claim-reward',
-            },
-          } satisfies RouteHandle,
         },
         {
           path: 'quests',

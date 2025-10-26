@@ -29,12 +29,12 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
         <div className="text-v1-content-secondary">
           {from.priceByOther ? (
             <>
-              1 {from.coinInfo?.abbreviation} ≈{' '}
+              1 {from.coinInfo?.symbol} ≈{' '}
               <ReadableNumber
                 format={{ decimalLength: 3, compactInteger: true }}
                 value={+from.priceByOther * (1 + percentage / 100)}
               />{' '}
-              {to.coinInfo?.abbreviation}
+              {to.coinInfo?.symbol}
             </>
           ) : (
             <Spin />
@@ -105,9 +105,7 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
                 />
               }
               size="md"
-              suffixIcon={
-                limitType === 'price' ? quote.coinInfo?.abbreviation : '$'
-              }
+              suffixIcon={limitType === 'price' ? quote.coinInfo?.symbol : '$'}
               surface={1}
               type="string"
               value={limit}

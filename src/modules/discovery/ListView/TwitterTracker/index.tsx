@@ -17,7 +17,7 @@ export const TwitterTracker: FC<{
     tab: 'view',
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!followings.isLoading && followings.value.length === 0) {
       setPageState({ tab: 'edit' });

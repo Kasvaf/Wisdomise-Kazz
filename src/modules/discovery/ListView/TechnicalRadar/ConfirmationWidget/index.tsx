@@ -21,7 +21,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import Spin from 'shared/Spin';
 import { usePageState } from 'shared/usePageState';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { Coin } from 'shared/v1-components/Coin';
+import { Token } from 'shared/v1-components/Token';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import { ConfirmationBadge } from './ConfirmationBadge';
@@ -85,10 +85,10 @@ function ConfirmationRow<I extends Indicator>({
     >
       <div className="flex mobile:flex-wrap flex-nowrap items-center justify-start gap-4">
         <div className="w-32">
-          <Coin
+          <Token
             abbreviation={value.symbol.abbreviation}
             categories={value.symbol.categories}
-            customLabels={
+            header={
               <ConfirmationTimeframeBadge
                 combination={combination}
                 value={value}

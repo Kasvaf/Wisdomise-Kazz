@@ -22,8 +22,8 @@ import { TableRank } from 'shared/TableRank';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { usePageState } from 'shared/usePageState';
 import { Button } from 'shared/v1-components/Button';
-import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
 import { RealtimeBadge } from '../../RealtimeBadge';
 import { SocialRadarFilters } from '../SocialRadarFilters';
@@ -61,11 +61,11 @@ export function SocialRadarExpanded() {
         title: t('social-radar.table.name'),
         sticky: 'start',
         render: row => (
-          <Coin
+          <Token
             abbreviation={row.symbol.abbreviation}
             categories={row.symbol.categories}
-            href={!isEmbeddedView}
             labels={row.symbol_labels}
+            link={!isEmbeddedView}
             logo={row.symbol.logo_url}
             name={row.symbol.name}
             networks={row.networks}

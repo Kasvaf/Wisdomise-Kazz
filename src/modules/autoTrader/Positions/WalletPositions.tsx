@@ -4,17 +4,16 @@ import {
   type Position,
   useTraderPositionsQuery,
 } from 'api';
-import { useSymbolsInfo } from 'api/symbol';
 import type { Wallet } from 'api/wallets';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { PositionActions } from 'modules/autoTrader/Positions/PositionsList/PositionDetail';
 import PositionStatus from 'modules/autoTrader/Positions/PositionsList/PositionStatus';
 import { useMemo, useState } from 'react';
-import { Coin } from 'shared/Coin';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import PriceChange from 'shared/PriceChange';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { roundSensible } from 'utils/numbers';
 
 const PAGE_SIZE = 30;
@@ -133,28 +132,22 @@ export default function WalletPositions({ wallet }: { wallet: Wallet }) {
 }
 
 function PairAssets({ base, quote }: { base: string; quote: string }) {
-  const { data: coins } = useSymbolsInfo([base, quote]);
+  const tokens = useMemo(() => [base, quote], [base, quote]);
 
   return (
     <div className="flex items-center">
-      {coins?.map(
-        (coin, index) =>
-          coin && (
-            <Coin
-              className={clsx(
-                'relative z-10',
-                index !== 0 && '!z-0 -ml-6 absolute',
-              )}
-              coin={coin}
-              key={coin.slug}
-              nonLink={index !== 0}
-              noText
-            />
-          ),
-      )}
-      <span className="ml-2">
-        {coins?.map(c => c?.abbreviation)?.join('/')}
-      </span>
+      {tokens?.map((coin, index) => (
+        <Token
+          className={clsx(
+            'relative z-10',
+            index !== 0 && '!z-0 -ml-6 absolute',
+          )}
+          icon
+          key={coin}
+          link={index === 0}
+          slug={coin}
+        />
+      ))}
     </div>
   );
 }

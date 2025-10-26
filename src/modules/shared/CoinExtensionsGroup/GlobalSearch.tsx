@@ -1,13 +1,13 @@
-import { useDetailedCoins, useNetworks } from 'api/discovery';
+import { useDetailedCoins } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
-import { type ComponentProps, type FC, useMemo, useState } from 'react';
+import { type ComponentProps, type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { Coin } from 'shared/v1-components/Coin';
 import { Select } from 'shared/v1-components/Select';
+import { Token } from 'shared/v1-components/Token';
 import { useDebounce } from 'usehooks-ts';
 
 export const GlobalSearch: FC<
@@ -33,13 +33,6 @@ export const GlobalSearch: FC<
     ?.split('-')
     .map(p => p.toUpperCase().slice(0, 1) + p.toLowerCase().slice(1))
     .join(' ');
-  const networks = useNetworks({
-    query: network,
-  });
-  const networkObj = useMemo(
-    () => networks.data?.find(x => x.slug === network),
-    [networks.data, network],
-  );
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query);
 
@@ -69,28 +62,15 @@ export const GlobalSearch: FC<
         if (!row) return '';
         return (
           <div className="flex items-center justify-between gap-4 mobile:px-1 px-2 py-3">
-            <Coin
+            <Token
               abbreviation={row.symbol?.abbreviation}
+              address={row.contract_address}
               categories={row.symbol.categories}
-              href={false}
               labels={row.symbol_labels}
+              link={false}
               logo={row.symbol?.logo_url}
               name={row.symbol?.name}
-              networks={
-                row.network_bindings || [
-                  {
-                    contract_address: row.contract_address || '',
-                    symbol_network_type: row.contract_address
-                      ? 'TOKEN'
-                      : 'COIN',
-                    network: networkObj ?? {
-                      name: networkName || network || '',
-                      slug: network || '',
-                      icon_url: '',
-                    },
-                  },
-                ]
-              }
+              showAddress={true}
               slug={row.symbol?.slug}
               socials={row.symbol_community_links}
             />

@@ -1,8 +1,8 @@
 import { useBatchLastPriceQuery } from 'api';
-import { useSolanaUserRawAssets } from 'api/chains/solana';
+import { useSolanaWalletAssets } from 'api/chains/solana';
 
-export const useSolanaUserAssets = (address?: string) => {
-  const assetsQuery = useSolanaUserRawAssets(address);
+export const useSolanaWalletPricedAssets = (address?: string) => {
+  const assetsQuery = useSolanaWalletAssets(address);
   const pricesQuery = useBatchLastPriceQuery({
     bases: assetsQuery.data?.map(asset => asset.address),
     network: 'solana',
@@ -18,7 +18,7 @@ export const useSolanaUserAssets = (address?: string) => {
 };
 
 export const useSolanaWalletBalanceInUSD = (address?: string) => {
-  const { data: assets, isPending } = useSolanaUserAssets(address);
+  const { data: assets, isPending } = useSolanaWalletPricedAssets(address);
   return {
     balance: isPending
       ? 0

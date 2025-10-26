@@ -1,6 +1,6 @@
 import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
 import { useNativeTokenBalance } from 'api/chains';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
 import InfoLine from 'modules/autoTrader/components/InfoLine';
@@ -75,9 +75,9 @@ const ModalApproval: React.FC<{
   const { data: nativeBalance } = useNativeTokenBalance();
   const { data, isLoading } = usePreparePositionQuery(createData);
 
-  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
+  const { data: quoteInfo } = useTokenInfo({ slug: quote });
   const nativeAmount =
-    Number(data?.gas_fee) + (quoteInfo?.abbreviation === gasAbbr ? +amount : 0);
+    Number(data?.gas_fee) + (quoteInfo?.symbol === gasAbbr ? +amount : 0);
   const remainingGas = Number(nativeBalance) - nativeAmount;
   const hasEnoughGas = remainingGas > MIN_GAS[gasAbbr];
   const impact = Number(data?.price_impact);
@@ -87,7 +87,7 @@ const ModalApproval: React.FC<{
       <div className="flex grow flex-col gap-4">
         <InfoLine label="Initial Deposit">
           <div className="font-medium">
-            {amount} {quoteInfo?.abbreviation}
+            {amount} {quoteInfo?.symbol}
           </div>
         </InfoLine>
 

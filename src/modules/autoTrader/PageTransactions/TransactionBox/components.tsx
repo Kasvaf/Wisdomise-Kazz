@@ -5,7 +5,7 @@ import type {
   TransactionStatus,
   TransactionWithdraw,
 } from 'api';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { bxGlobe } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
@@ -141,7 +141,9 @@ export const AssetIcon: React.FC<{ slug: string; className?: string }> = ({
   slug,
   className,
 }) => {
-  const { data } = useSymbolInfo({ slug });
-  if (!data?.logo_url) return null;
-  return <img className={clsx('size-4', className)} src={data?.logo_url} />;
+  const { data } = useTokenInfo({ slug });
+  if (!data?.image_uri) return null;
+  return (
+    <img alt="" className={clsx('size-4', className)} src={data?.image_uri} />
+  );
 };

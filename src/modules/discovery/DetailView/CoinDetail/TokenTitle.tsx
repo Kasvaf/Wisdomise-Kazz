@@ -8,10 +8,10 @@ import { NCoinBCurve } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Coin } from 'shared/v1-components/Coin';
+import { Token } from 'shared/v1-components/Token';
 import { useUnifiedCoinDetails } from './lib';
 
-export const CoinTitleWidget: FC<{
+export const TokenTitle: FC<{
   className?: string;
   hr?: boolean;
   suffix?: ReactNode;
@@ -33,17 +33,18 @@ export const CoinTitleWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex mobile:flex-col items-center gap-1 overflow-auto whitespace-nowrap',
+          'relative flex mobile:flex-col items-center gap-1 overflow-auto whitespace-nowrap',
           symbol ? 'justify-between' : 'justify-center',
           className,
         )}
       >
         <div className="flex mobile:w-full w-full mobile:flex-wrap items-center justify-start gap-2">
-          <Coin
-            abbreviation={isInitiating ? '...' : symbol.abbreviation}
+          <Token
+            abbreviation={symbol.abbreviation ?? undefined}
+            address={symbol.contractAddress ?? undefined}
             block
             categories={symbol.categories}
-            customLabels={
+            header={
               <>
                 {/* Developer Data */}
                 {developer && <NCoinDeveloper value={developer} />}
@@ -56,28 +57,12 @@ export const CoinTitleWidget: FC<{
                 )}
               </>
             }
-            href={false}
             labels={symbol.labels}
+            link={false}
             logo={symbol.logo}
             marker={validatedData?.protocol?.logo}
-            name={isInitiating ? '' : symbol.name}
-            networks={[
-              {
-                contract_address: isInitiating
-                  ? ''
-                  : (symbol.contractAddress ?? ''),
-                network: {
-                  icon_url:
-                    'https://coin-images.coingecko.com/asset_platforms/images/5/large/solana.png?1706606708',
-                  name: 'Solana',
-                  slug: 'solana',
-                },
-                symbol_network_type: symbol.contractAddress ? 'TOKEN' : 'COIN',
-              },
-            ]}
+            name={isInitiating ? '' : (symbol.name ?? undefined)}
             progress={marketData.boundingCurve ?? 1}
-            progressTitle="Bounding Curve: "
-            slug={symbol.slug}
             socials={socials}
             truncate={isInitiating}
           />

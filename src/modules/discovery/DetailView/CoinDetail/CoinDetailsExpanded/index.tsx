@@ -7,9 +7,9 @@ import {
 import { useSessionStorage } from 'usehooks-ts';
 import CoinChart from '../CoinChart';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { CoinTitleWidget } from '../CoinTitleWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
+import { TokenTitle } from '../TokenTitle';
 import { TokenUpdateWidget } from '../TokenUpdateWidget';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
 import TraderSection from './TraderSection';
@@ -27,13 +27,13 @@ export const CoinDetailsExpanded: FC = () => {
         className="flex w-full flex-col overflow-auto border-white/10 border-r"
         ref={containerRef}
       >
-        <CoinTitleWidget
+        <TokenTitle
           className="sticky top-0 z-10 h-16 shrink-0 border-white/10 border-b bg-v1-surface-l-current px-3"
           suffix={<CoinSentimentsWidget />}
         />
         <ResizableSides
           className={[
-            'max-h-[calc(var(--desktop-content-height)-64px-36px)] min-h-52',
+            'max-h-[calc(var(--desktop-content-height)-64px-42px)] min-h-52',
             'min-h-8',
           ]}
           direction="row"

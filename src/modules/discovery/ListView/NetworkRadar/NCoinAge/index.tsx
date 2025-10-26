@@ -21,9 +21,9 @@ export const NCoinAge: FC<{
       className={clsx(
         'inline-flex',
         inline
-          ? 'items-center justify-start gap-px'
+          ? 'items-center justify-start gap-1'
           : 'w-6 flex-col items-center justify-between',
-        isNew && 'text-v1-background-secondary',
+        isNew && 'text-v1-content-positive',
         className,
       )}
     >

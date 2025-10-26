@@ -5,8 +5,8 @@ import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulate
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { NavLink } from 'react-router-dom';
-import { Coin } from 'shared/Coin';
 import Spin from 'shared/Spin';
+import { Token } from 'shared/v1-components/Token';
 import { roundSensible } from 'utils/numbers';
 import { isMiniApp } from 'utils/version';
 import InfoLine from '../components/InfoLine';
@@ -30,7 +30,7 @@ export const SimulatePrepare: React.FC<{
 
   const nativeAmount =
     (data && 'gas_fee' in data ? Number(data?.gas_fee) : 0) +
-    (from.coinInfo?.abbreviation === gasAbbr ? +from.amount : 0);
+    (from.coinInfo?.symbol === gasAbbr ? +from.amount : 0);
 
   const remainingGas = Number(nativeBalance) - nativeAmount;
 
@@ -39,10 +39,12 @@ export const SimulatePrepare: React.FC<{
   return (
     <div className="mt-3 flex h-full flex-col">
       <div className="flex grow flex-col gap-2">
-        {from.coinInfo && <Coin coin={from.coinInfo} mini nonLink />}
+        {from.coinInfo && (
+          <Token autoFill link={false} size="xs" slug={from.slug} />
+        )}
         <InfoLine className="text-xs" label="Initial Deposit (Send)">
           <div className="font-medium">
-            {from.amount} {from?.coinInfo?.abbreviation}
+            {from.amount} {from?.coinInfo?.symbol}
           </div>
         </InfoLine>
 
@@ -65,7 +67,9 @@ export const SimulatePrepare: React.FC<{
 
         <hr className="my-1 border-white/10" />
 
-        {to.coinInfo && <Coin coin={to.coinInfo} mini nonLink />}
+        {to.coinInfo && (
+          <Token autoFill link={false} size="xs" slug={to.slug} />
+        )}
 
         {isMarketPrice && (
           <InfoLine
@@ -81,7 +85,7 @@ export const SimulatePrepare: React.FC<{
               ) : (
                 <Spin />
               )}{' '}
-              {to?.coinInfo?.abbreviation}
+              {to?.coinInfo?.symbol}
             </div>
           </InfoLine>
         )}
@@ -103,7 +107,7 @@ export const SimulatePrepare: React.FC<{
             ) : (
               to.amount
             )}{' '}
-            {to?.coinInfo?.abbreviation}
+            {to?.coinInfo?.symbol}
           </div>
         </InfoLine>
 

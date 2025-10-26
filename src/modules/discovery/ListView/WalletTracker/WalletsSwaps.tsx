@@ -8,10 +8,9 @@ import { useRef } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Coin } from 'shared/v1-components/Coin';
 import { Table } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { Wallet } from 'shared/v1-components/Wallet';
-import { shortenAddress } from 'utils/address';
 
 export default function WalletsSwaps() {
   const network = useActiveNetwork();
@@ -52,17 +51,17 @@ export default function WalletsSwaps() {
           {
             title: 'Token',
             key: 'token',
-            render: row =>
-              row.assetDetail?.name ? (
-                <Coin
-                  abbreviation={row.assetDetail.name}
-                  href={`/token/solana/${row.asset}`}
-                  logo={row.assetDetail?.image}
-                  size="sm"
-                />
-              ) : (
-                shortenAddress(row.asset)
-              ),
+            render: row => (
+              <Token
+                address={row.asset}
+                logo={row.assetDetail?.image}
+                name={row.assetDetail?.name}
+                popup={true}
+                showAddress={!row.assetDetail?.name}
+                size="sm"
+                truncate={false}
+              />
+            ),
           },
           {
             title: 'Amount',

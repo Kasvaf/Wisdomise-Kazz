@@ -12,8 +12,8 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { SearchInput } from 'shared/SearchInput';
 import { usePageState } from 'shared/usePageState';
-import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
@@ -47,7 +47,7 @@ export function WhaleRadarCoinsWidget({
         title: t('top_coins.name'),
         sticky: 'start',
         render: row => (
-          <Coin
+          <Token
             abbreviation={row.symbol.abbreviation}
             categories={row.symbol.categories}
             labels={row.symbol_labels}

@@ -35,9 +35,7 @@ export function HoverTooltip({
         )}
         title={title}
       >
-        <span className={clsx('cursor-help', DIALOG_OPENER_CLASS, className)}>
-          {children}
-        </span>
+        <span className={clsx(DIALOG_OPENER_CLASS, className)}>{children}</span>
       </Tooltip>
     </>
   );

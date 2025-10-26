@@ -6,7 +6,7 @@ import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ContractAddress } from 'shared/ContractAddress';
 import Icon from 'shared/Icon';
 
-export function CoinNetworksLabel({
+export function TokenNetworksLabel({
   className,
   value,
   size,

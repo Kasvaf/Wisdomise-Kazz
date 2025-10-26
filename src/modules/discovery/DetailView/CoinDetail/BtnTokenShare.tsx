@@ -18,7 +18,7 @@ export const BtnTokenShare: FC<{
           share(`${window.location.origin}${window.location.pathname}`)
         }
         size="sm"
-        surface={1}
+        surface={0}
         variant="outline"
       >
         <Icon name={bxShareAlt} />

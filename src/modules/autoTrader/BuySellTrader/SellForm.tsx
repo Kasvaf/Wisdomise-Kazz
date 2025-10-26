@@ -51,7 +51,7 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
             {amountType === 'percentage'
               ? '%'
               : amountType === 'base'
-                ? baseInfo?.abbreviation
+                ? baseInfo?.symbol
                 : baseSlug &&
                   quoteInfo && (
                     <QuoteSelector

@@ -13,8 +13,8 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
-import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import useIsMobile from 'utils/useIsMobile';
 import { SocialRadarSentiment } from '../SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../TechnicalRadar/TechnicalRadarSentiment';
@@ -44,9 +44,8 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
       {
         key: 'coin',
         render: row => (
-          <Coin
+          <Token
             abbreviation={row.symbol.abbreviation}
-            // name={row.symbol.name}
             categories={row.symbol.categories}
             extra={
               <>
@@ -68,8 +67,8 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
                 />
               </>
             }
-            href={false}
             labels={row.symbol_labels}
+            link={false}
             logo={row.symbol.logo_url}
             networks={row.networks}
             slug={row.symbol.slug}

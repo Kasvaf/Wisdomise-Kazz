@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { TraderPresetsSelector } from 'modules/autoTrader/BuySellTrader/TraderPresets';
-import { SolanaCoin } from 'modules/autoTrader/CoinSwapActivity';
+import { SolanaIcon } from 'modules/autoTrader/CoinSwapActivity';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
   type TradeSettingsSource,
@@ -34,7 +34,7 @@ export default function QuickBuySettings({
           placeholder="0.0"
           prefixIcon={<InstantIcon className="!size-8 -ml-1" />}
           size="xs"
-          suffixIcon={<SolanaCoin className="!-mr-3" />}
+          suffixIcon={<SolanaIcon className="!-mr-1" />}
           surface={surface}
           type="string"
           value={settings.quick_buy[source].amount}

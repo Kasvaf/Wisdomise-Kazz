@@ -13,10 +13,10 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Spinner from 'shared/Spinner';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
-import { Coin, CoinImage } from 'shared/v1-components/Coin';
 import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
+import { Token, TokenImage } from 'shared/v1-components/Token';
 import { useDebounce, useIntersectionObserver } from 'usehooks-ts';
 
 export interface MetaFilters {
@@ -249,7 +249,7 @@ export default function PageMeta() {
                       <h2 className="mb-3 text-white/70">Gallery</h2>
                       <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                         {meta.trench.map(token => (
-                          <CoinImage
+                          <TokenImage
                             key={token.symbol.contract_address}
                             name={token.symbol.abbreviation}
                             src={token.symbol.logo_url}
@@ -282,11 +282,12 @@ function TokensTable({ dataSource }: { dataSource: MetaToken[] }) {
       {
         key: 'token',
         render: row => (
-          <Coin
+          <Token
             abbreviation={row.symbol.abbreviation}
-            href={`/token/solana/${row.symbol.contract_address}`}
+            address={row.symbol.contract_address}
             logo={row.symbol.logo_url}
             name={row.symbol.name}
+            showAddress={false}
           />
         ),
       },

@@ -10,8 +10,8 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { TableRank } from 'shared/TableRank';
-import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { SocialRadarSentiment } from '../../SocialRadar/SocialRadarSentiment';
 import { ConfirmationBadgesInfo } from '../../TechnicalRadar/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadar/TechnicalRadarSentiment';
@@ -40,7 +40,7 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
         title: t('table.name'),
         sticky: 'start',
         render: row => (
-          <Coin
+          <Token
             abbreviation={row.symbol.abbreviation}
             categories={row.symbol.categories}
             labels={row.symbol_labels}

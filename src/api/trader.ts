@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { OpenOrderResponse, Signal, SignalItem } from 'api/builder';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import type { WhaleCoin, WhaleCoinsFilter } from 'api/discovery';
+import { slugToTokenAddress } from 'api/token-info';
 import { ofetch } from 'config/ofetch';
 import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { FetchError } from 'ofetch';
@@ -19,13 +20,13 @@ const NETWORK_MAIN_EXCHANGE = {
 export type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;
 
 export interface UserAssetPair {
-  slug: string;
   usd_equity: number;
   amount: number;
   position_keys: string[];
+  address: string;
 }
 
-export const useUserAssets = () => {
+export const useTraderAssetsQuery = () => {
   const email = useJwtEmail();
   return useQuery({
     queryKey: ['user-assets', email],
@@ -44,10 +45,10 @@ export const useUserAssets = () => {
       return data.symbols.map(
         x =>
           ({
-            slug: x.slug,
             usd_equity: Number(x.usd_equity),
             amount: Number(x.amount),
             position_keys: x.position_keys,
+            address: slugToTokenAddress(x.slug),
           }) satisfies UserAssetPair,
       );
     },
@@ -122,13 +123,12 @@ export const useTokenPairsQuery = (
 ) => {
   baseSlug = baseSlug === 'solana' ? WRAPPED_SOLANA_SLUG : baseSlug;
   return useQuery({
-    queryKey: ['supported-pairs', baseSlug],
+    queryKey: ['token-pairs', baseSlug],
     queryFn: async () => {
       if (!baseSlug) return [];
       return await getPairsCached(baseSlug);
     },
     enabled: config?.enabled === undefined ? true : config.enabled,
-    staleTime: Number.POSITIVE_INFINITY,
   });
 };
 

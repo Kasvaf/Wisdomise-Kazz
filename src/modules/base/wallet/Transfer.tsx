@@ -1,17 +1,18 @@
 import { notification } from 'antd';
 import { useNativeTokenBalance } from 'api/chains';
-import { useSymbolsInfo } from 'api/symbol';
+import { tokenAddressToSlug, useTokensInfo } from 'api/token-info';
 import {
   useWalletsQuery,
   useWalletWithdrawMutation,
   type Wallet,
 } from 'api/wallets';
-import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import SensibleSteps from 'modules/base/wallet/SensibleSteps';
 import { useEffect, useState } from 'react';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Select } from 'shared/v1-components/Select';
+import { Token } from 'shared/v1-components/Token';
 import { shortenAddress } from 'utils/address';
 
 export default function Transfer({
@@ -26,17 +27,23 @@ export default function Transfer({
   const [internalToWallet, setInternalToWallet] = useState<Wallet>();
   const [selectedAsset, setSelectedAsset] =
     useState<
-      NonNullable<ReturnType<typeof useSolanaUserAssets>['data']>[number]
+      NonNullable<
+        ReturnType<typeof useSolanaWalletPricedAssets>['data']
+      >[number]
     >();
   const [amount, setAmount] = useState<string>();
-  const { data: walletAssets } = useSolanaUserAssets(fromWallet?.address);
+  const { data: walletAssets } = useSolanaWalletPricedAssets(
+    fromWallet?.address,
+  );
+
+  console.log(walletAssets);
   const { data: wallets } = useWalletsQuery();
   const { mutateAsync, isPending } = useWalletWithdrawMutation(fromWallet?.key);
-  const { data: symbols } = useSymbolsInfo(
-    walletAssets?.map(asset => asset.slug),
-  );
+  const { data: symbols } = useTokensInfo({
+    tokenAddresses: walletAssets?.map(asset => asset.address),
+  });
   const { data: nativeBalance } = useNativeTokenBalance(fromWallet?.address);
-
+  console.log(symbols);
   const sameAddress =
     (toWallet || internalToWallet?.address) === fromWallet?.address;
   const isValid =
@@ -57,7 +64,7 @@ export default function Transfer({
 
     if (isValid)
       void mutateAsync({
-        symbol_slug: selectedAsset?.slug,
+        symbol_slug: tokenAddressToSlug(selectedAsset.address),
         amount: isMax ? 'ALL' : amount,
         receiver_address: (toWallet || internalToWallet?.address) ?? '',
       }).then(() =>
@@ -73,8 +80,8 @@ export default function Transfer({
     if (walletAssets?.length === 0) setSelectedAsset(undefined);
   }, [walletAssets]);
 
-  const assetToSymbol = (slug: string) => {
-    return symbols?.find(s => s?.slug === slug);
+  const assetToSymbol = (address: string) => {
+    return symbols?.find(s => s?.contract_address === address);
   };
 
   return (
@@ -116,14 +123,10 @@ export default function Transfer({
               asset && (
                 <div className="flex items-center justify-between">
                   <span className="text-sm">
-                    {assetToSymbol(asset.slug)?.name}
+                    {assetToSymbol(asset.address)?.name}
                   </span>
                   <div className="flex items-center gap-2 text-v1-content-secondary text-xs">
-                    <img
-                      alt=""
-                      className="size-4"
-                      src={assetToSymbol(asset.slug)?.logo_url ?? ''}
-                    />
+                    <Token address={asset.address} autoFill icon size="xs" />
                     {asset?.amount}
                   </div>
                 </div>
@@ -138,7 +141,7 @@ export default function Transfer({
             onChange={newAmount => setAmount(String(newAmount))}
             placeholder="Enter Withdrawal Amount"
             suffixIcon={
-              selectedAsset && assetToSymbol(selectedAsset?.slug)?.abbreviation
+              selectedAsset && assetToSymbol(selectedAsset?.address)?.symbol
             }
             surface={2}
             value={amount}

@@ -9,7 +9,7 @@ import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
 import clsx from 'clsx';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
-import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { useWalletStatus } from 'modules/base/wallet/WalletDetail/useWalletStatus';

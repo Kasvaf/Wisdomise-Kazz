@@ -4,7 +4,7 @@ import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
 import {
   BtnConvertToUsd,
-  SolanaCoin,
+  SolanaIcon,
 } from 'modules/autoTrader/CoinSwapActivity';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
@@ -83,7 +83,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
                   )}
                   style={{ width: `${(row.tokenAmount / maxAmount) * 100}%` }}
                 />
-                {!showAmountInUsd && <SolanaCoin />}
+                {!showAmountInUsd && <SolanaIcon className="mr-1" />}
                 <DirectionalNumber
                   className="text-xs"
                   direction={row.dir === 'sell' ? 'down' : 'up'}

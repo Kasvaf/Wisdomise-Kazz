@@ -10,11 +10,10 @@ export const NCoinDeveloper: FC<{
   className?: string;
   value?: DevData;
 }> = ({ className, value }) => {
-  return (
+  return value?.tokens?.length ? (
     <ClickableTooltip
       chevron={false}
-      className={clsx('inline-flex size-3', className)}
-      disabled={!value?.tokens.length}
+      className={clsx('inline-flex', className)}
       title={
         <div className="space-y-3">
           <p className="text-xs">{'Created Assets'}</p>
@@ -42,7 +41,7 @@ export const NCoinDeveloper: FC<{
         </div>
       }
     >
-      <DeveloperIcon />
+      <DeveloperIcon className="size-4" />
     </ClickableTooltip>
-  );
+  ) : null;
 };

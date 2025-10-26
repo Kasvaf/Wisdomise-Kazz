@@ -1,5 +1,5 @@
 import { initialQuoteDeposit, type Position } from 'api';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { bxHistory } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
@@ -17,17 +17,19 @@ import PositionStatus from './PositionStatus';
 import ShareButton from './ShareButton';
 
 const AssetName: React.FC<{ slug: string }> = ({ slug }) => {
-  const { data } = useSymbolInfo({ slug });
-  return <>{data?.abbreviation}</>;
+  const { data } = useTokenInfo({ slug });
+  return <>{data?.symbol}</>;
 };
 
 const AssetIcon: React.FC<{ slug: string; className?: string }> = ({
   slug,
   className,
 }) => {
-  const { data } = useSymbolInfo({ slug });
-  if (!data?.logo_url) return null;
-  return <img className={clsx('size-4', className)} src={data?.logo_url} />;
+  const { data } = useTokenInfo({ slug });
+  if (!data?.image_uri) return null;
+  return (
+    <img alt="" className={clsx('size-4', className)} src={data?.image_uri} />
+  );
 };
 
 const PositionDetail: React.FC<{
