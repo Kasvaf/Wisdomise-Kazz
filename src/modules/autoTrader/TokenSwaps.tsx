@@ -2,11 +2,8 @@ import { useTokenPairsQuery } from 'api';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
-import {
-  BtnConvertToUsd,
-  SolanaCoin,
-} from 'modules/autoTrader/CoinSwapActivity';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
+import { BtnConvertToUsd, SolanaCoin } from 'modules/autoTrader/TokenActivity';
 import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';

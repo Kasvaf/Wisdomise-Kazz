@@ -71,7 +71,7 @@ export function useSwapActivityLines(slug: string) {
 
 export function useSwapChartMarks(slug: string) {
   const details = useUnifiedCoinDetails();
-  const { data: swaps } = useTraderSwapsQuery({});
+  const { data: swaps } = useTraderSwapsQuery({ baseSlug: slug });
   const hasFlag = useHasFlag();
   const [isMarketCap] = useChartIsMarketCap();
   const [convertToUsd] = useChartConvertToUSD();

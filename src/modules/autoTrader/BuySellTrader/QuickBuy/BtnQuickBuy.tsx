@@ -9,11 +9,12 @@ import {
   type TradeSettingsSource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
+import React from 'react';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
-export default function BtnQuickBuy({
+const BtnQuickBuy = React.memo(function BtnQuickBuy({
   source,
   slug,
   tokenAddress,
@@ -74,4 +75,6 @@ export default function BtnQuickBuy({
       {modal}
     </Button>
   ) : null;
-}
+});
+
+export default BtnQuickBuy;

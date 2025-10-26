@@ -27,7 +27,7 @@ import { useActiveWallet } from 'api/chains/wallet';
 import { useSymbolInfo } from 'api/symbol';
 import { usePendingPositionInCache } from 'api/trader';
 import { ofetch } from 'config/ofetch';
-import { useConfirmTransaction } from 'modules/autoTrader/BuySellTrader/useConfirmSwap';
+import { useCallback } from 'react';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { queryContractSlugs } from './utils';
 
@@ -374,93 +374,95 @@ export const useSolanaSwap = () => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
   const { address, isCustodial } = useActiveWallet();
   const connection = useSolanaConnection();
-  const { confirm } = useConfirmTransaction();
 
-  return async (
-    base: string,
-    quote: string,
-    side: 'LONG' | 'SHORT',
-    amount: string,
-    slippage?: string,
-    priorityFee?: string,
-  ) => {
-    if (!address) throw new Error('Wallet not connected');
-    const publicKey = new PublicKey(address);
+  return useCallback(
+    async (
+      base: string,
+      quote: string,
+      side: 'LONG' | 'SHORT',
+      amount: string,
+      slippage?: string,
+      priorityFee?: string,
+    ) => {
+      if (!address) throw new Error('Wallet not connected');
+      const publicKey = new PublicKey(address);
 
-    const swap = ofetch<SwapResponse>('/trader/swap', {
-      method: 'post',
-      body: {
-        pair_slug: `${base}/${quote}`,
-        side,
-        amount,
-        network_slug: 'solana',
-        wallet_address: publicKey.toString(),
-        slippage,
-        priority_fee: priorityFee,
-      },
-    });
-
-    let signature: string | undefined;
-
-    const [
-      {
-        key,
-        instructions,
-        lookup_table_address: lookupTableAddresses,
-        transaction_hash,
-      },
-      latestBlockhash,
-    ] = await Promise.all([swap, connection.getLatestBlockhash()]);
-
-    if (isCustodial) {
-      signature = transaction_hash;
-    } else {
-      // Fetch the address lookup tables if provided
-      const lookupTableAccounts = (
-        await Promise.all(
-          (lookupTableAddresses || []).map(
-            async address =>
-              (
-                await connection.getAddressLookupTable(new PublicKey(address))
-              ).value || null,
-          ),
-        )
-      ).filter((table): table is AddressLookupTableAccount => table != null);
-
-      // Create a versioned transaction
-      const transaction = new VersionedTransaction(
-        new TransactionMessage({
-          payerKey: publicKey,
-          recentBlockhash: latestBlockhash.blockhash,
-          instructions: instructions.map(
-            inst =>
-              new TransactionInstruction({
-                programId: new PublicKey(inst.programId),
-                data: Buffer.from(inst.data),
-                keys: inst.accounts.map(acc => ({
-                  pubkey: new PublicKey(acc.pubkey),
-                  isSigner: acc.is_signer,
-                  isWritable: acc.is_writable,
-                })),
-              }),
-          ),
-        }).compileToV0Message(lookupTableAccounts),
-      );
-
-      signature = await walletProvider.signAndSendTransaction(transaction);
-
-      await ofetch<SwapResponse>(`/trader/swap/${key}`, {
-        method: 'patch',
-        body: { transaction_hash: signature },
+      const swap = ofetch<SwapResponse>('/trader/swap', {
+        method: 'post',
+        body: {
+          pair_slug: `${base}/${quote}`,
+          side,
+          amount,
+          network_slug: 'solana',
+          wallet_address: publicKey.toString(),
+          slippage,
+          priority_fee: priorityFee,
+        },
       });
-    }
 
-    if (!signature) {
-      throw new Error('Signature not found');
-    }
+      let signature: string | undefined;
 
-    return confirm({ slug: base, signature, latestBlockhash });
-  };
+      const [
+        {
+          key: swapKey,
+          instructions,
+          lookup_table_address: lookupTableAddresses,
+          transaction_hash,
+        },
+        latestBlockhash,
+      ] = await Promise.all([swap, connection.getLatestBlockhash()]);
+
+      if (isCustodial) {
+        signature = transaction_hash;
+      } else {
+        // Fetch the address lookup tables if provided
+        const lookupTableAccounts = (
+          await Promise.all(
+            (lookupTableAddresses || []).map(
+              async address =>
+                (
+                  await connection.getAddressLookupTable(new PublicKey(address))
+                ).value || null,
+            ),
+          )
+        ).filter((table): table is AddressLookupTableAccount => table != null);
+
+        // Create a versioned transaction
+        const transaction = new VersionedTransaction(
+          new TransactionMessage({
+            payerKey: publicKey,
+            recentBlockhash: latestBlockhash.blockhash,
+            instructions: instructions.map(
+              inst =>
+                new TransactionInstruction({
+                  programId: new PublicKey(inst.programId),
+                  data: Buffer.from(inst.data),
+                  keys: inst.accounts.map(acc => ({
+                    pubkey: new PublicKey(acc.pubkey),
+                    isSigner: acc.is_signer,
+                    isWritable: acc.is_writable,
+                  })),
+                }),
+            ),
+          }).compileToV0Message(lookupTableAccounts),
+        );
+
+        signature = await walletProvider.signAndSendTransaction(transaction);
+
+        await ofetch<SwapResponse>(`/trader/swap/${swapKey}`, {
+          method: 'patch',
+          body: { transaction_hash: signature },
+        });
+      }
+
+      if (!signature) {
+        throw new Error('Signature not found');
+      }
+
+      return { slug: base, signature, latestBlockhash, swapKey };
+    },
+    [address, connection, walletProvider, isCustodial],
+  );
 };
 
 const timeoutSignal = (timeout = 7000) => {
@@ -471,7 +473,7 @@ const timeoutSignal = (timeout = 7000) => {
 
 export const isValidSolanaAddress = (address: string) => {
   try {
-    const _pk = new PublicKey(address);
+    new PublicKey(address);
     return true;
   } catch {
     return false;
