@@ -1,5 +1,6 @@
 import { useTwitterUserPreviewQuery } from 'api/twitter';
 import { bxCalendar } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -16,9 +17,8 @@ export default function XProfileEmbed({ username }: { username: string }) {
 
   return (
     <div
-      className="flex min-h-72 w-72 flex-col items-center justify-center rounded-md bg-(--x-bg-color) text-sm"
+      className="flex min-h-72 w-72 flex-col items-center justify-center rounded-md bg-x-bg text-sm"
       onClick={e => e.stopPropagation()}
-      style={{ ['--x-bg-color' as never]: '#15202b' }}
     >
       {isPending ? (
         'Loading...'
@@ -34,31 +34,31 @@ export default function XProfileEmbed({ username }: { username: string }) {
               <button className="absolute top-2 right-0" onClick={openProfile}>
                 <XIcon className="size-6" />
               </button>
-              <XProfile
+              <XUser
                 isBlueVerified={data.isBlueVerified}
                 name={data.name}
                 profilePicture={data.profilePicture}
                 username={data.userName}
               />
             </div>
-            <p className="mt-3 mb-5 text-v1-content-secondary">
+            <p className="mt-3 mb-5 text-x-content-secondary">
               {data.description}
             </p>
-            <div className="mt-auto mb-1 flex items-center gap-1 text-v1-content-secondary">
+            <div className="mt-auto mb-1 flex items-center gap-1 text-x-content-secondary">
               <Icon name={bxCalendar} size={14} />
               Joined {dayjs(data.createdAt).format('MMM YYYY')}
             </div>
             <div className="mb-3 flex items-center gap-1">
               <ReadableNumber className="font-medium" value={data.following} />
-              <span className="text-v1-content-secondary">Following</span>
+              <span className="text-x-content-secondary">Following</span>
               <ReadableNumber
                 className="ml-2 font-medium"
                 value={data.followers}
               />
-              <span className="text-v1-content-secondary">Followers</span>
+              <span className="text-x-content-secondary">Followers</span>
             </div>
             <Button
-              className="!bg-transparent !text-v1-content-info !rounded-3xl w-full"
+              className="!bg-transparent !text-x-content-brand !rounded-3xl w-full"
               onClick={openProfile}
               size="md"
               variant="outline"
@@ -74,35 +74,50 @@ export default function XProfileEmbed({ username }: { username: string }) {
   );
 }
 
-export function XProfile({
+export function XUser({
   username,
   name,
   isBlueVerified,
   profilePicture,
+  mini,
+  className,
 }: {
   username: string;
   name: string;
-  isBlueVerified: boolean;
-  profilePicture: string;
+  isBlueVerified?: boolean;
+  profilePicture?: string;
+  mini?: boolean;
+  className?: string;
 }) {
   const href = `https://x.com/${username}`;
+  const avatar = `https://unavatar.io/x/${username}`;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={clsx(className, 'flex items-center gap-2')}>
       <img
         alt=""
-        className="size-10 rounded-full bg-white/5"
-        src={profilePicture}
+        className={clsx('rounded-full bg-white/5', mini ? 'size-6' : 'size-10')}
+        src={profilePicture ?? avatar}
       />
-      <div>
-        <p className="flex items-center gap-1 font-medium text-base">
+      <div
+        className={clsx(
+          'flex justify-center',
+          mini ? 'flex-row gap-1' : 'flex-col',
+        )}
+      >
+        <p
+          className={clsx(
+            'flex items-center gap-1 font-medium',
+            mini ? 'text-xs' : 'text-base',
+          )}
+        >
           <a className="hover:!underline" href={href} target="_blank">
             {name}
           </a>
           {isBlueVerified && <VerifiedIcon className="size-4" />}
         </p>
         <a
-          className="!text-v1-content-secondary hover:!underline text-xs"
+          className="!text-x-content-secondary hover:!underline text-xs"
           href={href}
           target="_blank"
         >

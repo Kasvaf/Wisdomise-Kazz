@@ -16,21 +16,17 @@ import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';
 import { TweetCard } from './TweetCard';
 
-export const TwitterTrackerView: FC<{
+export const XTrackerView: FC<{
   onRequestEdit?: () => void;
   className?: string;
   expanded?: boolean;
 }> = ({ onRequestEdit, className, expanded }) => {
   const { t } = useTranslation();
-  const [openedMedia, setOpenedMedia] = useState<
-    TwitterTweet['media'][number] | null
-  >(null);
   const [openedRelatedTokens, setOpenedRelatedTokens] = useState<
     TwitterTweet['tweet_id'] | null
   >(null);
 
   const [relatedTokensModal, setRelatedTokensModal] = useState(false);
-  const [mediaModal, setMediaModal] = useState(false);
   const relatedTokens = useTweetRelatedTokens(openedRelatedTokens ?? undefined);
 
   const isMobile = useIsMobile();
@@ -43,7 +39,7 @@ export const TwitterTrackerView: FC<{
   return (
     <div
       className={clsx(
-        'mx-auto h-full divide-y divide-v1-content-primary/10 bg-v1-surface-l0',
+        'h-full divide-y divide-v1-content-primary/10 bg-v1-surface-l0',
         className,
       )}
     >
@@ -70,20 +66,6 @@ export const TwitterTrackerView: FC<{
         </div>
       ) : (
         <>
-          <Dialog
-            contentClassName="mobile:p-3 w-p"
-            drawerConfig={{ closeButton: true, position: 'bottom' }}
-            modalConfig={{ closeButton: true }}
-            mode={isMobile ? 'drawer' : 'modal'}
-            onClose={() => setMediaModal(false)}
-            open={!!openedMedia && mediaModal}
-          >
-            <img
-              alt={openedMedia?.url}
-              className="h-auto min-h-16 w-full rounded-lg bg-v1-surface-l2 object-contain"
-              src={openedMedia?.url}
-            />
-          </Dialog>
           <Dialog
             contentClassName="mobile:p-3 p-2 mobile:w-auto w-44"
             drawerConfig={{ closeButton: true, position: 'bottom' }}
@@ -123,17 +105,10 @@ export const TwitterTrackerView: FC<{
             )}
           </Dialog>
           {tweets.data.map(tweet => (
-            <div
-              className="whitespace-pre py-3 font-mono text-xxs"
-              key={tweet.tweet_id}
-            >
+            <div className="whitespace-pre" key={tweet.tweet_id}>
               <TweetCard
-                className="bg-v1-surface-l1"
+                className={expanded ? 'bg-v1-surface-l1' : ''}
                 expanded={expanded}
-                onOpenMedia={media => {
-                  setOpenedMedia(media);
-                  setMediaModal(true);
-                }}
                 onOpenRelatedTokens={tweetOId => {
                   setOpenedRelatedTokens(tweetOId);
                   setRelatedTokensModal(true);

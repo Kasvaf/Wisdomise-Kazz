@@ -4,12 +4,12 @@ import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import { type FC, memo, Suspense, useMemo } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { ReactComponent as XCommunityIcon } from '../v1-components/X/XCommunityEmbed/x-community.svg';
+import { ReactComponent as XPostIcon } from '../v1-components/X/XPostEmbed/x-post.svg';
+import { ReactComponent as XProfileIcon } from '../v1-components/X/XProfileEmbed/x-profile.svg';
+import { ReactComponent as XIcon } from '../v1-components/X/x.svg';
 import { getLogo, resolveSocials, type Social } from './lib';
 import { parseXUrl, SocialPreview } from './SocialPreview';
-import { ReactComponent as XIcon } from './x.svg';
-import { ReactComponent as XCommunityIcon } from './x-community.svg';
-import { ReactComponent as XPostIcon } from './x-post.svg';
-import { ReactComponent as XProfileIcon } from './x-profile.svg';
 
 export const CoinSocials: FC<{
   abbreviation?: string | null;
