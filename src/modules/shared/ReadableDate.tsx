@@ -90,11 +90,7 @@ export const ReadableDate: FC<{
 
   return (
     <time
-      className={clsx(
-        content?.label && !disabled && 'cursor-help',
-        !content?.label && 'font-light opacity-70',
-        className,
-      )}
+      className={clsx(!content?.label && 'font-light opacity-70', className)}
       {...(!disabled && { title: content?.tooltip })}
     >
       {content?.label ?? emptyText ?? t('not-available')}

@@ -224,4 +224,11 @@
   --color-v1-surface-l6: var(--color-neutral-650);
 
   --color-nodata: rgba(237, 236, 255, 0.57);
+
+  /* X (Twitter) */
+  --color-x-bg: #15202b;
+  --color-x-bg-hover: #1d2c3a;
+  --color-x-content-secondary: #8b98a6;
+  --color-x-content-brand: #6cc9fb;
+  --color-x-border: #425464;
 }

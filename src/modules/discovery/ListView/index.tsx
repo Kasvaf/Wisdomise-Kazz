@@ -7,8 +7,8 @@ import { Portfolio } from './Portfolio';
 import { Positions } from './Positions';
 import { SocialRadar } from './SocialRadar';
 import { TechnicalRadar } from './TechnicalRadar';
-import { TwitterTracker } from './TwitterTracker';
 import { WhaleRadar } from './WhaleRadar';
+import { XTracker } from './XTracker';
 
 export const ListView: FC<{
   list: DiscoveryList;
@@ -43,7 +43,7 @@ export const ListView: FC<{
       ) : list === 'wallet-tracker' ? (
         <WalletTracker {...rest} />
       ) : list === 'twitter-tracker' ? (
-        <TwitterTracker {...rest} />
+        <XTracker {...rest} />
       ) : null}
     </div>
   );

@@ -1,6 +1,6 @@
 import { type FC, lazy } from 'react';
-import XCommunityEmbed from 'shared/CoinSocials/XCommunityEmbed';
-import XProfileEmbed from 'shared/CoinSocials/XProfileEmbed';
+import XCommunityEmbed from 'shared/v1-components/X/XCommunityEmbed';
+import XProfileEmbed from 'shared/v1-components/X/XProfileEmbed';
 import type { Social } from './lib';
 
 const FacebookEmbed = lazy(() =>
