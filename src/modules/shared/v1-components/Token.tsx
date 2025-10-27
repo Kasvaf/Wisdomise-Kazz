@@ -45,7 +45,6 @@ export const Token: FC<{
   socials?: CoinCommunityData['links'] | SymbolSocailAddresses | null;
   icon?: boolean;
 
-  /* Common */
   className?: string;
   block?: boolean;
   onClick?: () => void;
