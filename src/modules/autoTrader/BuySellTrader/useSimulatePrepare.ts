@@ -35,7 +35,7 @@ export const useSimulatePrepare = ({
 
   const nativeAmount =
     (data && 'gas_fee' in data ? Number(data?.gas_fee) : 0) +
-    (from.coinInfo?.abbreviation === gasAbbr ? +from.amount : 0);
+    (from.coinInfo?.symbol === gasAbbr ? +from.amount : 0);
 
   const remainingGas = Number(nativeBalance) - nativeAmount;
   const hasEnoughGas = remainingGas > MIN_GAS[gasAbbr];
