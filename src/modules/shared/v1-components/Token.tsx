@@ -12,9 +12,9 @@ import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/li
 import { type FC, type ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TokenLabels, TokenNetworksLabel } from 'shared/CoinLabels';
-import { TokenSocials } from 'shared/CoinSocials';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
+import { TokenSocials } from 'shared/TokenSocials';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
@@ -158,9 +158,9 @@ export const Token: FC<{
             }
           >
             <TokenImage
-              name={abbreviation}
+              name={abbreviation || (autoFill ? tokenInfo?.symbol : undefined)}
               size={size}
-              src={logo || tokenInfo?.image_uri}
+              src={logo || (autoFill ? tokenInfo?.image_uri : undefined)}
             />
             {typeof progress === 'number' && (
               <TokenProgress progress={progress} />
@@ -204,7 +204,7 @@ export const Token: FC<{
                   )}
                   title={abbreviation ?? ''}
                 >
-                  {abbreviation ?? tokenInfo?.symbol}
+                  {abbreviation ?? (autoFill ? tokenInfo?.symbol : undefined)}
                 </p>
               )}
               {labels && (
@@ -243,7 +243,7 @@ export const Token: FC<{
                       )}
                       title={name || tokenInfo?.name}
                     >
-                      {name ?? tokenInfo?.name}
+                      {name ?? (autoFill ? tokenInfo?.name : undefined)}
                     </p>
                   )}
               {address && showAddress && (

@@ -2,6 +2,7 @@ import type { Observable } from 'rxjs';
 import * as common from '../proto/common';
 import * as delphinus from '../proto/delphinus';
 import * as network_radar from '../proto/network_radar';
+import * as wealth_manager from '../proto/wealth_manager';
 
 export const SERVICES = {
   ping: {
@@ -21,6 +22,12 @@ export const SERVICES = {
     GrpcWebImpl: network_radar.GrpcWebImpl,
     GrpcWebError: network_radar.GrpcWebError,
     pathname: `/network-radar`,
+  },
+  wealth_manager: {
+    ClientImpl: wealth_manager.WealthManagerServiceClientImpl,
+    GrpcWebImpl: wealth_manager.GrpcWebImpl,
+    GrpcWebError: wealth_manager.GrpcWebError,
+    pathname: `/wealth-manager`,
   },
 };
 

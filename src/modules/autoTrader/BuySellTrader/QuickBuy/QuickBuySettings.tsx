@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { TraderPresetsSelector } from 'modules/autoTrader/BuySellTrader/TraderPresets';
-import { SolanaIcon } from 'modules/autoTrader/CoinSwapActivity';
+import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
   type TradeSettingsSource,

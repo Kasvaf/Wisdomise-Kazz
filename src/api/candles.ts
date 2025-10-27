@@ -88,7 +88,7 @@ interface LastCandleSymbol {
 interface LastCandleParams {
   slug?: string; // slug
   quote?: string;
-  network?: 'solana' | 'the-open-network';
+  network?: 'solana' | 'the-open-network' | 'polygon';
   market?: MarketTypes;
   convertToUsd?: boolean;
   debug?: boolean;

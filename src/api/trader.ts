@@ -63,16 +63,10 @@ interface TraderAssetActivity {
   avg_sell_price?: string;
   avg_sell_price_usd?: string;
   balance: string;
-  hold: string;
-  hold_usd: string;
-  pnl: string;
-  pnl_percent: string;
   total_bought: string;
   total_bought_usd: string;
   total_sold: string;
   total_sold_usd: string;
-  usd_pnl: string;
-  usd_pnl_percent: string;
 }
 
 export const useTokenActivityQuery = (slug?: string) => {
@@ -645,19 +639,22 @@ export function useTraderSwapsQuery({
   address,
   page,
   pageSize,
+  baseSlug,
 }: {
   address?: string;
   page?: number;
   pageSize?: number;
+  baseSlug?: string;
 }) {
   const isLoggedIn = useIsLoggedIn();
   return useQuery({
-    queryKey: ['buys-sells', page, pageSize, address],
+    queryKey: ['buys-sells', page, pageSize, address, baseSlug],
     queryFn: async () => {
       return await ofetch<PageResponse<Swap>>('/trader/swap', {
         method: 'get',
         query: {
           network_slug: 'solana',
+          symbol_slug: baseSlug,
           wallet_address: address,
           page_size: pageSize,
           page,

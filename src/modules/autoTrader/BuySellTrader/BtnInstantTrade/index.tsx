@@ -16,9 +16,9 @@ import {
   TraderPresetValues,
 } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
-import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
+import TokenActivity from 'modules/autoTrader/TokenActivity';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useState } from 'react';
@@ -252,7 +252,7 @@ export default function BtnInstantTrade({
                   />
                 </div>
               )}
-              <CoinSwapActivity mini />
+              <TokenActivity mini />
               <div
                 className="absolute bottom-0 flex h-[5px] w-full cursor-ns-resize items-center justify-center text-white/70 transition-colors hover:bg-v1-surface-l4"
                 onMouseDown={e => startResizing(e, 'bottom')}

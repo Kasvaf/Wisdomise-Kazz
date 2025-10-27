@@ -1,11 +1,11 @@
 import { type TwitterUser, useTwitterCommunityPreviewQuery } from 'api/twitter';
 import { bxCalendar } from 'boxicons-quasar';
 import dayjs from 'dayjs';
-import { shortFromNow } from 'shared/CoinSocials/lib';
-import { XProfile } from 'shared/CoinSocials/XProfileEmbed';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { shortFromNow } from 'shared/TokenSocials/lib';
 import { Button } from 'shared/v1-components/Button';
+import { XUser } from 'shared/v1-components/X/XProfileEmbed';
 import { ReactComponent as XIcon } from '../x.svg';
 
 export default function XCommunityEmbed({
@@ -53,19 +53,17 @@ export default function XCommunityEmbed({
                 </button>
               </h1>
             </div>
-            <p className="mt-8 mb-3 text-v1-content-secondary">
-              {data.community_info.description}
-            </p>
+            <p className="mt-8 mb-3">{data.community_info.description}</p>
             <XCommunityMembers members={data.community_info.members_preview} />
-            <hr className="my-3 border-white/10" />
-            <p className="mb-1 text-v1-content-secondary">Created By</p>
-            <XProfile
+            <hr className="my-3 border-x-border" />
+            <p className="mb-1 text-x-content-secondary">Created By</p>
+            <XUser
               isBlueVerified={admin.isBlueVerified}
               name={admin.name}
               profilePicture={admin.profile_image_url_https}
               username={admin.screen_name}
             />
-            <div className="mt-3 mb-1 flex items-center gap-1 text-v1-content-secondary">
+            <div className="mt-3 mb-1 flex items-center gap-1 text-x-content-secondary">
               <Icon name={bxCalendar} size={14} />
               Created {dayjs(data.community_info.created_at).format('MMM YYYY')}
             </div>
@@ -74,15 +72,15 @@ export default function XCommunityEmbed({
                 className="font-medium"
                 value={admin.following_count}
               />
-              <span className="text-v1-content-secondary">Following</span>
+              <span className="text-x-content-secondary">Following</span>
               <ReadableNumber
                 className="ml-2 font-medium"
                 value={admin.followers_count}
               />
-              <span className="text-v1-content-secondary">Followers</span>
+              <span className="text-x-content-secondary">Followers</span>
             </div>
             <Button
-              className="!bg-transparent !text-v1-content-info !rounded-full w-full"
+              className="!bg-transparent !text-x-content-brand !rounded-full w-full"
               onClick={openCommunity}
               size="md"
               variant="outline"
@@ -120,7 +118,7 @@ function XCommunityMembers({ members }: { members: TwitterUser[] }) {
           format={{ compactInteger: true }}
           value={members.length}
         />{' '}
-        <span className="text-v1-content-secondary">Members</span>
+        <span className="text-x-content-secondary">Members</span>
       </span>
     </div>
   );

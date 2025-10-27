@@ -1,10 +1,10 @@
-import { useHasFlag, useTokenActivityQuery, useTokenPairsQuery } from 'api';
+import { useHasFlag, useLastCandleStream, useTokenPairsQuery } from 'api';
 import {
   WRAPPED_SOLANA_CONTRACT_ADDRESS,
   WRAPPED_SOLANA_SLUG,
 } from 'api/chains/constants';
-import { useGrpc } from 'api/grpc-v2';
 import { clsx } from 'clsx';
+import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
@@ -55,11 +55,11 @@ export function SolanaIcon({ className }: { className?: string }) {
   );
 }
 
-export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
+export default function TokenActivity({ mini = false }: { mini?: boolean }) {
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
   const slug = symbol.slug;
-  const { data } = useTokenActivityQuery(symbol.slug);
+  const { data } = useTokenActivity({ slug });
   const hasFlag = useHasFlag();
 
   const network = useActiveNetwork();
@@ -69,27 +69,21 @@ export default function CoinSwapActivity({ mini = false }: { mini?: boolean }) {
     !isPending && pairs?.some(p => p.quote.slug === WRAPPED_SOLANA_SLUG);
   const showUsd = hasSolanaPair ? settings.show_activity_in_usd : true;
 
-  const lastCandle = useGrpc({
-    service: 'delphinus',
-    method: 'lastCandleStream',
-    payload: {
-      market: 'SPOT',
-      network,
-      baseSlug: symbol.slug ?? '',
-      quoteSlug: WRAPPED_SOLANA_SLUG,
-      convertToUsd: showUsd,
-    },
-    enabled: true,
-    history: 0,
+  const lastCandle = useLastCandleStream({
+    market: 'SPOT',
+    network,
+    slug: symbol.slug ?? '',
+    quote: WRAPPED_SOLANA_SLUG,
+    convertToUsd: showUsd,
   });
 
   const unit = showUsd ? '$' : <SolanaIcon />;
 
   const totalBought = Number(
-    (showUsd ? data?.total_bought_usd : data?.total_bought) ?? '0',
+    (showUsd ? data?.totalBoughtUsd : data?.totalBought) ?? '0',
   );
   const totalSold = Number(
-    (showUsd ? data?.total_sold_usd : data?.total_sold) ?? '0',
+    (showUsd ? data?.totalSoldUsd : data?.totalSold) ?? '0',
   );
   const hold =
     Number(data?.balance ?? '0') *

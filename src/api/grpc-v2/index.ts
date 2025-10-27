@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { isDebugMode } from 'utils/version';
 import {
   createWorkerConfig,
+  type GrpcWorkerRequest,
   generateKey,
   type MethodName,
   type Payload,
@@ -84,6 +85,7 @@ export function useGrpc<
   history?: number;
   enabled?: boolean;
   debug?: boolean;
+  filter?: (data: R | undefined) => boolean;
 }): GrpcState<R> {
   const key = generateKey(request);
 
@@ -105,7 +107,14 @@ export function useGrpc<
       });
     }
 
-    const unsubscribe = subscribeWorker(worker, request, resp => {
+    const workerReq = {
+      service: request.service,
+      method: request.method,
+      payload: request.payload,
+      debug: request.debug,
+    } as Omit<GrpcWorkerRequest, 'action'>;
+
+    const unsubscribe = subscribeWorker(worker, workerReq, resp => {
       lastObservedData.set(resp.key, resp.data);
       setResponse(p => {
         lastObservedData.set(resp.key, resp.data);
@@ -133,5 +142,11 @@ export function useGrpc<
     };
   }, [key, request.enabled]);
 
-  return response;
+  return request.filter
+    ? {
+        ...response,
+        data: response.history.findLast(h => request.filter?.(h)),
+        history: response.history.filter(request.filter),
+      }
+    : response;
 }

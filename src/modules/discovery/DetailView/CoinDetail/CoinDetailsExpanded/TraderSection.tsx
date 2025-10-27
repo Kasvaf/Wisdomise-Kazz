@@ -1,6 +1,6 @@
 import { useTokenPairsQuery } from 'api';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import CoinSwapActivity from 'modules/autoTrader/CoinSwapActivity';
+import TokenActivity from 'modules/autoTrader/TokenActivity';
 import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Spinner from 'shared/Spinner';
@@ -24,7 +24,7 @@ const TraderSection: React.FC<{
           </div>
         ) : supportedPairs?.length ? (
           <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
-            <CoinSwapActivity />
+            <TokenActivity />
             <TraderTrades
               loadingClassName="bg-v1-surface-l1"
               quote={quote}

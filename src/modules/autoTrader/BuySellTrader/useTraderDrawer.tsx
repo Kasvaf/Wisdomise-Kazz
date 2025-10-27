@@ -77,7 +77,6 @@ export default function useTraderDrawer() {
     component,
     (inputs: DrawerInputs & { quote?: string }) => {
       setInputs(inputs);
-      setQuote(inputs.quote ?? 'tether');
       setOpen(true);
     },
   ] as const;

@@ -852,6 +852,9 @@ export interface TwitterAccount {
   following_count: null | number;
   tweet_count: null | number;
   like_count: null | number;
+  profile_picture?: string;
+  is_blue_verified?: boolean;
+  cover_picture?: string;
 }
 
 export interface TwitterFollowedAccount {

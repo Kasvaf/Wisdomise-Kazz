@@ -25,6 +25,7 @@ export interface Account {
   wsdm_balance?: number;
   hub_spot_token: string;
   features: string[];
+  username: string;
 }
 
 interface Info {

@@ -58,7 +58,6 @@ const getTokens = async (tokenAddresses: string[]) => {
     delete data[WRAPPED_SOLANA_CONTRACT_ADDRESS];
     Object.assign(cachedTokens, data);
   }
-  console.log(cachedTokens);
   return tokenAddresses.map(x => cachedTokens[String(x)]);
 };
 

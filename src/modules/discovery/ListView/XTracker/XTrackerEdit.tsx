@@ -37,9 +37,7 @@ const SubTab: FC<
   />
 );
 
-export const TwitterTrackerEdit: FC<{ className?: string }> = ({
-  className,
-}) => {
+export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
   const [notif, notifContent] = useNotification({});
   const [tab, setTab] =
     useState<NonNullable<ComponentProps<typeof SubTab>['value']>>(
