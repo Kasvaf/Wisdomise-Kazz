@@ -34,12 +34,12 @@ const SOLANA_TOKEN_INFO = {
     'https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756',
 } as TokenInfo;
 
-export const slugToTokenAddress = (slug?: string) => {
+export const slugToTokenAddress = (slug?: string | null) => {
   if (!slug) return '';
   return slug.startsWith('solana_') ? slug.slice(7) : slug;
 };
 
-export const tokenAddressToSlug = (address: string) => {
+export const tokenAddressToSlug = (address?: string | null) => {
   return `solana_${address}`;
 };
 

@@ -26,7 +26,7 @@ export function Tokens({
         )}
       >
         {addresses?.slice(0, 3).map(address => (
-          <Token address={address} icon key={address} size="xs" />
+          <Token address={address} autoFill icon key={address} size="xs" />
         ))}
         {(addresses?.length ?? 0) > 3 && (
           <div

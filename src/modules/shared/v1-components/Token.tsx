@@ -246,20 +246,20 @@ export const Token: FC<{
                       {name ?? (autoFill ? tokenInfo?.name : undefined)}
                     </p>
                   )}
-              {address && showAddress && (
+              {(address || slug) && showAddress && (
                 <div
                   className={clsx(
                     'flex items-center gap-1 font-mono text-v1-content-secondary',
                     size === 'md' ? 'text-xs' : 'text-sm',
                   )}
                 >
-                  {shortenAddress(address)}
+                  {shortenAddress(address ?? slugToTokenAddress(slug))}
                   <div
                     className="cursor-copy"
                     onClick={e => {
                       e.preventDefault();
                       e.stopPropagation();
-                      void copy(address);
+                      void copy(address ?? slugToTokenAddress(slug) ?? '');
                     }}
                   >
                     <Icon name={bxsCopy} size={12} />
@@ -393,7 +393,7 @@ export const TokenImage = ({
       className={clsx(
         'relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-lg border border-white/5 bg-v1-surface-l0 text-3xl text-white/70',
         size === 'sm' && '!text-base !rounded-md',
-        size === 'xs' && '!rounded-sm',
+        size === 'xs' && '!rounded-sm text-xxs',
       )}
     >
       {!isLoaded && (
