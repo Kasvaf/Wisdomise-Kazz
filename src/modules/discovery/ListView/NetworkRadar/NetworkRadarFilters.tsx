@@ -18,7 +18,7 @@ import { hasAnyValue } from 'utils/object';
 import { Filters } from '../Filters';
 import type { NetworkRadarStreamFilters, NetworkRadarTab } from './lib';
 
-const TabLabel: FC<{
+const FiltersTab: FC<{
   state?: Partial<NetworkRadarStreamFilters>;
   onReset: Dispatch<SetStateAction<Partial<NetworkRadarStreamFilters>>>;
   label: ReactNode;
@@ -121,7 +121,7 @@ export const NetworkRadarFilters: FC<{
                   {
                     value: 'new_pairs',
                     label: (
-                      <TabLabel
+                      <FiltersTab
                         activeTab={tab}
                         label="New Pairs"
                         onReset={setState}
@@ -133,7 +133,7 @@ export const NetworkRadarFilters: FC<{
                   {
                     value: 'final_stretch',
                     label: (
-                      <TabLabel
+                      <FiltersTab
                         activeTab={tab}
                         label="Final Stretch"
                         onReset={setState}
@@ -145,7 +145,7 @@ export const NetworkRadarFilters: FC<{
                   {
                     value: 'migrated',
                     label: (
-                      <TabLabel
+                      <FiltersTab
                         activeTab={tab}
                         label="Migrated"
                         onReset={setState}

@@ -157,7 +157,7 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     migrated: {},
   },
   meta: {
-    filters: {},
+    filters: { new: {}, trend: {}, high_mc: {} },
   },
 };
 
@@ -195,7 +195,7 @@ const context = createContext<
       deleteAllImportedWallets: () => void;
       updateSelectedLibs: (libs: { key: string }[]) => void;
       updateTrenchFilters: (patch: Partial<NetworkRadarStreamFilters>) => void;
-      updateMetaFilters: (meta: MetaFilters) => void;
+      updateMetaFilters: (meta: Partial<MetaFilters>) => void;
     }
   | undefined
 >(undefined);
@@ -408,7 +408,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     });
   };
 
-  const updateMetaFilters = (patch: MetaFilters) => {
+  const updateMetaFilters = (patch: Partial<MetaFilters>) => {
     setSettings(prev => {
       return {
         ...prev,
