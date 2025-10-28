@@ -8,11 +8,11 @@ import { bxPlus } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Coin } from 'shared/Coin';
 import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
 import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
+import { Token } from 'shared/v1-components/Token';
 import useIsMobile from 'utils/useIsMobile';
 import { TweetCard } from './TweetCard';
 
@@ -90,14 +90,13 @@ export const XTrackerView: FC<{
                     key={token.slug}
                     onClick={() => setRelatedTokensModal(false)}
                   >
-                    <Coin
+                    <Token
+                      abbreviation={token.abbreviation}
                       className="w-full text-xs"
-                      coin={{
-                        slug: token.slug,
-                        abbreviation: token.abbreviation,
-                        name: token.name,
-                        logo_url: token.icon,
-                      }}
+                      logo={token.icon}
+                      name={token.name}
+                      showAddress={false}
+                      slug={token.slug}
                     />
                   </div>
                 ))}

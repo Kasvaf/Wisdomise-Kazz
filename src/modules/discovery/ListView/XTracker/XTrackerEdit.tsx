@@ -54,7 +54,7 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
         title: 'Handle',
         render: row => (
           <a
-            className="max-w-32 overflow-hidden truncate"
+            className="max-w-32 overflow-hidden truncate text-xs"
             href={`https://x.com/${row.username}`}
             referrerPolicy="no-referrer"
             rel="noreferrer"
@@ -69,6 +69,7 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
         title: 'Followers',
         render: row => (
           <ReadableNumber
+            className="text-xs"
             format={{
               decimalLength: 1,
             }}
@@ -131,6 +132,7 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
         title: 'Handle',
         render: row => (
           <a
+            className="text-xs"
             href={`https://x.com/${row.username}`}
             referrerPolicy="no-referrer"
             rel="noreferrer"
@@ -197,7 +199,7 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
         variant="tab"
       />
       {notifContent}
-      <div className="p-3">
+      <div className="px-3">
         {tab === 'suggestions' && (
           <Table
             columns={suggestionsColumns}

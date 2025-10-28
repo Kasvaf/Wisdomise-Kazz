@@ -29,7 +29,7 @@ export function XPostEmbed({
         />
         <ReadableDate suffix={false} value={value.related_at} />
       </div>
-      <div className="flex w-full flex-col items-center justify-start p-4">
+      <div className="flex w-full flex-col items-center justify-start p-3 pt-4">
         {value.replied_tweet && (
           <div className="mb-2 flex h-7 w-full items-center justify-start overflow-hidden rounded-[12px] px-[8px]">
             <div className="mr-[10px] h-full w-[3px] min-w-[3px] rounded-full bg-[#425464]"></div>
