@@ -36,7 +36,7 @@ export const XTracker: FC<{
         >
           <XTrackerEdit className="scrollbar-thin h-full w-96 shrink-0 overflow-auto" />
           <XTrackerView
-            className="scrollbar-thin h-full max-h-full w-full max-w-96 grow overflow-auto"
+            className="scrollbar-thin h-full max-h-full w-full max-w-[32rem] grow overflow-auto"
             expanded
             onRequestEdit={() => setPageState(p => ({ ...p, tab: 'edit' }))}
           />

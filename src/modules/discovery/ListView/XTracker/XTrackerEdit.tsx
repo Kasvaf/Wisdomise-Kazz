@@ -192,7 +192,7 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
         className="mb-3"
         onChange={setTab}
         size="md"
-        surface={1}
+        surface={0}
         value={tab}
         variant="tab"
       />
