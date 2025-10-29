@@ -192,7 +192,8 @@ export const useSwap = ({
         message: <NotificationContent />,
         duration: 30_000,
       });
-      console.log('attempt', new Date().toISOString());
+      const attemptTime = Date.now();
+      console.log('attempt', new Date(attemptTime).toISOString());
       const { swapKey, signature, latestBlockhash } = await solanaSwap(
         slug,
         quote,
@@ -201,7 +202,13 @@ export const useSwap = ({
         slippage,
         priorityFee,
       );
-      console.log('swap created', new Date().toISOString());
+      const doneTime = Date.now();
+      console.log(
+        'swap created',
+        new Date(doneTime).toISOString(),
+        'diff: ',
+        doneTime - attemptTime,
+      );
       swapsNotifications.set(swapKey, notificationKey);
       await confirm({ signature, latestBlockhash, swapKey });
     } catch (error) {
