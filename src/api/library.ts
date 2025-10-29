@@ -5,12 +5,14 @@ import { ofetch } from 'config/ofetch';
 export interface Library {
   key: string;
   name: string;
-  type: 'wallet';
+  type: LibraryType;
   description: string;
   icon: string;
   wallets: LibraryWallet[];
   accounts: unknown[];
 }
+
+export type LibraryType = 'wallet' | 'x_account';
 
 export interface LibraryWallet {
   name: string;

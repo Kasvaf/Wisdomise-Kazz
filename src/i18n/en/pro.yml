@@ -1,5 +1,5 @@
 pro-locker:
   login:
     button: Login
-    message: Login to access exclusive crypto insights
+    message: You are not logged in to GoatX
 zero-hour: 0 hour

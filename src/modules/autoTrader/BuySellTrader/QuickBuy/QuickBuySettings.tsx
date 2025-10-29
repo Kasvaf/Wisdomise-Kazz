@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import { TraderPresetsSelector } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
   type TradeSettingsSource,
   useUserSettings,
@@ -22,9 +21,8 @@ export default function QuickBuySettings({
   surface?: Surface;
 }) {
   const { settings, updateQuickBuyAmount } = useUserSettings();
-  const isLoggedIn = useIsLoggedIn();
 
-  return isLoggedIn ? (
+  return (
     <div className={clsx(className, 'flex items-center gap-2')}>
       <HoverTooltip ignoreFocus title="Quick Buy Amount">
         <Input
@@ -47,5 +45,5 @@ export default function QuickBuySettings({
         surface={surface}
       />
     </div>
-  ) : null;
+  );
 }

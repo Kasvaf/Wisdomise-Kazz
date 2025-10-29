@@ -8,6 +8,7 @@ import { bxPlus } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AccessShield } from 'shared/AccessShield';
 import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
 import { Button } from 'shared/v1-components/Button';
@@ -43,81 +44,83 @@ export const XTrackerView: FC<{
         className,
       )}
     >
-      {tweets.isLoading || followings.isFetching ? (
-        <Spinner className="mx-auto my-6" />
-      ) : (tweets.data?.length ?? 0) === 0 ? (
-        <div className="flex flex-col items-center py-10">
-          <h3 className="mb-2 font-semibold text-xs">{'Nothing to Show!'}</h3>
-          <p className="mb-4 max-w-[220px] text-center text-v1-content-secondary text-xs">
-            {followings.value.length === 0 && !followings.isLoading
-              ? 'Follow accounts to see their tweets here'
-              : 'None of your followed accounts have posted tweets in the last 24 hours'}
-          </p>
-          <Button
-            className="!hidden"
-            onClick={onRequestEdit}
-            size="xs"
-            surface={2}
-            variant="outline"
-          >
-            <Icon name={bxPlus} />
-            {'Add More Channels'}
-          </Button>
-        </div>
-      ) : (
-        <>
-          <Dialog
-            contentClassName="mobile:p-3 p-2 mobile:w-auto w-44"
-            drawerConfig={{ closeButton: true, position: 'bottom' }}
-            modalConfig={{ closeButton: true }}
-            mode={isMobile ? 'drawer' : 'popup'}
-            onClose={() => setRelatedTokensModal(false)}
-            open={!!openedRelatedTokens && relatedTokensModal}
-          >
-            <h3 className="mobile:block hidden">Related Tokens:</h3>
-            {relatedTokens.isLoading ? (
-              <p className="animate-pulse p-2 text-center text-v1-content-secondary text-xs">
-                {t('common:almost-there')}
-              </p>
-            ) : (relatedTokens.data?.length ?? 0) === 0 ? (
-              <p className="max-w-full p-2 text-start text-v1-content-secondary text-xs">
-                {t('common:nothing-to-show')}
-              </p>
-            ) : (
-              <div className="space-y-2">
-                {relatedTokens.data?.map(token => (
-                  <div
-                    key={token.slug}
-                    onClick={() => setRelatedTokensModal(false)}
-                  >
-                    <Token
-                      abbreviation={token.abbreviation}
-                      className="w-full text-xs"
-                      logo={token.icon}
-                      name={token.name}
-                      showAddress={false}
-                      slug={token.slug}
-                    />
-                  </div>
-                ))}
+      <h2 className="p-3 text-xs pt-0">X Feed</h2>
+      <AccessShield mode="children" sizes={{ guest: true }}>
+        {tweets.isLoading || followings.isFetching ? (
+          <Spinner className="mx-auto my-6" />
+        ) : (tweets.data?.length ?? 0) === 0 ? (
+          <div className="flex flex-col items-center py-10">
+            <h3 className="mb-2 font-semibold text-xs">{'Nothing to Show!'}</h3>
+            <p className="mb-4 max-w-[220px] text-center text-v1-content-secondary text-xs">
+              {followings.value.length === 0 && !followings.isLoading
+                ? 'Follow accounts to see their tweets here'
+                : 'None of your followed accounts have posted tweets in the last 24 hours'}
+            </p>
+            <Button
+              className="!hidden"
+              onClick={onRequestEdit}
+              size="xs"
+              surface={2}
+              variant="outline"
+            >
+              <Icon name={bxPlus} />
+              {'Add More Channels'}
+            </Button>
+          </div>
+        ) : (
+          <>
+            <Dialog
+              contentClassName="mobile:p-3 p-2 mobile:w-auto w-44"
+              drawerConfig={{ closeButton: true, position: 'bottom' }}
+              modalConfig={{ closeButton: true }}
+              mode={isMobile ? 'drawer' : 'popup'}
+              onClose={() => setRelatedTokensModal(false)}
+              open={!!openedRelatedTokens && relatedTokensModal}
+            >
+              <h3 className="mobile:block hidden">Related Tokens:</h3>
+              {relatedTokens.isLoading ? (
+                <p className="animate-pulse p-2 text-center text-v1-content-secondary text-xs">
+                  {t('common:almost-there')}
+                </p>
+              ) : (relatedTokens.data?.length ?? 0) === 0 ? (
+                <p className="max-w-full p-2 text-start text-v1-content-secondary text-xs">
+                  {t('common:nothing-to-show')}
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {relatedTokens.data?.map(token => (
+                    <div
+                      key={token.slug}
+                      onClick={() => setRelatedTokensModal(false)}
+                    >
+                      <Token
+                        abbreviation={token.abbreviation}
+                        className="w-full text-xs"
+                        logo={token.icon}
+                        name={token.name}
+                        showAddress={false}
+                        slug={token.slug}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Dialog>
+            {tweets.data.map(tweet => (
+              <div className="whitespace-pre" key={tweet.tweet_id}>
+                <TweetCard
+                  expanded={expanded}
+                  onOpenRelatedTokens={tweetOId => {
+                    setOpenedRelatedTokens(tweetOId);
+                    setRelatedTokensModal(true);
+                  }}
+                  value={tweet}
+                />
               </div>
-            )}
-          </Dialog>
-          {tweets.data.map(tweet => (
-            <div className="whitespace-pre" key={tweet.tweet_id}>
-              <TweetCard
-                className={expanded ? 'bg-v1-surface-l1' : ''}
-                expanded={expanded}
-                onOpenRelatedTokens={tweetOId => {
-                  setOpenedRelatedTokens(tweetOId);
-                  setRelatedTokensModal(true);
-                }}
-                value={tweet}
-              />
-            </div>
-          ))}
-        </>
-      )}
+            ))}
+          </>
+        )}
+      </AccessShield>
     </div>
   );
 };

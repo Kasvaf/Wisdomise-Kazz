@@ -13,6 +13,7 @@ import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AccessShield } from 'shared/AccessShield';
 import Badge from 'shared/Badge';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -151,16 +152,15 @@ const UserWallets = (props: Props) => {
 };
 
 export default function UserPortfolio(props: Props) {
-  const isLoggedIn = useIsLoggedIn();
-  if (!isLoggedIn) return null;
-
   return (
-    <div className="p-3">
-      <div className="flex flex-col gap-2">
-        <UserTradingAssets />
-        <UserWallets {...props} />
+    <AccessShield mode="children" sizes={{ guest: true }}>
+      <div className="p-3">
+        <div className="flex flex-col gap-2">
+          <UserTradingAssets />
+          <UserWallets {...props} />
+        </div>
       </div>
-    </div>
+    </AccessShield>
   );
 }
 

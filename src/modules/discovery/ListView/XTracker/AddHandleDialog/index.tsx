@@ -1,11 +1,11 @@
+import { LibrarySelection } from 'modules/discovery/ListView/WalletTracker/AddWalletDialog/LibrarySelection';
+import { AddFromList } from 'modules/discovery/ListView/XTracker/AddHandleDialog/AddFromList';
 import { useState } from 'react';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';
-import { LibrarySelection } from './LibrarySelection';
-import { ManualWalletForm } from './ManualWalletForm';
 
-export default function AddWalletDialog({
+export default function AddHandleDialog({
   open,
   onClose,
 }: {
@@ -13,7 +13,7 @@ export default function AddWalletDialog({
   onClose: () => void;
 }) {
   const isMobile = useIsMobile();
-  const [activeTab, setActiveTab] = useState<'list' | 'manual'>('list');
+  const [activeTab, setActiveTab] = useState<'lib' | 'list' | 'manual'>('lib');
 
   return (
     <Dialog
@@ -23,13 +23,14 @@ export default function AddWalletDialog({
       open={open}
     >
       <div className="flex h-full flex-col">
-        <h1 className="mt-3 mb-5 text-lg">Wallet Library</h1>
+        <h1 className="mt-3 mb-5 text-lg">X Tracker Library</h1>
         <ButtonSelect
           className="mb-5 shrink-0"
           onChange={value => setActiveTab(value)}
           options={
             [
-              { label: 'Choose a List', value: 'list' },
+              { label: 'Choose a List', value: 'lib' },
+              { label: 'Add From List', value: 'list' },
               { label: 'Add Manually', value: 'manual' },
             ] as const
           }
@@ -37,10 +38,10 @@ export default function AddWalletDialog({
           value={activeTab}
           variant="white"
         />
-        {activeTab === 'manual' && <ManualWalletForm onClose={onClose} />}
-        {activeTab === 'list' && (
-          <LibrarySelection onClose={onClose} type="wallet" />
+        {activeTab === 'lib' && (
+          <LibrarySelection onClose={onClose} type="x_account" />
         )}
+        {activeTab === 'list' && <AddFromList onClose={onClose} />}
       </div>
     </Dialog>
   );

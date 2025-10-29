@@ -1,6 +1,7 @@
 import { type UserGroup, useSubscription } from 'api';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
+import BtnLogin from 'modules/base/Layout/ProfileMenu/BtnLogin';
 import {
   type PropsWithChildren,
   useCallback,
@@ -124,7 +125,7 @@ export function AccessShield({
       {calcSize(size) > 0 && (
         <div
           className={clsx(
-            'z-10 w-full rounded-xl',
+            'z-10 w-full',
             height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
             maxHeight < 900 ? 'justify-center' : 'justify-start',
             'flex flex-col items-center backdrop-blur',
@@ -133,11 +134,11 @@ export function AccessShield({
           )}
           ref={shield}
         >
-          <Logo className={clsx('size-12 shrink', height < 130 && 'hidden')} />
+          <Logo className={clsx('size-8 shrink', height < 130 && 'hidden')} />
 
           <p
             className={clsx(
-              'shrink text-center text-v1-content-primary text-xs capitalize',
+              'shrink text-center text-v1-content-primary text-xs',
               height < 100 && 'hidden',
             )}
           >
@@ -154,17 +155,7 @@ export function AccessShield({
               </p>
             }
           >
-            <Button
-              className="shrink-0"
-              onClick={() => ensureGroup(nextGroup ?? 'vip')}
-              size="sm"
-              variant="pro"
-            >
-              <Sparkle />
-              {group === 'guest'
-                ? t('pro-locker.login.button')
-                : 'Join Wise Club'}
-            </Button>
+            {group === 'guest' && <BtnLogin className="mt-3" />}
           </HoverTooltip>
           {loginModal}
         </div>
