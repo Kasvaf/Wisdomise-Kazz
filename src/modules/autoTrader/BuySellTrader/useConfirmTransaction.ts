@@ -2,13 +2,11 @@ import type { BlockhashWithExpiryBlockHeight } from '@solana/web3.js';
 import { useQueryClient } from '@tanstack/react-query';
 import { notification } from 'antd';
 import { swapsNotifications } from 'api/chains';
-import { useSolanaConnection } from 'api/chains/connection';
 import { WatchEventType } from 'api/proto/wealth_manager';
 import { useWatchTokenStream } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useEffect } from 'react';
 
 export const useConfirmTransaction = ({ slug }: { slug?: string }) => {
-  const connection = useSolanaConnection();
   const queryClient = useQueryClient();
   const { data } = useWatchTokenStream({ type: WatchEventType.SWAP_UPDATE });
 
@@ -21,30 +19,34 @@ export const useConfirmTransaction = ({ slug }: { slug?: string }) => {
     signature: string;
     swapKey: string;
   }) => {
-    const timoutSignal = (timeout = 20_000) => {
-      const abortController = new AbortController();
-      setTimeout(() => abortController.abort(), timeout);
-      return abortController.signal;
-    };
+    confirmNotification(swapKey);
+    invalidateQueries(swapKey);
+    return true;
 
-    return connection
-      .confirmTransaction({
-        signature,
-        blockhash: latestBlockhash.blockhash,
-        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
-        abortSignal: timoutSignal(),
-      })
-      .then(x => {
-        if (x.value && x.value.err == null) {
-          console.log('confirmed by network', new Date().toISOString());
-          confirmNotification(swapKey);
-          invalidateQueries(swapKey);
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        throw new Error('Could not confirm transaction by network');
-      });
+    // const timoutSignal = (timeout = 20_000) => {
+    //   const abortController = new AbortController();
+    //   setTimeout(() => abortController.abort(), timeout);
+    //   return abortController.signal;
+    // };
+    //
+    // return connection
+    //   .confirmTransaction({
+    //     signature,
+    //     blockhash: latestBlockhash.blockhash,
+    //     lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+    //     abortSignal: timoutSignal(),
+    //   })
+    //   .then(x => {
+    //     if (x.value && x.value.err == null) {
+    //       console.log('confirmed by network', new Date().toISOString());
+    //       confirmNotification(swapKey);
+    //       invalidateQueries(swapKey);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //     throw new Error('Could not confirm transaction by network');
+    //   });
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <invalidateQueries>
