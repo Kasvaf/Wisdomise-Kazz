@@ -9,10 +9,10 @@ export interface Library {
   description: string;
   icon: string;
   wallets: LibraryWallet[];
-  accounts: unknown[];
+  accounts: { username: string }[];
 }
 
-export type LibraryType = 'wallet' | 'x_account';
+export type LibraryType = 'wallet' | 'x-account';
 
 export interface LibraryWallet {
   name: string;

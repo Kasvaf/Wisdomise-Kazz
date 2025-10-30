@@ -31,11 +31,13 @@ export default function WalletsManager({ className }: { className?: string }) {
               />
             ),
           },
-          ...selectedLibs.map(lib => ({
-            key: lib.key,
-            label: `${lib.name} (${lib.wallets.length} Wallets)`,
-            children: <WalletGroup wallets={lib.wallets} />,
-          })),
+          ...selectedLibs
+            .filter(lib => lib.type === 'wallet')
+            .map(lib => ({
+              key: lib.key,
+              label: `${lib.name} (${lib.wallets.length} Wallets)`,
+              children: <WalletGroup wallets={lib.wallets} />,
+            })),
         ]}
         size="small"
       />

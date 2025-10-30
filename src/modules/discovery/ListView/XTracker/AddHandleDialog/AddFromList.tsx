@@ -101,7 +101,9 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
   );
 
   return (
-    <div className={(className, 'h-full overflow-auto flex flex-col gap-3')}>
+    <div
+      className={clsx(className, 'flex h-full flex-col gap-3 overflow-auto')}
+    >
       <Table
         columns={suggestionsColumns}
         dataSource={suggestions.data}

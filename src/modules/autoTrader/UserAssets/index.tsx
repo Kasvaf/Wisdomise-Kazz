@@ -153,7 +153,10 @@ const UserWallets = (props: Props) => {
 
 export default function UserPortfolio(props: Props) {
   return (
-    <AccessShield mode="children" sizes={{ guest: true }}>
+    <AccessShield
+      mode="children"
+      sizes={{ guest: true, vip: false, free: false, initial: false }}
+    >
       <div className="p-3">
         <div className="flex flex-col gap-2">
           <UserTradingAssets />

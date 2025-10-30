@@ -11,10 +11,8 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { Button } from 'shared/v1-components/Button';
 import { useMutationObserver } from 'utils/useMutationObserver';
 import { isDebugMode } from 'utils/version';
-import { ReactComponent as Sparkle } from './sparkle.svg';
 
 const calcSize = (size: number | boolean) =>
   size === true ? 999 : size === false ? 0 : size < 1 ? 0 : size;
@@ -102,7 +100,7 @@ export function AccessShield({
   sizes: Record<UserGroup, number | boolean>;
 }>) {
   const { t } = useTranslation('pro');
-  const { ensureGroup, group, loginModal } = useSubscription();
+  const { group, loginModal } = useSubscription();
 
   const size = sizes[group];
 

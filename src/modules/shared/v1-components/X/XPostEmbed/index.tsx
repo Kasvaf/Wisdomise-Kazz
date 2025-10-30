@@ -69,7 +69,7 @@ const XPostMedia: FC<{
       {value.media.map((m, i, s) => (
         <div
           className={clsx(
-            'h-48',
+            'max-h-48',
             'relative w-full cursor-pointer bg-v1-surface-l2',
             i === s.length - 1 && (i + 1) % 2 === 1
               ? 'col-span-2'

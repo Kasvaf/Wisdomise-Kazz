@@ -31,7 +31,6 @@ export default function AddHandleDialog({
             [
               { label: 'Choose a List', value: 'lib' },
               { label: 'Add From List', value: 'list' },
-              { label: 'Add Manually', value: 'manual' },
             ] as const
           }
           size="sm"
@@ -39,7 +38,7 @@ export default function AddHandleDialog({
           variant="white"
         />
         {activeTab === 'lib' && (
-          <LibrarySelection onClose={onClose} type="x_account" />
+          <LibrarySelection onClose={onClose} type="x-account" />
         )}
         {activeTab === 'list' && <AddFromList onClose={onClose} />}
       </div>

@@ -699,12 +699,8 @@ export const useTwitterFollowedAccounts = () => {
       }
       return save([...(value ?? []), acc]);
     };
-    const unFollow = (acc: TwitterFollowedAccount | true) =>
-      save(
-        acc === true
-          ? []
-          : (value?.filter?.(x => x.user_id !== acc.user_id) ?? []),
-      );
+    const unFollow = (acc: string | true) =>
+      save(acc === true ? [] : (value?.filter?.(x => x.user_id !== acc) ?? []));
 
     return {
       isLoading,

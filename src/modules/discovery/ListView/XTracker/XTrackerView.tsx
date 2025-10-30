@@ -6,6 +6,7 @@ import {
 } from 'api/discovery';
 import { bxPlus } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useLibraryUsers } from 'modules/discovery/ListView/XTracker/useLibraryUsers';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
@@ -26,6 +27,7 @@ export const XTrackerView: FC<{
   const [openedRelatedTokens, setOpenedRelatedTokens] = useState<
     TwitterTweet['tweet_id'] | null
   >(null);
+  const libraryUsers = useLibraryUsers();
 
   const [relatedTokensModal, setRelatedTokensModal] = useState(false);
   const relatedTokens = useTweetRelatedTokens(openedRelatedTokens ?? undefined);
@@ -35,17 +37,16 @@ export const XTrackerView: FC<{
   const tweets = useStreamTweets({
     userIds: followings.value
       .filter(x => !x.hide_from_list)
-      .map(x => x.user_id),
+      .map(x => x.user_id)
+      .concat(libraryUsers.map(x => x.user_id)),
   });
   return (
-    <div
-      className={clsx(
-        'h-full divide-y divide-v1-content-primary/10 bg-v1-surface-l0',
-        className,
-      )}
-    >
-      <h2 className="p-3 text-xs pt-0">X Feed</h2>
-      <AccessShield mode="children" sizes={{ guest: true }}>
+    <div className={clsx('h-full', className)}>
+      <h2 className="p-3 pt-0 text-xs">X Feed</h2>
+      <AccessShield
+        mode="children"
+        sizes={{ guest: true, vip: false, free: false, initial: false }}
+      >
         {tweets.isLoading || followings.isFetching ? (
           <Spinner className="mx-auto my-6" />
         ) : (tweets.data?.length ?? 0) === 0 ? (
@@ -106,18 +107,20 @@ export const XTrackerView: FC<{
                 </div>
               )}
             </Dialog>
-            {tweets.data.map(tweet => (
-              <div className="whitespace-pre" key={tweet.tweet_id}>
-                <TweetCard
-                  expanded={expanded}
-                  onOpenRelatedTokens={tweetOId => {
-                    setOpenedRelatedTokens(tweetOId);
-                    setRelatedTokensModal(true);
-                  }}
-                  value={tweet}
-                />
-              </div>
-            ))}
+            <div className="mx-auto max-w-[32rem] divide-y divide-v1-content-primary/10">
+              {tweets.data.map(tweet => (
+                <div className="whitespace-pre" key={tweet.tweet_id}>
+                  <TweetCard
+                    expanded={expanded}
+                    onOpenRelatedTokens={tweetOId => {
+                      setOpenedRelatedTokens(tweetOId);
+                      setRelatedTokensModal(true);
+                    }}
+                    value={tweet}
+                  />
+                </div>
+              ))}
+            </div>
           </>
         )}
       </AccessShield>
