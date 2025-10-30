@@ -194,7 +194,7 @@ export const useSwap = ({
       });
       const attemptTime = Date.now();
       console.log('attempt', new Date(attemptTime).toISOString());
-      const { swapKey, signature, latestBlockhash } = await solanaSwap(
+      const { swapKey } = await solanaSwap(
         slug,
         quote,
         side,
@@ -210,7 +210,7 @@ export const useSwap = ({
         doneTime - attemptTime,
       );
       swapsNotifications.set(swapKey, notificationKey);
-      await confirm({ signature, latestBlockhash, swapKey });
+      confirm({ swapKey });
     } catch (error) {
       notification.error({
         key: notificationKey,
