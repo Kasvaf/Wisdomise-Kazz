@@ -98,9 +98,9 @@ const minifyNumberRepeats = (numbStr: string) => {
         output +=
           zeroLength <= 2
             ? '0'.repeat(zeroLength)
-            : `0₍${zeroLength
+            : `0${zeroLength
                 .toString()
-                .replaceAll(/\d/g, n => '₀₁₂₃₄₅₆₇₈₉'[+n])}₎`;
+                .replaceAll(/\d/g, n => '₀₁₂₃₄₅₆₇₈₉'[+n])}`;
         zeroLength = 0;
       }
       output += char;

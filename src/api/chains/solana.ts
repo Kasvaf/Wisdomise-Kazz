@@ -342,6 +342,74 @@ export const useSolanaSwap = () => {
   const { address, isCustodial } = useActiveWallet();
   const connection = useSolanaConnection();
 
+  const nonCustodialSwap = useCallback(
+    async (swap: SwapResponse) => {
+      const publicKey = new PublicKey(address!);
+      const latestBlockhash = await connection.getLatestBlockhash();
+      const { instructions, lookup_table_address, key } = swap;
+
+      // Fetch the address lookup tables if provided
+      const lookupTableAccounts = (
+        await Promise.all(
+          (lookup_table_address || []).map(
+            async address =>
+              (
+                await connection.getAddressLookupTable(new PublicKey(address))
+              ).value || null,
+          ),
+        )
+      ).filter((table): table is AddressLookupTableAccount => table != null);
+
+      // Create a versioned transaction
+      const transaction = new VersionedTransaction(
+        new TransactionMessage({
+          payerKey: publicKey,
+          recentBlockhash: latestBlockhash.blockhash,
+          instructions: instructions.map(
+            inst =>
+              new TransactionInstruction({
+                programId: new PublicKey(inst.programId),
+                data: Buffer.from(inst.data),
+                keys: inst.accounts.map(acc => ({
+                  pubkey: new PublicKey(acc.pubkey),
+                  isSigner: acc.is_signer,
+                  isWritable: acc.is_writable,
+                })),
+              }),
+          ),
+        }).compileToV0Message(lookupTableAccounts),
+      );
+
+      const signature =
+        await walletProvider.signAndSendTransaction(transaction);
+
+      await ofetch<SwapResponse>(`/trader/swap/${key}`, {
+        method: 'patch',
+        body: { transaction_hash: signature },
+      });
+
+      await connection
+        .confirmTransaction({
+          signature,
+          blockhash: latestBlockhash.blockhash,
+          lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+          abortSignal: timeoutSignal(),
+        })
+        .then(x => {
+          if (x.value && x.value.err == null) {
+            console.log('confirmed by network', new Date().toISOString());
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          throw new Error('Could not confirm transaction by network');
+        });
+
+      return signature;
+    },
+    [address, connection, walletProvider],
+  );
+
   return useCallback(
     async (
       base: string,
@@ -352,16 +420,15 @@ export const useSolanaSwap = () => {
       priorityFee?: string,
     ) => {
       if (!address) throw new Error('Wallet not connected');
-      const publicKey = new PublicKey(address);
 
-      const swap = ofetch<SwapResponse>('/trader/swap', {
+      const swap = await ofetch<SwapResponse>('/trader/swap', {
         method: 'post',
         body: {
           pair_slug: `${base}/${quote}`,
           side,
           amount,
           network_slug: 'solana',
-          wallet_address: publicKey.toString(),
+          wallet_address: address,
           slippage,
           priority_fee: priorityFee,
         },
@@ -369,66 +436,19 @@ export const useSolanaSwap = () => {
 
       let signature: string | undefined;
 
-      const [
-        {
-          key: swapKey,
-          instructions,
-          lookup_table_address: lookupTableAddresses,
-          transaction_hash,
-        },
-        latestBlockhash,
-      ] = await Promise.all([swap, connection.getLatestBlockhash()]);
-
       if (isCustodial) {
-        signature = transaction_hash;
+        signature = swap.transaction_hash;
       } else {
-        // Fetch the address lookup tables if provided
-        const lookupTableAccounts = (
-          await Promise.all(
-            (lookupTableAddresses || []).map(
-              async address =>
-                (
-                  await connection.getAddressLookupTable(new PublicKey(address))
-                ).value || null,
-            ),
-          )
-        ).filter((table): table is AddressLookupTableAccount => table != null);
-
-        // Create a versioned transaction
-        const transaction = new VersionedTransaction(
-          new TransactionMessage({
-            payerKey: publicKey,
-            recentBlockhash: latestBlockhash.blockhash,
-            instructions: instructions.map(
-              inst =>
-                new TransactionInstruction({
-                  programId: new PublicKey(inst.programId),
-                  data: Buffer.from(inst.data),
-                  keys: inst.accounts.map(acc => ({
-                    pubkey: new PublicKey(acc.pubkey),
-                    isSigner: acc.is_signer,
-                    isWritable: acc.is_writable,
-                  })),
-                }),
-            ),
-          }).compileToV0Message(lookupTableAccounts),
-        );
-
-        signature = await walletProvider.signAndSendTransaction(transaction);
-
-        await ofetch<SwapResponse>(`/trader/swap/${swapKey}`, {
-          method: 'patch',
-          body: { transaction_hash: signature },
-        });
+        signature = await nonCustodialSwap(swap);
       }
 
       if (!signature) {
         throw new Error('Signature not found');
       }
 
-      return { slug: base, signature, latestBlockhash, swapKey };
+      return { slug: base, signature, swapKey: swap.key };
     },
-    [address, connection, walletProvider, isCustodial],
+    [address, isCustodial, nonCustodialSwap],
   );
 };
 

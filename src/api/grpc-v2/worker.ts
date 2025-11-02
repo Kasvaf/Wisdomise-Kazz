@@ -22,6 +22,7 @@ self.addEventListener('message', e => {
       const logPrefix = '[grpc]';
       const logIdentifier = `${request.service}/${request.method.toString()}`;
       console.groupCollapsed(`${logPrefix} [${title}] ${logIdentifier}`);
+      console.log(new Date().toISOString());
       console.log(body);
       console.groupEnd();
     }
