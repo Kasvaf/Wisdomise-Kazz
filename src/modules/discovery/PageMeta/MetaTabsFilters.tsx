@@ -69,14 +69,14 @@ export default function MetaTabsFilters({
                   ),
                 },
               ]}
-              size="md"
+              size="sm"
               value={tab}
               variant="white"
             />
           </div>
 
           <div className="mt-5 flex flex-col items-start gap-2">
-            <p className="text-xs">Total MarketCap</p>
+            <p className="text-xs">Total MarketCap ($)</p>
             <div className="flex w-full items-center gap-3">
               <Input
                 block
@@ -92,7 +92,7 @@ export default function MetaTabsFilters({
                   }))
                 }
                 placeholder="Min"
-                size="md"
+                size="sm"
                 type="number"
                 value={value[tab]?.minTotalMarketCap}
               />
@@ -110,7 +110,7 @@ export default function MetaTabsFilters({
                   }))
                 }
                 placeholder="Max"
-                size="md"
+                size="sm"
                 type="number"
                 value={value[tab]?.maxTotalMarketCap}
               />
@@ -118,7 +118,7 @@ export default function MetaTabsFilters({
           </div>
 
           <div className="mt-5 flex flex-col items-start gap-2">
-            <p className="text-xs">Total Volume</p>
+            <p className="text-xs">Total Volume ($)</p>
             <div className="flex w-full items-center gap-3">
               <Input
                 block
@@ -134,7 +134,7 @@ export default function MetaTabsFilters({
                   }))
                 }
                 placeholder="Min"
-                size="md"
+                size="sm"
                 type="number"
                 value={value[tab]?.minTotalVolume}
               />
@@ -152,7 +152,7 @@ export default function MetaTabsFilters({
                   }))
                 }
                 placeholder="Max"
-                size="md"
+                size="sm"
                 type="number"
                 value={value[tab]?.maxTotalVolume}
               />

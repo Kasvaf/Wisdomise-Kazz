@@ -282,7 +282,7 @@ export function Filters<T extends object>({
           onClose={() => setOpen(false)}
           open={open}
         >
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             {dialog?.(localValue, setLocalValue)}
           </div>
         </Dialog>
