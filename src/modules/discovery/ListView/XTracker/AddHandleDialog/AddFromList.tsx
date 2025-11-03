@@ -73,7 +73,7 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
               onClick={() =>
                 !followings.isLoading &&
                 (followed
-                  ? followings.unFollow(asFollowedAccount).then(() =>
+                  ? followings.unFollow(asFollowedAccount.user_id).then(() =>
                       notif.success({
                         message: `@${asFollowedAccount.username} removed from your list.`,
                       }),

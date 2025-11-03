@@ -28,7 +28,10 @@ export default function WalletsSwaps() {
   return (
     <div className="mb-3 grow overflow-auto px-3" ref={containerRef}>
       <p className="mb-3 text-xs">Live Trades</p>
-      <AccessShield mode="children" sizes={{ guest: true }}>
+      <AccessShield
+        mode="children"
+        sizes={{ guest: true, free: false, vip: false, initial: false }}
+      >
         <Table
           chunkSize={5}
           columns={[

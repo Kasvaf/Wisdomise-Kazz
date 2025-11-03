@@ -12,11 +12,17 @@ export function XPostEmbed({
   value: TwitterTweet;
   isQuote?: boolean;
 }) {
+  const openPost = () => {
+    window.open(
+      `https://x.com/${value.user.username}/status/${value.tweet_id}`,
+      '_blank',
+    );
+  };
+
   return (
-    <a
+    <div
       className="relative block w-full cursor-pointer overflow-hidden rounded-xl border border-x-border bg-x-bg text-sm transition-colors hover:bg-x-bg-hover"
-      href={`https://x.com/${value.user.username}/status/${value.tweet_id}`}
-      target="_blank"
+      onClick={openPost}
     >
       <div className="flex justify-between gap-1 px-4 pt-3">
         <XUser
@@ -46,7 +52,7 @@ export function XPostEmbed({
           )}
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -69,7 +75,7 @@ const XPostMedia: FC<{
       {value.media.map((m, i, s) => (
         <div
           className={clsx(
-            'max-h-48',
+            'max-h-96',
             'relative w-full cursor-pointer bg-v1-surface-l2',
             i === s.length - 1 && (i + 1) % 2 === 1
               ? 'col-span-2'
