@@ -8,6 +8,7 @@ import MetaTabsFilters from 'modules/discovery/PageMeta/MetaTabsFilters';
 import { useMemo, useState } from 'react';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { Input } from 'shared/v1-components/Input';
 import Spin from 'shared/v1-components/Spin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
@@ -52,7 +53,7 @@ export default function MetaList({
             onChange={newVal => {
               setQuery(newVal);
             }}
-            placeholder="Search by Name/Address (2+ chars)"
+            placeholder="Search"
             prefixIcon={<Icon name={bxSearch} />}
             size="xs"
             surface={2}
@@ -61,7 +62,7 @@ export default function MetaList({
           />
         </div>
       </div>
-      <div className="flex flex-col text-xs">
+      <div className="flex flex-col space-y-3 text-xs">
         {data?.pages.flatMap(page =>
           page.results.map(meta => {
             return <MetaNarrative key={meta.id} meta={meta} />;
@@ -72,12 +73,19 @@ export default function MetaList({
   );
 }
 
-function MetaNarrative({ meta }: { meta: Meta }) {
+function MetaNarrative({
+  meta,
+  mode = 'card',
+}: {
+  meta: Meta;
+  mode?: 'card' | 'dialog';
+}) {
   const latestToken = [...meta.trench].sort(
     (a, b) =>
       new Date(b.symbol.created_at).getTime() -
       new Date(a.symbol.created_at).getTime(),
   )[0];
+  const [open, setOpen] = useState(false);
 
   const getMcColor = (mc?: number) => {
     return calcColorByThreshold({
@@ -92,13 +100,25 @@ function MetaNarrative({ meta }: { meta: Meta }) {
 
   return (
     <div
-      className="mb-3 flex h-[35rem] flex-col gap-3 rounded-xl bg-v1-surface-l1 p-3"
+      className={clsx(
+        'flex flex-col gap-3 rounded-xl bg-v1-surface-l1 p-3',
+        mode === 'card' && 'h-[35rem]',
+      )}
       key={meta.id}
     >
-      <div className="rounded-xl bg-v1-surface-l2 p-3">
+      <div
+        className="cursor-pointer rounded-xl bg-v1-surface-l2 p-3"
+        onClick={() => setOpen(true)}
+      >
         <h2 className="mb-3 text-white/70">Narrative</h2>
         <h3 className="mb-4 text-lg">{meta.title}</h3>
-        <DescriptionWithToggle description={meta.description} />
+        <div className="text-white/70">
+          {mode === 'card' ? (
+            <DescriptionWithToggle description={meta.description} />
+          ) : (
+            meta.description
+          )}
+        </div>
         <hr className="my-3 border-white/10" />
         <div className="flex gap-3">
           <div className="w-1/2 space-y-2">
@@ -135,15 +155,36 @@ function MetaNarrative({ meta }: { meta: Meta }) {
           </div>
         </div>
       </div>
-      <div className="grow overflow-auto rounded-xl bg-v1-surface-l2 p-3">
+      <div
+        className={clsx(
+          'grow rounded-xl bg-v1-surface-l2 p-3',
+          mode === 'card' && 'overflow-auto',
+        )}
+      >
         <h2 className="mb-3 text-white/70">Top Tokens</h2>
-        <TokensTable dataSource={meta.trench} />
+        <TokensTable
+          count={mode === 'card' ? 10 : 100}
+          dataSource={meta.trench}
+        />
       </div>
+      <Dialog
+        className="max-w-lg text-xs"
+        onClose={() => setOpen(false)}
+        open={open}
+      >
+        <MetaNarrative meta={meta} mode="dialog" />
+      </Dialog>
     </div>
   );
 }
 
-function TokensTable({ dataSource }: { dataSource: MetaToken[] }) {
+function TokensTable({
+  dataSource,
+  count = 10,
+}: {
+  dataSource: MetaToken[];
+  count?: number;
+}) {
   const columns = useMemo<TableColumn<MetaToken>[]>(
     () => [
       {
@@ -173,7 +214,7 @@ function TokensTable({ dataSource }: { dataSource: MetaToken[] }) {
     ],
     [],
   );
-  return <Table columns={columns} dataSource={dataSource.slice(0, 10)} />;
+  return <Table columns={columns} dataSource={dataSource.slice(0, count)} />;
 }
 
 function DescriptionWithToggle({ description }: { description: string }) {
@@ -185,12 +226,13 @@ function DescriptionWithToggle({ description }: { description: string }) {
         expanded ? 'flex-col items-start' : 'items-center',
       )}
     >
-      <p className={clsx('text-white/70', !expanded && 'line-clamp-1')}>
-        {description}
-      </p>
+      <p className={clsx(!expanded && 'line-clamp-1')}>{description}</p>
       <button
         className="shrink-0 text-v1-content-brand"
-        onClick={() => setExpanded(e => !e)}
+        onClick={e => {
+          setExpanded(prev => !prev);
+          e.stopPropagation();
+        }}
       >
         {expanded ? 'Show Less' : 'Read More'}
       </button>
