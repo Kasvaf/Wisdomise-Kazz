@@ -1,7 +1,8 @@
 import PageWrapper from 'modules/base/PageWrapper';
+import { useDiscoveryBackdropParams } from 'modules/discovery/lib';
 import type { MetaTab } from 'modules/discovery/PageMeta/lib';
 import MetaList from 'modules/discovery/PageMeta/MetaList';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import { Checkbox } from 'shared/v1-components/Checkbox';
@@ -18,6 +19,16 @@ export type MetaFilters = Record<
 
 export default function PageMeta() {
   const [skipSimilar, setSkipSimilar] = useState(false);
+  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    if (backdropParams) {
+      setBackdropParams({
+        list: 'trench',
+      });
+    }
+  }, []);
 
   return (
     <PageWrapper extension={<CoinExtensionsGroup />}>
