@@ -84,7 +84,7 @@ const XPostMedia: FC<{
           key={i}
           onClick={e => {
             openMedia(m.url);
-            e.preventDefault();
+            e.stopPropagation();
           }}
         >
           <img

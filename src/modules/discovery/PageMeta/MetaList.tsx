@@ -6,6 +6,7 @@ import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/li
 import { type MetaTab, useMeta } from 'modules/discovery/PageMeta/lib';
 import MetaTabsFilters from 'modules/discovery/PageMeta/MetaTabsFilters';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Dialog } from 'shared/v1-components/Dialog';
@@ -23,6 +24,7 @@ export default function MetaList({
   tab: MetaTab;
   skipSimilar?: boolean;
 }) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const { data, isLoading } = useMeta({ tab, query, skipSimilar });
 
@@ -63,6 +65,11 @@ export default function MetaList({
         </div>
       </div>
       <div className="flex min-h-screen flex-col space-y-3 text-xs">
+        {data?.pages.flatMap(p => p.results).length === 0 && !isLoading && (
+          <p className="p-3 text-center text-v1-content-secondary text-xs leading-relaxed">
+            {t('common:nothing-to-show')}
+          </p>
+        )}
         {data?.pages.flatMap(page =>
           page.results.map(meta => {
             return <MetaNarrative key={meta.id} meta={meta} />;

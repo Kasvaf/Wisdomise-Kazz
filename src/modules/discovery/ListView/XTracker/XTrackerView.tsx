@@ -4,25 +4,22 @@ import {
   useTweetRelatedTokens,
   useTwitterFollowedAccounts,
 } from 'api/discovery';
-import { bxPlus } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import BtnAddHandle from 'modules/discovery/ListView/XTracker/BtnAddHandle';
 import { useLibraryUsers } from 'modules/discovery/ListView/XTracker/useLibraryUsers';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
-import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
-import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { Token } from 'shared/v1-components/Token';
 import useIsMobile from 'utils/useIsMobile';
 import { TweetCard } from './TweetCard';
 
 export const XTrackerView: FC<{
-  onRequestEdit?: () => void;
   className?: string;
   expanded?: boolean;
-}> = ({ onRequestEdit, className, expanded }) => {
+}> = ({ className, expanded }) => {
   const { t } = useTranslation();
   const [openedRelatedTokens, setOpenedRelatedTokens] = useState<
     TwitterTweet['tweet_id'] | null
@@ -57,16 +54,7 @@ export const XTrackerView: FC<{
                 ? 'Follow accounts to see their tweets here'
                 : 'None of your followed accounts have posted tweets in the last 24 hours'}
             </p>
-            <Button
-              className="!hidden"
-              onClick={onRequestEdit}
-              size="xs"
-              surface={2}
-              variant="outline"
-            >
-              <Icon name={bxPlus} />
-              {'Add More Channels'}
-            </Button>
+            <BtnAddHandle />
           </div>
         ) : (
           <>

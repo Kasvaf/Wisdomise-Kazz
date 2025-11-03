@@ -25,7 +25,7 @@ export function HandlesManager({ className }: { className?: string }) {
         items={[
           {
             key: 'manual',
-            label: 'Manual List',
+            label: `Manual List (${value.length})`,
             children: <XTrackerEdit hasAction={true} users={value} />,
           },
           ...selectedLibs
@@ -122,14 +122,14 @@ export const XTrackerEdit: FC<{
 
   return (
     <div className={className}>
-      {followings.value.length === 0 && !followings.isLoading ? (
+      {users.length === 0 &&
+      followings.value.length === 0 &&
+      !followings.isLoading ? (
         <div className="flex flex-col items-center py-10">
           <EmptyIcon />
-          <h3 className="mb-2 font-semibold text-xs">
-            {'No Subscription Added'}
-          </h3>
+          <h3 className="mb-2 font-semibold text-xs">{'No Handles Added'}</h3>
           <p className="max-w-[220px] text-center text-v1-content-secondary text-xs">
-            {'You can create a Customized List by adding Subscriptions'}
+            {'You can create a customized list by adding handles'}
           </p>
         </div>
       ) : (
