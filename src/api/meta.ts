@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 
-interface Meta {
+export interface Meta {
   id: number;
   type: 'micro';
   title: string;

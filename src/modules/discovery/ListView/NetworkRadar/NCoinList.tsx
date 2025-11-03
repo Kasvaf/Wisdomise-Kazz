@@ -1,5 +1,5 @@
 import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
-import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
+import { bxGroup, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import NCoinTransactions from 'modules/discovery/ListView/NetworkRadar/NCoinTransactions';
@@ -15,6 +15,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useInterval } from 'usehooks-ts';
 import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
@@ -260,14 +261,7 @@ export const NCoinList: FC<{
             )}
           />
           <h3 className="relative">{title}</h3>
-          <div
-            className={clsx(
-              'flex animate-spin items-center gap-1 text-v1-content-secondary text-xs',
-              !loading && 'hidden',
-            )}
-          >
-            <Icon name={bxLoader} size={18} />
-          </div>
+          {loading && <Spin />}
           <div
             className={clsx(
               'flex items-center gap-1 text-v1-content-brand text-xs transition-all',

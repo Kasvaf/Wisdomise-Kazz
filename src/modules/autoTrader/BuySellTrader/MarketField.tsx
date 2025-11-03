@@ -1,10 +1,10 @@
 import { Tooltip } from 'antd';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import Spin from 'shared/Spin';
 import { Toggle } from 'shared/Toggle';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Select } from 'shared/v1-components/Select';
+import Spin from 'shared/v1-components/Spin';
 import { preventNonNumericInput, roundSensible } from 'utils/numbers';
 import type { SwapState } from './useSwapState';
 

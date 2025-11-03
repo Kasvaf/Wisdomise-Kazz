@@ -18,7 +18,7 @@ import { hasAnyValue } from 'utils/object';
 import { Filters } from '../Filters';
 import type { NetworkRadarStreamFilters, NetworkRadarTab } from './lib';
 
-const TabLabel: FC<{
+const FiltersTab: FC<{
   state?: Partial<NetworkRadarStreamFilters>;
   onReset: Dispatch<SetStateAction<Partial<NetworkRadarStreamFilters>>>;
   label: ReactNode;
@@ -121,7 +121,7 @@ export const NetworkRadarFilters: FC<{
                   {
                     value: 'new_pairs',
                     label: (
-                      <TabLabel
+                      <FiltersTab
                         activeTab={tab}
                         label="New Pairs"
                         onReset={setState}
@@ -133,7 +133,7 @@ export const NetworkRadarFilters: FC<{
                   {
                     value: 'final_stretch',
                     label: (
-                      <TabLabel
+                      <FiltersTab
                         activeTab={tab}
                         label="Final Stretch"
                         onReset={setState}
@@ -145,7 +145,7 @@ export const NetworkRadarFilters: FC<{
                   {
                     value: 'migrated',
                     label: (
-                      <TabLabel
+                      <FiltersTab
                         activeTab={tab}
                         label="Migrated"
                         onReset={setState}
@@ -155,7 +155,7 @@ export const NetworkRadarFilters: FC<{
                     ),
                   },
                 ]}
-                size="md"
+                size="sm"
                 value={tab}
                 variant="white"
               />
@@ -175,6 +175,7 @@ export const NetworkRadarFilters: FC<{
                         label={
                           <>
                             <img
+                              alt={protocol.name}
                               className={clsx(
                                 'size-4 rounded-sm',
                                 !state[tab]?.protocols?.includes(
@@ -184,6 +185,7 @@ export const NetworkRadarFilters: FC<{
                               src={protocol.logo}
                             />
                             <img
+                              alt=""
                               className={clsx(
                                 'absolute w-full blur-2xl brightness-100 contrast-200 saturate-200',
                                 state[tab]?.protocols?.includes(protocol.name)
@@ -240,7 +242,7 @@ export const NetworkRadarFilters: FC<{
                     })
                   }
                   placeholder="Keyword 1, Keyword 2..."
-                  size="md"
+                  size="sm"
                   type="string"
                   value={state[tab]?.searchKeywords?.join(',') ?? ''}
                 />
@@ -260,7 +262,7 @@ export const NetworkRadarFilters: FC<{
                     })
                   }
                   placeholder="Keyword 1, Keyword 2..."
-                  size="md"
+                  size="sm"
                   type="string"
                   value={state[tab]?.excludeKeywords?.join(',') ?? ''}
                 />
@@ -284,7 +286,7 @@ export const NetworkRadarFilters: FC<{
                     }))
                   }
                   placeholder="Min"
-                  size="md"
+                  size="sm"
                   type="number"
                   value={state[tab]?.minBoundingCurve}
                 />
@@ -299,7 +301,7 @@ export const NetworkRadarFilters: FC<{
                     }))
                   }
                   placeholder="Max"
-                  size="md"
+                  size="sm"
                   type="number"
                   value={state[tab]?.maxBoundingCurve}
                 />
@@ -373,7 +375,7 @@ export const NetworkRadarFilters: FC<{
                       .join(' '),
                   },
                 ]}
-                size="md"
+                size="sm"
                 value={subTab}
               />
             </div>
@@ -479,7 +481,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minHolders}
                     />
@@ -494,7 +496,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxHolders}
                     />
@@ -516,7 +518,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minRisk}
                     />
@@ -531,7 +533,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxRisk}
                     />
@@ -557,7 +559,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minAge}
                     />
@@ -571,7 +573,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxAge}
                     />
@@ -592,7 +594,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minLiquidity}
                     />
@@ -606,7 +608,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxLiquidity}
                     />
@@ -627,7 +629,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minVolume}
                     />
@@ -641,7 +643,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxVolume}
                     />
@@ -662,7 +664,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minMarketcap}
                     />
@@ -676,7 +678,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxMarketcap}
                     />
@@ -697,7 +699,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minTransactions}
                     />
@@ -711,7 +713,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxTransactions}
                     />
@@ -732,7 +734,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minBuys}
                     />
@@ -746,7 +748,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxBuys}
                     />
@@ -767,7 +769,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minSells}
                     />
@@ -781,7 +783,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxSells}
                     />
@@ -802,7 +804,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Min"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.minLiquidityChangePercent}
                     />
@@ -817,7 +819,7 @@ export const NetworkRadarFilters: FC<{
                         }))
                       }
                       placeholder="Max"
-                      size="md"
+                      size="sm"
                       type="number"
                       value={state[tab]?.maxLiquidityChangePercent}
                     />
