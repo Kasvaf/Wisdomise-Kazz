@@ -1,5 +1,5 @@
 import { useAccountQuery } from 'api';
-import { HELP_ORIGIN, RouterBaseName } from 'config/constants';
+import { DOCS_ORIGIN, RouterBaseName } from 'config/constants';
 import { RewardIcon, WsdmTokenIcon } from 'modules/account/PageAccount/icons';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import { isMiniApp } from 'utils/version';
@@ -75,9 +75,9 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
           Rewards
         </MenuItem>
 
-        <MenuItem onClick={() => window.open(HELP_ORIGIN, '_blank')}>
+        <MenuItem onClick={() => window.open(DOCS_ORIGIN, '_blank')}>
           <BoxedIcon icon={IconHelp} />
-          Help
+          Docs
         </MenuItem>
 
         {/* <MenuItemLang /> */}

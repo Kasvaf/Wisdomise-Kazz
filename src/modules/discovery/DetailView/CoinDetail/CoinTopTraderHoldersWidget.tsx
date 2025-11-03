@@ -25,7 +25,9 @@ const SharedTable: FC<{
     () => [
       {
         title: 'Address',
-        render: row => <Wallet address={row.walletAddress} />,
+        render: row => (
+          <Wallet address={row.walletAddress} className="text-xs" mode="name" />
+        ),
       },
       {
         title: 'Bought',

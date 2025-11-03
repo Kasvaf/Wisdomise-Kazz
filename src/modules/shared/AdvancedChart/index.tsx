@@ -6,23 +6,18 @@ import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
-import {
-  useChartConvertToUSD,
-  useChartIsMarketCap,
-} from 'shared/AdvancedChart/chartSettings';
-import {
-  useSwapActivityLines,
-  useSwapChartMarks,
-} from 'shared/AdvancedChart/useChartAnnotations';
 import { formatNumber } from 'utils/numbers';
-import type { Timezone } from '../../../../public/charting_library';
+import { useAdvancedChartWidget } from './ChartWidgetProvider';
+import type { Timezone } from './charting_library';
 import {
   type IChartingLibraryWidget,
   type ResolutionString,
   widget as Widget,
 } from './charting_library';
+import { useChartConvertToUSD, useChartIsMarketCap } from './chartSettings';
+import { LocalStorageSaveLoadAdapter } from './localStorageSaveLoadAdapter';
 import makeDataFeed from './makeDataFeed';
+import { useSwapActivityLines, useSwapChartMarks } from './useChartAnnotations';
 import useCoinPoolInfo from './useCoinPoolInfo';
 
 const AdvancedChart: React.FC<{
@@ -137,49 +132,46 @@ const AdvancedChart: React.FC<{
       autosize: true,
       studies_overrides: {},
       theme: 'dark',
+
+      save_load_adapter: new LocalStorageSaveLoadAdapter(),
+      load_last_chart: true,
+      auto_save_delay: 1,
     });
 
     widget.onChartReady(async () => {
       await widget.headerReady();
 
-      const autoSave = () => {
-        widget.save(state => {
-          localStorage.setItem('tv-chart-state', JSON.stringify(state));
-        });
-      };
-
-      intervalId = setInterval(autoSave, 5000);
-
-      const saved = localStorage.getItem('tv-chart-state');
-      if (saved) {
-        widget.load(JSON.parse(saved));
-      }
+      widget.subscribe('onAutoSaveNeeded', () => {
+        widget.saveChartToServer(undefined, undefined, { chartName: 'GoatX' });
+      });
 
       // Create quote selector
-      const dropDown = await widget.createDropdown({
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
-        tooltip: 'Quote',
-        items:
-          pairs
-            ?.filter(
-              (x): x is typeof x & { quote: { abbreviation: string } } =>
-                !!x.quote.abbreviation,
-            )
-            ?.map(x => ({
-              title: x.quote.abbreviation,
-              onSelect: () => {
-                setPageQuote(x.quote.slug);
-                dropDown.applyOptions({
-                  title:
-                    pairs?.find(y => y.quote.slug === x.quote.slug)?.quote
-                      .abbreviation ?? '',
-                });
-              },
-            })) ?? [],
-        title:
-          pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
-          '',
-      });
+      if (pairs.length > 1) {
+        const dropDown = await widget.createDropdown({
+          icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
+          tooltip: 'Quote',
+          items:
+            pairs
+              ?.filter(
+                (x): x is typeof x & { quote: { abbreviation: string } } =>
+                  !!x.quote.abbreviation,
+              )
+              ?.map(x => ({
+                title: x.quote.abbreviation,
+                onSelect: () => {
+                  setPageQuote(x.quote.slug);
+                  dropDown.applyOptions({
+                    title:
+                      pairs?.find(y => y.quote.slug === x.quote.slug)?.quote
+                        .abbreviation ?? '',
+                  });
+                },
+              })) ?? [],
+          title:
+            pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
+            '',
+        });
+      }
 
       if (data.quote === WRAPPED_SOLANA_SLUG) {
         const convertToUsdButton = widget.createButton();

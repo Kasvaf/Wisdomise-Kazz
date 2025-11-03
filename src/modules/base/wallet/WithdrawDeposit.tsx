@@ -15,7 +15,7 @@ export default function WithdrawDepositModal({
   wallet: Wallet;
   mode: 'deposit' | 'internal_transfer' | 'external_transfer';
   open?: boolean;
-  onResolve?: () => void;
+  onResolve: () => void;
 }) {
   const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState(mode);
@@ -59,6 +59,7 @@ export default function WithdrawDepositModal({
       ) : (
         <Transfer
           mode={mode as 'internal_transfer' | 'external_transfer'}
+          onClose={onResolve}
           wallet={wallet}
         />
       )}
