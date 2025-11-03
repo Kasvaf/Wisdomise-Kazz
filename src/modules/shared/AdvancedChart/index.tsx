@@ -6,23 +6,18 @@ import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
-import {
-  useChartConvertToUSD,
-  useChartIsMarketCap,
-} from 'shared/AdvancedChart/chartSettings';
-import {
-  useSwapActivityLines,
-  useSwapChartMarks,
-} from 'shared/AdvancedChart/useChartAnnotations';
 import { formatNumber } from 'utils/numbers';
-import type { Timezone } from '../../../../public/charting_library';
+import { useAdvancedChartWidget } from './ChartWidgetProvider';
+import type { Timezone } from './charting_library';
 import {
   type IChartingLibraryWidget,
   type ResolutionString,
   widget as Widget,
 } from './charting_library';
+import { useChartConvertToUSD, useChartIsMarketCap } from './chartSettings';
+import { LocalStorageSaveLoadAdapter } from './localStorageSaveLoadAdapter';
 import makeDataFeed from './makeDataFeed';
+import { useSwapActivityLines, useSwapChartMarks } from './useChartAnnotations';
 import useCoinPoolInfo from './useCoinPoolInfo';
 
 const AdvancedChart: React.FC<{
@@ -137,23 +132,18 @@ const AdvancedChart: React.FC<{
       autosize: true,
       studies_overrides: {},
       theme: 'dark',
+
+      save_load_adapter: new LocalStorageSaveLoadAdapter(),
+      load_last_chart: true,
+      auto_save_delay: 1,
     });
 
     widget.onChartReady(async () => {
       await widget.headerReady();
 
-      const autoSave = () => {
-        widget.save(state => {
-          localStorage.setItem('tv-chart-state', JSON.stringify(state));
-        });
-      };
-
-      intervalId = setInterval(autoSave, 5000);
-
-      const saved = localStorage.getItem('tv-chart-state');
-      if (saved) {
-        widget.load(JSON.parse(saved));
-      }
+      widget.subscribe('onAutoSaveNeeded', () => {
+        widget.saveChartToServer(undefined, undefined, { chartName: 'GoatX' });
+      });
 
       // Create quote selector
       const dropDown = await widget.createDropdown({
