@@ -28,7 +28,7 @@ export default function MetaList({
 
   const hovered = false;
   return (
-    <div className="scrollbar-none flex min-h-screen flex-col gap-3 overflow-auto rounded-lg">
+    <div className="scrollbar-none flex flex-col gap-3 overflow-auto rounded-lg">
       <div className="scrollbar-none sticky top-0 z-10 flex shrink-0 items-center gap-2 overflow-auto whitespace-nowrap rounded-lg bg-v1-surface-l-next px-3 py-2 text-sm shadow-xl">
         <div
           className={clsx(
@@ -62,7 +62,7 @@ export default function MetaList({
           />
         </div>
       </div>
-      <div className="flex flex-col space-y-3 text-xs">
+      <div className="flex min-h-screen flex-col space-y-3 text-xs">
         {data?.pages.flatMap(page =>
           page.results.map(meta => {
             return <MetaNarrative key={meta.id} meta={meta} />;
@@ -107,8 +107,11 @@ function MetaNarrative({
       key={meta.id}
     >
       <div
-        className="cursor-pointer rounded-xl bg-v1-surface-l2 p-3"
-        onClick={() => setOpen(true)}
+        className={clsx(
+          'rounded-xl bg-v1-surface-l2 p-3 transition-all',
+          mode === 'card' && 'cursor-pointer hover:brightness-110',
+        )}
+        onClick={() => mode === 'card' && setOpen(true)}
       >
         <h2 className="mb-3 text-white/70">Narrative</h2>
         <h3 className="mb-4 text-lg">{meta.title}</h3>
@@ -161,7 +164,7 @@ function MetaNarrative({
           mode === 'card' && 'overflow-auto',
         )}
       >
-        <h2 className="mb-3 text-white/70">Top Tokens</h2>
+        <h2 className="mb-3 text-white/70">Tokens</h2>
         <TokensTable
           count={mode === 'card' ? 10 : 100}
           dataSource={meta.trench}
