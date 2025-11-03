@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
+import { useJwtEmail } from 'modules/base/auth/jwt-store';
 
 export interface TrackedSwap {
   id: string;
@@ -32,9 +33,11 @@ export const useTrackerHistoryQuery = ({
   page?: number;
   enabled?: boolean;
 }) => {
+  const email = useJwtEmail();
   return useQuery({
     queryKey: ['tracker-history', page],
     queryFn: async () => {
+      if (!email) return;
       return await ofetch<PageResponse<TrackedSwap>>('tracker/history/', {
         query: { page },
       });

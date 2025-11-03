@@ -29,8 +29,6 @@ const TweetType: FC<{
   const isQuote = !!value?.quoted_tweet;
   const isReply = !!value?.replied_tweet;
 
-  console.log(isReply);
-
   const Component = isRetweet
     ? RetweetIcon
     : isQuote

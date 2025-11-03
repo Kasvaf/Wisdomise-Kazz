@@ -1,136 +1,64 @@
-import useNotification from 'antd/es/notification/useNotification';
+import { Collapse } from 'antd';
 import {
-  type TwitterAccount,
   type TwitterFollowedAccount,
   useTwitterFollowedAccounts,
-  useTwitterSuggestedAccounts,
 } from 'api/discovery';
-import { bxPlus, bxTrash } from 'boxicons-quasar';
+import { bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type ComponentProps, type FC, useMemo, useState } from 'react';
+import { type FC, useMemo } from 'react';
 import Icon from 'shared/Icon';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
-import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { useSelectedLibraries } from '../WalletTracker/useSelectedLibraries';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
-const SubTab: FC<
-  Omit<
-    ComponentProps<typeof ButtonSelect<'followings' | 'suggestions'>>,
-    'options'
-  >
-> = props => (
-  <ButtonSelect
-    options={[
-      {
-        label: 'Top Accounts',
-        value: 'suggestions',
-      },
-      {
-        label: 'My List',
-        value: 'followings',
-      },
-    ]}
-    {...props}
-  />
-);
+export function HandlesManager({ className }: { className?: string }) {
+  const selectedLibs = useSelectedLibraries();
+  const { value } = useTwitterFollowedAccounts();
 
-export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
-  const [notif, notifContent] = useNotification({});
-  const [tab, setTab] =
-    useState<NonNullable<ComponentProps<typeof SubTab>['value']>>(
-      'suggestions',
-    );
-
-  const followings = useTwitterFollowedAccounts();
-  const suggestions = useTwitterSuggestedAccounts();
-
-  const suggestionsColumns = useMemo<Array<TableColumn<TwitterAccount>>>(
-    () => [
-      {
-        key: 'username',
-        title: 'Handle',
-        render: row => (
-          <a
-            className="max-w-32 overflow-hidden truncate"
-            href={`https://x.com/${row.username}`}
-            referrerPolicy="no-referrer"
-            rel="noreferrer"
-            target="_blank"
-          >
-            @{row.username}
-          </a>
-        ),
-      },
-      {
-        key: 'followers',
-        title: 'Followers',
-        render: row => (
-          <ReadableNumber
-            format={{
-              decimalLength: 1,
-            }}
-            value={row.followers_count}
-          />
-        ),
-      },
-      {
-        key: 'action',
-        title: 'Action',
-        align: 'end',
-        render: row => {
-          const followed = followings.value.some(
-            x => x.user_id === row.user_id,
-          );
-
-          const asFollowedAccount: TwitterFollowedAccount = {
-            hide_from_list: false,
-            user_id: row.user_id,
-            username: row.username,
-          };
-
-          return (
-            <Button
-              fab
-              onClick={() =>
-                !followings.isLoading &&
-                (followed
-                  ? followings.unFollow(asFollowedAccount).then(() =>
-                      notif.success({
-                        message: `@${asFollowedAccount.username} removed from your list.`,
-                      }),
-                    )
-                  : followings.follow(asFollowedAccount).then(() =>
-                      notif.success({
-                        message: `@${asFollowedAccount.username} added to your list.`,
-                      }),
-                    ))
-              }
-              size="xs"
-              surface={1}
-              variant="ghost"
-            >
-              <Icon
-                className={clsx(followed && 'opacity-60')}
-                name={followed ? bxTrash : bxPlus}
-              />
-            </Button>
-          );
-        },
-      },
-    ],
-    [followings, notif],
+  return (
+    <div className={clsx('px-3 pb-3', className)}>
+      <h2 className="my-3 text-xs">Handles</h2>
+      <Collapse
+        defaultActiveKey="manual"
+        items={[
+          {
+            key: 'manual',
+            label: 'Manual List',
+            children: <XTrackerEdit hasAction={true} users={value} />,
+          },
+          ...selectedLibs
+            .filter(lib => lib.type === 'x-account')
+            .map(lib => ({
+              key: lib.key,
+              label: `${lib.name} (${lib.accounts.length})`,
+              children: <XTrackerEdit users={lib.accounts} />,
+            })),
+        ]}
+        size="small"
+      />
+    </div>
   );
+}
 
-  const followingsColumns = useMemo<Array<TableColumn<TwitterFollowedAccount>>>(
+export const XTrackerEdit: FC<{
+  className?: string;
+  hasAction?: boolean;
+  users: Partial<TwitterFollowedAccount>[];
+}> = ({ className, hasAction, users }) => {
+  const followings = useTwitterFollowedAccounts();
+
+  const followingsColumns = useMemo<
+    Array<TableColumn<Partial<TwitterFollowedAccount>>>
+  >(
     () => [
       {
         key: 'username',
         title: 'Handle',
         render: row => (
           <a
+            className="text-xs"
             href={`https://x.com/${row.username}`}
             referrerPolicy="no-referrer"
             rel="noreferrer"
@@ -143,12 +71,13 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
       {
         key: 'toggle_tweets',
         title: 'Tweets',
+        hidden: !hasAction,
         render: row => (
           <Checkbox
             label="Hide"
             onChange={newVal =>
               followings.follow({
-                ...row,
+                ...(row as TwitterFollowedAccount),
                 hide_from_list: newVal,
               })
             }
@@ -159,6 +88,7 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
       },
       {
         key: 'action',
+        hidden: !hasAction,
         title: (
           <>
             <button
@@ -173,9 +103,13 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
         render: row => (
           <Button
             fab
-            onClick={() => !followings.isLoading && followings.unFollow(row)}
+            onClick={() => {
+              if (row.user_id) {
+                !followings.isLoading && followings.unFollow(row.user_id);
+              }
+            }}
             size="xs"
-            surface={1}
+            surface={2}
             variant="ghost"
           >
             <Icon className="opacity-60" name={bxTrash} />
@@ -183,53 +117,30 @@ export const XTrackerEdit: FC<{ className?: string }> = ({ className }) => {
         ),
       },
     ],
-    [followings],
+    [followings, hasAction],
   );
 
   return (
     <div className={className}>
-      <SubTab
-        className="mb-3"
-        onChange={setTab}
-        size="md"
-        surface={0}
-        value={tab}
-        variant="tab"
-      />
-      {notifContent}
-      <div className="p-3">
-        {tab === 'suggestions' && (
-          <Table
-            columns={suggestionsColumns}
-            dataSource={suggestions.data}
-            loading={suggestions.isLoading}
-            rowKey={r => r.user_id}
-            scrollable={false}
-            surface={1}
-          />
-        )}
-        {tab === 'followings' &&
-          (followings.value.length === 0 && !followings.isLoading ? (
-            <div className="flex flex-col items-center py-10">
-              <EmptyIcon />
-              <h3 className="mb-2 font-semibold text-xs">
-                {'No Subscription Added'}
-              </h3>
-              <p className="max-w-[220px] text-center text-v1-content-secondary text-xs">
-                {'You can create a Customized List by adding Subscriptions'}
-              </p>
-            </div>
-          ) : (
-            <Table
-              columns={followingsColumns}
-              dataSource={followings.value}
-              loading={followings.value.length === 0 && followings.isLoading}
-              rowKey={r => r.user_id}
-              scrollable={false}
-              surface={1}
-            />
-          ))}
-      </div>
+      {followings.value.length === 0 && !followings.isLoading ? (
+        <div className="flex flex-col items-center py-10">
+          <EmptyIcon />
+          <h3 className="mb-2 font-semibold text-xs">
+            {'No Subscription Added'}
+          </h3>
+          <p className="max-w-[220px] text-center text-v1-content-secondary text-xs">
+            {'You can create a Customized List by adding Subscriptions'}
+          </p>
+        </div>
+      ) : (
+        <Table
+          columns={followingsColumns}
+          dataSource={users}
+          rowKey={r => r.username!}
+          scrollable={false}
+          surface={2}
+        />
+      )}
     </div>
   );
 };

@@ -1,9 +1,6 @@
-import { bxLogIn } from 'boxicons-quasar';
-import { clsx } from 'clsx';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import BtnLogin from 'modules/base/Layout/ProfileMenu/BtnLogin';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { isDebugMode, isMiniApp } from 'utils/version';
@@ -19,7 +16,6 @@ const DebugBadge = () =>
 const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
   const isLoggedIn = useIsLoggedIn();
   const isMobile = useIsMobile();
-  const [ModalLogin, showModalLogin] = useModalLogin();
 
   return isLoggedIn ? (
     <ClickableTooltip
@@ -43,19 +39,7 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
       )}
     </ClickableTooltip>
   ) : (
-    <>
-      <Button
-        className={clsx(isMobile ? 'w-md' : 'w-xs', className)}
-        onClick={showModalLogin}
-        size={isMobile ? 'md' : 'xs'}
-        surface={isMobile ? 2 : 3}
-        variant="primary"
-      >
-        <Icon name={bxLogIn} size={24} />
-        <DebugBadge />
-      </Button>
-      {ModalLogin}
-    </>
+    <BtnLogin />
   );
 };
 

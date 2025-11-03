@@ -5,6 +5,7 @@ import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { useRef } from 'react';
+import { AccessShield } from 'shared/AccessShield';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -27,93 +28,98 @@ export default function WalletsSwaps() {
   return (
     <div className="mb-3 grow overflow-auto px-3" ref={containerRef}>
       <p className="mb-3 text-xs">Live Trades</p>
-      <Table
-        chunkSize={5}
-        columns={[
-          {
-            title: '',
-            key: 'age',
-            render: row => (
-              <button onClick={() => openInScan('solana', { tx: row.txId })}>
-                <ReadableDate
-                  className="text-xs hover:underline"
-                  suffix=""
-                  value={row.relatedAt}
-                />
-              </button>
-            ),
-          },
-          {
-            title: 'Name',
-            key: 'name',
-            render: row => <Wallet address={row.wallet} mode="name" />,
-          },
-          {
-            title: 'Token',
-            key: 'token',
-            render: row => (
-              <Token
-                address={row.asset}
-                logo={row.assetDetail?.image}
-                name={row.assetDetail?.name}
-                popup={true}
-                showAddress={!row.assetDetail?.name}
-                size="sm"
-                truncate={false}
-              />
-            ),
-          },
-          {
-            title: 'Amount',
-            key: 'amount',
-            width: 100,
-            render: row => (
-              <div className="relative flex w-full items-center justify-center px-2">
-                <DirectionalNumber
-                  className="text-xs"
-                  direction={row.dir === 'sell' ? 'down' : 'up'}
-                  format={{
-                    decimalLength: 1,
-                  }}
-                  label="$"
-                  showIcon={false}
-                  showSign={false}
-                  value={row.tokenAmount * row.price}
-                />
-                <div
-                  className={clsx(
-                    row.dir === 'sell'
-                      ? 'to-v1-background-negative/20'
-                      : 'to-v1-background-positive/20',
-                    '-bottom-4 absolute h-8 w-full bg-gradient-to-b from-0% from-transparent to-100%',
-                  )}
-                />
-              </div>
-            ),
-          },
-          {
-            title: 'MC',
-            key: 'mc',
-            render: row =>
-              row.assetDetail?.totalSupply && (
-                <ReadableNumber
-                  className="text-xs"
-                  format={{
-                    decimalLength: 2,
-                  }}
-                  label="$"
-                  value={row.price * Number(row.assetDetail.totalSupply)}
+      <AccessShield
+        mode="children"
+        sizes={{ guest: true, free: false, vip: false, initial: false }}
+      >
+        <Table
+          chunkSize={5}
+          columns={[
+            {
+              title: '',
+              key: 'age',
+              render: row => (
+                <button onClick={() => openInScan('solana', { tx: row.txId })}>
+                  <ReadableDate
+                    className="text-xs hover:underline"
+                    suffix=""
+                    value={row.relatedAt}
+                  />
+                </button>
+              ),
+            },
+            {
+              title: 'Name',
+              key: 'name',
+              render: row => <Wallet address={row.wallet} mode="name" />,
+            },
+            {
+              title: 'Token',
+              key: 'token',
+              render: row => (
+                <Token
+                  address={row.asset}
+                  logo={row.assetDetail?.image}
+                  name={row.assetDetail?.name}
+                  popup={true}
+                  showAddress={!row.assetDetail?.name}
+                  size="sm"
+                  truncate={false}
                 />
               ),
-          },
-        ]}
-        dataSource={pausedData}
-        isPaused={isPaused}
-        loading={isLoading}
-        rowClassName="relative text-xs"
-        scrollable
-        surface={1}
-      />
+            },
+            {
+              title: 'Amount',
+              key: 'amount',
+              width: 100,
+              render: row => (
+                <div className="relative flex w-full items-center justify-center px-2">
+                  <DirectionalNumber
+                    className="text-xs"
+                    direction={row.dir === 'sell' ? 'down' : 'up'}
+                    format={{
+                      decimalLength: 1,
+                    }}
+                    label="$"
+                    showIcon={false}
+                    showSign={false}
+                    value={row.tokenAmount * row.price}
+                  />
+                  <div
+                    className={clsx(
+                      row.dir === 'sell'
+                        ? 'to-v1-background-negative/20'
+                        : 'to-v1-background-positive/20',
+                      '-bottom-4 absolute h-8 w-full bg-gradient-to-b from-0% from-transparent to-100%',
+                    )}
+                  />
+                </div>
+              ),
+            },
+            {
+              title: 'MC',
+              key: 'mc',
+              render: row =>
+                row.assetDetail?.totalSupply && (
+                  <ReadableNumber
+                    className="text-xs"
+                    format={{
+                      decimalLength: 2,
+                    }}
+                    label="$"
+                    value={row.price * Number(row.assetDetail.totalSupply)}
+                  />
+                ),
+            },
+          ]}
+          dataSource={pausedData}
+          isPaused={isPaused}
+          loading={isLoading}
+          rowClassName="relative text-xs"
+          scrollable
+          surface={1}
+        />
+      </AccessShield>
     </div>
   );
 }
