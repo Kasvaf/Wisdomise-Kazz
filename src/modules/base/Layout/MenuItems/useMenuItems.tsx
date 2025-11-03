@@ -19,6 +19,7 @@ interface MenuItem {
   text: string;
   crumb: string;
   hide?: boolean;
+  divider?: boolean;
 }
 
 export const useMenuItems = () => {
@@ -72,25 +73,6 @@ export const useMenuItems = () => {
         crumb: 'Technical Radar',
       },
       {
-        link: '/portfolio',
-        meta: {
-          list: 'portfolio',
-        },
-        icon: PortfolioIcon,
-        text: 'Portfolio',
-        crumb: 'Portfolio',
-      },
-      {
-        link: '/positions',
-        meta: {
-          list: 'positions',
-        },
-        icon: PositionsIcon,
-        text: 'Positions',
-        crumb: 'Positions',
-        hide: isMobile,
-      },
-      {
         link: '/wallet-tracker',
         meta: {
           list: 'wallet-tracker',
@@ -120,6 +102,26 @@ export const useMenuItems = () => {
         text: 'Meta',
         hide: isMobile,
         crumb: 'Meta',
+      },
+      {
+        divider: true,
+        link: '/portfolio',
+        meta: {
+          list: 'portfolio',
+        },
+        icon: PortfolioIcon,
+        text: 'Portfolio',
+        crumb: 'Portfolio',
+      },
+      {
+        link: '/positions',
+        meta: {
+          list: 'positions',
+        },
+        icon: PositionsIcon,
+        text: 'Positions',
+        crumb: 'Positions',
+        hide: isMobile,
       },
     ],
     [isMobile],

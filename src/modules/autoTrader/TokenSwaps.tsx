@@ -9,7 +9,7 @@ import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
 import { ReadableDate } from 'shared/ReadableDate';
@@ -46,6 +46,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   });
 
   const { data: pausedData, isPaused } = usePausedData(data, containerRef);
+  const partialData = useMemo(() => pausedData.slice(0, 200), [pausedData]);
 
   const maxAmount = pausedData.reduce((max, s) => {
     return Math.max(max, s.tokenAmount);
@@ -150,7 +151,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
             ),
           },
         ]}
-        dataSource={pausedData}
+        dataSource={partialData}
         isPaused={isPaused}
         loading={isLoading}
         rowClassName="relative"

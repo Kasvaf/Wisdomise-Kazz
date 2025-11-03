@@ -17,9 +17,11 @@ import { shortenAddress } from 'utils/address';
 export default function Transfer({
   wallet,
   mode,
+  onClose,
 }: {
   wallet: Wallet;
   mode: 'internal_transfer' | 'external_transfer';
+  onClose: () => void;
 }) {
   const [fromWallet, setFromWallet] = useState<Wallet>();
   const [toWallet, setToWallet] = useState('');
@@ -60,9 +62,10 @@ export default function Transfer({
         symbol_slug: selectedAsset?.slug,
         amount: isMax ? 'ALL' : amount,
         receiver_address: (toWallet || internalToWallet?.address) ?? '',
-      }).then(() =>
-        notification.success({ message: 'Asset successfully transferred' }),
-      );
+      }).then(() => {
+        notification.success({ message: 'Asset successfully transferred' });
+        onClose();
+      });
   };
 
   useEffect(() => {

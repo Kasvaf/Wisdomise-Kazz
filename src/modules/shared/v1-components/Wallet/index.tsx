@@ -59,7 +59,7 @@ export const Wallet: FC<{
       >
         <div className="flex items-center gap-1">
           {walletDetail && <span>{walletDetail.emoji}</span>}
-          <span>{mode === 'name' ? walletDetail?.name : shortAddress}</span>
+          <span>{walletDetail?.name ?? shortAddress}</span>
         </div>
       </HoverTooltip>
       {notificationContent}

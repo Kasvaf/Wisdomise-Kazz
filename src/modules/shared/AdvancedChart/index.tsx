@@ -146,30 +146,32 @@ const AdvancedChart: React.FC<{
       });
 
       // Create quote selector
-      const dropDown = await widget.createDropdown({
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
-        tooltip: 'Quote',
-        items:
-          pairs
-            ?.filter(
-              (x): x is typeof x & { quote: { abbreviation: string } } =>
-                !!x.quote.abbreviation,
-            )
-            ?.map(x => ({
-              title: x.quote.abbreviation,
-              onSelect: () => {
-                setPageQuote(x.quote.slug);
-                dropDown.applyOptions({
-                  title:
-                    pairs?.find(y => y.quote.slug === x.quote.slug)?.quote
-                      .abbreviation ?? '',
-                });
-              },
-            })) ?? [],
-        title:
-          pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
-          '',
-      });
+      if (pairs.length > 1) {
+        const dropDown = await widget.createDropdown({
+          icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
+          tooltip: 'Quote',
+          items:
+            pairs
+              ?.filter(
+                (x): x is typeof x & { quote: { abbreviation: string } } =>
+                  !!x.quote.abbreviation,
+              )
+              ?.map(x => ({
+                title: x.quote.abbreviation,
+                onSelect: () => {
+                  setPageQuote(x.quote.slug);
+                  dropDown.applyOptions({
+                    title:
+                      pairs?.find(y => y.quote.slug === x.quote.slug)?.quote
+                        .abbreviation ?? '',
+                  });
+                },
+              })) ?? [],
+          title:
+            pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
+            '',
+        });
+      }
 
       if (data.quote === WRAPPED_SOLANA_SLUG) {
         const convertToUsdButton = widget.createButton();
