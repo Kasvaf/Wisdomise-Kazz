@@ -122,7 +122,6 @@ export const useTokenPairsQuery = (
       return await getPairsCached(baseSlug);
     },
     enabled: config?.enabled === undefined ? true : config.enabled,
-    staleTime: Number.POSITIVE_INFINITY,
   });
 };
 
