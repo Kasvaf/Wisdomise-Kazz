@@ -1,9 +1,9 @@
 import { type TwitterUser, useTwitterCommunityPreviewQuery } from 'api/twitter';
 import { bxCalendar } from 'boxicons-quasar';
 import dayjs from 'dayjs';
-import { shortFromNow } from 'shared/CoinSocials/lib';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { shortFromNow } from 'shared/TokenSocials/lib';
 import { Button } from 'shared/v1-components/Button';
 import { XUser } from 'shared/v1-components/X/XProfileEmbed';
 import { ReactComponent as XIcon } from '../x.svg';

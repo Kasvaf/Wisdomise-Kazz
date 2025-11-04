@@ -1,76 +1,58 @@
-import { useUserAssets } from 'api';
-import { useUserWalletAssets } from 'api/chains';
+import { useTraderAssetsQuery } from 'api';
+import { useWalletAssets } from 'api/chains';
 import { useActiveWallet, useConnectedWallet } from 'api/chains/wallet';
-import { useSymbolInfo } from 'api/symbol';
 import type { Wallet } from 'api/wallets';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { AccessShield } from 'shared/AccessShield';
 import Badge from 'shared/Badge';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import Spin from 'shared/Spin';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
-import { Coin } from 'shared/v1-components/Coin';
-import { isMiniApp } from 'utils/version';
+import { Token, TokenLink } from 'shared/v1-components/Token';
 
 interface AssetData {
-  slug: string;
   amount: number;
   network?: string;
   usd_equity?: number;
+  address?: string;
 }
 
 const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
-  const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo({
-    slug: asset.slug,
-  });
   return (
-    <NavLink
+    <TokenLink
+      address={asset.address}
       className={clsx(
-        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-4 mobile:py-3 py-2',
-        baseLoading && 'animate-pulse',
-        !baseInfo && 'pointer-events-none',
+        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-3 mobile:py-3 py-2',
       )}
-      to={
-        asset.slug !== 'solana'
-          ? generateTokenLink(baseInfo?.networks ?? [])
-          : '#'
-      }
     >
-      {baseInfo ? (
-        <Coin
-          abbreviation={baseInfo.abbreviation}
-          extra={
-            <ReadableNumber
-              className="text-v1-content-secondary"
-              label="$"
-              value={(asset.usd_equity ?? 0) / asset.amount}
-            />
-          }
-          href={false}
-          // networks={baseInfo.networks}
-          logo={baseInfo.logo_url}
-          name={baseInfo.name}
-          truncate
-        />
-      ) : baseLoading ? (
-        <Spin />
-      ) : (
-        <div />
-      )}
-      <div className="flex flex-col items-end">
+      <Token
+        address={asset.address}
+        autoFill
+        link={false}
+        showAddress={false}
+        subtitle={
+          <ReadableNumber
+            className="text-v1-content-secondary text-xxs"
+            label="$"
+            value={(asset.usd_equity ?? 0) / asset.amount}
+          />
+        }
+        truncate
+      />
+
+      <div className="flex flex-col items-end gap-1">
         <ReadableNumber
           className="flex font-medium text-xs"
           value={asset.amount}
@@ -83,7 +65,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
           />
         )}
       </div>
-    </NavLink>
+    </TokenLink>
   );
 };
 
@@ -114,7 +96,7 @@ const UserAssets: React.FC<
         )}
       >
         {data?.map((asset, ind, arr) => (
-          <React.Fragment key={asset.slug}>
+          <React.Fragment key={asset.address}>
             <UserAsset asset={asset} />
 
             {ind !== arr.length - 1 && (
@@ -129,7 +111,7 @@ const UserAssets: React.FC<
 
 export const UserTradingAssets = ({ className }: { className?: string }) => {
   const isLoggedIn = useIsLoggedIn();
-  const { data: tradingAssets } = useUserAssets();
+  const { data: tradingAssets } = useTraderAssetsQuery();
   if (!isLoggedIn) return null;
 
   if (!tradingAssets?.length) return null;
@@ -152,9 +134,7 @@ export const UserTradingAssets = ({ className }: { className?: string }) => {
 
 const UserWallets = (props: Props) => {
   const net = useActiveNetwork();
-  const { data: walletAssets } = useUserWalletAssets(
-    isMiniApp ? 'the-open-network' : 'solana',
-  );
+  const { data: walletAssets } = useWalletAssets({});
 
   return net === 'the-open-network' ? (
     <UserAssets data={walletAssets} title="Wallet Assets" {...props} />
@@ -172,26 +152,27 @@ const UserWallets = (props: Props) => {
 };
 
 export default function UserPortfolio(props: Props) {
-  const isLoggedIn = useIsLoggedIn();
-  if (!isLoggedIn) return null;
-
   return (
-    <div className="p-3">
-      <div className="flex flex-col gap-2">
-        <UserTradingAssets />
-        <UserWallets {...props} />
+    <AccessShield
+      mode="children"
+      sizes={{ guest: true, vip: false, free: false, initial: false }}
+    >
+      <div className="p-3">
+        <div className="flex flex-col gap-2">
+          <UserTradingAssets />
+          <UserWallets {...props} />
+        </div>
       </div>
-    </div>
+    </AccessShield>
   );
 }
 
 function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
   const { address, connected } = useConnectedWallet();
   const { address: activeAddress } = useActiveWallet();
-  const { data: walletAssets } = useUserWalletAssets(
-    isMiniApp ? 'the-open-network' : 'solana',
-    wallet?.address ?? address,
-  );
+  const { data: walletAssets } = useWalletAssets({
+    address: wallet?.address ?? address,
+  });
   const navigate = useNavigate();
   const [copy, notif] = useShare('copy');
 
@@ -251,7 +232,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
 
 function WalletAssets({ wallet }: { wallet: Wallet }) {
   const isLoggedIn = useIsLoggedIn();
-  const { data: walletAssets } = useSolanaUserAssets(wallet.address);
+  const { data: walletAssets } = useSolanaWalletPricedAssets(wallet.address);
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
 
   if (!isLoggedIn) return null;

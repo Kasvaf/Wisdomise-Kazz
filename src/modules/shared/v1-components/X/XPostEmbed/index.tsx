@@ -12,11 +12,17 @@ export function XPostEmbed({
   value: TwitterTweet;
   isQuote?: boolean;
 }) {
+  const openPost = () => {
+    window.open(
+      `https://x.com/${value.user.username}/status/${value.tweet_id}`,
+      '_blank',
+    );
+  };
+
   return (
-    <a
+    <div
       className="relative block w-full cursor-pointer overflow-hidden rounded-xl border border-x-border bg-x-bg text-sm transition-colors hover:bg-x-bg-hover"
-      href={`https://x.com/${value.user.username}/status/${value.tweet_id}`}
-      target="_blank"
+      onClick={openPost}
     >
       <div className="flex justify-between gap-1 px-4 pt-3">
         <XUser
@@ -29,7 +35,7 @@ export function XPostEmbed({
         />
         <ReadableDate suffix={false} value={value.related_at} />
       </div>
-      <div className="flex w-full flex-col items-center justify-start p-4">
+      <div className="flex w-full flex-col items-center justify-start p-3 pt-4">
         {value.replied_tweet && (
           <div className="mb-2 flex h-7 w-full items-center justify-start overflow-hidden rounded-[12px] px-[8px]">
             <div className="mr-[10px] h-full w-[3px] min-w-[3px] rounded-full bg-[#425464]"></div>
@@ -46,7 +52,7 @@ export function XPostEmbed({
           )}
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -69,7 +75,7 @@ const XPostMedia: FC<{
       {value.media.map((m, i, s) => (
         <div
           className={clsx(
-            'h-48',
+            'max-h-96',
             'relative w-full cursor-pointer bg-v1-surface-l2',
             i === s.length - 1 && (i + 1) % 2 === 1
               ? 'col-span-2'
@@ -78,7 +84,7 @@ const XPostMedia: FC<{
           key={i}
           onClick={e => {
             openMedia(m.url);
-            e.preventDefault();
+            e.stopPropagation();
           }}
         >
           <img

@@ -12,7 +12,7 @@ import type {
   SymbolSocailAddresses,
   ValidationData,
 } from 'api/proto/network_radar';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import type { Coin } from 'api/types/shared';
 import { doesNCoinHaveSafeTopHolders } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { createContext, type FC, type ReactNode, useContext } from 'react';
@@ -36,11 +36,10 @@ export const useResolveComplexSlug = (slugs: string[]): ComplexSlug | null => {
     ? (slugs[0] as string)
     : searchResult.data?.[0]?.symbol.slug ||
       (isNetworkCa ? slugs.join('_') : undefined);
-  const symbolInfo = useSymbolInfo({ slug });
+  const symbolInfo = useTokenInfo({ slug });
   const network = isSlug ? globalNetwork : isNetworkCa ? slugs[0] : undefined;
   const contractAddress = isSlug
-    ? symbolInfo.data?.networks.find(x => x.network.slug === network)
-        ?.contract_address || undefined
+    ? symbolInfo.data?.contract_address
     : isNetworkCa
       ? slugs[1]
       : undefined;

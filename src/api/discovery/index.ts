@@ -685,9 +685,19 @@ export const useTwitterFollowedAccounts = () => {
   const { value, isLoading, isSaving, isFetching, save } = useUserStorage<
     TwitterFollowedAccount[]
   >('followed_twitter_accounts', { serializer: 'json' });
+  const { data } = useTwitterSuggestedAccounts();
 
   return useMemo(() => {
-    const follow = (acc: TwitterFollowedAccount) => {
+    const follow = (acc: TwitterFollowedAccount | true) => {
+      if (acc === true) {
+        return save(
+          data?.map(a => ({
+            user_id: a.user_id,
+            username: a.username,
+            hide_from_list: false,
+          })) ?? [],
+        );
+      }
       const currentIndex =
         value?.findIndex?.(x => x.user_id === acc.user_id) ?? -1;
       if (currentIndex !== -1) {
@@ -699,12 +709,8 @@ export const useTwitterFollowedAccounts = () => {
       }
       return save([...(value ?? []), acc]);
     };
-    const unFollow = (acc: TwitterFollowedAccount | true) =>
-      save(
-        acc === true
-          ? []
-          : (value?.filter?.(x => x.user_id !== acc.user_id) ?? []),
-      );
+    const unFollow = (acc: string | true) =>
+      save(acc === true ? [] : (value?.filter?.(x => x.user_id !== acc) ?? []));
 
     return {
       isLoading,
@@ -714,7 +720,7 @@ export const useTwitterFollowedAccounts = () => {
       unFollow,
       value: value ?? [],
     };
-  }, [isLoading, isSaving, isFetching, value, save]);
+  }, [isLoading, isSaving, isFetching, value, save, data]);
 };
 
 export const useStreamTweets = (config: { userIds: string[] }) => {

@@ -1,5 +1,5 @@
 import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
-import { bxGroup, bxLoader, bxPauseCircle } from 'boxicons-quasar';
+import { bxGroup, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import NCoinTransactions from 'modules/discovery/ListView/NetworkRadar/NCoinTransactions';
@@ -13,12 +13,11 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Coin } from 'shared/v1-components/Coin';
+import Spin from 'shared/v1-components/Spin';
+import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useInterval } from 'usehooks-ts';
-import { openInNewTab } from 'utils/click';
 import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
@@ -167,7 +166,7 @@ const NCoinAgeAndSecurity: FC<{ lpBurned?: boolean; createdAt?: string }> =
         }}
       />
       <NCoinAge
-        className="ms-1 text-xs"
+        className="text-xs"
         imgClassName="hidden"
         inline
         value={createdAt}
@@ -262,14 +261,7 @@ export const NCoinList: FC<{
             )}
           />
           <h3 className="relative">{title}</h3>
-          <div
-            className={clsx(
-              'flex animate-spin items-center gap-1 text-v1-content-secondary text-xs',
-              !loading && 'hidden',
-            )}
-          >
-            <Icon name={bxLoader} size={18} />
-          </div>
+          {loading && <Spin />}
           <div
             className={clsx(
               'flex items-center gap-1 text-v1-content-brand text-xs transition-all',
@@ -316,7 +308,8 @@ export const NCoinList: FC<{
             );
 
             return (
-              <Link
+              <TokenLink
+                address={row.symbol?.base}
                 className={clsx(
                   'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
                   mini
@@ -327,20 +320,17 @@ export const NCoinList: FC<{
                     : '-translate-y-14 opacity-0',
                 )}
                 key={row.symbol?.slug ?? ''}
-                onContextMenu={openInNewTab}
-                tabIndex={0}
-                to={`/token/${row.symbol?.network}/${row.symbol?.base}`}
               >
                 {source === 'final_stretch' &&
                   row.networkData?.boundingCurve === 1 && (
                     <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
-                      <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-35 blur-2xl" />
+                      <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
                     </div>
                   )}
-                <div className="relative flex flex-col gap-1 overflow-hidden">
-                  <Coin
+                <div className="relative flex flex-col gap-1">
+                  <Token
                     abbreviation={row.symbol?.abbreviation}
-                    customLabels={ageAndSecurity}
+                    address={row.symbol?.base}
                     extra={
                       <>
                         {!mini && bCurve}
@@ -353,27 +343,16 @@ export const NCoinList: FC<{
                         />
                       </>
                     }
-                    href={false}
+                    header={ageAndSecurity}
+                    link={false}
                     logo={row.symbol?.imageUrl}
                     marker={row.validatedData?.protocol?.logo}
                     name={row.symbol?.name}
-                    networks={[
-                      {
-                        contract_address: row.symbol?.base ?? '---',
-                        network: {
-                          slug: 'solana',
-                          icon_url: '',
-                          name: 'Solana',
-                        },
-                        symbol_network_type: 'TOKEN',
-                      },
-                    ]}
                     progress={
                       source === 'migrated'
                         ? undefined
                         : (row.networkData?.boundingCurve ?? 1)
                     }
-                    progressTitle="Bounding Curve: "
                     size={mini ? 'md' : 'lg'}
                     slug={row.symbol?.slug}
                     socials={row.socials}
@@ -402,7 +381,7 @@ export const NCoinList: FC<{
                     tokenAddress={row.symbol.base}
                   />
                 )}
-              </Link>
+              </TokenLink>
             );
           })}
         </div>

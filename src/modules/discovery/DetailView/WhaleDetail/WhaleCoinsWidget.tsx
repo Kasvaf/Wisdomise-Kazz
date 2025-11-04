@@ -9,7 +9,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
 import { Coin } from 'shared/Coin';
-import { CoinLabels } from 'shared/CoinLabels';
+import { TokenLabels } from 'shared/CoinLabels';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -145,7 +145,7 @@ export function WhaleCoinsWidget({
       {
         title: t('whale_coins.labels'),
         render: row => (
-          <CoinLabels
+          <TokenLabels
             categories={row.symbol.categories}
             labels={row.symbol_labels}
             networks={row.networks}

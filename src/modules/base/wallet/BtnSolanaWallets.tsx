@@ -1,17 +1,16 @@
 import { Radio } from 'antd';
-import { useUserWalletAssets } from 'api/chains';
+import { useWalletAssets } from 'api/chains';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import {
   useActiveWallet,
   useConnectedWallet,
   useCustodialWallet,
 } from 'api/chains/wallet';
-import { type CoinSymbol, useSymbolsInfo } from 'api/symbol';
 import { useWalletsQuery, type Wallet } from 'api/wallets';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
-import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
@@ -21,15 +20,14 @@ import { type FC, type ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Badge from 'shared/Badge';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import { Coins } from 'shared/Coins';
 import Icon from 'shared/Icon';
+import { Tokens } from 'shared/Tokens';
 import { useShare } from 'shared/useShare';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { shortenAddress } from 'utils/address';
 import { roundSensible } from 'utils/numbers';
 import useIsMobile from 'utils/useIsMobile';
 import type { Surface } from 'utils/useSurface';
-import { isMiniApp } from 'utils/version';
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
 
 export default function BtnSolanaWallets({
@@ -168,7 +166,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
             </>
           ) : connected ? (
             <div className="flex items-center gap-1">
-              <img className="size-3" src={icon} /> {name}
+              <img alt="" className="size-3" src={icon} /> {name}
             </div>
           ) : (
             'Not Connected'
@@ -179,7 +177,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         </div>
       </div>
       <div className="flex gap-1">
-        <UserMiniAssets wallet={wallet} />
+        <WalletAssetsWidget address={wallet?.address} />
         {wallet ? (
           <Button
             className="!bg-transparent"
@@ -199,17 +197,16 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   );
 }
 
-function UserMiniAssets({ wallet }: { wallet?: Wallet }) {
-  const { address } = useConnectedWallet();
-  const { data: walletAssets } = useUserWalletAssets(
-    isMiniApp ? 'the-open-network' : 'solana',
-    wallet?.address ?? address,
-  );
-  const { data: symbols } = useSymbolsInfo(walletAssets?.map(a => a.slug));
+export function WalletAssetsWidget({ address }: { address?: string }) {
+  const { address: connectedWallet } = useConnectedWallet();
+  const { data: assets } = useWalletAssets({
+    address: address ?? connectedWallet,
+  });
+  const addresses = assets?.map(token => token.address);
 
-  return symbols && (wallet?.address || address) ? (
+  return addresses?.length && (address || connectedWallet) ? (
     <div className="flex items-center justify-center rounded-md border border-v1-inverse-overlay-10 px-2">
-      <Coins coins={symbols.filter(Boolean) as CoinSymbol[]} />
+      <Tokens addresses={addresses} />
     </div>
   ) : null;
 }

@@ -1,11 +1,10 @@
-import { useSymbolInfo } from 'api/symbol';
 import type { TokenRecord, Wallet } from 'api/wallets';
 import { useWalletStatus } from 'modules/base/wallet/WalletDetail/useWalletStatus';
 import { useMemo, useState } from 'react';
-import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 
 export default function WalletStatus({ wallet }: { wallet: Wallet }) {
   const [resolution, setResolution] = useState<'1d' | '7d' | '30d'>('1d');
@@ -20,11 +19,7 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
         key: 'token',
         title: 'Token',
         sticky: 'start',
-        render: row => (
-          <div className="text-xs">
-            <WalletStatusCoin tokenAddress={row.token_address} />
-          </div>
-        ),
+        render: row => <Token address={row.token_address} autoFill />,
       },
       {
         key: 'bought',
@@ -115,9 +110,4 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
       />
     </div>
   );
-}
-
-export function WalletStatusCoin({ tokenAddress }: { tokenAddress: string }) {
-  const { data: symbol } = useSymbolInfo({ slug: `solana_${tokenAddress}` });
-  return symbol ? <Coin coin={symbol} /> : null;
 }

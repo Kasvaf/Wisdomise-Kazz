@@ -1,7 +1,7 @@
 import { useLastPriceStream, useSupportedNetworks } from 'api';
 import { useTokenBalance } from 'api/chains';
 import { useCoinDetails } from 'api/discovery';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { useCallback, useEffect, useState } from 'react';
 import { roundSensible } from 'utils/numbers';
 import type { TraderInputs } from '../PageTrade/types';
@@ -17,8 +17,8 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const firing = useState(false);
   const { data: details } = useCoinDetails({ slug: base });
 
-  const { data: baseInfo } = useSymbolInfo({ slug: base });
-  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
+  const { data: baseInfo } = useTokenInfo({ slug: base });
+  const { data: quoteInfo } = useTokenInfo({ slug: quote });
   const networks = useSupportedNetworks(base, quote);
   const selectedNet = networks?.[0] ?? 'solana';
 

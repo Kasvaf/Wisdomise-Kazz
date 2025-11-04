@@ -4,10 +4,10 @@ import { clsx } from 'clsx';
 import { type FC, memo, type ReactNode } from 'react';
 import { CoinCategoryLabel } from './CoinCategoryLabel';
 import { CoinLabel } from './CoinLabel';
-import { CoinNetworksLabel } from './CoinNetworksLabel';
 import { icons } from './icons';
+import { TokenNetworksLabel } from './TokenNetworksLabel';
 
-export const CoinLabels: FC<{
+export const TokenLabels: FC<{
   className?: string;
   categories?: Coin['categories'] | null;
   networks?: CoinNetwork[] | null;
@@ -76,7 +76,7 @@ export const CoinLabels: FC<{
           />
         )}
         {!truncate && (
-          <CoinNetworksLabel
+          <TokenNetworksLabel
             clickable={clickable}
             size={size}
             value={networks}

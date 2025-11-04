@@ -13,8 +13,8 @@ import { TableRank } from 'shared/TableRank';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { usePageState } from 'shared/usePageState';
 import { Button } from 'shared/v1-components/Button';
-import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
@@ -46,7 +46,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
         sticky: 'start',
         title: t('table.name'),
         render: row => (
-          <Coin
+          <Token
             abbreviation={row.symbol.abbreviation}
             categories={row.symbol.categories}
             labels={row.symbol_labels}

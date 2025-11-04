@@ -9,8 +9,8 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import { usePageState } from 'shared/usePageState';
-import { Coin } from 'shared/v1-components/Coin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { SocialRadarFilters } from './SocialRadarFilters';
 import { SocialRadarSentiment } from './SocialRadarSentiment';
 
@@ -38,9 +38,8 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = () => {
       {
         key: 'coin',
         render: row => (
-          <Coin
+          <Token
             abbreviation={row.symbol.abbreviation}
-            // name={row.symbol.name}
             categories={row.symbol.categories}
             extra={
               <>
@@ -62,8 +61,8 @@ export const SocialRadarCompact: FC<{ focus?: boolean }> = () => {
                 />
               </>
             }
-            href={false}
             labels={row.symbol_labels}
+            link={false}
             logo={row.symbol.logo_url}
             networks={row.networks}
             slug={row.symbol.slug}

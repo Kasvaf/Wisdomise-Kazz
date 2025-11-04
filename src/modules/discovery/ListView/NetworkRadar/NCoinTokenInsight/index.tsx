@@ -113,7 +113,7 @@ export const NCoinTokenInsight: FC<{
           {items.map(item => (
             <div
               className={clsx(
-                'relative flex shrink-0 items-center justify-start gap-px',
+                'relative flex shrink-0 items-center justify-start',
                 item.color === 'green'
                   ? 'text-v1-background-positive'
                   : item.color === 'red'
@@ -125,6 +125,7 @@ export const NCoinTokenInsight: FC<{
             >
               <item.icon
                 className={clsx(
+                  'mr-1',
                   item.color === 'green'
                     ? 'stroke-v1-background-positive-subtle'
                     : item.color === 'red'

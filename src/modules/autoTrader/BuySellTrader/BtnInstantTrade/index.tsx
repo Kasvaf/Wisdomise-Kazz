@@ -24,6 +24,7 @@ import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useState } from 'react';
 import Draggable, { type ControlPosition } from 'react-draggable';
 import Icon from 'shared/Icon';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -45,6 +46,7 @@ export default function BtnInstantTrade({
   const { data: baseBalance } = useTokenBalance({ slug });
   const hasFlag = useHasFlag();
   const [maskIsOpen, setMaskIsOpen] = useState(false);
+  const [loginModal, ensureAuthenticated] = useEnsureAuthenticated();
 
   const { data: basePriceByQuote } = useLastPriceStream({
     slug,
@@ -54,6 +56,7 @@ export default function BtnInstantTrade({
 
   const swapAsync = useSwap({ source: 'terminal', slug, quote });
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
+    if (!(await ensureAuthenticated())) return;
     if (side === 'SHORT') {
       amount = convertToBaseAmount(
         amount,
@@ -279,6 +282,7 @@ export default function BtnInstantTrade({
         <InstantIcon />
         Instant Trade
       </Button>
+      {loginModal}
     </>
   );
 }

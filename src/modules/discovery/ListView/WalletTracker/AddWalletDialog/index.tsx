@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';
+import { LibrarySelection } from './LibrarySelection';
 import { ManualWalletForm } from './ManualWalletForm';
-import { WalletLibrarySelection } from './WalletLibrarySelection';
 
 export default function AddWalletDialog({
   open,
@@ -38,7 +38,9 @@ export default function AddWalletDialog({
           variant="white"
         />
         {activeTab === 'manual' && <ManualWalletForm onClose={onClose} />}
-        {activeTab === 'list' && <WalletLibrarySelection onClose={onClose} />}
+        {activeTab === 'list' && (
+          <LibrarySelection onClose={onClose} type="wallet" />
+        )}
       </div>
     </Dialog>
   );

@@ -1,13 +1,13 @@
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { clsx } from 'clsx';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { useCallback, useEffect, useState } from 'react';
-import { Coin } from 'shared/Coin';
 import Spinner from 'shared/Spinner';
 import { Dialog } from 'shared/v1-components/Dialog';
+import { Token } from 'shared/v1-components/Token';
 import useIsMobile from 'utils/useIsMobile';
 import type { TraderInputs } from '../PageTrade/types';
 import TraderTrades from '../TraderTrades';
@@ -22,7 +22,7 @@ export default function useTraderDrawer() {
 
   const normSlug =
     inputs?.slug === 'solana' ? WRAPPED_SOLANA_SLUG : inputs?.slug;
-  const { data: coin, isLoading: coinLoading } = useSymbolInfo({
+  const { data: coin, isLoading: coinLoading } = useTokenInfo({
     slug: normSlug,
   });
 
@@ -55,7 +55,7 @@ export default function useTraderDrawer() {
             ) : (
               <div className="relative">
                 <div className="mb-8 flex items-center justify-between">
-                  {coin && <Coin coin={coin} />}
+                  {coin && <Token size="xs" slug={normSlug} />}
                   <BtnWalletConnect />
                 </div>
 

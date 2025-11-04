@@ -1,9 +1,8 @@
-import { useSymbolInfo } from 'api/symbol';
 import { bxTransfer } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { Coin } from 'shared/Coin';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
+import { Token } from 'shared/v1-components/Token';
 import type { Surface } from 'utils/useSurface';
 
 export default function AmountTypeSwitch({
@@ -21,10 +20,7 @@ export default function AmountTypeSwitch({
   showIcon?: boolean;
   surface?: Surface;
 }) {
-  const { data: baseInfo } = useSymbolInfo({ slug: base });
-  const { data: quoteInfo } = useSymbolInfo({ slug: quote });
-
-  const symbol = value === 'quote' ? quoteInfo : baseInfo;
+  const symbol = value === 'quote' ? quote : base;
 
   return (
     <Button
@@ -48,7 +44,7 @@ export default function AmountTypeSwitch({
       {value === 'percentage' ? (
         <span className={showIcon ? 'w-4' : ''}>%</span>
       ) : (
-        symbol && <Coin className="-mr-2" coin={symbol} mini nonLink noText />
+        symbol && <Token autoFill icon link={false} size="xs" slug={symbol} />
       )}
       {showIcon && (
         <div>

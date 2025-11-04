@@ -6,9 +6,9 @@ import CoinChart from '../CoinChart';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { CoinTitleWidget } from '../CoinTitleWidget';
 import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
+import { TokenTitle } from '../TokenTitle';
 import { TokenUpdateWidget } from '../TokenUpdateWidget';
 import { useCoinDetailsTabs } from '../useCoinDetailsTabs';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
@@ -20,7 +20,7 @@ export const CoinDetailsCompact: FC = () => {
   return (
     <div className="flex flex-col gap-3 p-3">
       <NCoinRisksBanner />
-      <CoinTitleWidget className="bg-v1-surface-l-current" hr />
+      <TokenTitle className="bg-v1-surface-l-current" hr />
       <BtnAutoTrade block slug={symbol.slug} variant="primary" />
       <CoinSentimentsWidget />
       <TokenUpdateWidget />

@@ -3,7 +3,7 @@ import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
-import { BtnConvertToUsd, SolanaCoin } from 'modules/autoTrader/TokenActivity';
+import { BtnConvertToUsd, SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { usePausedData } from 'modules/autoTrader/usePausedData';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -81,7 +81,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
                   )}
                   style={{ width: `${(row.tokenAmount / maxAmount) * 100}%` }}
                 />
-                {!showAmountInUsd && <SolanaCoin />}
+                {!showAmountInUsd && <SolanaIcon className="mr-1" />}
                 <DirectionalNumber
                   className="text-xs"
                   direction={row.dir === 'sell' ? 'down' : 'up'}

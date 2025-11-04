@@ -4,7 +4,6 @@ import { clsx } from 'clsx';
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessShield } from 'shared/AccessShield';
-import { Coins } from 'shared/Coins';
 import { DebugPin } from 'shared/DebugPin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
@@ -81,12 +80,12 @@ export function WhaleRadarWhalesWidget({
           />
         ),
       },
-      {
-        title: t('top_whales.tokens'),
-        align: 'end',
-        width: 100,
-        render: row => <Coins coins={row.top_assets.map(r => r.symbol)} />,
-      },
+      // {
+      //   title: t('top_whales.tokens'),
+      //   align: 'end',
+      //   width: 100,
+      //   render: row => <Tokens coins={row.top_assets.map(r => r.symbol)} />,
+      // },
       {
         title: (
           <>

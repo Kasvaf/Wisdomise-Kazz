@@ -1,4 +1,4 @@
-import { useLibrariesQuery } from 'api/library';
+import { type LibraryType, useLibrariesQuery } from 'api/library';
 import { bxCheck, bxPlus } from 'boxicons-quasar';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,13 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import libBg from './lib-bg.png';
 
-export function WalletLibrarySelection({ onClose }: { onClose: () => void }) {
+export function LibrarySelection({
+  onClose,
+  type,
+}: {
+  onClose: () => void;
+  type: LibraryType;
+}) {
   const { settings, updateSelectedLibs } = useUserSettings();
   const [selected, setSelected] = useState<string[]>([]);
   const { data: libs } = useLibrariesQuery();
@@ -28,9 +34,9 @@ export function WalletLibrarySelection({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="flex grow flex-col overflow-hidden">
-      <div className="grid grow grid-cols-3 gap-3 overflow-auto border-white/10 border-y py-3">
+      <div className="grid grow grid-cols-3 gap-3 overflow-auto py-3">
         {libs?.results
-          .filter(l => l.type === 'wallet')
+          .filter(l => l.type === type)
           .map(lib => (
             <div
               className="relative flex h-60 flex-col rounded-xl bg-v1-surface-l2 p-3"

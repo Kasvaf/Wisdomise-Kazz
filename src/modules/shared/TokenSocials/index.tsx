@@ -10,8 +10,9 @@ import { ReactComponent as XProfileIcon } from '../v1-components/X/XProfileEmbed
 import { ReactComponent as XIcon } from '../v1-components/X/x.svg';
 import { getLogo, resolveSocials, type Social } from './lib';
 import { parseXUrl, SocialPreview } from './SocialPreview';
+import { ReactComponent as XSearchIcon } from './x-search.svg';
 
-export const CoinSocials: FC<{
+export const TokenSocials: FC<{
   abbreviation?: string | null;
   name?: string | null;
   contractAddress?: string | null;
@@ -36,7 +37,7 @@ export const CoinSocials: FC<{
     return (
       <div
         className={clsx(
-          'flex items-start justify-start gap-1',
+          'flex items-start justify-start gap-2',
           size === 'xs' ? 'flex-nowrap overflow-hidden text-xxs' : 'flex-wrap',
           className,
         )}
@@ -53,10 +54,10 @@ export const CoinSocials: FC<{
               </Suspense>
             }
           >
-            <span
+            <button
               className={clsx(
-                'shrink-0 rounded-full bg-white/10 text-white/60 text-xxs transition-all hover:text-white/60 active:brightness-90 [&_img]:size-full',
-                size === 'xs' && 'flex size-4 items-center justify-center',
+                'shrink-0',
+                size === 'xs' && 'flex items-center justify-center',
                 size === 'sm' && 'flex size-6 items-center justify-center',
                 size === 'md' &&
                   'flex size-6 items-center justify-center gap-1',
@@ -68,16 +69,11 @@ export const CoinSocials: FC<{
               }}
             >
               {social && <SocialIcon social={social} />}
-            </span>
+            </button>
           </HoverTooltip>
         ))}
         {!hideSearch && (
-          <span
-            className={clsx(
-              'inline-flex cursor-pointer items-center gap-1 rounded-full bg-white/10 px-1 text-[9px] text-white/60 transition-all hover:bg-white/5 active:brightness-90',
-              'h-4 shrink-0 justify-center',
-              '[&_svg]:size-[9px]',
-            )}
+          <button
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
@@ -92,9 +88,8 @@ export const CoinSocials: FC<{
               );
             }}
           >
-            <XIcon />
-            {'Search'}
-          </span>
+            <XSearchIcon className="size-4" />
+          </button>
         )}
       </div>
     );
@@ -104,20 +99,18 @@ export const CoinSocials: FC<{
 const SocialIcon = ({ social }: { social: Social }) => {
   if (social.type === 'x') {
     const res = parseXUrl(social.url.href);
-    if (res.type === 'post') return <XPostIcon className="size-3" />;
+    if (res.type === 'post') return <XPostIcon className="size-3.5" />;
     if (res.type === 'profile' && res.username)
       return <XProfileIcon className="size-4" />;
     if (res.type === 'community' && res.communityId)
       return <XCommunityIcon className="size-4" />;
-    return <XIcon className="size-3" />;
+    return <XIcon className="size-4" />;
   } else {
     return (
       <img
         alt=""
-        className="size-full rounded-full p-px contrast-125"
-        height="14"
+        className="size-4 shrink-0 rounded-full"
         src={getLogo(social.type)}
-        width="14"
       />
     );
   }

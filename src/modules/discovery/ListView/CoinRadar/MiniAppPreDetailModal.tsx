@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import { Coin } from 'shared/Coin';
-import { CoinLabels } from 'shared/CoinLabels';
+import { TokenLabels } from 'shared/CoinLabels';
 import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
@@ -93,7 +93,7 @@ const MiniAppPreDetailModal: React.FC<{
                 <p className="mb-1 text-xxs">
                   {t('pre_detail_modal.wise_labels')}
                 </p>
-                <CoinLabels
+                <TokenLabels
                   categories={coinOverview.data?.symbol.categories}
                   labels={coinOverview.data?.symbol_labels}
                   networks={coinOverview.data?.networks}

@@ -1,5 +1,5 @@
 import { useActiveWallet } from 'api/chains/wallet';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -26,7 +26,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
     from: { balanceLoading, balance, amount },
   } = state;
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
-  const { data: quoteInfo } = useSymbolInfo({ slug: quote.slug });
+  const { data: quoteInfo } = useTokenInfo({ slug: quote.slug });
 
   const { firePosition, isEnabled, isSubmitting } = useActionHandlers(state);
 
@@ -110,7 +110,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
           className={className}
           onClick={() => deposit(wallet.address ?? '')}
         >
-          Deposit {quoteInfo?.abbreviation} to Buy
+          Deposit {quoteInfo?.symbol} to Buy
         </Button>
       ) : (
         <Button

@@ -2,10 +2,10 @@ import { Spin } from 'antd';
 import { useLastPriceStream } from 'api';
 import { useTokenBalance } from 'api/chains';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
-import { Coin } from 'shared/Coin';
+import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
 
 export const AccountBalance: React.FC<{
@@ -24,8 +24,8 @@ export const AccountBalance: React.FC<{
     quote,
     convertToUsd: false,
   });
-  const { data: symbol } = useSymbolInfo({ slug });
-  const { data: quoteSymbol } = useSymbolInfo({ slug: quote });
+  const { data: symbol } = useTokenInfo({ slug });
+  const { data: quoteSymbol } = useTokenInfo({ slug: quote });
 
   const isNativeQuote =
     (net === 'the-open-network' && slug === 'the-open-network') ||
@@ -53,7 +53,15 @@ export const AccountBalance: React.FC<{
       >
         <span className="flex items-center gap-2">
           {symbol && (
-            <Coin className="-mr-2 ml-2" coin={symbol} mini nonLink noText />
+            <Token
+              abbreviation={symbol.symbol}
+              className="ml-2"
+              icon
+              link={false}
+              logo={symbol.image_uri}
+              name={symbol.name}
+              size="xs"
+            />
           )}
           {formatNumber(balance ?? 0, {
             decimalLength: 2,
@@ -67,12 +75,12 @@ export const AccountBalance: React.FC<{
             <div className="ml-1 size-1 rounded-full bg-v1-surface-l4" />
             <span className="flex items-center gap-2">
               {quoteSymbol && (
-                <Coin
-                  className="-mr-2 ml-1"
-                  coin={quoteSymbol}
-                  mini
-                  nonLink
-                  noText
+                <Token
+                  className="ml-1"
+                  icon
+                  link={false}
+                  logo={quoteSymbol.image_uri}
+                  size="xs"
                 />
               )}
               {formatNumber((priceByQuote ?? 0) * (balance ?? 0), {

@@ -24,41 +24,11 @@ import {
   WRAPPED_SOLANA_SLUG,
 } from 'api/chains/constants';
 import { useActiveWallet } from 'api/chains/wallet';
-import { useSymbolInfo } from 'api/symbol';
+import { slugToTokenAddress, useTokenInfo } from 'api/token-info';
 import { usePendingPositionInCache } from 'api/trader';
 import { ofetch } from 'config/ofetch';
 import { useCallback } from 'react';
 import { fromBigMoney, toBigMoney } from 'utils/money';
-import { queryContractSlugs } from './utils';
-
-const useContractInfo = ({
-  slug,
-  enabled,
-}: {
-  slug?: string;
-  enabled?: boolean;
-}) => {
-  const { data } = useSymbolInfo({ slug, enabled });
-  const netInfo = data?.networks.find(x => x.network.slug === 'solana');
-
-  return useQuery({
-    queryKey: ['sol-contract-info', slug],
-    queryFn: async () => {
-      if (slug === WRAPPED_SOLANA_SLUG) {
-        return {
-          contract: WRAPPED_SOLANA_CONTRACT_ADDRESS,
-          decimals: 9,
-        };
-      }
-      return {
-        contract: netInfo?.contract_address,
-        decimals: netInfo?.decimals,
-      };
-    },
-    staleTime: Number.POSITIVE_INFINITY,
-    enabled: !!slug && !!netInfo,
-  });
-};
 
 export const useSolanaTokenBalance = ({
   slug,
@@ -74,13 +44,12 @@ export const useSolanaTokenBalance = ({
   const connection = useSolanaConnection();
 
   const { address: activeAddress } = useActiveWallet();
-  const { data: { contract } = {}, isLoading: contractIsLoading } =
-    useContractInfo({ slug, enabled: !tokenAddress });
+  const contract = tokenAddress || slugToTokenAddress(slug);
 
   const queryWalletAddress = walletAddress ?? activeAddress;
   const queryTokenAddress = contract || tokenAddress;
 
-  const query = useQuery({
+  return useQuery({
     queryKey: ['sol-balance', slug, queryWalletAddress],
     queryFn: async () => {
       if (!queryWalletAddress || !slug || !queryTokenAddress) return null;
@@ -126,14 +95,9 @@ export const useSolanaTokenBalance = ({
     staleTime: 10_000,
     enabled: !!queryTokenAddress && enabled,
   });
-
-  return {
-    ...query,
-    isLoading: query.isLoading || contractIsLoading,
-  };
 };
 
-export const useSolanaUserRawAssets = (address?: string) => {
+export const useSolanaWalletAssets = (address?: string) => {
   const { address: activeAddress } = useActiveWallet();
   const addr = address ?? activeAddress;
   const connection = useSolanaConnection();
@@ -165,26 +129,23 @@ export const useSolanaUserRawAssets = (address?: string) => {
           .map(account => {
             const { mint, tokenAmount } = account.account.data.parsed.info;
             return {
-              address: mint,
+              address: mint as string,
               amount: +fromBigMoney(tokenAmount.amount, tokenAmount.decimals),
             };
           })
           .filter(token => Number(token.amount) > 0);
 
-        const slugOf = await queryContractSlugs(assets.map(x => x.address));
         const assetBalances = assets.map(x => ({
           network: 'solana',
-          slug: slugOf[x.address],
           address: x.address,
           amount: x.amount,
         }));
-        assetBalances.sort((a, b) => a.slug.localeCompare(b.slug));
+        assetBalances.sort((a, b) => a.address.localeCompare(b.address));
 
         // Add native SOL to the list
         if (solBalance > 9) {
           assetBalances.unshift({
             network: 'solana',
-            slug: 'solana',
             address: WRAPPED_SOLANA_CONTRACT_ADDRESS,
             amount: +fromBigMoney(solBalance, 9),
           });
@@ -211,7 +172,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
   const { address } = useActiveWallet();
   const queryClient = useQueryClient();
-  const { data: { contract, decimals } = {} } = useContractInfo({ slug });
+  const { data: tokenInfo } = useTokenInfo({ slug });
   const awaitPositionInCache = usePendingPositionInCache();
   const connection = useSolanaConnection();
 
@@ -226,11 +187,17 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
     amount: string;
     gasFee: string;
   }) => {
-    if (!connection || !address || !slug || !contract || !decimals)
+    if (
+      !connection ||
+      !address ||
+      !slug ||
+      !tokenInfo?.contract_address ||
+      !tokenInfo?.decimals
+    )
       throw new Error('Wallet not connected');
 
     const publicKey = new PublicKey(address);
-    const tokenMint = new PublicKey(contract);
+    const tokenMint = new PublicKey(tokenInfo.contract_address);
     const transaction = new Transaction();
 
     if (slug === WRAPPED_SOLANA_SLUG) {
@@ -282,7 +249,7 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
           userATA,
           recipientATA,
           publicKey,
-          toBigMoney(amount, decimals),
+          toBigMoney(amount, tokenInfo.decimals),
           [],
           accountInfo.owner,
         ),

@@ -1,16 +1,15 @@
 import { Pagination } from 'antd';
 import { type Swap, useTraderSwapsQuery } from 'api';
-import { useSymbolsInfo } from 'api/symbol';
 import type { Wallet } from 'api/wallets';
 import { bxLinkExternal } from 'boxicons-quasar';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import Badge from 'shared/Badge';
-import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
+import { Token } from 'shared/v1-components/Token';
 import { roundSensible } from 'utils/numbers';
 
 const PAGE_SIZE = 30;
@@ -21,9 +20,6 @@ export default function WalletSwaps({ wallet }: { wallet: Wallet }) {
     pageSize: PAGE_SIZE,
     address: wallet.address,
   });
-  const { data: symbols, isPending } = useSymbolsInfo(
-    data?.results?.map(s => s.base_slug),
-  );
 
   const columns = useMemo<Array<TableColumn<Swap>>>(
     () => [
@@ -32,12 +28,7 @@ export default function WalletSwaps({ wallet }: { wallet: Wallet }) {
         title: 'Token',
         sticky: 'start',
         render: row => {
-          const coin = symbols?.find(s => s?.slug === row.base_slug);
-          return (
-            <div className="text-xs">
-              {coin ? <Coin coin={coin} /> : !isPending && row.base_slug}
-            </div>
-          );
+          return <Token autoFill slug={row.base_slug} />;
         },
       },
       {
@@ -103,7 +94,7 @@ export default function WalletSwaps({ wallet }: { wallet: Wallet }) {
         ),
       },
     ],
-    [symbols, isPending],
+    [],
   );
 
   return (

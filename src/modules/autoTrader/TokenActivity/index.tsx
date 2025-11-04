@@ -1,13 +1,15 @@
 import { useHasFlag, useLastCandleStream, useTokenPairsQuery } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useSolanaSymbol } from 'api/symbol';
+import {
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from 'api/chains/constants';
 import { clsx } from 'clsx';
 import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
-import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
+import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as UsdIcon } from './usd.svg';
 
@@ -40,17 +42,17 @@ export const BtnConvertToUsd = ({
   );
 };
 
-export function SolanaCoin({ className }: { className?: string }) {
-  const { data: solanaSymbol } = useSolanaSymbol();
-  return solanaSymbol ? (
-    <Coin
-      className={clsx('-mr-1', className)}
-      coin={solanaSymbol}
-      mini
-      nonLink
-      noText
+export function SolanaIcon({ className }: { className?: string }) {
+  return (
+    <Token
+      address={WRAPPED_SOLANA_CONTRACT_ADDRESS}
+      autoFill
+      className={className}
+      icon
+      link={false}
+      size="xs"
     />
-  ) : null;
+  );
 }
 
 export default function TokenActivity({ mini = false }: { mini?: boolean }) {
@@ -75,7 +77,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
     convertToUsd: showUsd,
   });
 
-  const unit = showUsd ? '$' : <SolanaCoin />;
+  const unit = showUsd ? '$' : <SolanaIcon />;
 
   const totalBought = Number(
     (showUsd ? data?.totalBoughtUsd : data?.totalBought) ?? '0',
@@ -123,7 +125,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
             {!mini && <p className="mb-2 text-v1-content-secondary">Bought</p>}
             <div
               className={clsx(
-                'flex text-v1-content-positive',
+                'flex gap-1 text-v1-content-positive',
                 mini && 'justify-center',
               )}
             >
@@ -136,7 +138,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
             {!mini && <p className="mb-2 text-v1-content-secondary">Sold</p>}
             <div
               className={clsx(
-                'flex text-v1-content-negative',
+                'flex gap-1 text-v1-content-negative',
                 mini && 'justify-center',
               )}
             >
@@ -147,7 +149,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
           <div className="h-7 border-white/5 border-r" />
           <div className="grow">
             {!mini && <p className="mb-2 text-v1-content-secondary">Holding</p>}
-            <div className={clsx('flex', mini && 'justify-center')}>
+            <div className={clsx('flex gap-1', mini && 'justify-center')}>
               {unit}
               {formatter(hold)}
             </div>
@@ -175,7 +177,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
               {showUsd ? (
                 <span
                   className={clsx(
-                    'flex items-center',
+                    'flex items-center gap-1',
                     mini && 'justify-center',
                   )}
                 >
@@ -187,7 +189,10 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
                 </span>
               ) : (
                 <span
-                  className={clsx('flex items-start', mini && 'justify-center')}
+                  className={clsx(
+                    'flex items-start gap-1',
+                    mini && 'justify-center',
+                  )}
                 >
                   {unit}
                   {pnlSign}

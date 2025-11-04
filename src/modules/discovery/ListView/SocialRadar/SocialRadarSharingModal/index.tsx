@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Coin } from 'shared/Coin';
-import { CoinLabels } from 'shared/CoinLabels';
+import { TokenLabels } from 'shared/CoinLabels';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -103,7 +103,7 @@ export default function SocialRadarSharingModal({
           )}
           <div className="my-4 flex flex-col items-start justify-end overflow-auto">
             <p className="mb-1 text-xxs">{t('pre_detail_modal.wise_labels')}</p>
-            <CoinLabels
+            <TokenLabels
               categories={coin.symbol.categories}
               clickable={false}
               labels={coin.symbol_labels}

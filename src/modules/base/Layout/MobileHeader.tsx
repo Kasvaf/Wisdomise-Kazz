@@ -1,11 +1,11 @@
-import { ReactComponent as Logo } from 'assets/monogram-white.svg';
+import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BtnBack from 'modules/base/BtnBack';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import type React from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
-import { isMiniApp } from 'utils/version';
 import HeaderNav from './HeaderNav';
 import ProfileMenu from './ProfileMenu';
 
@@ -18,35 +18,27 @@ const MobileHeader: React.FC<
   }>
 > = ({ hasBack, title, extension, className, children }) => {
   const net = useActiveNetwork();
+  const isLoggedIn = useIsLoggedIn();
   const defaultChildren = (
     <>
-      <div className="mr-2 w-1/2 has-[+div+div>*]:w-auto">
-        {hasBack ? <BtnBack /> : <ProfileMenu className="w-full" />}
+      <Logo className="size-8" />
+
+      <div className="ml-auto has-[+div+div>*]:w-auto">
+        {hasBack ? <BtnBack /> : <ProfileMenu />}
       </div>
 
       {/* // weird class hides it when there's a button on right */}
-      <div className="shrink-0 has-[+div>*]:hidden">
-        {title ? (
-          <div className="font-medium text-base">{title}</div>
-        ) : (
-          <Logo />
-        )}
-      </div>
 
-      <div
-        className={clsx(
-          'ml-2 flex w-full justify-end empty:w-1/2',
-          // in mini-app, we want logo on right (more space needed for left)
-          isMiniApp && 'empty:hidden',
-        )}
-      >
-        {title === undefined ? (
-          <div className="flex gap-2">
-            {net === 'solana' && <HeaderNav />}
-            <BtnWalletConnect />
-          </div>
-        ) : null}
-      </div>
+      {isLoggedIn && (
+        <div className={clsx('ml-2 flex w-full justify-end empty:w-1/2')}>
+          {title === undefined ? (
+            <div className="flex gap-2">
+              {net === 'solana' && <HeaderNav />}
+              <BtnWalletConnect />
+            </div>
+          ) : null}
+        </div>
+      )}
     </>
   );
 

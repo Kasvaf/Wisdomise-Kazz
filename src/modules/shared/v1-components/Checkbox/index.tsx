@@ -35,7 +35,7 @@ export const Checkbox: FC<{
           'select-none rounded-md border p-2 transition-colors duration-75',
           size === 'lg' ? 'h-sm' : 'h-xs',
           value
-            ? 'border-[--later] bg-[--next]'
+            ? 'border-white/20 bg-[--next]'
             : 'border-transparent bg-[--current] text-v1-content-primary/80 hover:text-v1-content-primary',
         ],
         className,

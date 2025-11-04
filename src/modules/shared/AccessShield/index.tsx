@@ -1,6 +1,7 @@
 import { type UserGroup, useSubscription } from 'api';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
+import BtnLogin from 'modules/base/Layout/ProfileMenu/BtnLogin';
 import {
   type PropsWithChildren,
   useCallback,
@@ -10,10 +11,8 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { Button } from 'shared/v1-components/Button';
 import { useMutationObserver } from 'utils/useMutationObserver';
 import { isDebugMode } from 'utils/version';
-import { ReactComponent as Sparkle } from './sparkle.svg';
 
 const calcSize = (size: number | boolean) =>
   size === true ? 999 : size === false ? 0 : size < 1 ? 0 : size;
@@ -101,7 +100,7 @@ export function AccessShield({
   sizes: Record<UserGroup, number | boolean>;
 }>) {
   const { t } = useTranslation('pro');
-  const { ensureGroup, group, loginModal } = useSubscription();
+  const { group, loginModal } = useSubscription();
 
   const size = sizes[group];
 
@@ -124,7 +123,7 @@ export function AccessShield({
       {calcSize(size) > 0 && (
         <div
           className={clsx(
-            'z-10 w-full rounded-xl',
+            'z-10 w-full',
             height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
             maxHeight < 900 ? 'justify-center' : 'justify-start',
             'flex flex-col items-center backdrop-blur',
@@ -133,11 +132,11 @@ export function AccessShield({
           )}
           ref={shield}
         >
-          <Logo className={clsx('size-12 shrink', height < 130 && 'hidden')} />
+          <Logo className={clsx('size-8 shrink', height < 130 && 'hidden')} />
 
           <p
             className={clsx(
-              'shrink text-center text-v1-content-primary text-xs capitalize',
+              'shrink text-center text-v1-content-primary text-xs',
               height < 100 && 'hidden',
             )}
           >
@@ -154,17 +153,7 @@ export function AccessShield({
               </p>
             }
           >
-            <Button
-              className="shrink-0"
-              onClick={() => ensureGroup(nextGroup ?? 'vip')}
-              size="sm"
-              variant="pro"
-            >
-              <Sparkle />
-              {group === 'guest'
-                ? t('pro-locker.login.button')
-                : 'Join Wise Club'}
-            </Button>
+            {group === 'guest' && <BtnLogin className="mt-3" />}
           </HoverTooltip>
           {loginModal}
         </div>

@@ -1,4 +1,4 @@
 export { CoinCategoryLabel } from './CoinCategoryLabel';
 export { CoinLabel } from './CoinLabel';
-export { CoinLabels } from './CoinLabels';
-export { CoinNetworksLabel } from './CoinNetworksLabel';
+export { TokenLabels } from './TokenLabels';
+export { TokenNetworksLabel } from './TokenNetworksLabel';

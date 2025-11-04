@@ -4,7 +4,6 @@ import { useSwap } from 'api/chains';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import type { CoinNetwork } from 'api/discovery';
 import { clsx } from 'clsx';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import {
   type TradeSettingsSource,
   useUserSettings,
@@ -34,7 +33,6 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
   const { settings } = useUserSettings();
   const swapAsync = useSwap({ slug, quote, source, tokenAddress });
   const { refetch } = useTokenPairsQuery(slug, { enabled: false });
-  const isLoggedIn = useIsLoggedIn();
   const [modal, ensureAuthenticated] = useEnsureAuthenticated();
 
   const isSolana = networks
@@ -69,9 +67,7 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
       size={size}
     >
       <InstantIcon />
-      <span className="shrink-0">
-        {isLoggedIn ? `${amount} SOL` : 'Quick Buy'}
-      </span>
+      <span className="shrink-0">{amount} SOL</span>
       {modal}
     </Button>
   ) : null;

@@ -1,5 +1,5 @@
 import { Tooltip } from 'antd';
-import { useSymbolInfo } from 'api/symbol';
+import { useTokenInfo } from 'api/token-info';
 import type {
   GamificationStatus,
   LeaderboardPrize,
@@ -17,9 +17,9 @@ import cardBg2 from 'modules/quest/PageTournaments/images/card-bg-2.svg';
 import live from 'modules/quest/PageTournaments/images/live.svg';
 import snow from 'modules/quest/PageTournaments/images/snow.svg';
 import { Fragment, useState } from 'react';
-import { Coin } from 'shared/Coin';
 import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
+import { Token } from 'shared/v1-components/Token';
 
 const rankOrdinalNumber = (n: number) => {
   if (n % 100 >= 11 && n % 100 <= 13) {
@@ -169,13 +169,13 @@ export function StatusBadge({
 }
 
 function PrizeCoin({ slug, amount }: { slug: string; amount: number }) {
-  const { data: coin } = useSymbolInfo({ slug });
+  const { data: coin } = useTokenInfo({ slug });
 
   return coin ? (
     <div className="flex items-center">
-      <Coin coin={coin} mini nonLink noText />
+      <Token link={false} size="xs" slug={slug} />
       <span>{amount}</span>
-      <span className="ms-1">{coin.abbreviation}</span>
+      <span className="ms-1">{coin.symbol}</span>
     </div>
   ) : null;
 }

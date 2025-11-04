@@ -7,7 +7,7 @@ import {
   WRAPPED_SOLANA_SLUG,
 } from 'api/chains/constants';
 import { useConfirmTransaction } from 'modules/autoTrader/BuySellTrader/useConfirmTransaction';
-import { useSolanaUserAssets } from 'modules/autoTrader/UserAssets/useSolanaUserAssets';
+import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useActiveNetwork } from 'modules/base/active-network';
 import {
   type TradeSettingsSource,
@@ -19,7 +19,6 @@ import {
   useSolanaTokenBalance,
   useSolanaTransferAssetsMutation,
 } from './solana';
-import { useTonTransferAssetsMutation, useTonUserAssets } from './ton';
 
 export const useTokenBalance = ({
   network,
@@ -55,19 +54,21 @@ export const useTokenBalance = ({
   };
 };
 
-export const useUserWalletAssets = (
-  network?: 'solana' | 'the-open-network' | null,
-  address?: string,
-) => {
+export const useWalletAssets = ({
+  network,
+  address,
+}: {
+  network?: 'solana';
+  address?: string;
+}) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
 
-  const solResult = useSolanaUserAssets(address);
-  const tonResult = useTonUserAssets(address);
+  const solResult = useSolanaWalletPricedAssets(address);
 
   if (net === 'solana') return solResult;
-  if (net === 'the-open-network') return tonResult;
-  return { data: null, isLoading: false };
+
+  throw new Error('network is invalid');
 };
 
 export const useNativeTokenBalance = (walletAddress?: string) => {
@@ -109,15 +110,12 @@ export const useAllQuotesBalance = () => {
 
 export const useTransferAssetsMutation = (quote?: string) => {
   const net = useActiveNetwork();
-  const transferTonAssets = useTonTransferAssetsMutation(
-    net === 'the-open-network' ? quote : undefined,
-  );
   const transferSolanaAssets = useSolanaTransferAssetsMutation(
     net === 'solana' ? quote : undefined,
   );
 
   if (net === 'solana') return transferSolanaAssets;
-  if (net === 'the-open-network') return transferTonAssets;
+
   return () => {
     throw new Error('Invalid network');
   };

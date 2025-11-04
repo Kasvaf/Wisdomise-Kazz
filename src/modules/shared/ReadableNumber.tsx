@@ -59,7 +59,7 @@ export function ReadableNumber({
   label,
   value,
   emptyText,
-  popup = 'auto',
+  popup = 'never',
   format,
 }: {
   className?: string;
