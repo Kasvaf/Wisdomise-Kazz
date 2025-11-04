@@ -104,6 +104,23 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
     <div
       className={clsx(className, 'flex h-full flex-col gap-3 overflow-auto')}
     >
+      <div className="flex justify-end gap-2">
+        <Button
+          onClick={() => !followings.isLoading && followings.follow(true)}
+          size="xs"
+          variant="outline"
+        >
+          Select All
+        </Button>
+        <Button
+          className="!text-v1-content-negative"
+          onClick={() => !followings.isLoading && followings.unFollow(true)}
+          size="xs"
+          variant="outline"
+        >
+          Remove All
+        </Button>
+      </div>
       <Table
         columns={suggestionsColumns}
         dataSource={suggestions.data}

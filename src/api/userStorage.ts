@@ -38,16 +38,13 @@ export function useUserStorage<T = string>(
   } = useQuery({
     queryKey: ['user-storage', key],
     queryFn: async () => {
-      try {
-        if (!getJwtToken()) return null;
-        const resp = await ofetch<{ value: string }>(
-          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        );
-        return resp.value;
-      } catch {
-        return null;
-      }
+      if (!getJwtToken()) return null;
+      const resp = await ofetch<{ value: string }>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+      );
+      return resp.value;
     },
+    placeholderData: data => data,
     meta: {
       persist: false,
     },
