@@ -1,5 +1,4 @@
 import { useHasFlag, useTokenActivityQuery, useTraderSwapsQuery } from 'api';
-import { makeLine } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/useSyncChartLines';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useMemo, useRef } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
@@ -165,13 +164,25 @@ export function useChartAnnotations(
 
         // add lines
         for (const line of lines) {
-          const l = makeLine({
-            chart: widget.activeChart(),
-            textColor: '',
-            title: line.title ?? '',
-            price: line.price,
-            bgColor: line.color ?? 'green',
-          });
+          const l = chart.createShape(
+            { time: Date.now() / 1000, price: line.price },
+            {
+              shape: 'horizontal_line',
+              text: line.title,
+              overrides: {
+                linecolor: line.color,
+                textcolor: line.color,
+                linestyle: 2, // 0=solid, 1=dotted, 2=dashed
+                linewidth: 2,
+                showLabel: true,
+                horzLabelsAlign: 'right', // left | center | right
+                vertLabelsAlign: 'bottom', // top | middle | bottom
+              },
+              disableSelection: true,
+              disableSave: true,
+              lock: true,
+            },
+          );
           objectsRef.current.push(l);
         }
 
