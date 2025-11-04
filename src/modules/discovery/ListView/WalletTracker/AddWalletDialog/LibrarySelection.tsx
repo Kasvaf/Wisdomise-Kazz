@@ -1,5 +1,7 @@
 import { type LibraryType, useLibrariesQuery } from 'api/library';
 import { bxCheck, bxPlus } from 'boxicons-quasar';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
 import Icon from 'shared/Icon';
@@ -16,6 +18,8 @@ export function LibrarySelection({
   const { settings, updateSelectedLibs } = useUserSettings();
   const [selected, setSelected] = useState<string[]>([]);
   const { data: libs } = useLibrariesQuery();
+  const isLoggedIn = useIsLoggedIn();
+  const [loginModal, open] = useModalLogin();
 
   useEffect(() => {
     setSelected(settings.wallet_tracker.selected_libraries.map(l => l.key));
@@ -27,7 +31,12 @@ export function LibrarySelection({
     );
   };
 
-  const save = () => {
+  const save = async () => {
+    if (!isLoggedIn) {
+      open();
+      return;
+    }
+
     updateSelectedLibs(selected.map(s => ({ key: s })));
     onClose();
   };
@@ -70,6 +79,7 @@ export function LibrarySelection({
       <Button className="mt-3 w-full shrink-0" onClick={save}>
         Save
       </Button>
+      {loginModal}
     </div>
   );
 }

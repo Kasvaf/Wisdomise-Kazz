@@ -7,6 +7,8 @@ import {
 } from 'api/discovery';
 import { bxPlus, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { type FC, useMemo } from 'react';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -18,6 +20,8 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
   onClose,
 }) => {
   const [notif, notifContent] = useNotification({});
+  const isLoggedIn = useIsLoggedIn();
+  const [loginModal, open] = useModalLogin();
 
   const followings = useTwitterFollowedAccounts();
   const suggestions = useTwitterSuggestedAccounts();
@@ -70,20 +74,25 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
           return (
             <Button
               fab
-              onClick={() =>
-                !followings.isLoading &&
-                (followed
-                  ? followings.unFollow(asFollowedAccount.user_id).then(() =>
-                      notif.success({
-                        message: `@${asFollowedAccount.username} removed from your list.`,
-                      }),
-                    )
-                  : followings.follow(asFollowedAccount).then(() =>
-                      notif.success({
-                        message: `@${asFollowedAccount.username} added to your list.`,
-                      }),
-                    ))
-              }
+              onClick={() => {
+                if (!isLoggedIn) open();
+                else {
+                  !followings.isLoading &&
+                    (followed
+                      ? followings
+                          .unFollow(asFollowedAccount.user_id)
+                          .then(() =>
+                            notif.success({
+                              message: `@${asFollowedAccount.username} removed from your list.`,
+                            }),
+                          )
+                      : followings.follow(asFollowedAccount).then(() =>
+                          notif.success({
+                            message: `@${asFollowedAccount.username} added to your list.`,
+                          }),
+                        ));
+                }
+              }}
               size="xs"
               surface={2}
               variant="ghost"
@@ -97,7 +106,7 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
         },
       },
     ],
-    [followings, notif],
+    [followings, notif, isLoggedIn, open],
   );
 
   return (
@@ -106,7 +115,12 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
     >
       <div className="flex justify-end gap-2">
         <Button
-          onClick={() => !followings.isLoading && followings.follow(true)}
+          onClick={() => {
+            if (!isLoggedIn) open();
+            else {
+              !followings.isLoading && followings.follow(true);
+            }
+          }}
           size="xs"
           variant="outline"
         >
@@ -114,7 +128,12 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
         </Button>
         <Button
           className="!text-v1-content-negative"
-          onClick={() => !followings.isLoading && followings.unFollow(true)}
+          onClick={() => {
+            if (!isLoggedIn) open();
+            else {
+              !followings.isLoading && followings.unFollow(true);
+            }
+          }}
           size="xs"
           variant="outline"
         >
@@ -133,6 +152,7 @@ export const AddFromList: FC<{ className?: string; onClose: () => void }> = ({
         Done
       </Button>
       {notifContent}
+      {loginModal}
     </div>
   );
 };

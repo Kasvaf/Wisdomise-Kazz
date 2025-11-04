@@ -1,6 +1,8 @@
 import { notification } from 'antd';
 import { isValidSolanaAddress } from 'api/chains/solana';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useState } from 'react';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
@@ -14,8 +16,15 @@ export function ManualWalletForm({ onClose }: { onClose: () => void }) {
   const [emoji, setEmoji] = useState('🐐');
   const { upsertImportedWallet } = useUserSettings();
   const trackedWallets = useTrackedWallets();
+  const isLoggedIn = useIsLoggedIn();
+  const [modal, open] = useModalLogin();
 
   const addWallet = () => {
+    if (!isLoggedIn) {
+      open();
+      return;
+    }
+
     if (!isValidSolanaAddress(address)) {
       notification.error({ message: 'Invalid wallet address' });
       return;
@@ -78,6 +87,7 @@ export function ManualWalletForm({ onClose }: { onClose: () => void }) {
       >
         Add Wallet
       </Button>
+      {modal}
     </div>
   );
 }

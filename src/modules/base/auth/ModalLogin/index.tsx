@@ -10,7 +10,7 @@ import { bxArrowBack } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { DOCS_ORIGIN, TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import VerificationInput from 'react-verification-input';
@@ -348,7 +348,7 @@ export const useModalLogin = () => {
   );
 
   const lastPromise = useRef<Promise<boolean> | undefined>(undefined);
-  const show = () => {
+  const show = useCallback(() => {
     if (!open) {
       lastPromise.current = new Promise<boolean>(resolve => {
         resolver.current = resolve;
@@ -356,7 +356,7 @@ export const useModalLogin = () => {
       });
     }
     return lastPromise.current;
-  };
+  }, [open]);
 
   return [content, show] as const;
 };

@@ -19,12 +19,13 @@ import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import TokenActivity from 'modules/autoTrader/TokenActivity';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useState } from 'react';
 import Draggable, { type ControlPosition } from 'react-draggable';
 import Icon from 'shared/Icon';
-import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';
 import { ReactComponent as DragIcon } from './drag.svg';
@@ -46,7 +47,8 @@ export default function BtnInstantTrade({
   const { data: baseBalance } = useTokenBalance({ slug });
   const hasFlag = useHasFlag();
   const [maskIsOpen, setMaskIsOpen] = useState(false);
-  const [loginModal, ensureAuthenticated] = useEnsureAuthenticated();
+  const isLoggedIn = useIsLoggedIn();
+  const [loginModal, open] = useModalLogin();
 
   const { data: basePriceByQuote } = useLastPriceStream({
     slug,
@@ -56,7 +58,6 @@ export default function BtnInstantTrade({
 
   const swapAsync = useSwap({ source: 'terminal', slug, quote });
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
-    if (!(await ensureAuthenticated())) return;
     if (side === 'SHORT') {
       amount = convertToBaseAmount(
         amount,
@@ -275,7 +276,10 @@ export default function BtnInstantTrade({
           isOpen && '!bg-v1-background-hover',
           className,
         )}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (!isLoggedIn) open();
+          else setIsOpen(!isOpen);
+        }}
         size="2xs"
         variant="outline"
       >
