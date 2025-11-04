@@ -8,7 +8,7 @@ import {
 import { ReactComponent as Logo } from 'assets/logo-white.svg';
 import { bxArrowBack } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
+import { DOCS_ORIGIN, TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import { useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -75,6 +75,7 @@ const LoginModalContent: React.FC<{
       onResolve?.(true);
     } else {
       setFieldError(t('login.error-code'));
+      setNonce('');
     }
   };
 
@@ -114,11 +115,12 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
   const notice = (
-    <p className="hidden text-v1-content-secondary text-xs [&_a]:text-v1-content-brand">
+    <p className="text-v1-content-secondary text-xs [&_a]:text-v1-content-brand">
       <Trans i18nKey="login.notice" ns="auth">
         By continuing, you agree to our
         <a
-          href="https://help.wisdomise.com/privacy-policy"
+          className="underline"
+          href={`${DOCS_ORIGIN}/privacy-policy`}
           rel="noreferrer"
           target="_blank"
         >
@@ -126,7 +128,8 @@ const LoginModalContent: React.FC<{
         </a>
         and
         <a
-          href="https://help.wisdomise.com/terms-and-conditions"
+          className="underline"
+          href={`${DOCS_ORIGIN}/terms-and-conditions`}
           rel="noreferrer"
           target="_blank"
         >
