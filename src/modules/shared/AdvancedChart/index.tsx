@@ -61,7 +61,7 @@ const AdvancedChart: React.FC<{
     if (
       isLoading ||
       !data?.network ||
-      !data.symbolName ||
+      !details.symbol.name ||
       !totalSupply ||
       !pairs ||
       !pairs.length
@@ -73,7 +73,7 @@ const AdvancedChart: React.FC<{
     let intervalId: ReturnType<typeof setInterval>;
 
     const widget = new Widget({
-      symbol: data.symbolName,
+      symbol: details.symbol.name ?? undefined,
       datafeed: makeDataFeed({
         ...data,
         isMarketCap,
@@ -221,7 +221,7 @@ const AdvancedChart: React.FC<{
     data?.quote,
     data?.network,
     data?.slug,
-    data?.symbolName,
+    details.symbol.name,
     isLoading,
     language,
     setGlobalChartWidget,
