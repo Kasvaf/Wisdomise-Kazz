@@ -6,7 +6,7 @@ import {
   useContext,
   useState,
 } from 'react';
-import type { IChartingLibraryWidget } from 'shared/AdvancedChart/charting_library';
+import type { IChartingLibraryWidget } from '../../../../public/charting_library';
 
 type OptionalChart = IChartingLibraryWidget | undefined;
 const ChartContext = createContext<

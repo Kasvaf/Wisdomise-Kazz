@@ -7,13 +7,13 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/l
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatNumber } from 'utils/numbers';
-import { useAdvancedChartWidget } from './ChartWidgetProvider';
-import type { Timezone } from './charting_library';
 import {
   type IChartingLibraryWidget,
   type ResolutionString,
+  type Timezone,
   widget as Widget,
-} from './charting_library';
+} from '../../../../public/charting_library';
+import { useAdvancedChartWidget } from './ChartWidgetProvider';
 import { useChartConvertToUSD, useChartIsMarketCap } from './chartSettings';
 import { LocalStorageSaveLoadAdapter } from './localStorageSaveLoadAdapter';
 import makeDataFeed from './makeDataFeed';
@@ -69,7 +69,7 @@ const AdvancedChart: React.FC<{
       return;
     const savedResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
-    ) || '30') as ResolutionString;
+    ) || '1s') as ResolutionString;
     let intervalId: ReturnType<typeof setInterval>;
 
     const widget = new Widget({
@@ -85,19 +85,17 @@ const AdvancedChart: React.FC<{
       custom_css_url: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/custom.css`,
 
       locale: language as any,
-      // enabled_features: ['study_templates'],
+      enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       disabled_features: [
         'symbol_search_hot_key',
         'hide_price_scale_global_last_bar_value',
         'chart_style_hilo_last_price',
         'header_symbol_search',
-        // 'left_toolbar',
         'right_toolbar',
         'header_compare',
-        // 'header_resolutions',
+        'save_chart_properties_to_local_storage',
       ],
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
-      enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       interval: savedResolution,
       time_frames: [
         { title: '3m', text: '3m', resolution: '60' as ResolutionString },
@@ -177,12 +175,12 @@ const AdvancedChart: React.FC<{
         const convertToUsdButton = widget.createButton();
         function setConvertButtonInnerContent() {
           const colorStyle = 'style="color:#beff21"';
-          convertToUsdButton.innerHTML = `<span ${
+          convertToUsdButton.innerHTML = `<span ${convertToUsd ? colorStyle : ''}>USD</span>/<span ${
             convertToUsd ? '' : colorStyle
           }>${
             pairs?.find(x => x.quote.slug === data?.quote)?.quote
               .abbreviation ?? ''
-          }</span>/<span ${convertToUsd ? colorStyle : ''}>USD</span>`;
+          }</span>`;
         }
         setConvertButtonInnerContent();
         convertToUsdButton.addEventListener('click', () => {
@@ -217,10 +215,8 @@ const AdvancedChart: React.FC<{
       clearInterval(intervalId);
     };
   }, [
-    slug,
     data?.quote,
     data?.network,
-    data?.slug,
     details.symbol.name,
     isLoading,
     language,

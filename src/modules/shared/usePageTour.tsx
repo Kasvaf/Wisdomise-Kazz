@@ -13,6 +13,7 @@ const usePageTour = ({
   key: string;
   delay?: number;
 }) => {
+  enabled = false;
   const [seen, setSeen] = useLocalStorage(`seen-${key}`, false);
   const { setCurrentStep, setSteps, setIsOpen } = useTour();
 

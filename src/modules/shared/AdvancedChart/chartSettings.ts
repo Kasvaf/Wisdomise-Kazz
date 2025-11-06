@@ -5,5 +5,5 @@ export const useChartIsMarketCap = () => {
 };
 
 export const useChartConvertToUSD = () => {
-  return useLocalStorage('tv-convert-to-usd', false);
+  return useLocalStorage('tv-convert-to-usd', true);
 };
