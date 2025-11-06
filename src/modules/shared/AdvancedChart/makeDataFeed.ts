@@ -7,15 +7,13 @@ import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
 import { isProduction } from 'utils/version';
 import type {
-  GetMarksCallback,
-  Mark,
-} from '../../../../public/charting_library';
-import type {
   DatafeedConfiguration,
+  GetMarksCallback,
   IBasicDataFeed,
   LibrarySymbolInfo,
+  Mark,
   ResolutionString,
-} from './charting_library/charting_library';
+} from '../../../../public/charting_library';
 
 interface ChartCandle {
   open: number;

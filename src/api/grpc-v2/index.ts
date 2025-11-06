@@ -135,7 +135,7 @@ export function useGrpc<
     return () => {
       unsubscribe();
       setResponse({
-        data: lastObservedData.get(key),
+        data: undefined,
         history: [],
         isLoading: true,
       });

@@ -1,7 +1,7 @@
 import { useLastPriceStream } from 'api';
 import { useEffect } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
-import type { IChartWidgetApi } from 'shared/AdvancedChart/charting_library/charting_library';
+import type { IChartWidgetApi } from '../../../../../public/charting_library';
 import { type SignalFormState, sortTpSlItems } from './useSignalFormStates';
 
 export function makeLine({

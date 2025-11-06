@@ -3,6 +3,10 @@
   --tv-color-toolbar-button-text-active-hover: #beff21;
   --tv-spinner-color: #beff21;
   --tv-color-platform-background: #0c0c0c;
+  --tv-color-pane-background: #0c0c0c;
+  --tv-color-popup-background: #1a1a1a;
+  --tv-color-popup-element-background-active: #beff21;
+  --tv-color-popup-element-text-active: #000;
 }
 
 .loading-indicator {
