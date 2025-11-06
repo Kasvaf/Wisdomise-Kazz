@@ -10,7 +10,7 @@ import type {
   LineToolsAndGroupsState,
   StudyTemplateData,
   StudyTemplateMetaInfo,
-} from './charting_library/';
+} from '../../../../public/charting_library';
 
 interface SavedChartData extends ChartData {
   timestamp: number;
