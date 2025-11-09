@@ -93,6 +93,7 @@ const makeDataFeed = ({
 }): IBasicDataFeed => {
   let lastCandle: ChartCandle | undefined;
   let lastRes: Resolution | undefined;
+  let noData = false;
 
   return {
     onReady: async callback => {
@@ -131,13 +132,14 @@ const makeDataFeed = ({
         type: 'crypto',
         session: '24x7',
         timezone: 'Etc/UTC',
-        exchange: '',
+        exchange: 'goatx.trade',
         listed_exchange: '',
-        format: 'price',
 
-        minmov: 1,
+        format: 'price',
+        minmov: 1 / 10_000_000,
         fractional: false,
-        pricescale: isMarketCap ? 10_000 : 10_000_000,
+        pricescale: 1,
+
         has_seconds: true,
         seconds_multipliers: ['1', '5', '15', '30'],
 
@@ -147,9 +149,6 @@ const makeDataFeed = ({
         has_weekly_and_monthly: false,
         supported_resolutions: config.supported_resolutions,
         data_status: 'streaming',
-        logo_urls: pair.base.name
-          ? ([cdnCoinIcon(pair.base.name.toLowerCase())] as const)
-          : undefined,
       } satisfies LibrarySymbolInfo;
       onResolve(symbolInfo);
     },
@@ -162,6 +161,11 @@ const makeDataFeed = ({
     ) => {
       const res = minutesToResolution[resolution];
       if (!res) return onError('Unsupported');
+
+      if (noData) {
+        onResult([], { noData: true });
+        return;
+      }
 
       try {
         const resp = await requestGrpc({
@@ -193,9 +197,8 @@ const makeDataFeed = ({
           lastRes = res;
         }
 
-        onResult(chartCandles, {
-          noData: chartCandles.length < periodParams.countBack,
-        });
+        noData = chartCandles.length < periodParams.countBack;
+        onResult(chartCandles);
       } catch (error: any) {
         onError(error.message);
       }
