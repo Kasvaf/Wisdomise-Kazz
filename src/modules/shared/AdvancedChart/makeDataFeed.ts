@@ -162,7 +162,7 @@ const makeDataFeed = ({
       const res = minutesToResolution[resolution];
       if (!res) return onError('Unsupported');
 
-      if (noData) {
+      if (noData && res === lastRes) {
         onResult([], { noData: true });
         return;
       }
