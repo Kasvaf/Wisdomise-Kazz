@@ -76,6 +76,7 @@ export const useTokenInfo = ({
     queryKey: ['token-info', address],
     queryFn: async () => (address && (await load(getTokens, address))) || null,
     enabled,
+    staleTime: 30 * 1000,
   });
 };
 

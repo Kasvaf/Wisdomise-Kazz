@@ -1,4 +1,4 @@
-import { useHasFlag, useTokenActivityQuery, useTraderSwapsQuery } from 'api';
+import { useHasFlag, useTraderAssetQuery, useTraderSwapsQuery } from 'api';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useMemo, useRef } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
@@ -25,7 +25,7 @@ interface IconOptions {
 }
 
 export function useSwapActivityLines(slug: string) {
-  const { data } = useTokenActivityQuery(slug);
+  const { data } = useTraderAssetQuery({ slug });
   const details = useUnifiedCoinDetails();
   const hasFlag = useHasFlag();
 
