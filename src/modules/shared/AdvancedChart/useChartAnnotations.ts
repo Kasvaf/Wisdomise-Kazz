@@ -136,7 +136,11 @@ export function useChartAnnotations(
   const objectsRef = useRef<any[]>([]);
 
   function cleanLines() {
-    for (const obj of objectsRef.current) obj.remove?.();
+    for (const obj of objectsRef.current) {
+      try {
+        widget?.activeChart().removeEntity(obj);
+      } catch {}
+    }
     objectsRef.current = [];
   }
 
@@ -158,10 +162,6 @@ export function useChartAnnotations(
       if (!chart) return;
 
       chart.dataReady(() => {
-        // cleanup old
-        for (const obj of objectsRef.current) obj.remove?.();
-        objectsRef.current = [];
-
         // add lines
         for (const line of lines) {
           const l = chart.createShape(
