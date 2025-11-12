@@ -1,5 +1,6 @@
-import type { TokenRecord, Wallet } from 'api/wallets';
-import { useWalletStatus } from 'modules/base/wallet/WalletDetail/useWalletStatus';
+import { type AssetActivity, useTraderAssetQuery } from 'api';
+import type { Wallet } from 'api/wallets';
+import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
@@ -7,19 +8,21 @@ import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Token } from 'shared/v1-components/Token';
 
 export default function WalletStatus({ wallet }: { wallet: Wallet }) {
-  const [resolution, setResolution] = useState<'1d' | '7d' | '30d'>('1d');
-  const { tokens, isLoading } = useWalletStatus({
-    resolution,
-    address: wallet.address,
+  const [resolution, setResolution] = useState<number>();
+  const { data: walletActivity, isLoading } = useTraderAssetQuery({
+    walletAddress: wallet.address,
+    fromTime: resolution
+      ? dayjs().subtract(resolution, 'day').startOf('day').toISOString()
+      : undefined,
   });
 
-  const columns = useMemo<Array<TableColumn<TokenRecord>>>(
+  const columns = useMemo<Array<TableColumn<AssetActivity>>>(
     () => [
       {
         key: 'token',
         title: 'Token',
         sticky: 'start',
-        render: row => <Token address={row.token_address} autoFill />,
+        render: row => <Token autoFill slug={row.symbol_slug} />,
       },
       {
         key: 'bought',
@@ -30,7 +33,7 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
             direction="up"
             prefix="$"
             showIcon={false}
-            value={row.volume_inflow}
+            value={+row.total_bought_usd}
           />
         ),
       },
@@ -43,7 +46,7 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
             direction="down"
             prefix="$"
             showIcon={false}
-            value={row.volume_outflow}
+            value={+row.total_sold_usd}
           />
         ),
       },
@@ -51,13 +54,13 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
         key: 'pnl',
         title: 'Realized Pnl',
         render: row =>
-          row.realized_pnl ? (
+          row.realized_pnl_usd ? (
             <span className="text-v1-content-secondary text-xs">
               <DirectionalNumber
                 label="$"
                 showIcon={false}
                 showSign={true}
-                value={row.realized_pnl}
+                value={+row.realized_pnl_usd}
               />{' '}
               (
               <DirectionalNumber
@@ -67,11 +70,7 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
                 showIcon={false}
                 showSign={true}
                 suffix="%"
-                value={
-                  row.volume_inflow
-                    ? (row.realized_pnl / row.volume_inflow) * 100
-                    : 0
-                }
+                value={+row.realized_pnl_percent}
               />
               )
             </span>
@@ -85,13 +84,14 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
     <div>
       <ButtonSelect
         buttonClassName="w-12"
-        className="mb-3 w-max"
+        className="mb-3 ml-auto w-max"
         onChange={newValue => setResolution(newValue)}
         options={
           [
-            { value: '1d', label: '1D' },
-            { value: '7d', label: '7D' },
-            { value: '30d', label: '30D' },
+            { value: 1, label: '1D' },
+            { value: 7, label: '7D' },
+            { value: 30, label: '30D' },
+            { value: undefined, label: 'ALL' },
           ] as const
         }
         size="xs"
@@ -102,9 +102,9 @@ export default function WalletStatus({ wallet }: { wallet: Wallet }) {
       <Table
         chunkSize={5}
         columns={columns}
-        dataSource={tokens}
+        dataSource={walletActivity?.assets}
         loading={isLoading}
-        rowKey={r => r.token_address}
+        rowKey={r => r.symbol_slug}
         scrollable
         surface={1}
       />

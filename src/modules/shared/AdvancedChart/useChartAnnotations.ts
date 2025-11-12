@@ -1,4 +1,4 @@
-import { useHasFlag, useTokenActivityQuery, useTraderSwapsQuery } from 'api';
+import { useHasFlag, useTraderAssetQuery, useTraderSwapsQuery } from 'api';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useMemo, useRef } from 'react';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
@@ -25,7 +25,7 @@ interface IconOptions {
 }
 
 export function useSwapActivityLines(slug: string) {
-  const { data } = useTokenActivityQuery(slug);
+  const { data } = useTraderAssetQuery({ slug });
   const details = useUnifiedCoinDetails();
   const hasFlag = useHasFlag();
 
@@ -136,7 +136,11 @@ export function useChartAnnotations(
   const objectsRef = useRef<any[]>([]);
 
   function cleanLines() {
-    for (const obj of objectsRef.current) obj.remove?.();
+    for (const obj of objectsRef.current) {
+      try {
+        widget?.activeChart().removeEntity(obj);
+      } catch {}
+    }
     objectsRef.current = [];
   }
 
@@ -158,10 +162,6 @@ export function useChartAnnotations(
       if (!chart) return;
 
       chart.dataReady(() => {
-        // cleanup old
-        for (const obj of objectsRef.current) obj.remove?.();
-        objectsRef.current = [];
-
         // add lines
         for (const line of lines) {
           const l = chart.createShape(

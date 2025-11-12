@@ -1,5 +1,5 @@
-import { Tabs } from 'antd';
-import { useHasFlag } from 'api';
+import { Skeleton, Tabs } from 'antd';
+import { useHasFlag, useTraderAssetQuery } from 'api';
 import {
   useUpdateWalletMutation,
   useWalletQuery,
@@ -7,12 +7,12 @@ import {
 } from 'api/wallets';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
 import clsx from 'clsx';
+import dayjs from 'dayjs';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { useWalletStatus } from 'modules/base/wallet/WalletDetail/useWalletStatus';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { useRef, useState } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -37,10 +37,14 @@ export default function WalletDetail(_: {
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
   const { balance, isPending } = useSolanaWalletBalanceInUSD(wallet?.address);
-  const [resolution, setResolution] = useState<'1d' | '7d' | '30d'>('1d');
-  const { realizedPnl, realizedPnlPercentage, numBuys, numSells, winRate } =
-    useWalletStatus({ resolution, address: wallet?.address });
+  const [resolution, setResolution] = useState<number>();
   const hasFlag = useHasFlag();
+  const { data, isLoading } = useTraderAssetQuery({
+    walletAddress: wallet?.address!,
+    fromTime: resolution
+      ? dayjs().subtract(resolution, 'day').startOf('day').toISOString()
+      : undefined,
+  });
 
   return wallet ? (
     <div className="p-3">
@@ -73,7 +77,7 @@ export default function WalletDetail(_: {
         <div
           className={clsx(
             hasFlag('/wallet/status') ? 'col-span-3' : 'col-span-5',
-            'flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4',
+            'mobile:col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4',
           )}
         >
           <p className="text-v1-content-secondary text-xs">Current Balance</p>
@@ -85,7 +89,7 @@ export default function WalletDetail(_: {
           </div>
         </div>
         {hasFlag('/wallet/status') && (
-          <div className="col-span-2 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3">
+          <div className="col-span-2 mobile:col-span-5 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3">
             <div className="mb-7 flex items-center justify-between text-v1-content-secondary text-xs">
               Details
               <ButtonSelect
@@ -93,9 +97,10 @@ export default function WalletDetail(_: {
                 onChange={newValue => setResolution(newValue)}
                 options={
                   [
-                    { value: '1d', label: '1D' },
-                    { value: '7d', label: '7D' },
-                    { value: '30d', label: '30D' },
+                    { value: 1, label: '1D' },
+                    { value: 7, label: '7D' },
+                    { value: 30, label: '30D' },
+                    { value: undefined, label: 'ALL' },
                   ] as const
                 }
                 size="xs"
@@ -104,57 +109,69 @@ export default function WalletDetail(_: {
                 variant="white"
               />
             </div>
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-xxs">
+            <div className="flex items-center gap-3">
+              <div className="grow text-xxs">
                 <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
-                <span className="text-base text-v1-content-secondary">
-                  <DirectionalNumber
-                    label="$"
-                    showIcon={false}
-                    showSign={true}
-                    value={realizedPnl}
-                  />{' '}
-                  (
-                  <DirectionalNumber
-                    format={{
-                      decimalLength: 1,
-                    }}
-                    showIcon={false}
-                    showSign={true}
-                    suffix="%"
-                    value={realizedPnlPercentage}
-                  />
-                  )
-                </span>
+                {isLoading ? (
+                  <Skeleton.Input size="small" />
+                ) : (
+                  <span className="text-base text-v1-content-secondary">
+                    <DirectionalNumber
+                      label="$"
+                      showIcon={false}
+                      showSign={true}
+                      value={+(data?.realized_pnl_usd ?? '0')}
+                    />{' '}
+                    (
+                    <DirectionalNumber
+                      format={{
+                        decimalLength: 1,
+                      }}
+                      showIcon={false}
+                      showSign={true}
+                      suffix="%"
+                      value={+(data?.realized_pnl_percent ?? '0')}
+                    />
+                    )
+                  </span>
+                )}
               </div>
               <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-              <div className="text-xxs">
+              <div className="grow text-xxs">
                 <p className="pb-3 text-v1-content-secondary">Win Rate</p>
-                <ReadableNumber
-                  className="text-base"
-                  format={{ decimalLength: 1 }}
-                  label="%"
-                  value={winRate}
-                />
+                {isLoading ? (
+                  <Skeleton.Input size="small" />
+                ) : (
+                  <ReadableNumber
+                    className="text-base"
+                    format={{ decimalLength: 1 }}
+                    label="%"
+                    value={+(data?.win_percent ?? '0')}
+                  />
+                )}
               </div>
               <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-              <div className="text-xxs">
+              <div className="grow text-xxs">
                 <p className="pb-3 text-v1-content-secondary">TXs</p>
-                <p className="text-base text-v1-content-secondary">
-                  <DirectionalNumber
-                    direction="up"
-                    showIcon={false}
-                    showSign={false}
-                    value={numBuys}
-                  />
-                  /
-                  <DirectionalNumber
-                    direction="down"
-                    showIcon={false}
-                    showSign={false}
-                    value={numSells}
-                  />
-                </p>
+                {isLoading ? (
+                  <Skeleton.Input size="small" />
+                ) : (
+                  <p className="text-base text-v1-content-secondary">
+                    <DirectionalNumber
+                      direction="up"
+                      showIcon={false}
+                      showSign={false}
+                      value={+(data?.buy_count ?? '0')}
+                    />
+                    /
+                    <DirectionalNumber
+                      direction="down"
+                      showIcon={false}
+                      showSign={false}
+                      value={+(data?.sell_count ?? '0')}
+                    />
+                  </p>
+                )}
               </div>
             </div>
           </div>

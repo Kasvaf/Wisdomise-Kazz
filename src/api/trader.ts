@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  type UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import type { OpenOrderResponse, Signal, SignalItem } from 'api/builder';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import type { WhaleCoin, WhaleCoinsFilter } from 'api/discovery';
@@ -57,32 +62,67 @@ export const useTraderAssetsQuery = () => {
   });
 };
 
-interface TraderAssetActivity {
+export interface WalletActivity {
+  win_percent: string;
+  buy_count: number;
+  sell_count: number;
+  realized_pnl_usd: string;
+  realized_pnl_percent: string;
+  assets: AssetActivity[];
+}
+
+export interface AssetActivity {
   avg_buy_price?: string;
   avg_buy_price_usd?: string;
   avg_sell_price?: string;
   avg_sell_price_usd?: string;
   balance: string;
+  symbol_slug: string;
+  realized_pnl_percent: string;
+  realized_pnl_usd: string;
   total_bought: string;
   total_bought_usd: string;
   total_sold: string;
   total_sold_usd: string;
 }
 
-export const useTokenActivityQuery = (slug?: string) => {
+export const useTraderAssetQuery = <
+  T extends {
+    slug?: string;
+    walletAddress?: string;
+    fromTime?: string;
+    toTime?: string;
+  },
+>({
+  slug,
+  walletAddress,
+  fromTime,
+  toTime,
+}: T): UseQueryResult<
+  T extends { slug: string }
+    ? AssetActivity
+    : T extends { walletAddress: string }
+      ? WalletActivity
+      : never
+> => {
   const email = useJwtEmail();
   slug = slug === 'solana' ? WRAPPED_SOLANA_SLUG : slug;
 
   return useQuery({
-    queryKey: ['trader-asset', slug, email],
+    queryKey: ['trader-asset', slug, walletAddress, email, fromTime, toTime],
     queryFn: async () => {
       if (!email) return;
 
-      return await ofetch<TraderAssetActivity>('/trader/asset', {
-        query: { symbol_slug: slug },
+      return await ofetch<AssetActivity | WalletActivity>('/trader/asset/', {
+        query: {
+          symbol_slug: slug,
+          wallet_address: walletAddress,
+          from_time: fromTime,
+          to_time: toTime,
+        },
       });
     },
-    enabled: !!slug,
+    enabled: !!slug || !!walletAddress,
     staleTime: 10_000,
     refetchInterval: 10_000,
   });

@@ -1,4 +1,4 @@
-import { useAccountQuery, useTokenActivityQuery } from 'api';
+import { useAccountQuery, useTraderAssetQuery } from 'api';
 import { useGrpc } from 'api/grpc-v2';
 import { type TradeActivity, WatchEventType } from 'api/proto/wealth_manager';
 import { useMemo } from 'react';
@@ -26,7 +26,7 @@ export const useWatchTokenStream = ({
 };
 
 export const useTokenActivity = ({ slug }: { slug?: string }) => {
-  const { data: history } = useTokenActivityQuery(slug);
+  const { data: history } = useTraderAssetQuery({ slug });
   const { data: stream } = useWatchTokenStream({
     slug,
     type: WatchEventType.TRADE_ACTIVITY_UPDATE,

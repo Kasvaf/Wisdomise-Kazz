@@ -38,14 +38,13 @@ export default function Transfer({
     fromWallet?.address,
   );
 
-  console.log(walletAssets);
   const { data: wallets } = useWalletsQuery();
   const { mutateAsync, isPending } = useWalletWithdrawMutation(fromWallet?.key);
   const { data: symbols } = useTokensInfo({
     tokenAddresses: walletAssets?.map(asset => asset.address),
   });
   const { data: nativeBalance } = useNativeTokenBalance(fromWallet?.address);
-  console.log(symbols);
+
   const sameAddress =
     (toWallet || internalToWallet?.address) === fromWallet?.address;
   const isValid =
