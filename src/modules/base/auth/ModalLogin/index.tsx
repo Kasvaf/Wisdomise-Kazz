@@ -5,7 +5,7 @@ import {
   useMiniAppTgLoginFromWebMutation,
   useVerifyEmailMutation,
 } from 'api/auth';
-import { ReactComponent as Logo } from 'assets/logo-white.svg';
+import { ReactComponent as Logo } from 'assets/logo-green.svg';
 import { bxArrowBack } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { DOCS_ORIGIN, TELEGRAM_BOT_BASE_URL } from 'config/constants';
@@ -115,7 +115,7 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
   const notice = (
-    <p className="text-v1-content-secondary text-xs [&_a]:text-v1-content-brand">
+    <p className="text-v1-content-secondary text-xxs [&_a]:text-v1-content-brand">
       <Trans i18nKey="login.notice" ns="auth">
         By continuing, you agree to our
         <a
@@ -142,10 +142,10 @@ const LoginModalContent: React.FC<{
 
   const emailContent = (
     <>
-      <h1 className="mb-4 mobile:hidden pr-12 font-medium text-xl leading-normal">
+      <h1 className="mb-3 mobile:hidden pr-12 font-medium text-xl leading-normal">
         {title}
       </h1>
-      <p className="mb-6 mobile:hidden text-v1-content-secondary text-xs leading-normal">
+      <p className="mb-6 mobile:hidden text-sm text-v1-content-secondary leading-normal">
         {subtitle}
       </p>
 
@@ -176,6 +176,7 @@ const LoginModalContent: React.FC<{
         <Button
           loading={emailLoginLoading}
           onClick={submitEmail}
+          size="md"
           variant="primary"
         >
           {t('login.step-1.button-submit-email')}
@@ -277,11 +278,9 @@ const LoginModalContent: React.FC<{
   );
 
   return (
-    <div className="relative mobile:flex grid h-[590px] mobile:h-full max-h-svh w-full grid-cols-2 mobile:flex-col-reverse items-stretch justify-between overflow-hidden">
-      <div className="absolute top-8 left-8 mobile:hidden">
-        <Logo className="h-16 w-auto" />
-      </div>
-      <div className="relative flex mobile:h-auto min-h-min grow mobile:grow-0 flex-col items-stretch mobile:justify-end justify-center p-8">
+    <div className="relative mobile:flex grid h-[31rem] mobile:h-full max-h-svh w-full grid-cols-2 mobile:flex-col-reverse items-stretch justify-between overflow-hidden">
+      <div className="relative flex mobile:h-auto min-h-min grow mobile:grow-0 flex-col items-stretch mobile:justify-end px-8 py-6">
+        <Logo className="mb-6 mobile:hidden h-10 w-auto self-start" />
         {emailLoginLoading || verifyEmailLoading || isConnecting ? (
           <div className="my-8 flex grow flex-col items-center justify-center">
             <Spinner />
@@ -331,7 +330,7 @@ export const useModalLogin = () => {
   const content = (
     <>
       <Dialog
-        className="z-[2_147_483_647] mobile:h-full mobile:max-h-full mobile:w-full w-[950px] mobile:max-w-full"
+        className="z-[2_147_483_647] mobile:h-full mobile:max-h-full mobile:w-full w-[55rem] mobile:max-w-full"
         closable={!forceLogin}
         footer={false}
         modalConfig={{
