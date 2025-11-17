@@ -233,8 +233,8 @@ export const useGamificationRewards = () => {
   };
 
   return {
-    tradeReferral: findMissionReward('solana_trade_referral'),
-    league: findMissionReward('solana_league'),
+    tradeReferral: findMissionReward('trade_referral_solana'),
+    league: findMissionReward('league_solana'),
     total: findMissionReward('solana'),
     claimed: findMissionReward('solana_claimed'),
   };
