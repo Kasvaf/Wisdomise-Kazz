@@ -170,24 +170,6 @@ export default function ReferralPage() {
           </div>
 
           <div className="rounded-xl bg-v1-surface-l1 p-3">
-            {hasFlag('/account/billing') && (
-              <>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
-                    <WiseClub />
-                  </div>
-                  <div>
-                    <h2>
-                      ${referral?.referral_subscription_revenue.toFixed(2)}
-                    </h2>
-                    <p className="text-v1-content-secondary text-xs">
-                      {t('page-referral.earned-subscription')}
-                    </p>
-                  </div>
-                </div>
-                <hr className="my-3 border-v1-border-primary/10" />
-              </>
-            )}
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
                 <img alt="" className="h-6 w-6 rounded-full" src={trader} />

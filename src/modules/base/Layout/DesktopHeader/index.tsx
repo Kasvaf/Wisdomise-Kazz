@@ -55,20 +55,22 @@ const DesktopHeader: React.FC<{
             Referral Program
           </Button>
         )}
-        <Button
-          className={clsx(
-            isMobile ? '!px-4' : '!px-2',
-            pathname.startsWith('/trader/quests/league') &&
-              '!text-v1-content-brand',
-          )}
-          onClick={() => navigate('/trader/quests/league')}
-          size={isMobile ? 'md' : 'xs'}
-          surface={1}
-          variant="ghost"
-        >
-          <Icon className="[&>svg]:!size-4" name={bxTrophy} />
-          League
-        </Button>
+        {hasFlag('/trader/quests/league') && (
+          <Button
+            className={clsx(
+              isMobile ? '!px-4' : '!px-2',
+              pathname.startsWith('/trader/quests/league') &&
+                '!text-v1-content-brand',
+            )}
+            onClick={() => navigate('/trader/quests/league')}
+            size={isMobile ? 'md' : 'xs'}
+            surface={1}
+            variant="ghost"
+          >
+            <Icon className="[&>svg]:!size-4" name={bxTrophy} />
+            League
+          </Button>
+        )}
         <ProfileMenu />
       </div>
     </div>

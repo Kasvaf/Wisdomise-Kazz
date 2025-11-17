@@ -1,5 +1,4 @@
 import { Tooltip } from 'antd';
-import { useTokenInfo } from 'api/token-info';
 import type {
   GamificationStatus,
   LeaderboardPrize,
@@ -8,6 +7,7 @@ import type {
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
+import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import first from 'modules/quest/PageTournaments/images/1st.svg';
 import second from 'modules/quest/PageTournaments/images/2nd.svg';
 import third from 'modules/quest/PageTournaments/images/3rd.svg';
@@ -19,7 +19,6 @@ import snow from 'modules/quest/PageTournaments/images/snow.svg';
 import { Fragment, useState } from 'react';
 import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
-import { Token } from 'shared/v1-components/Token';
 
 const rankOrdinalNumber = (n: number) => {
   if (n % 100 >= 11 && n % 100 <= 13) {
@@ -168,16 +167,14 @@ export function StatusBadge({
   );
 }
 
-function PrizeCoin({ slug, amount }: { slug: string; amount: number }) {
-  const { data: coin } = useTokenInfo({ slug });
-
-  return coin ? (
-    <div className="flex items-center">
-      <Token link={false} size="xs" slug={slug} />
+function PrizeCoin({ amount }: { slug: string; amount: number }) {
+  return (
+    <div className="flex items-center gap-1">
+      <SolanaIcon />
       <span>{amount}</span>
-      <span className="ms-1">{coin.symbol}</span>
+      <span>SOL</span>
     </div>
-  ) : null;
+  );
 }
 
 export function LeaderboardPrizes({
