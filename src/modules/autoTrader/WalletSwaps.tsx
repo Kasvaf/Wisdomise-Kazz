@@ -142,9 +142,17 @@ const ShareButton: React.FC<{ swap: Swap }> = ({ swap }) => {
       )}
 
       <SwapSharingModal
+        bought={+swap.to_amount - +swap.pnl_quote}
+        boughtUsd={+swap.trading_volume - +swap.pnl_usd}
         onClose={() => setOpenShare(false)}
         open={openShare}
-        swap={swap}
+        pnl={+swap.pnl_quote}
+        pnlPercent={+swap.pnl_quote_percent}
+        pnlUsd={+swap.pnl_usd}
+        pnlUsdPercent={+swap.pnl_usd_percent}
+        slug={swap.base_slug}
+        sold={+swap.to_amount}
+        soldUsd={+swap.trading_volume}
       />
     </>
   );

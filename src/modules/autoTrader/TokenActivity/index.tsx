@@ -3,11 +3,15 @@ import {
   WRAPPED_SOLANA_CONTRACT_ADDRESS,
   WRAPPED_SOLANA_SLUG,
 } from 'api/chains/constants';
+import { bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import SwapSharingModal from 'modules/autoTrader/SwapSharingModal';
 import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import { useState } from 'react';
+import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
@@ -18,23 +22,25 @@ export const BtnConvertToUsd = ({
   onChange,
   className,
   disabled,
+  size = '3xs',
 }: {
   isUsd?: boolean;
   onChange: (isUsd: boolean) => void;
   className?: string;
   disabled?: boolean;
+  size?: '3xs' | 'xs';
 }) => {
   return (
     <Button
       className={clsx(
         className,
-        'text-white/50',
+        'text-v1-content-primary/70',
         isUsd && '!text-v1-content-positive',
       )}
       disabled={disabled}
       fab
       onClick={() => onChange(!isUsd)}
-      size="3xs"
+      size={size}
       variant="ghost"
     >
       <UsdIcon className="!size-4" />
@@ -45,9 +51,11 @@ export const BtnConvertToUsd = ({
 export function SolanaIcon({
   className,
   size = 'xs',
+  noCors,
 }: {
   className?: string;
   size?: 'xs' | 'md';
+  noCors?: boolean;
 }) {
   return (
     <Token
@@ -56,6 +64,7 @@ export function SolanaIcon({
       className={className}
       icon
       link={false}
+      noCors={noCors}
       size={size}
     />
   );
@@ -67,6 +76,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
   const slug = symbol.slug;
   const { data } = useTokenActivity({ slug });
   const hasFlag = useHasFlag();
+  const [openShare, setOpenShare] = useState(false);
 
   const network = useActiveNetwork();
   const { data: pairs, isPending } = useTokenPairsQuery(slug);
@@ -80,23 +90,33 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
     network,
     slug: symbol.slug ?? '',
     quote: WRAPPED_SOLANA_SLUG,
-    convertToUsd: showUsd,
+  });
+
+  const lastCandleUsd = useLastCandleStream({
+    market: 'SPOT',
+    network,
+    slug: symbol.slug ?? '',
+    quote: WRAPPED_SOLANA_SLUG,
+    convertToUsd: true,
   });
 
   const unit = showUsd ? '$' : <SolanaIcon />;
 
-  const totalBought = Number(
-    (showUsd ? data?.totalBoughtUsd : data?.totalBought) ?? '0',
-  );
-  const totalSold = Number(
-    (showUsd ? data?.totalSoldUsd : data?.totalSold) ?? '0',
-  );
-  const hold =
-    Number(data?.balance ?? '0') *
-    Number(lastCandle.data?.candle?.close ?? '0');
+  const bought = Number(data?.totalBought ?? '0');
+  const boughtUsd = Number(data?.totalBoughtUsd ?? '0');
 
-  const pnl = totalSold + hold - totalBought;
-  const pnlPercent = totalBought === 0 ? 0 : (pnl / totalBought) * 100;
+  const sold = Number(data?.totalSold ?? '0');
+  const soldUsd = Number(data?.totalSoldUsd ?? '0');
+
+  const balance = Number(data?.balance ?? '0');
+  const hold = balance * Number(lastCandle.data?.candle?.close ?? '0');
+  const holdUsd = balance * Number(lastCandleUsd.data?.candle?.close ?? '0');
+
+  const pnl = sold + hold - bought;
+  const pnlUsd = soldUsd + holdUsd - boughtUsd;
+
+  const pnlPercent = bought === 0 ? 0 : (pnl / bought) * 100;
+  const pnlUsdPercent = boughtUsd === 0 ? 0 : (pnlUsd / boughtUsd) * 100;
   const pnlSign = pnl >= 0 ? '+' : '-';
 
   const formatter = (value?: string | number) => {
@@ -125,7 +145,22 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
           'px-3 text-xs',
         )}
       >
-        {!mini && <p className="mb-4">Your Activity on This Token</p>}
+        {!mini && (
+          <div className="mb-4 flex items-center justify-between">
+            Your Activity on This Token
+            {pnl !== 0 && (
+              <Button
+                className="text-v1-content-primary/70"
+                fab
+                onClick={() => setOpenShare(true)}
+                size="2xs"
+                variant="ghost"
+              >
+                <Icon className="[&>svg]:!size-4" name={bxShareAlt} />
+              </Button>
+            )}
+          </div>
+        )}
         <div className={clsx('flex gap-2', mini && 'items-center')}>
           <div className="grow">
             {!mini && <p className="mb-2 text-v1-content-secondary">Bought</p>}
@@ -136,7 +171,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
               )}
             >
               {unit}
-              {formatter(totalBought)}
+              {formatter(showUsd ? boughtUsd : bought)}
             </div>
           </div>
           <div className="h-7 border-white/5 border-r" />
@@ -149,7 +184,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
               )}
             >
               {unit}
-              {formatter(totalSold)}
+              {formatter(showUsd ? soldUsd : sold)}
             </div>
           </div>
           <div className="h-7 border-white/5 border-r" />
@@ -157,7 +192,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
             {!mini && <p className="mb-2 text-v1-content-secondary">Holding</p>}
             <div className={clsx('flex gap-1', mini && 'justify-center')}>
               {unit}
-              {formatter(hold)}
+              {formatter(showUsd ? holdUsd : hold)}
             </div>
           </div>
           <div className="h-7 border-white/5 border-r" />
@@ -189,8 +224,8 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
                 >
                   {pnlSign}
                   {unit}
-                  {`${formatter(Math.abs(pnl))} (${pnlSign}${Math.abs(
-                    pnlPercent,
+                  {`${formatter(Math.abs(pnlUsd))} (${pnlSign}${Math.abs(
+                    pnlUsdPercent,
                   ).toFixed(0)}%)`}
                 </span>
               ) : (
@@ -211,6 +246,20 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
           </div>
         </div>
       </div>
+
+      <SwapSharingModal
+        bought={bought}
+        boughtUsd={boughtUsd}
+        onClose={() => setOpenShare(false)}
+        open={openShare}
+        pnl={pnl}
+        pnlPercent={pnlPercent}
+        pnlUsd={pnlUsd}
+        pnlUsdPercent={pnlUsdPercent}
+        slug={slug}
+        sold={sold}
+        soldUsd={soldUsd}
+      />
     </div>
   );
 }

@@ -35,6 +35,7 @@ export const Token: FC<{
   address?: string | null;
 
   logo?: string | null;
+  noCors?: boolean;
   marker?: string;
   progress?: number;
 
@@ -63,6 +64,7 @@ export const Token: FC<{
   header,
   subtitle,
   logo,
+  noCors,
 
   marker,
   progress,
@@ -159,6 +161,7 @@ export const Token: FC<{
           >
             <TokenImage
               name={abbreviation || (autoFill ? tokenInfo?.symbol : undefined)}
+              noCors={noCors}
               size={size}
               src={logo || (autoFill ? tokenInfo?.image_uri : undefined)}
             />
@@ -360,10 +363,12 @@ export const TokenImage = ({
   src,
   name,
   size,
+  noCors,
 }: {
   src?: string | null;
   name?: string | null;
   size?: 'xs' | 'sm' | 'md' | 'lg';
+  noCors?: boolean;
 }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -408,7 +413,7 @@ export const TokenImage = ({
           loading="lazy"
           onError={setFallback}
           onLoad={() => setIsLoaded(true)}
-          src={imgSrc}
+          src={noCors ? `https://corsproxy.io/?url=${imgSrc}` : imgSrc}
         />
       )}
     </div>
