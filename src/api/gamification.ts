@@ -312,7 +312,7 @@ export const useLeagueClaimMutation = () => {
 
 interface RewardHistoryItem {
   address: string;
-  amount_usd: number;
+  amount_solana: number;
   status: 'pending' | 'confirmed' | 'rejected';
   transaction_hash?: string;
 }
@@ -325,7 +325,6 @@ export const useRewardsHistoryQuery = () =>
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`,
       );
     },
-    staleTime: Number.POSITIVE_INFINITY,
   });
 
 interface ClaimRewardBody {

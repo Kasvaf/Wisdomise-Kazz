@@ -151,7 +151,7 @@ export default function PageRewards() {
               </div>
               <div className="flex justify-between">
                 <div className="text-v1-content-secondary">USD Amount</div>
-                <div>${item.amount_usd.toFixed(2)}</div>
+                <div>{item.amount_solana} SOL</div>
               </div>
               {item.transaction_hash && (
                 <Button
