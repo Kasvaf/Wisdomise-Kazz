@@ -4,14 +4,14 @@ login:
   error-email: Email is invalid
   images:
     discover:
-      title: <b>Discover</b> New Coins
-      subtitle: Spot Opportunities Using Sentiment Indicators in Our Radars.
+      title: Discover runners with trackers
+      subtitle: Find trending coins based on daily meta CT tweets and bluechip runners.
     trade:
-      title: <b>Trade</b> with AI
-      subtitle: AI Sets Multiple TP and SLs Automatically Based on Market Conditions
+      title: Superfast order fills
+      subtitle: Superfast order fills, your trades land instantly.
     validate:
-      title: <b>Validate</b> Calls with AI
-      subtitle: Quickly Validate the Signal With Sentiments and Key Labels
+      title: Discover runners with trackers
+      subtitle: Find trending coins based on daily meta CT tweets and bluechip runners.
   login-by-telegram: Login by Telegram
   notice: >-
     By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
@@ -20,7 +20,7 @@ login:
     button-submit-email: Get Started
     field-email: Email
     field-email-placeholder: Your Email Address
-    social_radar_subtitle: Seamless Trading, from Memecoins to High-Cap Tokens—all in One Place.
+    social_radar_subtitle: Seamless Trading, from Memecoins to High-Cap Tokens, all in One Place.
     social_radar_title: Discover, Validate, and Trade Crypto with AI.
   step-2:
     title: Enter Magic Code
