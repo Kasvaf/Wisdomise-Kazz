@@ -14,7 +14,7 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
   return (
     <Drawer
       className={clsx(
-        '!bg-v1-surface-l1 mobile:max-h-[90dvh] text-white',
+        '!bg-v1-surface-l0 mobile:max-h-[90dvh] text-white',
         className,
       )}
       closeIcon={

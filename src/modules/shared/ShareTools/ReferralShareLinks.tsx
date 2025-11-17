@@ -85,7 +85,7 @@ export function ReferralShareLinks({
           loading={isCapturing}
           onClick={capture}
           size="sm"
-          variant="white"
+          variant="primary"
         >
           <Icon name={bxDownload} />
           Download

@@ -60,7 +60,6 @@ export function useReferralStatusQuery() {
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
       );
     },
-    staleTime: Number.POSITIVE_INFINITY,
   });
 }
 

@@ -42,7 +42,13 @@ export const BtnConvertToUsd = ({
   );
 };
 
-export function SolanaIcon({ className }: { className?: string }) {
+export function SolanaIcon({
+  className,
+  size = 'xs',
+}: {
+  className?: string;
+  size?: 'xs' | 'md';
+}) {
   return (
     <Token
       address={WRAPPED_SOLANA_CONTRACT_ADDRESS}
@@ -50,7 +56,7 @@ export function SolanaIcon({ className }: { className?: string }) {
       className={className}
       icon
       link={false}
-      size="xs"
+      size={size}
     />
   );
 }

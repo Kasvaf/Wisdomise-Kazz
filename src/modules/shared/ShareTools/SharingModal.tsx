@@ -17,7 +17,6 @@ export default function SharingModal({
 }) {
   return (
     <Dialog
-      className="!bg-transparent w-max"
       footer={
         <ReferralShareLinks
           fileName={fileName}

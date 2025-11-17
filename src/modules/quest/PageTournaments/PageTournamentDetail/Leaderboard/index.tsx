@@ -1,5 +1,6 @@
 import type { LeaderboardParticipant, PromotionStatus } from 'api/tournament';
 import { clsx } from 'clsx';
+import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as IconUser } from '../user.svg';
 import { ReactComponent as Champion } from './champion.svg';
@@ -27,13 +28,14 @@ export default function Leaderboard({
   rewardedUsersMinRank?: number;
 }) {
   return (
-    <div className="mb-16 rounded-xl bg-v1-surface-l2 p-3">
+    <div className="mb-16 rounded-xl bg-v1-surface-l1 p-3">
       <div className="mb-2 flex gap-3 border-v1-border-primary/20 border-b px-3 pb-2 text-v1-content-secondary text-xs">
         <div>Rank</div>
         <div>Username</div>
         <div className="ml-auto">Trade Vol</div>
         {participants?.[0]?.promotion_status && <div>Status</div>}
       </div>
+      {participants && participants.length === 0 && <EmptyContent />}
       {participants?.map((p, index) => (
         <LeaderboardItem
           hasLabel={
@@ -51,7 +53,7 @@ export default function Leaderboard({
       ))}
       {me && (
         <LeaderboardItem
-          className="fixed start-0 end-0 bottom-4 mobile:mx-12 mx-24 ml-[calc(var(--side-menu-width)+6rem)] mobile:block hidden border border-v1-border-primary/40"
+          className="fixed start-0 end-0 bottom-16 mobile:mx-12 mx-24 ml-[calc(var(--side-menu-width)+6rem)] mobile:block hidden border border-v1-border-primary/40"
           isTopLevel={isTopLevel}
           participant={me}
         />
@@ -146,10 +148,10 @@ export function LeaderboardItem({
             statusDetails[
               isChampion ? 'CHAMPION' : participant.promotion_status
             ].className,
-          'mb-2 h-12 rounded-xl bg-gradient-to-l to-v1-surface-l3 p-[0.5px]',
+          'mb-2 h-12 rounded-xl bg-gradient-to-l to-v1-surface-l2 p-[0.5px]',
         )}
       >
-        <div className="flex h-full items-center justify-between rounded-xl bg-v1-surface-l3/90 px-3 text-xs">
+        <div className="flex h-full items-center justify-between rounded-xl bg-v1-surface-l2/90 px-3 text-xs">
           <div className="w-6 shrink-0">
             {participant.trading_volume > 0 ? participant.rank : '-'}
           </div>

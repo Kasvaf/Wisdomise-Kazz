@@ -233,14 +233,10 @@ export const useGamificationRewards = () => {
   };
 
   return {
-    daily: findMissionReward('tether_daily'),
-    tradeReferral: findMissionReward('tether_trade-referral'),
-    subReferral: findMissionReward('tether_sub-referral'),
-    league: findMissionReward('tether_league'),
-    tournament: findMissionReward('tether_tournament'),
-    wiseClub: findMissionReward('tether_wise-club'),
-    total: findMissionReward('tether'),
-    claimed: findMissionReward('tether_claimed'),
+    tradeReferral: findMissionReward('trade_referral_solana'),
+    league: findMissionReward('league_solana'),
+    total: findMissionReward('solana'),
+    claimed: findMissionReward('solana_claimed'),
   };
 };
 
@@ -316,7 +312,7 @@ export const useLeagueClaimMutation = () => {
 
 interface RewardHistoryItem {
   address: string;
-  amount_usd: number;
+  amount_solana: number;
   status: 'pending' | 'confirmed' | 'rejected';
   transaction_hash?: string;
 }
@@ -329,7 +325,6 @@ export const useRewardsHistoryQuery = () =>
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`,
       );
     },
-    staleTime: Number.POSITIVE_INFINITY,
   });
 
 interface ClaimRewardBody {

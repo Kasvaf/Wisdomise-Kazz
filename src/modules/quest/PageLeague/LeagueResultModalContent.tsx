@@ -1,7 +1,6 @@
 import { useLeagueClaimMutation } from 'api/gamification';
-import bg from 'modules/account/PageRewards/RewardModal/images/bg.png';
-import usdc from 'modules/account/PageRewards/RewardModal/images/usdc.svg';
 import video from 'modules/account/PageRewards/RewardModal/images/video.webm';
+import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
 import useLeague from 'modules/quest/PageLeague/useLeague';
 import { Button } from 'shared/v1-components/Button';
@@ -26,11 +25,6 @@ export default function LeagueResultModalContent({
 
   return (
     <div className="flex flex-col items-center">
-      <img
-        alt=""
-        className="absolute end-0 top-0 size-full mobile:rounded-3xl rounded-xl"
-        src={bg}
-      />
       {profile.promotion_status === 'PROMOTING' && (
         <video
           autoPlay
@@ -93,7 +87,7 @@ export default function LeagueResultModalContent({
           </>
         ) : null}
         <hr className="mt-4 w-full border-v1-inverse-overlay-10" />
-        <div className="my-2 flex w-max items-center gap-3 rounded-xl border border-v1-inverse-overlay-10 bg-v1-inverse-overlay-10 px-3 py-2 font-semibold text-sm backdrop-blur-sm">
+        <div className="my-2 flex w-max items-center gap-3 rounded-xl border border-v1-inverse-overlay-10 bg-v1-surface-l2 px-3 py-2 font-semibold text-sm backdrop-blur-sm">
           Your Rank: <div className="text-2xl">{profile.rank}</div>
         </div>
         <hr className="w-full border-v1-inverse-overlay-10" />
@@ -103,31 +97,21 @@ export default function LeagueResultModalContent({
         <div className="my-4 flex items-stretch justify-center gap-3">
           {profile.result.reward_items?.map(i => (
             <div
-              className="flex flex-col rounded-lg border border-v1-border-primary/20 p-6 text-center"
+              className="flex flex-col rounded-lg border border-v1-border-primary/20 bg-gradient-to-b from-v1-background-brand/0 to-v1-background-brand/10 p-6 text-center"
               key={i.symbol_slug}
-              style={{
-                background:
-                  'linear-gradient(90deg, rgba(190, 81, 215, 0.10) 0%, rgba(45, 163, 214, 0.10) 100%)',
-              }}
             >
               <div className="my-3 flex items-center gap-1">
-                <img alt="usdt" className="size-8 w-auto" src={usdc} />
+                <SolanaIcon size="md" />
                 <span className="font-semibold text-4xl">{i.amount}</span>
               </div>
               <hr className="mt-auto mb-3 border border-v1-border-primary/20" />
-              <div>USDC</div>
+              <div>SOL</div>
             </div>
           ))}
           {profile.result.next_league_slug &&
             !isChampion &&
             profile.promotion_status !== 'NEUTRAL' && (
-              <div
-                className="rounded-lg border border-v1-border-primary/20 p-6 text-center"
-                style={{
-                  background:
-                    'linear-gradient(90deg, rgba(190, 81, 215, 0.10) 0%, rgba(45, 163, 214, 0.10) 100%)',
-                }}
-              >
+              <div className="rounded-lg border border-v1-border-primary/20 bg-gradient-to-b from-v1-background-brand/0 to-v1-background-brand/10 p-6 text-center">
                 <LeagueIcon
                   className="h-20"
                   slug={profile.result.next_league_slug}
@@ -153,7 +137,7 @@ export default function LeagueResultModalContent({
         className="mt-3 w-full max-w-md"
         loading={isPending}
         onClick={claim}
-        variant="white"
+        variant="primary"
       >
         {(profile.result.reward_items?.length ?? 0) > 0 ? 'Claim' : 'Got it'}
       </Button>
