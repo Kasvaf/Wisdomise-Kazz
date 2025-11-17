@@ -1,5 +1,6 @@
 import { useHasFlag } from 'api';
 import { ReactComponent as Logo } from 'assets/logo-green.svg';
+import { bxTrophy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { IconReferral } from 'modules/base/Layout/ProfileMenu/ProfileMenuContent/icons';
@@ -7,6 +8,7 @@ import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import type React from 'react';
 import type { ReactElement } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import BranchSelector from '../BranchSelector';
@@ -53,6 +55,20 @@ const DesktopHeader: React.FC<{
             Referral Program
           </Button>
         )}
+        <Button
+          className={clsx(
+            isMobile ? '!px-4' : '!px-2',
+            pathname.startsWith('/trader/quests/league') &&
+              '!text-v1-content-brand',
+          )}
+          onClick={() => navigate('/trader/quests/league')}
+          size={isMobile ? 'md' : 'xs'}
+          surface={1}
+          variant="ghost"
+        >
+          <Icon className="[&>svg]:!size-4" name={bxTrophy} />
+          League
+        </Button>
         <ProfileMenu />
       </div>
     </div>

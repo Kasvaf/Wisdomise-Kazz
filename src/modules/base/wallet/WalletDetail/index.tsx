@@ -178,26 +178,22 @@ export default function WalletDetail(_: {
         )}
       </div>
       <Tabs
-        defaultActiveKey={hasFlag('/wallet/status') ? '1' : '2'}
+        defaultActiveKey="1"
         items={[
-          ...(hasFlag('/wallet/status')
-            ? [
-                {
-                  key: '1',
-                  label: 'Account PnL',
-                  children: <WalletStatus wallet={wallet} />,
-                },
-              ]
-            : []),
           {
-            key: '2',
+            key: '1',
             label: 'Buys/Sells',
             children: <WalletSwaps wallet={wallet} />,
           },
           {
-            key: '3',
+            key: '2',
             label: 'Positions',
             children: <WalletPositions wallet={wallet} />,
+          },
+          {
+            key: '3',
+            label: 'Account PnL',
+            children: <WalletStatus wallet={wallet} />,
           },
         ]}
       />

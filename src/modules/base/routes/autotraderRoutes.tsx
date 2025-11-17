@@ -1,5 +1,5 @@
 import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
-import LeagueMaintenance from 'modules/quest/PageLeague/Maintenance';
+import PageLeague from 'modules/quest/PageLeague';
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import Container from '../Container';
@@ -73,7 +73,7 @@ const useAutoTraderRoutes = () => {
             },
             {
               path: 'league',
-              children: [{ path: '', element: <LeagueMaintenance /> }],
+              children: [{ path: '', element: <PageLeague /> }],
             },
           ],
         },

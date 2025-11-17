@@ -6,4 +6,3 @@ export { ReactComponent as IconHelp } from './help.svg';
 export { ReactComponent as IconLanguage } from './lang.svg';
 export { ReactComponent as IconReferral } from './referral.svg';
 export { ReactComponent as IconSignOut } from './signout.svg';
-export { ReactComponent as IconSubscription } from './subscription.svg';

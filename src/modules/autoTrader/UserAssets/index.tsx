@@ -205,12 +205,11 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         </div>
         {wallet ? (
           <Button
-            className="!bg-transparent !px-1"
             onClick={() => navigate(`/wallet/${wallet.key}`)}
-            size="2xs"
+            size="xs"
             variant="outline"
           >
-            Details
+            History
           </Button>
         ) : (
           <BtnAppKitWalletConnect

@@ -1,8 +1,9 @@
 import { Pagination } from 'antd';
 import { type Swap, useTraderSwapsQuery } from 'api';
 import type { Wallet } from 'api/wallets';
-import { bxLinkExternal } from 'boxicons-quasar';
+import { bxLinkExternal, bxShareAlt } from 'boxicons-quasar';
 import dayjs from 'dayjs';
+import SwapSharingModal from 'modules/autoTrader/SwapSharingModal';
 import { useMemo, useState } from 'react';
 import Badge from 'shared/Badge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -82,15 +83,18 @@ export default function WalletSwaps({ wallet }: { wallet: Wallet }) {
         key: 'actions',
         title: 'Actions',
         render: row => (
-          <Button
-            className="!bg-transparent text-white/70"
-            fab
-            onClick={() => window.open(row.transaction_link, '_blank')}
-            size="xs"
-            variant="ghost"
-          >
-            <Icon name={bxLinkExternal} />
-          </Button>
+          <div>
+            <Button
+              className="text-v1-content-primary/70"
+              fab
+              onClick={() => window.open(row.transaction_link, '_blank')}
+              size="xs"
+              variant="ghost"
+            >
+              <Icon name={bxLinkExternal} />
+            </Button>
+            <ShareButton swap={row} />
+          </div>
         ),
       },
     ],
@@ -119,3 +123,29 @@ export default function WalletSwaps({ wallet }: { wallet: Wallet }) {
     />
   );
 }
+
+const ShareButton: React.FC<{ swap: Swap }> = ({ swap }) => {
+  const [openShare, setOpenShare] = useState(false);
+
+  return (
+    <>
+      {swap.side === 'SHORT' && (
+        <Button
+          className="text-v1-content-primary/70"
+          fab
+          onClick={() => setOpenShare(true)}
+          size="xs"
+          variant="ghost"
+        >
+          <Icon name={bxShareAlt} size={16} />
+        </Button>
+      )}
+
+      <SwapSharingModal
+        onClose={() => setOpenShare(false)}
+        open={openShare}
+        swap={swap}
+      />
+    </>
+  );
+};

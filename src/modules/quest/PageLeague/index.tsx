@@ -76,13 +76,9 @@ export default function PageLeague() {
   return (
     <PageWrapper
       extension={!isMobile && <CoinExtensionsGroup />}
-      footer={null}
-      hasBack={true}
       loading={isLoading}
-      title="League"
     >
       <PageTitle
-        className="pt-8"
         description="Compete Weekly, Earn Points, and Climb the Ranks. Stay Competitive and Aim for the Top!"
         title="Compete, Rise, and Conquer!"
       />
@@ -152,7 +148,7 @@ export default function PageLeague() {
             />
           )}
           {me && me.league_slug === selectedLeague?.slug && (
-            <div className="mt-3 mobile:hidden rounded-xl bg-v1-surface-l2 p-3">
+            <div className="mt-3 mobile:hidden rounded-xl bg-v1-surface-l1 p-3">
               <h2 className="mb-2">My Status</h2>
               <LeaderboardItem
                 isTopLevel={selectedLeague?.level === 2}
@@ -209,25 +205,27 @@ function Prize({
       <p className="mb-3 text-v1-inverse-overlay-70 text-xs">
         Keep Trading to Stay in the Top {rewardedUsersMinRank}!
       </p>
-      <div className="flex w-max rounded-lg bg-white/5 p-1">
-        <LeaderboardPrizes
-          description={league.description}
-          hasDetail={true}
-          prizes={league.prizes}
-        />
-      </div>
-      <div className="mt-2 flex w-max items-center gap-1 rounded-lg bg-white/5 p-1">
-        {isTopLevel ? (
-          <>
-            <Champion className="size-4" />
-            Stays in Current League
-          </>
-        ) : (
-          <>
-            <Promoting className="size-4" />
-            Promote to Next League
-          </>
-        )}
+      <div className="flex items-center gap-2">
+        <div className="flex w-max items-center gap-1 rounded-lg bg-white/5 p-1">
+          {isTopLevel ? (
+            <>
+              <Champion className="size-4" />
+              Stays in Current League
+            </>
+          ) : (
+            <>
+              <Promoting className="size-4" />
+              Promote to Next League
+            </>
+          )}
+        </div>
+        <div className="flex w-max rounded-lg bg-white/5 p-1">
+          <LeaderboardPrizes
+            description={league.description}
+            hasDetail={true}
+            prizes={league.prizes}
+          />
+        </div>
       </div>
       <hr className="my-3 border-white/5" />
       <CountdownBar endDate={endTime} startDate={startTime} />

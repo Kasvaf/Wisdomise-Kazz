@@ -233,14 +233,10 @@ export const useGamificationRewards = () => {
   };
 
   return {
-    daily: findMissionReward('tether_daily'),
-    tradeReferral: findMissionReward('tether_trade-referral'),
-    subReferral: findMissionReward('tether_sub-referral'),
-    league: findMissionReward('tether_league'),
-    tournament: findMissionReward('tether_tournament'),
-    wiseClub: findMissionReward('tether_wise-club'),
-    total: findMissionReward('tether'),
-    claimed: findMissionReward('tether_claimed'),
+    tradeReferral: findMissionReward('solana_trade_referral'),
+    league: findMissionReward('solana_league'),
+    total: findMissionReward('solana'),
+    claimed: findMissionReward('solana_claimed'),
   };
 };
 

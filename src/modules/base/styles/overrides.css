@@ -34,7 +34,7 @@ div[data-tc-modal] {
   @apply !bg-black/40 backdrop-blur-sm;
 }
 .ant-drawer-wrapper-body {
-  @apply !bg-v1-surface-l4;
+  @apply !bg-v1-surface-l1;
 
   .ant-drawer-footer {
     @apply from-v1-surface-l4 sticky bottom-0 left-0

@@ -6,37 +6,25 @@ import {
   useRewardsHistoryQuery,
   useWithdrawRewardMutation,
 } from 'api/gamification';
-import logo from 'assets/monogram-green.svg';
+import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import PageWrapper from 'modules/base/PageWrapper';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
+import leagueSrc from 'modules/quest/PageLeague/images/summit.png';
 import { useState } from 'react';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { shortenAddress } from 'utils/address';
+import { formatNumber } from 'utils/numbers';
 import useIsMobile from 'utils/useIsMobile';
 import { isProduction } from 'utils/version';
-import dailySrc from './images/daily.png';
-import leagueSrc from './images/league.png';
 import refFeeSrc from './images/ref-fee.png';
-import refSubSrc from './images/ref-sub.png';
-import { ReactComponent as Usdc } from './images/usdc.svg';
-import wiseGold from './images/wise-gold.png';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
 
 export default function PageRewards() {
   const isMobile = useIsMobile();
-  const {
-    subReferral,
-    tradeReferral,
-    daily,
-    total,
-    claimed,
-    league,
-    tournament,
-    wiseClub,
-  } = useGamificationRewards();
+  const { tradeReferral, total, claimed, league } = useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
@@ -74,7 +62,7 @@ export default function PageRewards() {
   return (
     <PageWrapper extension={!isMobile && <CoinExtensionsGroup />} hasBack>
       <PageTitle
-        className="py-5"
+        className="pb-5"
         description="Track Your Reward History and Manage Unclaimed Rewards."
         title="Rewards"
       />
@@ -82,10 +70,16 @@ export default function PageRewards() {
       {hasFlag('/account/rewards?withdraw') && (
         <div className="relative mb-6 overflow-hidden rounded-xl bg-v1-surface-l1">
           <div className="relative flex mobile:flex-wrap items-center gap-3 p-4">
-            <Usdc className="size-8" />
+            <SolanaIcon size="md" />
             <div>
               <h2 className="font-semibold">
-                {(total - claimed).toFixed(2)} USDC
+                {formatNumber(total - claimed, {
+                  compactInteger: false,
+                  minifyDecimalRepeats: false,
+                  separateByComma: false,
+                  decimalLength: 3,
+                })}{' '}
+                SOL
               </h2>
               <p className="text-xs">Ready to Withdraw</p>
             </div>
@@ -122,35 +116,20 @@ export default function PageRewards() {
           { value: 'rewards', label: 'Rewards History' },
           { value: 'withdraws', label: 'Withdraw Requests' },
         ]}
+        size="md"
         surface={1}
         value={activeTab}
       />
 
       {activeTab === 'rewards' && (
         <div>
-          {hasFlag('/trader/quests/daily') && (
-            <RewardItem amount={daily} image={dailySrc} title="Daily Trade" />
-          )}
           <RewardItem
             amount={tradeReferral}
             image={refFeeSrc}
             title="Referral Trade"
           />
-          {hasFlag('/account/billing') && (
-            <RewardItem
-              amount={subReferral}
-              image={refSubSrc}
-              title="Referral Wise Club"
-            />
-          )}
           {hasFlag('/trader/quests/league') && (
             <RewardItem amount={league} image={leagueSrc} title="League" />
-          )}
-          {hasFlag('/trader/quests/tournaments') && (
-            <RewardItem amount={tournament} image={logo} title="Tournaments" />
-          )}
-          {hasFlag('/account/billing') && (
-            <RewardItem amount={wiseClub} image={wiseGold} title="Wise Club" />
           )}
         </div>
       )}
@@ -208,7 +187,7 @@ function RewardItem({
           <p className="mt-2">{title}</p>
         </div>
         <div className="flex h-full w-32 items-center justify-center gap-2 border-v1-border-disabled border-l border-dashed">
-          <Usdc className="size-6" /> {amount}
+          <SolanaIcon /> {amount}
         </div>
       </div>
     </div>

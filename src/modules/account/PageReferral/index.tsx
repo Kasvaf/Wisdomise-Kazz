@@ -7,6 +7,7 @@ import {
 import { clsx } from 'clsx';
 import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
+import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
 import useModal from 'shared/useModal';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';
+import { formatNumber } from 'utils/numbers';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as Bag } from './images/bag.svg';
 import coin from './images/coin.png';
@@ -101,13 +103,20 @@ export default function ReferralPage() {
                     <Bag />
                   </div>
                   <div>
-                    <h3>${referral?.ready_to_claim.toFixed(2)}</h3>
+                    <h3 className="flex items-center gap-1">
+                      <SolanaIcon />
+                      {formatNumber(referral?.ready_to_claim ?? 0, {
+                        compactInteger: false,
+                        minifyDecimalRepeats: false,
+                        separateByComma: false,
+                        decimalLength: 2,
+                      })}
+                    </h3>
                     <p className="text-xs">{t('page-referral.bonus.ready')}</p>
                   </div>
                 </div>
                 <hr className="my-3 border-v1-border-primary/30" />
                 <p className="mb-3 text-xs">
-                  {t('page-referral.bonus.description')}{' '}
                   <button
                     className="underline"
                     onClick={() => navigate('/account/rewards')}
@@ -184,7 +193,15 @@ export default function ReferralPage() {
                 <img alt="" className="h-6 w-6 rounded-full" src={trader} />
               </div>
               <div>
-                <h2>${referral?.referral_trade_revenue.toFixed(2)}</h2>
+                <h2 className="flex items-center gap-1">
+                  <SolanaIcon />{' '}
+                  {formatNumber(referral?.referral_trade_revenue ?? 0, {
+                    compactInteger: false,
+                    minifyDecimalRepeats: false,
+                    separateByComma: false,
+                    decimalLength: 2,
+                  })}
+                </h2>
                 <p className="text-v1-content-secondary text-xs">
                   {t('page-referral.earned-trader')}
                 </p>

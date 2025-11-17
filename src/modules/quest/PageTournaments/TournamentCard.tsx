@@ -244,7 +244,7 @@ export function LeaderboardPrizes({
           {sortedPrizeByRank.map((prize, index) => (
             <div
               className={clsx(
-                'mb-2 flex h-12 w-full items-center gap-3 rounded-xl border border-transparent bg-v1-surface-l5 p-2 text-xs',
+                'mb-2 flex h-12 w-full items-center gap-3 rounded-xl border border-transparent bg-v1-surface-l2 p-2 text-xs',
               )}
               key={prize.start_rank}
             >
