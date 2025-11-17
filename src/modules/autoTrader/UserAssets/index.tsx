@@ -206,7 +206,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         {wallet ? (
           <Button
             onClick={() => navigate(`/wallet/${wallet.key}`)}
-            size="xs"
+            size="2xs"
             variant="outline"
           >
             History

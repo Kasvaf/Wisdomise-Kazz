@@ -13,18 +13,19 @@ export default function ReferralQrCode({ className }: { className?: string }) {
       )}
     >
       <div>
-        <p className="mb-3 font-semibold text-sm text-v1-content-brand">
+        <p className="mb-2 font-semibold text-sm text-v1-content-brand">
           Ready To Dive In?
         </p>
         <p>Scan the QR Code or Use the Link to Join the GoatX Adventure!</p>
-        <img alt="" className="mt-5 h-6" src={logo} />
+        <img alt="" className="mt-3 h-6" src={logo} />
       </div>
       <div className="shrink-0">
         <QRCodeSVG
           bgColor="transparent"
           fgColor="white"
+          height={80}
           value={myReferralLink}
-          width={100}
+          width={80}
         />
       </div>
     </div>

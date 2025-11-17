@@ -29,7 +29,7 @@ const useModalLoginImages = () => {
         src: discoverImg,
         title: <Trans i18nKey="login.images.discover.title" ns="auth" />,
         subtitle: <Trans i18nKey="login.images.discover.subtitle" ns="auth" />,
-        feature: 'Bluchips',
+        feature: 'Bluechips',
       },
       {
         src: metaImg,

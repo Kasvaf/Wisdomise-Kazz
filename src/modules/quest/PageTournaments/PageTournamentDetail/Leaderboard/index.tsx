@@ -1,5 +1,6 @@
 import type { LeaderboardParticipant, PromotionStatus } from 'api/tournament';
 import { clsx } from 'clsx';
+import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as IconUser } from '../user.svg';
 import { ReactComponent as Champion } from './champion.svg';
@@ -34,6 +35,7 @@ export default function Leaderboard({
         <div className="ml-auto">Trade Vol</div>
         {participants?.[0]?.promotion_status && <div>Status</div>}
       </div>
+      {participants && participants.length === 0 && <EmptyContent />}
       {participants?.map((p, index) => (
         <LeaderboardItem
           hasLabel={

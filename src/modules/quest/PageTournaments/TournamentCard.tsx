@@ -180,7 +180,6 @@ function PrizeCoin({ amount }: { slug: string; amount: number }) {
 export function LeaderboardPrizes({
   prizes,
   hasDetail,
-  description,
 }: {
   prizes: LeaderboardPrize[];
   hasDetail?: boolean;
@@ -272,7 +271,6 @@ export function LeaderboardPrizes({
               </div>
             </div>
           ))}
-          <p className="mt-3">{description}</p>
         </div>
       </DrawerModal>
     </div>
