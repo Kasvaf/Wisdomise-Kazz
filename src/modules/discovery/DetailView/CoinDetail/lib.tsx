@@ -240,7 +240,7 @@ export const UnifiedCoinDetailsProvider: FC<{
         topHolders: data2?.validatedData?.top10Holding ?? 0,
         totalSupply: marketData.totalSupply ?? 0,
       }),
-      rugged: data2?.securityData.rugged,
+      rugged: data2?.securityData?.rugged,
     };
   })();
   const createdAt: UnifiedCoinDetailsContext['createdAt'] =
