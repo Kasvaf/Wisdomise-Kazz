@@ -87,7 +87,6 @@ export function useFriendsQuery() {
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referred-users`,
       );
     },
-    staleTime: Number.POSITIVE_INFINITY,
   });
 }
 
