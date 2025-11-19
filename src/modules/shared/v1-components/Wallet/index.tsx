@@ -28,7 +28,7 @@ export const Wallet: FC<{
   return (
     <span
       className={clsx(
-        'inline-flex w-max items-center gap-2 overflow-hidden rounded-md p-1 pe-2 font-mono',
+        'inline-flex w-max items-center gap-2 overflow-hidden rounded-md font-mono',
         className,
       )}
     >
