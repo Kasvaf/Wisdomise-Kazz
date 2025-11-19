@@ -34,11 +34,11 @@ export const BtnTokenShare: FC<{
         className={className}
         fab
         onClick={() => setOpen(true)}
-        size="sm"
+        size="3xs"
         surface={0}
-        variant="outline"
+        variant="ghost"
       >
-        <Icon name={bxShareAlt} />
+        <Icon className="[&>svg]:size-4" name={bxShareAlt} />
       </Button>
       <Dialog className="w-[30rem]" onClose={() => setOpen(false)} open={open}>
         <div className="p-3">
