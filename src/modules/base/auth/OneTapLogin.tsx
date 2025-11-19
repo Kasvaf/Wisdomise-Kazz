@@ -1,6 +1,6 @@
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { useGoogleLoginMutation } from 'api/auth';
-import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
+import { REFERRER_CODE_KEY } from 'modules/base/Container/ReferrerListener';
 
 const OneTapLogin = () => {
   const { mutateAsync } = useGoogleLoginMutation();

@@ -1,3 +1,4 @@
+import ReferrerListener from 'modules/base/Container/ReferrerListener';
 import TrackersContainer from 'modules/base/Container/TrackersContainer';
 import { Outlet } from 'react-router-dom';
 import { useCustomVersion } from 'shared/useCustomVersion';
@@ -21,6 +22,7 @@ const Container = () => {
           <GeneralMeta />
           <Outlet />
           <UserEngageFlow />
+          <ReferrerListener />
         </WalletProvider>
       </Guard>
     </TrackersContainer>

@@ -9,7 +9,7 @@ import { ReactComponent as Logo } from 'assets/logo-green.svg';
 import { bxArrowBack } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { DOCS_ORIGIN, TELEGRAM_BOT_BASE_URL } from 'config/constants';
-import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
+import { REFERRER_CODE_KEY } from 'modules/base/Container/ReferrerListener';
 import { useCallback, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -19,6 +19,7 @@ import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
 import { Button } from 'shared/v1-components/Button';
 import { Dialog } from 'shared/v1-components/Dialog';
+import EditableText from 'shared/v1-components/EditableText';
 import useNow from 'utils/useNow';
 import { v4 } from 'uuid';
 import { ModalLoginSlides } from './ModalLoginSlides';
@@ -152,7 +153,12 @@ const LoginModalContent: React.FC<{
       <div className="flex flex-col items-stretch gap-4">
         <TextBox
           error={fieldError}
-          label={t('login.step-1.field-email')}
+          label={
+            <div className="flex w-full items-center justify-between">
+              <span>{t('login.step-1.field-email')}</span>
+              <ReferralCode />
+            </div>
+          }
           onChange={x => {
             setEmail(x);
             setNonce('');
@@ -307,6 +313,29 @@ const LoginModalContent: React.FC<{
       <div className="!overflow-hidden relative w-full shrink grow mobile:rounded-b-3xl">
         <ModalLoginSlides className="size-full" />
       </div>
+    </div>
+  );
+};
+
+const ReferralCode = () => {
+  const [referralCode, setReferralCode] = useState(
+    localStorage.getItem(REFERRER_CODE_KEY) ?? undefined,
+  );
+
+  return (
+    <div className="flex items-center gap-1">
+      <span className="text-v1-content-secondary">Referral Code</span>
+      <EditableText
+        defaultValue={referralCode}
+        onChange={newValue => {
+          if (!newValue) {
+            localStorage.removeItem(REFERRER_CODE_KEY);
+          } else {
+            localStorage.setItem(REFERRER_CODE_KEY, newValue);
+          }
+          setReferralCode(newValue);
+        }}
+      />
     </div>
   );
 };
