@@ -56,7 +56,7 @@ export default function BtnSolanaWallets({
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
         className={className}
-        size={isMobile ? 'md' : (size ?? 'xs')}
+        size={size ?? 'xs'}
         surface={surface}
         variant={variant}
       >
