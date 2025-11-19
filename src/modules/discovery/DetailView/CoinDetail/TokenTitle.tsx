@@ -48,15 +48,14 @@ export const TokenTitle: FC<{
               categories={symbol.categories}
               header={
                 <>
-                  {/* Developer Data */}
                   {developer && <NCoinDeveloper value={developer} />}
-
                   {createdAt && (
                     <>
                       <span className="size-[2px] rounded-full bg-white" />
                       <NCoinAge className="text-xs" inline value={createdAt} />
                     </>
                   )}
+                  <BtnTokenShare />
                 </>
               }
               labels={symbol.labels}
@@ -184,10 +183,7 @@ export const TokenTitle: FC<{
               )}
             </div>
             {suffix && (
-              <div className="flex grow items-center justify-end">
-                {suffix}
-                <BtnTokenShare className="ml-auto" />
-              </div>
+              <div className="flex grow items-center justify-end">{suffix}</div>
             )}
           </div>
         ) : (
