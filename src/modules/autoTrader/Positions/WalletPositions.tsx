@@ -138,6 +138,7 @@ function PairAssets({ base, quote }: { base: string; quote: string }) {
     <div className="flex items-center">
       {tokens?.map((coin, index) => (
         <Token
+          autoFill
           className={clsx(
             'relative z-10',
             index !== 0 && '!z-0 -ml-6 absolute',

@@ -1,13 +1,11 @@
 import { initialQuoteAsset, type Position, useLastPriceStream } from 'api';
-import { USDT_SLUG } from 'api/chains/constants';
-import { useCoinDetails } from 'api/discovery';
 import logo from 'assets/logo-white.svg';
 import { useRef, useState } from 'react';
-import { Coin } from 'shared/Coin';
 import PriceChange from 'shared/PriceChange';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import SharingModal from 'shared/ShareTools/SharingModal';
 import { Toggle } from 'shared/Toggle';
+import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
 import autoTrader from './images/auto-trader.png';
 import spaceship from './images/spaceship.png';
@@ -23,9 +21,6 @@ export default function PositionSharingModal({
 }) {
   const [showExtra, setShowExtra] = useState(false);
 
-  const { data: coin } = useCoinDetails({
-    slug: position.base_slug ?? USDT_SLUG,
-  });
   const initialQuote = initialQuoteAsset(position);
   const el = useRef<HTMLDivElement>(null);
 
@@ -54,14 +49,15 @@ export default function PositionSharingModal({
             </div>
             <hr className="my-4 border-v1-border-primary/10" />
             <div className="flex flex-col items-start">
-              {coin && (
-                <Coin
-                  coin={coin.symbol}
-                  noCors={true}
-                  nonLink={true}
-                  truncate={false}
-                />
-              )}
+              <Token
+                autoFill
+                link={false}
+                noCors={true}
+                showAddress={false}
+                slug={position.base_slug}
+                truncate={false}
+              />
+
               <div className="my-6">
                 <PriceChange
                   className="!flex justify-start text-3xl"

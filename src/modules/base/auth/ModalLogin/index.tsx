@@ -330,7 +330,7 @@ export const useModalLogin = () => {
   const content = (
     <>
       <Dialog
-        className="z-[2_147_483_647] mobile:h-full mobile:max-h-full mobile:w-full w-[55rem] mobile:max-w-full"
+        className="z-[2_147_483_647] mobile:h-full mobile:max-h-full mobile:w-full w-[55rem] mobile:max-w-full" // z-index: 1 unit higher than cookie-bot banner
         closable={!forceLogin}
         footer={false}
         modalConfig={{
@@ -339,7 +339,7 @@ export const useModalLogin = () => {
         mode="modal"
         onClose={handleClose}
         open={open}
-        surface={1} // z-index: 1 unit higher than cookie-bot banner
+        surface={1}
       >
         <LoginModalContent onResolve={handleResolve} />
       </Dialog>
