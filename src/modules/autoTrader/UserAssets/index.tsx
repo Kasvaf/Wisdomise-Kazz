@@ -11,6 +11,7 @@ import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConne
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 import { ReactComponent as DepositIcon } from 'modules/base/wallet/deposit.svg';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import WalletDetail from 'modules/base/wallet/WalletDetail';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AccessShield } from 'shared/AccessShield';
@@ -21,6 +22,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { Token, TokenLink } from 'shared/v1-components/Token';
+import { useSessionStorage } from 'usehooks-ts';
 
 interface AssetData {
   amount: number;
@@ -142,7 +144,7 @@ const UserWallets = (props: Props) => {
     <div>
       <p className="my-3 text-v1-content-secondary text-xs">Wallets</p>
       <WalletSelector
-        className="-mr-2 -mt-3"
+        className="-mr-1 -mt-3"
         expanded={props.expanded}
         radioClassName="w-full [&.ant-radio-wrapper]:!items-start [&_.ant-radio]:!mt-4 [&_.ant-radio]:!self-start"
         WalletOptionComponent={WalletItem}
@@ -157,11 +159,22 @@ export default function UserPortfolio(props: Props) {
       mode="children"
       sizes={{ guest: true, vip: false, free: false, initial: false }}
     >
-      <div className="p-3">
-        <div className="flex flex-col gap-2">
+      <div className="relative flex px-3">
+        <div
+          className={clsx(
+            'sticky flex flex-col gap-2 pb-3',
+            props.expanded &&
+              'sticky top-(--desktop-content-top) max-h-(--desktop-content-height) w-[17.25rem] overflow-y-auto border-r border-r-white/10 pr-3',
+          )}
+        >
           <UserTradingAssets />
           <UserWallets {...props} />
         </div>
+        {props.expanded && (
+          <div className="mt-3 ml-3 grow">
+            <WalletDetail />
+          </div>
+        )}
       </div>
     </AccessShield>
   );
@@ -175,6 +188,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
   });
   const navigate = useNavigate();
   const [copy, notif] = useShare('copy');
+  const [_, setSlug] = useSessionStorage('walletSlug', '');
 
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
@@ -205,7 +219,10 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         </div>
         {wallet ? (
           <Button
-            onClick={() => navigate(`/wallet/${wallet.key}`)}
+            onClick={() => {
+              setSlug(wallet.key);
+              navigate(`/portfolio`);
+            }}
             size="2xs"
             variant="outline"
           >

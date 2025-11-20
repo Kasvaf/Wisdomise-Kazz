@@ -3,6 +3,7 @@ import { useHasFlag, useTraderAssetQuery } from 'api';
 import {
   useUpdateWalletMutation,
   useWalletQuery,
+  useWalletsQuery,
   type Wallet,
 } from 'api/wallets';
 import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
@@ -13,8 +14,7 @@ import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { useDiscoveryParams } from 'modules/discovery/lib';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -22,17 +22,13 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
 import { roundSensible } from 'utils/numbers';
 import WalletStatus from './WalletStatus';
 
-export default function WalletDetail(_: {
-  expanded?: boolean;
-  focus?: boolean;
-}) {
-  const params = useDiscoveryParams();
-  const slug = params.slugs?.[0];
-  if (!slug) throw new Error('unexpected');
+export default function WalletDetail() {
+  const [slug, setSlug] = useSessionStorage('walletSlug', '');
   const { data: wallet } = useWalletQuery(slug);
   const [copy, notif] = useShare('copy');
   const { openScan } = useWalletActionHandler();
@@ -46,8 +42,16 @@ export default function WalletDetail(_: {
       : undefined,
   });
 
+  const { data: wallets } = useWalletsQuery();
+  useEffect(() => {
+    if (wallets && !slug) {
+      const walletKey = wallets?.results[0].key;
+      setSlug(walletKey);
+    }
+  }, [wallets, setSlug, slug]);
+
   return wallet ? (
-    <div className="p-3">
+    <div>
       <div className="flex items-center gap-2">
         <WalletName wallet={wallet} />
         <HoverTooltip className="inline" title="Copy Wallet Address">
