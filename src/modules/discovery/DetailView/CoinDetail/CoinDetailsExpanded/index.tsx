@@ -55,11 +55,11 @@ export const CoinDetailsExpanded: FC = () => {
       </div>
 
       <div className="scrollbar-none sticky top-0 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
-        <NCoinRisksBanner />
         <div className="space-y-3 px-3 pb-3">
           <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <TokenUpdateWidget />
+          <NCoinRisksBanner />
           <NCoinInsightWidget />
         </div>
       </div>
