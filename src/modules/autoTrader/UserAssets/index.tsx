@@ -54,7 +54,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
         truncate
       />
 
-      <div className="flex flex-col items-end gap-1">
+      <div className="flex flex-col items-end gap-2">
         <ReadableNumber
           className="flex font-medium text-xs"
           value={asset.amount}
@@ -202,7 +202,13 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
           )}
         >
           <div className="flex items-center gap-1">
-            {wallet ? wallet.name : 'Connected Wallet'}
+            {wallet ? (
+              wallet.name
+            ) : (
+              <span className={clsx(!connected && 'mt-1')}>
+                Connected Wallet
+              </span>
+            )}
             {(wallet?.address || address) && (
               <HoverTooltip title="Copy Wallet Address">
                 <button
@@ -228,18 +234,20 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
           >
             History
           </Button>
-        ) : (
-          <BtnAppKitWalletConnect
-            network="solana"
-            size="2xs"
-            variant="outline"
-          />
-        )}
+        ) : null}
       </div>
       {wallet ? (
         <WalletAssets wallet={wallet} />
       ) : (
-        connected && <UserAssets data={walletAssets} />
+        <div>
+          <BtnAppKitWalletConnect
+            className="mb-3 w-full"
+            network="solana"
+            size="2xs"
+            variant="outline"
+          />
+          {connected && <UserAssets data={walletAssets} />}
+        </div>
       )}
       {notif}
     </div>

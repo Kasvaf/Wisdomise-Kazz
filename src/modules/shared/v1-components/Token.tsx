@@ -302,7 +302,11 @@ export const TokenLink = ({
     : `/token/solana/${slug ? slugToTokenAddress(slug) : address}`;
 
   return (
-    <Link className={className} onContextMenu={e => openInNewTab(e)} to={to}>
+    <Link
+      className={className}
+      onContextMenu={e => !isSolana && openInNewTab(e)}
+      to={to}
+    >
       {children}
     </Link>
   );

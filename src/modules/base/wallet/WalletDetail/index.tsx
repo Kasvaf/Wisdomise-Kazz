@@ -6,7 +6,7 @@ import {
   useWalletsQuery,
   type Wallet,
 } from 'api/wallets';
-import { bxCopy, bxEdit, bxLinkExternal } from 'boxicons-quasar';
+import { bxCopy, bxLinkExternal } from 'boxicons-quasar';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
@@ -14,7 +14,7 @@ import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -22,6 +22,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import EditableText from 'shared/v1-components/EditableText';
 import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
 import { roundSensible } from 'utils/numbers';
@@ -56,10 +57,10 @@ export default function WalletDetail() {
         <WalletName wallet={wallet} />
         <HoverTooltip className="inline" title="Copy Wallet Address">
           <button
-            className="mt-1 text-v1-content-secondary"
+            className="text-v1-content-primary/70"
             onClick={() => copy(wallet.address)}
           >
-            <Icon name={bxCopy} size={16} />
+            <Icon className="pt-2" name={bxCopy} size={14} />
           </button>
         </HoverTooltip>
         <HoverTooltip
@@ -67,10 +68,10 @@ export default function WalletDetail() {
           title={`View on ${SCANNERS[wallet.network_slug].name}`}
         >
           <button
-            className="mt-1 text-v1-content-secondary"
+            className="text-v1-content-primary/70"
             onClick={() => openScan(wallet)}
           >
-            <Icon name={bxLinkExternal} size={16} />
+            <Icon className="pt-2" name={bxLinkExternal} size={14} />
           </button>
         </HoverTooltip>
       </div>
@@ -207,49 +208,19 @@ export default function WalletDetail() {
 }
 
 function WalletName({ wallet }: { wallet: Wallet }) {
-  const [newName, setNewName] = useState(wallet?.name ?? '');
-  const [editMode, setEditMode] = useState(false);
   const { mutate } = useUpdateWalletMutation(wallet?.key);
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  const updateName = () => {
-    if (newName && wallet) {
-      mutate({ name: newName });
-      wallet.name = newName;
-    } else {
-      setNewName(wallet?.name ?? '');
-    }
-    setEditMode(false);
+  const updateName = (newName: string) => {
+    mutate({ name: newName });
   };
 
-  return editMode ? (
-    <input
-      className="bg-transparent"
-      defaultValue={newName}
-      onBlur={updateName}
-      onChange={e => setNewName(e.target.value)}
-      onKeyDown={e => {
-        if (e.key === 'Enter') {
-          updateName();
-        }
-      }}
-      ref={inputRef}
+  return (
+    <EditableText
+      defaultValue={wallet.name}
+      onChange={updateName}
+      resetOnBlank
+      surface={0}
     />
-  ) : (
-    <div className="flex items-center gap-2">
-      <span>{wallet.name}</span>
-      <HoverTooltip className="inline" ignoreFocus title="Rename">
-        <button
-          className="text-v1-content-secondary"
-          onClick={() => {
-            setEditMode(prev => !prev);
-            setTimeout(() => inputRef.current?.select(), 0);
-          }}
-        >
-          <Icon name={bxEdit} size={16} />
-        </button>
-      </HoverTooltip>
-    </div>
   );
 }
 

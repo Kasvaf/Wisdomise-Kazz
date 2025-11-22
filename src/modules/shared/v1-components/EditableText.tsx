@@ -1,17 +1,19 @@
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { useEffect, useRef, useState } from 'react';
-import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
+import type { Surface } from 'utils/useSurface';
 
 export default function EditableText({
   defaultValue,
   onChange,
   resetOnBlank,
+  surface = 1,
 }: {
   defaultValue?: string;
   onChange?: (newValue: string) => void;
   resetOnBlank?: boolean;
+  surface?: Surface;
 }) {
   const [value, setValue] = useState(defaultValue ?? '');
   const [editMode, setEditMode] = useState(false);
@@ -22,7 +24,6 @@ export default function EditableText({
   // biome-ignore lint/correctness/useExhaustiveDependencies: <have dep on value>
   useEffect(() => {
     if (spanRef.current) {
-      console.log('spanRef.current.offsetWidth', spanRef.current.offsetWidth);
       const newWidth = spanRef.current.offsetWidth;
       setWidth(newWidth);
     }
@@ -65,7 +66,7 @@ export default function EditableText({
               setEditMode(prev => !prev);
             }}
             size="3xs"
-            surface={1}
+            surface={surface}
             variant="ghost"
           >
             <Icon name={bxCheck} size={16} />
@@ -74,23 +75,21 @@ export default function EditableText({
       ) : (
         <div className="flex items-center gap-1">
           {value && <span>{value}</span>}
-          <HoverTooltip className="inline" ignoreFocus>
-            <Button
-              fab
-              onClick={() => {
-                setEditMode(prev => !prev);
-                setTimeout(() => inputRef.current?.select(), 0);
-              }}
-              size="3xs"
-              surface={1}
-              variant="ghost"
-            >
-              <Icon
-                className="text-v1-content-primary/70 [&>svg]:size-4"
-                name={bxEditAlt}
-              />
-            </Button>
-          </HoverTooltip>
+          <Button
+            fab
+            onClick={() => {
+              setEditMode(prev => !prev);
+              setTimeout(() => inputRef.current?.select(), 0);
+            }}
+            size="3xs"
+            surface={surface}
+            variant="ghost"
+          >
+            <Icon
+              className="text-v1-content-primary/70 [&>svg]:size-4"
+              name={bxEditAlt}
+            />
+          </Button>
         </div>
       )}
     </div>
