@@ -105,7 +105,7 @@ export const NCoinTokenInsight: FC<{
       {type === 'row' ? (
         <div
           className={clsx(
-            'flex items-center gap-2',
+            'flex items-center gap-1',
             !value && 'animate-pulse',
             className,
           )}
@@ -113,7 +113,7 @@ export const NCoinTokenInsight: FC<{
           {items.map(item => (
             <div
               className={clsx(
-                'relative flex shrink-0 items-center justify-start',
+                'relative flex shrink-0 items-center justify-start rounded-3xl border border-white/10 py-0.5 pr-1.5 pl-1',
                 item.color === 'green'
                   ? 'text-v1-background-positive'
                   : item.color === 'red'

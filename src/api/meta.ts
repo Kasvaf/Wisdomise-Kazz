@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 
@@ -93,3 +93,11 @@ export function useMetaListQuery({
     refetchInterval: 1000 * 60,
   });
 }
+
+export const useMetaDetailsQuery = (id: number) =>
+  useQuery({
+    queryKey: ['meta-details', id],
+    queryFn: async () => {
+      return await ofetch<Meta>(`delphi/meta/details/?id=${id}`);
+    },
+  });
