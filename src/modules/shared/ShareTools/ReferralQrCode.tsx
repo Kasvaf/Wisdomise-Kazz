@@ -18,7 +18,7 @@ export default function ReferralQrCode({ className }: { className?: string }) {
         <p className="mb-1 font-semibold text-sm text-v1-content-brand">
           Ready To Dive In?
         </p>
-        <p className="text-v1-content-secondary">
+        <p className="text-v1-content-primary/70">
           Scan the QR Code or Use the referral code to Join the GoatX Adventure!
         </p>
         <p className="mt-1 font-medium text-xl">

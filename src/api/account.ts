@@ -43,6 +43,8 @@ interface ReferralStatus {
   referral_subscription_revenue: number;
   referral_trade_revenue: number;
   ready_to_claim: number;
+  cashback_total: number;
+  cashback_to_claim: number;
 }
 
 interface ReferredUser {
@@ -63,13 +65,49 @@ export function useReferralStatusQuery() {
   });
 }
 
-export function useClaimReferralBonusBag() {
+export function useTradeReferralClaimMutation() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: async () => {
       return await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-claim`,
         { method: 'post' },
+      );
+    },
+    onSuccess: () =>
+      client.invalidateQueries({
+        queryKey: ['getReferralStatus'],
+      }),
+  });
+}
+
+export function useCashbackClaimMutation() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      return await ofetch(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/cashback-claim`,
+        { method: 'post' },
+      );
+    },
+    onSuccess: () =>
+      client.invalidateQueries({
+        queryKey: ['getReferralStatus'],
+      }),
+  });
+}
+
+interface ReferralCodeRequest {
+  referral_code: string;
+}
+
+export function useReferralCodeMutation() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async (body: ReferralCodeRequest) => {
+      return await ofetch(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-code`,
+        { method: 'post', body },
       );
     },
     onSuccess: () =>

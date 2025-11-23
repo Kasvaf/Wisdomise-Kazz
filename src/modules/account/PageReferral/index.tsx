@@ -1,9 +1,12 @@
+import { notification } from 'antd';
 import {
-  useClaimReferralBonusBag,
+  useCashbackClaimMutation,
   useFriendsQuery,
+  useReferralCodeMutation,
   useReferralStatusQuery,
+  useTradeReferralClaimMutation,
 } from 'api';
-import { bxRightArrowAlt } from 'boxicons-quasar';
+import { bxRightArrowAlt, bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
@@ -14,6 +17,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Badge from 'shared/Badge';
+import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -29,6 +33,9 @@ import useIsMobile from 'utils/useIsMobile';
 import claimBg from './images/claim-bg.png';
 import { ReactComponent as Gift } from './images/gift.svg';
 
+const REFERRAL_RATE = 0.3;
+const CASHBACK_RATE = 0.35;
+
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
   const isMobile = useIsMobile();
@@ -43,14 +50,21 @@ export default function ReferralPage() {
   );
   const [done] = useLocalStorage('referral-onboarding', false);
 
-  const { mutateAsync: claimBonusBag, isPending: claimIsLoading } =
-    useClaimReferralBonusBag();
+  const {
+    mutateAsync: claimTradeReferralAsync,
+    isPending: claimReferralIsLoading,
+  } = useTradeReferralClaimMutation();
+
+  const { mutateAsync: claimCashbackAsync, isPending: claimCashbackIsLoading } =
+    useCashbackClaimMutation();
+
+  const { mutateAsync: mutateReferralCode } = useReferralCodeMutation();
 
   const tableData = useMemo(
     () => [
       {
         link: referralLink,
-        rate: 0.25,
+        rate: REFERRAL_RATE,
         code: referral?.referral_code,
         invitedCount: referredUsers?.count,
       },
@@ -59,9 +73,27 @@ export default function ReferralPage() {
   );
 
   const claim = () => {
-    void claimBonusBag().then(() =>
-      openRewardModal({ amount: referral?.ready_to_claim ?? 0 }),
-    );
+    const amount = referral?.ready_to_claim ?? 0;
+    void claimTradeReferralAsync().then(() => openRewardModal({ amount }));
+  };
+
+  const claimCashback = () => {
+    const amount = referral?.cashback_to_claim ?? 0;
+    void claimCashbackAsync().then(() => openRewardModal({ amount }));
+  };
+
+  const updateReferralCode = (newValue: string) => {
+    const regex = /^[a-z0-9]{1,10}$/;
+    if (!regex.test(newValue)) {
+      notification.error({
+        message:
+          'Code must be up to 10 characters and contain only lowercase letters or numbers.',
+      });
+      return;
+    }
+    mutateReferralCode({ referral_code: newValue }).then(() => {
+      notification.success({ message: 'Referral code updated successfully.' });
+    });
   };
 
   useEffect(() => {
@@ -76,7 +108,7 @@ export default function ReferralPage() {
       extension={!isMobile && <CoinExtensionsGroup />}
       loading={isLoading}
     >
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-5">
         {/* Referral */}
         <div className="rounded-xl bg-v1-surface-l1 p-3">
           <h1 className="mb-3 font-medium">{t('page-referral.title')}</h1>
@@ -113,8 +145,8 @@ export default function ReferralPage() {
               </p>
               <div className="mt-5 flex gap-2">
                 <Button
-                  disabled={referral?.ready_to_claim === 0 || claimIsLoading}
-                  loading={claimIsLoading}
+                  disabled={referral?.ready_to_claim === 0}
+                  loading={claimReferralIsLoading}
                   onClick={claim}
                   size="xs"
                   variant="white"
@@ -138,7 +170,10 @@ export default function ReferralPage() {
           <div className="rounded-xl bg-v1-surface-l2 p-5">
             <h2>
               {'Ready to Dive In?'}
-              <span className="text-v1-content-brand"> 30% Referral Rate</span>
+              <span className="text-v1-content-brand">
+                {' '}
+                {REFERRAL_RATE * 100}% Referral Rate
+              </span>
             </h2>
 
             <Table
@@ -162,7 +197,14 @@ export default function ReferralPage() {
                   key: 'code',
                   title: 'Code',
                   render: row => (
-                    <EditableText defaultValue={row.code} onChange={() => {}} />
+                    <EditableText
+                      onChange={newValue => {
+                        updateReferralCode(newValue);
+                      }}
+                      resetOnBlank
+                      surface={2}
+                      value={row.code}
+                    />
                   ),
                 },
                 {
@@ -170,9 +212,20 @@ export default function ReferralPage() {
                   title: 'No. of Invited Friends',
                   render: row => row.invitedCount,
                 },
-                { key: 'actions', title: 'Actions', render: _row => '' },
+                {
+                  key: 'actions',
+                  title: 'Actions',
+                  render: _row => (
+                    <ClickableTooltip chevron={false} title={<Referral />}>
+                      <Button fab size="2xs" surface={2} variant="ghost">
+                        <Icon name={bxShareAlt} />
+                      </Button>
+                    </ClickableTooltip>
+                  ),
+                },
               ]}
               dataSource={tableData}
+              scrollable
               size="sm"
               surface={2}
             />
@@ -209,7 +262,7 @@ export default function ReferralPage() {
                 <ReadableNumber
                   className="font-medium text-2xl"
                   format={{ decimalLength: 2 }}
-                  value={referral?.ready_to_claim ?? 0}
+                  value={referral?.cashback_to_claim ?? 0}
                 />
               </div>
               <p className="text-v1-content-primary/50 text-xxs">
@@ -218,9 +271,9 @@ export default function ReferralPage() {
               </p>
               <div className="mt-5 flex gap-2">
                 <Button
-                  disabled={referral?.ready_to_claim === 0 || claimIsLoading}
-                  loading={claimIsLoading}
-                  onClick={claim}
+                  disabled={referral?.cashback_to_claim === 0}
+                  loading={claimCashbackIsLoading}
+                  onClick={claimCashback}
                   size="xs"
                   variant="white"
                 >
@@ -240,19 +293,11 @@ export default function ReferralPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl bg-v1-surface-l2 p-5">
-              <h2 className="mb-10 text-v1-content-secondary text-xs">
-                Cashback
-              </h2>
-              <p className="text-2xl">35%</p>
-            </div>
-            <div className="rounded-xl bg-v1-surface-l2 p-5">
-              <h2 className="mb-10 text-v1-content-secondary text-xs">
-                Total SOL Volume
-              </h2>
-              <p className="text-2xl">598</p>
-            </div>
+          <div className="rounded-xl bg-v1-surface-l2 p-5">
+            <h2 className="mb-10 text-v1-content-secondary text-xs">
+              Cashback
+            </h2>
+            <p className="text-2xl">{CASHBACK_RATE * 100}%</p>
           </div>
         </div>
       </div>

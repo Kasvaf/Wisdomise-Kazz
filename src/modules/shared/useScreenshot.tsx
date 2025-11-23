@@ -1,19 +1,18 @@
-import { postEvent } from '@telegram-apps/sdk';
 import * as htmlToImage from 'html-to-image';
 import { type RefObject, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
-import { isMiniApp } from 'utils/version';
 import { useShare } from './useShare';
 
 export const useScreenshot = (
   el: RefObject<HTMLElement>,
   config: {
     fileName?: string;
-    afterCapture?: 'share' | 'download';
+    afterCapture?: 'share' | 'download' | 'copy';
     backgroundColor?: string;
   },
 ) => {
   const [share] = useShare('share');
+  const [copy, content] = useShare('copy');
   const isMobile = useIsMobile();
   const [isCapturing, setIsCapturing] = useState(false);
 
@@ -24,7 +23,7 @@ export const useScreenshot = (
     capture: async () => {
       if (!el.current || el.current.classList.contains('capturing'))
         throw new Error('capture is in progress');
-      el.current.classList.add('capturing');
+      el.current.classList.add('capturing', '!rounded-none');
       setIsCapturing(true);
       try {
         const dataUrl = await htmlToImage.toPng(el.current, {
@@ -34,35 +33,30 @@ export const useScreenshot = (
         return await new Promise(resolve => {
           const fileName = `${config.fileName ?? Date.now()}.png`;
 
+          const blob = dataURLToBlob(dataUrl);
           if (afterCapture === 'share') {
-            const blob = dataURLToBlob(dataUrl);
-            if (!blob)
-              throw new Error('Error creating blob from html element!');
             const file = new File([blob], fileName, { type: 'image/png' });
             void share(file);
             resolve(true);
+          } else if (afterCapture === 'copy') {
+            copy(blob as File);
+            resolve(true);
           } else {
-            if (isMiniApp) {
-              postEvent('web_app_request_file_download', {
-                url: dataUrl,
-                file_name: fileName,
-              });
-            } else {
-              const anchorElement = document.createElement('a');
-              anchorElement.href = dataUrl;
-              anchorElement.download = fileName;
-              anchorElement.click();
-            }
+            const anchorElement = document.createElement('a');
+            anchorElement.href = dataUrl;
+            anchorElement.download = fileName;
+            anchorElement.click();
             resolve(true);
           }
         });
       } finally {
         setIsCapturing(false);
         if (el.current) {
-          el.current.classList.remove('capturing');
+          el.current.classList.remove('capturing', '!rounded-none');
         }
       }
     },
+    content,
   };
 };
 

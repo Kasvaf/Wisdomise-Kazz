@@ -1,4 +1,4 @@
-import { bxDownload } from 'boxicons-quasar';
+import { bxCopy, bxsDownload } from 'boxicons-quasar';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import type { RefObject } from 'react';
 import Icon from 'shared/Icon';
@@ -15,9 +15,20 @@ export function ReferralShareLinks({
   fileName: string;
 }) {
   const referralLink = useReferral();
-  const { capture, isCapturing } = useScreenshot(screenshotTarget, {
+  const { capture: captureAndDownload, isCapturing: l1 } = useScreenshot(
+    screenshotTarget,
+    {
+      fileName,
+      afterCapture: 'download',
+    },
+  );
+  const {
+    capture: captureAndCopy,
+    isCapturing: l2,
+    content,
+  } = useScreenshot(screenshotTarget, {
     fileName,
-    afterCapture: 'download',
+    afterCapture: 'copy',
   });
   const SHARE_TEXT = 'Join GoatX Adventure!';
 
@@ -37,15 +48,25 @@ export function ReferralShareLinks({
         <ShareSocial link={referralLink} text={SHARE_TEXT} />
         <Button
           className="ml-auto"
-          loading={isCapturing}
-          onClick={capture}
+          loading={l1 || l2}
+          onClick={captureAndDownload}
           size="sm"
-          variant="primary"
+          variant="outline"
         >
-          <Icon name={bxDownload} />
-          Download
+          <Icon name={bxsDownload} />
+          Download Image
+        </Button>
+        <Button
+          loading={l1 || l2}
+          onClick={captureAndCopy}
+          size="sm"
+          variant="outline"
+        >
+          <Icon name={bxCopy} />
+          Copy Image
         </Button>
       </div>
+      {content}
     </div>
   );
 }
