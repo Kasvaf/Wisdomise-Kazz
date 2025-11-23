@@ -38,6 +38,7 @@ export default function BtnSolanaWallets({
   size,
   variant = 'ghost',
   surface = 1,
+  fab,
 }: {
   className?: string;
   showAddress?: boolean;
@@ -45,6 +46,7 @@ export default function BtnSolanaWallets({
   size?: ButtonSize;
   variant?: 'outline' | 'ghost';
   surface?: Surface;
+  fab?: boolean;
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
@@ -57,6 +59,7 @@ export default function BtnSolanaWallets({
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
         className={className}
+        fab={fab}
         size={size ?? 'xs'}
         surface={surface}
         variant={variant}

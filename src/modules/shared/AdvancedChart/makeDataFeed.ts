@@ -5,7 +5,6 @@ import { observeGrpc, requestGrpc } from 'api/grpc-v2';
 import type { Candle } from 'api/proto/delphinus';
 import type { MutableRefObject } from 'react';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
-import { isProduction } from 'utils/version';
 import type {
   DatafeedConfiguration,
   GetMarksCallback,
@@ -225,7 +224,7 @@ const makeDataFeed = ({
             }
 
             // For solving detached candles problem
-            if (lastCandle && isProduction) {
+            if (lastCandle) {
               if (chartCandle.time === lastCandle.time) {
                 chartCandle.open = lastCandle.open;
               } else {

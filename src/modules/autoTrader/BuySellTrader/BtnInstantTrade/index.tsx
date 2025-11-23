@@ -137,13 +137,14 @@ export default function BtnInstantTrade({
               style={{ height }}
             >
               <div
-                className="relative flex cursor-move items-center border-white/5 border-b p-3"
+                className="relative flex cursor-move items-center gap-2 border-white/5 border-b p-3"
                 id="instant-trade-drag-handle"
               >
                 <DragIcon className="-translate-x-1/2 absolute top-1 left-1/2 size-3 cursor-move" />
                 <TraderPresetsSelector source="terminal" surface={2} />
                 <Button
-                  className="!px-2 ml-auto"
+                  className="ml-auto"
+                  fab
                   onClick={() => {
                     setIsEditMode(prev => !prev);
                   }}
@@ -151,11 +152,12 @@ export default function BtnInstantTrade({
                   surface={1}
                   variant="ghost"
                 >
-                  <Icon name={isEditMode ? bxCheck : bxEditAlt} size={20} />
+                  <Icon name={isEditMode ? bxCheck : bxEditAlt} />
                 </Button>
-                <BtnSolanaWallets className="!px-2" size="2xs" />
+                <BtnSolanaWallets fab size="2xs" />
                 <Button
-                  className="!px-2 text-v1-content-secondary"
+                  className="text-v1-content-secondary"
+                  fab
                   onClick={() => setIsOpen(!isOpen)}
                   size="2xs"
                   surface={1}
