@@ -1,4 +1,6 @@
+import { useHasFlag } from 'api';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
+import { bxTrophy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -6,6 +8,10 @@ import BtnBack from 'modules/base/BtnBack';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import type React from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
+import useIsMobile from 'utils/useIsMobile';
 import HeaderNav from './HeaderNav';
 import ProfileMenu from './ProfileMenu';
 
@@ -19,6 +25,11 @@ const MobileHeader: React.FC<
 > = ({ hasBack, title, extension, className, children }) => {
   const net = useActiveNetwork();
   const isLoggedIn = useIsLoggedIn();
+  const hasFlag = useHasFlag();
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  const { pathname } = useLocation();
+
   const defaultChildren = (
     <>
       <Logo className="size-8" />
@@ -27,14 +38,32 @@ const MobileHeader: React.FC<
         {hasBack ? <BtnBack /> : <ProfileMenu />}
       </div>
 
+      {hasFlag('/trader/quests/league') && (
+        <Button
+          className={clsx(
+            'ml-2',
+            isMobile ? '!px-4' : '!px-2',
+            pathname.startsWith('/trader/quests/league') &&
+              '!text-v1-content-brand',
+          )}
+          onClick={() => navigate('/trader/quests/league')}
+          size="sm"
+          surface={1}
+          variant="ghost"
+        >
+          <Icon className="[&>svg]:!size-4" name={bxTrophy} />
+          League
+        </Button>
+      )}
+
       {/* // weird class hides it when there's a button on right */}
 
       {isLoggedIn && (
-        <div className={clsx('ml-2 flex w-full justify-end empty:w-1/2')}>
+        <div className={clsx('flex')}>
           {title === undefined ? (
             <div className="flex gap-2">
               {net === 'solana' && <HeaderNav />}
-              <BtnWalletConnect />
+              <BtnWalletConnect size="sm" />
             </div>
           ) : null}
         </div>

@@ -29,7 +29,7 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
       ) : (
         <Button
           className={isMobile ? 'w-md' : 'w-xs'}
-          size={isMobile ? 'md' : 'xs'}
+          size={isMobile ? 'sm' : 'xs'}
           surface={1}
           variant="ghost"
         >

@@ -6,7 +6,7 @@ import {
   useDiscoveryUrlParams,
 } from 'modules/discovery/lib';
 import { type FC, Fragment } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
@@ -17,6 +17,7 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
   const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
   const location = useLocation();
+  const _navigate = useNavigate();
 
   return (
     <div
@@ -39,6 +40,18 @@ const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {
               'hover:text-v1-content-link-hover',
             )}
             onClick={e => {
+              // if (item.meta.list === 'portfolio' && !urlParams.detail) {
+              //   e.preventDefault();
+              //   e.stopPropagation();
+              //   setBackdropParams({
+              //     list: 'portfolio',
+              //     detail: 'wallet',
+              //     slugs: ['1'],
+              //   });
+              //   navigate(`/${backdropParams.detail}`);
+              //   return;
+              // }
+
               if (
                 !urlParams.list &&
                 urlParams.detail &&

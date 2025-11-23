@@ -9,7 +9,7 @@ import WalletsSwaps from './WalletsSwaps';
 export const WalletTracker: FC<{
   focus?: boolean;
   expanded?: boolean;
-}> = () => {
+}> = ({ expanded }) => {
   useSyncWalletSubscription();
   const [open, setOpen] = useState(false);
 
@@ -33,7 +33,7 @@ export const WalletTracker: FC<{
         direction="row"
         rootClassName="h-[calc(var(--desktop-content-height))]"
       >
-        <WalletsSwaps />
+        <WalletsSwaps expanded={expanded} />
         <WalletsManager />
       </ResizableSides>
     </div>

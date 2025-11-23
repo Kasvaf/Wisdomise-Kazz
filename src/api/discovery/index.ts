@@ -733,7 +733,7 @@ export const useStreamTweets = (config: { userIds: string[] }) => {
           auth: false,
         },
         query: {
-          user_id: config.userIds,
+          user_ids: config.userIds.join(','),
           hours: 24,
         },
       }),
@@ -755,7 +755,7 @@ export const useStreamTweets = (config: { userIds: string[] }) => {
             auth: false,
           },
           query: {
-            user_id: config.userIds,
+            user_ids: config.userIds.join(','),
           },
           signal: controller.signal,
           responseType: 'stream',

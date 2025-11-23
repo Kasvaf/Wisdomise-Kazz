@@ -1,54 +1,63 @@
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
+import type { Surface } from 'utils/useSurface';
 
 export default function EditableText({
-  defaultValue,
+  value,
   onChange,
+  resetOnBlank,
+  surface = 1,
+  className,
 }: {
-  defaultValue?: string;
+  value?: string;
   onChange?: (newValue: string) => void;
+  resetOnBlank?: boolean;
+  surface?: Surface;
+  className?: string;
 }) {
-  const [value, setValue] = useState(defaultValue ?? '');
+  const [localValue, setLocalValue] = useState(value ?? '');
   const [editMode, setEditMode] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const spanRef = useRef<HTMLSpanElement>(null);
   const [width, setWidth] = useState(spanRef.current?.offsetWidth ?? 0);
 
+  useEffect(() => {
+    setLocalValue(value ?? '');
+  }, [value]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <have dep on value>
   useEffect(() => {
-    console.log(value);
     if (spanRef.current) {
-      console.log('spanRef.current.offsetWidth', spanRef.current.offsetWidth);
       const newWidth = spanRef.current.offsetWidth;
       setWidth(newWidth);
     }
-  }, [value, editMode]);
+  }, [localValue, editMode]);
 
   const save = () => {
-    if (value === '') {
-      setValue(defaultValue ?? '');
+    if (localValue === '' && resetOnBlank) {
+      setLocalValue(value ?? '');
     } else {
-      onChange?.(value);
+      onChange?.(localValue);
     }
     setEditMode(prev => !prev);
   };
 
   return (
-    <div className="inline-flex items-center gap-2">
+    <div className={clsx('inline-flex items-center gap-2', className)}>
       {editMode ? (
-        <div className="relative flex items-center gap-2">
+        <div className="relative flex items-center gap-1">
           <span className="invisible absolute" ref={spanRef}>
-            {value}
+            {localValue}
           </span>
           <input
-            className="min-w-10 border-v1-border-brand bg-transparent outline-0 focus:border-b"
-            defaultValue={value}
+            className="min-w-16 border-v1-border-brand border-t border-t-transparent bg-transparent outline-0 focus:border-b"
+            defaultValue={localValue}
             onBlur={save}
             onChange={e => {
-              setValue(e.target.value);
+              setLocalValue(e.target.value);
             }}
             onKeyDown={e => {
               if (e.key === 'Enter') {
@@ -64,29 +73,34 @@ export default function EditableText({
               setEditMode(prev => !prev);
             }}
             size="3xs"
-            surface={1}
+            surface={surface}
             variant="ghost"
           >
             <Icon name={bxCheck} size={16} />
           </Button>
         </div>
       ) : (
-        <div className="flex items-center gap-2">
-          <span>{value}</span>
-          <HoverTooltip className="inline" ignoreFocus>
-            <Button
-              fab
-              onClick={() => {
-                setEditMode(prev => !prev);
-                setTimeout(() => inputRef.current?.select(), 0);
-              }}
-              size="3xs"
-              surface={2}
-              variant="ghost"
-            >
-              <Icon className="[&>svg]:size-4" name={bxEditAlt} />
-            </Button>
-          </HoverTooltip>
+        <div className="flex items-center gap-1">
+          {localValue && (
+            <span className="border-transparent border-y" ref={spanRef}>
+              {localValue}
+            </span>
+          )}
+          <Button
+            fab
+            onClick={() => {
+              setEditMode(prev => !prev);
+              setTimeout(() => inputRef.current?.select(), 0);
+            }}
+            size="3xs"
+            surface={surface}
+            variant="ghost"
+          >
+            <Icon
+              className="text-v1-content-primary/70 [&>svg]:size-4"
+              name={bxEditAlt}
+            />
+          </Button>
         </div>
       )}
     </div>

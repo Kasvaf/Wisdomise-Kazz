@@ -57,7 +57,7 @@ export default function SwapSharingModal({
       <div className="mb-2 overflow-hidden rounded-2xl bg-v1-surface-l1 p-3">
         <h2 className="mb-3">Share Result</h2>
         <div
-          className="flex w-[35rem] flex-col items-start overflow-hidden rounded-xl bg-v1-surface-l2 [&.capturing_[data-nocapture]]:hidden"
+          className="flex w-[35rem] mobile:origin-left mobile:scale-[calc(80vw/35rem)] flex-col items-start overflow-hidden rounded-xl bg-v1-surface-l2 [&.capturing_[data-nocapture]]:hidden"
           ref={el}
         >
           <div className="relative">

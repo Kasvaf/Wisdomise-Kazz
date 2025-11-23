@@ -205,7 +205,7 @@ function Prize({
       <p className="mb-3 text-v1-inverse-overlay-70 text-xs">
         Keep Trading to Stay in the Top {rewardedUsersMinRank}!
       </p>
-      <div className="flex items-center gap-2">
+      <div className="flex max-w-[70%] flex-wrap items-center gap-2">
         <div className="flex w-max items-center gap-1 rounded-lg bg-white/5 p-1">
           {isTopLevel ? (
             <>

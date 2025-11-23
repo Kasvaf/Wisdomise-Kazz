@@ -1,4 +1,3 @@
-import { Skeleton } from 'antd';
 import { clsx } from 'clsx';
 import { BtnTokenShare } from 'modules/discovery/DetailView/CoinDetail/BtnTokenShare';
 import { doesNCoinHaveLargeTxns } from 'modules/discovery/ListView/NetworkRadar/lib';
@@ -48,15 +47,14 @@ export const TokenTitle: FC<{
               categories={symbol.categories}
               header={
                 <>
-                  {/* Developer Data */}
                   {developer && <NCoinDeveloper value={developer} />}
-
                   {createdAt && (
                     <>
                       <span className="size-[2px] rounded-full bg-white" />
                       <NCoinAge className="text-xs" inline value={createdAt} />
                     </>
                   )}
+                  <BtnTokenShare />
                 </>
               }
               labels={symbol.labels}
@@ -184,20 +182,19 @@ export const TokenTitle: FC<{
               )}
             </div>
             {suffix && (
-              <div className="flex grow items-center justify-end">
-                {suffix}
-                <BtnTokenShare className="ml-auto" />
-              </div>
+              <div className="flex grow items-center justify-end">{suffix}</div>
             )}
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-3">
-            <Skeleton.Node className="!size-10">
-              <div />
-            </Skeleton.Node>
-            <Skeleton.Input />
-            <Skeleton.Button />
-            <Skeleton.Button />
+            <div className="size-10 rounded-lg bg-v1-surface-l2" />
+            <div>
+              <div className="mb-2 h-3 w-20 rounded-sm bg-v1-surface-l2" />
+              <div className="h-3 w-36 rounded-sm bg-v1-surface-l2" />
+            </div>
+            <div className="h-8 w-20 rounded-lg bg-v1-surface-l2" />
+            <div className="h-8 w-20 rounded-lg bg-v1-surface-l2" />
+            <div className="h-8 w-20 rounded-lg bg-v1-surface-l2" />
           </div>
         )}
       </div>

@@ -24,6 +24,7 @@ import Icon from 'shared/Icon';
 import { Tokens } from 'shared/Tokens';
 import { useShare } from 'shared/useShare';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
+import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
 import { roundSensible } from 'utils/numbers';
 import useIsMobile from 'utils/useIsMobile';
@@ -37,6 +38,7 @@ export default function BtnSolanaWallets({
   size,
   variant = 'ghost',
   surface = 1,
+  fab,
 }: {
   className?: string;
   showAddress?: boolean;
@@ -44,6 +46,7 @@ export default function BtnSolanaWallets({
   size?: ButtonSize;
   variant?: 'outline' | 'ghost';
   surface?: Surface;
+  fab?: boolean;
 }) {
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
@@ -56,7 +59,8 @@ export default function BtnSolanaWallets({
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
         className={className}
-        size={isMobile ? 'md' : (size ?? 'xs')}
+        fab={fab}
+        size={size ?? 'xs'}
         surface={surface}
         variant={variant}
       >
@@ -139,6 +143,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   const { balance } = useSolanaWalletBalanceInUSD(
     wallet ? wallet?.address : address,
   );
+  const [, setSlug] = useSessionStorage('walletSlug', '');
 
   const isActive = (wallet ? wallet.address : address) === activeAddress;
 
@@ -181,14 +186,17 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         {wallet ? (
           <Button
             className="!bg-transparent"
-            onClick={() => navigate(`/wallet/${wallet.key}`)}
+            onClick={() => {
+              setSlug(wallet.key);
+              navigate('/portfolio');
+            }}
             size="xs"
             variant="outline"
           >
-            Details
+            History
           </Button>
         ) : (
-          <BtnAppKitWalletConnect network="solana" />
+          <BtnAppKitWalletConnect network="solana" variant="outline" />
         )}
       </div>
       {withdrawDepositModal}

@@ -40,7 +40,7 @@ export const NCoinRisksBanner: FC<{
     <ClickableTooltip
       chevron={false}
       className={clsx(
-        'flex w-full items-center justify-center gap-1 mobile:rounded-lg p-3 font-normal text-xs capitalize',
+        'flex w-full items-center justify-center gap-1 rounded-lg p-3 font-normal text-xs capitalize',
         risks[0].bg,
         risks[0].fg,
         className,
