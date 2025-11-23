@@ -53,26 +53,34 @@ export default function WalletDetail() {
 
   return wallet ? (
     <div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         <WalletName wallet={wallet} />
         <HoverTooltip className="inline" title="Copy Wallet Address">
-          <button
-            className="text-v1-content-primary/70"
+          <Button
+            className="mt-1 text-v1-content-primary/70"
+            fab
             onClick={() => copy(wallet.address)}
+            size="3xs"
+            surface={0}
+            variant="ghost"
           >
-            <Icon className="pt-2" name={bxCopy} size={14} />
-          </button>
+            <Icon className="[&>svg]:size-4" name={bxCopy} />
+          </Button>
         </HoverTooltip>
         <HoverTooltip
           className="inline"
           title={`View on ${SCANNERS[wallet.network_slug].name}`}
         >
-          <button
-            className="text-v1-content-primary/70"
+          <Button
+            className="mt-1 text-v1-content-primary/70"
+            fab
             onClick={() => openScan(wallet)}
+            size="3xs"
+            surface={0}
+            variant="ghost"
           >
-            <Icon className="pt-2" name={bxLinkExternal} size={14} />
-          </button>
+            <Icon className="[&>svg]:size-4" name={bxLinkExternal} size={14} />
+          </Button>
         </HoverTooltip>
       </div>
       <p className="text-v1-content-secondary text-xs">
@@ -216,10 +224,11 @@ function WalletName({ wallet }: { wallet: Wallet }) {
 
   return (
     <EditableText
-      defaultValue={wallet.name}
+      className="text-lg"
       onChange={updateName}
       resetOnBlank
       surface={0}
+      value={wallet.name}
     />
   );
 }

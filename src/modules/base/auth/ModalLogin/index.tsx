@@ -326,7 +326,6 @@ const ReferralCode = () => {
     <div className="flex items-center gap-1">
       <span className="text-v1-content-secondary">Referral Code</span>
       <EditableText
-        defaultValue={referralCode}
         onChange={newValue => {
           if (!newValue) {
             localStorage.removeItem(REFERRER_CODE_KEY);
@@ -335,6 +334,7 @@ const ReferralCode = () => {
           }
           setReferralCode(newValue);
         }}
+        value={referralCode}
       />
     </div>
   );
