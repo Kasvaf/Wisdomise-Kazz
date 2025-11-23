@@ -402,7 +402,7 @@ export const NCoinList: FC<{
   );
 };
 
-const MetaTag = ({
+export const MetaTag = ({
   id,
   title,
   mini,
@@ -426,7 +426,7 @@ const MetaTag = ({
       }
     >
       <Button
-        className="ml-1 bg-secondary-500"
+        className="hover:!bg-secondary-300 ml-1 bg-secondary-500"
         fab={mini}
         size="3xs"
         variant="ghost"
