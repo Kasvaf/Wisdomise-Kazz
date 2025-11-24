@@ -24,7 +24,8 @@ import { ReactComponent as Withdraw } from './images/withdraw.svg';
 
 export default function PageRewards() {
   const isMobile = useIsMobile();
-  const { tradeReferral, total, claimed, league } = useGamificationRewards();
+  const { tradeReferral, total, claimed, league, tradeCashback } =
+    useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
@@ -128,6 +129,11 @@ export default function PageRewards() {
             image={refFeeSrc}
             title="Referral Trade"
           />
+          <RewardItem
+            amount={tradeCashback}
+            image={refFeeSrc}
+            title="Trade Cashback"
+          />
           {hasFlag('/trader/quests/league') && (
             <RewardItem amount={league} image={leagueSrc} title="League" />
           )}
@@ -150,7 +156,7 @@ export default function PageRewards() {
                 <div>{item.status.toUpperCase()}</div>
               </div>
               <div className="flex justify-between">
-                <div className="text-v1-content-secondary">USD Amount</div>
+                <div className="text-v1-content-secondary">Amount</div>
                 <div>{item.amount_solana} SOL</div>
               </div>
               {item.transaction_hash && (

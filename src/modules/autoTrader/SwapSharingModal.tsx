@@ -13,8 +13,11 @@ import { Token } from 'shared/v1-components/Token';
 import bg1 from './images/1.jpg';
 import bg2 from './images/2.jpg';
 import bg3 from './images/3.jpg';
+import bg4 from './images/4.png';
+import bg5 from './images/5.png';
+import bg6 from './images/6.png';
 
-const backgrounds = [bg1, bg2, bg3];
+const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6];
 
 export default function SwapSharingModal({
   open,
@@ -57,13 +60,13 @@ export default function SwapSharingModal({
       <div className="mb-2 overflow-hidden rounded-2xl bg-v1-surface-l1 p-3">
         <h2 className="mb-3">Share Result</h2>
         <div
-          className="flex w-[35rem] mobile:origin-left mobile:scale-[calc(80vw/35rem)] flex-col items-start overflow-hidden rounded-xl bg-v1-surface-l2 [&.capturing_[data-nocapture]]:hidden"
+          className="flex w-[35rem] mobile:origin-left mobile:scale-[calc(80vw/35rem)] flex-col items-end overflow-hidden rounded-xl bg-v1-surface-l2 [&.capturing_[data-nocapture]]:hidden"
           ref={el}
         >
-          <div className="relative">
+          <div className="relative flex w-full justify-end bg-v1-surface-l0">
             <img
               alt=""
-              className="size-full object-cover"
+              className="relative h-[300px] object-cover"
               src={backgrounds[bg]}
             />
             <div className="absolute top-3 right-3 flex gap-2" data-nocapture>
@@ -86,7 +89,7 @@ export default function SwapSharingModal({
                 />
               </HoverTooltip>
             </div>
-            <div className="absolute top-0 p-6">
+            <div className="absolute top-0 left-0 p-6">
               <Logo className="h-8 w-auto" />
               <Token
                 address={tokenAddress}

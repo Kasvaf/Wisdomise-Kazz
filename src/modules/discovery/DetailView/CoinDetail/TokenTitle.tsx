@@ -4,7 +4,10 @@ import { doesNCoinHaveLargeTxns } from 'modules/discovery/ListView/NetworkRadar/
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
-import { NCoinBCurve } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
+import {
+  MetaTag,
+  NCoinBCurve,
+} from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -27,6 +30,7 @@ export const TokenTitle: FC<{
     validatedData,
     isInitiating,
     socials,
+    meta,
   } = useUnifiedCoinDetails();
 
   return (
@@ -180,6 +184,8 @@ export const TokenTitle: FC<{
                   </span>
                 </>
               )}
+
+              {meta && <MetaTag id={meta.id} title={meta.title} />}
             </div>
             {suffix && (
               <div className="flex grow items-center justify-end">{suffix}</div>

@@ -8,6 +8,7 @@ import {
 import { useGrpc } from 'api/grpc-v2';
 import type {
   DevData,
+  Meta,
   RiskData,
   SymbolSocailAddresses,
   ValidationData,
@@ -111,6 +112,7 @@ export type UnifiedCoinDetailsContext = {
   createdAt: string | null;
   developer: DevData | null;
   isInitiating: boolean;
+  meta: Meta | null;
 };
 
 const unifiedCoinDetailsContext = createContext<UnifiedCoinDetailsContext>({
@@ -142,6 +144,7 @@ const unifiedCoinDetailsContext = createContext<UnifiedCoinDetailsContext>({
   createdAt: null,
   developer: null,
   isInitiating: true,
+  meta: null,
 });
 
 export const UnifiedCoinDetailsProvider: FC<{
@@ -262,6 +265,7 @@ export const UnifiedCoinDetailsProvider: FC<{
         developer,
         isInitiating:
           !data2?.symbol?.abbreviation && !resp1.data?.symbol.abbreviation,
+        meta: data2?.meta ?? null,
       }}
     >
       {children}

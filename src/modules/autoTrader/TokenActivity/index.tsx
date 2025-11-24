@@ -54,7 +54,7 @@ export function SolanaIcon({
   noCors,
 }: {
   className?: string;
-  size?: 'xs' | 'md';
+  size?: 'xs' | 'sm' | 'md';
   noCors?: boolean;
 }) {
   return (

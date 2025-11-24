@@ -1,8 +1,10 @@
+import { useMetaDetailsQuery } from 'api/meta';
 import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxGroup, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import NCoinTransactions from 'modules/discovery/ListView/NetworkRadar/NCoinTransactions';
+import { MetaNarrative } from 'modules/discovery/PageMeta/MetaList';
 import {
   type FC,
   memo,
@@ -13,12 +15,15 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Button } from 'shared/v1-components/Button';
 import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useInterval } from 'usehooks-ts';
 import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
+import { ReactComponent as MetaIcon } from './meta.svg';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
 import { NCoinTokenInsight } from './NCoinTokenInsight';
@@ -341,6 +346,13 @@ export const NCoinList: FC<{
                           type="row"
                           value={row.validatedData}
                         />
+                        {row.meta && (
+                          <MetaTag
+                            id={row.meta.id}
+                            mini={mini}
+                            title={row.meta.title}
+                          />
+                        )}
                       </>
                     }
                     header={ageAndSecurity}
@@ -387,5 +399,41 @@ export const NCoinList: FC<{
         </div>
       )}
     </div>
+  );
+};
+
+export const MetaTag = ({
+  id,
+  title,
+  mini,
+}: {
+  id: number;
+  title: string;
+  mini?: boolean;
+}) => {
+  const { data: meta, isLoading } = useMetaDetailsQuery(id);
+
+  return (
+    <HoverTooltip
+      title={
+        isLoading ? (
+          'Loading'
+        ) : (
+          <div className="h-80 overflow-auto">
+            {meta && <MetaNarrative meta={meta} mode="dialog" />}
+          </div>
+        )
+      }
+    >
+      <Button
+        className="hover:!bg-secondary-300 ml-1 bg-secondary-500"
+        fab={mini}
+        size="3xs"
+        variant="ghost"
+      >
+        <MetaIcon className="!size-3" />
+        {!mini && title}
+      </Button>
+    </HoverTooltip>
   );
 };

@@ -1,7 +1,7 @@
 import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import { useNavigate } from 'react-router-dom';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
-import { formatNumber } from 'utils/numbers';
 import video from './images/video.webm';
 
 export default function RewardModalContent({ amount }: { amount: number }) {
@@ -28,14 +28,11 @@ export default function RewardModalContent({ amount }: { amount: number }) {
           <div className="rounded-lg border border-v1-border-primary/20 bg-gradient-to-b from-v1-background-brand/0 to-v1-background-brand/10 p-6 text-center">
             <div className="my-3 flex items-center gap-2">
               <SolanaIcon size="md" />
-              <span className="font-semibold text-4xl">
-                {formatNumber(amount, {
-                  compactInteger: false,
-                  minifyDecimalRepeats: false,
-                  separateByComma: false,
-                  decimalLength: 2,
-                })}
-              </span>
+              <ReadableNumber
+                className="font-semibold text-4xl"
+                format={{ decimalLength: 2 }}
+                value={amount}
+              />
             </div>
             <hr className="mt-6 mb-3 border border-v1-border-primary/20" />
             <div>SOL</div>

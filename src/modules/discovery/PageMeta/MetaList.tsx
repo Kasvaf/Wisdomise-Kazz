@@ -80,7 +80,7 @@ export default function MetaList({
   );
 }
 
-function MetaNarrative({
+export function MetaNarrative({
   meta,
   mode = 'card',
 }: {
