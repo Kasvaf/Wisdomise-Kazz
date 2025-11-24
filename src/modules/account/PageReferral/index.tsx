@@ -83,11 +83,11 @@ export default function ReferralPage() {
   };
 
   const updateReferralCode = (newValue: string) => {
-    const regex = /^[a-z0-9]{1,10}$/;
+    const regex = /^[a-z0-9]{3,10}$/;
     if (!regex.test(newValue)) {
       notification.error({
         message:
-          'Code must be up to 10 characters and contain only lowercase letters or numbers.',
+          'Code must be between 3 and 10 characters and contain only lowercase letters or numbers.',
       });
       return;
     }
