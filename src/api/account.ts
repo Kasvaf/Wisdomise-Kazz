@@ -45,6 +45,8 @@ interface ReferralStatus {
   ready_to_claim: number;
   cashback_total: number;
   cashback_to_claim: number;
+  referral_percent: number;
+  cashback_percent: number;
 }
 
 interface ReferredUser {

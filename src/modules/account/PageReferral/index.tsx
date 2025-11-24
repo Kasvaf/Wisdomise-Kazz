@@ -30,9 +30,6 @@ import useIsMobile from 'utils/useIsMobile';
 import claimBg from './images/claim-bg.png';
 import { ReactComponent as Gift } from './images/gift.svg';
 
-const REFERRAL_RATE = 0.3;
-const CASHBACK_RATE = 0.35;
-
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
   const isMobile = useIsMobile();
@@ -61,7 +58,7 @@ export default function ReferralPage() {
     () => [
       {
         link: referralLink,
-        rate: REFERRAL_RATE,
+        rate: referral?.referral_percent,
         code: referral?.referral_code,
         invitedCount: referredUsers?.count,
       },
@@ -169,7 +166,7 @@ export default function ReferralPage() {
               {'Ready to Dive In?'}
               <span className="text-v1-content-brand">
                 {' '}
-                {REFERRAL_RATE * 100}% Referral Rate
+                {referral?.referral_percent}% Referral Rate
               </span>
             </h2>
 
@@ -188,7 +185,7 @@ export default function ReferralPage() {
                 {
                   key: 'rate',
                   title: 'My Rate',
-                  render: row => `${row.rate * 100}%`,
+                  render: () => `${referral?.referral_percent}%`,
                 },
                 {
                   key: 'code',
@@ -294,7 +291,7 @@ export default function ReferralPage() {
             <h2 className="mb-10 text-v1-content-secondary text-xs">
               Cashback
             </h2>
-            <p className="text-2xl">{CASHBACK_RATE * 100}%</p>
+            <p className="text-2xl">{referral?.cashback_percent}%</p>
           </div>
         </div>
       </div>
