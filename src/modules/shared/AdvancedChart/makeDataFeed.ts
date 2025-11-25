@@ -227,11 +227,13 @@ const makeDataFeed = ({
             }
 
             // For solving detached candles problem
-            if (lastCandle && lastCandle.time <= chartCandle.time) {
-              if (chartCandle.time === lastCandle.time) {
-                chartCandle.open = lastCandle.open;
-              } else {
-                chartCandle.open = lastCandle.close;
+            if ((lastCandle?.time ?? 0) <= chartCandle.time) {
+              if (lastCandle) {
+                if (chartCandle.time === lastCandle.time) {
+                  chartCandle.open = lastCandle.open;
+                } else {
+                  chartCandle.open = lastCandle.close;
+                }
               }
               lastCandle = chartCandle;
             }
