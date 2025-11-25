@@ -193,7 +193,7 @@ const makeDataFeed = ({
         }
 
         if (periodParams.firstDataRequest || lastRes !== res) {
-          lastCandle = chartCandles.at(res === '1s' ? -2 : -1);
+          lastCandle = chartCandles.at(-1);
           lastRes = res;
         }
 
@@ -227,7 +227,7 @@ const makeDataFeed = ({
             }
 
             // For solving detached candles problem
-            if (lastCandle) {
+            if (lastCandle && lastCandle.time <= chartCandle.time) {
               if (chartCandle.time === lastCandle.time) {
                 chartCandle.open = lastCandle.open;
               } else {
