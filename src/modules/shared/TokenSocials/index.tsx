@@ -1,8 +1,8 @@
 import { Spin } from 'antd';
-import type { CoinCommunityData } from 'api/discovery';
-import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import { type FC, memo, Suspense, useMemo } from 'react';
+import type { SymbolSocailAddresses } from 'services/grpc/proto/network_radar';
+import type { CoinCommunityData } from 'services/rest/discovery';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as XCommunityIcon } from '../v1-components/X/XCommunityEmbed/x-community.svg';
 import { ReactComponent as XPostIcon } from '../v1-components/X/XPostEmbed/x-post.svg';

@@ -1,6 +1,6 @@
-import type { useSocialRadarCoins } from 'api/discovery';
 import type { ComponentProps, FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { useSocialRadarCoins } from 'services/rest/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
 import { ExchangeSelect } from 'shared/ExchangeSelect';

@@ -1,7 +1,4 @@
 import { notification } from 'antd';
-import { useSubmitTokenPayment } from 'api';
-import { useLockingRequirementQuery, useLockingStateQuery } from 'api/defi';
-import type { SubscriptionPlan } from 'api/types/subscription';
 import { clsx } from 'clsx';
 import { track } from 'config/segment';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
@@ -10,6 +7,12 @@ import { useLockWithApprove } from 'modules/account/PageToken/web3/locking/useLo
 import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import { useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useSubmitTokenPayment } from 'services/rest';
+import {
+  useLockingRequirementQuery,
+  useLockingStateQuery,
+} from 'services/rest/defi';
+import type { SubscriptionPlan } from 'services/rest/types/subscription';
 import Card from 'shared/Card';
 import { Button } from 'shared/v1-components/Button';
 import { unwrapErrorMessage } from 'utils/error';

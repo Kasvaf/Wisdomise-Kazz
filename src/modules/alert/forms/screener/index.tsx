@@ -1,7 +1,7 @@
-import { useHasFlag } from 'api';
-import { useAlerts, useDeleteAlert, useSaveAlert } from 'api/alert';
 import type { AlertFormGroup } from 'modules/alert/library/types';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'services/rest';
+import { useAlerts, useDeleteAlert, useSaveAlert } from 'services/rest/alert';
 import VipBadge from 'shared/AccessShield/VipBanner/VipBadge';
 import { DebugPin } from 'shared/DebugPin';
 import { StepOne } from './StepOne';

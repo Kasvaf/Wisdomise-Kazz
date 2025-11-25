@@ -1,5 +1,3 @@
-import type { Alert } from 'api/alert';
-import { useCoinDetails } from 'api/discovery';
 import { AlertActions } from 'modules/alert/components/AlertActions';
 import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
 import { AlertFrequency } from 'modules/alert/components/AlertFrequency';
@@ -8,6 +6,8 @@ import { AlertTarget } from 'modules/alert/components/AlertTarget';
 import { AlertType } from 'modules/alert/components/AlertType';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { Alert } from 'services/rest/alert';
+import { useCoinDetails } from 'services/rest/discovery';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableDate } from 'shared/ReadableDate';

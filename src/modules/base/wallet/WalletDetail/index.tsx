@@ -1,11 +1,4 @@
 import { Skeleton, Tabs } from 'antd';
-import { useHasFlag, useTraderAssetQuery } from 'api';
-import {
-  useUpdateWalletMutation,
-  useWalletQuery,
-  useWalletsQuery,
-  type Wallet,
-} from 'api/wallets';
 import { bxCopy, bxLinkExternal } from 'boxicons-quasar';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -15,6 +8,13 @@ import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSo
 import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { useEffect, useState } from 'react';
+import { useHasFlag, useTraderAssetQuery } from 'services/rest';
+import {
+  useUpdateWalletMutation,
+  useWalletQuery,
+  useWalletsQuery,
+  type Wallet,
+} from 'services/rest/wallets';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';

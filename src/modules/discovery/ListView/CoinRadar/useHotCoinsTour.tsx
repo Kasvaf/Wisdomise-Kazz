@@ -1,5 +1,5 @@
-import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useSubscription } from 'services/rest';
 import usePageTour from 'shared/usePageTour';
 import useIsMobile from 'utils/useIsMobile';
 import happyIcon from '../SocialRadar/SocialRadarSentiment/happy.png';

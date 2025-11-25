@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { forwardRef, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import './style.css';
-import { type ImageUploaderTarget, useUploaderMutation } from 'api';
+import { type ImageUploaderTarget, useUploaderMutation } from 'services/rest';
 
 export const ImageUploader = forwardRef<
   HTMLInputElement,

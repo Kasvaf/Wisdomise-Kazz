@@ -1,4 +1,4 @@
-import type { NonceVerificationBody } from 'api/defi';
+import type { NonceVerificationBody } from 'services/rest/defi';
 import type { SiweMessage } from 'siwe';
 import { getAddress, zeroAddress } from 'viem';
 import { useAccount, useSignMessage } from 'wagmi';

@@ -1,13 +1,13 @@
+import PageWrapper from 'modules/base/PageWrapper';
+import { type FC, type SVGProps, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
   type CommunityProfile,
   useAccountQuery,
   useCommunityProfileMutation,
   useCommunityProfileQuery,
-} from 'api';
-import PageWrapper from 'modules/base/PageWrapper';
-import { type FC, type SVGProps, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+} from 'services/rest';
 import Button from 'shared/Button';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { Markdown } from 'shared/Markdown';

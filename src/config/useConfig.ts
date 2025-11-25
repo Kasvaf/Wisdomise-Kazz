@@ -1,8 +1,8 @@
-import { refreshAccessToken } from 'api/auth';
 import * as dayjs from 'dayjs';
 import { delJwtToken, getJwtToken } from 'modules/base/auth/jwt-store';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { refreshAccessToken } from 'services/rest/auth';
 import configDayjs from './dayjs';
 import configI18n from './i18n';
 import { configOfetch } from './ofetch';

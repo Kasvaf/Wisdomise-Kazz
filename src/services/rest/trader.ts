@@ -4,15 +4,15 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import type { OpenOrderResponse, Signal, SignalItem } from 'api/builder';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import type { WhaleCoin, WhaleCoinsFilter } from 'api/discovery';
-import { slugToTokenAddress } from 'api/token-info';
 import { ofetch } from 'config/ofetch';
 import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { FetchError } from 'ofetch';
 import { useMemo } from 'react';
 import { uniqueBy } from 'utils/uniqueBy';
+import { WRAPPED_SOLANA_SLUG } from '../chains/constants';
+import type { OpenOrderResponse, Signal, SignalItem } from './builder';
+import type { WhaleCoin, WhaleCoinsFilter } from './discovery';
+import { slugToTokenAddress } from './token-info';
 import type { PageResponse } from './types/page';
 import type { Coin } from './types/shared';
 

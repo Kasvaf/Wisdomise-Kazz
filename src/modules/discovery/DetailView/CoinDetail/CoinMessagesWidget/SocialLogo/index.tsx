@@ -1,5 +1,5 @@
-import type { SocialMessage } from 'api/discovery';
 import { useMemo } from 'react';
+import type { SocialMessage } from 'services/rest/discovery';
 import { ReactComponent as RedditIcon } from './reddit.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
 import { ReactComponent as TradingViewIcon } from './trading_view.svg';

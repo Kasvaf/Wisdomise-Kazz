@@ -1,10 +1,10 @@
 import { Select, type SelectProps } from 'antd';
-import { useLastPriceStream } from 'api';
-import { useCoinDetails, useCoins } from 'api/discovery';
-import type { Coin as CoinType } from 'api/types/shared';
 import { bxChevronDown } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useMemo, useState } from 'react';
+import { useLastPriceStream } from 'services/price';
+import { useCoinDetails, useCoins } from 'services/rest/discovery';
+import type { Coin as CoinType } from 'services/rest/types/shared';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';

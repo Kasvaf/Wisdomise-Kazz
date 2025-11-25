@@ -1,5 +1,5 @@
-import type { TechnicalRadarCoin } from 'api/discovery';
 import { useMemo } from 'react';
+import type { TechnicalRadarCoin } from 'services/rest/discovery';
 
 export const useNormalizeTechnicalChartBubbles = (
   data: TechnicalRadarCoin[],

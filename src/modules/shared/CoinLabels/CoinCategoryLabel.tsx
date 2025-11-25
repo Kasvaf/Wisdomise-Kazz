@@ -1,7 +1,7 @@
-import type { Coin } from 'api/types/shared';
 import { bxCabinet } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import type { Coin } from 'services/rest/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
 

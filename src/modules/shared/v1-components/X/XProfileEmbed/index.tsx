@@ -1,7 +1,7 @@
-import { useTwitterUserPreviewQuery } from 'api/twitter';
 import { bxCalendar } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
+import { useTwitterUserPreviewQuery } from 'services/rest/twitter';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';

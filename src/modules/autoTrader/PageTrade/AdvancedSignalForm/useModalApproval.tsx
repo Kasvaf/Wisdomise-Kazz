@@ -1,12 +1,15 @@
-import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
-import { useNativeTokenBalance } from 'api/chains';
-import { useTokenInfo } from 'api/token-info';
 import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
 import InfoLine from 'modules/autoTrader/components/InfoLine';
 import MessageBox from 'modules/autoTrader/components/MessageBox';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { NavLink } from 'react-router-dom';
+import { useNativeTokenBalance } from 'services/chains';
+import {
+  type CreatePositionRequest,
+  usePreparePositionQuery,
+} from 'services/rest';
+import { useTokenInfo } from 'services/rest/token-info';
 import Spin from 'shared/Spin';
 import useModal from 'shared/useModal';
 import { Button } from 'shared/v1-components/Button';

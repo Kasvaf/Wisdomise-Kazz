@@ -1,19 +1,19 @@
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
 import { notification } from 'antd';
-import { useLastPriceStream } from 'api';
-import { useTransferAssetsMutation } from 'api/chains';
-import { useActiveWallet } from 'api/chains/wallet';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useTransferAssetsMutation } from 'services/chains';
+import { useActiveWallet } from 'services/chains/wallet';
+import { useLastPriceStream } from 'services/price';
 import {
   type CreatePositionRequest,
   type Position,
   useTraderCancelPositionMutation,
   useTraderFirePositionMutation,
   useTraderUpdatePositionMutation,
-} from 'api/trader';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+} from 'services/rest/trader';
 import useConfirm from 'shared/useConfirm';
 import { unwrapErrorMessage } from 'utils/error';
 import useIsMobile from 'utils/useIsMobile';

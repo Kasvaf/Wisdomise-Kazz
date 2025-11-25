@@ -1,9 +1,9 @@
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import SensibleSteps from 'modules/base/wallet/SensibleSteps';
 import { type ReactNode, useEffect, useState } from 'react';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { preventNonNumericInput } from 'utils/numbers';

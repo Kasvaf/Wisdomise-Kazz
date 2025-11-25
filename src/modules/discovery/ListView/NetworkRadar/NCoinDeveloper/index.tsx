@@ -1,6 +1,6 @@
-import type { DevData } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
+import type { DevData } from 'services/grpc/proto/network_radar';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ContractAddress } from 'shared/ContractAddress';
 import { ReadableDate } from 'shared/ReadableDate';

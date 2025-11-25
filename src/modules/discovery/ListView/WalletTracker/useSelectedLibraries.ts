@@ -1,6 +1,6 @@
-import { type Library, useLibrariesQuery } from 'api/library';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useMemo } from 'react';
+import { type Library, useLibrariesQuery } from 'services/rest/library';
 
 export const useSelectedLibraries = () => {
   const { settings } = useUserSettings();

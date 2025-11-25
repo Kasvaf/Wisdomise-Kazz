@@ -18,9 +18,7 @@
     "paths": {
       "config/*": ["./src/config/*"],
       "utils/*": ["./src/utils/*"],
-      "api": ["./src/api/index"],
-      "api/*": ["./src/api/*"],
-      "old-api/*": ["./src/old-api/*"],
+      "services/*": ["./src/services/*"],
       "shared/*": ["./src/modules/shared/*"],
       "modules/*": ["./src/modules/*"],
       "assets/*": ["./src/assets/*"]

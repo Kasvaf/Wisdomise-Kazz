@@ -1,9 +1,9 @@
-import { initialQuoteDeposit, type Position } from 'api';
-import { useTokenInfo } from 'api/token-info';
 import { bxHistory } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { NavLink } from 'react-router-dom';
+import { initialQuoteDeposit, type Position } from 'services/rest';
+import { useTokenInfo } from 'services/rest/token-info';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import InfoButton from 'shared/InfoButton';

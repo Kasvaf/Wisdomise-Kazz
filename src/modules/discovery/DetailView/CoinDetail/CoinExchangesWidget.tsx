@@ -1,8 +1,8 @@
-import { type CoinExchange, useCoinDetails } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { type CoinExchange, useCoinDetails } from 'services/rest/discovery';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';

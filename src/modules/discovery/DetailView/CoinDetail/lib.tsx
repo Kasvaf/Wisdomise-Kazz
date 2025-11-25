@@ -1,22 +1,22 @@
-import { useLastPriceStream } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import {
-  type CoinNetwork,
-  useCoinDetails,
-  useDetailedCoins,
-} from 'api/discovery';
-import { useGrpc } from 'api/grpc-v2';
+import { doesNCoinHaveSafeTopHolders } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { createContext, type FC, type ReactNode, useContext } from 'react';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useGrpc } from 'services/grpc/core';
 import type {
   DevData,
   Meta,
   RiskData,
   SymbolSocailAddresses,
   ValidationData,
-} from 'api/proto/network_radar';
-import { useTokenInfo } from 'api/token-info';
-import type { Coin } from 'api/types/shared';
-import { doesNCoinHaveSafeTopHolders } from 'modules/discovery/ListView/NetworkRadar/lib';
-import { createContext, type FC, type ReactNode, useContext } from 'react';
+} from 'services/grpc/proto/network_radar';
+import { useLastPriceStream } from 'services/price';
+import {
+  type CoinNetwork,
+  useCoinDetails,
+  useDetailedCoins,
+} from 'services/rest/discovery';
+import { useTokenInfo } from 'services/rest/token-info';
+import type { Coin } from 'services/rest/types/shared';
 import { getGlobalNetwork, useGlobalNetwork } from 'shared/useGlobalNetwork';
 
 export type ComplexSlug = {

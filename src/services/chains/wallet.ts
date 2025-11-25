@@ -12,13 +12,13 @@ import {
   useTonConnectModal,
   useTonConnectUI,
 } from '@tonconnect/ui-react';
-import { usePromiseOfEffect } from 'api/chains/utils';
-import { useWalletsQuery } from 'api/wallets';
 import { trackClick } from 'config/segment';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import { usePromiseOfEffect } from '../chains/utils';
+import { useWalletsQuery } from '../rest/wallets';
 
 export const useConnectedWallet = () => {
   const net = useActiveNetwork();

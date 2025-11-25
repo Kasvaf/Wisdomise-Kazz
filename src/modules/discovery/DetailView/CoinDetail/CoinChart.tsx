@@ -1,5 +1,5 @@
-import { useCoinDetails } from 'api/discovery';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
+import { useCoinDetails } from 'services/rest/discovery';
 import AdvancedChart from 'shared/AdvancedChart';
 import useIsMobile from 'utils/useIsMobile';
 import { useUnifiedCoinDetails } from './lib';

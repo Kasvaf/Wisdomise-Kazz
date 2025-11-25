@@ -1,10 +1,10 @@
 import { Spin } from 'antd';
-import { useLastPriceStream } from 'api';
-import { useTokenBalance } from 'api/chains';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useTokenInfo } from 'api/token-info';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useTokenBalance } from 'services/chains';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useLastPriceStream } from 'services/price';
+import { useTokenInfo } from 'services/rest/token-info';
 import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
 

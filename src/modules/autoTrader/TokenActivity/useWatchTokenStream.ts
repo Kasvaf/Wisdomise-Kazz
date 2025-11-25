@@ -1,7 +1,10 @@
-import { useAccountQuery, useTraderAssetQuery } from 'api';
-import { useGrpc } from 'api/grpc-v2';
-import { type TradeActivity, WatchEventType } from 'api/proto/wealth_manager';
 import { useMemo } from 'react';
+import { useGrpc } from 'services/grpc/core';
+import {
+  type TradeActivity,
+  WatchEventType,
+} from 'services/grpc/proto/wealth_manager';
+import { useAccountQuery, useTraderAssetQuery } from 'services/rest';
 import { toCamelCaseObject } from 'utils/object';
 
 export const useWatchTokenStream = ({

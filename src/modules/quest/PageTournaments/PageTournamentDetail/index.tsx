@@ -1,8 +1,3 @@
-import {
-  useTournamentLeaderboardQuery,
-  useTournamentProfileQuery,
-  useTournamentQuery,
-} from 'api/tournament';
 import empty from 'modules/autoTrader/Positions/PositionsList/empty.svg';
 import PageWrapper from 'modules/base/PageWrapper';
 import Leaderboard, {
@@ -12,6 +7,11 @@ import TournamentResultModalContent from 'modules/quest/PageTournaments/PageTour
 import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import {
+  useTournamentLeaderboardQuery,
+  useTournamentProfileQuery,
+  useTournamentQuery,
+} from 'services/rest/tournament';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useModal from 'shared/useModal';
 import useIsMobile from 'utils/useIsMobile';

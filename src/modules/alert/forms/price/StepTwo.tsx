@@ -1,9 +1,9 @@
-import type { AlertMessenger } from 'api/alert';
 import { bxBell } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import type { AlertFormStepProps } from 'modules/alert/library/types';
 import { useTranslation } from 'react-i18next';
+import type { AlertMessenger } from 'services/rest/alert';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { Toggle } from 'shared/v1-components/Toggle';

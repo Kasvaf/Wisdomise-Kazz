@@ -1,14 +1,14 @@
-import {
-  type TwitterTweet,
-  useStreamTweets,
-  useTweetRelatedTokens,
-  useTwitterFollowedAccounts,
-} from 'api/discovery';
 import { clsx } from 'clsx';
 import BtnAddHandle from 'modules/discovery/ListView/XTracker/BtnAddHandle';
 import { useLibraryUsers } from 'modules/discovery/ListView/XTracker/useLibraryUsers';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  type TwitterTweet,
+  useStreamTweets,
+  useTweetRelatedTokens,
+  useTwitterFollowedAccounts,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import Spinner from 'shared/Spinner';
 import { Dialog } from 'shared/v1-components/Dialog';

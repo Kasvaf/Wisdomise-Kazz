@@ -1,9 +1,9 @@
-import { useAllQuotesBalance } from 'api/chains';
-import { useActiveWallet } from 'api/chains/wallet';
 import { gtag } from 'config/gtag';
 import { track } from 'config/segment';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { type PropsWithChildren, useEffect, useState } from 'react';
+import { useAllQuotesBalance } from 'services/chains';
+import { useActiveWallet } from 'services/chains/wallet';
 import { useLocalStorage } from 'usehooks-ts';
 
 const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {

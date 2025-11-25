@@ -1,10 +1,10 @@
 import { notification } from 'antd';
-import { useInstantCancelMutation } from 'api';
 import {
   useReadLockedUsers,
   useWriteUnlock,
 } from 'modules/account/PageToken/web3/locking/contract';
 import { useTranslation } from 'react-i18next';
+import { useInstantCancelMutation } from 'services/rest';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
 import { useUtility } from './web3/locking/useUtility';

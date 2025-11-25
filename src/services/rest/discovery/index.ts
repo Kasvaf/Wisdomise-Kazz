@@ -1,13 +1,13 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import type { PageResponse } from 'api/types/page';
-import type { Coin } from 'api/types/shared';
-import { useUserStorage } from 'api/userStorage';
-import { createSorter, matcher, resolvePageResponseToArray } from 'api/utils';
 import { ofetch } from 'config/ofetch';
 import { FetchError } from 'ofetch';
 import { useEffect, useMemo, useState } from 'react';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { isDebugMode, isMiniApp } from 'utils/version';
+import type { PageResponse } from '../types/page';
+import type { Coin } from '../types/shared';
+import { useUserStorage } from '../userStorage';
+import { createSorter, matcher, resolvePageResponseToArray } from '../utils';
 import type {
   Category,
   CoinDetails,

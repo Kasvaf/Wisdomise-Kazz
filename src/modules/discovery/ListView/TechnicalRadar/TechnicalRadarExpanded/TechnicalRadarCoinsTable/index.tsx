@@ -1,9 +1,12 @@
-import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { bxShareAlt } from 'boxicons-quasar';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import { type FC, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import {
+  type TechnicalRadarCoin,
+  useTechnicalRadarCoins,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';

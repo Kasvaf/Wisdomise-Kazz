@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 import { useJwtEmail } from 'modules/base/auth/jwt-store';
+import type { PageResponse } from './types/page';
 
 export interface TrackedSwap {
   id: string;

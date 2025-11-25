@@ -1,12 +1,12 @@
-import type {
-  MiniMarketData,
-  WhaleRadarSentiment as WhaleRadarSentimentType,
-} from 'api/discovery';
-import type { Coin as CoinType } from 'api/types/shared';
 import { bxDotsHorizontal } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type {
+  MiniMarketData,
+  WhaleRadarSentiment as WhaleRadarSentimentType,
+} from 'services/rest/discovery';
+import type { Coin as CoinType } from 'services/rest/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';

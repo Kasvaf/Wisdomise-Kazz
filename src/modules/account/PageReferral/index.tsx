@@ -1,13 +1,7 @@
 import { notification } from 'antd';
-import {
-  useCashbackClaimMutation,
-  useFriendsQuery,
-  useReferralCodeMutation,
-  useReferralStatusQuery,
-  useTradeReferralClaimMutation,
-} from 'api';
 import { bxRightArrowAlt, bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { DOCS_ORIGIN } from 'config/constants';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
 import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
@@ -15,6 +9,13 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import {
+  useCashbackClaimMutation,
+  useFriendsQuery,
+  useReferralCodeMutation,
+  useReferralStatusQuery,
+  useTradeReferralClaimMutation,
+} from 'services/rest';
 import Badge from 'shared/Badge';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
@@ -233,16 +234,15 @@ export default function ReferralPage() {
             <Badge color="gradient" label="NEW" />
           </h1>
           <p className="mb-5 text-v1-content-secondary text-xs">
-            Earn SOL from Trading on Solana
+            Earn SOL from Trading on Solana.
+            <a
+              className="!text-v1-content-link !p-0 ml-2"
+              href={`${DOCS_ORIGIN}/Cashback-2b1c705b061580f59398d174b3e507c4`}
+              target="_blank"
+            >
+              {t('page-referral.how.button')}
+            </a>
           </p>
-
-          {/* <Button */}
-          {/*   className="!text-v1-content-link !p-0 mb-3" */}
-          {/*   onClick={() => openReferralOnboardingModal({})} */}
-          {/*   variant="link" */}
-          {/* > */}
-          {/*   {t('page-referral.how.button')} */}
-          {/* </Button> */}
 
           {/* Claim Rewards */}
           <div className="relative mb-3 overflow-hidden rounded-xl bg-v1-surface-l2">

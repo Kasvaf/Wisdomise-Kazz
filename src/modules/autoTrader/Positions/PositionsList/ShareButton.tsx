@@ -1,6 +1,6 @@
-import type { Position } from 'api';
 import { bxShareAlt } from 'boxicons-quasar';
 import { useState } from 'react';
+import type { Position } from 'services/rest';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { isMiniApp } from 'utils/version';

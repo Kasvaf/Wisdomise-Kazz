@@ -1,6 +1,6 @@
-import type { useTechnicalRadarCoins } from 'api/discovery';
 import type { ComponentProps, FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { useTechnicalRadarCoins } from 'services/rest/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
 import { Filters } from '../Filters';
 import {

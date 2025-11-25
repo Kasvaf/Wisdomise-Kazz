@@ -1,4 +1,3 @@
-import { useHasFlag } from 'api';
 import { ReactComponent as Logo } from 'assets/logo-green.svg';
 import { bxTrophy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
@@ -8,6 +7,7 @@ import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import type React from 'react';
 import type { ReactElement } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useHasFlag } from 'services/rest';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';

@@ -1,6 +1,6 @@
-import { useLastPriceStream } from 'api';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
+import { useLastPriceStream } from 'services/price';
 import Button from 'shared/Button';
 import ComboBox from 'shared/ComboBox';
 import Icon from 'shared/Icon';

@@ -1,4 +1,3 @@
-import { type SupportedNetworks, useSupportedNetworks } from 'api/trader';
 import {
   createContext,
   type PropsWithChildren,
@@ -7,6 +6,10 @@ import {
   useMemo,
   useState,
 } from 'react';
+import {
+  type SupportedNetworks,
+  useSupportedNetworks,
+} from 'services/rest/trader';
 import { isMiniApp } from 'utils/version';
 
 const ActiveNetworkContext = createContext<SupportedNetworks | undefined>(

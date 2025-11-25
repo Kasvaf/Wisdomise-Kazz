@@ -3,7 +3,7 @@
 git submodule update --init --recursive
 
 INPUT=wiserpc/proto/
-OUTPUT=src/api/proto
+OUTPUT=src/services/grpc/proto
 rm -rf $OUTPUT
 mkdir -p $OUTPUT
 protoc \

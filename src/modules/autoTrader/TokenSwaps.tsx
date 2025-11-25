@@ -1,5 +1,3 @@
-import { useTokenPairsQuery } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { bxTransfer } from 'boxicons-quasar';
 import clsx from 'clsx';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
@@ -10,6 +8,8 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useMemo, useRef } from 'react';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useTokenPairsQuery } from 'services/rest';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
 import { ReadableDate } from 'shared/ReadableDate';
@@ -77,7 +77,8 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
                     row.dir === 'sell'
                       ? 'to-v1-background-negative/20'
                       : 'to-v1-background-positive/20',
-                    'pointer-events-none absolute left-0 h-full min-w-1 rounded-l-xl bg-gradient-to-r from-0% from-transparent to-60%',
+                    'pointer-events-none absolute left-0 h-full min-w-1 rounded-l-lg bg-gradient-to-r from-0% from-transparent to-60%',
+                    row.tokenAmount === maxAmount && 'rounded-r-lg',
                   )}
                   style={{ width: `${(row.tokenAmount / maxAmount) * 100}%` }}
                 />
@@ -105,7 +106,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
               <div className="flex items-center gap-1">
                 {showMarketCap ? 'MC' : 'Price'}
                 <Button
-                  className="text-white/50"
+                  className="text-white/70"
                   fab
                   onClick={() =>
                     updateSwapsPartial({ show_market_cap: !showMarketCap })

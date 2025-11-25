@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCustodialWallet, useDisconnectAll } from 'api/chains/wallet';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
@@ -9,6 +8,7 @@ import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { FetchError } from 'ofetch';
 import { useRef } from 'react';
 import { isLocal } from 'utils/version';
+import { useCustodialWallet, useDisconnectAll } from '../chains/wallet';
 import { useUserStorage } from './userStorage';
 
 interface SuccessResponse {

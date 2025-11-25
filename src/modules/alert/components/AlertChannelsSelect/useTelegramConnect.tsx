@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { useAccountQuery } from 'api';
 import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { useCallback } from 'react';
+import { useAccountQuery } from 'services/rest';
 
 export const useTelegramConnect = () => {
   const account = useAccountQuery();

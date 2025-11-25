@@ -1,7 +1,7 @@
-import { useLastPriceStream } from 'api';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLastPriceStream } from 'services/price';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import InfoButton from 'shared/InfoButton';

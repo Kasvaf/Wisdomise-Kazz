@@ -1,11 +1,11 @@
-import type {
-  MiniMarketData,
-  SocialRadarSentiment as SocialRadarSentimentType,
-} from 'api/discovery';
-import type { Coin as CoinType } from 'api/types/shared';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import type {
+  MiniMarketData,
+  SocialRadarSentiment as SocialRadarSentimentType,
+} from 'services/rest/discovery';
+import type { Coin as CoinType } from 'services/rest/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';

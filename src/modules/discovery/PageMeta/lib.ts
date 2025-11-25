@@ -1,5 +1,5 @@
-import { useMetaListQuery } from 'api/meta';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useMetaListQuery } from 'services/rest/meta';
 
 export type MetaTab = 'new' | 'trend' | 'high_mc';
 

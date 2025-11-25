@@ -1,10 +1,10 @@
 import * as Sentry from '@sentry/react';
-import { useAccountQuery } from 'api';
-import { saveUserMultiKeyValue } from 'api/userStorage';
 import useStartParams from 'modules/autoTrader/useStartParams';
 import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAccountQuery } from 'services/rest';
+import { saveUserMultiKeyValue } from 'services/rest/userStorage';
 import { isMiniApp } from 'utils/version';
 import { useIsLoggedIn } from '../auth/jwt-store';
 

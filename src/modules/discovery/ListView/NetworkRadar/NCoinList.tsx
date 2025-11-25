@@ -1,5 +1,3 @@
-import { useMetaDetailsQuery } from 'api/meta';
-import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxGroup, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
@@ -15,6 +13,8 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TrenchStreamResponseResult } from 'services/grpc/proto/network_radar';
+import { useMetaDetailsQuery } from 'services/rest/meta';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';

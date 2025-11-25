@@ -1,10 +1,11 @@
 // import { Coin } from 'shared/Coin';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
+
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { type CoinRadarCoin, useCoinRadarCoins } from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { useLoadingBadge } from 'shared/LoadingBadge';

@@ -1,4 +1,3 @@
-import { type UserGroup, useSubscription } from 'api';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
 import BtnLogin from 'modules/base/Layout/ProfileMenu/BtnLogin';
@@ -10,6 +9,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { type UserGroup, useSubscription } from 'services/rest';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { useMutationObserver } from 'utils/useMutationObserver';
 import { isDebugMode } from 'utils/version';

@@ -1,6 +1,10 @@
-import { useHasFlag, useTraderAssetQuery, useTraderSwapsQuery } from 'api';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useMemo, useRef } from 'react';
+import {
+  useHasFlag,
+  useTraderAssetQuery,
+  useTraderSwapsQuery,
+} from 'services/rest';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import {
   useChartConvertToUSD,

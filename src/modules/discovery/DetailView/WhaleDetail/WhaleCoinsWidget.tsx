@@ -1,12 +1,12 @@
+import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   type SingleWhale,
   useWhaleDetails,
   type WhaleAssetLabel,
-} from 'api/discovery';
-import type { Coin as CoinType } from 'api/types/shared';
-import { bxDotsHorizontalRounded, bxGridAlt } from 'boxicons-quasar';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+} from 'services/rest/discovery';
+import type { Coin as CoinType } from 'services/rest/types/shared';
 import { AccessShield } from 'shared/AccessShield';
 import { Coin } from 'shared/Coin';
 import { TokenLabels } from 'shared/CoinLabels';

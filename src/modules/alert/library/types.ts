@@ -1,5 +1,5 @@
-import type { Alert } from 'api/alert';
 import type { ComponentType, ReactNode } from 'react';
+import type { Alert } from 'services/rest/alert';
 
 export interface AlertFormStepProps {
   lock?: boolean;

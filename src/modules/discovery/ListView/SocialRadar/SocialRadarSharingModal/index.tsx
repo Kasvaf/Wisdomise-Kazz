@@ -1,8 +1,8 @@
-import type { SocialRadarCoin } from 'api/discovery';
 import logo from 'assets/logo-white.svg';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { SocialRadarCoin } from 'services/rest/discovery';
 import { Coin } from 'shared/Coin';
 import { TokenLabels } from 'shared/CoinLabels';
 import { CoinPriceChart } from 'shared/CoinPriceChart';

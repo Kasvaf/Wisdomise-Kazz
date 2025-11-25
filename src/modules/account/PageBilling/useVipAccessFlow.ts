@@ -1,7 +1,7 @@
-import { useAccountQuery, usePlansQuery } from 'api';
-import { useLockingRequirementQuery } from 'api/defi';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useAccountQuery, usePlansQuery } from 'services/rest';
+import { useLockingRequirementQuery } from 'services/rest/defi';
 import { useAccount } from 'wagmi';
 
 export const useVipAccessFlow = () => {

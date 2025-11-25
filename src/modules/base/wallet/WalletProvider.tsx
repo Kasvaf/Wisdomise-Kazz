@@ -1,8 +1,8 @@
 import { THEME, TonConnect, TonConnectUIProvider } from '@tonconnect/ui-react';
-import { SolanaConnectionProvider } from 'api/chains/connection';
 import { wagmiConfig } from 'config/appKit';
 import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { type PropsWithChildren, useState } from 'react';
+import { SolanaConnectionProvider } from 'services/chains/connection';
 import { WagmiProvider } from 'wagmi';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';

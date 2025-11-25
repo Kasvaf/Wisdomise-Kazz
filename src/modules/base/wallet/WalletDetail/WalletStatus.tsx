@@ -1,7 +1,7 @@
-import { type AssetActivity, useTraderAssetQuery } from 'api';
-import type { Wallet } from 'api/wallets';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
+import { type AssetActivity, useTraderAssetQuery } from 'services/rest';
+import type { Wallet } from 'services/rest/wallets';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Table, type TableColumn } from 'shared/v1-components/Table';

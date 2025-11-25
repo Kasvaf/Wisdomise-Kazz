@@ -1,7 +1,7 @@
-import type { CoinNetwork } from 'api/discovery';
 import { bxNetworkChart } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import type { CoinNetwork } from 'services/rest/discovery';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ContractAddress } from 'shared/ContractAddress';
 import Icon from 'shared/Icon';

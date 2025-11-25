@@ -1,6 +1,6 @@
-import { useTokenBalance } from 'api/chains';
-import { useCoinDetails } from 'api/discovery';
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
+import { useTokenBalance } from 'services/chains';
+import { useCoinDetails } from 'services/rest/discovery';
 import AmountInputBox from 'shared/AmountInputBox';
 import AIPresets from './AIPressets';
 import AmountBalanceLabel from './AmountBalanceLabel';

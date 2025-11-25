@@ -1,11 +1,11 @@
-import { useTokenPairsQuery } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useTokenPairsQuery } from 'services/rest';
 import { formatNumber } from 'utils/numbers';
 import {
   type IChartingLibraryWidget,

@@ -1,12 +1,12 @@
 import { notification } from 'antd';
+import { bxX } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import {
   isPositionUpdatable,
   type Position,
   useSupportedNetworks,
   useTraderUpdatePositionMutation,
-} from 'api';
-import { bxX } from 'boxicons-quasar';
-import { useTranslation } from 'react-i18next';
+} from 'services/rest';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';

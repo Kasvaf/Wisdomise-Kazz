@@ -1,7 +1,7 @@
 import { notification } from 'antd';
-import { useAccountQuery } from 'api';
 import dayjs from 'dayjs';
 import { Trans, useTranslation } from 'react-i18next';
+import { useAccountQuery } from 'services/rest';
 import useModal from 'shared/useModal';
 import CryptoPaymentModalContent from '../../paymentMethods/Crypto';
 import TokenPaymentModalContent from '../../paymentMethods/Token';

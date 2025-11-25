@@ -1,6 +1,6 @@
-import { useExchangeAccountsQuery } from 'api';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { useExchangeAccountsQuery } from 'services/rest';
 import Badge from 'shared/Badge';
 import Button from 'shared/Button';
 import Card from 'shared/Card';

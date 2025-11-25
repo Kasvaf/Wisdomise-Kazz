@@ -18,17 +18,17 @@ import {
   VersionedTransaction,
 } from '@solana/web3.js';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useSolanaConnection } from 'api/chains/connection';
-import {
-  WRAPPED_SOLANA_CONTRACT_ADDRESS,
-  WRAPPED_SOLANA_SLUG,
-} from 'api/chains/constants';
-import { useActiveWallet } from 'api/chains/wallet';
-import { slugToTokenAddress, useTokenInfo } from 'api/token-info';
-import { usePendingPositionInCache } from 'api/trader';
 import { ofetch } from 'config/ofetch';
 import { useCallback } from 'react';
 import { fromBigMoney, toBigMoney } from 'utils/money';
+import { useSolanaConnection } from '../chains/connection';
+import {
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from '../chains/constants';
+import { useActiveWallet } from '../chains/wallet';
+import { slugToTokenAddress, useTokenInfo } from '../rest/token-info';
+import { usePendingPositionInCache } from '../rest/trader';
 
 export const useSolanaTokenBalance = ({
   slug,

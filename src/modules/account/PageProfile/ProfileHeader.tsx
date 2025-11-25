@@ -1,8 +1,8 @@
-import type { CommunityProfile } from 'api';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { CommunityProfile } from 'services/rest';
 import Button from 'shared/Button';
 import { ImageUploader } from 'shared/Uploader';
 import { CameraIcon, VerifiedBadge } from './assets';

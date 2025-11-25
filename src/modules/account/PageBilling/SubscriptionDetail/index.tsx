@@ -1,6 +1,3 @@
-import { useAccountQuery, useHasFlag, useSubscription } from 'api';
-import { useLockingStateQuery } from 'api/defi';
-import { useRevenueQuery } from 'api/revenue';
 import { bxInfoCircle, bxRightArrowAlt, bxsPlusSquare } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
@@ -11,6 +8,9 @@ import { Referral } from 'modules/account/PageReferral';
 import Utility from 'modules/account/PageToken/Utility';
 import { useEnsureWalletConnected } from 'modules/account/PageToken/useEnsureWalletConnected';
 import { useNavigate } from 'react-router-dom';
+import { useAccountQuery, useHasFlag, useSubscription } from 'services/rest';
+import { useLockingStateQuery } from 'services/rest/defi';
+import { useRevenueQuery } from 'services/rest/revenue';
 import VipBadge from 'shared/AccessShield/VipBanner/VipBadge';
 import { DebugPin } from 'shared/DebugPin';
 import { HoverTooltip } from 'shared/HoverTooltip';

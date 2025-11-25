@@ -1,7 +1,7 @@
-import { useTechnicalRadarCoins } from 'api/discovery';
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { Trans, useTranslation } from 'react-i18next';
+import { useTechnicalRadarCoins } from 'services/rest/discovery';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';

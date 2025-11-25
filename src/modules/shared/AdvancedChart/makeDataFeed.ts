@@ -1,9 +1,10 @@
-import { getPairsCached } from 'api';
-import { USDC_SLUG, USDT_SLUG } from 'api/chains/constants';
-import type { Resolution } from 'api/discovery';
-import { observeGrpc, requestGrpc } from 'api/grpc-v2';
-import type { Candle } from 'api/proto/delphinus';
 import type { MutableRefObject } from 'react';
+import { USDC_SLUG, USDT_SLUG } from 'services/chains/constants';
+import { observeGrpc, requestGrpc } from 'services/grpc/core';
+import type { Candle } from 'services/grpc/proto/delphinus';
+import { getPairsCached } from 'services/rest';
+import type { Resolution } from 'services/rest/discovery';
+import { slugToTokenAddress } from 'services/rest/token-info';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
 import type {
   DatafeedConfiguration,
@@ -206,13 +207,15 @@ const makeDataFeed = ({
       const unsubscribe = observeGrpc(
         {
           service: 'delphinus',
-          method: 'lastCandleStream',
+          method: 'assetEventStream',
           payload: {
-            market: 'SPOT',
+            asset: slugToTokenAddress(baseSlug),
             network,
-            baseSlug,
-            quoteSlug: quote,
-            convertToUsd: checkConvertToUsd(quote),
+            lastCandleOptions: {
+              quote: slugToTokenAddress(quote),
+              market: 'SPOT',
+              convertToUsd: checkConvertToUsd(quote),
+            },
           },
         },
         {

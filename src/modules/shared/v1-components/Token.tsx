@@ -1,16 +1,16 @@
-import {
-  WRAPPED_SOLANA_CONTRACT_ADDRESS,
-  WRAPPED_SOLANA_SLUG,
-} from 'api/chains/constants';
-import type { CoinCommunityData, CoinNetwork } from 'api/discovery';
-import type { SymbolSocailAddresses } from 'api/proto/network_radar';
-import { slugToTokenAddress, useTokenInfo } from 'api/token-info';
-import type { Coin as CoinType } from 'api/types/shared';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { type FC, type ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from 'services/chains/constants';
+import type { SymbolSocailAddresses } from 'services/grpc/proto/network_radar';
+import type { CoinCommunityData, CoinNetwork } from 'services/rest/discovery';
+import { slugToTokenAddress, useTokenInfo } from 'services/rest/token-info';
+import type { Coin as CoinType } from 'services/rest/types/shared';
 import { TokenLabels, TokenNetworksLabel } from 'shared/CoinLabels';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';

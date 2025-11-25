@@ -1,10 +1,10 @@
-import type {
-  IndicatorHeatmap,
-  IndicatorHeatmapResolution,
-} from 'api/discovery';
 import { clsx } from 'clsx';
 import { type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type {
+  IndicatorHeatmap,
+  IndicatorHeatmapResolution,
+} from 'services/rest/discovery';
 import { Coin } from 'shared/Coin';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Lazy } from 'shared/Lazy';

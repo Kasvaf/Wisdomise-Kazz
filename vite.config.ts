@@ -47,8 +47,7 @@ export default defineConfig(config => ({
     alias: [
       { find: 'config', replacement: '/src/config' },
       { find: 'utils', replacement: '/src/utils' },
-      { find: 'api', replacement: '/src/api' },
-      { find: 'old-api', replacement: '/src/old-api' },
+      { find: 'services', replacement: '/src/services' },
       { find: 'modules', replacement: '/src/modules' },
       { find: 'shared', replacement: '/src/modules/shared' },
       { find: 'assets', replacement: '/src/assets' },

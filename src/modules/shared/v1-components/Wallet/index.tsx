@@ -1,8 +1,8 @@
-import { useAllWallets } from 'api/chains/wallet';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import type { FC } from 'react';
+import { useAllWallets } from 'services/chains/wallet';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';

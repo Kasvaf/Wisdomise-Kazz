@@ -1,6 +1,6 @@
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import { clsx } from 'clsx';
 import useSensibleSteps from 'modules/base/wallet/useSensibleSteps';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { Button } from 'shared/v1-components/Button';
 import type { Surface } from 'utils/useSurface';
 

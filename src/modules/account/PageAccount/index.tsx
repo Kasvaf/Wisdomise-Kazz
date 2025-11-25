@@ -1,12 +1,12 @@
-import {
-  useExchangeAccountsQuery,
-  useReferralStatusQuery,
-  useSubscription,
-} from 'api';
 import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  useExchangeAccountsQuery,
+  useReferralStatusQuery,
+  useSubscription,
+} from 'services/rest';
 import Badge from 'shared/Badge';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageCard } from 'shared/PageCard';

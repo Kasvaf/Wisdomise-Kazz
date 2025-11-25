@@ -1,8 +1,8 @@
-import { useHasFlag } from 'api';
-import { useAlerts } from 'api/alert';
 import { bxBell } from 'boxicons-quasar';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import type { ComponentProps, FC } from 'react';
+import { useHasFlag } from 'services/rest';
+import { useAlerts } from 'services/rest/alert';
 import { DebugPin } from 'shared/DebugPin';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';

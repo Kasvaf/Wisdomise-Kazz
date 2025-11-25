@@ -1,8 +1,9 @@
-import { useLastPriceStream, useSupportedNetworks } from 'api';
-import { useTokenBalance } from 'api/chains';
-import { useCoinDetails } from 'api/discovery';
-import { useTokenInfo } from 'api/token-info';
 import { useCallback, useEffect, useState } from 'react';
+import { useTokenBalance } from 'services/chains';
+import { useLastPriceStream } from 'services/price';
+import { useSupportedNetworks } from 'services/rest';
+import { useCoinDetails } from 'services/rest/discovery';
+import { useTokenInfo } from 'services/rest/token-info';
 import { roundSensible } from 'utils/numbers';
 import type { TraderInputs } from '../PageTrade/types';
 

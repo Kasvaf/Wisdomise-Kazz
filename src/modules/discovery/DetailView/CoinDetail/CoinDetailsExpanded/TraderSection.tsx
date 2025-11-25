@@ -1,8 +1,8 @@
-import { useTokenPairsQuery } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import TokenActivity from 'modules/autoTrader/TokenActivity';
 import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useTokenPairsQuery } from 'services/rest';
 import { useUnifiedCoinDetails } from '../lib';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 

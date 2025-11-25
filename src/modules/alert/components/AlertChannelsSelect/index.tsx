@@ -1,8 +1,8 @@
-import { useAccountQuery } from 'api';
-import type { AlertMessenger } from 'api/alert';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren, SVGProps } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAccountQuery } from 'services/rest';
+import type { AlertMessenger } from 'services/rest/alert';
 import { Toggle } from 'shared//v1-components/Toggle';
 import { Button } from 'shared/v1-components/Button';
 import { isMiniApp } from 'utils/version';

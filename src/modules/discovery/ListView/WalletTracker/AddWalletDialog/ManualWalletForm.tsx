@@ -1,10 +1,10 @@
 import { notification } from 'antd';
-import { isValidSolanaAddress } from 'api/chains/solana';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useState } from 'react';
+import { isValidSolanaAddress } from 'services/chains/solana';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';

@@ -1,4 +1,3 @@
-import { useHasFlag } from 'api';
 import { clsx } from 'clsx';
 import {
   useDiscoveryBackdropParams,
@@ -7,6 +6,7 @@ import {
 } from 'modules/discovery/lib';
 import { type FC, Fragment } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useHasFlag } from 'services/rest';
 import { useMenuItems } from './MenuItems/useMenuItems';
 
 const DefaultSidebar: FC<{ className?: string }> = ({ className }) => {

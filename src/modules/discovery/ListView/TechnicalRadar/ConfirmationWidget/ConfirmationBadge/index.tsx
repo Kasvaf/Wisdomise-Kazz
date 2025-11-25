@@ -1,11 +1,11 @@
+import { clsx } from 'clsx';
+import { type FC, type SVGProps, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type {
   Indicator,
   IndicatorConfirmation,
   IndicatorConfirmationCombination,
-} from 'api/discovery';
-import { clsx } from 'clsx';
-import { type FC, type SVGProps, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+} from 'services/rest/discovery';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as BearishIcon } from './bearish.svg';
 import { ReactComponent as BullishIcon } from './bullish.svg';

@@ -1,8 +1,8 @@
-import { type AlertState, useAlerts } from 'api/alert';
 import { bxBell } from 'boxicons-quasar';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { type AlertState, useAlerts } from 'services/rest/alert';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import Icon from 'shared/Icon';
 import { PageTitle } from 'shared/PageTitle';

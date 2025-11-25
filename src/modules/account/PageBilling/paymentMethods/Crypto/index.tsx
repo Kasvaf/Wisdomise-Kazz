@@ -1,4 +1,4 @@
-import type { SubscriptionPlan } from 'api/types/subscription';
+import type { SubscriptionPlan } from 'services/rest/types/subscription';
 import LeftSection from './LeftSection';
 import RightSection from './RightSection';
 

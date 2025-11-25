@@ -1,8 +1,8 @@
-import { useHasFlag } from 'api';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import type { MouseEventHandler, PropsWithChildren } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useHasFlag } from 'services/rest';
 import Icon from 'shared/Icon';
 
 const MenuItem: React.FC<

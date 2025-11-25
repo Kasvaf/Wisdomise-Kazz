@@ -1,17 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-  USDC_CONTRACT_ADDRESS,
-  USDC_SLUG,
-  USDT_CONTRACT_ADDRESS,
-  USDT_SLUG,
-  WRAPPED_SOLANA_CONTRACT_ADDRESS,
-} from 'api/chains/constants';
 import { ofetch } from 'config/ofetch';
 import dayjs from 'dayjs';
-import { useActiveNetwork } from 'modules/base/active-network';
-import { useGrpc } from './grpc-v2';
-import { useTokenPairsQuery } from './trader';
-import type { MarketTypes } from './types/shared';
 
 export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d';
 export interface Candle {
@@ -85,83 +74,6 @@ interface LastCandleSymbol {
   quote: string;
 }
 
-interface LastCandleParams {
-  slug?: string; // slug
-  quote?: string;
-  network?: 'solana' | 'the-open-network' | 'polygon';
-  market?: MarketTypes;
-  convertToUsd?: boolean;
-  debug?: boolean;
-}
-
-export const useLastCandleStream = ({
-  network,
-  slug: base,
-  quote,
-  market = 'SPOT',
-  convertToUsd = !quote,
-}: LastCandleParams) => {
-  const { data: supportedPairs } = useTokenPairsQuery(base);
-
-  // list of all quote+networks for this base-slug
-  const netPairs = supportedPairs?.flatMap(sp =>
-    sp.network_slugs.map(net => ({
-      quote: sp.quote.slug,
-      net,
-    })),
-  );
-
-  // first pair that matches both quote and active-network
-  const activeNet = useActiveNetwork();
-  const net = network || activeNet;
-
-  const bestPair =
-    netPairs?.find(
-      x => (!quote || x.quote === quote) && (!net || x.net === net),
-    ) ||
-    // first pair that matches a quote, with a well-known exchange (net is not active)
-    netPairs?.find(
-      x =>
-        (!quote || x.quote === quote) &&
-        (x.net === 'the-open-network' || x.net === 'solana'),
-    ) ||
-    netPairs?.[0];
-
-  const theQuote = bestPair?.quote;
-  const bestNet = network || bestPair?.net;
-
-  return useGrpc({
-    service: 'delphinus',
-    method: 'lastCandleStream',
-    payload: {
-      market,
-      network: bestNet,
-      baseSlug: base,
-      quoteSlug: theQuote,
-      convertToUsd,
-    },
-    enabled: Boolean(base && theQuote && bestNet && market),
-    history: 0,
-  });
-};
-
-export const useLastPriceStream = (params: LastCandleParams) => {
-  const { data, ...rest } = useLastCandleStream(params);
-
-  return {
-    ...rest,
-    data: data?.candle?.close ? Number(data?.candle?.close) : undefined,
-  };
-};
-
-const useUSDTLastPriceStream = () => {
-  return useLastPriceStream({ slug: USDT_SLUG, quote: USDC_SLUG });
-};
-
-const useUSDCLastPriceStream = () => {
-  return useLastPriceStream({ slug: USDC_SLUG, quote: USDT_SLUG });
-};
-
 const enrichCandleConfig = (userConfig: {
   base?: string;
   quote?: string;
@@ -204,7 +116,7 @@ export interface BatchCandleResponse {
   responses: Array<{ candles: Candle[]; symbol: LastCandleSymbol }>;
 }
 
-const useBatchCandlesQuery = (userConfig: {
+export const useBatchCandlesQuery = (userConfig: {
   bases?: string[];
   quotes?: string[];
   network: 'the-open-network' | 'solana';
@@ -242,44 +154,4 @@ const useBatchCandlesQuery = (userConfig: {
     enabled:
       (config.bases?.length ?? 0) > 0 && (config.quotes?.length ?? 0) > 0,
   });
-};
-
-export const useBatchLastPriceQuery = ({
-  bases,
-  network,
-}: {
-  bases?: string[];
-  network: 'solana' | 'the-open-network';
-}) => {
-  const { data: usdtPrice, isLoading: l1 } = useUSDTLastPriceStream();
-  const { data: usdcPrice, isLoading: l2 } = useUSDCLastPriceStream();
-
-  const noneUsdBases = bases?.filter(
-    base => ![USDT_CONTRACT_ADDRESS, USDC_CONTRACT_ADDRESS].includes(base),
-  );
-
-  const quotes = noneUsdBases?.map(base =>
-    base === WRAPPED_SOLANA_CONTRACT_ADDRESS
-      ? USDC_CONTRACT_ADDRESS
-      : WRAPPED_SOLANA_CONTRACT_ADDRESS,
-  );
-
-  const { data: batchCandles, isPending } = useBatchCandlesQuery({
-    bases: noneUsdBases,
-    quotes,
-    network,
-  });
-
-  return {
-    data: bases?.map(
-      base =>
-        (base === USDC_CONTRACT_ADDRESS
-          ? usdcPrice
-          : base === USDT_CONTRACT_ADDRESS
-            ? usdtPrice
-            : batchCandles?.find(res => res.symbol.base === base)?.candles?.[0]
-                ?.close) ?? 0,
-    ),
-    isPending: l1 || l2 || isPending,
-  };
 };

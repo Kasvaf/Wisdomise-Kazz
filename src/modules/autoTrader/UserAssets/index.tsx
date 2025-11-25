@@ -1,7 +1,3 @@
-import { useTraderAssetsQuery } from 'api';
-import { useWalletAssets } from 'api/chains';
-import { useActiveWallet, useConnectedWallet } from 'api/chains/wallet';
-import type { Wallet } from 'api/wallets';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
@@ -14,6 +10,10 @@ import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandl
 import WalletDetail from 'modules/base/wallet/WalletDetail';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWalletAssets } from 'services/chains';
+import { useActiveWallet, useConnectedWallet } from 'services/chains/wallet';
+import { useTraderAssetsQuery } from 'services/rest';
+import type { Wallet } from 'services/rest/wallets';
 import { AccessShield } from 'shared/AccessShield';
 import Badge from 'shared/Badge';
 import { HoverTooltip } from 'shared/HoverTooltip';

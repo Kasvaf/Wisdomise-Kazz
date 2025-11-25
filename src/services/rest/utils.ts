@@ -1,7 +1,7 @@
-import type { PageResponse, PageResponse2 } from 'api/types/page';
-import type { Coin } from 'api/types/shared';
 import { ofetch } from 'config/ofetch';
 import type { FetchOptions, FetchRequest } from 'ofetch';
+import type { PageResponse, PageResponse2 } from './types/page';
+import type { Coin } from './types/shared';
 
 export function resolvePageResponseToArray<T>(
   request: FetchRequest,

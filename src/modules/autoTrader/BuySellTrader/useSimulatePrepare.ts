@@ -1,8 +1,11 @@
-import { type CreatePositionRequest, usePreparePositionQuery } from 'api';
-import { useNativeTokenBalance } from 'api/chains';
-import { useMarketSwapSimulate } from 'api/chains/simulate';
 import type { SwapState } from 'modules/autoTrader/BuySellTrader/useSwapState';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { useNativeTokenBalance } from 'services/chains';
+import { useMarketSwapSimulate } from 'services/chains/simulate';
+import {
+  type CreatePositionRequest,
+  usePreparePositionQuery,
+} from 'services/rest';
 
 const MIN_GAS = {
   TON: 0.1,

@@ -1,9 +1,4 @@
 import { Tooltip } from 'antd';
-import type {
-  GamificationStatus,
-  LeaderboardPrize,
-  Tournament,
-} from 'api/tournament';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
@@ -17,6 +12,11 @@ import cardBg2 from 'modules/quest/PageTournaments/images/card-bg-2.svg';
 import live from 'modules/quest/PageTournaments/images/live.svg';
 import snow from 'modules/quest/PageTournaments/images/snow.svg';
 import { Fragment, useState } from 'react';
+import type {
+  GamificationStatus,
+  LeaderboardPrize,
+  Tournament,
+} from 'services/rest/tournament';
 import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
 

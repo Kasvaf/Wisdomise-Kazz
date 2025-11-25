@@ -1,5 +1,5 @@
-import type { PlanPeriod } from 'api/types/subscription';
 import { Trans } from 'react-i18next';
+import type { PlanPeriod } from 'services/rest/types/subscription';
 
 export default function Periodicity({
   periodicity,

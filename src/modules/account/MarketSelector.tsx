@@ -1,5 +1,5 @@
-import type { MarketTypes } from 'api/types/shared';
 import type React from 'react';
+import type { MarketTypes } from 'services/rest/types/shared';
 import ComboBox from 'shared/ComboBox';
 
 const MarketOptionItem = (item: MarketTypes) => {

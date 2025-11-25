@@ -1,6 +1,6 @@
-import type { Alert } from 'api/alert';
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
+import type { Alert } from 'services/rest/alert';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useAlertForm } from '../forms';
 import { CoinSelect } from './CoinSelect';

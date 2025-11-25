@@ -1,6 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { LeaderboardParticipant, LeaderboardPrize } from 'api/tournament';
-import type { PageResponse } from 'api/types/page';
 import {
   ACCOUNT_PANEL_ORIGIN,
   INVESTMENT_ORIGIN,
@@ -9,6 +7,8 @@ import {
 import { ofetch } from 'config/ofetch';
 import { useEffect, useState } from 'react';
 import { isProduction } from 'utils/version';
+import type { LeaderboardParticipant, LeaderboardPrize } from './tournament';
+import type { PageResponse } from './types/page';
 
 export interface Friend {
   telegram_id: number;

@@ -1,7 +1,7 @@
-import type { Wallet } from 'api/wallets';
 import Deposit from 'modules/base/wallet/Deposit';
 import Transfer from 'modules/base/wallet/Transfer';
 import { useEffect, useState } from 'react';
+import type { Wallet } from 'services/rest/wallets';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
 import useIsMobile from 'utils/useIsMobile';

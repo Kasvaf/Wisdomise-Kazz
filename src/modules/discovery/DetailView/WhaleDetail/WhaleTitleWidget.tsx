@@ -1,4 +1,4 @@
-import { useWhaleDetails } from 'api/discovery';
+import { useWhaleDetails } from 'services/rest/discovery';
 import { Wallet } from 'shared/v1-components/Wallet';
 
 export const WhaleTitleWidget = ({

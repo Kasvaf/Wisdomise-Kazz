@@ -1,6 +1,6 @@
-import type { Position } from 'api';
 import { clsx } from 'clsx';
 import React from 'react';
+import type { Position } from 'services/rest';
 
 type Color = 'green' | 'red' | 'yellow' | 'grey';
 

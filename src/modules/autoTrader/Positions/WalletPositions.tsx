@@ -1,15 +1,15 @@
 import { Pagination } from 'antd';
-import {
-  initialQuoteDeposit,
-  type Position,
-  useTraderPositionsQuery,
-} from 'api';
-import type { Wallet } from 'api/wallets';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { PositionActions } from 'modules/autoTrader/Positions/PositionsList/PositionDetail';
 import PositionStatus from 'modules/autoTrader/Positions/PositionsList/PositionStatus';
 import { useMemo, useState } from 'react';
+import {
+  initialQuoteDeposit,
+  type Position,
+  useTraderPositionsQuery,
+} from 'services/rest';
+import type { Wallet } from 'services/rest/wallets';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import PriceChange from 'shared/PriceChange';
 import { Table, type TableColumn } from 'shared/v1-components/Table';

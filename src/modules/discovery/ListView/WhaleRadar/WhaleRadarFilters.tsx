@@ -1,6 +1,6 @@
-import type { useWhaleRadarCoins } from 'api/discovery';
 import type { ComponentProps, FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { useWhaleRadarCoins } from 'services/rest/discovery';
 import { CategorySelect } from 'shared/CategorySelect';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';

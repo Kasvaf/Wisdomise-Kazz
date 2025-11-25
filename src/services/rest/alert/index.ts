@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { resolvePageResponseToArray } from 'api/utils';
 import { ofetch } from 'config/ofetch';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { isMiniApp } from 'utils/version';
+import { resolvePageResponseToArray } from '../utils';
 import type { Alert, BaseAlert } from './types';
 
 export * from './types';

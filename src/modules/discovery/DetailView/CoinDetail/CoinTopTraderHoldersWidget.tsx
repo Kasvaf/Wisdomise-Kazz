@@ -1,11 +1,11 @@
-import { type GrpcState, useGrpc } from 'api/grpc-v2';
+import { clsx } from 'clsx';
+import { type FC, useMemo } from 'react';
+import { type GrpcState, useGrpc } from 'services/grpc/core';
 import type {
   TopHolderStreamResponse,
   TopTraderStreamResponse,
   WalletUpdate,
-} from 'api/proto/network_radar';
-import { clsx } from 'clsx';
-import { type FC, useMemo } from 'react';
+} from 'services/grpc/proto/network_radar';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table, type TableColumn } from 'shared/v1-components/Table';

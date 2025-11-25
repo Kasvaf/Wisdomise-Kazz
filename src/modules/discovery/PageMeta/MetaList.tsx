@@ -1,4 +1,3 @@
-import type { Meta, MetaToken } from 'api/meta';
 import { bxPauseCircle, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
@@ -7,6 +6,7 @@ import { type MetaTab, useMeta } from 'modules/discovery/PageMeta/lib';
 import MetaTabsFilters from 'modules/discovery/PageMeta/MetaTabsFilters';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { Meta, MetaToken } from 'services/rest/meta';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Dialog } from 'shared/v1-components/Dialog';

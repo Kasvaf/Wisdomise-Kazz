@@ -1,5 +1,5 @@
-import type { Network } from 'api/types/NetworksResponse';
 import type React from 'react';
+import type { Network } from 'services/rest/types/NetworksResponse';
 import ComboBox from 'shared/ComboBox';
 
 const NetworkOptionItemFn = (item: Network) => {

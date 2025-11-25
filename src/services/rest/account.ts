@@ -4,10 +4,10 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
-import type { PageResponse } from 'api/types/page';
 import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { setGameJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
+import type { PageResponse } from './types/page';
 import type { Account } from './types/UserInfoResponse';
 
 export function useAccountQuery(config?: { suspense?: boolean }) {

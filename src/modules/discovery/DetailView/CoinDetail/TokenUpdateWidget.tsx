@@ -1,6 +1,6 @@
-import { useGrpc } from 'api/grpc-v2';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { type FC, useState } from 'react';
+import { useGrpc } from 'services/grpc/core';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 

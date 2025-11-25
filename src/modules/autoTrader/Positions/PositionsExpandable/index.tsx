@@ -1,5 +1,3 @@
-import { USDT_SLUG } from 'api/chains/constants';
-import { useActiveWallet } from 'api/chains/wallet';
 import { clsx } from 'clsx';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
@@ -8,6 +6,8 @@ import useEnsureIsSupportedPair from 'modules/autoTrader/useEnsureIsSupportedPai
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { USDT_SLUG } from 'services/chains/constants';
+import { useActiveWallet } from 'services/chains/wallet';
 import Button from 'shared/Button';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';

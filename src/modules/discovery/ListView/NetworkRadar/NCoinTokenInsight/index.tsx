@@ -113,7 +113,7 @@ export const NCoinTokenInsight: FC<{
           {items.map(item => (
             <div
               className={clsx(
-                'relative flex shrink-0 items-center justify-start rounded-3xl border border-white/10 py-0.5 pr-1.5 pl-1',
+                'relative flex shrink-0 items-center justify-start rounded-3xl border border-white/5 py-0.5 pr-1.5 pl-1',
                 item.color === 'green'
                   ? 'text-v1-background-positive'
                   : item.color === 'red'

@@ -1,7 +1,7 @@
 import { Progress } from 'antd';
-import { useGamification } from 'api/gamification';
 import { clsx } from 'clsx';
 import Countdown from 'modules/quest/PageQuests/DailyTrade/Countdown';
+import { useGamification } from 'services/rest/gamification';
 import { ReactComponent as CheckIcon } from './images/check.svg';
 import light from './images/light.png';
 

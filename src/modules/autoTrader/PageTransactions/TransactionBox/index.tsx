@@ -1,3 +1,5 @@
+import { bxsRightArrow } from 'boxicons-quasar';
+import dayjs from 'dayjs';
 import type {
   Position,
   Transaction,
@@ -6,9 +8,7 @@ import type {
   TransactionOpenClose,
   TransactionOrder,
   TransactionWithdraw,
-} from 'api';
-import { bxsRightArrow } from 'boxicons-quasar';
-import dayjs from 'dayjs';
+} from 'services/rest';
 import Icon from 'shared/Icon';
 import { roundSensible } from 'utils/numbers';
 import { AssetIcon, Box, GasFee, StatusLabel, TonViewer } from './components';

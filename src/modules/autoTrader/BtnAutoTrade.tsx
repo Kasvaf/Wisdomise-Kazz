@@ -1,8 +1,8 @@
-import { useHasFlag, useTokenPairsQuery } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useActiveWallet } from 'api/chains/wallet';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useActiveWallet } from 'services/chains/wallet';
+import { useHasFlag, useTokenPairsQuery } from 'services/rest';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';

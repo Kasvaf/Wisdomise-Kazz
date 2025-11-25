@@ -1,7 +1,7 @@
-import type { SocialMessage } from 'api/discovery';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { SocialMessage } from 'services/rest/discovery';
 import { formatNumber } from 'utils/numbers';
 
 export const useSocialMessage = (message: SocialMessage) => {

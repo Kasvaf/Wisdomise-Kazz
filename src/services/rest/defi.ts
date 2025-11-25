@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAccountQuery } from 'api/account';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { isProduction } from 'utils/version';
+import { useAccountQuery } from './account';
 
 interface NonceResponse {
   nonce: string;

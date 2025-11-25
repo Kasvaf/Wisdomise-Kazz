@@ -1,4 +1,3 @@
-import { useGrpc } from 'api/grpc-v2';
 import { bxRotateLeft, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
@@ -10,6 +9,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useGrpc } from 'services/grpc/core';
 import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Checkbox } from 'shared/v1-components/Checkbox';

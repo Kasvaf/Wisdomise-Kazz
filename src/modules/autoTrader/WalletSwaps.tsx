@@ -1,10 +1,10 @@
 import { Pagination } from 'antd';
-import { type Swap, useTraderSwapsQuery } from 'api';
-import type { Wallet } from 'api/wallets';
 import { bxLinkExternal, bxShareAlt } from 'boxicons-quasar';
 import dayjs from 'dayjs';
 import SwapSharingModal from 'modules/autoTrader/SwapSharingModal';
 import { useMemo, useState } from 'react';
+import { type Swap, useTraderSwapsQuery } from 'services/rest';
+import type { Wallet } from 'services/rest/wallets';
 import Badge from 'shared/Badge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';

@@ -1,8 +1,8 @@
-import { useAccountQuery, useSubscription } from 'api';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
 import WiseClub from 'modules/account/PageBilling/WiseClub';
 import { useReadUnlockedInfo } from 'modules/account/PageToken/web3/locking/contract';
 import PageWrapper from 'modules/base/PageWrapper';
+import { useAccountQuery, useSubscription } from 'services/rest';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
 

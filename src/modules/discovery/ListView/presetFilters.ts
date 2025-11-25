@@ -2,7 +2,7 @@ import type {
   useSocialRadarCoins,
   useTechnicalRadarCoins,
   useWhaleRadarCoins,
-} from 'api/discovery';
+} from 'services/rest/discovery';
 
 export interface PresetFilter<FilterType> {
   label: string;

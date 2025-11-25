@@ -1,10 +1,10 @@
 import { notification } from 'antd';
-import { useCandlesQuery } from 'api';
-import { useLockingStateQuery } from 'api/defi';
 import dayjs from 'dayjs';
 import { useLockWithApprove } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWSDMBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import { useMemo, useState } from 'react';
+import { useCandlesQuery } from 'services/rest';
+import { useLockingStateQuery } from 'services/rest/defi';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { addComma, formatNumber } from 'utils/numbers';

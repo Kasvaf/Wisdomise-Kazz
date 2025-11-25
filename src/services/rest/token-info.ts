@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { WRAPPED_SOLANA_CONTRACT_ADDRESS } from 'api/chains/constants';
 import { ofetch } from 'config/ofetch';
 import { load } from 'dldr';
+import { WRAPPED_SOLANA_CONTRACT_ADDRESS } from '../chains/constants';
 
 type TokenInfoResponse = Record<string, TokenInfo>;
 

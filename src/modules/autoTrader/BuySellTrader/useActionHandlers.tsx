@@ -1,13 +1,13 @@
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
 import { notification } from 'antd';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useSwap, useTransferAssetsMutation } from 'services/chains';
+import { useActiveWallet } from 'services/chains/wallet';
 import {
   type CreatePositionRequest,
   useTraderCancelPositionMutation,
   useTraderFirePositionMutation,
-} from 'api';
-import { useSwap, useTransferAssetsMutation } from 'api/chains';
-import { useActiveWallet } from 'api/chains/wallet';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+} from 'services/rest';
 import { unwrapErrorMessage } from 'utils/error';
 import { v4 } from 'uuid';
 import { parseDur } from '../PageTrade/AdvancedSignalForm/parseDur';

@@ -1,9 +1,9 @@
-import { useSubmitCryptoPayment } from 'api';
-import type { Network } from 'api/types/NetworksResponse';
-import type { SubscriptionPlan } from 'api/types/subscription';
 import { analytics } from 'config/segment';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSubmitCryptoPayment } from 'services/rest';
+import type { Network } from 'services/rest/types/NetworksResponse';
+import type { SubscriptionPlan } from 'services/rest/types/subscription';
 import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 

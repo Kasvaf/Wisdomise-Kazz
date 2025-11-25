@@ -1,6 +1,6 @@
-import type { TwitterTweet } from 'api/discovery';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
+import type { TwitterTweet } from 'services/rest/discovery';
 import { ReadableDate } from 'shared/ReadableDate';
 import { Button } from 'shared/v1-components/Button';
 import { XPostEmbed } from 'shared/v1-components/X/XPostEmbed';

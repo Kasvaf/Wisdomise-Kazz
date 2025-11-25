@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { SupportedNetworks } from 'api/trader';
-import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import type { SupportedNetworks } from './trader';
+import type { PageResponse } from './types/page';
 
 export interface Wallet {
   key: string;

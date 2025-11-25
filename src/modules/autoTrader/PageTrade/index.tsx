@@ -1,10 +1,10 @@
-import { isPositionUpdatable, useTraderPositionQuery } from 'api';
-import { USDT_SLUG } from 'api/chains/constants';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { USDT_SLUG } from 'services/chains/constants';
+import { isPositionUpdatable, useTraderPositionQuery } from 'services/rest';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import useIsMobile from 'utils/useIsMobile';

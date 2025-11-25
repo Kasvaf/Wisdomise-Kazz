@@ -1,5 +1,3 @@
-import { useTokenPairsQuery } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
 import {
   createContext,
   type Dispatch,
@@ -10,6 +8,8 @@ import {
   useState,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useTokenPairsQuery } from 'services/rest';
 
 const context = createContext<
   [string, Dispatch<SetStateAction<string>>, Dispatch<SetStateAction<string>>]

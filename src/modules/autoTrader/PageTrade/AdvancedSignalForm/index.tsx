@@ -1,9 +1,9 @@
-import type { Position } from 'api';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useCoinDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { useNavigate } from 'react-router-dom';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import type { Position } from 'services/rest';
+import { useCoinDetails } from 'services/rest/discovery';
 import { Button } from 'shared/v1-components/Button';
 import BtnFireSignal from './BtnFireSignal';
 import PartIntro from './PartIntro';

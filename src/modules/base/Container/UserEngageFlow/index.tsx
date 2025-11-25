@@ -1,8 +1,8 @@
-import { useSubscription } from 'api';
-import { useUserStorage } from 'api/userStorage';
 import { appendTraits } from 'config/segment';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSubscription } from 'services/rest';
+import { useUserStorage } from 'services/rest/userStorage';
 import { useIsLoggedIn } from '../../auth/jwt-store';
 import { SemiForceLoginModal } from './SemiForceLoginModal';
 

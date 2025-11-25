@@ -1,5 +1,5 @@
-import { useBatchLastPriceQuery } from 'api';
-import { useSolanaWalletAssets } from 'api/chains/solana';
+import { useSolanaWalletAssets } from 'services/chains/solana';
+import { useBatchLastPriceQuery } from 'services/price';
 
 export const useSolanaWalletPricedAssets = (address?: string) => {
   const assetsQuery = useSolanaWalletAssets(address);

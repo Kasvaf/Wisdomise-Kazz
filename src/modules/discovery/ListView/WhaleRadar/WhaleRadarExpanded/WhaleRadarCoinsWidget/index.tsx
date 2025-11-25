@@ -1,10 +1,13 @@
-import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api/discovery';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { RealtimeBadge } from 'modules/discovery/ListView/RealtimeBadge';
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  useWhaleRadarCoins,
+  type WhaleRadarCoin,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';

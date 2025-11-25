@@ -1,9 +1,9 @@
-import { type GrpcState, useGrpc } from 'api/grpc-v2';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { type GrpcState, useGrpc } from 'services/grpc/core';
 import type {
   TrenchStreamRequest,
   TrenchStreamResponse,
-} from 'api/proto/network_radar';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+} from 'services/grpc/proto/network_radar';
 
 export const doesNCoinHaveSafeTopHolders = ({
   topHolders,

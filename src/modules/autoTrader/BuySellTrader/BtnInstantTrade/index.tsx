@@ -1,7 +1,3 @@
-import { useHasFlag, useLastPriceStream } from 'api';
-import { useSwap, useTokenBalance } from 'api/chains';
-import { useActiveWallet, useCustodialWallet } from 'api/chains/wallet';
-import { useWalletsQuery } from 'api/wallets';
 import {
   bxCheck,
   bxChevronDown,
@@ -25,6 +21,11 @@ import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useState } from 'react';
 import Draggable, { type ControlPosition } from 'react-draggable';
+import { useSwap, useTokenBalance } from 'services/chains';
+import { useActiveWallet, useCustodialWallet } from 'services/chains/wallet';
+import { useLastPriceStream } from 'services/price';
+import { useHasFlag } from 'services/rest';
+import { useWalletsQuery } from 'services/rest/wallets';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';

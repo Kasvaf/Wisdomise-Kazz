@@ -1,11 +1,4 @@
 import { notification, Spin } from 'antd';
-import type { SupportedNetworks } from 'api';
-import {
-  USDC_CONTRACT_ADDRESS,
-  USDT_CONTRACT_ADDRESS,
-  WRAPPED_SOLANA_CONTRACT_ADDRESS,
-  WRAPPED_SOLANA_SLUG,
-} from 'api/chains/constants';
 import { useConfirmTransaction } from 'modules/autoTrader/BuySellTrader/useConfirmTransaction';
 import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useActiveNetwork } from 'modules/base/active-network';
@@ -14,6 +7,13 @@ import {
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
+import type { SupportedNetworks } from '..';
+import {
+  USDC_CONTRACT_ADDRESS,
+  USDT_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from '../chains/constants';
 import {
   useSolanaSwap,
   useSolanaTokenBalance,

@@ -1,10 +1,4 @@
 import { GoogleLogin } from '@react-oauth/google';
-import {
-  useEmailLoginMutation,
-  useGoogleLoginMutation,
-  useMiniAppTgLoginFromWebMutation,
-  useVerifyEmailMutation,
-} from 'api/auth';
 import { ReactComponent as Logo } from 'assets/logo-green.svg';
 import { bxArrowBack } from 'boxicons-quasar';
 import { clsx } from 'clsx';
@@ -14,6 +8,12 @@ import { useCallback, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import VerificationInput from 'react-verification-input';
+import {
+  useEmailLoginMutation,
+  useGoogleLoginMutation,
+  useMiniAppTgLoginFromWebMutation,
+  useVerifyEmailMutation,
+} from 'services/rest/auth';
 import Icon from 'shared/Icon';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';

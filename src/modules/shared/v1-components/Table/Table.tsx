@@ -2,9 +2,7 @@ import { clsx } from 'clsx';
 import { useMemo, useRef } from 'react';
 import { useSurface } from 'utils/useSurface';
 import './style.css';
-import { bxPauseCircle } from 'boxicons-quasar';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import Icon from 'shared/Icon';
 import { EmptyCell } from 'shared/v1-components/Table/EmptyCell';
 import { DIALOG_OPENER_CLASS } from '../Dialog';
 import { EmptyContent } from './EmptyContent';
@@ -147,13 +145,6 @@ export function Table<RecordType extends object>({
                         : undefined
                     }
                   >
-                    {index === 0 && isPaused && (
-                      <Icon
-                        className={'text-v1-content-brand'}
-                        name={bxPauseCircle}
-                        size={16}
-                      />
-                    )}
                     {th.content}
                   </div>
                 </th>

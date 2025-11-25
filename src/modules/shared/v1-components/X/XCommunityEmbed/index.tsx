@@ -1,6 +1,9 @@
-import { type TwitterUser, useTwitterCommunityPreviewQuery } from 'api/twitter';
 import { bxCalendar } from 'boxicons-quasar';
 import dayjs from 'dayjs';
+import {
+  type TwitterUser,
+  useTwitterCommunityPreviewQuery,
+} from 'services/rest/twitter';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { shortFromNow } from 'shared/TokenSocials/lib';

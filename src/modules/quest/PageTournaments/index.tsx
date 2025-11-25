@@ -1,7 +1,7 @@
-import { useTournaments } from 'api/tournament';
 import PageWrapper from 'modules/base/PageWrapper';
 import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
 import { Link } from 'react-router-dom';
+import { useTournaments } from 'services/rest/tournament';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import useIsMobile from 'utils/useIsMobile';
 

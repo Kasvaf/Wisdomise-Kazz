@@ -1,5 +1,5 @@
-import { useReferralStatusQuery } from 'api';
 import { useTranslation } from 'react-i18next';
+import { useReferralStatusQuery } from 'services/rest';
 import Badge from 'shared/Badge';
 import BoxedIcon from './BoxedIcon';
 import { IconReferral } from './icons';

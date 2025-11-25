@@ -1,6 +1,6 @@
 import { Pagination } from 'antd';
-import { useTraderPositionsQuery } from 'api';
 import { useEffect, useState } from 'react';
+import { useTraderPositionsQuery } from 'services/rest';
 import Spinner from 'shared/Spinner';
 import usePageTour from 'shared/usePageTour';
 import NoPosition from './NoPosition';

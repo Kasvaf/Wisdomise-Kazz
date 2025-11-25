@@ -1,5 +1,5 @@
-import { useTokenPairsQuery } from 'api';
 import { clsx } from 'clsx';
+import { useTokenPairsQuery } from 'services/rest';
 import { Select } from 'shared/v1-components/Select';
 
 const QuoteSelector: React.FC<{

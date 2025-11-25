@@ -1,5 +1,3 @@
-import type { TrenchStreamRequest } from 'api/proto/network_radar';
-import { useUserStorage } from 'api/userStorage';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import type { NetworkRadarTab } from 'modules/discovery/ListView/NetworkRadar/lib';
 import type { MetaFilters } from 'modules/discovery/PageMeta';
@@ -10,6 +8,8 @@ import {
   useEffect,
   useState,
 } from 'react';
+import type { TrenchStreamRequest } from 'services/grpc/proto/network_radar';
+import { useUserStorage } from 'services/rest/userStorage';
 import { useDebounce } from 'usehooks-ts';
 import { deepMerge } from 'utils/merge';
 

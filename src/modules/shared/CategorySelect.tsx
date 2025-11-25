@@ -1,6 +1,6 @@
-import { useCategories } from 'api/discovery';
 import { type ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCategories } from 'services/rest/discovery';
 import { Select } from 'shared/v1-components/Select';
 
 export function CategorySelect<M extends boolean>({

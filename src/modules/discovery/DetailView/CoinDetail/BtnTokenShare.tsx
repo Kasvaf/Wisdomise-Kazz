@@ -1,8 +1,8 @@
-import { useReferralStatusQuery } from 'api';
 import { bxShareAlt } from 'boxicons-quasar';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { type FC, useState } from 'react';
+import { useReferralStatusQuery } from 'services/rest';
 import Icon from 'shared/Icon';
 import ShareSocial from 'shared/ShareTools/ShareSocial';
 import { useShare } from 'shared/useShare';

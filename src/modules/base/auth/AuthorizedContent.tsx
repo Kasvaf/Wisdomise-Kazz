@@ -1,7 +1,7 @@
-import { useAccountQuery, useHasFlag } from 'api';
 import { type PropsWithChildren, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useAccountQuery, useHasFlag } from 'services/rest';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from './jwt-store';

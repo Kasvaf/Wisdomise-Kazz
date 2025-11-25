@@ -136,7 +136,11 @@ export default function WalletsSwaps({ expanded }: { expanded?: boolean }) {
                 key={row.id}
               >
                 <div className="size-8">
-                  <TokenImage size="sm" src={row.assetDetail?.image} />
+                  <TokenImage
+                    name={row.assetDetail?.name}
+                    size="sm"
+                    src={row.assetDetail?.image}
+                  />
                 </div>
                 <div className="grow">
                   <div className="mb-1 flex items-center gap-1">
