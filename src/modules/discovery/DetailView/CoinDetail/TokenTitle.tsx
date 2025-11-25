@@ -43,7 +43,7 @@ export const TokenTitle: FC<{
         )}
       >
         {symbol.name ? (
-          <div className="flex mobile:w-full w-full mobile:flex-wrap items-center justify-start gap-2">
+          <div className="flex mobile:w-full mobile:flex-wrap items-center justify-start gap-2">
             <Token
               abbreviation={symbol.abbreviation ?? undefined}
               address={symbol.contractAddress ?? undefined}
