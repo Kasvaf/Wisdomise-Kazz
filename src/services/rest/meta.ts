@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
+import type { PageResponse } from 'services/rest/types/page';
 
 export interface Meta {
   id: number;

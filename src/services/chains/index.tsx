@@ -7,7 +7,7 @@ import {
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
-import type { SupportedNetworks } from '..';
+import type { SupportedNetworks } from 'services/rest';
 import {
   USDC_CONTRACT_ADDRESS,
   USDT_CONTRACT_ADDRESS,
