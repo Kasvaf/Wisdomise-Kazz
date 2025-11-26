@@ -130,7 +130,7 @@ export default function WalletsSwaps({ expanded }: { expanded?: boolean }) {
           />
         ) : (
           <div>
-            {[pausedData].length === 0 && <EmptyContent />}
+            {pausedData.length === 0 && <EmptyContent />}
             {pausedData.map(row => (
               <TokenLink
                 address={row.asset}
