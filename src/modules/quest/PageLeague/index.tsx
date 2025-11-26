@@ -29,6 +29,7 @@ import cup from './images/cup.png';
 import prize from './images/prize.png';
 // eslint-disable-next-line import/no-unassigned-import
 import 'swiper/css/navigation';
+import { DOCS_ORIGIN } from 'config/constants';
 
 export default function PageLeague() {
   const { profile, league, isLoading } = useLeague();
@@ -79,9 +80,17 @@ export default function PageLeague() {
       loading={isLoading}
     >
       <PageTitle
+        className="mb-3"
         description="Compete Weekly, Earn Points, and Climb the Ranks. Stay Competitive and Aim for the Top!"
         title="Compete, Rise, and Conquer!"
       />
+      <a
+        className="!text-v1-content-link text-sm"
+        href={`${DOCS_ORIGIN}/Perks-Rewards-2b1c705b061580b6a6ffe0fc73fc8782`}
+        target="_blank"
+      >
+        How it Works?
+      </a>
 
       <div className="mx-auto my-8 h-48">
         {selectedLeagueIndex === undefined ? null : (

@@ -236,7 +236,7 @@ export default function ReferralPage() {
           <p className="mb-5 text-v1-content-secondary text-xs">
             Earn SOL from Trading on Solana.
             <a
-              className="!text-v1-content-link !p-0 ml-2"
+              className="!text-v1-content-link ml-2"
               href={`${DOCS_ORIGIN}/Cashback-2b1c705b061580f59398d174b3e507c4`}
               target="_blank"
             >
