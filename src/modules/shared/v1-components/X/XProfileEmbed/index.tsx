@@ -49,10 +49,15 @@ export default function XProfileEmbed({ username }: { username: string }) {
               Joined {dayjs(data.createdAt).format('MMM YYYY')}
             </div>
             <div className="mb-3 flex items-center gap-1">
-              <ReadableNumber className="font-medium" value={data.following} />
+              <ReadableNumber
+                className="font-medium"
+                format={{ decimalLength: 1 }}
+                value={data.following}
+              />
               <span className="text-x-content-secondary">Following</span>
               <ReadableNumber
-                className="ml-2 font-medium"
+                className="ml-auto font-medium"
+                format={{ decimalLength: 1 }}
                 value={data.followers}
               />
               <span className="text-x-content-secondary">Followers</span>
@@ -102,16 +107,20 @@ export function XUser({
       <div
         className={clsx(
           'flex justify-center',
-          mini ? 'flex-row gap-1' : 'flex-col',
+          mini ? 'flex-row gap-1' : 'flex-col gap-1',
         )}
       >
         <p
           className={clsx(
             'flex items-center gap-1 font-medium',
-            mini ? 'text-xs' : 'text-base',
+            mini ? 'text-xs' : 'text-sm',
           )}
         >
-          <a className="hover:!underline" href={href} target="_blank">
+          <a
+            className="hover:!underline leading-none"
+            href={href}
+            target="_blank"
+          >
             {name}
           </a>
           {isBlueVerified && <VerifiedIcon className="size-4" />}

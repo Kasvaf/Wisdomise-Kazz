@@ -39,7 +39,7 @@ export const XTrackerView: FC<{
   });
   return (
     <div className={clsx('h-full', className)}>
-      <h2 className="p-3 pt-0 text-xs">X Feed</h2>
+      <h2 className="px-3 text-xs">X Feed</h2>
       <AccessShield
         mode="children"
         sizes={{ guest: true, vip: false, free: false, initial: false }}

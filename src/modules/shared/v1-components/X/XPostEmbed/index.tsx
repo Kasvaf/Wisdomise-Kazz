@@ -4,6 +4,10 @@ import type { FC } from 'react';
 import type { TwitterTweet } from 'services/rest/discovery';
 import { ReadableDate } from 'shared/ReadableDate';
 import { XUser } from 'shared/v1-components/X/XProfileEmbed';
+import { ReactComponent as QuoteIcon } from './quote.svg';
+import { ReactComponent as ReplyIcon } from './reply.svg';
+import { ReactComponent as RetweetIcon } from './retweet.svg';
+import { ReactComponent as TweetIcon } from './tweet.svg';
 
 export function XPostEmbed({
   value,
@@ -21,10 +25,10 @@ export function XPostEmbed({
 
   return (
     <div
-      className="relative block w-full cursor-pointer overflow-hidden rounded-xl border border-x-border bg-x-bg text-sm transition-colors hover:bg-x-bg-hover"
+      className="relative block w-full cursor-pointer overflow-hidden rounded-xl border border-white/10 bg-v1-surface-l1 text-sm transition-colors"
       onClick={openPost}
     >
-      <div className="flex justify-between gap-1 px-4 pt-3">
+      <div className="flex items-start justify-between gap-2 px-4 pt-3">
         <XUser
           className="overflow-hidden"
           isBlueVerified={value.user.is_blue_verified}
@@ -33,7 +37,12 @@ export function XPostEmbed({
           profilePicture={value.user.profile_picture}
           username={value.user.username}
         />
-        <ReadableDate suffix={false} value={value.related_at} />
+        <div className="flex items-center gap-1">
+          <ReadableDate suffix={false} value={value.related_at} />
+          {!isQuote && (
+            <TweetType className="-mr-2 size-4 shrink-0" value={value} />
+          )}
+        </div>
       </div>
       <div className="flex w-full flex-col items-center justify-start p-3 pt-4">
         {value.replied_tweet && (
@@ -45,7 +54,7 @@ export function XPostEmbed({
           </div>
         )}
         <div className="flex w-full flex-col items-center justify-start gap-[8px]">
-          <p className="w-full whitespace-pre-wrap">{value.text}</p>
+          <p className="w-full whitespace-pre-wrap break-words">{value.text}</p>
           <XPostMedia value={value} />
           {value.quoted_tweet && (
             <XPostEmbed isQuote={true} value={value.quoted_tweet} />
@@ -67,7 +76,7 @@ const XPostMedia: FC<{
   return (
     <div
       className={clsx(
-        'grid w-full gap-px overflow-hidden rounded-xl border-[#425464] border-[1px]',
+        'grid w-full gap-px overflow-hidden rounded-xl border border-white/10',
         value.media.length === 1 ? 'grid-cols-1' : 'grid-cols-2',
         className,
       )}
@@ -103,4 +112,22 @@ const XPostMedia: FC<{
       {dialog}
     </div>
   );
+};
+
+const TweetType: FC<{
+  value: TwitterTweet;
+  className?: string;
+}> = ({ value, className }) => {
+  const isRetweet = !!value?.retweeted_tweet;
+  const isQuote = !!value?.quoted_tweet;
+  const isReply = !!value?.replied_tweet;
+
+  const Component = isRetweet
+    ? RetweetIcon
+    : isQuote
+      ? QuoteIcon
+      : isReply
+        ? ReplyIcon
+        : TweetIcon;
+  return <Component className={className} />;
 };
