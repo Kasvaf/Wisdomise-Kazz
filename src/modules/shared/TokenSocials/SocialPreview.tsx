@@ -33,7 +33,12 @@ export function parseXUrl(url: string) {
     }
 
     // /i/communities/:communityId
-    if (parts[0] === 'i' && parts[1] === 'communities' && parts[2]) {
+    if (
+      parts.length === 3 &&
+      parts[0] === 'i' &&
+      parts[1] === 'communities' &&
+      parts[2]
+    ) {
       return {
         type: 'community',
         communityId: parts[2],
@@ -41,7 +46,7 @@ export function parseXUrl(url: string) {
     }
 
     // /username/status/:postId
-    if (parts.length >= 3 && parts[1] === 'status') {
+    if (parts.length === 3 && parts[1] === 'status') {
       return {
         type: 'post',
         username: parts[0],

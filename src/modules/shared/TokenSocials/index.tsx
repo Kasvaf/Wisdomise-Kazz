@@ -104,7 +104,7 @@ const SocialIcon = ({ social }: { social: Social }) => {
       return <XProfileIcon className="size-4" />;
     if (res.type === 'community' && res.communityId)
       return <XCommunityIcon className="size-4" />;
-    return <XIcon className="size-4" />;
+    return <XIcon className="size-[15px]" />;
   } else {
     return (
       <img

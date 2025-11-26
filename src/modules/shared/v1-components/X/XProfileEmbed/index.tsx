@@ -21,7 +21,11 @@ export default function XProfileEmbed({ username }: { username: string }) {
       onClick={e => e.stopPropagation()}
     >
       {isPending ? (
-        'Loading...'
+        <div className="w-full space-y-3 p-3">
+          <div className="h-20 rounded-xl bg-white/5" />
+          <div className="h-30 rounded-xl bg-white/5" />
+          <div className="h-16 rounded-xl bg-white/5" />
+        </div>
       ) : data && !data.unavailable ? (
         <>
           <div className="aspect-3/1 w-full bg-white/5">

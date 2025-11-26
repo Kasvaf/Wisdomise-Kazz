@@ -31,7 +31,12 @@ export default function XCommunityEmbed({
       style={{ ['--x-bg-color' as never]: '#15202b' }}
     >
       {isPending ? (
-        'Loading...'
+        <div className="w-full space-y-3 p-3">
+          <div className="h-20 rounded-xl bg-white/5" />
+          <div className="h-30 rounded-xl bg-white/5" />
+          <div className="h-30 rounded-xl bg-white/5" />
+          <div className="h-16 rounded-xl bg-white/5" />
+        </div>
       ) : data?.community_info && admin ? (
         <>
           <img
@@ -59,7 +64,7 @@ export default function XCommunityEmbed({
             <p className="mt-8 mb-3">{data.community_info.description}</p>
             <XCommunityMembers members={data.community_info.members_preview} />
             <hr className="my-3 border-x-border" />
-            <p className="mb-1 text-x-content-secondary">Created By</p>
+            <p className="mb-2 text-x-content-secondary">Created By</p>
             <XUser
               isBlueVerified={admin.isBlueVerified}
               name={admin.name}
