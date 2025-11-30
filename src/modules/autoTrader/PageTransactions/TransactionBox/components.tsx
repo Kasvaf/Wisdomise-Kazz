@@ -10,8 +10,8 @@ import { bxGlobe } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type { PropsWithChildren, ReactNode } from 'react';
-import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import { roundSensible } from 'utils/numbers';
 
@@ -56,8 +56,8 @@ export const StatusLabel: React.FC<{
   t: { data: { time: string; status: TransactionStatus } };
 }> = ({ t }) => {
   return {
-    processing: <Badge color="orange" label="Processing" />,
-    failed: <Badge color="red" label="Failed" />,
+    processing: <Badge color="notice">Processing</Badge>,
+    failed: <Badge color="negative">Failed</Badge>,
     completed: <>{dayjs(t.data.time).fromNow()}</>,
   }[t.data.status];
 };

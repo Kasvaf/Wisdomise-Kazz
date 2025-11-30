@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { notification } from 'antd';
 import { swapsNotifications } from 'api/chains';
+import type { OrderStatus } from 'api/order';
 import { WatchEventType } from 'api/proto/wealth_manager';
 import { useWatchTokenStream } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useEffect } from 'react';
@@ -8,6 +9,9 @@ import { useEffect } from 'react';
 export const useConfirmTransaction = ({ slug }: { slug?: string }) => {
   const queryClient = useQueryClient();
   const { data } = useWatchTokenStream({ type: WatchEventType.SWAP_UPDATE });
+  const { data: ordersStream } = useWatchTokenStream({
+    type: WatchEventType.LIMIT_ORDER_UPDATE,
+  });
 
   const confirm = ({ swapKey }: { swapKey: string }) => {
     invalidateQueries(swapKey);
@@ -30,8 +34,19 @@ export const useConfirmTransaction = ({ slug }: { slug?: string }) => {
     }
   }, [data]);
 
-  const invalidateQueries = (swapKey: string) => {
-    if (!swapsNotifications.has(swapKey)) return;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    if (ordersStream?.orderPayload?.status === ('SUCCESS' as OrderStatus)) {
+      console.log('inv');
+      invalidateQueries();
+    }
+  }, [ordersStream]);
+
+  const invalidateQueries = (swapKey?: string) => {
+    if (swapKey && !swapsNotifications.has(swapKey)) return;
+    if (!swapKey) {
+      void queryClient.invalidateQueries({ queryKey: ['limit-orders'] });
+    }
     void queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
     void queryClient.invalidateQueries({
       queryKey: ['solana-user-assets'],

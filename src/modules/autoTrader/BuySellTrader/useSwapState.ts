@@ -1,8 +1,9 @@
 import { useLastPriceStream, useSupportedNetworks } from 'api';
 import { useTokenBalance } from 'api/chains';
-import { useCoinDetails } from 'api/discovery';
 import { useTokenInfo } from 'api/token-info';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useCallback, useEffect, useState } from 'react';
+import { useChartConvertToUSD } from 'shared/AdvancedChart/chartSettings';
 import { roundSensible } from 'utils/numbers';
 import type { TraderInputs } from '../PageTrade/types';
 
@@ -12,10 +13,13 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [amount, setAmount] = useState('0');
   const [isMarketPrice, setIsMarketPrice] = useState(true);
   const [limit, setLimit] = useState('');
-  const [limitType, setLimitType] = useState<'price' | 'market_cap'>('price');
+  const [limitType, setLimitType] = useState<'price' | 'market_cap'>(
+    'market_cap',
+  );
   const confirming = useState(false);
   const firing = useState(false);
-  const { data: details } = useCoinDetails({ slug: base });
+  const details = useUnifiedCoinDetails();
+  const [convertToUsd] = useChartConvertToUSD();
 
   const { data: baseInfo } = useTokenInfo({ slug: base });
   const { data: quoteInfo } = useTokenInfo({ slug: quote });
@@ -48,14 +52,14 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     convertToUsd: true,
   });
 
-  const marketCap = (basePrice ?? 0) * (details?.data?.total_supply ?? 0);
+  const marketCap = (basePrice ?? 0) * (details?.marketData?.totalSupply ?? 0);
+  const marketCapQuote =
+    (basePriceByQuote ?? 0) * (details?.marketData?.totalSupply ?? 0);
   const percentage = isMarketPrice
     ? 0
-    : Math.abs(
-        limitType === 'price'
-          ? (((basePriceByQuote ?? 0) - +limit) * 100) / (basePriceByQuote ?? 1)
-          : ((marketCap - +limit) * 100) / marketCap,
-      );
+    : limitType === 'price'
+      ? (((basePriceByQuote ?? 0) - +limit) * 100) / (basePriceByQuote ?? 1)
+      : ((marketCap - +limit) * 100) / marketCap;
 
   const quoteFields = {
     slug: quote,
@@ -78,8 +82,8 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     coinInfo: baseInfo,
 
     price: basePrice,
-    finalPriceDollar:
-      (Number(basePrice) *
+    finalPrice:
+      (Number(convertToUsd ? basePrice : basePriceByQuote) *
         (100 + (dir === 'buy' ? -1 : 1) * Number(percentage))) /
       100,
     priceByOther: basePriceByQuote,
@@ -97,11 +101,18 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     if (basePriceByQuote && marketCap) {
       setLimit(
         limitType === 'price'
-          ? roundSensible(basePriceByQuote)
-          : String(marketCap),
+          ? roundSensible(convertToUsd ? basePrice : basePriceByQuote)
+          : String(convertToUsd ? marketCap : marketCapQuote),
       );
     }
-  }, [basePriceByQuote, limitType, marketCap]);
+  }, [
+    basePriceByQuote,
+    limitType,
+    marketCap,
+    marketCapQuote,
+    basePrice,
+    convertToUsd,
+  ]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
@@ -113,7 +124,7 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     updateLimit();
-  }, [quote, limitType, isMarketPrice]);
+  }, [quote, limitType, isMarketPrice, convertToUsd]);
 
   return {
     selectedNet,

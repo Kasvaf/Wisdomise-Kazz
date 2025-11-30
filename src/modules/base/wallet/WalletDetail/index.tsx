@@ -14,6 +14,7 @@ import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import Orders from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Orders';
 import { useEffect, useState } from 'react';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
@@ -200,13 +201,18 @@ export default function WalletDetail() {
           },
           {
             key: '2',
-            label: 'Positions',
-            children: <WalletPositions wallet={wallet} />,
+            label: 'Account PnL',
+            children: <WalletStatus wallet={wallet} />,
           },
           {
             key: '3',
-            label: 'Account PnL',
-            children: <WalletStatus wallet={wallet} />,
+            label: 'Orders',
+            children: <Orders walletAddress={wallet.address} />,
+          },
+          {
+            key: '4',
+            label: 'Auto Trade',
+            children: <WalletPositions wallet={wallet} />,
           },
         ]}
       />

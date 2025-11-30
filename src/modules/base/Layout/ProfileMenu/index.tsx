@@ -1,6 +1,7 @@
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BtnLogin from 'modules/base/Layout/ProfileMenu/BtnLogin';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { isDebugMode, isMiniApp } from 'utils/version';
@@ -9,9 +10,7 @@ import ProfileMenuContent from './ProfileMenuContent';
 import { ReactComponent as UserIcon } from './user.svg';
 
 const DebugBadge = () =>
-  isDebugMode ? (
-    <div className="-right-1 -top-1 absolute size-2 rounded-full bg-v1-background-negative" />
-  ) : null;
+  isDebugMode ? <Badge color="negative" dot variant="solid" /> : null;
 
 const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
   const isLoggedIn = useIsLoggedIn();

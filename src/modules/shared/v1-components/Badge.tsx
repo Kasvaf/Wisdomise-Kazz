@@ -1,37 +1,87 @@
 import { clsx } from 'clsx';
-import type { FC, ReactNode } from 'react';
+import type { FC, HTMLAttributes } from 'react';
 
-export const Badge: FC<{
-  variant?: 'brand' | 'positive';
-  ticking?: boolean;
-  children?: ReactNode;
-  className?: string;
-}> = ({ children, variant = 'positive', ticking, className }) => {
+export type BadgeColor =
+  | 'brand'
+  | 'secondary'
+  | 'negative'
+  | 'positive'
+  | 'notice'
+  | 'info'
+  | 'neutral';
+
+interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+  variant?: 'solid' | 'soft' | 'outline';
+  color?: BadgeColor;
+  size?: 'sm' | 'md';
+  dot?: boolean;
+}
+
+export const Badge: FC<BadgeProps> = ({
+  variant = 'soft',
+  color = 'brand',
+  size = 'sm',
+  className,
+  children,
+  dot,
+  ...rest
+}) => {
   return (
-    <div
+    <span
       className={clsx(
-        'h-2xs rounded-full p-px font-normal text-xxs tracking-wider',
-        variant === 'positive' && 'bg-v1-content-positive',
-        variant === 'brand' && 'bg-brand-gradient',
+        dot
+          ? '-right-1 -top-1 absolute size-2 rounded-full'
+          : size === 'sm' && 'min-w-[16px] px-1.5 py-0.5 text-xxs',
+        'inline-flex shrink-0 items-center rounded-full font-medium',
+        '[&>svg]:-ml-1 [&>svg]:mr-1 [&>svg]:size-4',
+        variant === 'solid' &&
+          clsx(
+            color === 'brand' &&
+              'bg-v1-background-brand text-v1-content-primary-inverse',
+            color === 'negative' &&
+              'bg-v1-content-negative text-v1-content-primary',
+            color === 'positive' &&
+              'bg-v1-content-positive text-v1-content-primary',
+            color === 'notice' &&
+              'bg-v1-background-notice text-v1-content-primary-inverse',
+            color === 'info' && 'bg-v1-background-info text-v1-content-primary',
+            color === 'neutral' &&
+              'bg-v1-background-primary text-v1-content-primary',
+            color === 'secondary' &&
+              'bg-v1-background-secondary text-v1-content-primary',
+          ),
+        variant === 'soft' &&
+          clsx(
+            color === 'brand' &&
+              'bg-v1-background-brand/15 text-v1-content-brand',
+            color === 'negative' &&
+              'bg-v1-content-negative/15 text-v1-content-negative',
+            color === 'positive' &&
+              'bg-v1-content-positive/15 text-v1-content-positive',
+            color === 'notice' &&
+              'bg-v1-background-notice/15 text-v1-content-notice',
+            color === 'info' && 'bg-v1-background-info/10 text-v1-content-info',
+            color === 'neutral' &&
+              'bg-v1-background-primary/10 text-v1-content-primary',
+            color === 'secondary' &&
+              'bg-v1-background-secondary/10 text-v1-background-secondary',
+          ),
+        variant === 'outline' &&
+          clsx(
+            'border border-v1-border-primary/10',
+            color === 'brand' && 'text-v1-content-brand',
+            color === 'negative' && 'text-v1-content-negative',
+            color === 'positive' && 'text-v1-content-positive',
+            color === 'notice' && 'text-v1-content-notice',
+            color === 'info' && 'text-v1-content-info',
+            color === 'neutral' && 'text-v1-content-primary/70',
+            color === 'secondary' && 'text-v1-background-secondary',
+          ),
         className,
       )}
+      {...rest}
     >
-      <div
-        className={clsx(
-          'flex size-full items-center justify-center gap-1 rounded-full bg-v1-surface-l1/90 px-3',
-        )}
-      >
-        {children}
-        {ticking && (
-          <div
-            className={clsx(
-              'ms-px size-[6px] animate-pulse rounded-full',
-              variant === 'positive' && 'bg-v1-content-positive',
-              variant === 'brand' && 'bg-brand-gradient',
-            )}
-          />
-        )}
-      </div>
-    </div>
+      {children}
+    </span>
   );
 };

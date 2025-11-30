@@ -94,10 +94,18 @@ export function useMetaListQuery({
   });
 }
 
-export const useMetaDetailsQuery = (id: number) =>
-  useQuery({
+export const useMetaDetailsQuery = ({
+  id,
+  enabled,
+}: {
+  id: number;
+  enabled?: boolean;
+}) => {
+  return useQuery({
     queryKey: ['meta-details', id],
     queryFn: async () => {
       return await ofetch<Meta>(`delphi/meta/details/?id=${id}`);
     },
+    enabled,
   });
+};

@@ -135,19 +135,21 @@ export function TraderPresetValues({
   showMode,
   presetIndex,
   source = 'terminal',
+  value,
 }: {
-  mode: 'buy' | 'sell';
+  mode?: 'buy' | 'sell';
   className?: string;
   showMode?: boolean;
   presetIndex?: number;
   source?: TradeSettingsSource;
+  value?: TraderPreset;
 }) {
   const { settings, getActivePreset } = useUserSettings();
-  const activePreset = (
-    presetIndex === undefined
+  const activePreset =
+    value ??
+    (presetIndex === undefined
       ? getActivePreset(source)
-      : settings.presets[presetIndex]
-  )[mode];
+      : settings.presets[presetIndex])[mode ?? 'buy'];
 
   return (
     <div

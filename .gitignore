@@ -9,7 +9,7 @@ lerna-debug.log*
 src/api/proto
 
 node_modules
-dist
+/dist
 dist-ssr
 *.local
 
