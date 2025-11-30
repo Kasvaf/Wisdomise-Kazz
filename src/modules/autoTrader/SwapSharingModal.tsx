@@ -103,6 +103,7 @@ export default function SwapSharingModal({
               />
               <DirectionalNumber
                 className="!flex justify-start text-3xl"
+                format={{ decimalLength: 1 }}
                 suffix="%"
                 value={convertToUsd ? pnlUsdPercent : pnlPercent}
               />

@@ -337,22 +337,26 @@ export const NCoinList: FC<{
                     abbreviation={row.symbol?.abbreviation}
                     address={row.symbol?.base}
                     extra={
-                      <>
-                        {!mini && bCurve}
-                        <NCoinTokenInsight
-                          className={mini ? 'text-xxs' : 'text-xs'}
-                          key="ins"
-                          type="row"
-                          value={row.validatedData}
-                        />
-                        {row.meta && (
-                          <MetaTag
-                            id={row.meta.id}
-                            mini={mini}
-                            title={row.meta.title}
+                      !mini && (
+                        <div className="flex flex-col justify-end gap-1">
+                          <div className="flex h-6 items-center gap-2">
+                            {!mini && bCurve}
+                            {row.meta && (
+                              <MetaTag
+                                id={row.meta.id}
+                                mini={mini}
+                                title={row.meta.title}
+                              />
+                            )}
+                          </div>
+                          <NCoinTokenInsight
+                            className={mini ? 'text-xxs' : 'text-xs'}
+                            key="ins"
+                            type="row"
+                            value={row.validatedData}
                           />
-                        )}
-                      </>
+                        </div>
+                      )
                     }
                     header={ageAndSecurity}
                     link={false}
@@ -384,6 +388,14 @@ export const NCoinList: FC<{
                     value={row}
                   />
                 </div>
+                {mini && (
+                  <NCoinTokenInsight
+                    className={mini ? 'text-xxs' : 'text-xs'}
+                    key="ins"
+                    type="row"
+                    value={row.validatedData}
+                  />
+                )}
                 {row.symbol && (
                   <BtnQuickBuy
                     className="!absolute !hidden group-hover:!flex right-2 bottom-2"
