@@ -18,12 +18,12 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Badge: FC<BadgeProps> = ({
-  variant = 'soft',
+  dot,
+  variant = dot ? 'solid' : 'soft',
   color = 'brand',
   size = 'sm',
   className,
   children,
-  dot,
   ...rest
 }) => {
   return (

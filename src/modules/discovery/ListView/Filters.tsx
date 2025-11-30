@@ -151,7 +151,7 @@ export function Filters<T extends object>({
             >
               {(isFiltersApplied !== undefined
                 ? isFiltersApplied
-                : _isFiltersApplied) && <Badge dot variant="solid" />}
+                : _isFiltersApplied) && <Badge dot />}
               <FilterIcon className="!size-4" />
               {!isMini && 'Filters'}
             </Button>

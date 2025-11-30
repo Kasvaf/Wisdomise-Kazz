@@ -9,8 +9,7 @@ import BtnTelegramProfile from './BtnTelegramProfile';
 import ProfileMenuContent from './ProfileMenuContent';
 import { ReactComponent as UserIcon } from './user.svg';
 
-const DebugBadge = () =>
-  isDebugMode ? <Badge color="negative" dot variant="solid" /> : null;
+const DebugBadge = () => (isDebugMode ? <Badge color="negative" dot /> : null);
 
 const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
   const isLoggedIn = useIsLoggedIn();

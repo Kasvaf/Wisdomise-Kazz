@@ -60,6 +60,11 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     : limitType === 'price'
       ? (((basePrice ?? 0) - +limit) * 100) / (basePrice ?? 1)
       : ((marketCap - +limit) * 100) / marketCap;
+  const percentageQuote = isMarketPrice
+    ? 0
+    : limitType === 'price'
+      ? (((basePriceByQuote ?? 0) - +limit) * 100) / (basePriceByQuote ?? 1)
+      : ((marketCapQuote - +limit) * 100) / marketCapQuote;
 
   const quoteFields = {
     slug: quote,
@@ -84,7 +89,7 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     price: basePrice,
     finalPrice:
       (Number(convertToUsd ? basePrice : basePriceByQuote) *
-        (100 - Number(percentage))) /
+        (100 - Number(convertToUsd ? percentage : percentageQuote))) /
       100,
     priceByOther: basePriceByQuote,
     amount,
@@ -133,7 +138,7 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     quote: quoteFields,
     setAmount,
 
-    percentage,
+    finalPercentage: convertToUsd ? percentage : percentageQuote,
 
     limit,
     setLimit,

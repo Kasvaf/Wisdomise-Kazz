@@ -19,7 +19,7 @@ const useActionHandlers = (state: SwapState) => {
 
     isMarketPrice,
     firing: [firing, setFiring],
-    percentage,
+    finalPercentage,
   } = state;
   const { address, isCustodial } = useActiveWallet();
   const { getActivePreset } = useUserSettings();
@@ -83,10 +83,10 @@ const useActionHandlers = (state: SwapState) => {
       quote_address: slugToTokenAddress(quote.slug),
       type:
         dir === 'buy'
-          ? percentage > 0
+          ? finalPercentage > 0
             ? 'BUY_BELOW'
             : 'BUY_ABOVE'
-          : percentage > 0
+          : finalPercentage > 0
             ? 'SELL_BELOW'
             : 'SELL_ABOVE',
       amount: dir === 'buy' ? quote.amount : base.amount,

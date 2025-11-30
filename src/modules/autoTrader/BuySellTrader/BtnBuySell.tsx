@@ -5,8 +5,10 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useChartConvertToUSD } from 'shared/AdvancedChart/chartSettings';
 import usePageTour from 'shared/usePageTour';
 import { Button } from 'shared/v1-components/Button';
+import { formatNumber } from 'utils/numbers';
 import useIsMobile from 'utils/useIsMobile';
 import useActionHandlers from './useActionHandlers';
 import type { SwapState } from './useSwapState';
@@ -24,7 +26,11 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
     dir,
     quote,
     from: { balanceLoading, balance, amount },
+    isMarketPrice,
+    limit,
+    limitType,
   } = state;
+  const [chartIsUSD] = useChartConvertToUSD();
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
   const { data: quoteInfo } = useTokenInfo({ slug: quote.slug });
 
@@ -36,6 +42,15 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   const showDeposit =
     wallet.isCustodial && !balance && !balanceLoading && dir === 'buy';
   const showConnect = isLoggedIn && !wallet.isCustodial && !wallet.connected;
+  const formatedLimit = formatNumber(+limit, {
+    decimalLength: 2,
+    minifyDecimalRepeats: true,
+    compactInteger: true,
+    separateByComma: false,
+  });
+  const limitText = isMarketPrice
+    ? ''
+    : ` @ ${chartIsUSD ? '$' : ''}${formatedLimit} ${chartIsUSD ? '' : quote.coinInfo?.symbol} ${limitType === 'price' ? '' : 'MC'}`;
 
   const isMobile = useIsMobile();
   usePageTour({
@@ -128,9 +143,9 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
               <span className="text-white/70">Insufficient Balance</span>
             </>
           ) : dir === 'buy' ? (
-            'Buy'
+            `Buy${limitText}`
           ) : (
-            'Sell'
+            `Sell${limitText}`
           )}
         </Button>
       )}
