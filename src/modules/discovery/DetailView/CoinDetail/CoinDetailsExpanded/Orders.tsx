@@ -32,7 +32,7 @@ export const orderStatusMap: Record<
   PENDING: { label: 'Active', color: 'brand' },
   SUCCESS: { label: 'Success', color: 'positive' },
   FAILED: { label: 'Failed', color: 'negative' },
-  CANCELED: { label: 'Canceled', color: 'negative' },
+  CANCELED: { label: 'Canceled', color: 'info' },
 } as const;
 
 const PAGE_SIZE = 10;

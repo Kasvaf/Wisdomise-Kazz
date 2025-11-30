@@ -6,6 +6,8 @@ import { WatchEventType } from 'api/proto/wealth_manager';
 import { useWatchTokenStream } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useEffect } from 'react';
 
+const filledOrders: string[] = [];
+
 export const useConfirmTransaction = ({ slug }: { slug?: string }) => {
   const queryClient = useQueryClient();
   const { data } = useWatchTokenStream({ type: WatchEventType.SWAP_UPDATE });
@@ -36,8 +38,10 @@ export const useConfirmTransaction = ({ slug }: { slug?: string }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (ordersStream?.orderPayload?.status === ('SUCCESS' as OrderStatus)) {
-      console.log('inv');
+    if (!ordersStream?.orderPayload) return;
+    if (filledOrders.includes(ordersStream.orderPayload.key)) return;
+    if (ordersStream.orderPayload.status === ('SUCCESS' as OrderStatus)) {
+      filledOrders.push(ordersStream.orderPayload.key);
       invalidateQueries();
     }
   }, [ordersStream]);
