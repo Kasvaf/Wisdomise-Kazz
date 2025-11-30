@@ -1,3 +1,4 @@
+import { useLimitLineSync } from 'modules/autoTrader/BuySellTrader/useLimitLineSync';
 import { useEffect, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import Trader from '../PageTrade/Trader';
@@ -12,6 +13,7 @@ const BuySellForms: React.FC<
 > = inputs => {
   const { mode, slug } = inputs;
   const swapState = useSwapState(inputs);
+  useLimitLineSync(swapState);
 
   const {
     base: { setSlug: setBase },

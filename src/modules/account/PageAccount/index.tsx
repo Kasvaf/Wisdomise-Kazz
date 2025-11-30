@@ -7,11 +7,11 @@ import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import Badge from 'shared/Badge';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageCard } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
 import { ReadableDuration } from 'shared/ReadableDuration';
+import { Badge } from 'shared/v1-components/Badge';
 import useIsMobile from 'utils/useIsMobile';
 import { isMiniApp } from 'utils/version';
 import BtnLiveSupport from './BtnLiveSupport';
@@ -57,18 +57,15 @@ const PageAccount: FC = () => {
           <PageCard
             badge={
               subscription.group !== 'free' && (
-                <Badge
-                  color={subscription.remaining ? 'white' : 'red'}
-                  label={
-                    <span className="flex items-center gap-1">
-                      <ReadableDuration
-                        value={subscription.remaining}
-                        zeroText={t('pro:zero-hour')}
-                      />{' '}
-                      {t('menu.billing.remains')}
-                    </span>
-                  }
-                />
+                <Badge>
+                  <span className="flex items-center gap-1">
+                    <ReadableDuration
+                      value={subscription.remaining}
+                      zeroText={t('pro:zero-hour')}
+                    />{' '}
+                    {t('menu.billing.remains')}
+                  </span>
+                </Badge>
               )
             }
             description={t('menu.billing.subtitle')}
@@ -89,12 +86,11 @@ const PageAccount: FC = () => {
         )}
         <PageCard
           badge={
-            <Badge
-              color="blue"
-              label={t('accounts:page-accounts.accounts_connected', {
+            <Badge>
+              {t('accounts:page-accounts.accounts_connected', {
                 count: exchanges?.length || 0,
               })}
-            />
+            </Badge>
           }
           description={t('menu.account-manager.subtitle')}
           icon={ExternalAccountIcon}
@@ -104,12 +100,11 @@ const PageAccount: FC = () => {
         />
         <PageCard
           badge={
-            <Badge
-              color="blue"
-              label={t('accounts:page-accounts.users_invited', {
+            <Badge>
+              {t('accounts:page-accounts.users_invited', {
                 count: referral?.referred_users_count || 0,
               })}
-            />
+            </Badge>
           }
           description={t('menu.referral.subtitle')}
           icon={ReferralIcon}

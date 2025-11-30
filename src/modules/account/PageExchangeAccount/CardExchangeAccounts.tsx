@@ -1,7 +1,6 @@
 import { useExchangeAccountsQuery } from 'api';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import Badge from 'shared/Badge';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import Spinner from 'shared/Spinner';
@@ -61,11 +60,11 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
                 {t('account.status')}
               </div>
               <div className="flex h-full items-center">
-                {acc.status === 'RUNNING' ? (
-                  <Badge color="green" label="Running" />
-                ) : (
-                  <Badge color="grey" label="Inactive" />
-                )}
+                {/* {acc.status === 'RUNNING' ? ( */}
+                {/*   <Badge color="green" label="Running" /> */}
+                {/* ) : ( */}
+                {/*   <Badge color="grey" label="Inactive" /> */}
+                {/* )} */}
               </div>
             </div>
 

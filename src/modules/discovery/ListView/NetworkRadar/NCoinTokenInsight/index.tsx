@@ -2,12 +2,12 @@ import { clsx } from 'clsx';
 import { type FC, memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Badge } from 'shared/v1-components/Badge';
 import { ReactComponent as DevHolding } from './dev_holding.svg';
 import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
 
 export const NCoinTokenInsight: FC<{
   className?: string;
-  imgClassName?: string;
   value?: {
     top10Holding?: number;
     snipersHolding?: number;
@@ -17,7 +17,7 @@ export const NCoinTokenInsight: FC<{
     boundleHolding?: number;
   };
   type: 'row' | 'card';
-}> = memo(({ type, className, imgClassName, value }) => {
+}> = memo(({ type, className, value }) => {
   const { t } = useTranslation('network-radar');
 
   const items = useMemo<
@@ -111,30 +111,19 @@ export const NCoinTokenInsight: FC<{
           )}
         >
           {items.map(item => (
-            <div
-              className={clsx(
-                'relative flex shrink-0 items-center justify-start rounded-3xl border border-white/10 py-0.5 pr-1.5 pl-1',
+            <Badge
+              color={
                 item.color === 'green'
-                  ? 'text-v1-background-positive'
+                  ? 'positive'
                   : item.color === 'red'
-                    ? 'text-v1-background-negative'
-                    : 'opacity-80',
-              )}
+                    ? 'negative'
+                    : 'neutral'
+              }
               key={item.key}
               title={item.fullTitle}
+              variant="outline"
             >
-              <item.icon
-                className={clsx(
-                  'mr-1',
-                  item.color === 'green'
-                    ? 'stroke-v1-background-positive-subtle'
-                    : item.color === 'red'
-                      ? 'stroke-v1-background-negative-subtle'
-                      : '',
-                  'size-4',
-                  imgClassName,
-                )}
-              />{' '}
+              <item.icon />
               <ReadableNumber
                 emptyText=""
                 format={{ decimalLength: 1 }}
@@ -142,7 +131,7 @@ export const NCoinTokenInsight: FC<{
                 value={item.value}
               />
               %
-            </div>
+            </Badge>
           ))}
         </div>
       ) : (
@@ -184,7 +173,6 @@ export const NCoinTokenInsight: FC<{
                           ? 'stroke-v1-background-negative-subtle'
                           : '',
                       'size-5',
-                      imgClassName,
                     )}
                   />
                   <ReadableNumber

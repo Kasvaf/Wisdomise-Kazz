@@ -1,6 +1,6 @@
 import { useReferralStatusQuery } from 'api';
 import { useTranslation } from 'react-i18next';
-import Badge from 'shared/Badge';
+import { Badge } from 'shared/v1-components/Badge';
 import BoxedIcon from './BoxedIcon';
 import { IconReferral } from './icons';
 import MenuItem from './MenuItem';
@@ -15,12 +15,11 @@ const MenuItemReferral = () => {
       {t('menu.referral.title')}
 
       {!Number.isNaN(referral?.referred_users_count) && referral != null && (
-        <Badge
-          color="blue"
-          label={t('accounts:page-accounts.users_invited', {
+        <Badge color="info">
+          {t('accounts:page-accounts.users_invited', {
             count: referral?.referred_users_count || 0,
           })}
-        />
+        </Badge>
       )}
     </MenuItem>
   );

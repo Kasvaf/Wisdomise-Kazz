@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Button } from 'shared/v1-components/Button';
+import { Badge } from 'shared/v1-components/Badge';
 import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useInterval } from 'usehooks-ts';
@@ -147,7 +147,7 @@ export const NCoinBCurve: FC<{
         <ReadableNumber
           className="font-medium"
           format={{
-            decimalLength: 1,
+            decimalLength: 0,
           }}
           label="%"
           popup="never"
@@ -341,7 +341,6 @@ export const NCoinList: FC<{
                         {!mini && bCurve}
                         <NCoinTokenInsight
                           className={mini ? 'text-xxs' : 'text-xs'}
-                          imgClassName="size-2"
                           key="ins"
                           type="row"
                           value={row.validatedData}
@@ -411,10 +410,12 @@ export const MetaTag = ({
   title: string;
   mini?: boolean;
 }) => {
-  const { data: meta, isLoading } = useMetaDetailsQuery(id);
+  const [enabled, setEnabled] = useState(false);
+  const { data: meta, isLoading } = useMetaDetailsQuery({ id, enabled });
 
   return (
     <HoverTooltip
+      onOpenChange={() => setEnabled(true)}
       title={
         isLoading ? (
           'Loading'
@@ -425,15 +426,15 @@ export const MetaTag = ({
         )
       }
     >
-      <Button
-        className="hover:!bg-secondary-300 ml-1 bg-secondary-500"
-        fab={mini}
-        size="3xs"
-        variant="ghost"
+      <Badge
+        className={clsx(mini && 'pr-0')}
+        color="secondary"
+        size="sm"
+        variant="solid"
       >
-        <MetaIcon className="!size-3" />
+        <MetaIcon className="!-ml-0.5" />
         {!mini && title}
-      </Button>
+      </Badge>
     </HoverTooltip>
   );
 };

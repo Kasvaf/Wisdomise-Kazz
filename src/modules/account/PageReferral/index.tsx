@@ -15,13 +15,13 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import Badge from 'shared/Badge';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import EditableText from 'shared/v1-components/EditableText';
 import { Table } from 'shared/v1-components/Table';
@@ -230,19 +230,13 @@ export default function ReferralPage() {
         <div className="rounded-xl bg-v1-surface-l1 p-3">
           <h1 className="mb-3 flex items-center gap-2 font-medium">
             Cashback
-            <Badge color="gradient" label="NEW" />
+            <Badge color="brand" variant="solid">
+              New
+            </Badge>
           </h1>
           <p className="mb-5 text-v1-content-secondary text-xs">
             Earn SOL from Trading on Solana
           </p>
-
-          {/* <Button */}
-          {/*   className="!text-v1-content-link !p-0 mb-3" */}
-          {/*   onClick={() => openReferralOnboardingModal({})} */}
-          {/*   variant="link" */}
-          {/* > */}
-          {/*   {t('page-referral.how.button')} */}
-          {/* </Button> */}
 
           {/* Claim Rewards */}
           <div className="relative mb-3 overflow-hidden rounded-xl bg-v1-surface-l2">
