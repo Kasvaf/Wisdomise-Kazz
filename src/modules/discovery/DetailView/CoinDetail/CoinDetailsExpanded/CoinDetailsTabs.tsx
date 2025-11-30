@@ -4,6 +4,7 @@ import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import TokenSwaps from 'modules/autoTrader/TokenSwaps';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
+import Orders from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Orders';
 import { Fragment, useEffect } from 'react';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -43,6 +44,7 @@ export const CoinDetailsTabs = () => {
 
   const tabContents = {
     coinoverview_swaps: <TokenSwaps />,
+    coinoverview_orders: <Orders />,
     coinoverview_trading_view: (
       <CoinMessagesWidget
         className="w-full"
@@ -168,7 +170,8 @@ export const CoinDetailsTabs = () => {
                                   setPinnedTab(x.value);
                                 }}
                                 size="3xs"
-                                variant="outline"
+                                surface={0}
+                                variant="ghost"
                               >
                                 <Icon className="scale-75" name={bxPin} />
                               </Button>
@@ -183,7 +186,7 @@ export const CoinDetailsTabs = () => {
                   variant="tab"
                 />
               </div>
-              <div className="-mt-[1px] grow overflow-auto border-v1-border-tertiary border-t p-2">
+              <div className="-mt-[1px] grow overflow-auto border-white/10 border-t p-2">
                 {tabContents[selectedTab as never]}
               </div>
             </div>

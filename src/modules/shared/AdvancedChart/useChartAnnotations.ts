@@ -27,7 +27,6 @@ interface IconOptions {
 export function useSwapActivityLines(slug: string) {
   const { data } = useTraderAssetQuery({ slug });
   const details = useUnifiedCoinDetails();
-  const hasFlag = useHasFlag();
 
   const supply = details?.marketData.totalSupply ?? 0;
   const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
@@ -65,7 +64,7 @@ export function useSwapActivityLines(slug: string) {
     ];
   }, [avgBuy, avgSell]);
 
-  useChartAnnotations(hasFlag('/swap-activity') ? lines : [], []);
+  useChartAnnotations(lines, []);
 }
 
 export function useSwapChartMarks(slug: string) {

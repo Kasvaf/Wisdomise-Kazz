@@ -161,7 +161,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
             )}
           </div>
         )}
-        <div className={clsx('flex gap-2', mini && 'items-center')}>
+        <div className={clsx('flex gap-1', mini && 'items-center')}>
           <div className="grow">
             {!mini && <p className="mb-2 text-v1-content-secondary">Bought</p>}
             <div
@@ -218,7 +218,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
               {showUsd ? (
                 <span
                   className={clsx(
-                    'flex items-center gap-1',
+                    'flex shrink-0 items-center gap-1',
                     mini && 'justify-center',
                   )}
                 >
@@ -231,7 +231,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
               ) : (
                 <span
                   className={clsx(
-                    'flex items-start gap-1',
+                    'flex shrink-0 items-start gap-1',
                     mini && 'justify-center',
                   )}
                 >

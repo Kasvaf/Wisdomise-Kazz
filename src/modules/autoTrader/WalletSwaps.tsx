@@ -5,9 +5,9 @@ import { bxLinkExternal, bxShareAlt } from 'boxicons-quasar';
 import dayjs from 'dayjs';
 import SwapSharingModal from 'modules/autoTrader/SwapSharingModal';
 import { useMemo, useState } from 'react';
-import Badge from 'shared/Badge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Token } from 'shared/v1-components/Token';
@@ -36,11 +36,9 @@ export default function WalletSwaps({ wallet }: { wallet: Wallet }) {
         key: 'type',
         title: 'Type',
         render: row => (
-          <Badge
-            className="!text-xs h-auto"
-            color={row.side === 'SHORT' ? 'red' : 'green'}
-            label={row.side === 'SHORT' ? 'Sell' : 'Buy'}
-          />
+          <Badge color={row.side === 'SHORT' ? 'negative' : 'positive'}>
+            {row.side === 'SHORT' ? 'Sell' : 'Buy'}
+          </Badge>
         ),
       },
       {

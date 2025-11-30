@@ -15,11 +15,11 @@ import WalletDetail from 'modules/base/wallet/WalletDetail';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AccessShield } from 'shared/AccessShield';
-import Badge from 'shared/Badge';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useSessionStorage } from 'usehooks-ts';
@@ -221,7 +221,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
             )}
           </div>
 
-          {isActive && <Badge color="gradient" label="Active" />}
+          {isActive && <Badge color="brand">Active</Badge>}
         </div>
         {wallet ? (
           <Button

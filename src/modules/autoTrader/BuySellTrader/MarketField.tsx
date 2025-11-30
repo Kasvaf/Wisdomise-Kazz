@@ -1,7 +1,12 @@
 import { Tooltip } from 'antd';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import {
+  useChartConvertToUSD,
+  useChartIsMarketCap,
+} from 'shared/AdvancedChart/chartSettings';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Toggle } from 'shared/Toggle';
 import { Button } from 'shared/v1-components/Button';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Input } from 'shared/v1-components/Input';
 import { Select } from 'shared/v1-components/Select';
 import Spin from 'shared/v1-components/Spin';
@@ -10,73 +15,76 @@ import type { SwapState } from './useSwapState';
 
 const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    dir,
-    from,
-    to,
+    base,
     isMarketPrice,
     setIsMarketPrice,
-    percentage,
     limit,
     setLimit,
     limitType,
     setLimitType,
     quote,
   } = state;
+  const [chartIsMC] = useChartIsMarketCap();
+  const [convertToUSD] = useChartConvertToUSD();
+  const { marketData } = useUnifiedCoinDetails();
 
   return (
     <div className="text-xs">
-      <div className="flex items-center justify-between rounded-lg bg-v1-surface-l1 p-3">
-        <div className="text-v1-content-secondary">
-          {from.priceByOther ? (
+      <div className="flex items-center justify-between rounded-lg bg-v1-surface-l1 py-1 pr-1 pl-3">
+        <div className={isMarketPrice ? 'text-white/50' : 'text-white/30'}>
+          {base.priceByOther && base.price ? (
             <>
-              1 {from.coinInfo?.symbol} ≈{' '}
+              <span>{chartIsMC ? 'MC' : 'Price'}: </span>
+              {convertToUSD && '$'}
               <ReadableNumber
                 format={{ decimalLength: 3, compactInteger: true }}
-                value={+from.priceByOther * (1 + percentage / 100)}
+                value={
+                  (convertToUSD ? +base.price : +base.priceByOther) *
+                  (chartIsMC ? (marketData.totalSupply ?? 0) : 1)
+                }
               />{' '}
-              {to.coinInfo?.symbol}
+              {!convertToUSD && quote.coinInfo?.symbol}
             </>
           ) : (
             <Spin />
           )}
         </div>
 
-        <div className="flex items-center gap-1">
-          Market Price
-          <Toggle
-            checked={isMarketPrice}
-            onChange={setIsMarketPrice}
-            variant="brand"
-          />
-        </div>
+        <ButtonSelect
+          onChange={setIsMarketPrice}
+          options={[
+            { value: true, label: 'Market' },
+            { value: false, label: 'Limit' },
+          ]}
+          size="xs"
+          surface={1}
+          value={isMarketPrice}
+          variant="default"
+        />
       </div>
 
       {!isMarketPrice && (
         <Tooltip
           arrow={false}
-          overlayClassName="[&_.ant-tooltip-inner]:bg-v1-surface-l1"
+          overlayClassName="[&_.ant-tooltip-inner]:!bg-v1-surface-l1"
           placement="bottom"
           title={
             <div className="flex gap-1">
-              {[2, 5, 10, 15, 30].map(x => (
+              {[-0.5, -0.2, -0.1, 0.1, 0.2, 0.5].map(x => (
                 <Button
-                  className="!px-2"
+                  className="!px-1"
                   key={x}
                   onClick={() =>
                     setLimit(
-                      roundSensible(
-                        +(limit ?? '0') +
-                          +(limit ?? '0') *
-                            (x / 100) *
-                            (dir === 'buy' ? -1 : 1),
-                      ),
+                      roundSensible(+(limit ?? '0') + +(limit ?? '0') * x),
                     )
                   }
-                  size="2xs"
+                  size="3xs"
+                  surface={2}
                   variant="ghost"
                 >
-                  {dir === 'buy' ? '-' : '+'}
-                  {x}%
+                  {x > 0 && '+'}
+                  {x * 100}%
                 </Button>
               ))}
             </div>
@@ -90,22 +98,22 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
               onKeyDown={preventNonNumericInput}
               prefixIcon={
                 <Select
-                  className="w-48"
-                  dialogClassName="w-32"
+                  className="w-28"
+                  dialogClassName="w-20"
                   onChange={newType => {
                     if (newType) {
                       setLimitType(newType);
                     }
                   }}
                   options={['price', 'market_cap'] as const}
-                  render={item => (item === 'price' ? 'Price' : 'Market Cap')}
+                  render={item => (item === 'price' ? 'Price' : 'MC')}
                   size="sm"
                   surface={1}
                   value={limitType}
                 />
               }
               size="md"
-              suffixIcon={limitType === 'price' ? quote.coinInfo?.symbol : '$'}
+              suffixIcon={convertToUSD ? '$' : quote.coinInfo?.symbol}
               surface={1}
               type="string"
               value={limit}

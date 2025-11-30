@@ -18,11 +18,11 @@ import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Badge from 'shared/Badge';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
 import { Tokens } from 'shared/Tokens';
 import { useShare } from 'shared/useShare';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
@@ -149,7 +149,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
 
   return (
     <div className="-mr-2 flex items-center justify-between gap-4 border-v1-inverse-overlay-10 border-b py-2 text-xs">
-      <div>
+      <div className="flex flex-col gap-1">
         <div
           className={clsx(
             'flex items-center gap-2 font-medium',
@@ -157,9 +157,9 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
           )}
         >
           {wallet ? wallet.name : 'Connected Wallet'}
-          {isActive && (
-            <Badge className="!h-3" color="gradient" label="Active" />
-          )}
+          <Badge className={clsx(!isActive && 'opacity-0')} color="brand">
+            Active
+          </Badge>
         </div>
         <div className="flex items-center gap-1 text-v1-inverse-overlay-50 text-xxs">
           {wallet ? (
