@@ -2,7 +2,10 @@ import { clsx } from 'clsx';
 import { type FC, memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { ReactComponent as BundleHolding } from './bundle_holding.svg';
 import { ReactComponent as DevHolding } from './dev_holding.svg';
+import { ReactComponent as InsidersHolding } from './insiders_holding.svg';
+import { ReactComponent as SnipersHolding } from './snipers_holding.svg';
 import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
 
 export const NCoinTokenInsight: FC<{
@@ -57,45 +60,45 @@ export const NCoinTokenInsight: FC<{
               : 'red'
             : 'gray',
       },
-      // {
-      //   key: 'snipers_holding',
-      //   icon: SnipersHolding,
-      //   value: value?.snipersHolding,
-      //   title: t('network-radar:token_insight.snipers_holding.mini'),
-      //   fullTitle: t('network-radar:token_insight.snipers_holding.full'),
-      //   color:
-      //     typeof value?.snipersHolding === 'number'
-      //       ? (value?.snipersHolding ?? 0) < 15
-      //         ? 'green'
-      //         : 'red'
-      //       : 'gray',
-      // },
-      // {
-      //   key: 'insiders_holding',
-      //   icon: InsidersHolding,
-      //   value: value?.insiderHolding,
-      //   title: t('network-radar:token_insight.insiders_holding.mini'),
-      //   fullTitle: t('network-radar:token_insight.insiders_holding.full'),
-      //   color:
-      //     typeof value?.insiderHolding === 'number'
-      //       ? (value?.insiderHolding ?? 0) < 15
-      //         ? 'green'
-      //         : 'red'
-      //       : 'gray',
-      // },
-      // {
-      //   key: 'bundle_holding',
-      //   icon: BundleHolding,
-      //   value: value?.boundleHolding,
-      //   title: t('network-radar:token_insight.bundle_holding.mini'),
-      //   fullTitle: t('network-radar:token_insight.bundle_holding.full'),
-      //   color:
-      //     typeof value?.boundleHolding === 'number'
-      //       ? (value?.boundleHolding ?? 0) < 15
-      //         ? 'green'
-      //         : 'red'
-      //       : 'gray',
-      // },
+      {
+        key: 'snipers_holding',
+        icon: SnipersHolding,
+        value: value?.snipersHolding,
+        title: t('network-radar:token_insight.snipers_holding.mini'),
+        fullTitle: t('network-radar:token_insight.snipers_holding.full'),
+        color:
+          typeof value?.snipersHolding === 'number'
+            ? (value?.snipersHolding ?? 0) < 15
+              ? 'green'
+              : 'red'
+            : 'gray',
+      },
+      {
+        key: 'insiders_holding',
+        icon: InsidersHolding,
+        value: value?.insiderHolding,
+        title: t('network-radar:token_insight.insiders_holding.mini'),
+        fullTitle: t('network-radar:token_insight.insiders_holding.full'),
+        color:
+          typeof value?.insiderHolding === 'number'
+            ? (value?.insiderHolding ?? 0) < 15
+              ? 'green'
+              : 'red'
+            : 'gray',
+      },
+      {
+        key: 'bundle_holding',
+        icon: BundleHolding,
+        value: value?.boundleHolding,
+        title: t('network-radar:token_insight.bundle_holding.mini'),
+        fullTitle: t('network-radar:token_insight.bundle_holding.full'),
+        color:
+          typeof value?.boundleHolding === 'number'
+            ? (value?.boundleHolding ?? 0) < 15
+              ? 'green'
+              : 'red'
+            : 'gray',
+      },
     ],
     [value, t],
   );
