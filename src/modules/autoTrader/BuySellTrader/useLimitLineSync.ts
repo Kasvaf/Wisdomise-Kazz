@@ -14,17 +14,16 @@ import { formatNumber } from 'utils/numbers';
 
 export function useLimitLineSync(state: SwapState) {
   const [widget] = useAdvancedChartWidget();
-  const details = useUnifiedCoinDetails();
   const [chartIsMC] = useChartIsMarketCap();
   const [chartIsUSD] = useChartConvertToUSD();
   const objectsRef = useRef<any[]>([]);
-  const { marketData } = useUnifiedCoinDetails();
+  const { marketData, symbol } = useUnifiedCoinDetails();
   const [activeQuote] = useActiveQuote();
   const { data: quoteInfo } = useTokenInfo({ slug: activeQuote });
   const { data: orders } = useOrdersQuery({
     status: 'PENDING',
     priceInUsd: chartIsUSD,
-    baseAddress: details.symbol.contractAddress ?? undefined,
+    baseAddress: symbol.contractAddress ?? undefined,
     quoteAddress: slugToTokenAddress(activeQuote),
   });
 
@@ -104,11 +103,17 @@ export function useLimitLineSync(state: SwapState) {
               separateByComma: false,
             },
           );
+          const formatedAmount = formatNumber(+order.amount, {
+            decimalLength: 2,
+            compactInteger: true,
+            minifyDecimalRepeats: true,
+            separateByComma: false,
+          });
           const side =
             order.type === 'BUY_ABOVE' || order.type === 'BUY_BELOW'
               ? 'LONG'
               : 'SHORT';
-          const text = `${orderTypeMap[order.type].label} ${chartIsUSD ? '$' : ''}${formatedPriceOrMC}${chartIsUSD ? '' : quoteInfo?.symbol}${chartIsMC ? ' MC' : ''} | ${order.amount} ${quoteInfo?.symbol}`;
+          const text = `${orderTypeMap[order.type].label} ${chartIsUSD ? '$' : ''}${formatedPriceOrMC}${chartIsUSD ? '' : quoteInfo?.symbol}${chartIsMC ? ' MC' : ''} | ${formatedAmount} ${side === 'LONG' ? quoteInfo?.symbol : symbol.abbreviation}`;
           const l = chart.createShape(
             {
               time: Date.now() / 1000,
@@ -118,8 +123,8 @@ export function useLimitLineSync(state: SwapState) {
               shape: 'horizontal_line',
               text,
               overrides: {
-                linecolor: side === 'LONG' ? 'green' : 'red',
-                textcolor: side === 'LONG' ? 'green' : 'red',
+                linecolor: side === 'LONG' ? '#3ec2ab' : '#eb6085',
+                textcolor: side === 'LONG' ? '#3ec2ab' : '#eb6085',
                 linestyle: 2, // 0=solid, 1=dotted, 2=dashed
                 linewidth: 2,
                 showLabel: true,

@@ -58,7 +58,7 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const percentage = isMarketPrice
     ? 0
     : limitType === 'price'
-      ? (((basePriceByQuote ?? 0) - +limit) * 100) / (basePriceByQuote ?? 1)
+      ? (((basePrice ?? 0) - +limit) * 100) / (basePrice ?? 1)
       : ((marketCap - +limit) * 100) / marketCap;
 
   const quoteFields = {
@@ -84,7 +84,7 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     price: basePrice,
     finalPrice:
       (Number(convertToUsd ? basePrice : basePriceByQuote) *
-        (100 + (dir === 'buy' ? -1 : 1) * Number(percentage))) /
+        (100 - Number(percentage))) /
       100,
     priceByOther: basePriceByQuote,
     amount,

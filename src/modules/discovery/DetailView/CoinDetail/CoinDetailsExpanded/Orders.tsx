@@ -22,7 +22,7 @@ export const orderTypeMap: Record<
   BUY_BELOW: { label: 'Buy Below', color: 'positive' },
   BUY_ABOVE: { label: 'Buy Above', color: 'positive' },
   SELL_BELOW: { label: 'Sell Below', color: 'negative' },
-  SELL_ABOVE: { label: 'Sell Below', color: 'negative' },
+  SELL_ABOVE: { label: 'Sell Above', color: 'negative' },
 } as const;
 
 export const orderStatusMap: Record<
@@ -138,15 +138,16 @@ export default function Orders({
       {
         key: 'actions',
         title: 'Actions',
-        render: row => (
-          <Button
-            onClick={() => cancelOrder(row.key)}
-            size="2xs"
-            variant="negative_outline"
-          >
-            Cancel
-          </Button>
-        ),
+        render: row =>
+          row.status === 'PENDING' && (
+            <Button
+              onClick={() => cancelOrder(row.key)}
+              size="2xs"
+              variant="negative_outline"
+            >
+              Cancel
+            </Button>
+          ),
       },
     ],
     [cancelOrder],

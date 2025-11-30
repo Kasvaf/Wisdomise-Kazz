@@ -67,7 +67,7 @@ export const useOrdersQuery = ({
       return data;
     },
     staleTime: 1000 * 10,
-    refetchInterval: 1000 * 10,
+    refetchInterval: 1000 * 20,
   });
 };
 
