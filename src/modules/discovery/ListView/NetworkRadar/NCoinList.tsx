@@ -426,7 +426,12 @@ export const MetaTag = ({
         )
       }
     >
-      <Badge color="secondary" size="sm" variant="solid">
+      <Badge
+        className={clsx(mini && 'pr-0')}
+        color="secondary"
+        size="sm"
+        variant="solid"
+      >
         <MetaIcon className="!-ml-0.5" />
         {!mini && title}
       </Badge>

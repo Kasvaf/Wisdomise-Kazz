@@ -3,6 +3,10 @@ import {
   useReferralStatusQuery,
   useSubscription,
 } from 'api';
+import { trackClick } from 'config/segment';
+import PageWrapper from 'modules/base/PageWrapper';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageCard } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
