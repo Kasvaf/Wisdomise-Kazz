@@ -1,4 +1,5 @@
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import DevTokens from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/DevTokens';
 import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import type { FC } from 'react';
@@ -38,6 +39,7 @@ export const CoinDetailsCompact: FC = () => {
           type="technical_ideas"
         />
         <CoinMessagesWidget id="coinoverview_socials" type="rest" />
+        <DevTokens id="coinoverview_dev" />
         <CoinPoolsWidget id="coinoverview_pools" />
         <Faster100xWidget
           className="h-96 w-full"
