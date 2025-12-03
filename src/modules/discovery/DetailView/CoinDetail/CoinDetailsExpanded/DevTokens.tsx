@@ -1,4 +1,4 @@
-import { type DevToken, useDevTokensQuery } from 'api/dev';
+import { type DevToken, useDevTokensQuery } from 'api/dev-tokens';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type { EChartsOption } from 'echarts';
@@ -25,16 +25,18 @@ export default function DevTokens({
   const migratedCount = devTokens?.migrated_count ?? 0;
   const totalCount = devTokens?.total_count ?? 0;
   const nonMigratedCount = totalCount - migratedCount;
-  const migratedPercentage = (migratedCount / totalCount) * 100;
+  const migratedPercentage = totalCount
+    ? (migratedCount / totalCount) * 100
+    : 0;
 
   const topMCToken = useMemo(() => {
-    return devTokens?.tokens.reduce((current, token) => {
+    return devTokens?.tokens?.reduce((current, token) => {
       return +current.market_cap_usd > +token.market_cap_usd ? current : token;
     });
   }, [devTokens?.tokens]);
 
   const lastLaunchedToken = useMemo(() => {
-    return devTokens?.tokens.reduce((latest, token) => {
+    return devTokens?.tokens?.reduce((latest, token) => {
       return new Date(token.created_at) > new Date(latest.created_at)
         ? token
         : latest;

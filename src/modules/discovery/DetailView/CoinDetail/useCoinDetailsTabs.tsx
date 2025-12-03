@@ -1,4 +1,5 @@
 import { useOrdersQuery } from 'api/order';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useMarketCap } from 'modules/discovery/DetailView/CoinDetail/useMarketCap';
 import { type ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,15 +10,19 @@ export const useCoinDetailsTabs = () => {
   const { t } = useTranslation('coin-radar');
   const { data: pendingOrders } = useOrdersQuery({ status: 'PENDING' });
   const { data: marketCapUsd } = useMarketCap({});
+  const { symbol } = useUnifiedCoinDetails();
   const [showInsight, setShowInsight] = useState(false);
 
   useEffect(() => {
     if (marketCapUsd > 10 ** 6) {
       setShowInsight(true);
-    } else {
-      setShowInsight(false);
     }
   }, [marketCapUsd]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    setShowInsight(false);
+  }, [symbol.contractAddress]);
 
   const initialTabs = useMemo<
     ComponentProps<typeof ButtonSelect<string>>['options']
