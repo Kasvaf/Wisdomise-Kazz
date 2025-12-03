@@ -86,6 +86,16 @@ const DEFAULT_PERCENTAGE_PRESETS = [
   '0',
 ];
 
+const DEFAULT_TRENCH_PROTOCOLS = [
+  'Pump',
+  'Raydium Launchlab',
+  'Bags FM',
+  'Believeapp',
+  'Bonk',
+  'Jup Studio',
+  'Moonshot',
+];
+
 const DEFAULT_USER_SETTINGS: UserSettings = {
   presets: Array.from({ length: 3 }, () => ({
     buy: { slippage: '0.2', sol_priority_fee: '0.001', sol_bribe_fee: '0.001' },
@@ -152,9 +162,9 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     imported_wallets: [],
   },
   trench_filters: {
-    new_pairs: {},
-    final_stretch: {},
-    migrated: {},
+    new_pairs: { protocols: [...DEFAULT_TRENCH_PROTOCOLS] },
+    final_stretch: { protocols: [...DEFAULT_TRENCH_PROTOCOLS] },
+    migrated: { protocols: [...DEFAULT_TRENCH_PROTOCOLS] },
   },
   meta: {
     filters: { new: {}, trend: {}, high_mc: {} },

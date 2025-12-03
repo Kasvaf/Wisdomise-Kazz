@@ -57,9 +57,11 @@ interface ReferredUser {
 }
 
 export function useReferralStatusQuery() {
+  const email = useJwtEmail();
   return useQuery({
     queryKey: ['getReferralStatus'],
     queryFn: async () => {
+      if (!email) return;
       return await ofetch<ReferralStatus>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
       );
@@ -120,9 +122,11 @@ export function useReferralCodeMutation() {
 }
 
 export function useFriendsQuery() {
+  const email = useJwtEmail();
   return useQuery({
     queryKey: ['getFriends'],
     queryFn: async () => {
+      if (!email) return;
       return await ofetch<PageResponse<ReferredUser>>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referred-users`,
       );
