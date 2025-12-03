@@ -10,10 +10,10 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
-import Dot from 'shared/v1-components/Dot';
 import { hasAnyValue } from 'utils/object';
 import useIsMobile from 'utils/useIsMobile';
 import type { Surface } from 'utils/useSurface';
@@ -151,7 +151,7 @@ export function Filters<T extends object>({
             >
               {(isFiltersApplied !== undefined
                 ? isFiltersApplied
-                : _isFiltersApplied) && <Dot />}
+                : _isFiltersApplied) && <Badge dot />}
               <FilterIcon className="!size-4" />
               {!isMini && 'Filters'}
             </Button>

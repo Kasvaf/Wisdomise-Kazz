@@ -16,13 +16,13 @@ import {
   useReferralStatusQuery,
   useTradeReferralClaimMutation,
 } from 'services/rest';
-import Badge from 'shared/Badge';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
+import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import EditableText from 'shared/v1-components/EditableText';
 import { Table } from 'shared/v1-components/Table';
@@ -231,7 +231,9 @@ export default function ReferralPage() {
         <div className="rounded-xl bg-v1-surface-l1 p-3">
           <h1 className="mb-3 flex items-center gap-2 font-medium">
             Cashback
-            <Badge color="gradient" label="NEW" />
+            <Badge color="brand" variant="solid">
+              New
+            </Badge>
           </h1>
           <p className="mb-5 text-v1-content-secondary text-xs">
             Earn SOL from Trading on Solana.

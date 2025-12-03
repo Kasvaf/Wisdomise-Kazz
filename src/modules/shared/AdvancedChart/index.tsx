@@ -74,6 +74,9 @@ const AdvancedChart: React.FC<{
 
     const widget = new Widget({
       symbol: details.symbol.name ?? undefined,
+      // datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
+      //   'https://demo-feed-data.tradingview.com',
+      // ),
       datafeed: makeDataFeed({
         ...data,
         isMarketCap,

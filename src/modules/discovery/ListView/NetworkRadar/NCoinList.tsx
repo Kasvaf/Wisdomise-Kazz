@@ -18,7 +18,7 @@ import { useMetaDetailsQuery } from 'services/rest/meta';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Button } from 'shared/v1-components/Button';
+import { Badge } from 'shared/v1-components/Badge';
 import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useInterval } from 'usehooks-ts';
@@ -147,7 +147,7 @@ export const NCoinBCurve: FC<{
         <ReadableNumber
           className="font-medium"
           format={{
-            decimalLength: 1,
+            decimalLength: 0,
           }}
           label="%"
           popup="never"
@@ -337,23 +337,26 @@ export const NCoinList: FC<{
                     abbreviation={row.symbol?.abbreviation}
                     address={row.symbol?.base}
                     extra={
-                      <>
-                        {!mini && bCurve}
-                        <NCoinTokenInsight
-                          className={mini ? 'text-xxs' : 'text-xs'}
-                          imgClassName="size-2"
-                          key="ins"
-                          type="row"
-                          value={row.validatedData}
-                        />
-                        {row.meta && (
-                          <MetaTag
-                            id={row.meta.id}
-                            mini={mini}
-                            title={row.meta.title}
+                      !mini && (
+                        <div className="flex flex-col justify-end gap-1">
+                          <div className="flex h-6 items-center gap-2">
+                            {!mini && bCurve}
+                            {row.meta && (
+                              <MetaTag
+                                id={row.meta.id}
+                                mini={mini}
+                                title={row.meta.title}
+                              />
+                            )}
+                          </div>
+                          <NCoinTokenInsight
+                            className={mini ? 'text-xxs' : 'text-xs'}
+                            key="ins"
+                            type="row"
+                            value={row.validatedData}
                           />
-                        )}
-                      </>
+                        </div>
+                      )
                     }
                     header={ageAndSecurity}
                     link={false}
@@ -385,6 +388,14 @@ export const NCoinList: FC<{
                     value={row}
                   />
                 </div>
+                {mini && (
+                  <NCoinTokenInsight
+                    className={mini ? 'text-xxs' : 'text-xs'}
+                    key="ins"
+                    type="row"
+                    value={row.validatedData}
+                  />
+                )}
                 {row.symbol && (
                   <BtnQuickBuy
                     className="!absolute !hidden group-hover:!flex right-2 bottom-2"
@@ -411,10 +422,12 @@ export const MetaTag = ({
   title: string;
   mini?: boolean;
 }) => {
-  const { data: meta, isLoading } = useMetaDetailsQuery(id);
+  const [enabled, setEnabled] = useState(false);
+  const { data: meta, isLoading } = useMetaDetailsQuery({ id, enabled });
 
   return (
     <HoverTooltip
+      onOpenChange={() => setEnabled(true)}
       title={
         isLoading ? (
           'Loading'
@@ -425,15 +438,15 @@ export const MetaTag = ({
         )
       }
     >
-      <Button
-        className="hover:!bg-secondary-300 ml-1 bg-secondary-500"
-        fab={mini}
-        size="3xs"
-        variant="ghost"
+      <Badge
+        className={clsx(mini && 'pr-0')}
+        color="secondary"
+        size="sm"
+        variant="solid"
       >
-        <MetaIcon className="!size-3" />
+        <MetaIcon className="!-ml-0.5" />
         {!mini && title}
-      </Button>
+      </Badge>
     </HoverTooltip>
   );
 };

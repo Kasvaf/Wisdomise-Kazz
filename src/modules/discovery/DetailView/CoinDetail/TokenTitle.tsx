@@ -11,6 +11,7 @@ import {
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import Skeleton from 'shared/v1-components/Skeleton';
 import { Token } from 'shared/v1-components/Token';
 import { useUnifiedCoinDetails } from './lib';
 
@@ -193,14 +194,14 @@ export const TokenTitle: FC<{
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-3">
-            <div className="size-10 rounded-lg bg-v1-surface-l2" />
-            <div>
-              <div className="mb-2 h-3 w-20 rounded-sm bg-v1-surface-l2" />
-              <div className="h-3 w-36 rounded-sm bg-v1-surface-l2" />
+            <Skeleton className="!size-10" />
+            <div className="flex flex-col">
+              <Skeleton className="mb-2 w-20" />
+              <Skeleton className="w-36" />
             </div>
-            <div className="h-8 w-20 rounded-lg bg-v1-surface-l2" />
-            <div className="h-8 w-20 rounded-lg bg-v1-surface-l2" />
-            <div className="h-8 w-20 rounded-lg bg-v1-surface-l2" />
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-20" />
           </div>
         )}
       </div>

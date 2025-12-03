@@ -16,7 +16,6 @@ import {
   useLeagueLeaderboardQuery,
   useLeagueProfileQuery,
 } from 'services/rest/gamification';
-import Badge from 'shared/Badge';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import useModal from 'shared/useModal';
@@ -30,6 +29,7 @@ import prize from './images/prize.png';
 // eslint-disable-next-line import/no-unassigned-import
 import 'swiper/css/navigation';
 import { DOCS_ORIGIN } from 'config/constants';
+import { Badge } from 'shared/v1-components/Badge';
 
 export default function PageLeague() {
   const { profile, league, isLoading } = useLeague();
@@ -113,11 +113,9 @@ export default function PageLeague() {
                 <SwiperSlide key={item.slug}>
                   <div className="relative mx-auto flex flex-col items-center">
                     {profile.league_slug === item.slug && (
-                      <Badge
-                        className="absolute top-0"
-                        color="orange"
-                        label="You Are Here"
-                      />
+                      <Badge className="absolute top-0" color="notice">
+                        You Are Here
+                      </Badge>
                     )}
                     <LeagueIcon
                       className={clsx(

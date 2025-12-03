@@ -16,7 +16,7 @@ export const WinRateBadge: FC<{
       rel="noreferrer"
       target="_blank"
     >
-      <Badge variant="brand">
+      <Badge>
         <span className="opacity-70">{'Winrate:'}</span>
         <ReadableNumber
           format={{

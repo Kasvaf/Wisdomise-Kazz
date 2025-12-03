@@ -3,6 +3,7 @@ import TraderTrades from 'modules/autoTrader/TraderTrades';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useTokenPairsQuery } from 'services/rest';
+import Skeleton from 'shared/v1-components/Skeleton';
 import { useUnifiedCoinDetails } from '../lib';
 import { ReactComponent as TradingIcon } from './TradingIcon.svg';
 
@@ -40,25 +41,22 @@ const TraderSection: React.FC<{
 const TradeSkeleton = () => {
   return (
     <div className="mt-3">
-      <div className="h-[96px] w-full rounded-xl bg-v1-surface-l2" />
+      <Skeleton className="h-[96px] w-full" />
       <hr className="my-3 border-white/10" />
-      <div className="h-[40px] w-full rounded-xl bg-v1-surface-l2" />
-      <div className="mt-12 h-[40px] w-full rounded-lg bg-v1-surface-l2" />
+      <Skeleton className="h-[40px] w-full" />
+      <Skeleton className="mt-12 h-[40px] w-full" />
       <div className="mt-2 flex items-center justify-between gap-1">
         {new Array(4).fill(0).map((_, i) => (
-          <div
-            className="h-[24px] w-full rounded-sm bg-v1-surface-l2"
-            key={i}
-          />
+          <Skeleton className="h-[24px] w-full" key={i} />
         ))}
       </div>
-      <div className="mt-5 h-[40px] w-full rounded-lg bg-v1-surface-l2" />
+      <Skeleton className="mt-5 h-[40px] w-full" />
       <div className="mt-3 flex items-center gap-1">
         {new Array(3).fill(0).map((_, i) => (
-          <div className="h-[24px] w-10 rounded-sm bg-v1-surface-l2" key={i} />
+          <Skeleton className="h-[24px] w-10" key={i} />
         ))}
       </div>
-      <div className="mt-12 h-[48px] w-full rounded-lg bg-v1-surface-l2" />
+      <Skeleton className="mt-12 h-[48px] w-full" />
     </div>
   );
 };

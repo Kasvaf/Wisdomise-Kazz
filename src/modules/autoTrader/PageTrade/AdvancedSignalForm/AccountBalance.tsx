@@ -1,10 +1,10 @@
-import { Spin } from 'antd';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useTokenBalance } from 'services/chains';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useLastPriceStream } from 'services/price';
 import { useTokenInfo } from 'services/rest/token-info';
+import Spin from 'shared/v1-components/Spin';
 import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
 
@@ -34,7 +34,7 @@ export const AccountBalance: React.FC<{
   return slug ? (
     isLoading ? (
       <div className="flex items-center gap-1 text-v1-content-secondary">
-        <Spin size="small" />
+        <Spin />
         Reading Balance
       </div>
     ) : balance === null ? null : (

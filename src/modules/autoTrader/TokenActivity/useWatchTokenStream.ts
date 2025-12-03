@@ -22,7 +22,6 @@ export const useWatchTokenStream = ({
       username: account?.username,
       symbolSlug: slug,
     },
-    enabled: !!slug,
     history: 100,
     filter: type ? data => data?.type === type : undefined,
   });
