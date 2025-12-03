@@ -1,13 +1,18 @@
 import { clsx } from 'clsx';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import {
+  useBundleHolding,
+  useDevHolding,
+  useHoldersNumber,
+  useLpBurned,
+  useSniperHolding,
+  useTop10Holding,
+} from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/useTokenInsight';
 import { type FC, memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReadableNumber } from 'shared/ReadableNumber';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { Badge } from 'shared/v1-components/Badge';
-import { ReactComponent as BundleHolding } from './bundle_holding.svg';
-import { ReactComponent as DevHolding } from './dev_holding.svg';
-// import { ReactComponent as InsidersHolding } from './insiders_holding.svg';
-import { ReactComponent as SnipersHolding } from './snipers_holding.svg';
-import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
+import Skeleton from 'shared/v1-components/Skeleton';
 
 export const NCoinTokenInsight: FC<{
   className?: string;
@@ -19,177 +24,114 @@ export const NCoinTokenInsight: FC<{
     devHolding?: number;
     boundleHolding?: number;
   };
-  type: 'row' | 'card';
-}> = memo(({ type, className, value }) => {
-  const { t } = useTranslation('network-radar');
+}> = memo(({ className, value }) => {
+  const top10Holding = useTop10Holding(value?.top10Holding);
+  const devHolding = useDevHolding(value?.devHolding);
+  const sniperHolding = useSniperHolding(value?.snipersHolding);
+  const bundleHolding = useBundleHolding(value?.boundleHolding);
 
-  const items = useMemo<
-    Array<{
-      key: string;
-      icon: FC<{ className?: string }>;
-      value: number | undefined;
-      title: string;
-      fullTitle: string;
-      color: 'green' | 'gray' | 'red';
-    }>
-  >(
-    () => [
-      {
-        key: 'top_10_holders_holding',
-        icon: Top10HoldersHolding,
-        value: value?.top10Holding,
-        title: t('network-radar:token_insight.top_10_holders_holding.mini'),
-        fullTitle: t('network-radar:token_insight.top_10_holders_holding.full'),
-        color:
-          typeof value?.top10Holding === 'number'
-            ? (value?.top10Holding ?? 0) < 15
-              ? 'green'
-              : 'red'
-            : 'gray',
-      },
-      {
-        key: 'dev_holding',
-        icon: DevHolding,
-        value: value?.devHolding,
-        title: t('network-radar:token_insight.dev_holding.mini'),
-        fullTitle: t('network-radar:token_insight.dev_holding.full'),
-        color:
-          typeof value?.devHolding === 'number'
-            ? (value?.devHolding ?? 0) < 15
-              ? 'green'
-              : 'red'
-            : 'gray',
-      },
-      {
-        key: 'snipers_holding',
-        icon: SnipersHolding,
-        value: value?.snipersHolding,
-        title: t('network-radar:token_insight.snipers_holding.mini'),
-        fullTitle: t('network-radar:token_insight.snipers_holding.full'),
-        color:
-          typeof value?.snipersHolding === 'number'
-            ? (value?.snipersHolding ?? 0) < 15
-              ? 'green'
-              : 'red'
-            : 'gray',
-      },
-      // {
-      //   key: 'insiders_holding',
-      //   icon: InsidersHolding,
-      //   value: value?.insiderHolding,
-      //   title: t('network-radar:token_insight.insiders_holding.mini'),
-      //   fullTitle: t('network-radar:token_insight.insiders_holding.full'),
-      //   color:
-      //     typeof value?.insiderHolding === 'number'
-      //       ? (value?.insiderHolding ?? 0) < 15
-      //         ? 'green'
-      //         : 'red'
-      //       : 'gray',
-      // },
-      {
-        key: 'bundle_holding',
-        icon: BundleHolding,
-        value: value?.boundleHolding,
-        title: t('network-radar:token_insight.bundle_holding.mini'),
-        fullTitle: t('network-radar:token_insight.bundle_holding.full'),
-        color:
-          typeof value?.boundleHolding === 'number'
-            ? (value?.boundleHolding ?? 0) < 15
-              ? 'green'
-              : 'red'
-            : 'gray',
-      },
-    ],
-    [value, t],
+  const insight = useMemo(
+    () => [top10Holding, devHolding, sniperHolding, bundleHolding],
+    [top10Holding, devHolding, sniperHolding, bundleHolding],
   );
 
   return (
-    <>
-      {type === 'row' ? (
-        <div
-          className={clsx(
-            'flex items-center gap-1',
-            !value && 'animate-pulse',
-            className,
-          )}
-        >
-          {items.map(item => (
-            <Badge
-              color={
-                item.color === 'green'
-                  ? 'positive'
-                  : item.color === 'red'
-                    ? 'negative'
-                    : 'neutral'
-              }
-              key={item.key}
-              title={item.fullTitle}
-              variant="outline"
-            >
-              <item.icon />
-              <ReadableNumber
-                emptyText=""
-                format={{ decimalLength: 1 }}
-                popup="never"
-                value={item.value}
-              />
-              %
-            </Badge>
-          ))}
-        </div>
-      ) : (
-        <div
-          className={clsx(
-            'rounded-lg bg-v1-surface-l-next p-3 text-xs',
-            className,
-          )}
-        >
-          <p className="mb-3 font-normal">
-            {t('network-radar:token_insight.title')}
-          </p>
-          <div className="grid grid-cols-3 gap-3">
-            {items.map(item => (
-              <div
-                className={clsx('flex flex-col gap-1')}
-                key={item.key}
-                title={item.fullTitle}
-              >
-                <p className="text-v1-content-secondary text-xxs">
-                  {item.title}
-                </p>
-
-                <div
-                  className={clsx(
-                    'relative flex shrink-0 items-center justify-start gap-1',
-                    item.color === 'green'
-                      ? 'text-v1-background-positive'
-                      : item.color === 'red'
-                        ? 'text-v1-background-negative'
-                        : 'opacity-80',
-                  )}
-                >
-                  <item.icon
-                    className={clsx(
-                      item.color === 'green'
-                        ? 'stroke-v1-background-positive-subtle'
-                        : item.color === 'red'
-                          ? 'stroke-v1-background-negative-subtle'
-                          : '',
-                      'size-5',
-                    )}
-                  />
-                  <ReadableNumber
-                    format={{ decimalLength: 1 }}
-                    label="%"
-                    popup="never"
-                    value={item.value}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+    <div
+      className={clsx(
+        'flex items-center gap-1',
+        !value && 'animate-pulse',
+        className,
       )}
-    </>
+    >
+      {insight.map(item => (
+        <HoverTooltip
+          key={item.title}
+          placement="bottom"
+          title={item.fullTitle}
+        >
+          <Badge
+            color={
+              item.color === 'green'
+                ? 'positive'
+                : item.color === 'red'
+                  ? 'negative'
+                  : 'neutral'
+            }
+            variant="outline"
+          >
+            <item.icon />
+            {item.value}
+          </Badge>
+        </HoverTooltip>
+      ))}
+    </div>
+  );
+});
+
+export const TokenInfo: FC<{
+  className?: string;
+}> = memo(({ className }) => {
+  const { t } = useTranslation('network-radar');
+
+  const { validatedData, securityData } = useUnifiedCoinDetails();
+  const top10Holding = useTop10Holding(validatedData?.top10Holding);
+  const bundleHolding = useBundleHolding(validatedData?.boundleHolding);
+  const sniperHolding = useSniperHolding(validatedData?.snipersHolding);
+  const devHolding = useDevHolding(validatedData?.devHolding);
+  const lpBurned = useLpBurned(securityData?.lpBurned);
+  const holders = useHoldersNumber(validatedData?.numberOfHolders);
+
+  const isLoading = !validatedData || !securityData;
+
+  const insight = useMemo(
+    () => [
+      top10Holding,
+      devHolding,
+      sniperHolding,
+      bundleHolding,
+      lpBurned,
+      holders,
+    ],
+    [top10Holding, devHolding, sniperHolding, bundleHolding, lpBurned, holders],
+  );
+
+  return (
+    <div
+      className={clsx('rounded-lg bg-v1-surface-l-next p-3 text-sm', className)}
+    >
+      <p className="mb-3 font-normal text-xs">
+        {t('network-radar:token_insight.title')}
+      </p>
+      <div className="grid grid-cols-3 gap-3">
+        {insight.map(item => (
+          <div
+            className={clsx(
+              'flex flex-col gap-2 rounded-lg border border-white/5 p-2 text-center',
+            )}
+            key={item.title}
+          >
+            <p className="text-v1-content-secondary text-xs">{item.title}</p>
+
+            {isLoading ? (
+              <Skeleton className="!bg-v1-surface-l2 h-5" />
+            ) : (
+              <div
+                className={clsx(
+                  'relative flex shrink-0 items-center justify-center gap-1',
+                  item.color === 'green'
+                    ? 'text-v1-content-positive'
+                    : item.color === 'red'
+                      ? 'text-v1-content-negative'
+                      : 'text-v1-content-primary/70',
+                )}
+              >
+                <item.icon className="size-5" />
+                {item.value}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 });

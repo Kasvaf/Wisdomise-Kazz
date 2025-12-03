@@ -1,12 +1,12 @@
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import { TokenInfo } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight';
 import type { FC } from 'react';
 import CoinChart from '../CoinChart';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { TokenTitle } from '../TokenTitle';
 import { TokenUpdateWidget } from '../TokenUpdateWidget';
@@ -24,7 +24,7 @@ export const CoinDetailsCompact: FC = () => {
       <BtnAutoTrade block slug={symbol.slug} variant="primary" />
       <CoinSentimentsWidget />
       <TokenUpdateWidget />
-      <NCoinInsightWidget />
+      <TokenInfo />
       <div className="h-[400px]">
         <CoinChart />
       </div>

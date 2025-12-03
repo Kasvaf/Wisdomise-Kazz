@@ -1,4 +1,5 @@
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import { TokenInfo } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight';
 import { type FC, Fragment, useRef } from 'react';
 import {
   ResizableSides,
@@ -7,7 +8,6 @@ import {
 import { useSessionStorage } from 'usehooks-ts';
 import CoinChart from '../CoinChart';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { TokenTitle } from '../TokenTitle';
 import { TokenUpdateWidget } from '../TokenUpdateWidget';
@@ -60,7 +60,7 @@ export const CoinDetailsExpanded: FC = () => {
           <hr className="border-white/10" />
           <TokenUpdateWidget />
           <NCoinRisksBanner />
-          <NCoinInsightWidget />
+          <TokenInfo />
         </div>
       </div>
     </div>
