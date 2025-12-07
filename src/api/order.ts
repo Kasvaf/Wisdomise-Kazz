@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
 import { ofetch } from 'config/ofetch';
+import { useJwtEmail } from 'modules/base/auth/jwt-store';
 
 export type OrderStatus = 'PENDING' | 'SUCCESS' | 'FAILED' | 'CANCELED';
 
@@ -41,6 +42,7 @@ export const useOrdersQuery = ({
   page?: number;
   size?: number;
 }) => {
+  const email = useJwtEmail();
   return useQuery({
     queryKey: [
       'limit-orders',
@@ -53,6 +55,7 @@ export const useOrdersQuery = ({
       size,
     ],
     queryFn: async () => {
+      if (!email) return;
       const data = await ofetch<PageResponse<Order>>('trader/limit-orders', {
         query: {
           base_address: baseAddress,

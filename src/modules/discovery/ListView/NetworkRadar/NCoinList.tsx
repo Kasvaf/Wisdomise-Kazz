@@ -349,12 +349,7 @@ export const NCoinList: FC<{
                               />
                             )}
                           </div>
-                          <NCoinTokenInsight
-                            className={mini ? 'text-xxs' : 'text-xs'}
-                            key="ins"
-                            type="row"
-                            value={row.validatedData}
-                          />
+                          <NCoinTokenInsight value={row.validatedData} />
                         </div>
                       )
                     }
@@ -388,14 +383,7 @@ export const NCoinList: FC<{
                     value={row}
                   />
                 </div>
-                {mini && (
-                  <NCoinTokenInsight
-                    className={mini ? 'text-xxs' : 'text-xs'}
-                    key="ins"
-                    type="row"
-                    value={row.validatedData}
-                  />
-                )}
+                {mini && <NCoinTokenInsight value={row.validatedData} />}
                 {row.symbol && (
                   <BtnQuickBuy
                     className="!absolute !hidden group-hover:!flex right-2 bottom-2"
