@@ -31,19 +31,19 @@ export default function RightSection({ plan, onResolve, invoiceKey }: Props) {
   };
 
   return (
-    <div className="flex h-full shrink grow basis-0 items-center justify-center bg-white/5 mobile:bg-v1-background-primary">
+    <div className="flex h-full shrink grow basis-0 items-center justify-center bg-white/5 max-md:bg-v1-background-primary">
       <div
         className={clsx(
           'flex w-3/4 flex-col items-center gap-10 rounded-3xl bg-white/5 px-8 py-12',
-          'mobile:w-full mobile:rounded-b-none mobile:bg-[#343942] mobile:px-6 mobile:py-8',
+          'max-md:w-full max-md:rounded-b-none max-md:bg-[#343942] max-md:px-6 max-md:py-8',
           isSubmitted && 'hidden',
         )}
       >
-        <p className="font-medium mobile:text-base text-white text-xl">
+        <p className="font-medium text-white text-xl max-md:text-base">
           {t('crypto-modal.payment-by-crypto')}
         </p>
 
-        <div className="rounded-3xl bg-black/80 px-4 py-6 text-center mobile:text-xs text-white/60">
+        <div className="rounded-3xl bg-black/80 px-4 py-6 text-center text-white/60 max-md:text-xs">
           {isConfirmed
             ? t('crypto-modal.notice.confirmed')
             : t('crypto-modal.notice.is-not-confirmed')}
@@ -59,7 +59,7 @@ export default function RightSection({ plan, onResolve, invoiceKey }: Props) {
             <CoinsIcons coins={['USDT']} size="small" />
             <div className="flex flex-col justify-between leading-none">
               <p className="font-medium text-xs">Tether</p>
-              <p className="text-white/40 text-xxs">USDT</p>
+              <p className="text-2xs text-white/40">USDT</p>
             </div>
           </div>
           <div className="basis-3/5">
@@ -95,11 +95,11 @@ export default function RightSection({ plan, onResolve, invoiceKey }: Props) {
       <div
         className={clsx(
           'hidden w-3/4 flex-col items-center gap-14 rounded-3xl bg-white/5 px-8 py-12',
-          'mobile:w-full mobile:gap-10 mobile:rounded-b-none mobile:bg-[#343942] mobile:px-6 mobile:py-8',
+          'max-md:w-full max-md:gap-10 max-md:rounded-b-none max-md:bg-[#343942] max-md:px-6 max-md:py-8',
           isSubmitted && '!flex',
         )}
       >
-        <MailIcon className="mobile:w-24" />
+        <MailIcon className="max-md:w-24" />
         <div className="text-center">
           <p className="mb-6 font-medium text-2xl">
             {t('crypto-modal.check-mail.title')}

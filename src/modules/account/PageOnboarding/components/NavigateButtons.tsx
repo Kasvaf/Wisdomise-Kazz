@@ -33,7 +33,7 @@ export function NavigateButtons({
     >
       <Button
         block
-        className={clsx('w-64', !showPrev && 'mobile:hidden opacity-0')}
+        className={clsx('w-64', !showPrev && 'opacity-0 max-md:hidden')}
         disabled={!allowPrev || !showPrev}
         onClick={onPrev}
         size="xl"
@@ -45,8 +45,8 @@ export function NavigateButtons({
       <Button
         block
         className={clsx(
-          'mobile:w-full w-64',
-          !showNext && 'mobile:hidden opacity-0',
+          'w-64 max-md:w-full',
+          !showNext && 'opacity-0 max-md:hidden',
         )}
         disabled={!allowNext || !showNext}
         onClick={onNext}

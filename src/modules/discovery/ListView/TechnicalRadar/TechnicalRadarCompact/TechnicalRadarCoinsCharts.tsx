@@ -26,7 +26,7 @@ export const TechnicalRadarCoinsCharts: FC<{
                     'keywords.rsi_bullish.label_equiv',
                   )}`}
                 </p>
-                <p className="text-v1-content-primary text-xxs">
+                <p className="text-2xs text-v1-content-primary">
                   {t('common.rsi_macd_chart.rsi_and_macd')}
                 </p>
               </div>
@@ -41,7 +41,7 @@ export const TechnicalRadarCoinsCharts: FC<{
                     'keywords.rsi_bearish.label_equiv',
                   )}`}
                 </p>
-                <p className="text-v1-content-primary text-xxs">
+                <p className="text-2xs text-v1-content-primary">
                   {t('common.rsi_macd_chart.rsi_and_macd')}
                 </p>
               </div>

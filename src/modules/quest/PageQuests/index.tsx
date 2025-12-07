@@ -28,7 +28,7 @@ export default function PageQuests() {
         title="Earn & Win"
       />
 
-      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-4">
+      <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1">
         {hasFlag('/trader/quests/daily') && (
           <DailyTrade className="shrink-0 grow" />
         )}

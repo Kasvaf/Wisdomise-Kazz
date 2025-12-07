@@ -14,17 +14,17 @@ export default function HowStep({
     <div className="flex h-full flex-col">
       <div className="flex h-full grow flex-col items-center overflow-auto px-6">
         <img alt="logo" className="w-auto" src={logo} />
-        <h1 className="mt-10 mb-4 font-semibold mobile:text-xl text-4xl md:mb-10">
+        <h1 className="mt-10 mb-4 font-semibold text-4xl max-md:text-xl md:mb-10">
           How It Works
         </h1>
-        <p className="mb-6 max-w-xl mobile:text-sm text-xl">
+        <p className="mb-6 max-w-xl text-xl max-md:text-sm">
           Invite Friends Using Your Unique Referral Link.
         </p>
         <div className="max-w-xl">
           {/* <div className="mb-5 flex items-center gap-4"> */}
           {/*   <img src={num1} alt="1" className="size-12" /> */}
           {/*   <div> */}
-          {/*     <p className="mb-1 text-xl mobile:text-sm">Friends Subscribe</p> */}
+          {/*     <p className="mb-1 text-xl max-md:text-sm">Friends Subscribe</p> */}
           {/*     <p className="text-sm text-v1-content-secondary"> */}
           {/*       When Your Friends Purchase Any Subscription Plan, You Earn{' '} */}
           {/*       <span className="text-v1-content-positive">30%</span> of Their */}
@@ -35,7 +35,7 @@ export default function HowStep({
           <div className="mb-5 flex items-center gap-4">
             <img alt="1" className="size-12" src={num1} />
             <div>
-              <p className="mb-1 mobile:text-sm text-xl">
+              <p className="mb-1 text-xl max-md:text-sm">
                 Friends Trade With Auto Trader (Level 1)
               </p>
               <p className="text-sm text-v1-content-secondary">
@@ -48,7 +48,7 @@ export default function HowStep({
           <div className="mb-5 flex items-center gap-4">
             <img alt="1" className="size-12" src={num2} />
             <div>
-              <p className="mb-1 mobile:text-sm text-xl">
+              <p className="mb-1 text-xl max-md:text-sm">
                 Friends’ Friends Trade With Auto Trader (Level 2)
               </p>
               <p className="text-sm text-v1-content-secondary">

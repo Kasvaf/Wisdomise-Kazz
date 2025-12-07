@@ -116,7 +116,7 @@ export function WhaleAssetBadge({
     <ClickableTooltip
       chevron={false}
       className={clsx(
-        'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
+        'h-5 whitespace-nowrap rounded-full px-2 py-px text-2xs',
         detail.className,
         className,
       )}

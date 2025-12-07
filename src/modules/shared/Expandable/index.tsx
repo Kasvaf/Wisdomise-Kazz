@@ -43,7 +43,7 @@ export const Expandable: FC<
         <div className="absolute bottom-0 left-0 h-20 w-full bg-gradient-to-b from-transparent to-[#25262d]">
           <hr className="absolute bottom-3 left-0 w-full opacity-30" />
           <Button
-            className="-translate-x-1/2 !border !border-white/30 !bg-[#25262D] hover:!bg-[#3c3d47] absolute bottom-0 left-1/2 h-6 mobile:px-3 px-8 text-xs"
+            className="-translate-x-1/2 !border !border-white/30 !bg-[#25262D] hover:!bg-[#3c3d47] absolute bottom-0 left-1/2 h-6 px-8 text-xs max-md:px-3"
             contentClassName="font-light text-white/50 flex flex-row gap-2 whitespace-nowrap"
             onClick={() => setIsOpen(true)}
             size="manual"

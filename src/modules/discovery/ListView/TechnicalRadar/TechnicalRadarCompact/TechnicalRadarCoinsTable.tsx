@@ -52,7 +52,7 @@ export const TechnicalRadarCoinsTable: FC<{
                   value={row.data?.price_change_percentage_24h}
                 />
                 <CoinMarketCap
-                  className="text-xxs"
+                  className="text-2xs"
                   marketData={row.data}
                   singleLine
                 />

@@ -90,7 +90,7 @@ const MiniAppPreDetailModal: React.FC<{
               )}
 
               <div className="mb-4 flex flex-col items-start justify-end overflow-auto">
-                <p className="mb-1 text-xxs">
+                <p className="mb-1 text-2xs">
                   {t('pre_detail_modal.wise_labels')}
                 </p>
                 <TokenLabels

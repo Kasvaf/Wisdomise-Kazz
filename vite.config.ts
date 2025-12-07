@@ -51,6 +51,7 @@ export default defineConfig(config => ({
       { find: 'old-api', replacement: '/src/old-api' },
       { find: 'modules', replacement: '/src/modules' },
       { find: 'shared', replacement: '/src/modules/shared' },
+      { find: 'styles', replacement: '/src/styles' },
       { find: 'assets', replacement: '/src/assets' },
       { find: 'buffer', replacement: 'buffer' },
     ],

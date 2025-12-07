@@ -16,7 +16,7 @@ function DirectionIcon({
     <span
       className={clsx(
         'inline-flex size-2 items-center justify-center rounded-full',
-        'text-v1-content-secondary text-xxs [&_svg]:mb-px [&_svg]:size-full',
+        'text-2xs text-v1-content-secondary [&_svg]:mb-px [&_svg]:size-full',
         value === 'neutral' && 'hidden',
         className,
       )}

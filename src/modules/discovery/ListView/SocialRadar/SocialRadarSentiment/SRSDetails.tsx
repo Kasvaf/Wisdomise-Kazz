@@ -42,7 +42,7 @@ export const SRSDetails: FC<{
       <div className="flex items-center gap-1">
         <div className="flex items-center gap-px overflow-hidden">
           <LastMention className="shrink-0" />
-          <p className="overflow-hidden text-ellipsis text-v1-content-secondary text-xxs">
+          <p className="overflow-hidden text-ellipsis text-2xs text-v1-content-secondary">
             {t('call-change.last-mention')}:
           </p>
         </div>
@@ -55,7 +55,7 @@ export const SRSDetails: FC<{
       <div className="flex items-center gap-1">
         <div className="flex items-center gap-px overflow-hidden">
           <Messages className="shrink-0" />
-          <p className="overflow-hidden text-ellipsis text-v1-content-secondary text-xxs">
+          <p className="overflow-hidden text-ellipsis text-2xs text-v1-content-secondary">
             {t('call-change.analyzed-messages')}:
           </p>
         </div>
@@ -68,7 +68,7 @@ export const SRSDetails: FC<{
       <div className="flex items-center gap-1">
         <div className="flex items-center gap-px overflow-hidden">
           <Pump className="shrink-0" />
-          <p className="overflow-hidden text-ellipsis text-v1-content-secondary text-xxs">
+          <p className="overflow-hidden text-ellipsis text-2xs text-v1-content-secondary">
             {t('call-change.biggest-pump')}:
           </p>
         </div>
@@ -87,7 +87,7 @@ export const SRSDetails: FC<{
       <div className="flex items-center gap-1">
         <div className="flex items-center gap-px overflow-hidden">
           <Dump className="shrink-0" />
-          <p className="overflow-hidden text-ellipsis text-v1-content-secondary text-xxs">
+          <p className="overflow-hidden text-ellipsis text-2xs text-v1-content-secondary">
             {t('call-change.biggest-dump')}:
           </p>
         </div>

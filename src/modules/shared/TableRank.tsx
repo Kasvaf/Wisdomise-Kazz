@@ -10,13 +10,13 @@ export const TableRank: FC<{
       <>
         <div
           className={clsx(
-            'absolute top-0 left-0 h-full w-16 rounded-l-xl mobile:opacity-30 opacity-15',
+            'absolute top-0 left-0 h-full w-16 rounded-l-xl opacity-15 max-md:opacity-30',
             'bg-gradient-to-r from-[#f587ff] via-[#116697b4] to-transparent blur-sm',
           )}
         />
         <div
           className={clsx(
-            'absolute top-0 left-0 h-full mobile:w-[3px] w-1 opacity-90',
+            'absolute top-0 left-0 h-full w-1 opacity-90 max-md:w-[3px]',
             'bg-brand-gradient-vertical',
           )}
         />

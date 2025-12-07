@@ -61,7 +61,7 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
                   value={row.market_data?.price_change_percentage_24h}
                 />
                 <CoinMarketCap
-                  className="text-xxs"
+                  className="text-2xs"
                   marketData={row.market_data}
                   singleLine
                 />

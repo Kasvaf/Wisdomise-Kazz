@@ -139,7 +139,7 @@ export function WhaleTransactionsHistoryWidget({
   return (
     <>
       <div className={className}>
-        <div className="mb-4 flex mobile:flex-col mobile:items-start items-center justify-start gap-2 whitespace-nowrap font-semibold text-sm">
+        <div className="mb-4 flex items-center justify-start gap-2 whitespace-nowrap font-semibold text-sm max-md:flex-col max-md:items-start">
           {coin && (
             <>
               <Coin coin={coin} mini />

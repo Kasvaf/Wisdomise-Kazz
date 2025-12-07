@@ -75,7 +75,7 @@ export default function AlertsPage() {
 
   return (
     <PageWrapper
-      className="leading-none mobile:leading-normal"
+      className="leading-none max-md:leading-normal"
       extension={<CoinExtensionsGroup />}
       hasBack
       loading={alerts.isLoading}

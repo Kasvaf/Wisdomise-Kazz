@@ -53,10 +53,10 @@ export default function SubscriptionDetail() {
       />
       {paymentMethod === 'TOKEN' ? (
         <>
-          <div className="mt-6 flex mobile:flex-wrap gap-3 [&>div]:mobile:w-full [&>div]:w-1/3">
+          <div className="mt-6 flex gap-3 max-md:flex-wrap [&>div]:w-1/3 [&>div]:max-md:w-full">
             <div className="rounded-xl bg-v1-surface-l2 p-5">
               <h2 className="mb-5 font-medium">Stake Info</h2>
-              <div className="grid grid-cols-2 mobile:grid-cols-1 gap-y-16 mobile:gap-y-8 rounded-xl border border-v1-inverse-overlay-10 px-5 py-4">
+              <div className="grid grid-cols-2 gap-y-16 rounded-xl border border-v1-inverse-overlay-10 px-5 py-4 max-md:grid-cols-1 max-md:gap-y-8">
                 {group === 'free' ? (
                   <div className="flex flex-col gap-2">
                     <h3 className="font-semibold text-xl">Free</h3>
@@ -222,7 +222,7 @@ export default function SubscriptionDetail() {
           )}
         </>
       ) : (
-        <div className="mt-6 flex mobile:flex-col justify-between gap-4">
+        <div className="mt-6 flex justify-between gap-4 max-md:flex-col">
           <CurrentPlan />
           <CancelBanner />
         </div>

@@ -14,8 +14,8 @@ export function AlertModal({
   const isMobile = useIsMobile();
   return (
     <Dialog
-      className="mobile:w-full w-[400px]"
-      contentClassName="mobile:p-3 p-4"
+      className="w-[400px] max-md:w-full"
+      contentClassName="max-md:p-3 p-4"
       drawerConfig={{
         position: isMobile ? 'bottom' : 'end',
         closeButton: isMobile,

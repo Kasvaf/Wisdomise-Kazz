@@ -30,7 +30,7 @@ export default function PageDiscovery() {
                 'max-w-full',
                 'sticky top-(--desktop-content-top) z-30 h-(--desktop-content-height) w-72 min-w-72 max-w-72 overflow-auto',
                 'scrollbar-none border-white/10 border-r bg-v1-surface-l0',
-                'tablet:fixed mobile:block tablet:bg-v1-surface-l0/60 tablet:backdrop-blur-lg',
+                'tablet:bg-v1-surface-l0/60 max-md:block md:max-xl:fixed md:max-xl:backdrop-blur-lg',
               )}
               expanded={false}
               focus={false}

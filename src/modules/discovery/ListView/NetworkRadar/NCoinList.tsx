@@ -385,7 +385,7 @@ export const NCoinList: FC<{
                   <div
                     className={clsx(
                       mini
-                        ? 'flex items-center text-xxs'
+                        ? 'flex items-center text-2xs'
                         : 'absolute end-2 top-2 flex h-full flex-col text-xs',
                     )}
                   >

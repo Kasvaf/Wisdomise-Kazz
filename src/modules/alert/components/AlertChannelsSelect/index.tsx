@@ -87,7 +87,7 @@ const AlertChannelRow: FC<
         {isConnected ? (
           <span>
             {children || (
-              <span className="inline-flex h-6 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-4 text-white/70 text-xxs">
+              <span className="inline-flex h-6 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-4 text-2xs text-white/70">
                 {t('common:soon')}
               </span>
             )}

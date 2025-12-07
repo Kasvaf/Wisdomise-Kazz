@@ -13,7 +13,7 @@ const NCoinSentimentCol: FC<{
 }> = ({ label, children, className, contentClassName }) => (
   <div
     className={clsx(
-      'flex h-12 mobile:w-full w-auto shrink-0 flex-col justify-start gap-1',
+      'flex h-12 w-auto shrink-0 flex-col justify-start gap-1 max-md:w-full',
       className,
     )}
   >
@@ -33,7 +33,7 @@ export const NCoinSentimentWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex mobile:flex-wrap items-center justify-between gap-4 mobile:gap-2 overflow-hidden',
+          'flex items-center justify-between gap-4 overflow-hidden max-md:flex-wrap max-md:gap-2',
           className,
         )}
       >
@@ -47,13 +47,13 @@ export const NCoinSentimentWidget: FC<{
             value={marketData.marketCap}
           />
         </NCoinSentimentCol>
-        <div className="mobile:hidden h-10 w-px shrink-0 bg-white/10" />
+        <div className="h-10 w-px shrink-0 bg-white/10 max-md:hidden" />
         <NCoinSentimentCol
           className="w-1/3 justify-self-end pe-12"
           label={t('common.validation_insights')}
         >
           <NCoinSecurity
-            className="text-xxs"
+            className="text-2xs"
             imgClassName="size-4 shrink-0"
             type="row2"
             value={securityData}

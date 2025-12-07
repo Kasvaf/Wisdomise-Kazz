@@ -28,16 +28,16 @@ export function CoinCategoryLabel({
         size === 'xs' &&
           'flex size-4 items-center justify-center text-[9px] leading-none [&_img]:size-[12px] [&_svg]:size-[11px]',
         size === 'sm' &&
-          'flex h-6 items-center justify-center text-xxs [&_img]:size-[14px] [&_svg]:size-[14px]',
+          'flex h-6 items-center justify-center text-2xs [&_img]:size-[14px] [&_svg]:size-[14px]',
         size === 'md' &&
-          '[&_svg]:!size-[16px] h-6 text-xxs [&_img]:size-[16px]',
+          '[&_svg]:!size-[16px] h-6 text-2xs [&_img]:size-[16px]',
         'bg-v1-content-primary/10 text-v1-content-primary',
         'overflow-hidden',
         className,
       )}
       disabled={!clickable}
       title={
-        <div className="max-h-[300px] mobile:max-h-max min-w-48 space-y-2">
+        <div className="max-h-[300px] min-w-48 space-y-2 max-md:max-h-max">
           <h4 className="border-b border-b-v1-content-primary/10 pb-2 font-medium text-base">
             {t('common.categories')}:
           </h4>

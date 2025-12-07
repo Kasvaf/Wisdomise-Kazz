@@ -22,9 +22,9 @@ export default function WiseClub() {
   return (
     <div className="relative flex flex-col items-center">
       <img alt="" className="absolute" src={starlight} />
-      <img alt="" className="absolute mobile:top-40 top-0 md:w-1/2" src={bg} />
+      <img alt="" className="absolute top-0 max-md:top-40 md:w-1/2" src={bg} />
       <div className="relative flex flex-col items-center">
-        <h1 className="mt-10 text-center font-semibold mobile:text-2xl text-3xl">
+        <h1 className="mt-10 text-center font-semibold text-3xl max-md:text-2xl">
           Join{' '}
           <span className="bg-brand-gradient bg-clip-text text-transparent">
             Wise
@@ -35,17 +35,17 @@ export default function WiseClub() {
           </span>{' '}
           benefits
         </h1>
-        <p className="mt-3 text-center mobile:text-sm text-v1-content-secondary">
+        <p className="mt-3 text-center text-v1-content-secondary max-md:text-sm">
           Stake <span className="text-v1-content-primary">$WSDM</span>, Unlock
           Alpha Signals, and Farm{' '}
           <span className="text-v1-content-primary">50%</span> of Platform
           Revenue Monthly — Straight Degen Passive Income.
         </p>
-        <h2 className="mt-12 mobile:text-xl text-2xl">
+        <h2 className="mt-12 text-2xl max-md:text-xl">
           Stake & farm the bag{' '}
           <img
             alt="bag"
-            className="inline-block mobile:size-6 size-8"
+            className="inline-block size-8 max-md:size-6"
             src={bag}
           />
         </h2>
