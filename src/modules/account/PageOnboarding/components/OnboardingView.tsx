@@ -50,7 +50,7 @@ export function OnboardingView<V extends string>({
           {/*   } */}
           {/*   block */}
           {/*   className={clsx( */}
-          {/*     'invisible w-md shrink-0 mobile:visible', */}
+          {/*     'invisible w-md shrink-0 max-md:visible', */}
           {/*     step === steps[0].key && 'opacity-0', */}
           {/*   )} */}
           {/* > */}
@@ -95,7 +95,7 @@ export function OnboardingView<V extends string>({
               <div
                 className={clsx(
                   'flex items-center gap-2',
-                  'w-full rounded-full font-medium mobile:text-xs text-sm',
+                  'w-full rounded-full font-medium text-sm max-md:text-xs',
                   x.isPassed || x.isActive ? 'text-white' : 'text-white/50',
                 )}
               >

@@ -188,7 +188,7 @@ export const CoinDetailsTabs = () => {
                   variant="tab"
                 />
               </div>
-              <div className="-mt-[1px] grow overflow-auto border-white/10 border-t p-2">
+              <div className="scrollbar-none -mt-[1px] grow overflow-auto border-white/10 border-t p-2">
                 {tabContents[selectedTab as never]}
               </div>
             </div>

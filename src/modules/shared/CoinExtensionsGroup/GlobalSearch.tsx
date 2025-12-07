@@ -45,7 +45,7 @@ export const GlobalSearch: FC<
   return (
     <Select
       chevron={false}
-      dialogClassName="w-[520px] mobile:w-auto"
+      dialogClassName="w-[520px] max-md:w-auto"
       loading={coins.isLoading}
       multiple={false}
       onChange={ca => {
@@ -61,7 +61,7 @@ export const GlobalSearch: FC<
         const row = coins.data?.find?.(x => x.contract_address === opt);
         if (!row) return '';
         return (
-          <div className="flex items-center justify-between gap-4 mobile:px-1 px-2 py-3">
+          <div className="flex items-center justify-between gap-4 px-2 py-3 max-md:px-1">
             <Token
               abbreviation={row.symbol?.abbreviation}
               address={row.contract_address}
@@ -74,7 +74,7 @@ export const GlobalSearch: FC<
               slug={row.symbol?.slug}
               socials={row.symbol_community_links}
             />
-            <div className="flex grow items-center justify-end gap-4 mobile:gap-2 justify-self-end whitespace-nowrap text-xs [&_label]:text-v1-content-secondary">
+            <div className="flex grow items-center justify-end gap-4 justify-self-end whitespace-nowrap text-xs max-md:gap-2 [&_label]:text-v1-content-secondary">
               <p>
                 <label>{'MC: '}</label>
                 <ReadableNumber

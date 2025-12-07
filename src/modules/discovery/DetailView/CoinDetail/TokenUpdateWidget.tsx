@@ -14,7 +14,7 @@ const GreenRedChart: FC<{
     <div className="flex h-11 flex-col gap-1">
       <div className="flex items-start justify-between">
         {titles.map(title => (
-          <p className="text-v1-content-secondary text-xxs" key={title}>
+          <p className="text-2xs text-v1-content-secondary" key={title}>
             {title}
           </p>
         ))}
@@ -89,7 +89,7 @@ export function TokenUpdateWidget({ className }: { className?: string }) {
         value={resolution}
         variant="default"
       />
-      <div className="flex items-stretch gap-3 rounded-xl bg-v1-surface-l1 p-3 text-xxs">
+      <div className="flex items-stretch gap-3 rounded-xl bg-v1-surface-l1 p-3 text-2xs">
         <div className="w-1/5">
           <div className="mb-5">
             <p className="mb-1 text-v1-content-secondary">TXNS</p>

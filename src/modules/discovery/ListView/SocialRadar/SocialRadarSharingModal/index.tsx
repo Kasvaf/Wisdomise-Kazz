@@ -54,7 +54,7 @@ export default function SocialRadarSharingModal({
             </div>
             <div className="relative">
               <img alt="logo" className="h-7" src={logo} />
-              <span className="-bottom-3 absolute right-2 font-light text-xxs">
+              <span className="-bottom-3 absolute right-2 font-light text-2xs">
                 goatx.trade
               </span>
             </div>
@@ -102,7 +102,7 @@ export default function SocialRadarSharingModal({
             />
           )}
           <div className="my-4 flex flex-col items-start justify-end overflow-auto">
-            <p className="mb-1 text-xxs">{t('pre_detail_modal.wise_labels')}</p>
+            <p className="mb-1 text-2xs">{t('pre_detail_modal.wise_labels')}</p>
             <TokenLabels
               categories={coin.symbol.categories}
               clickable={false}

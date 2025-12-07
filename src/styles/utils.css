@@ -1,0 +1,3 @@
+@utility bg-brand-gradient {
+  @apply bg-linear-90 from-brand-700 from-[82.15%] to-brand-200 to-[172.78%];
+}

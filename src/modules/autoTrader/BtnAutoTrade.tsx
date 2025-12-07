@@ -50,7 +50,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
 
         <div>{hasFlag('/quick-swap') ? 'Buy & Sell' : 'Auto Trade'}</div>
         {!isSupported && !isLoading && (
-          <div className="text-xxs">Not Supported</div>
+          <div className="text-2xs">Not Supported</div>
         )}
       </div>
       {ModalLogin}

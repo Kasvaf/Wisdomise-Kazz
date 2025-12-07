@@ -28,7 +28,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
         className={clsx(
           'text-white',
           loading &&
-            'flex h-full mobile:h-[calc(100vh-10rem)] w-full items-center justify-center',
+            'flex h-full w-full items-center justify-center max-md:h-[calc(100vh-10rem)]',
           className,
         )}
       >

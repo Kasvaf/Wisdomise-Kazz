@@ -146,7 +146,7 @@ export function CoinLabel({
     <ClickableTooltip
       chevron={false}
       className={clsx(
-        'rounded-full text-center text-xxs',
+        'rounded-full text-center text-2xs',
         size === 'xs' &&
           'flex size-4 items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
         size === 'sm' &&

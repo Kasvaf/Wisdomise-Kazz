@@ -79,8 +79,8 @@ export default function BtnSolanaWallets({
 function UserWallets() {
   return (
     <div>
-      <TotalBalance className="-mx-3 -mt-3 mobile:!bg-transparent mb-2" />
-      <div className="text-v1-inverse-overlay-70 text-xxs">Wallets</div>
+      <TotalBalance className="-mx-3 -mt-3 max-md:!bg-transparent mb-2" />
+      <div className="text-2xs text-v1-inverse-overlay-70">Wallets</div>
       <WalletSelector WalletOptionComponent={WalletItem} />
     </div>
   );
@@ -161,7 +161,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
             Active
           </Badge>
         </div>
-        <div className="flex items-center gap-1 text-v1-inverse-overlay-50 text-xxs">
+        <div className="flex items-center gap-1 text-2xs text-v1-inverse-overlay-50">
           {wallet ? (
             <>
               {shortenAddress(wallet.address)}

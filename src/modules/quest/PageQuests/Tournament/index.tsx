@@ -25,12 +25,12 @@ const Tournaments: React.FC<{ className?: string }> = ({ className }) => {
       <div className="relative flex h-full flex-col justify-between">
         <div>
           <h2 className="font-semibold text-xl">Tournament</h2>
-          <p className="mobile:mt-2 mt-4 mobile:max-w-52 text-v1-content-secondary text-xs">
+          <p className="mt-4 text-v1-content-secondary text-xs max-md:mt-2 max-md:max-w-52">
             Compete in Tournaments and Climb the Leaderboard.
           </p>
         </div>
         <StatusChip className="mt-4">
-          <div className="text-v1-content-secondary text-xxs">
+          <div className="text-2xs text-v1-content-secondary">
             Live Tournaments
             <span className="ml-3 text-v1-content-primary">
               {liveTournamentsCount}
@@ -40,7 +40,7 @@ const Tournaments: React.FC<{ className?: string }> = ({ className }) => {
       </div>
       <img
         alt=""
-        className="-mb-8 relative mobile:size-32 size-48"
+        className="-mb-8 relative size-48 max-md:size-32"
         src={leaderboard}
       />
     </NavLink>

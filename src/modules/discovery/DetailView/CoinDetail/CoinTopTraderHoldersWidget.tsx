@@ -40,7 +40,7 @@ const SharedTable: FC<{
               value={row.volumeInflow}
             />
             <ReadableNumber
-              className="text-v1-content-secondary text-xxs"
+              className="text-2xs text-v1-content-secondary"
               format={{
                 compactInteger: false,
               }}
@@ -62,7 +62,7 @@ const SharedTable: FC<{
               value={row.volumeOutflow}
             />
             <ReadableNumber
-              className="text-v1-content-secondary text-xxs"
+              className="text-2xs text-v1-content-secondary"
               format={{
                 compactInteger: false,
               }}
@@ -124,7 +124,7 @@ const SharedTable: FC<{
                   popup="never"
                   value={row.balance * (currentPrice ?? 0)}
                 />
-                <div className="rounded-md bg-white/10 px-1 text-xxs">
+                <div className="rounded-md bg-white/10 px-1 text-2xs">
                   <ReadableNumber
                     format={{ decimalLength: 3 }}
                     value={percentage}

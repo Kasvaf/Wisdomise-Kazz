@@ -25,6 +25,9 @@
   "engines": {
     "node": "20"
   },
+  "imports": {
+    "#index.css": "./src/styles/index.css"
+  },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
     "@improbable-eng/grpc-web": "^0.15.0",
@@ -116,6 +119,7 @@
     "postcss": "8.4.31",
     "postcss-preset-env": "^8.2.0",
     "sitemap": "^8.0.0",
+    "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.11",
     "ts-proto": "^2.7.2",
     "typescript": "*",

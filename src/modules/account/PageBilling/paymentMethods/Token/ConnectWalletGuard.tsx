@@ -62,7 +62,7 @@ export default function ConnectWalletGuard({
 
   const nonceContent = (
     <Card className="flex flex-col items-center gap-12 text-center">
-      <Key className="mobile:w-24" />
+      <Key className="max-md:w-24" />
       <h2 className="w-[17rem] text-lg">{t('connect-wallet.verify-nonce')}</h2>
       <div className="w-full rounded-xl bg-v1-surface-l4 py-6 font-semibold text-lg text-white/60">
         {nonceResponse?.nonce}
@@ -104,7 +104,7 @@ export default function ConnectWalletGuard({
 
   const connectWalletContent = (
     <Card className="flex flex-col items-center gap-12">
-      <Wallet className="mobile:w-24" />
+      <Wallet className="max-md:w-24" />
       <div className="text-center">
         <h2 className="mb-8 font-semibold text-lg">{title}</h2>
         <p className="text-gray-400">{description}</p>

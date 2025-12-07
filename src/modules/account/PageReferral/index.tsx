@@ -95,11 +95,11 @@ export default function ReferralPage() {
 
   return (
     <PageWrapper
-      className="mobile:pt-4"
+      className="max-md:pt-4"
       extension={!isMobile && <CoinExtensionsGroup />}
       loading={isLoading}
     >
-      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-5">
+      <div className="grid grid-cols-2 gap-5 max-md:grid-cols-1">
         {/* Referral */}
         <div className="rounded-xl bg-v1-surface-l1 p-3">
           <h1 className="mb-3 font-medium">{t('page-referral.title')}</h1>
@@ -130,7 +130,7 @@ export default function ReferralPage() {
                   value={referral?.ready_to_claim ?? 0}
                 />
               </div>
-              <p className="text-v1-content-primary/50 text-xxs">
+              <p className="text-2xs text-v1-content-primary/50">
                 Your rewards will be paid in{' '}
                 <span className="text-v1-content-primary">SOL</span>
               </p>
@@ -264,7 +264,7 @@ export default function ReferralPage() {
                   value={referral?.cashback_to_claim ?? 0}
                 />
               </div>
-              <p className="text-v1-content-primary/50 text-xxs">
+              <p className="text-2xs text-v1-content-primary/50">
                 Your rewards will be paid in{' '}
                 <span className="text-v1-content-primary">SOL</span>
               </p>

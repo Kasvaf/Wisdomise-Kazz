@@ -237,7 +237,7 @@ export function Filters<T extends object>({
       )}
       {dialog !== undefined && (
         <Dialog
-          contentClassName="p-4 w-[500px] mobile:w-auto"
+          contentClassName="p-4 w-[500px] max-md:w-auto"
           drawerConfig={{
             position: 'bottom',
             closeButton: true,

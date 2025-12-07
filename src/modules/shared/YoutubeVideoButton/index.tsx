@@ -51,7 +51,7 @@ export const YoutubeVideoButton: FC<{
           open={open}
         >
           <div
-            className="mobile:-mx-6 mobile:-mb-6 mt-6"
+            className="max-md:-mx-6 max-md:-mb-6 mt-6"
             style={{ width: `${width + (isMobile ? 0 : 48)}px` }}
           >
             <YouTube opts={{ width, height }} videoId={videoId} />

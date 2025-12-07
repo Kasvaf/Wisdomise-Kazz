@@ -31,7 +31,7 @@ export const Badge: FC<BadgeProps> = ({
       className={clsx(
         dot
           ? '-right-1 -top-1 absolute size-2 rounded-full'
-          : size === 'sm' && 'min-w-[16px] px-1.5 py-0.5 text-xxs',
+          : size === 'sm' && 'min-w-[16px] px-1.5 py-0.5 text-2xs',
         'inline-flex shrink-0 items-center rounded-full font-medium',
         '[&>svg]:-ml-1 [&>svg]:mr-1 [&>svg]:size-4',
         variant === 'solid' &&

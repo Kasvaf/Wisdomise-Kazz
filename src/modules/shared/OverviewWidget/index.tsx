@@ -18,7 +18,7 @@ interface EmptyConfig {
   refreshButton?: boolean;
 }
 
-const paddingClassName = clsx('p-5 mobile:p-3 2xl:p-6');
+const paddingClassName = clsx('p-5 max-md:p-3 2xl:p-6');
 const gapClassName = clsx('gap-5 2xl:gap-6');
 
 export function OverviewWidget({
@@ -156,7 +156,7 @@ export function OverviewWidget({
               'flex-row items-center justify-center gap-4',
             )}
           >
-            <EmptyIcon className="mobile:-mb-3 mobile:mt-0 mt-3 h-auto mobile:w-14 w-20 shrink-0" />
+            <EmptyIcon className="max-md:-mb-3 mt-3 h-auto w-20 shrink-0 max-md:mt-0 max-md:w-14" />
             <div
               className={clsx(
                 'flex flex-col items-start justify-center gap-1',
@@ -164,12 +164,12 @@ export function OverviewWidget({
               )}
             >
               {emptyConfig.title && (
-                <p className="mobile:text-sm text-base text-v1-content-primary">
+                <p className="text-base text-v1-content-primary max-md:text-sm">
                   {emptyConfig.title}
                 </p>
               )}
               {emptyConfig.subtitle && (
-                <p className="max-w-lg font-light mobile:text-xxs text-v1-content-secondary text-xs">
+                <p className="max-w-lg font-light text-v1-content-secondary text-xs max-md:text-2xs">
                   {emptyConfig.subtitle}
                 </p>
               )}

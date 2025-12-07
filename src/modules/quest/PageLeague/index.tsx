@@ -97,8 +97,8 @@ export default function PageLeague() {
           <Swiper
             centeredSlides
             className={clsx(
-              '[&_.swiper-button-next]:!mr-[35vw] [&_.swiper-button-next]:!text-v1-content-primary [&_.swiper-button-next]:mobile:!mr-[15vw] [&_.swiper-button-next]:scale-50',
-              '[&_.swiper-button-prev]:!ml-[35vw] [&_.swiper-button-prev]:!text-v1-content-primary [&_.swiper-button-prev]:mobile:!ml-[15vw] [&_.swiper-button-prev]:scale-50',
+              '[&_.swiper-button-next]:!mr-[35vw] [&_.swiper-button-next]:!text-v1-content-primary [&_.swiper-button-next]:max-md:!mr-[15vw] [&_.swiper-button-next]:scale-50',
+              '[&_.swiper-button-prev]:!ml-[35vw] [&_.swiper-button-prev]:!text-v1-content-primary [&_.swiper-button-prev]:max-md:!ml-[15vw] [&_.swiper-button-prev]:scale-50',
             )}
             initialSlide={selectedLeagueIndex}
             modules={[Navigation]}
@@ -144,7 +144,7 @@ export default function PageLeague() {
           </Swiper>
         )}
       </div>
-      <div className="grid grid-cols-2 mobile:grid-cols-1 items-start gap-x-4 gap-y-8">
+      <div className="grid grid-cols-2 items-start gap-x-4 gap-y-8 max-md:grid-cols-1">
         <div>
           {selectedLeague && league.end_time && league.start_time && (
             <Prize
@@ -155,7 +155,7 @@ export default function PageLeague() {
             />
           )}
           {me && me.league_slug === selectedLeague?.slug && (
-            <div className="mt-3 mobile:hidden rounded-xl bg-v1-surface-l1 p-3">
+            <div className="mt-3 rounded-xl bg-v1-surface-l1 p-3 max-md:hidden">
               <h2 className="mb-2">My Status</h2>
               <LeaderboardItem
                 isTopLevel={selectedLeague?.level === 2}
@@ -205,7 +205,7 @@ function Prize({
       />
       <div className="mb-1 flex items-center gap-2">
         <h2 className="font-semibold">Weekly Prize</h2>
-        <div className="rounded-md bg-v1-overlay-40 px-1 text-xxs">
+        <div className="rounded-md bg-v1-overlay-40 px-1 text-2xs">
           Top {rewardedUsersMinRank}
         </div>
       </div>

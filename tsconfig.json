@@ -23,7 +23,8 @@
       "old-api/*": ["./src/old-api/*"],
       "shared/*": ["./src/modules/shared/*"],
       "modules/*": ["./src/modules/*"],
-      "assets/*": ["./src/assets/*"]
+      "assets/*": ["./src/assets/*"],
+      "styles/*": ["./src/styles/*"]
     }
   },
   "include": ["src", ".eslintrc.cjs"],

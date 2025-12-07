@@ -64,7 +64,7 @@ export const TweetCard: FC<{
             username={value.user.username}
           />
           <span>.</span>
-          <TweetTime className="text-xxs" value={value} />
+          <TweetTime className="text-2xs" value={value} />
         </div>
         <TweetType className="size-4 shrink-0" value={value} />
       </div>

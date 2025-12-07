@@ -106,7 +106,7 @@ function Option({
         size === 'sm' && 'min-h-sm px-2 text-xs',
         size === 'md' && 'min-h-md px-3 text-xs',
         size === 'xl' && 'min-h-xl px-3 text-sm',
-        'group flex shrink-0 flex-nowrap items-center justify-between gap-1 mobile:px-3',
+        'group flex shrink-0 flex-nowrap items-center justify-between gap-1 max-md:px-3',
         'cursor-pointer hover:bg-white/5',
         !checkbox && selected && '!bg-white/10',
       )}
@@ -369,8 +369,8 @@ export function Select<V, M extends boolean = false>({
 
       <Dialog
         className={clsx(
-          '!max-h-96 mobile:!max-h-[90svh] border-white/10 md:border',
-          showSearch && 'mobile:!min-h-[90svh]',
+          '!max-h-96 max-md:!max-h-[90svh] border-white/10 md:border',
+          showSearch && 'max-md:!min-h-[90svh]',
           dialogClassName,
         )}
         drawerConfig={{
@@ -394,7 +394,7 @@ export function Select<V, M extends boolean = false>({
         header={
           showSearch && (
             <input
-              className="block h-sm mobile:h-md w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand"
+              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand max-md:h-md"
               onChange={e => onSearch?.(e.target.value)}
               placeholder={searchPlaceholder}
               ref={searchRef}

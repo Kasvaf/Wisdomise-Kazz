@@ -6,7 +6,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import useRoutes from './routes';
-import './styles/App.css';
+import 'styles/index.css';
 
 const App = () => {
   useConfig();

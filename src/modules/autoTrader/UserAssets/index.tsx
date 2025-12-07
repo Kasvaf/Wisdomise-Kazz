@@ -36,7 +36,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
     <TokenLink
       address={asset.address}
       className={clsx(
-        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-3 mobile:py-3 py-2',
+        '!text-v1-content-primary hover:!bg-v1-surface-l2 flex items-center justify-between px-3 py-2 max-md:py-3',
       )}
     >
       <Token
@@ -46,7 +46,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
         showAddress={false}
         subtitle={
           <ReadableNumber
-            className="text-v1-content-secondary text-xxs"
+            className="text-2xs text-v1-content-secondary"
             label="$"
             value={(asset.usd_equity ?? 0) / asset.amount}
           />
@@ -61,7 +61,7 @@ const UserAsset: React.FC<{ asset: AssetData }> = ({ asset }) => {
         />
         {asset.usd_equity !== 0 && (
           <ReadableNumber
-            className="text-v1-content-secondary text-xxs"
+            className="text-2xs text-v1-content-secondary"
             label="$"
             value={asset.usd_equity}
           />
@@ -85,7 +85,7 @@ const UserAssets: React.FC<
   return (
     <div className={className}>
       {(totalAssets > 0 || title) && showTotal && (
-        <div className="id-title mb-3 mobile:mb-5 gap-2 text-sm">
+        <div className="id-title mb-3 gap-2 text-sm max-md:mb-5">
           {title ? title + (totalAssets > 0 ? ': ' : '') : ' '}
           {totalAssets > 0 && <ReadableNumber label="$" value={totalAssets} />}
         </div>
@@ -124,7 +124,7 @@ export const UserTradingAssets = ({ className }: { className?: string }) => {
 
   return (
     <div className={className}>
-      <div className="id-title mb-3 mobile:mb-5 gap-2 text-sm">
+      <div className="id-title mb-3 gap-2 text-sm max-md:mb-5">
         {`Trading Assets${totalAssets > 0 ? ': ' : ''}`}
         {totalAssets > 0 && <ReadableNumber label="$" value={totalAssets} />}
       </div>
@@ -266,7 +266,7 @@ function WalletAssets({ wallet }: { wallet: Wallet }) {
   ) : (
     <div className="flex h-44 flex-col items-center justify-center rounded-xl bg-v1-surface-l1">
       <DepositIcon className="size-8" />
-      <p className="my-2 text-xxs">Deposit and start your trade journey</p>
+      <p className="my-2 text-2xs">Deposit and start your trade journey</p>
       <Button onClick={() => deposit(wallet.address)} size="xs">
         Deposit
       </Button>

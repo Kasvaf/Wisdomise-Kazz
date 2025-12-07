@@ -58,7 +58,7 @@ export function WhaleNetflowChartWidget({
           {t('whale_netflow_histogram.title')}
         </h3>
         <div className="group relative flex h-[137px] w-fit min-w-full items-center justify-between gap-2">
-          <div className="flex h-full w-auto flex-col justify-between text-v1-content-secondary text-xxs">
+          <div className="flex h-full w-auto flex-col justify-between text-2xs text-v1-content-secondary">
             <div>
               <div className="absolute mt-[7px] h-px w-full border-white/10 border-b border-dashed" />
               <ReadableNumber
@@ -98,7 +98,7 @@ export function WhaleNetflowChartWidget({
                     value={r.related_at_date}
                   />
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-v1-content-secondary text-xxs">
+                    <p className="text-2xs text-v1-content-secondary">
                       {t('whale_netflow_histogram.inflow')}:
                     </p>
                     <ReadableNumber
@@ -108,7 +108,7 @@ export function WhaleNetflowChartWidget({
                     />
                   </div>
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-v1-content-secondary text-xxs">
+                    <p className="text-2xs text-v1-content-secondary">
                       {t('whale_netflow_histogram.outflow')}:
                     </p>
                     <ReadableNumber

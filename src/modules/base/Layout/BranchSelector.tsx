@@ -32,14 +32,14 @@ const BranchSelector = () => {
       allowClear={false}
       block
       chevron={false}
-      className="mobile:w-xl text-v1-content-primary"
+      className="text-v1-content-primary max-md:w-xl"
       loading={branches.isLoading}
       onChange={gotoBranch}
       options={branches.data}
       prefixIcon={<Icon name={bxGitBranch} />}
       render={(opt, target) => {
         return (
-          <div className={clsx(target === 'value' && 'mobile:hidden')}>
+          <div className={clsx(target === 'value' && 'max-md:hidden')}>
             {opt ?? 'main'}
           </div>
         );

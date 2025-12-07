@@ -76,7 +76,7 @@ const HeaderNav = () => {
           {openTrades > 0 && (
             <div
               className={clsx(
-                'rounded-full bg-v1-background-negative text-white text-xxs',
+                'rounded-full bg-v1-background-negative text-2xs text-white',
                 openTrades >= 10 ? 'size-2' : 'size-4',
               )}
             >

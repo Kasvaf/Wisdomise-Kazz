@@ -24,7 +24,7 @@ export const WhaleTitleWidget = ({
       <div>
         <Wallet
           address={holderAddress}
-          className="col-span-2 mobile:col-span-6"
+          className="col-span-2 max-md:col-span-6"
         />
         <div className="flex gap-1 ps-10 text-xs">
           <p className="text-v1-content-secondary">{`${networkName} Chain${

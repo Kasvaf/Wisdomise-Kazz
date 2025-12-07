@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@import "tailwindcss";
+@import "./browser.css";
+@import "./overrides.css";
+@import "./transitions.css";
+@import "./splash.css";
+@import "./theme.css";
+@import "./utils.css";
+
+@plugin "tailwind-scrollbar";
+@config '../../tailwind.config.js';
+
+@layer base {
+  body {
+    color-scheme: dark;
+    @apply font-poppins bg-v1-background-primary text-v1-content-primary;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  [role="button"],
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+a {
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+}
+
+:root {
+  --wcm-z-index: 1001;
+}
