@@ -26,7 +26,6 @@ export const TokenTitle: FC<{
     developer,
     createdAt,
     marketData,
-    risks,
     securityData,
     validatedData,
     isInitiating,
@@ -151,31 +150,6 @@ export const TokenTitle: FC<{
                   />
                 </div>
               </>
-
-              {risks && (
-                <>
-                  <div className="h-4 w-px bg-white/10" />
-                  <div className="flex flex-col justify-between gap-2">
-                    <p className="text-v1-content-secondary text-xs">
-                      {t('common.risk')}
-                    </p>
-                    <span className="text-xs">
-                      <span
-                        className={clsx(
-                          risks?.risks.some(x => x.level === 'danger')
-                            ? 'text-v1-content-negative'
-                            : risks?.risks.length
-                              ? 'text-v1-content-notice'
-                              : 'text-v1-content-positive',
-                        )}
-                      >
-                        {risks?.riskPercent ?? 0}
-                      </span>
-                      <span className="text-v1-content-secondary">/100</span>
-                    </span>
-                  </div>
-                </>
-              )}
 
               {securityData?.rugged && (
                 <>

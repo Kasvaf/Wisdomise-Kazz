@@ -6,7 +6,7 @@ import {
   useReferralStatusQuery,
   useTradeReferralClaimMutation,
 } from 'api';
-import { bxRightArrowAlt, bxShareAlt } from 'boxicons-quasar';
+import { bxCopy, bxRightArrowAlt, bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
@@ -21,6 +21,7 @@ import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
+import { useShare } from 'shared/useShare';
 import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import EditableText from 'shared/v1-components/EditableText';
@@ -38,11 +39,7 @@ export default function ReferralPage() {
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
   const navigate = useNavigate();
-  // const [ReferralOnboardingModal, openReferralOnboardingModal] = useModal(
-  //   ReferralOnboardingModalContent,
-  //   { fullscreen: true, closable: false },
-  // );
-  // const [done] = useLocalStorage('referral-onboarding', false);
+  const [copy, content] = useShare('copy');
 
   const {
     mutateAsync: claimTradeReferralAsync,
@@ -177,9 +174,23 @@ export default function ReferralPage() {
                   key: 'link',
                   title: 'Referral Link',
                   render: row => (
-                    <span className="max-w-40 truncate">
-                      {shortenAddress(row.link, 10, 10)}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="max-w-40 truncate">
+                        {shortenAddress(row.link, 10, 10)}
+                      </span>
+                      <Button
+                        fab
+                        onClick={() => copy(row.link)}
+                        size="3xs"
+                        surface={2}
+                        variant="ghost"
+                      >
+                        <Icon
+                          className="text-v1-content-primary/70 [&>svg]:size-4"
+                          name={bxCopy}
+                        />
+                      </Button>
+                    </div>
                   ),
                 },
                 {
@@ -290,6 +301,7 @@ export default function ReferralPage() {
         </div>
       </div>
       {RewardModal}
+      {content}
     </PageWrapper>
   );
 }

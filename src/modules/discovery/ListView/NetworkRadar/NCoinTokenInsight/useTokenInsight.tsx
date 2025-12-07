@@ -1,3 +1,5 @@
+import type { RiskData } from 'api/proto/network_radar';
+import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -9,6 +11,33 @@ import { ReactComponent as InsidersHolding } from './insiders_holding.svg';
 import { ReactComponent as LpBurned } from './lp_burned.svg';
 import { ReactComponent as SnipersHolding } from './snipers_holding.svg';
 import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
+
+export const useRisks = (value?: RiskData) => {
+  return useMemo(
+    () => ({
+      value: (
+        <span>
+          <span
+            className={clsx(
+              value?.risks.some(x => x.level === 'danger')
+                ? 'text-v1-content-negative'
+                : value?.risks.length
+                  ? 'text-v1-content-notice'
+                  : 'text-v1-content-positive',
+            )}
+          >
+            {value?.riskPercent ?? 0}
+          </span>
+          <span className="text-v1-content-secondary">/100</span>
+        </span>
+      ),
+      title: 'Risk',
+      fullTitle: 'Risk',
+      color: '',
+    }),
+    [value],
+  );
+};
 
 export const useDexPaid = (value?: boolean) => {
   return useMemo(

@@ -6,6 +6,7 @@ import {
   useDexPaid,
   useHoldersNumber,
   useLpBurned,
+  useRisks,
   useSniperHolding,
   useTop10Holding,
 } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/useTokenInsight';
@@ -89,13 +90,14 @@ export const TokenInfo: FC<{
 }> = memo(({ className }) => {
   const { t } = useTranslation('network-radar');
 
-  const { validatedData, securityData } = useUnifiedCoinDetails();
+  const { validatedData, securityData, risks } = useUnifiedCoinDetails();
   const top10Holding = useTop10Holding(validatedData?.top10Holding);
   const bundleHolding = useBundleHolding(validatedData?.boundleHolding);
   const sniperHolding = useSniperHolding(validatedData?.snipersHolding);
   const devHolding = useDevHolding(validatedData?.devHolding);
   const lpBurned = useLpBurned(securityData?.lpBurned);
   const dexPaid = useDexPaid(securityData?.dexPaid);
+  const risksStat = useRisks(risks ?? undefined);
   const holders = useHoldersNumber(validatedData?.numberOfHolders);
 
   const isLoading = !validatedData || !securityData;
@@ -108,6 +110,7 @@ export const TokenInfo: FC<{
       bundleHolding,
       lpBurned,
       dexPaid,
+      risksStat,
       holders,
     ],
     [
@@ -117,6 +120,7 @@ export const TokenInfo: FC<{
       bundleHolding,
       lpBurned,
       dexPaid,
+      risksStat,
       holders,
     ],
   );
@@ -151,7 +155,7 @@ export const TokenInfo: FC<{
                       : 'text-v1-content-primary/70',
                 )}
               >
-                <item.icon className="size-5" />
+                {'icon' in item && <item.icon className="size-5" />}
                 {item.value}
               </div>
             )}

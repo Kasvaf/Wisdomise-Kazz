@@ -21,8 +21,12 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Badge } from 'shared/v1-components/Badge';
 import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
-import { useInterval } from 'usehooks-ts';
-import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
+import { useInterval, useSessionStorage } from 'usehooks-ts';
+import {
+  calcNCoinBCurveColor,
+  calcNCoinMarketCapColor,
+  type NetworkRadarTab,
+} from './lib';
 import { ReactComponent as MetaIcon } from './meta.svg';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
@@ -197,6 +201,10 @@ export const NCoinList: FC<{
   source,
 }) => {
   const listRef = useRef<HTMLDivElement>(null);
+  const [, setTab] = useSessionStorage<NetworkRadarTab | null>(
+    'last-trench-tab',
+    null,
+  );
 
   const [dataSource, setDataSource] = useState(_dataSource);
   const [shown, setShown] = useState<Set<string>>(
@@ -363,6 +371,7 @@ export const NCoinList: FC<{
                     logo={row.symbol?.imageUrl}
                     marker={row.validatedData?.protocol?.logo}
                     name={row.symbol?.name}
+                    onClick={() => setTab(source)}
                     progress={
                       source === 'migrated'
                         ? undefined
