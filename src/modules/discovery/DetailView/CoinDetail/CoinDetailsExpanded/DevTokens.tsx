@@ -135,9 +135,9 @@ export default function DevTokens({
       id={id}
     >
       {title !== false && <h3 className="font-semibold text-sm">Dev Tokens</h3>}
-      <div className="grid grid-cols-5 mobile:grid-cols-1 gap-2">
+      <div className="flex flex-wrap gap-2">
         <Table
-          className="md:col-span-2"
+          className="min-w-48 flex-1 basis-[calc(65%-0.5rem)]"
           columns={columns}
           dataSource={devTokens?.tokens}
           loading={isPending}
@@ -146,8 +146,8 @@ export default function DevTokens({
           scrollable
           surface={1}
         />
-        <div className="flex h-max flex-wrap items-start justify-center md:col-span-3">
-          <div className="min-w-56 flex-1 basis-1/2 space-y-2 text-xs">
+        <div className="flex h-max min-w-48 flex-1 basis-[calc(35%-0.5rem)] flex-wrap items-start justify-center">
+          <div className="w-full space-y-2 text-xs">
             <div className="rounded-xl bg-v1-surface-l1 p-3">
               <h2 className="mb-2">Token Stats</h2>
               <p className="mb-1 text-v1-content-primary/50">
@@ -177,7 +177,7 @@ export default function DevTokens({
               </p>
             </div>
           </div>
-          <div className="relative flex min-w-56 flex-1 basis-1/2 items-center justify-center">
+          <div className="relative flex items-center justify-center">
             <div className="absolute text-center">
               <p className="font-medium text-2xl">
                 <ReadableNumber
