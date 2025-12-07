@@ -3,6 +3,7 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/l
 import {
   useBundleHolding,
   useDevHolding,
+  useDexPaid,
   useHoldersNumber,
   useLpBurned,
   useSniperHolding,
@@ -23,22 +24,37 @@ export const NCoinTokenInsight: FC<{
     insiderHolding?: number;
     devHolding?: number;
     boundleHolding?: number;
+    dexPaid?: boolean;
   };
 }> = memo(({ className, value }) => {
   const top10Holding = useTop10Holding(value?.top10Holding);
   const devHolding = useDevHolding(value?.devHolding);
   const sniperHolding = useSniperHolding(value?.snipersHolding);
   const bundleHolding = useBundleHolding(value?.boundleHolding);
+  const dexPaid = useDexPaid(value?.dexPaid);
 
   const insight = useMemo(
-    () => [top10Holding, devHolding, sniperHolding, bundleHolding],
-    [top10Holding, devHolding, sniperHolding, bundleHolding],
+    () => [
+      top10Holding,
+      devHolding,
+      sniperHolding,
+      bundleHolding,
+      ...(value?.dexPaid ? [dexPaid] : []),
+    ],
+    [
+      top10Holding,
+      devHolding,
+      sniperHolding,
+      bundleHolding,
+      dexPaid,
+      value?.dexPaid,
+    ],
   );
 
   return (
     <div
       className={clsx(
-        'flex items-center gap-1',
+        'flex flex-wrap items-center gap-1',
         !value && 'animate-pulse',
         className,
       )}
@@ -79,6 +95,7 @@ export const TokenInfo: FC<{
   const sniperHolding = useSniperHolding(validatedData?.snipersHolding);
   const devHolding = useDevHolding(validatedData?.devHolding);
   const lpBurned = useLpBurned(securityData?.lpBurned);
+  const dexPaid = useDexPaid(securityData?.dexPaid);
   const holders = useHoldersNumber(validatedData?.numberOfHolders);
 
   const isLoading = !validatedData || !securityData;
@@ -90,9 +107,18 @@ export const TokenInfo: FC<{
       sniperHolding,
       bundleHolding,
       lpBurned,
+      dexPaid,
       holders,
     ],
-    [top10Holding, devHolding, sniperHolding, bundleHolding, lpBurned, holders],
+    [
+      top10Holding,
+      devHolding,
+      sniperHolding,
+      bundleHolding,
+      lpBurned,
+      dexPaid,
+      holders,
+    ],
   );
 
   return (

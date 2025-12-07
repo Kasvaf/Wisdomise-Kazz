@@ -364,6 +364,10 @@ div[data-tc-modal] {
   @apply text-xs;
 }
 
+.ant-tooltip-inner {
+  @apply !min-h-auto;
+}
+
 .ant-radio-inner {
   @apply !border-v1-border-primary !bg-transparent;
 }
