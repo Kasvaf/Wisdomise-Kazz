@@ -330,6 +330,7 @@ export function useTraderPositionsQuery({
   page = 1,
   network,
   address,
+  enabled = true,
 }: {
   slug?: string;
   isOpen?: boolean;
@@ -337,6 +338,7 @@ export function useTraderPositionsQuery({
   page?: number;
   network?: SupportedNetworks;
   address?: string;
+  enabled?: boolean;
 }) {
   const isLoggedIn = useIsLoggedIn();
   return useQuery({
@@ -356,7 +358,7 @@ export function useTraderPositionsQuery({
     },
     staleTime: 10,
     refetchInterval: isOpen ? 7000 : 20_000,
-    enabled: isLoggedIn,
+    enabled: isLoggedIn && enabled,
   });
 }
 

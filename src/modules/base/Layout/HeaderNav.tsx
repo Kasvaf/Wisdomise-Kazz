@@ -14,7 +14,7 @@ const HeaderNav = () => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const isLoggedIn = useIsLoggedIn();
-  const { data } = useTraderPositionsQuery({ isOpen: true });
+  const { data } = useTraderPositionsQuery({ isOpen: true, enabled: false });
   const openTrades =
     data?.positions.filter(x => x.deposit_status !== 'PENDING').length ?? 0;
   const params = useDiscoveryUrlParams();
