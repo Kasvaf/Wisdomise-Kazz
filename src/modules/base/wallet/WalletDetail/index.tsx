@@ -1,4 +1,4 @@
-import { Skeleton, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import { useHasFlag, useTraderAssetQuery } from 'api';
 import {
   useUpdateWalletMutation,
@@ -24,9 +24,9 @@ import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import EditableText from 'shared/v1-components/EditableText';
+import Skeleton from 'shared/v1-components/Skeleton';
 import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
-import { roundSensible } from 'utils/numbers';
 import WalletStatus from './WalletStatus';
 
 export default function WalletDetail() {
@@ -97,7 +97,17 @@ export default function WalletDetail() {
           <p className="text-v1-content-secondary text-xs">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
-              {isPending ? 'Loading...' : `$${roundSensible(balance)}`}
+              {isPending ? (
+                <Skeleton surface={2}>Loading</Skeleton>
+              ) : (
+                <span>
+                  $
+                  <ReadableNumber
+                    format={{ decimalLength: 2 }}
+                    value={balance}
+                  />
+                </span>
+              )}
             </p>
             <WalletActions wallet={wallet} />
           </div>
@@ -127,7 +137,7 @@ export default function WalletDetail() {
               <div className="grow text-xxs">
                 <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
                 {isLoading ? (
-                  <Skeleton.Input size="small" />
+                  <Skeleton surface={2} />
                 ) : (
                   <span className="text-base text-v1-content-secondary">
                     <DirectionalNumber
@@ -154,7 +164,7 @@ export default function WalletDetail() {
               <div className="grow text-xxs">
                 <p className="pb-3 text-v1-content-secondary">Win Rate</p>
                 {isLoading ? (
-                  <Skeleton.Input size="small" />
+                  <Skeleton surface={2} />
                 ) : (
                   <ReadableNumber
                     className="text-base"
@@ -168,7 +178,7 @@ export default function WalletDetail() {
               <div className="grow text-xxs">
                 <p className="pb-3 text-v1-content-secondary">TXs</p>
                 {isLoading ? (
-                  <Skeleton.Input size="small" />
+                  <Skeleton surface={2} />
                 ) : (
                   <p className="text-base text-v1-content-secondary">
                     <DirectionalNumber

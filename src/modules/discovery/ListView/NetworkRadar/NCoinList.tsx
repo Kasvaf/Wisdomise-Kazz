@@ -349,7 +349,12 @@ export const NCoinList: FC<{
                               />
                             )}
                           </div>
-                          <NCoinTokenInsight value={row.validatedData} />
+                          <NCoinTokenInsight
+                            value={{
+                              ...row.validatedData,
+                              ...row.securityData,
+                            }}
+                          />
                         </div>
                       )
                     }
@@ -383,7 +388,11 @@ export const NCoinList: FC<{
                     value={row}
                   />
                 </div>
-                {mini && <NCoinTokenInsight value={row.validatedData} />}
+                {mini && (
+                  <NCoinTokenInsight
+                    value={{ ...row.validatedData, ...row.securityData }}
+                  />
+                )}
                 {row.symbol && (
                   <BtnQuickBuy
                     className="!absolute !hidden group-hover:!flex right-2 bottom-2"

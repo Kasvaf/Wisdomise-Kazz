@@ -3,11 +3,25 @@ import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReactComponent as BundleHolding } from './bundle_holding.svg';
 import { ReactComponent as DevHolding } from './dev_holding.svg';
+import { ReactComponent as DexPaid } from './dex_paid.svg';
 import { ReactComponent as Holders } from './holders.svg';
 import { ReactComponent as InsidersHolding } from './insiders_holding.svg';
 import { ReactComponent as LpBurned } from './lp_burned.svg';
 import { ReactComponent as SnipersHolding } from './snipers_holding.svg';
 import { ReactComponent as Top10HoldersHolding } from './top_10_holders_holding.svg';
+
+export const useDexPaid = (value?: boolean) => {
+  return useMemo(
+    () => ({
+      icon: DexPaid,
+      value: value ? 'Paid' : 'Unpaid',
+      title: 'Dex Paid',
+      fullTitle: 'Dex Paid',
+      color: value ? 'green' : 'red',
+    }),
+    [value],
+  );
+};
 
 export const useHoldersNumber = (value?: number) => {
   return useMemo(

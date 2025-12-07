@@ -195,7 +195,7 @@ export const TokenTitle: FC<{
         ) : (
           <div className="flex flex-wrap items-center gap-3">
             <Skeleton className="!size-10" />
-            <div className="flex flex-col">
+            <div className="flex flex-col text-xxs">
               <Skeleton className="mb-2 w-20" />
               <Skeleton className="w-36" />
             </div>
