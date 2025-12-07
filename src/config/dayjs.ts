@@ -13,7 +13,22 @@ import 'dayjs/locale/ja';
 
 export default function configDayjs() {
   dayjs.extend(updateLocale);
-  dayjs.extend(relativeTime);
+  dayjs.extend(relativeTime, {
+    thresholds: [
+      { l: 's', r: 1 },
+      { l: 'ss', r: 59, d: 'second' },
+      { l: 'm', r: 1 },
+      { l: 'mm', r: 59, d: 'minute' },
+      { l: 'h', r: 1 },
+      { l: 'hh', r: 23, d: 'hour' },
+      { l: 'd', r: 1 },
+      { l: 'dd', r: 29, d: 'day' },
+      { l: 'M', r: 1 },
+      { l: 'MM', r: 11, d: 'month' },
+      { l: 'y', r: 1 },
+      { l: 'yy', d: 'year' },
+    ],
+  });
   dayjs.extend(utcDate);
   dayjs.extend(weekday);
   dayjs.extend(localeData);
@@ -23,7 +38,8 @@ export default function configDayjs() {
     relativeTime: {
       future: 'In %s',
       past: '%s Ago',
-      s: '<1 Minute',
+      s: '1 Second',
+      ss: '%d Seconds',
       m: '1 Minute',
       mm: '%d Minutes',
       h: '1 Hour',
