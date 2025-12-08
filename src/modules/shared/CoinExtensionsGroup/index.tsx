@@ -13,7 +13,7 @@ export const CoinExtensionsGroup: FC = () => {
         surface={1}
       />
       <AlertButton
-        className="mobile:ms-0 ms-6 shrink-0"
+        className="ms-6 shrink-0 max-md:ms-0"
         size={isMobile ? 'sm' : 'xs'}
         surface={1}
       />

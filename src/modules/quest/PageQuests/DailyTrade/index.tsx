@@ -78,7 +78,7 @@ export default function DailyTrade({ className }: { className?: string }) {
         <div className="relative flex h-full flex-col justify-between">
           <div>
             <h2 className="font-semibold text-xl">Daily Trade</h2>
-            <p className="mobile:mt-2 mt-4 mobile:max-w-48 text-v1-content-secondary text-xs">
+            <p className="mt-4 text-v1-content-secondary text-xs max-md:mt-2 max-md:max-w-48">
               Complete Trades Daily and Earn Rewards.
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function DailyTrade({ className }: { className?: string }) {
           {currentDay > -1 && !completedToday && !completedAll && (
             <StatusChip className="mt-3">
               <div className="flex gap-2 text-xs">
-                <div className="text-v1-content-secondary text-xxs">
+                <div className="text-2xs text-v1-content-secondary">
                   Streak Ends:
                 </div>
                 <div>{dayjs(nextDayEndTimestamp).fromNow(true)}</div>

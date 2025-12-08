@@ -53,7 +53,7 @@ export default function Leaderboard({
       ))}
       {me && (
         <LeaderboardItem
-          className="fixed start-0 end-0 bottom-16 mobile:mx-12 mx-24 ml-[calc(var(--side-menu-width)+6rem)] mobile:block hidden border border-v1-border-primary/40"
+          className="fixed start-0 end-0 bottom-16 mx-24 ml-[calc(var(--side-menu-width)+6rem)] hidden border border-v1-border-primary/40 max-md:mx-12 max-md:block"
           isTopLevel={isTopLevel}
           participant={me}
         />
@@ -133,7 +133,7 @@ export function LeaderboardItem({
   return (
     <>
       {participant.promotion_status && hasLabel && (
-        <div className="mt-4 mb-2 ml-3 text-xxs">
+        <div className="mt-4 mb-2 ml-3 text-2xs">
           {
             statusDetails[
               isChampion ? 'CHAMPION' : participant.promotion_status

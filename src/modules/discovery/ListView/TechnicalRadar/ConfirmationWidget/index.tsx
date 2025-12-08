@@ -79,11 +79,11 @@ function ConfirmationRow<I extends Indicator>({
   return (
     <div
       className={clsx(
-        'flex w-full flex-col gap-4 rounded-xl bg-v1-surface-l3 mobile:p-3 p-5',
+        'flex w-full flex-col gap-4 rounded-xl bg-v1-surface-l3 p-5 max-md:p-3',
         className,
       )}
     >
-      <div className="flex mobile:flex-wrap flex-nowrap items-center justify-start gap-4">
+      <div className="flex flex-nowrap items-center justify-start gap-4 max-md:flex-wrap">
         <div className="w-32">
           <Token
             abbreviation={value.symbol.abbreviation}

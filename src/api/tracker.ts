@@ -37,12 +37,11 @@ export const useTrackerHistoryQuery = ({
   return useQuery({
     queryKey: ['tracker-history', page],
     queryFn: async () => {
-      if (!email) return;
       return await ofetch<PageResponse<TrackedSwap>>('tracker/history/', {
         query: { page },
       });
     },
-    enabled,
+    enabled: enabled && !!email,
   });
 };
 

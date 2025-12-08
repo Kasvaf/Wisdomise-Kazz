@@ -99,7 +99,7 @@ export function CoinExchangesWidget({
             </h3>
           )}
           <Input
-            className="mobile:w-48 w-72 text-sm"
+            className="w-72 text-sm max-md:w-48"
             onChange={setQuery}
             placeholder={t('available-exchanges.search')}
             prefixIcon={<Icon name={bxSearch} />}

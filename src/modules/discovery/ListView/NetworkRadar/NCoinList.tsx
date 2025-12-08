@@ -21,8 +21,12 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Badge } from 'shared/v1-components/Badge';
 import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
-import { useInterval } from 'usehooks-ts';
-import { calcNCoinBCurveColor, calcNCoinMarketCapColor } from './lib';
+import { useInterval, useSessionStorage } from 'usehooks-ts';
+import {
+  calcNCoinBCurveColor,
+  calcNCoinMarketCapColor,
+  type NetworkRadarTab,
+} from './lib';
 import { ReactComponent as MetaIcon } from './meta.svg';
 import { NCoinAge } from './NCoinAge';
 import { NCoinSecurity } from './NCoinSecurity';
@@ -197,6 +201,10 @@ export const NCoinList: FC<{
   source,
 }) => {
   const listRef = useRef<HTMLDivElement>(null);
+  const [, setTab] = useSessionStorage<NetworkRadarTab | null>(
+    'last-trench-tab',
+    null,
+  );
 
   const [dataSource, setDataSource] = useState(_dataSource);
   const [shown, setShown] = useState<Set<string>>(
@@ -313,95 +321,96 @@ export const NCoinList: FC<{
             );
 
             return (
-              <TokenLink
-                address={row.symbol?.base}
-                className={clsx(
-                  'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
-                  mini
-                    ? 'flex-col justify-start gap-2'
-                    : 'items-center justify-between',
-                  shown.has(row.symbol?.slug ?? '')
-                    ? 'translate-y-0 opacity-100'
-                    : '-translate-y-14 opacity-0',
-                )}
-                key={row.symbol?.slug ?? ''}
-              >
-                {source === 'final_stretch' &&
-                  row.networkData?.boundingCurve === 1 && (
-                    <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
-                      <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
-                    </div>
-                  )}
-                <div className="relative flex flex-col gap-1">
-                  <Token
-                    abbreviation={row.symbol?.abbreviation}
-                    address={row.symbol?.base}
-                    extra={
-                      !mini && (
-                        <div className="flex flex-col justify-end gap-1">
-                          <div className="flex h-6 items-center gap-2">
-                            {!mini && bCurve}
-                            {row.meta && (
-                              <MetaTag
-                                id={row.meta.id}
-                                mini={mini}
-                                title={row.meta.title}
-                              />
-                            )}
-                          </div>
-                          <NCoinTokenInsight
-                            value={{
-                              ...row.validatedData,
-                              ...row.securityData,
-                            }}
-                          />
-                        </div>
-                      )
-                    }
-                    header={ageAndSecurity}
-                    link={false}
-                    logo={row.symbol?.imageUrl}
-                    marker={row.validatedData?.protocol?.logo}
-                    name={row.symbol?.name}
-                    progress={
-                      source === 'migrated'
-                        ? undefined
-                        : (row.networkData?.boundingCurve ?? 1)
-                    }
-                    size={mini ? 'md' : 'lg'}
-                    slug={row.symbol?.slug}
-                    socials={row.socials}
-                    truncate={!!mini}
-                  />
-                </div>
-                <div
+              <div key={row.symbol?.slug ?? ''} onClick={() => setTab(source)}>
+                <TokenLink
+                  address={row.symbol?.base}
                   className={clsx(
+                    'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
                     mini
-                      ? 'flex items-center text-xxs'
-                      : 'absolute end-2 top-2 flex h-full flex-col text-xs',
+                      ? 'flex-col justify-start gap-2'
+                      : 'items-center justify-between',
+                    shown.has(row.symbol?.slug ?? '')
+                      ? 'translate-y-0 opacity-100'
+                      : '-translate-y-14 opacity-0',
                   )}
                 >
-                  {mini && bCurve}
-                  <NCoinMarketDataCol
-                    className={clsx()}
-                    row={mini}
-                    value={row}
-                  />
-                </div>
-                {mini && (
-                  <NCoinTokenInsight
-                    value={{ ...row.validatedData, ...row.securityData }}
-                  />
-                )}
-                {row.symbol && (
-                  <BtnQuickBuy
-                    className="!absolute !hidden group-hover:!flex right-2 bottom-2"
-                    slug={row.symbol.slug}
-                    source={source}
-                    tokenAddress={row.symbol.base}
-                  />
-                )}
-              </TokenLink>
+                  {source === 'final_stretch' &&
+                    row.networkData?.boundingCurve === 1 && (
+                      <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
+                        <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
+                      </div>
+                    )}
+                  <div className="relative flex flex-col gap-1">
+                    <Token
+                      abbreviation={row.symbol?.abbreviation}
+                      address={row.symbol?.base}
+                      extra={
+                        !mini && (
+                          <div className="flex flex-col justify-end gap-1">
+                            <div className="flex h-6 items-center gap-2">
+                              {!mini && bCurve}
+                              {row.meta && (
+                                <MetaTag
+                                  id={row.meta.id}
+                                  mini={mini}
+                                  title={row.meta.title}
+                                />
+                              )}
+                            </div>
+                            <NCoinTokenInsight
+                              value={{
+                                ...row.validatedData,
+                                ...row.securityData,
+                              }}
+                            />
+                          </div>
+                        )
+                      }
+                      header={ageAndSecurity}
+                      link={false}
+                      logo={row.symbol?.imageUrl}
+                      marker={row.validatedData?.protocol?.logo}
+                      name={row.symbol?.name}
+                      progress={
+                        source === 'migrated'
+                          ? undefined
+                          : (row.networkData?.boundingCurve ?? 1)
+                      }
+                      size={mini ? 'md' : 'lg'}
+                      slug={row.symbol?.slug}
+                      socials={row.socials}
+                      truncate={!!mini}
+                    />
+                  </div>
+                  <div
+                    className={clsx(
+                      mini
+                        ? 'flex items-center text-2xs'
+                        : 'absolute end-2 top-2 flex h-full flex-col text-xs',
+                    )}
+                  >
+                    {mini && bCurve}
+                    <NCoinMarketDataCol
+                      className={clsx()}
+                      row={mini}
+                      value={row}
+                    />
+                  </div>
+                  {mini && (
+                    <NCoinTokenInsight
+                      value={{ ...row.validatedData, ...row.securityData }}
+                    />
+                  )}
+                  {row.symbol && (
+                    <BtnQuickBuy
+                      className="!absolute !hidden group-hover:!flex right-2 bottom-2"
+                      slug={row.symbol.slug}
+                      source={source}
+                      tokenAddress={row.symbol.base}
+                    />
+                  )}
+                </TokenLink>
+              </div>
             );
           })}
         </div>

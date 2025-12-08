@@ -61,11 +61,11 @@ export function useReferralStatusQuery() {
   return useQuery({
     queryKey: ['getReferralStatus'],
     queryFn: async () => {
-      if (!email) return;
       return await ofetch<ReferralStatus>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
       );
     },
+    enabled: !!email,
   });
 }
 
@@ -126,11 +126,11 @@ export function useFriendsQuery() {
   return useQuery({
     queryKey: ['getFriends'],
     queryFn: async () => {
-      if (!email) return;
       return await ofetch<PageResponse<ReferredUser>>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referred-users`,
       );
     },
+    enabled: !!email,
   });
 }
 

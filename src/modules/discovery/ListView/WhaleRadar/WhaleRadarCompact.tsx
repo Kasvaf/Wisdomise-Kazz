@@ -48,7 +48,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = () => {
                   value={row.data?.price_change_percentage_24h}
                 />
                 <CoinMarketCap
-                  className="text-xxs"
+                  className="text-2xs"
                   marketData={row.data}
                   singleLine
                 />

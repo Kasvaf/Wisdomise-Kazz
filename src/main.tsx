@@ -1,5 +1,3 @@
-// eslint-disable-next-line unicorn/prefer-node-protocol
-
 import * as Sentry from '@sentry/react';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { ConfigProvider, theme } from 'antd';
@@ -7,7 +5,6 @@ import { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { useEffectOnce } from 'usehooks-ts';
-// eslint-disable-next-line import/no-unassigned-import
 import 'utils/polyfills';
 import { RouterBaseName } from 'config/constants';
 import { persisterOptions, queryClient } from 'config/reactQuery';

@@ -1,6 +1,15 @@
 @theme {
   --font-poppins: "Poppins", sans;
 
+  --breakpoint-md: 750px;
+  --breakpoint-sm: 640px;
+  --breakpoint-xs: 420px;
+
+  --text-2xs: 0.625rem;
+
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: var(--color-v1-background-disabled);
+
   /* Brand */
   --color-brand-100: #f2ffd3;
   --color-brand-200: #e5ffa6;

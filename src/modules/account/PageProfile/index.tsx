@@ -144,7 +144,7 @@ export default function PageProfile() {
         userId={account.data?.key || ''}
       />
 
-      <div className="flex mobile:flex-col items-stretch gap-6">
+      <div className="flex items-stretch gap-6 max-md:flex-col">
         <div className="shrink-0 basis-1/3">
           <h2>{t('accounts:page-profile.sections.info')}</h2>
           <hr className="my-2 opacity-10" />
@@ -192,7 +192,7 @@ export default function PageProfile() {
             render={({ field }) => (
               <Markdown
                 {...field}
-                className="h-80 mobile:h-96"
+                className="h-80 max-md:h-96"
                 placeholder={t('accounts:page-profile.inputs.overview')}
                 value={field.value || ''}
               />
@@ -237,7 +237,7 @@ export default function PageProfile() {
               .finally(() => setInfoModal(false)),
           )}
         >
-          <div className="mt-6 grid grid-cols-2 mobile:grid-cols-1 gap-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 max-md:grid-cols-1">
             {infoRows.map(({ bindTo, icon: Icon, label, placeholder }) => (
               <Controller
                 control={profileInfosForm.control}

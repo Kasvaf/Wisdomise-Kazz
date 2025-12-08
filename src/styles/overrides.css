@@ -310,15 +310,15 @@ div[data-tc-modal] {
   @apply text-white;
 
   &-nav {
-    @apply text-white/40 mobile:!-mx-6;
+    @apply text-white/40 max-md:!-mx-6;
 
     &-list {
-      @apply mobile:px-6;
+      @apply max-md:px-6;
     }
   }
 
   .ant-tabs-tab {
-    @apply px-8 pb-3 pt-2 text-base mobile:px-2;
+    @apply px-8 pb-3 pt-2 text-base max-md:px-2;
 
     + .ant-tabs-tab {
       @apply ml-3;
@@ -386,5 +386,5 @@ div[data-tc-modal] {
 }
 
 #hubspot-messages-iframe-container:not(.open) {
-  @apply mobile:!hidden;
+  @apply max-md:!hidden;
 }

@@ -24,7 +24,7 @@ export const CoinDetailsExpanded: FC = () => {
   return (
     <div className="flex h-(--desktop-content-height) max-h-(--desktop-content-height) w-full min-w-0 max-w-full flex-nowrap justify-between">
       <div
-        className="flex w-full flex-col overflow-auto border-white/10 border-r"
+        className="scrollbar-none flex w-full flex-col overflow-auto border-white/10 border-r"
         ref={containerRef}
       >
         <TokenTitle

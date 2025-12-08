@@ -24,7 +24,7 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
       <div className="relative flex h-full flex-col justify-between">
         <div>
           <h2 className="font-semibold text-xl">Referral</h2>
-          <p className="mobile:mt-2 mt-4 mb-10 max-w-52 text-v1-content-secondary text-xs">
+          <p className="mt-4 mb-10 max-w-52 text-v1-content-secondary text-xs max-md:mt-2">
             Refer Friends and Unlock Rewards.
           </p>
         </div>
@@ -53,7 +53,7 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
       </div>
       <img
         alt=""
-        className="-mb-8 absolute top-4 right-0 mobile:size-32 size-48"
+        className="-mb-8 absolute top-4 right-0 size-48 max-md:size-32"
         src={leaderboard}
       />
     </NavLink>

@@ -25,7 +25,7 @@ export const ProfileHeader: FC<{
 
   return (
     <div className={clsx('relative', className)}>
-      <div className="relative w-full overflow-hidden rounded-xl mobile:pb-[37%] pb-[16.8%]">
+      <div className="relative w-full overflow-hidden rounded-xl pb-[16.8%] max-md:pb-[37%]">
         <ProfilePhoto
           className="absolute top-0 left-0 h-full w-full bg-[#1e1f24]"
           src={profile?.profile_cover}
@@ -33,7 +33,7 @@ export const ProfileHeader: FC<{
         />
         {isEditable && (
           <ImageUploader
-            className="!absolute mobile:!top-0 right-0 bottom-0 m-4 mobile:m-2"
+            className="!absolute max-md:!top-0 right-0 bottom-0 m-4 max-md:m-2"
             onChange={newImage =>
               onChange?.({
                 profile_cover: typeof newImage === 'string' ? newImage : null,
@@ -43,8 +43,8 @@ export const ProfileHeader: FC<{
             target="profile_cover"
           >
             <Button
-              className="!rounded-lg h-9 mobile:h-7 mobile:px-2 px-4 backdrop-blur-md"
-              contentClassName="mobile:text-xxs"
+              className="!rounded-lg h-9 px-4 backdrop-blur-md max-md:h-7 max-md:px-2"
+              contentClassName="max-md:text-2xs"
               size="manual"
               variant="alternative"
             >
@@ -54,16 +54,16 @@ export const ProfileHeader: FC<{
           </ImageUploader>
         )}
       </div>
-      <div className="-mt-7 mobile:!px-4 relative flex mobile:w-full mobile:flex-col items-center gap-4 pr-4 pl-9">
+      <div className="-mt-7 max-md:!px-4 relative flex items-center gap-4 pr-4 pl-9 max-md:w-full max-md:flex-col">
         <div className="relative shrink-0">
           <ProfilePhoto
-            className="mobile:size-[80px] size-[120px] rounded-full shadow-lg"
+            className="size-[120px] rounded-full shadow-lg max-md:size-[80px]"
             src={profile?.profile_image}
             type="avatar"
           />
           {isEditable && (
             <ImageUploader
-              className="!absolute mobile:-m-1 right-0 bottom-0 h-8 w-8"
+              className="!absolute max-md:-m-1 right-0 bottom-0 h-8 w-8"
               onChange={newImage =>
                 onChange?.({
                   profile_image: typeof newImage === 'string' ? newImage : null,
@@ -83,11 +83,11 @@ export const ProfileHeader: FC<{
             </ImageUploader>
           )}
         </div>
-        <div className="mobile:mt-0 mt-2 flex flex-col mobile:items-center">
-          <p className="mobile:text-lg text-3xl">
+        <div className="mt-2 flex flex-col max-md:mt-0 max-md:items-center">
+          <p className="text-3xl max-md:text-lg">
             <span
               className={clsx(
-                'flex mobile:flex-col items-center gap-2',
+                'flex items-center gap-2 max-md:flex-col',
                 !profile && 'animate-pulse',
               )}
             >
@@ -96,7 +96,7 @@ export const ProfileHeader: FC<{
                   'max-w-64 truncate lg:max-w-96',
                   profile?.nickname
                     ? 'font-bold'
-                    : 'font-extralight mobile:text-base text-2xl opacity-70',
+                    : 'font-extralight text-2xl opacity-70 max-md:text-base',
                 )}
               >
                 {profile?.nickname ||
@@ -105,15 +105,15 @@ export const ProfileHeader: FC<{
                     : truncateUserId(userId))}
               </span>
               {profile?.verified && (
-                <VerifiedBadge className="mobile:!h-6 shrink-0" />
+                <VerifiedBadge className="max-md:!h-6 shrink-0" />
               )}
             </span>
           </p>
-          <p className="mt-1 mobile:text-[13px] text-sm">
+          <p className="mt-1 text-sm max-md:text-[13px]">
             {isEditable ? (
-              <span className="flex mobile:flex-col mobile:items-end items-center gap-2 mobile:gap-0 text-white/50">
+              <span className="flex items-center gap-2 text-white/50 max-md:flex-col max-md:items-end max-md:gap-0">
                 {profile?.support_email || '---'}
-                <span className="text-white/30 text-xxs">
+                <span className="text-2xs text-white/30">
                   ({t('accounts:profile-header.cant-change')})
                 </span>
               </span>

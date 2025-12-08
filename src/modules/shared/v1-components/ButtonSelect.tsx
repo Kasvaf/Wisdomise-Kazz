@@ -62,8 +62,8 @@ export function ButtonSelect<T>({
         'relative overflow-hidden',
         innerScroll ? 'max-w-full' : 'w-max min-w-max max-w-max',
         /* Size: height, padding, font-size, border-radius */
-        size === 'xxs' && 'h-5 rounded-md text-xxs',
-        size === 'xs' && 'h-xs rounded-md text-xxs',
+        size === 'xxs' && 'h-5 rounded-md text-2xs',
+        size === 'xs' && 'h-xs rounded-md text-2xs',
         size === 'sm' && 'h-sm rounded-lg text-xs',
         size === 'md' && 'h-md rounded-lg text-xs',
         size === 'xl' && 'h-xl rounded-xl text-sm',

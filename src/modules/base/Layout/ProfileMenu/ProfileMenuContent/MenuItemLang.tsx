@@ -48,7 +48,7 @@ const MenuItemLang = () => {
 
               <div>
                 <div className="text-base">{lng.value.toUpperCase()}</div>
-                <div className="-mt-1 text-v1-content-primary/80 text-xxs">
+                <div className="-mt-1 text-2xs text-v1-content-primary/80">
                   {lng.label}
                 </div>
               </div>

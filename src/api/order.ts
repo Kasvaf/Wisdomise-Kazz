@@ -55,7 +55,6 @@ export const useOrdersQuery = ({
       size,
     ],
     queryFn: async () => {
-      if (!email) return;
       const data = await ofetch<PageResponse<Order>>('trader/limit-orders', {
         query: {
           base_address: baseAddress,
@@ -69,6 +68,7 @@ export const useOrdersQuery = ({
       });
       return data;
     },
+    enabled: !!email,
     staleTime: 1000 * 10,
     refetchInterval: 1000 * 20,
   });

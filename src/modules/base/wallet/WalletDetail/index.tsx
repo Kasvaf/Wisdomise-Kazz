@@ -91,7 +91,7 @@ export default function WalletDetail() {
         <div
           className={clsx(
             hasFlag('/wallet/status') ? 'col-span-3' : 'col-span-5',
-            'mobile:col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4',
+            'flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 max-md:col-span-5',
           )}
         >
           <p className="text-v1-content-secondary text-xs">Current Balance</p>
@@ -113,7 +113,7 @@ export default function WalletDetail() {
           </div>
         </div>
         {hasFlag('/wallet/status') && (
-          <div className="col-span-2 mobile:col-span-5 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3">
+          <div className="col-span-2 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3 max-md:col-span-5">
             <div className="mb-7 flex items-center justify-between text-v1-content-secondary text-xs">
               Details
               <ButtonSelect
@@ -134,7 +134,7 @@ export default function WalletDetail() {
               />
             </div>
             <div className="flex items-center gap-3">
-              <div className="grow text-xxs">
+              <div className="grow text-2xs">
                 <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
                 {isLoading ? (
                   <Skeleton surface={2} />
@@ -161,7 +161,7 @@ export default function WalletDetail() {
                 )}
               </div>
               <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-              <div className="grow text-xxs">
+              <div className="grow text-2xs">
                 <p className="pb-3 text-v1-content-secondary">Win Rate</p>
                 {isLoading ? (
                   <Skeleton surface={2} />
@@ -175,7 +175,7 @@ export default function WalletDetail() {
                 )}
               </div>
               <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-              <div className="grow text-xxs">
+              <div className="grow text-2xs">
                 <p className="pb-3 text-v1-content-secondary">TXs</p>
                 {isLoading ? (
                   <Skeleton surface={2} />

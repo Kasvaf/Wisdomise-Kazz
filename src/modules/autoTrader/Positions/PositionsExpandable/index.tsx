@@ -40,7 +40,7 @@ const PositionsExpandable = ({
     <div className={className}>
       <div className="mb-4 flex flex-row-reverse flex-wrap justify-between gap-4">
         <ButtonSelect
-          className={clsx(!expanded && '!w-full', 'mobile:w-full w-60')}
+          className={clsx(!expanded && '!w-full', 'w-60 max-md:w-full')}
           onChange={setFilter}
           options={[
             { value: 'active', label: 'Active' },
@@ -52,7 +52,7 @@ const PositionsExpandable = ({
         />
 
         <CoinSelect
-          className={clsx(!expanded && '!w-full', 'mobile:w-full w-80')}
+          className={clsx(!expanded && '!w-full', 'w-80 max-md:w-full')}
           emptyOption="All Tradable Coins & Tokens"
           filterTokens={x => x !== USDT_SLUG}
           mini={false}

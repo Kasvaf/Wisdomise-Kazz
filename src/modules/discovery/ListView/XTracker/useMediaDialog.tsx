@@ -15,7 +15,7 @@ export function useMediaDialog() {
   const dialog = useMemo(
     () => (
       <Dialog
-        contentClassName="mobile:p-3"
+        contentClassName="max-md:p-3"
         drawerConfig={{ closeButton: true, position: 'bottom' }}
         modalConfig={{ closeButton: true }}
         mode={isMobile ? 'drawer' : 'modal'}

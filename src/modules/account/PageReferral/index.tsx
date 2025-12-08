@@ -6,7 +6,7 @@ import {
   useReferralStatusQuery,
   useTradeReferralClaimMutation,
 } from 'api';
-import { bxRightArrowAlt, bxShareAlt } from 'boxicons-quasar';
+import { bxCopy, bxRightArrowAlt, bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
@@ -21,6 +21,7 @@ import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
+import { useShare } from 'shared/useShare';
 import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
 import EditableText from 'shared/v1-components/EditableText';
@@ -38,11 +39,7 @@ export default function ReferralPage() {
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
   const navigate = useNavigate();
-  // const [ReferralOnboardingModal, openReferralOnboardingModal] = useModal(
-  //   ReferralOnboardingModalContent,
-  //   { fullscreen: true, closable: false },
-  // );
-  // const [done] = useLocalStorage('referral-onboarding', false);
+  const [copy, content] = useShare('copy');
 
   const {
     mutateAsync: claimTradeReferralAsync,
@@ -98,11 +95,11 @@ export default function ReferralPage() {
 
   return (
     <PageWrapper
-      className="mobile:pt-4"
+      className="max-md:pt-4"
       extension={!isMobile && <CoinExtensionsGroup />}
       loading={isLoading}
     >
-      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-5">
+      <div className="grid grid-cols-2 gap-5 max-md:grid-cols-1">
         {/* Referral */}
         <div className="rounded-xl bg-v1-surface-l1 p-3">
           <h1 className="mb-3 font-medium">{t('page-referral.title')}</h1>
@@ -133,7 +130,7 @@ export default function ReferralPage() {
                   value={referral?.ready_to_claim ?? 0}
                 />
               </div>
-              <p className="text-v1-content-primary/50 text-xxs">
+              <p className="text-2xs text-v1-content-primary/50">
                 Your rewards will be paid in{' '}
                 <span className="text-v1-content-primary">SOL</span>
               </p>
@@ -177,9 +174,23 @@ export default function ReferralPage() {
                   key: 'link',
                   title: 'Referral Link',
                   render: row => (
-                    <span className="max-w-40 truncate">
-                      {shortenAddress(row.link, 10, 10)}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="max-w-40 truncate">
+                        {shortenAddress(row.link, 10, 10)}
+                      </span>
+                      <Button
+                        fab
+                        onClick={() => copy(row.link)}
+                        size="3xs"
+                        surface={2}
+                        variant="ghost"
+                      >
+                        <Icon
+                          className="text-v1-content-primary/70 [&>svg]:size-4"
+                          name={bxCopy}
+                        />
+                      </Button>
+                    </div>
                   ),
                 },
                 {
@@ -253,7 +264,7 @@ export default function ReferralPage() {
                   value={referral?.cashback_to_claim ?? 0}
                 />
               </div>
-              <p className="text-v1-content-primary/50 text-xxs">
+              <p className="text-2xs text-v1-content-primary/50">
                 Your rewards will be paid in{' '}
                 <span className="text-v1-content-primary">SOL</span>
               </p>
@@ -290,6 +301,7 @@ export default function ReferralPage() {
         </div>
       </div>
       {RewardModal}
+      {content}
     </PageWrapper>
   );
 }
