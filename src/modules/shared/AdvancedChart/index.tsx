@@ -55,7 +55,6 @@ const AdvancedChart: React.FC<{
     }
   }, [marks, widget]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!totalSupply || !pairs?.length) return;
 
@@ -214,6 +213,8 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget,
     widgetRef,
     totalSupply,
+    quote,
+    slug,
     pairs,
     convertToUsd,
     isMarketCap,
