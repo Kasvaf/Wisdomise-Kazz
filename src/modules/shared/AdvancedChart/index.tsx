@@ -1,10 +1,10 @@
 import { useTokenPairsQuery } from 'api';
 import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useTokenInfo } from 'api/token-info';
 import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import { useTotalSupply } from 'modules/discovery/DetailView/CoinDetail/useTotalSupply';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatNumber } from 'utils/numbers';
@@ -39,8 +39,7 @@ const AdvancedChart: React.FC<{
   const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
   const marks = useSwapChartMarks(slug);
   const marksRef = useRef(marks);
-  const { data: tokenInfo } = useTokenInfo({ slug });
-  const totalSupply = tokenInfo?.total_supply ?? 0;
+  const { totalSupply } = useTotalSupply();
 
   const [quote, setQuote] = useActiveQuote();
   const { data: pairs } = useTokenPairsQuery(slug);
