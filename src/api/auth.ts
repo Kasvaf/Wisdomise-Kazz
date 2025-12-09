@@ -23,7 +23,7 @@ const useSignupAdditionalTasks = () => {
   const { save } = useUserStorage('signup-url');
   const signupUrl = useRef(location.pathname + location.search);
   return () => {
-    gtag('event', 'sign_up');
+    gtag('event', 'goatx-signup');
     return save(signupUrl.current);
   };
 };
