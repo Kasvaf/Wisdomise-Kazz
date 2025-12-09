@@ -54,13 +54,13 @@ export default function PageTournamentDetail() {
       loading={isLoading}
       title={tournament?.name}
     >
-      <div className="grid grid-cols-2 mobile:grid-cols-1 items-start gap-4">
+      <div className="grid grid-cols-2 items-start gap-4 max-md:grid-cols-1">
         <div>
           {tournament && (
             <TournamentCard hasDetail={true} tournament={tournament} />
           )}
           {me && (
-            <div className="mt-3 mobile:hidden rounded-xl bg-v1-surface-l2 p-3">
+            <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 max-md:hidden">
               <h2 className="mb-2">My Status</h2>
               <LeaderboardItem participant={me} />
             </div>

@@ -13,7 +13,7 @@ import {
 import { useSocialMessage } from './useSocialMessage';
 
 const badgeClassName = clsx(
-  'flex h-6 shrink-0 items-center justify-center rounded-full px-2 text-xs capitalize mobile:px-2 [&_svg]:size-[14px]',
+  'flex h-6 shrink-0 items-center justify-center rounded-full px-2 text-xs capitalize max-md:px-2 [&_svg]:size-[14px]',
   'gap-1 bg-v1-surface-l3 text-v1-content-primary',
 );
 

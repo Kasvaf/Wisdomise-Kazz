@@ -1,4 +1,6 @@
-import { type ComponentProps, useMemo } from 'react';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import { useMarketCap } from 'modules/discovery/DetailView/CoinDetail/useMarketCap';
+import { type ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOrdersQuery } from 'services/rest/order';
 import { Badge } from 'shared/v1-components/Badge';
@@ -7,6 +9,20 @@ import type { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 export const useCoinDetailsTabs = () => {
   const { t } = useTranslation('coin-radar');
   const { data: pendingOrders } = useOrdersQuery({ status: 'PENDING' });
+  const { data: marketCapUsd } = useMarketCap({});
+  const { symbol } = useUnifiedCoinDetails();
+  const [showInsight, setShowInsight] = useState(false);
+
+  useEffect(() => {
+    if (marketCapUsd > 10 ** 6) {
+      setShowInsight(true);
+    }
+  }, [marketCapUsd]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    setShowInsight(false);
+  }, [symbol.contractAddress]);
 
   const initialTabs = useMemo<
     ComponentProps<typeof ButtonSelect<string>>['options']
@@ -42,13 +58,21 @@ export const useCoinDetailsTabs = () => {
         label: t('coin-details.tabs.pools.label'),
       },
       {
-        value: 'coinoverview_trading_view',
-        label: t('coin-details.tabs.trading_view.label'),
+        value: 'coinoverview_dev',
+        label: 'Dev Tokens',
       },
-      {
-        value: 'coinoverview_socials',
-        label: t('coin-details.tabs.socials.label'),
-      },
+      ...(showInsight
+        ? [
+            {
+              value: 'coinoverview_trading_view',
+              label: t('coin-details.tabs.trading_view.label'),
+            },
+            {
+              value: 'coinoverview_socials',
+              label: t('coin-details.tabs.socials.label'),
+            },
+          ]
+        : []),
       {
         value: 'coinoverview_bubble_chart',
         label: 'Bubble Chart',
@@ -66,7 +90,7 @@ export const useCoinDetailsTabs = () => {
       //   label: 'Holding Whales',
       // },
     ],
-    [pendingOrders?.count, t],
+    [pendingOrders?.count, t, showInsight],
   );
   return initialTabs;
 };

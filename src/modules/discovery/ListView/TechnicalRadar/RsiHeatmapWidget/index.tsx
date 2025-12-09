@@ -51,7 +51,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
           data={heatmap.data ?? []}
           headerActions={
             <ButtonSelect
-              className="mobile:w-full"
+              className="max-md:w-full"
               onChange={newRes => setPageState({ resolution: newRes })}
               options={[
                 {

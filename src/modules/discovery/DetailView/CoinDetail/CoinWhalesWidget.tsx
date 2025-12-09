@@ -145,7 +145,7 @@ export function CoinWhalesWidget({
             </h3>
           )}
           <Input
-            className="mobile:w-48 w-72"
+            className="w-72 max-md:w-48"
             onChange={setQuery}
             placeholder={t('coin-radar:whales.search')}
             prefixIcon={<Icon name={bxSearch} />}

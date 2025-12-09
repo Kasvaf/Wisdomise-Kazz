@@ -143,7 +143,7 @@ export const SocialRadarSentiment: FC<{
                 />
                 <SRSTitle className="text-xs" value={value?.gauge_tag} />
                 <SRSSubtitle
-                  className="ms-1 truncate text-xxs"
+                  className="ms-1 truncate text-2xs"
                   value={value?.gauge_tag}
                 />
               </div>

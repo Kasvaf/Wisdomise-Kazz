@@ -70,7 +70,7 @@ export default function PageRewards() {
 
       {hasFlag('/account/rewards?withdraw') && (
         <div className="relative mb-6 overflow-hidden rounded-xl bg-v1-surface-l1">
-          <div className="relative flex mobile:flex-wrap items-center gap-3 p-4">
+          <div className="relative flex items-center gap-3 p-4 max-md:flex-wrap">
             <SolanaIcon size="md" />
             <div>
               <h2 className="font-semibold">
@@ -90,7 +90,7 @@ export default function PageRewards() {
                 <BtnSolanaWallets className="!bg-transparent" showAddress />
               </div>
               <Button
-                className="mobile:w-full w-48"
+                className="w-48 max-md:w-full"
                 disabled={unclaimed === 0 || disableWithdraw}
                 loading={isWithdrawLoading}
                 onClick={withdraw}
@@ -188,7 +188,7 @@ function RewardItem({
   return (
     <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l1">
       <div className="relative flex h-full items-center">
-        <div className="flex grow mobile:flex-col gap-x-3 p-3">
+        <div className="flex grow gap-x-3 p-3 max-md:flex-col">
           <img alt="" className="size-10 object-contain" src={image} />
           <p className="mt-2">{title}</p>
         </div>

@@ -14,7 +14,7 @@ export default function CryptoPaymentModalContent({
   invoiceKey,
 }: Props) {
   return (
-    <div className="no-scrollbar flex h-screen w-full mobile:flex-col mobile:overflow-auto">
+    <div className="no-scrollbar flex h-screen w-full max-md:flex-col max-md:overflow-auto">
       <LeftSection plan={plan} />
       <RightSection invoiceKey={invoiceKey} onResolve={onResolve} plan={plan} />
     </div>

@@ -26,7 +26,7 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
         )}
         {value?.map(row => (
           <div
-            className="inline-flex items-center justify-center rounded bg-white/10 px-2 py-px font-medium text-xxs"
+            className="inline-flex items-center justify-center rounded bg-white/10 px-2 py-px font-medium text-2xs"
             key={row}
           >
             {row.toUpperCase()}
@@ -199,14 +199,14 @@ export function ConfirmationBadge<I extends Indicator>({
                 >
                   {data.resolutions.length}
                 </span>
-                <span className="text-v1-content-primary text-xxs">/</span>
-                <span className="text-v1-content-primary text-xxs">
+                <span className="text-2xs text-v1-content-primary">/</span>
+                <span className="text-2xs text-v1-content-primary">
                   {timeframes.length}
                 </span>
               </span>
             </div>
             {mode === 'summary' && (
-              <p className="whitespace-nowrap text-start text-v1-content-secondary text-xxs">
+              <p className="whitespace-nowrap text-start text-2xs text-v1-content-secondary">
                 {data.title}
               </p>
             )}
@@ -233,8 +233,8 @@ export function ConfirmationBadge<I extends Indicator>({
             >
               {data.resolutions.length}
             </span>
-            <span className="text-v1-content-primary text-xxs">/</span>
-            <span className="text-v1-content-primary text-xxs">
+            <span className="text-2xs text-v1-content-primary">/</span>
+            <span className="text-2xs text-v1-content-primary">
               {timeframes.length}
             </span>
           </span>

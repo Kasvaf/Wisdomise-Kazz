@@ -11,7 +11,7 @@ import type { AlertForm, AlertFormGroup } from './types';
 function Soon() {
   const { t } = useTranslation('alerts');
   return (
-    <span className="h-4 rounded-full bg-v1-background-brand/10 px-2 text-v1-content-brand text-xxs">
+    <span className="h-4 rounded-full bg-v1-background-brand/10 px-2 text-2xs text-v1-content-brand">
       {t('common:soon')}
     </span>
   );
@@ -32,7 +32,7 @@ function AlertFormName({
       <div className="grow text-start">
         <h3 className="mb-1 text-v1-content-primary text-xs">{value.title}</h3>
         {!minimal && (
-          <div className="max-w-56 text-v1-content-secondary text-xxs">
+          <div className="max-w-56 text-2xs text-v1-content-secondary">
             {value.subtitle}
           </div>
         )}

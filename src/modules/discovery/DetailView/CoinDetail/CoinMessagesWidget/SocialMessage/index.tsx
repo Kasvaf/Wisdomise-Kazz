@@ -31,20 +31,20 @@ export function SocialMessageSummary({
       <div
         className={clsx(
           'scrollbar-none overflow-auto',
-          'flex w-full max-w-full mobile:items-start items-stretch justify-between gap-4',
-          'flex-row mobile:flex-col rounded-lg bg-v1-surface-l-next p-3',
+          'flex w-full max-w-full items-stretch justify-between gap-4 max-md:items-start',
+          'flex-row rounded-lg bg-v1-surface-l-next p-3 max-md:flex-col',
           className,
         )}
       >
         <SocialMessageImage
-          className="h-36 mobile:h-40 mobile:w-full w-60 shrink-0 overflow-hidden rounded-lg bg-white"
+          className="h-36 w-60 shrink-0 overflow-hidden rounded-lg bg-white max-md:h-40 max-md:w-full"
           message={message}
         />
         <div className="flex h-36 grow flex-col justify-between gap-4 py-1">
           <div className="grow space-y-4">
             <div className="flex items-center gap-1">
               <ReadableDate
-                className="inline-flex h-4 items-center justify-center rounded-lg bg-v1-surface-l3 px-2 text-xxs"
+                className="inline-flex h-4 items-center justify-center rounded-lg bg-v1-surface-l3 px-2 text-2xs"
                 format="MMM D, YYYY h:mm A"
                 popup={false}
                 value={fields.releasedDate}

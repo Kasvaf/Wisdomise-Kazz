@@ -14,7 +14,7 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
   return (
     <Drawer
       className={clsx(
-        '!bg-v1-surface-l0 mobile:max-h-[90dvh] text-white',
+        '!bg-v1-surface-l0 text-white max-md:max-h-[90dvh]',
         className,
       )}
       closeIcon={
@@ -29,7 +29,7 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
       width="auto"
       {...props}
     >
-      <div className="mobile:w-full w-[640px] max-w-full">{children}</div>
+      <div className="w-[640px] max-w-full max-md:w-full">{children}</div>
     </Drawer>
   );
 };

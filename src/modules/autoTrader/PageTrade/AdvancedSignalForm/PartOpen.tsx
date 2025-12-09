@@ -55,7 +55,7 @@ const PartOpen: React.FC<{
         </h1>
         {!Number.isNaN(effectivePrice) && !Number.isNaN(remainingVolume) && (
           <Button
-            className="!p-2 text-xxs"
+            className="!p-2 text-2xs"
             disabled={isOrderLimitReached}
             onClick={() =>
               setItems([

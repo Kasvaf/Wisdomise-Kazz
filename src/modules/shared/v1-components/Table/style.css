@@ -1,4 +1,4 @@
-@reference "../../../base/styles/App.css";
+@reference "#index.css";
 
 /* Base Table Styles */
 .wsdm-table {

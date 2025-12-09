@@ -26,7 +26,7 @@ export const LoadingBadge: FC<{
           animationDuration: '0.5s',
         }}
       />
-      <p className="truncate font-medium text-xxs">{t('updating')}</p>
+      <p className="truncate font-medium text-2xs">{t('updating')}</p>
     </div>
   );
 };

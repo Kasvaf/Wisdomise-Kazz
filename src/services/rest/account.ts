@@ -57,6 +57,7 @@ interface ReferredUser {
 }
 
 export function useReferralStatusQuery() {
+  const email = useJwtEmail();
   return useQuery({
     queryKey: ['getReferralStatus'],
     queryFn: async () => {
@@ -64,6 +65,7 @@ export function useReferralStatusQuery() {
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
       );
     },
+    enabled: !!email,
   });
 }
 
@@ -120,6 +122,7 @@ export function useReferralCodeMutation() {
 }
 
 export function useFriendsQuery() {
+  const email = useJwtEmail();
   return useQuery({
     queryKey: ['getFriends'],
     queryFn: async () => {
@@ -127,6 +130,7 @@ export function useFriendsQuery() {
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referred-users`,
       );
     },
+    enabled: !!email,
   });
 }
 

@@ -117,7 +117,7 @@ export default function BtnInstantTrade({
 
   return (
     <>
-      <div className="relative mobile:hidden">
+      <div className="relative max-md:hidden">
         {maskIsOpen && <div className="fixed inset-0 z-50" />}
         <Draggable
           bounds="body"
@@ -281,7 +281,7 @@ export default function BtnInstantTrade({
       </div>
       <Button
         className={clsx(
-          '!border-v1-border-brand !bg-transparent !text-v1-content-brand mobile:hidden',
+          '!border-v1-border-brand !bg-transparent !text-v1-content-brand max-md:hidden',
           isOpen && '!bg-v1-background-hover',
           className,
         )}

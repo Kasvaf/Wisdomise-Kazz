@@ -14,7 +14,7 @@ const GreenRedChart: FC<{
     <div className="flex h-11 flex-col gap-1">
       <div className="flex items-start justify-between">
         {titles.map(title => (
-          <p className="text-v1-content-secondary text-xxs" key={title}>
+          <p className="text-2xs text-v1-content-secondary" key={title}>
             {title}
           </p>
         ))}
@@ -47,12 +47,12 @@ const GreenRedChart: FC<{
 };
 
 const resolutions = [
-  { value: '1m', label: '1M' },
-  { value: '5m', label: '5M' },
-  { value: '15m', label: '15M' },
-  { value: '1h', label: '1H' },
-  { value: '6h', label: '6H' },
-  { value: '1d', label: '1D' },
+  { value: '1m', label: '1m' },
+  { value: '5m', label: '5m' },
+  { value: '15m', label: '15m' },
+  { value: '1h', label: '1h' },
+  { value: '6h', label: '6h' },
+  { value: '1d', label: '1d' },
   { value: 'all-time', label: 'All' },
 ];
 
@@ -87,9 +87,9 @@ export function TokenUpdateWidget({ className }: { className?: string }) {
         size="xs"
         surface={1}
         value={resolution}
-        variant="white"
+        variant="default"
       />
-      <div className="flex items-stretch gap-3 rounded-xl bg-v1-surface-l1 p-3 text-xxs">
+      <div className="flex items-stretch gap-3 rounded-xl bg-v1-surface-l1 p-3 text-2xs">
         <div className="w-1/5">
           <div className="mb-5">
             <p className="mb-1 text-v1-content-secondary">TXNS</p>

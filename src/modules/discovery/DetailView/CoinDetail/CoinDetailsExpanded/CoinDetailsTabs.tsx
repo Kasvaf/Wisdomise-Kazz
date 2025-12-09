@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
 import TokenSwaps from 'modules/autoTrader/TokenSwaps';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import DevTokens from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/DevTokens';
 import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
 import Orders from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Orders';
 import { Fragment, useEffect } from 'react';
@@ -61,6 +62,7 @@ export const CoinDetailsTabs = () => {
         type="rest"
       />
     ),
+    coinoverview_dev: <DevTokens title={false} />,
     coinoverview_pools: (
       <CoinPoolsWidget
         className="w-full"
@@ -186,7 +188,7 @@ export const CoinDetailsTabs = () => {
                   variant="tab"
                 />
               </div>
-              <div className="-mt-[1px] grow overflow-auto border-white/10 border-t p-2">
+              <div className="scrollbar-none -mt-[1px] grow overflow-auto border-white/10 border-t p-2">
                 {tabContents[selectedTab as never]}
               </div>
             </div>

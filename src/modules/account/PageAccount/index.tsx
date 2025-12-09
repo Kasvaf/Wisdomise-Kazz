@@ -39,13 +39,13 @@ const PageAccount: FC = () => {
       title="My Account"
     >
       <PageTitle
-        className="mb-10 mobile:hidden"
+        className="mb-10 max-md:hidden"
         description={t('menu.account.subtitle')}
         icon={UserIcon}
         title={t('menu.account.title')}
       />
 
-      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-4 mobile:gap-2 xl:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-2 xl:grid-cols-3">
         <PageCard
           description={t('menu.profile.subtitle')}
           icon={ProfileIcon}

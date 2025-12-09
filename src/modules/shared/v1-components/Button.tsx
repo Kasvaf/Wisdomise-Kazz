@@ -59,7 +59,7 @@ export const Button: FC<ButtonProps> = ({
     <button
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
-        size === '3xs' && 'h-5 rounded text-xxs',
+        size === '3xs' && 'h-5 rounded text-2xs',
         size === '3xs' && (fab ? 'w-5' : 'px-2'),
         size === '2xs' && 'h-2xs rounded text-xs',
         size === '2xs' && (fab ? 'w-2xs' : 'px-3'),

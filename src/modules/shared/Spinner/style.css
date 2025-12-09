@@ -1,4 +1,4 @@
-@reference "../../base/styles/App.css";
+@reference "#index.css";
 
 .brand-spinner {
   font-size: 10px;

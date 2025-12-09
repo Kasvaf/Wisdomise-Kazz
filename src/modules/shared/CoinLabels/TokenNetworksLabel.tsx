@@ -29,16 +29,16 @@ export function TokenNetworksLabel({
         size === 'xs' &&
           'flex h-4 items-center justify-center gap-px px-1 text-[9px] leading-none [&_img]:size-[12px] [&_svg]:size-[12px]',
         size === 'sm' &&
-          'flex h-6 items-center justify-center px-1 text-xxs [&_img]:size-[14px] [&_svg]:size-[14px]',
+          'flex h-6 items-center justify-center px-1 text-2xs [&_img]:size-[14px] [&_svg]:size-[14px]',
         size === 'md' &&
-          '[&_svg]:!size-[16px] h-6 px-2 text-xxs [&_img]:size-[16px]',
+          '[&_svg]:!size-[16px] h-6 px-2 text-2xs [&_img]:size-[16px]',
         'bg-v1-content-notice-bold/10 text-v1-content-notice',
         'overflow-hidden',
         className,
       )}
       disabled={!clickable}
       title={
-        <div className="max-h-[300px] mobile:max-h-max min-w-48 space-y-2">
+        <div className="max-h-[300px] min-w-48 space-y-2 max-md:max-h-max">
           <h4 className="border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 font-medium text-base">
             {t('common.chains')}:
           </h4>
@@ -53,7 +53,7 @@ export function TokenNetworksLabel({
               />
               <div className="grow">
                 <p className="text-sm">{network.network.name}</p>
-                <div className="flex w-full items-center justify-start gap-1 text-v1-content-secondary text-xxs">
+                <div className="flex w-full items-center justify-start gap-1 text-2xs text-v1-content-secondary">
                   {network.symbol_network_type === 'TOKEN' &&
                   !network.contract_address ? (
                     t('common:not-available')

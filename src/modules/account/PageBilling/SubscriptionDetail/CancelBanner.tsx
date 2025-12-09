@@ -29,7 +29,7 @@ export default function CancelBanner() {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-[#090C10] mobile:p-6 p-12 md:mr-10">
+    <div className="relative overflow-hidden rounded-xl bg-[#090C10] p-12 max-md:p-6 md:mr-10">
       <img alt="" className="absolute top-0 left-0" src={gradient2} />
       <div className="relative">
         <img alt="wise-club" className="h-6" src={wiseClub} />

@@ -49,7 +49,7 @@ export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
       mode="multiple"
       notFoundContent={
         categories.isLoading ? (
-          <div className="animate-pulse px-1 py-8 text-center text-v1-content-primary text-xxs">
+          <div className="animate-pulse px-1 py-8 text-center text-2xs text-v1-content-primary">
             <Spin />
           </div>
         ) : undefined

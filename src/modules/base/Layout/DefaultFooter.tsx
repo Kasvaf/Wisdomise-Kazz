@@ -47,7 +47,7 @@ const DefaultFooter: FC<{ className?: string }> = ({ className }) => {
             to={`/${item.meta.list ?? 'trench'}`}
           >
             <item.icon className="size-7" />
-            <div className="mt-1 font-normal text-xxs">{item.text}</div>
+            <div className="mt-1 font-normal text-2xs">{item.text}</div>
           </NavLink>
         ))}
       </div>

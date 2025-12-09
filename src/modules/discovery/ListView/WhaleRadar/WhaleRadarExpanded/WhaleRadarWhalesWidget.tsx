@@ -192,15 +192,15 @@ export function WhaleRadarWhalesWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[427px] mobile:min-h-[647px]', className)}
+      className={clsx('min-h-[427px] max-md:min-h-[647px]', className)}
       empty={whales.data?.length === 0}
       headerActions={
         headerActions ? (
           <div className="flex grow justify-end">{headerActions}</div>
         ) : (
-          <div className="flex justify-between gap-4 mobile:gap-2">
+          <div className="flex justify-between gap-4 max-md:gap-2">
             <SearchInput
-              className="w-64 mobile:grow"
+              className="w-64 max-md:grow"
               onChange={query => setTableState({ query })}
               placeholder={t('top_whales.search')}
               size="xs"

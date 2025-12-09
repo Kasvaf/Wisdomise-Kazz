@@ -152,7 +152,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           </div>
         )}
       </div>
-      <div className="mt-6 mobile:w-full w-72">
+      <div className="mt-6 w-72 max-md:w-full">
         {canSubscribe ? (
           <Button
             className="w-full"

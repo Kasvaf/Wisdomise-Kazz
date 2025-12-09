@@ -12,7 +12,7 @@ export default function InfoBadge({
   return (
     <span
       className={clsx(
-        'mx-2 inline-flex h-7 items-center gap-1 rounded-lg px-3 font-bold mobile:text-xs text-sm capitalize',
+        'mx-2 inline-flex h-7 items-center gap-1 rounded-lg px-3 font-bold text-sm capitalize max-md:text-xs',
         type === 'warning' ? 'bg-[#F1AA40]/5 text-[#F1AA40]' : 'bg-white/5',
       )}
     >

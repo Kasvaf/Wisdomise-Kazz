@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
+import { useTotalSupply } from 'modules/discovery/DetailView/CoinDetail/useTotalSupply';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
@@ -9,6 +10,7 @@ import { useTokenPairsQuery } from 'services/rest';
 import { formatNumber } from 'utils/numbers';
 import {
   type IChartingLibraryWidget,
+  type LanguageCode,
   type ResolutionString,
   type Timezone,
   widget as Widget,
@@ -18,7 +20,6 @@ import { useChartConvertToUSD, useChartIsMarketCap } from './chartSettings';
 import { LocalStorageSaveLoadAdapter } from './localStorageSaveLoadAdapter';
 import makeDataFeed from './makeDataFeed';
 import { useSwapActivityLines, useSwapChartMarks } from './useChartAnnotations';
-import useCoinPoolInfo from './useCoinPoolInfo';
 
 const AdvancedChart: React.FC<{
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
@@ -26,8 +27,7 @@ const AdvancedChart: React.FC<{
 }> = ({ widgetRef, className }) => {
   const details = useUnifiedCoinDetails();
   const slug = details.symbol.slug;
-  const chartContainerRef =
-    useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  const chartContainerRef = useRef<HTMLDivElement>(null);
   useSwapActivityLines(slug);
 
   const {
@@ -35,14 +35,13 @@ const AdvancedChart: React.FC<{
   } = useTranslation();
 
   const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
-  const { data, isLoading } = useCoinPoolInfo(slug);
   const [convertToUsd, setConvertToUsd] = useChartConvertToUSD();
   const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
   const marks = useSwapChartMarks(slug);
   const marksRef = useRef(marks);
-  const totalSupply = details?.marketData.totalSupply ?? 0;
+  const { totalSupply } = useTotalSupply();
 
-  const [, setPageQuote] = useActiveQuote();
+  const [quote, setQuote] = useActiveQuote();
   const { data: pairs } = useTokenPairsQuery(slug);
 
   useEffect(() => {
@@ -56,38 +55,33 @@ const AdvancedChart: React.FC<{
     }
   }, [marks, widget]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (
-      isLoading ||
-      !data?.network ||
-      !details.symbol.name ||
-      !totalSupply ||
-      !pairs ||
-      !pairs.length
-    )
-      return;
-    const savedResolution = (localStorage.getItem(
+    if (!totalSupply || !pairs?.length) return;
+
+    const initResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
     ) || '1s') as ResolutionString;
-    let intervalId: ReturnType<typeof setInterval>;
+    const pair = pairs.find(x => x.quote.slug === quote);
+    if (!pair) return;
 
     const widget = new Widget({
-      symbol: details.symbol.name ?? undefined,
-      // datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
-      //   'https://demo-feed-data.tradingview.com',
-      // ),
+      symbol: pair?.base.name ?? undefined,
       datafeed: makeDataFeed({
-        ...data,
+        quote,
+        slug,
+        network: 'solana',
         isMarketCap,
         totalSupply,
         marksRef,
       }),
-      container: chartContainerRef.current,
+      // datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
+      //   'https://demo-feed-data.tradingview.com',
+      // ),
+      container: chartContainerRef.current as HTMLElement,
       library_path: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/`,
       custom_css_url: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/custom.css`,
 
-      locale: language as any,
+      locale: language as LanguageCode,
       enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
       disabled_features: [
         'symbol_search_hot_key',
@@ -99,7 +93,7 @@ const AdvancedChart: React.FC<{
         'save_chart_properties_to_local_storage',
       ],
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
-      interval: savedResolution,
+      interval: initResolution,
       time_frames: [
         { title: '3m', text: '3m', resolution: '60' as ResolutionString },
         { title: '1m', text: '1m', resolution: '30' as ResolutionString },
@@ -160,7 +154,7 @@ const AdvancedChart: React.FC<{
               ?.map(x => ({
                 title: x.quote.abbreviation,
                 onSelect: () => {
-                  setPageQuote(x.quote.slug);
+                  setQuote(x.quote.slug);
                   dropDown.applyOptions({
                     title:
                       pairs?.find(y => y.quote.slug === x.quote.slug)?.quote
@@ -169,20 +163,18 @@ const AdvancedChart: React.FC<{
                 },
               })) ?? [],
           title:
-            pairs?.find(x => x.quote.slug === data.quote)?.quote.abbreviation ??
-            '',
+            pairs?.find(x => x.quote.slug === quote)?.quote.abbreviation ?? '',
         });
       }
 
-      if (data.quote === WRAPPED_SOLANA_SLUG) {
+      if (quote === WRAPPED_SOLANA_SLUG) {
         const convertToUsdButton = widget.createButton();
         function setConvertButtonInnerContent() {
           const colorStyle = 'style="color:#beff21"';
           convertToUsdButton.innerHTML = `<span ${convertToUsd ? colorStyle : ''}>USD</span>/<span ${
             convertToUsd ? '' : colorStyle
           }>${
-            pairs?.find(x => x.quote.slug === data?.quote)?.quote
-              .abbreviation ?? ''
+            pairs?.find(x => x.quote.slug === quote)?.quote.abbreviation ?? ''
           }</span>`;
         }
         setConvertButtonInnerContent();
@@ -215,22 +207,19 @@ const AdvancedChart: React.FC<{
     return () => {
       setGlobalChartWidget?.(undefined);
       widget.remove();
-      clearInterval(intervalId);
     };
   }, [
-    data?.quote,
-    data?.network,
-    details.symbol.name,
-    isLoading,
     language,
     setGlobalChartWidget,
     widgetRef,
     totalSupply,
+    quote,
+    slug,
     pairs,
     convertToUsd,
     isMarketCap,
     setIsMarketCap,
-    setPageQuote,
+    setQuote,
     setConvertToUsd,
   ]);
 

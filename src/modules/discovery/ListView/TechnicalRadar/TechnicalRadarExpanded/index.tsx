@@ -25,7 +25,7 @@ export function TechnicalRadarExpanded() {
   useLoadingBadge(technicalTopCoins.isFetching);
 
   return (
-    <div className="grid grid-cols-2 mobile:grid-cols-1 gap-6 p-3">
+    <div className="grid grid-cols-2 gap-6 p-3 max-md:grid-cols-1">
       <OverviewWidget
         className="col-span-full"
         contentClassName="!min-h-[450px]"
@@ -55,7 +55,7 @@ export function TechnicalRadarExpanded() {
         }
       >
         {tab === 'chart' && (
-          <div className="grid grid-cols-2 mobile:grid-cols-1 gap-6">
+          <div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
             <div>
               <div
                 className={clsx(

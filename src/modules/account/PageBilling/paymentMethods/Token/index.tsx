@@ -51,9 +51,9 @@ export default function TokenPaymentModalContent({
   };
 
   return (
-    <div className="h-dvh overflow-auto mobile:px-0 px-24">
+    <div className="h-dvh overflow-auto px-24 max-md:px-0">
       <Steps
-        className="my-10 mobile:mb-6 mobile:px-6"
+        className="my-10 max-md:mb-6 max-md:px-6"
         current={currentStep}
         items={[
           {
@@ -76,11 +76,11 @@ export default function TokenPaymentModalContent({
       />
       <div className="grid grid-cols-12 md:mt-20">
         <div className="col-span-12 flex h-full flex-col items-center justify-center lg:col-span-6">
-          <div className="mb-8 mobile:w-full mobile:px-8">
+          <div className="mb-8 max-md:w-full max-md:px-8">
             <div className="flex items-center gap-4">
               {/* <WisdomiseLogo /> */}
               <div>
-                <p className="mobile:text-base text-white text-xl">
+                <p className="text-white text-xl max-md:text-base">
                   {t('token-modal.title')}
                 </p>
                 <div className="flex items-center gap-2">
@@ -93,8 +93,8 @@ export default function TokenPaymentModalContent({
             </div>
 
             <div className="mt-6 flex items-center gap-5">
-              <p className="mobile:text-3xl text-[40px] text-white">{price}</p>
-              <p className="mobile:text-sm text-lg">
+              <p className="text-[40px] text-white max-md:text-3xl">{price}</p>
+              <p className="text-lg max-md:text-sm">
                 <Trans i18nKey="token-modal.token-name" ns="billing" />
                 <br />
                 <span className="text-white/50">
@@ -109,7 +109,7 @@ export default function TokenPaymentModalContent({
         <div className="col-span-12 flex flex-col items-center justify-center lg:col-span-6">
           {done ? (
             <Card className="flex w-full flex-col items-center gap-6 lg:w-3/4">
-              <Done className="mobile:w-24 text-green-400" />
+              <Done className="text-green-400 max-md:w-24" />
               <div className="mb-6 text-center">
                 <p className="mb-6 font-medium text-2xl">
                   {t('token-modal.congratulations')}
@@ -126,7 +126,7 @@ export default function TokenPaymentModalContent({
             </Card>
           ) : (
             <ConnectWalletGuard
-              className="mobile:m-4 lg:w-3/4"
+              className="max-md:m-4 lg:w-3/4"
               description={t(
                 'wisdomise-token:connect-wallet.billing.description',
               )}

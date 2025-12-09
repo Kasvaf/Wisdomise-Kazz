@@ -62,7 +62,7 @@ const PartTpSl: React.FC<{
 
         {!Number.isNaN(effectivePrice) && (
           <Button
-            className="!p-2 text-xxs"
+            className="!p-2 text-2xs"
             disabled={isOrderLimitReached}
             onClick={() =>
               setItems([

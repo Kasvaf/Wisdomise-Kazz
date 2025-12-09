@@ -36,8 +36,6 @@ export const useTraderAssetsQuery = () => {
   return useQuery({
     queryKey: ['user-assets', email],
     queryFn: async () => {
-      if (!email) return [];
-
       const data = await ofetch<{
         symbols: Array<{
           slug: string;
@@ -59,6 +57,7 @@ export const useTraderAssetsQuery = () => {
     },
     staleTime: Number.POSITIVE_INFINITY,
     refetchInterval: 30_000,
+    enabled: !!email,
   });
 };
 
@@ -111,8 +110,6 @@ export const useTraderAssetQuery = <
   return useQuery({
     queryKey: ['trader-asset', slug, walletAddress, email, fromTime, toTime],
     queryFn: async () => {
-      if (!email) return;
-
       return await ofetch<AssetActivity | WalletActivity>('/trader/asset/', {
         query: {
           symbol_slug: slug,
@@ -122,7 +119,7 @@ export const useTraderAssetQuery = <
         },
       });
     },
-    enabled: !!slug || !!walletAddress,
+    enabled: (!!slug || !!walletAddress) && !!email,
     staleTime: 10_000,
     refetchInterval: 10_000,
   });
@@ -330,6 +327,7 @@ export function useTraderPositionsQuery({
   page = 1,
   network,
   address,
+  enabled = true,
 }: {
   slug?: string;
   isOpen?: boolean;
@@ -337,6 +335,7 @@ export function useTraderPositionsQuery({
   page?: number;
   network?: SupportedNetworks;
   address?: string;
+  enabled?: boolean;
 }) {
   const isLoggedIn = useIsLoggedIn();
   return useQuery({
@@ -356,7 +355,7 @@ export function useTraderPositionsQuery({
     },
     staleTime: 10,
     refetchInterval: isOpen ? 7000 : 20_000,
-    enabled: isLoggedIn,
+    enabled: isLoggedIn && enabled,
   });
 }
 

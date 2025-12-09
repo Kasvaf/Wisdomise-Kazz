@@ -38,7 +38,7 @@ export const TokenSocials: FC<{
       <div
         className={clsx(
           'flex items-start justify-start gap-2',
-          size === 'xs' ? 'flex-nowrap overflow-hidden text-xxs' : 'flex-wrap',
+          size === 'xs' ? 'flex-nowrap overflow-hidden text-2xs' : 'flex-wrap',
           className,
         )}
       >

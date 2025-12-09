@@ -1,27 +1,6 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-
 export default {
-  safelist: ['opacity-100', 'opacity-50', 'intro-style'],
   theme: {
-    screens: {
-      mobile: { max: '750px' },
-      'max-md': { max: '750px' },
-      'max-sm': { max: '640px' },
-      'max-xs': { max: '420px' },
-      tablet: { min: '751px', max: '1439px' },
-      xs: '420px',
-      ...defaultTheme.screens,
-    },
     extend: {
-      backgroundImage: {
-        'pro-gradient':
-          'linear-gradient(254deg, #E09501 -59.2%, #FFDA6C 138.76%)',
-        'brand-gradient':
-          'linear-gradient(88deg, var(--color-brand-700) -82.15%, var(--color-brand-200) 172.78%)',
-      },
-      flex: { shrink: 'inherit' },
-      aspectRatio: { '4/3': '4 / 3' },
-      fontSize: { xxs: '0.625rem' },
       width: {
         '2xs': '24px',
         xs: '32px',
@@ -70,20 +49,6 @@ export default {
         },
         ['responsive', 'hover'],
       );
-      addUtilities({
-        '.scrollbar-none': {
-          scrollbarWidth: 'none !important',
-          '-webkit-scrollbar-width': 'none !important',
-        },
-        '.scrollbar-thin': {
-          scrollbarWidth: 'thin !important',
-          '-webkit-scrollbar-width': 'thin !important',
-        },
-        '.scrollbar-auto': {
-          scrollbarWidth: 'auto !important',
-          '-webkit-scrollbar-width': 'auto !important',
-        },
-      });
     },
   ],
 };

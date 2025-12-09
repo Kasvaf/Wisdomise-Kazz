@@ -116,7 +116,7 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
   const notice = (
-    <p className="text-v1-content-secondary text-xxs [&_a]:text-v1-content-brand">
+    <p className="text-2xs text-v1-content-secondary [&_a]:text-v1-content-brand">
       <Trans i18nKey="login.notice" ns="auth">
         By continuing, you agree to our
         <a
@@ -143,10 +143,10 @@ const LoginModalContent: React.FC<{
 
   const emailContent = (
     <>
-      <h1 className="mb-3 mobile:hidden pr-12 font-medium text-xl leading-normal">
+      <h1 className="mb-3 pr-12 font-medium text-xl leading-normal max-md:hidden">
         {title}
       </h1>
-      <p className="mb-6 mobile:hidden text-sm text-v1-content-secondary leading-normal">
+      <p className="mb-6 text-sm text-v1-content-secondary leading-normal max-md:hidden">
         {subtitle}
       </p>
 
@@ -217,10 +217,10 @@ const LoginModalContent: React.FC<{
 
   const codeContent = (
     <>
-      <h1 className="mb-5 mobile:hidden pr-12 font-medium text-xl leading-normal">
+      <h1 className="mb-5 pr-12 font-medium text-xl leading-normal max-md:hidden">
         {t('login.step-2.title')}
       </h1>
-      <p className="mb-9 mobile:mb-4 text-v1-content-secondary text-xs leading-normal">
+      <p className="mb-9 text-v1-content-secondary text-xs leading-normal max-md:mb-4">
         {t('login.step-2.subtitle', { email })}
       </p>
 
@@ -284,9 +284,9 @@ const LoginModalContent: React.FC<{
   );
 
   return (
-    <div className="relative mobile:flex grid h-[31rem] mobile:h-full max-h-svh w-full grid-cols-2 mobile:flex-col-reverse items-stretch justify-between overflow-hidden">
-      <div className="relative flex mobile:h-auto min-h-min grow mobile:grow-0 flex-col items-stretch mobile:justify-end px-8 py-6">
-        <Logo className="mb-6 mobile:hidden h-10 w-auto self-start" />
+    <div className="relative grid h-[31rem] max-h-svh w-full grid-cols-2 items-stretch justify-between overflow-hidden max-md:flex max-md:h-full max-md:flex-col-reverse">
+      <div className="relative flex min-h-min grow flex-col items-stretch px-8 py-6 max-md:h-auto max-md:grow-0 max-md:justify-end">
+        <Logo className="mb-6 h-10 w-auto self-start max-md:hidden" />
         {emailLoginLoading || verifyEmailLoading || isConnecting ? (
           <div className="my-8 flex grow flex-col items-center justify-center">
             <Spinner />
@@ -310,7 +310,7 @@ const LoginModalContent: React.FC<{
           codeContent
         )}
       </div>
-      <div className="!overflow-hidden relative w-full shrink grow mobile:rounded-b-3xl">
+      <div className="!overflow-hidden relative w-full shrink grow max-md:rounded-b-3xl">
         <ModalLoginSlides className="size-full" />
       </div>
     </div>
@@ -359,7 +359,7 @@ export const useModalLogin = () => {
   const content = (
     <>
       <Dialog
-        className="z-[2_147_483_647] mobile:h-full mobile:max-h-full mobile:w-full w-[55rem] mobile:max-w-full" // z-index: 1 unit higher than cookie-bot banner
+        className="z-[2_147_483_647] w-[55rem] max-md:h-full max-md:max-h-full max-md:w-full max-md:max-w-full" // z-index: 1 unit higher than cookie-bot banner
         closable={!forceLogin}
         footer={false}
         modalConfig={{

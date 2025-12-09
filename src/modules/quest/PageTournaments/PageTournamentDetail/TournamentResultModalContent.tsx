@@ -27,7 +27,7 @@ export default function TournamentResultModalContent({
     <div className="flex flex-col items-center">
       <img
         alt=""
-        className="absolute end-0 top-0 size-full mobile:rounded-3xl rounded-xl"
+        className="absolute end-0 top-0 size-full rounded-xl max-md:rounded-3xl"
         src={bg}
       />
       <video

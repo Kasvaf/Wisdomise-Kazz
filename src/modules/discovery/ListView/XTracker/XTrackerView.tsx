@@ -59,14 +59,14 @@ export const XTrackerView: FC<{
         ) : (
           <>
             <Dialog
-              contentClassName="mobile:p-3 p-2 mobile:w-auto w-44"
+              contentClassName="max-md:p-3 p-2 max-md:w-auto w-44"
               drawerConfig={{ closeButton: true, position: 'bottom' }}
               modalConfig={{ closeButton: true }}
               mode={isMobile ? 'drawer' : 'popup'}
               onClose={() => setRelatedTokensModal(false)}
               open={!!openedRelatedTokens && relatedTokensModal}
             >
-              <h3 className="mobile:block hidden">Related Tokens:</h3>
+              <h3 className="hidden max-md:block">Related Tokens:</h3>
               {relatedTokens.isLoading ? (
                 <p className="animate-pulse p-2 text-center text-v1-content-secondary text-xs">
                   {t('common:almost-there')}

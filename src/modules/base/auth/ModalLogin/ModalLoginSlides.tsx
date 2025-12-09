@@ -90,9 +90,9 @@ export const ModalLoginSlides: FC<{
         >
           <img alt="" className="absolute bottom-0 w-full" src={gradientBg} />
           <div className="flex h-full max-h-full flex-col items-center justify-between overflow-hidden px-8">
-            <div className="flex mobile:min-h-52 w-full flex-col items-center gap-3 py-8 mobile:pb-3">
+            <div className="flex w-full flex-col items-center gap-3 py-8 max-md:min-h-52 max-md:pb-3">
               <Logo className="h-8 md:hidden" />
-              <h3 className="-translate-y-4 font-semibold mobile:text-xl text-2xl [&_b]:bg-brand-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
+              <h3 className="-translate-y-4 font-semibold text-2xl max-md:text-xl [&_b]:bg-brand-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
                 {img.title}
               </h3>
               <p className="scale-x-125 text-sm text-v1-content-primary/70 opacity-0">

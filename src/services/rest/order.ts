@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
+import { useJwtEmail } from 'modules/base/auth/jwt-store';
 import type { PageResponse } from 'services/rest/types/page';
 
 export type OrderStatus = 'PENDING' | 'SUCCESS' | 'FAILED' | 'CANCELED';
@@ -41,6 +42,7 @@ export const useOrdersQuery = ({
   page?: number;
   size?: number;
 }) => {
+  const email = useJwtEmail();
   return useQuery({
     queryKey: [
       'limit-orders',
@@ -66,6 +68,7 @@ export const useOrdersQuery = ({
       });
       return data;
     },
+    enabled: !!email,
     staleTime: 1000 * 10,
     refetchInterval: 1000 * 20,
   });

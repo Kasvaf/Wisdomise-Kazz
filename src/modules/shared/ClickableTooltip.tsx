@@ -65,7 +65,7 @@ export function ClickableTooltip({
         )}
       </span>
       <Dialog
-        className="!max-w-[410px] mobile:!max-w-full min-w-[150px] border-white/10 md:border"
+        className="!max-w-[410px] max-md:!max-w-full min-w-[150px] border-white/10 md:border"
         contentClassName="p-3"
         drawerConfig={{
           position: 'bottom',

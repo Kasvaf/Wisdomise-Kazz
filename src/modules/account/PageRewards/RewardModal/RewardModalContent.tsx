@@ -17,7 +17,7 @@ export default function RewardModalContent({ amount }: { amount: number }) {
       >
         <source src={video} />
       </video>
-      <div className="mobile:-mt-8 relative mb-20 flex flex-col items-center">
+      <div className="max-md:-mt-8 relative mb-20 flex flex-col items-center">
         <div className="flex h-[19rem] flex-col items-center text-center">
           <h1 className="mt-3 text-center font-bold text-2xl">
             Reward Claimed

@@ -21,7 +21,7 @@ export function CoinMarketCap({
     <span
       className={clsx(
         'inline-flex flex-col gap-px',
-        singleLine && 'text-xxs [&_svg]:size-3',
+        singleLine && 'text-2xs [&_svg]:size-3',
         className,
       )}
     >

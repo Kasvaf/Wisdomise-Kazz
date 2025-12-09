@@ -152,7 +152,7 @@ export const WhaleRadarSentiment: FC<{
             src={WhaleIcon}
           />
 
-          <div className="flex items-center justify-between gap-2 text-xxs">
+          <div className="flex items-center justify-between gap-2 text-2xs">
             {numbers.map(num => (
               <div className="text-start" key={num.label}>
                 <p
@@ -186,9 +186,9 @@ export const WhaleRadarSentiment: FC<{
       <div className={clsx('inline-flex items-center gap-2', className)}>
         <div className="flex h-[24px] flex-col items-center justify-between text-center">
           <img alt="whale" className="w-[16px]" src={WhaleIcon} />
-          <p className="font-medium text-xxs">{value?.wallet_count ?? 0}</p>
+          <p className="font-medium text-2xs">{value?.wallet_count ?? 0}</p>
         </div>
-        <div className="flex flex-col text-xxs">
+        <div className="flex flex-col text-2xs">
           <div className="flex items-center gap-1">
             <img alt="Buys" className="size-[8px]" src={BuyIcon} />
             <DirectionalNumber

@@ -134,7 +134,7 @@ const AIPresets: React.FC<{
         </div>
 
         <Button
-          className="!h-6 !px-4 !py-0 text-xxs"
+          className="!h-6 !px-4 !py-0 text-2xs"
           loading={isLoading}
           onClick={() => setIsOpen(true)}
           variant={isLoading ? 'alternative' : 'primary'}

@@ -13,7 +13,7 @@ export default function BetaVersion({
   return (
     <span
       className={clsx(
-        'inline-flex items-center gap-1 rounded-full text-xxs leading-none',
+        'inline-flex items-center gap-1 rounded-full text-2xs leading-none',
         variant === 'new'
           ? 'bg-[#00A3FF1A]/10 text-[#00A3FF]'
           : 'bg-[#f1aa401a] text-[#F1AA40]',

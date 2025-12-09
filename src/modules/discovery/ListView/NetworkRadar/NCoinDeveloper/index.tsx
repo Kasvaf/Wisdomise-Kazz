@@ -19,7 +19,7 @@ export const NCoinDeveloper: FC<{
           <p className="text-xs">{'Created Assets'}</p>
           {value?.tokens.map(token => (
             <div className="flex items-center gap-2" key={token.address}>
-              <div className="grow text-xxs">
+              <div className="grow text-2xs">
                 <p>{'Unknown Coin'}</p>
                 <div className="text-v1-content-secondary">
                   {'Created at '}

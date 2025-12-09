@@ -14,7 +14,7 @@ const HeaderNav = () => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const isLoggedIn = useIsLoggedIn();
-  const { data } = useTraderPositionsQuery({ isOpen: true });
+  const { data } = useTraderPositionsQuery({ isOpen: true, enabled: false });
   const openTrades =
     data?.positions.filter(x => x.deposit_status !== 'PENDING').length ?? 0;
   const params = useDiscoveryUrlParams();
@@ -76,7 +76,7 @@ const HeaderNav = () => {
           {openTrades > 0 && (
             <div
               className={clsx(
-                'rounded-full bg-v1-background-negative text-white text-xxs',
+                'rounded-full bg-v1-background-negative text-2xs text-white',
                 openTrades >= 10 ? 'size-2' : 'size-4',
               )}
             >

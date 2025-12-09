@@ -49,7 +49,7 @@ export function FeaturesTable({ className }: { className?: string }) {
     () => [
       {
         title: (
-          <div className="font-medium mobile:text-xl text-2xl text-v1-content-primary">
+          <div className="font-medium text-2xl text-v1-content-primary max-md:text-xl">
             Experience
           </div>
         ),
@@ -58,7 +58,7 @@ export function FeaturesTable({ className }: { className?: string }) {
       },
       {
         title: (
-          <div className="font-medium mobile:text-lg text-2xl text-v1-content-primary">
+          <div className="font-medium text-2xl text-v1-content-primary max-md:text-lg">
             Free
           </div>
         ),
@@ -67,7 +67,7 @@ export function FeaturesTable({ className }: { className?: string }) {
       },
       {
         title: (
-          <div className="relative bg-pro-gradient bg-clip-text font-medium mobile:text-lg text-2xl text-transparent">
+          <div className="relative bg-pro-gradient bg-clip-text font-medium text-2xl text-transparent max-md:text-lg">
             Wise Club
           </div>
         ),
@@ -80,8 +80,8 @@ export function FeaturesTable({ className }: { className?: string }) {
 
   return (
     <div className={clsx('relative w-full overflow-hidden', className)}>
-      <h2 className="mb-2 mobile:text-xl text-3xl">Compare Tires & Features</h2>
-      <hr className="mb-12 mobile:mb-6 border-v1-border-primary" />
+      <h2 className="mb-2 text-3xl max-md:text-xl">Compare Tires & Features</h2>
+      <hr className="mb-12 border-v1-border-primary max-md:mb-6" />
       <Table
         className="[&_.ant-table-cell]:!rounded-none [&_.ant-table-cell]:!border-b [&_.ant-table-cell]:!bg-transparent [&_.ant-table]:!bg-transparent [&_.ant-table-cell]:border-v1-border-secondary"
         columns={columns}
@@ -90,7 +90,7 @@ export function FeaturesTable({ className }: { className?: string }) {
       />
       <img
         alt=""
-        className="absolute top-[10%] mobile:right-10 right-[15%] w-[40%]"
+        className="absolute top-[10%] right-[15%] w-[40%] max-md:right-10"
         src={vipBg}
       />
       <p className="mt-2 text-xs">

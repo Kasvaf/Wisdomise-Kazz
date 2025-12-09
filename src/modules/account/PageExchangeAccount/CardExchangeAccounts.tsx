@@ -69,7 +69,7 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
             </div>
 
             <div className="flex flex-col sm:basis-[24px]">
-              <div className="mb-3 mobile:hidden text-white/60 text-xs">
+              <div className="mb-3 text-white/60 text-xs max-md:hidden">
                 &nbsp;
               </div>
               <div className="flex h-full items-center justify-center">

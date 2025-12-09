@@ -81,6 +81,7 @@ export type RugCheckSecurity = {
   mintable: boolean;
   safeTopHolders: boolean;
   rugged: boolean;
+  dexPaid: boolean;
 };
 
 export type UnifiedCoinDetailsContext = {
@@ -244,6 +245,7 @@ export const UnifiedCoinDetailsProvider: FC<{
         totalSupply: marketData.totalSupply ?? 0,
       }),
       rugged: data2?.securityData?.rugged,
+      dexPaid: data2?.securityData.dexPaid,
     };
   })();
   const createdAt: UnifiedCoinDetailsContext['createdAt'] =

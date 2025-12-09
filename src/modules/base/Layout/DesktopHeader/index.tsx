@@ -27,8 +27,8 @@ const DesktopHeader: React.FC<{
   return (
     <div className={clsx('h-full bg-v1-background-primary', className)}>
       <div className="flex h-full items-center gap-2 border border-white/10 bg-v1-surface-l0 px-3">
-        <div className="relative flex shrink-0 grow flex-nowrap items-center gap-4 tablet:gap-3 overflow-auto whitespace-nowrap">
-          <NavLink className="pe-4 tablet:pe-3" to="/">
+        <div className="relative flex shrink-0 grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap md:max-xl:gap-3">
+          <NavLink className="pe-4 md:max-xl:pe-3" to="/">
             <Logo className="h-8 w-auto" />
           </NavLink>
         </div>

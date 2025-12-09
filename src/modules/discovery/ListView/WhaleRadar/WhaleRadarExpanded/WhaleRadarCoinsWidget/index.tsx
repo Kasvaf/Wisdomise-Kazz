@@ -103,15 +103,15 @@ export function WhaleRadarCoinsWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[610px] mobile:min-h-[670px] shrink-0', className)}
+      className={clsx('min-h-[610px] shrink-0 max-md:min-h-[670px]', className)}
       empty={coins.data?.length === 0}
       headerActions={
         headerActions || (
           <div className="flex gap-2">
             <QuickBuySettings source="whale_radar" />
-            <div className="flex mobile:w-full grow items-center justify-end mobile:justify-between gap-4">
+            <div className="flex grow items-center justify-end gap-4 max-md:w-full max-md:justify-between">
               <SearchInput
-                className="w-64 mobile:grow"
+                className="w-64 max-md:grow"
                 onChange={query => setPageState(p => ({ ...p, query }))}
                 placeholder={t('coin-radar:common.search_coin')}
                 size="xs"

@@ -15,7 +15,7 @@ const Tournaments = () => {
       hasBack
       title="Tournaments"
     >
-      <div className="grid grid-cols-2 mobile:grid-cols-1 gap-4">
+      <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1">
         {(tournaments || [])?.map(t => (
           <Link
             className="block snap-center hover:saturate-200"
@@ -23,7 +23,7 @@ const Tournaments = () => {
             to={`/trader/quests/tournaments/${t.key}`}
           >
             <TournamentCard
-              className="h-full mobile:min-w-[80vw]"
+              className="h-full max-md:min-w-[80vw]"
               key={t.key}
               tournament={t}
             />

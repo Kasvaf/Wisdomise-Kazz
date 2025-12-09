@@ -1,4 +1,5 @@
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
+import { TokenInfo } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight';
 import { type FC, Fragment, useRef } from 'react';
 import {
   ResizableSides,
@@ -7,7 +8,6 @@ import {
 import { useSessionStorage } from 'usehooks-ts';
 import CoinChart from '../CoinChart';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { NCoinInsightWidget } from '../NCoinInsightWidget';
 import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { TokenTitle } from '../TokenTitle';
 import { TokenUpdateWidget } from '../TokenUpdateWidget';
@@ -24,7 +24,7 @@ export const CoinDetailsExpanded: FC = () => {
   return (
     <div className="flex h-(--desktop-content-height) max-h-(--desktop-content-height) w-full min-w-0 max-w-full flex-nowrap justify-between">
       <div
-        className="flex w-full flex-col overflow-auto border-white/10 border-r"
+        className="scrollbar-none flex w-full flex-col overflow-auto border-white/10 border-r"
         ref={containerRef}
       >
         <TokenTitle
@@ -60,7 +60,7 @@ export const CoinDetailsExpanded: FC = () => {
           <hr className="border-white/10" />
           <TokenUpdateWidget />
           <NCoinRisksBanner />
-          <NCoinInsightWidget />
+          <TokenInfo />
         </div>
       </div>
     </div>

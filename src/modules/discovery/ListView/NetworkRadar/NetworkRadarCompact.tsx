@@ -1,13 +1,17 @@
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { useSessionStorage } from 'usehooks-ts';
 import { type NetworkRadarTab, useNetworkRadarStream } from './lib';
 import { NCoinList } from './NCoinList';
 import { NetworkRadarFilters } from './NetworkRadarFilters';
 
 export const NetworkRadarCompact: FC<{ focus?: boolean }> = () => {
-  const [tab, setTab] = useState<NetworkRadarTab>('new_pairs');
+  const [tab, setTab] = useSessionStorage<NetworkRadarTab>(
+    'last-trench-tab',
+    'new_pairs',
+  );
 
   const {
     new_pairs: newPairs,

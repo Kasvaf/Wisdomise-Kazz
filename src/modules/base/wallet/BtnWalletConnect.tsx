@@ -30,7 +30,7 @@ const BtnWalletConnect: React.FC<{ className?: string; size?: ButtonSize }> = ({
         />
       ) : net === 'solana' ? (
         <BtnSolanaWallets
-          className="!px-2 mobile:!px-3"
+          className="!px-2 max-md:!px-3"
           showBalance={true}
           size={size}
         />

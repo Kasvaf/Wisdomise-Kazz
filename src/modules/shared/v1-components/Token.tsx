@@ -274,7 +274,7 @@ export const Token: FC<{
               )}
             </div>
             {extra && (
-              <div className="flex items-center gap-1 text-xxs">{extra}</div>
+              <div className="flex items-center gap-1 text-2xs">{extra}</div>
             )}
           </div>
         )}
@@ -402,7 +402,7 @@ export const TokenImage = ({
       className={clsx(
         'relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-lg border border-white/5 bg-v1-surface-l0 text-3xl text-white/70',
         size === 'sm' && '!text-base !rounded-md',
-        size === 'xs' && '!rounded-sm text-xxs',
+        size === 'xs' && '!rounded-sm text-2xs',
       )}
     >
       {!isLoaded && (

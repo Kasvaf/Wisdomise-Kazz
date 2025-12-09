@@ -1,4 +1,4 @@
-import { Skeleton, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import { bxCopy, bxLinkExternal } from 'boxicons-quasar';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -24,9 +24,9 @@ import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import EditableText from 'shared/v1-components/EditableText';
+import Skeleton from 'shared/v1-components/Skeleton';
 import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
-import { roundSensible } from 'utils/numbers';
 import WalletStatus from './WalletStatus';
 
 export default function WalletDetail() {
@@ -91,19 +91,29 @@ export default function WalletDetail() {
         <div
           className={clsx(
             hasFlag('/wallet/status') ? 'col-span-3' : 'col-span-5',
-            'mobile:col-span-5 flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4',
+            'flex h-40 flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 max-md:col-span-5',
           )}
         >
           <p className="text-v1-content-secondary text-xs">Current Balance</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-2xl">
-              {isPending ? 'Loading...' : `$${roundSensible(balance)}`}
+              {isPending ? (
+                <Skeleton surface={2}>Loading</Skeleton>
+              ) : (
+                <span>
+                  $
+                  <ReadableNumber
+                    format={{ decimalLength: 2 }}
+                    value={balance}
+                  />
+                </span>
+              )}
             </p>
             <WalletActions wallet={wallet} />
           </div>
         </div>
         {hasFlag('/wallet/status') && (
-          <div className="col-span-2 mobile:col-span-5 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3">
+          <div className="col-span-2 flex flex-col justify-between rounded-xl bg-v1-surface-l1 p-4 pt-3 max-md:col-span-5">
             <div className="mb-7 flex items-center justify-between text-v1-content-secondary text-xs">
               Details
               <ButtonSelect
@@ -124,10 +134,10 @@ export default function WalletDetail() {
               />
             </div>
             <div className="flex items-center gap-3">
-              <div className="grow text-xxs">
+              <div className="grow text-2xs">
                 <p className="pb-3 text-v1-content-secondary">Realized PnL</p>
                 {isLoading ? (
-                  <Skeleton.Input size="small" />
+                  <Skeleton surface={2} />
                 ) : (
                   <span className="text-base text-v1-content-secondary">
                     <DirectionalNumber
@@ -151,10 +161,10 @@ export default function WalletDetail() {
                 )}
               </div>
               <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-              <div className="grow text-xxs">
+              <div className="grow text-2xs">
                 <p className="pb-3 text-v1-content-secondary">Win Rate</p>
                 {isLoading ? (
-                  <Skeleton.Input size="small" />
+                  <Skeleton surface={2} />
                 ) : (
                   <ReadableNumber
                     className="text-base"
@@ -165,10 +175,10 @@ export default function WalletDetail() {
                 )}
               </div>
               <div className="h-10 border-v1-inverse-overlay-10 border-r" />
-              <div className="grow text-xxs">
+              <div className="grow text-2xs">
                 <p className="pb-3 text-v1-content-secondary">TXs</p>
                 {isLoading ? (
-                  <Skeleton.Input size="small" />
+                  <Skeleton surface={2} />
                 ) : (
                   <p className="text-base text-v1-content-secondary">
                     <DirectionalNumber

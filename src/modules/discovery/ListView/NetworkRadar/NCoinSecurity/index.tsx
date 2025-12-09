@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { type FC, memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as FireIcon } from './fire.svg';
 import { ReactComponent as FreezeIcon } from './freeze.svg';
 import { ReactComponent as MintIcon } from './mint.svg';
@@ -125,33 +126,35 @@ export const NCoinSecurity: FC<{
             )}
           >
             {items.map(item => (
-              <div
-                className={clsx('flex items-center gap-2 text-center')}
+              <HoverTooltip
                 key={item.key}
+                placement="bottom"
                 title={item.title}
               >
-                <div
-                  className={clsx(
-                    'relative flex items-center justify-center rounded-full',
-                    item.value
-                      ? 'bg-v1-background-positive fill-v1-background-positive-subtle stroke-v1-background-positive-subtle'
-                      : 'bg-v1-background-negative fill-v1-background-negative-subtle stroke-v1-background-negative-subtle',
-                    imgClassName,
-                  )}
-                >
-                  <item.icon className={clsx('size-full scale-75')} />
-                </div>
-                {type !== 'row' && (
-                  <p
+                <div className={clsx('flex items-center gap-2 text-center')}>
+                  <div
                     className={clsx(
-                      'whitespace-nowrap font-normal leading-snug',
-                      !item.value && 'text-v1-content-secondary',
+                      'relative flex items-center justify-center rounded-full',
+                      item.value
+                        ? 'bg-v1-background-positive fill-v1-background-positive-subtle stroke-v1-background-positive-subtle'
+                        : 'bg-v1-background-negative fill-v1-background-negative-subtle stroke-v1-background-negative-subtle',
+                      imgClassName,
                     )}
                   >
-                    {item.title}
-                  </p>
-                )}
-              </div>
+                    <item.icon className={clsx('size-full scale-75')} />
+                  </div>
+                  {type !== 'row' && (
+                    <p
+                      className={clsx(
+                        'whitespace-nowrap font-normal leading-snug',
+                        !item.value && 'text-v1-content-secondary',
+                      )}
+                    >
+                      {item.title}
+                    </p>
+                  )}
+                </div>
+              </HoverTooltip>
             ))}
           </div>
         </div>

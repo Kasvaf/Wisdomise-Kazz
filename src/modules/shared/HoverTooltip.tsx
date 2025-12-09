@@ -10,6 +10,7 @@ export function HoverTooltip({
   onOpenChange,
   className,
   rootClassName,
+  placement,
 }: {
   title?: ReactNode;
   children?: ReactNode;
@@ -29,6 +30,7 @@ export function HoverTooltip({
         arrow={false}
         autoAdjustOverflow
         onOpenChange={onOpenChange}
+        placement={placement}
         rootClassName={clsx(
           '!max-w-[450px] p-3 text-sm text-v1-content-primary [&_.ant-tooltip-inner]:!bg-v1-surface-l1 border border-white/10 rounded-lg',
           rootClassName,

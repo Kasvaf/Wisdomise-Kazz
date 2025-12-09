@@ -20,7 +20,7 @@ const PageExchangeAccount = () => {
       <CardExchangeAccounts className="mt-6" />
 
       <div className="flex justify-center">
-        <Card className="mobile:!p-4 mt-6 aspect-video w-[800px] max-w-full">
+        <Card className="max-md:!p-4 mt-6 aspect-video w-[800px] max-w-full">
           <YouTube
             className="h-full w-full"
             opts={{ width: '100%', height: '100%' }}

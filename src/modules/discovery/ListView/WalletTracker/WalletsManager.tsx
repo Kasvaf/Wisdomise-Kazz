@@ -85,7 +85,7 @@ function WalletGroup({
                 <div>
                   <div className="text-xs">{row.name}</div>
                   <button
-                    className="flex items-center gap-1 text-v1-content-secondary text-xxs"
+                    className="flex items-center gap-1 text-2xs text-v1-content-secondary"
                     onClick={() => copy(row.address)}
                   >
                     {shortenAddress(row.address)}

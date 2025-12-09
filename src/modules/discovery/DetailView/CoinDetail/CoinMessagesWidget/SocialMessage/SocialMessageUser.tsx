@@ -47,7 +47,7 @@ export function SocialMessageUser({
           </div>
         )}
         {user.subtitle && (
-          <p className="font-light text-v1-content-secondary text-xxs">
+          <p className="font-light text-2xs text-v1-content-secondary">
             {user.subtitle}
           </p>
         )}

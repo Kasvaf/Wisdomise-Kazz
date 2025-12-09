@@ -36,7 +36,7 @@ export default function WithdrawDepositModal({
         <h2 className="mb-4 text-xl">Internal Transfer</h2>
       ) : (
         <ButtonSelect
-          className="mobile:mt-3 mobile:w-full w-max"
+          className="w-max max-md:mt-3 max-md:w-full"
           onChange={newValue => setActiveTab(newValue)}
           options={
             [
