@@ -1,7 +1,7 @@
 import type { MutableRefObject } from 'react';
 import { USDC_SLUG, USDT_SLUG } from 'services/chains/constants';
 import { observeGrpc, requestGrpc } from 'services/grpc/core';
-import type { Candle } from 'services/grpc/proto/delphinus';
+import type { Candle, Swap } from 'services/grpc/proto/delphinus';
 import { getPairsCached } from 'services/rest';
 import type { Resolution } from 'services/rest/discovery';
 import { slugToTokenAddress } from 'services/rest/token-info';
@@ -83,6 +83,8 @@ const makeDataFeed = ({
   totalSupply,
   isMarketCap,
   marksRef,
+  addSwap,
+  setMigratedAt,
 }: {
   slug: string;
   quote: string;
@@ -90,6 +92,8 @@ const makeDataFeed = ({
   totalSupply: number;
   isMarketCap: boolean;
   marksRef: MutableRefObject<Mark[]>;
+  addSwap: (...swaps: Swap[]) => void;
+  setMigratedAt: (time: number) => void;
 }): IBasicDataFeed => {
   let lastCandle: ChartCandle | undefined;
   let lastRes: Resolution | undefined;
@@ -199,6 +203,18 @@ const makeDataFeed = ({
 
         noData = chartCandles.length < periodParams.countBack;
         onResult(chartCandles);
+        const swaps = await requestGrpc({
+          service: 'delphinus',
+          method: 'swapsHistory',
+          payload: {
+            network,
+            asset: slugToTokenAddress(baseSlug),
+            from: null,
+            to: null,
+            wallets: [],
+          },
+        });
+        addSwap(...swaps.swaps);
       } catch (error: any) {
         onError(error.message);
       }
@@ -219,7 +235,7 @@ const makeDataFeed = ({
           },
         },
         {
-          next: ({ candle }) => {
+          next: ({ candle, swap }) => {
             if (!candle) return;
             let chartCandle = convertToChartCandle(candle);
             if (isMarketCap) {
@@ -238,6 +254,14 @@ const makeDataFeed = ({
               lastCandle = { ...chartCandle };
               onTick(chartCandle);
             }
+
+            if (swap) {
+              addSwap(swap);
+            }
+            // if (chartCandle) {
+            //   console.log('here');
+            //   setMigratedAt(chartCandle.time / 1000);
+            // }
           },
         },
       );
@@ -251,6 +275,7 @@ const makeDataFeed = ({
       onDataCallback: GetMarksCallback<Mark>,
       _resolution: ResolutionString,
     ) {
+      console.log('ref', marksRef.current);
       onDataCallback(marksRef.current);
     },
   };

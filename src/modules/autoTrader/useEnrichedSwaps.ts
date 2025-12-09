@@ -90,32 +90,40 @@ export const useEnrichedSwaps = ({
           )
         : [];
 
-    return swaps.map(row => {
-      const dir = QUOTES_ADDRESSES.includes(row.toAsset) ? 'sell' : 'buy';
-      const price = +(
-        (dir === 'sell' ? row.fromAssetPrice : row.toAssetPrice) ?? '0'
-      );
-
-      const asset = dir === 'sell' ? row.fromAsset : row.toAsset;
-      const tokenAmount = +(dir === 'sell' ? row.fromAmount : row.toAmount);
-      const solAmount = +(dir === 'sell' ? row.toAmount : row.fromAmount);
-      const assetDetail =
-        dir === 'sell' ? row.fromAssetDetails : row.toAssetDetails;
-      return {
-        ...row,
-        dir,
-        price,
-        tokenAmount,
-        solAmount,
-        asset,
-        assetDetail,
-      };
-    });
+    return swaps.map(row => enrichSwap(row));
   }, [history, streamHistory, trackerHistory, wallets, streamHistory2]);
 
   return {
     data,
     isLoading: l1 || l2,
+  };
+};
+
+export const enrichSwap = (swap: Swap) => {
+  const dir = QUOTES_ADDRESSES.includes(swap.toAsset) ? 'sell' : 'buy';
+  const price = +(
+    (dir === 'sell' ? swap.fromAssetPrice : swap.toAssetPrice) ?? '0'
+  );
+  const usdPrice = +(
+    (dir === 'sell' ? swap.fromAssetPrice : swap.toAssetPrice) ?? '0'
+  );
+
+  const asset = dir === 'sell' ? swap.fromAsset : swap.toAsset;
+  const tokenAmount = +(dir === 'sell' ? swap.fromAmount : swap.toAmount);
+  const usdAmount = tokenAmount * usdPrice;
+  const solAmount = +(dir === 'sell' ? swap.toAmount : swap.fromAmount);
+  const assetDetail =
+    dir === 'sell' ? swap.fromAssetDetails : swap.toAssetDetails;
+  return {
+    ...swap,
+    dir,
+    price,
+    usdPrice,
+    tokenAmount,
+    usdAmount,
+    solAmount,
+    asset,
+    assetDetail,
   };
 };
 

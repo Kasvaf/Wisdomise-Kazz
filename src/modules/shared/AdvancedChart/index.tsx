@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useTokenPairsQuery } from 'services/rest';
+import { useChartMarks } from 'shared/AdvancedChart/Marks/useChartMarks';
 import { formatNumber } from 'utils/numbers';
 import {
   type IChartingLibraryWidget,
@@ -19,7 +20,7 @@ import { useAdvancedChartWidget } from './ChartWidgetProvider';
 import { useChartConvertToUSD, useChartIsMarketCap } from './chartSettings';
 import { LocalStorageSaveLoadAdapter } from './localStorageSaveLoadAdapter';
 import makeDataFeed from './makeDataFeed';
-import { useSwapActivityLines, useSwapChartMarks } from './useChartAnnotations';
+import { useSwapActivityLines } from './useChartAnnotations';
 
 const AdvancedChart: React.FC<{
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
@@ -34,27 +35,17 @@ const AdvancedChart: React.FC<{
     i18n: { language },
   } = useTranslation();
 
-  const [widget, setGlobalChartWidget] = useAdvancedChartWidget();
+  const [, setGlobalChartWidget] = useAdvancedChartWidget();
   const [convertToUsd, setConvertToUsd] = useChartConvertToUSD();
   const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
-  const marks = useSwapChartMarks(slug);
-  const marksRef = useRef(marks);
+  // const marks = useSwapChartMarks(slug);
+  const { marksRef, addSwap, setMigratedAt } = useChartMarks();
   const { totalSupply } = useTotalSupply();
 
   const [quote, setQuote] = useActiveQuote();
   const { data: pairs } = useTokenPairsQuery(slug);
 
-  useEffect(() => {
-    marksRef.current = marks;
-    if (marks && widget) {
-      widget.onChartReady(() => {
-        try {
-          widget.activeChart()?.resetData();
-        } catch {}
-      });
-    }
-  }, [marks, widget]);
-
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!totalSupply || !pairs?.length) return;
 
@@ -73,6 +64,8 @@ const AdvancedChart: React.FC<{
         isMarketCap,
         totalSupply,
         marksRef,
+        addSwap,
+        setMigratedAt,
       }),
       // datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
       //   'https://demo-feed-data.tradingview.com',
@@ -82,7 +75,11 @@ const AdvancedChart: React.FC<{
       custom_css_url: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/custom.css`,
 
       locale: language as LanguageCode,
-      enabled_features: ['seconds_resolution', 'use_localstorage_for_settings'],
+      enabled_features: [
+        'seconds_resolution',
+        'use_localstorage_for_settings',
+        'two_character_bar_marks_labels',
+      ],
       disabled_features: [
         'symbol_search_hot_key',
         'hide_price_scale_global_last_bar_value',
@@ -195,9 +192,10 @@ const AdvancedChart: React.FC<{
       }
       setButtonInnerContent();
       button.addEventListener('click', () => {
-        setIsMarketCap(!isMarketCap);
-        setButtonInnerContent();
-        widget.activeChart().resetData();
+        widget.activeChart().refreshMarks();
+        // setIsMarketCap(!isMarketCap);
+        // setButtonInnerContent();
+        // widget.activeChart().resetData();
       });
     });
 
