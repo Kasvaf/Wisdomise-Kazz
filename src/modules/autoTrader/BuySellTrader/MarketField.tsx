@@ -14,17 +14,9 @@ import { preventNonNumericInput, roundSensible } from 'utils/numbers';
 import type { SwapState } from './useSwapState';
 
 const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
-  const {
-    base,
-    isMarketPrice,
-    setIsMarketPrice,
-    limit,
-    setLimit,
-    limitType,
-    setLimitType,
-    quote,
-  } = state;
-  const [chartIsMC] = useChartIsMarketCap();
+  const { base, isMarketPrice, setIsMarketPrice, limit, setLimit, quote } =
+    state;
+  const [chartIsMC, setChartIsMC] = useChartIsMarketCap();
   const [convertToUSD] = useChartConvertToUSD();
   const { marketData } = useUnifiedCoinDetails();
 
@@ -101,15 +93,15 @@ const MarketField: React.FC<{ state: SwapState }> = ({ state }) => {
                   className="w-28"
                   dialogClassName="w-20"
                   onChange={newType => {
-                    if (newType) {
-                      setLimitType(newType);
+                    if (newType !== undefined) {
+                      setChartIsMC(newType);
                     }
                   }}
-                  options={['price', 'market_cap'] as const}
-                  render={item => (item === 'price' ? 'Price' : 'MC')}
+                  options={[true, false] as const}
+                  render={item => (item ? 'MC' : 'Price')}
                   size="sm"
                   surface={1}
-                  value={limitType}
+                  value={chartIsMC}
                 />
               }
               size="md"

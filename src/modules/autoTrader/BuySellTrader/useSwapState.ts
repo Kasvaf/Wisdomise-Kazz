@@ -3,7 +3,10 @@ import { useTokenBalance } from 'api/chains';
 import { useTokenInfo } from 'api/token-info';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useCallback, useEffect, useState } from 'react';
-import { useChartConvertToUSD } from 'shared/AdvancedChart/chartSettings';
+import {
+  useChartConvertToUSD,
+  useChartIsMarketCap,
+} from 'shared/AdvancedChart/chartSettings';
 import { roundSensible } from 'utils/numbers';
 import type { TraderInputs } from '../PageTrade/types';
 
@@ -13,13 +16,11 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const [amount, setAmount] = useState('0');
   const [isMarketPrice, setIsMarketPrice] = useState(true);
   const [limit, setLimit] = useState('');
-  const [limitType, setLimitType] = useState<'price' | 'market_cap'>(
-    'market_cap',
-  );
   const confirming = useState(false);
   const firing = useState(false);
   const details = useUnifiedCoinDetails();
   const [convertToUsd] = useChartConvertToUSD();
+  const [chartIsMC, setChartIsMC] = useChartIsMarketCap();
 
   const { data: baseInfo } = useTokenInfo({ slug: base });
   const { data: quoteInfo } = useTokenInfo({ slug: quote });
@@ -57,12 +58,12 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     (basePriceByQuote ?? 0) * (details?.marketData?.totalSupply ?? 0);
   const percentage = isMarketPrice
     ? 0
-    : limitType === 'price'
+    : !chartIsMC
       ? (((basePrice ?? 0) - +limit) * 100) / (basePrice ?? 1)
       : ((marketCap - +limit) * 100) / marketCap;
   const percentageQuote = isMarketPrice
     ? 0
-    : limitType === 'price'
+    : chartIsMC
       ? (((basePriceByQuote ?? 0) - +limit) * 100) / (basePriceByQuote ?? 1)
       : ((marketCapQuote - +limit) * 100) / marketCapQuote;
 
@@ -105,14 +106,14 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
   const updateLimit = useCallback(() => {
     if (basePriceByQuote && marketCap) {
       setLimit(
-        limitType === 'price'
+        !chartIsMC
           ? roundSensible(convertToUsd ? basePrice : basePriceByQuote)
           : String(convertToUsd ? marketCap : marketCapQuote),
       );
     }
   }, [
     basePriceByQuote,
-    limitType,
+    chartIsMC,
     marketCap,
     marketCapQuote,
     basePrice,
@@ -124,12 +125,12 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
     if (!limit) {
       updateLimit();
     }
-  }, [basePriceByQuote, limit, limitType, marketCap, updateLimit]);
+  }, [basePriceByQuote, limit, chartIsMC, marketCap, updateLimit]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     updateLimit();
-  }, [quote, limitType, isMarketPrice, convertToUsd]);
+  }, [quote, chartIsMC, isMarketPrice, convertToUsd]);
 
   return {
     selectedNet,
@@ -142,8 +143,8 @@ const useSwapState = ({ quote, setQuote }: TraderInputs) => {
 
     limit,
     setLimit,
-    limitType,
-    setLimitType,
+    chartIsMC,
+    setChartIsMC,
 
     dir,
     setDir,

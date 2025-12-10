@@ -15,7 +15,7 @@ import {
   ResizableSides,
   type ResizableSidesValue,
 } from 'shared/v1-components/ResizableSides';
-import { useSessionStorage } from 'usehooks-ts';
+import { useLocalStorage } from 'usehooks-ts';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import {
@@ -31,15 +31,15 @@ export const CoinDetailsTabs = () => {
   const [activeQuote, setActiveQuote] = useActiveQuote();
 
   const tabs = useCoinDetailsTabs();
-  const [pinnedTab, setPinnedTab] = useSessionStorage<string>(
+  const [pinnedTab, setPinnedTab] = useLocalStorage<string>(
     'coin-details-pinned-tab',
-    '',
+    'coinoverview_swaps',
   );
-  const [selectedTab, setSelectedTab] = useSessionStorage<string>(
+  const [selectedTab, setSelectedTab] = useLocalStorage<string>(
     'coin-details-selected-tab',
     '',
   );
-  const [leftSideSize, setLeftSideSize] = useSessionStorage<
+  const [leftSideSize, setLeftSideSize] = useLocalStorage<
     ResizableSidesValue | undefined
   >('coin-details-leftside-sizes', '60%');
 
@@ -163,20 +163,25 @@ export const CoinDetailsTabs = () => {
                           <>
                             {x.label}
                             {x.value === selectedTab && (
-                              <Button
-                                className="rounded-full"
-                                fab
-                                onClick={e => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setPinnedTab(x.value);
-                                }}
-                                size="3xs"
-                                surface={0}
-                                variant="ghost"
+                              <HoverTooltip
+                                className="mt-1"
+                                title="Pin to the Right"
                               >
-                                <Icon className="scale-75" name={bxPin} />
-                              </Button>
+                                <Button
+                                  className="rounded-full"
+                                  fab
+                                  onClick={e => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setPinnedTab(x.value);
+                                  }}
+                                  size="3xs"
+                                  surface={0}
+                                  variant="ghost"
+                                >
+                                  <Icon className="scale-75" name={bxPin} />
+                                </Button>
+                              </HoverTooltip>
                             )}
                           </>
                         ),
@@ -189,7 +194,14 @@ export const CoinDetailsTabs = () => {
                 />
               </div>
               <div className="scrollbar-none -mt-[1px] grow overflow-auto border-white/10 border-t p-2">
-                {tabContents[selectedTab as never]}
+                {Object.entries(tabContents).map(([key, value]) => (
+                  <div
+                    className={key !== selectedTab ? 'hidden' : ''}
+                    key={key}
+                  >
+                    {value}
+                  </div>
+                ))}
               </div>
             </div>
           </Fragment>,
@@ -208,17 +220,19 @@ export const CoinDetailsTabs = () => {
                         label: (
                           <>
                             {x.label}
-                            <Button
-                              className="rounded-full"
-                              fab
-                              onClick={() => {
-                                setPinnedTab('');
-                              }}
-                              size="3xs"
-                              variant="outline"
-                            >
-                              <Icon className="scale-75" name={bxX} />
-                            </Button>
+                            <HoverTooltip className="mt-1" title="Unpin">
+                              <Button
+                                className="rounded-full"
+                                fab
+                                onClick={() => {
+                                  setPinnedTab('');
+                                }}
+                                size="3xs"
+                                variant="outline"
+                              >
+                                <Icon className="scale-75" name={bxX} />
+                              </Button>
+                            </HoverTooltip>
                           </>
                         ),
                       };
@@ -229,7 +243,11 @@ export const CoinDetailsTabs = () => {
                 />
               </div>
               <div className="grow overflow-auto p-2">
-                {tabContents[pinnedTab as never]}
+                {Object.entries(tabContents).map(([key, value]) => (
+                  <div className={key !== pinnedTab ? 'hidden' : ''} key={key}>
+                    {value}
+                  </div>
+                ))}
               </div>
             </div>
           </Fragment>,

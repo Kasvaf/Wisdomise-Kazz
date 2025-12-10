@@ -120,7 +120,7 @@ export default function ReferralPage() {
             <img alt="" className="absolute right-0 h-full" src={claimBg} />
             <div className="relative p-5">
               <p className="text-v1-content-primary/50 text-xs">
-                Read to Claim
+                Ready to Claim
               </p>
               <div className="mt-2 mb-3 flex items-center gap-1">
                 <SolanaIcon size="sm" />
@@ -254,7 +254,7 @@ export default function ReferralPage() {
             <img alt="" className="absolute right-0 h-full" src={claimBg} />
             <div className="relative p-5">
               <p className="text-v1-content-primary/50 text-xs">
-                Read to Claim
+                Ready to Claim
               </p>
               <div className="mt-2 mb-3 flex items-center gap-1">
                 <SolanaIcon size="sm" />

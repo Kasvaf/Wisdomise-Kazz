@@ -135,7 +135,7 @@ export default function DevTokens({
       id={id}
     >
       {title !== false && <h3 className="font-semibold text-sm">Dev Tokens</h3>}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap-reverse gap-2">
         <Table
           className="min-w-48 flex-1 basis-[calc(65%-0.5rem)]"
           columns={columns}
@@ -152,13 +152,11 @@ export default function DevTokens({
               <h2 className="mb-2">Token Stats</h2>
               <p className="mb-1 text-v1-content-primary/50">
                 <span className="mr-2 inline-block size-2 rounded-lg bg-v1-background-positive" />
-                Migrated: {devTokens?.migrated_count}
+                Migrated: {migratedCount}
               </p>
               <p className="text-v1-content-primary/50">
                 <span className="mr-2 inline-block size-2 rounded-lg bg-v1-background-negative" />
-                Non-migrated:{' '}
-                {(devTokens?.total_count ?? 0) -
-                  (devTokens?.migrated_count ?? 0)}
+                Non-migrated: {nonMigratedCount}
               </p>
             </div>
             <div className="rounded-xl bg-v1-surface-l1 p-3">
