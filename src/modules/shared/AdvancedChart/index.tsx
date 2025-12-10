@@ -38,7 +38,6 @@ const AdvancedChart: React.FC<{
   const [, setGlobalChartWidget] = useAdvancedChartWidget();
   const [convertToUsd, setConvertToUsd] = useChartConvertToUSD();
   const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
-  // const marks = useSwapChartMarks(slug);
   const { marksRef, addSwap, setMigratedAt } = useChartMarks();
   const { totalSupply } = useTotalSupply();
 

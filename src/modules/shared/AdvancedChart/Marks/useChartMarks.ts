@@ -32,6 +32,11 @@ export const useChartMarks = () => {
     enabled: !!symbol.contractAddress,
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    setSwaps([]);
+  }, [symbol.contractAddress, quote, setSwaps]);
+
   const addSwap = useCallback((...newSwaps: Swap[]) => {
     setSwaps(prev => [...prev, ...newSwaps]);
   }, []);
@@ -40,11 +45,11 @@ export const useChartMarks = () => {
     if (stream?.swap) addSwap(stream.swap);
   }, [stream, addSwap]);
 
-  const devMarks = useSwapsMarks({ swaps });
+  const swapMarks = useSwapsMarks({ swaps });
 
   useEffect(() => {
-    setMarks([...devMarks, ...(mark ? [mark] : [])]);
-  }, [devMarks, mark]);
+    setMarks([...swapMarks, ...(mark ? [mark] : [])]);
+  }, [swapMarks, mark]);
 
   useEffect(() => {
     if (marks.length === 0) return;

@@ -44,7 +44,7 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
         );
         const text = `${s.name} ${swap.dir === 'buy' ? 'bought' : 'sold'} $${formatedVolume} at ${formatedPriceOrMc} ${convertToUsd ? 'USD' : 'SOL'} ${isMarketCap ? 'Market Cap' : ''}`;
         const dirLabel = swap.dir === 'buy' ? 'B' : 'S';
-        const label = `${s.label ? s.label : ''}${!s.name || s.name === 'Dev' ? dirLabel : ''}`;
+        const label = `${s.label ? s.label : ''}${!s.label || s.name === 'Dev' ? dirLabel : ''}`;
 
         return {
           id: swap.txId,
