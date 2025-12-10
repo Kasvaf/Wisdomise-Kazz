@@ -1,4 +1,5 @@
 import { refreshAccessToken } from 'api/auth';
+import { configReactScan } from 'config/react-scan';
 import * as dayjs from 'dayjs';
 import { delJwtToken, getJwtToken } from 'modules/base/auth/jwt-store';
 import { useEffect } from 'react';
@@ -20,6 +21,7 @@ configOfetch({
   getLang: () => lang,
   refreshAccessToken,
 });
+configReactScan();
 // void oneSignal.init();
 
 export default function useConfig() {

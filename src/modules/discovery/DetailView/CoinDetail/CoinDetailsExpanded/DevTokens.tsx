@@ -135,7 +135,7 @@ export default function DevTokens({
       id={id}
     >
       {title !== false && <h3 className="font-semibold text-sm">Dev Tokens</h3>}
-      <div className="flex flex-wrap-reverse gap-2">
+      <div className="flex flex-wrap gap-2">
         <Table
           className="min-w-48 flex-1 basis-[calc(65%-0.5rem)]"
           columns={columns}

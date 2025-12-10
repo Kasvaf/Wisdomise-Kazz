@@ -196,7 +196,7 @@ export const CoinDetailsTabs = () => {
               <div className="scrollbar-none -mt-[1px] grow overflow-auto border-white/10 border-t p-2">
                 {Object.entries(tabContents).map(([key, value]) => (
                   <div
-                    className={key !== selectedTab ? 'hidden' : ''}
+                    className={clsx(key !== selectedTab && 'hidden', 'h-full')}
                     key={key}
                   >
                     {value}
@@ -244,7 +244,10 @@ export const CoinDetailsTabs = () => {
               </div>
               <div className="grow overflow-auto p-2">
                 {Object.entries(tabContents).map(([key, value]) => (
-                  <div className={key !== pinnedTab ? 'hidden' : ''} key={key}>
+                  <div
+                    className={clsx(key !== pinnedTab && 'hidden', 'h-full')}
+                    key={key}
+                  >
                     {value}
                   </div>
                 ))}
