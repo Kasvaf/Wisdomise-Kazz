@@ -28,7 +28,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
     from: { balanceLoading, balance, amount },
     isMarketPrice,
     limit,
-    limitType,
+    chartIsMC,
   } = state;
   const [chartIsUSD] = useChartConvertToUSD();
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
@@ -50,7 +50,7 @@ const BtnBuySell: React.FC<{ state: SwapState; className?: string }> = ({
   });
   const limitText = isMarketPrice
     ? ''
-    : ` @ ${chartIsUSD ? '$' : ''}${formatedLimit} ${chartIsUSD ? '' : quote.coinInfo?.symbol} ${limitType === 'price' ? '' : 'MC'}`;
+    : ` @ ${chartIsUSD ? '$' : ''}${formatedLimit} ${chartIsUSD ? '' : quote.coinInfo?.symbol} ${chartIsMC ? 'MC' : ''}`;
 
   const isMobile = useIsMobile();
   usePageTour({

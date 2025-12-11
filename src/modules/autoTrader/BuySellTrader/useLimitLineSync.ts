@@ -49,17 +49,7 @@ export function useLimitLineSync(state: SwapState) {
   useEffect(() => {
     if (!widget || !marketData.totalSupply) return;
 
-    const limitIsMC = state.limitType === 'market_cap';
-    const isMatched = (limitIsMC && chartIsMC) || (!limitIsMC && !chartIsMC);
-    const limit =
-      +state.limit *
-      (isMatched
-        ? 1
-        : chartIsMC && !limitIsMC
-          ? marketData.totalSupply
-          : !chartIsMC && limitIsMC
-            ? 1 / marketData.totalSupply
-            : 1);
+    const limit = +state.limit;
 
     try {
       widget.subscribe('drawing_event', (sourceId, drawingEventType) => {
@@ -70,18 +60,7 @@ export function useLimitLineSync(state: SwapState) {
           const shape = widget.activeChart().getShapeById(sourceId);
           const points = shape.getPoints();
           const newLimit = points[0].price;
-          state.setLimit(
-            String(
-              ((newLimit - limit) / 2 + limit) *
-                (isMatched
-                  ? 1
-                  : chartIsMC && !limitIsMC
-                    ? 1 / (marketData.totalSupply ?? 0)
-                    : !chartIsMC && limitIsMC
-                      ? (marketData.totalSupply ?? 0)
-                      : 1),
-            ),
-          );
+          state.setLimit(String((newLimit - limit) / 2 + limit));
         }
       });
     } catch {}
@@ -176,7 +155,6 @@ export function useLimitLineSync(state: SwapState) {
     state.limit,
     state.isMarketPrice,
     marketData.totalSupply,
-    state.limitType,
     chartIsMC,
     orders,
   ]);

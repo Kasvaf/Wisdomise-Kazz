@@ -152,13 +152,11 @@ export default function DevTokens({
               <h2 className="mb-2">Token Stats</h2>
               <p className="mb-1 text-v1-content-primary/50">
                 <span className="mr-2 inline-block size-2 rounded-lg bg-v1-background-positive" />
-                Migrated: {devTokens?.migrated_count}
+                Migrated: {migratedCount}
               </p>
               <p className="text-v1-content-primary/50">
                 <span className="mr-2 inline-block size-2 rounded-lg bg-v1-background-negative" />
-                Non-migrated:{' '}
-                {(devTokens?.total_count ?? 0) -
-                  (devTokens?.migrated_count ?? 0)}
+                Non-migrated: {nonMigratedCount}
               </p>
             </div>
             <div className="rounded-xl bg-v1-surface-l1 p-3">

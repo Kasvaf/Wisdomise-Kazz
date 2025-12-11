@@ -47,8 +47,8 @@ const NCoinMarketDataCol: FC<{
       )}
     >
       <div className="flex items-center gap-1">
-        <div className="flex items-center" title="Volume">
-          <span className="mr-1 align-middle text-[0.9em] text-v1-content-secondary">
+        <div className="flex items-center text-xs" title="Volume">
+          <span className="mr-1 align-middle text-2xs text-v1-content-secondary">
             {'V'}
           </span>
           <ReadableNumber
@@ -69,7 +69,7 @@ const NCoinMarketDataCol: FC<{
           }}
           title="Market Cap"
         >
-          <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+          <span className="me-1 align-middle text-2xs text-v1-content-secondary">
             {'MC'}
           </span>
           <ReadableNumber
@@ -302,114 +302,29 @@ export const NCoinList: FC<{
           ref={listRef}
         >
           {dataSource.map(row => {
-            const ageAndSecurity = (
-              <NCoinAgeAndSecurity
-                createdAt={row.symbol?.createdAt}
-                lpBurned={row.securityData?.lpBurned}
-              />
-            );
-
-            const bCurve = (
-              <>
-                {source !== 'migrated' && (
-                  <NCoinBCurve
-                    className="pe-1 text-xs"
-                    value={row.networkData?.boundingCurve}
-                  />
-                )}
-              </>
-            );
-
             return (
               <div key={row.symbol?.slug ?? ''} onClick={() => setTab(source)}>
-                <TokenLink
-                  address={row.symbol?.base}
-                  className={clsx(
-                    'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
-                    mini
-                      ? 'flex-col justify-start gap-2'
-                      : 'items-center justify-between',
+                <TrenchToken
+                  className={
                     shown.has(row.symbol?.slug ?? '')
                       ? 'translate-y-0 opacity-100'
-                      : '-translate-y-14 opacity-0',
-                  )}
-                >
-                  {source === 'final_stretch' &&
-                    row.networkData?.boundingCurve === 1 && (
-                      <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
-                        <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
-                      </div>
-                    )}
-                  <div className="relative flex flex-col gap-1">
-                    <Token
-                      abbreviation={row.symbol?.abbreviation}
-                      address={row.symbol?.base}
-                      extra={
-                        !mini && (
-                          <div className="flex flex-col justify-end gap-1">
-                            <div className="flex h-6 items-center gap-2">
-                              {!mini && bCurve}
-                              {row.meta && (
-                                <MetaTag
-                                  id={row.meta.id}
-                                  mini={mini}
-                                  title={row.meta.title}
-                                />
-                              )}
-                            </div>
-                            <NCoinTokenInsight
-                              value={{
-                                ...row.validatedData,
-                                ...row.securityData,
-                              }}
-                            />
-                          </div>
-                        )
-                      }
-                      header={ageAndSecurity}
-                      link={false}
-                      logo={row.symbol?.imageUrl}
-                      marker={row.validatedData?.protocol?.logo}
-                      name={row.symbol?.name}
-                      progress={
-                        source === 'migrated'
-                          ? undefined
-                          : (row.networkData?.boundingCurve ?? 1)
-                      }
-                      size={mini ? 'md' : 'lg'}
-                      slug={row.symbol?.slug}
-                      socials={row.socials}
-                      truncate={!!mini}
-                    />
-                  </div>
-                  <div
-                    className={clsx(
-                      mini
-                        ? 'flex items-center text-2xs'
-                        : 'absolute end-2 top-2 flex h-full flex-col text-xs',
-                    )}
-                  >
-                    {mini && bCurve}
-                    <NCoinMarketDataCol
-                      className={clsx()}
-                      row={mini}
-                      value={row}
-                    />
-                  </div>
-                  {mini && (
-                    <NCoinTokenInsight
-                      value={{ ...row.validatedData, ...row.securityData }}
-                    />
-                  )}
-                  {row.symbol && (
-                    <BtnQuickBuy
-                      className="!absolute !hidden group-hover:!flex right-2 bottom-2"
-                      slug={row.symbol.slug}
-                      source={source}
-                      tokenAddress={row.symbol.base}
-                    />
-                  )}
-                </TokenLink>
+                      : '-translate-y-14 opacity-0'
+                  }
+                  extra={
+                    row.symbol && (
+                      <BtnQuickBuy
+                        className="!absolute !hidden group-hover:!flex right-2 bottom-2"
+                        slug={row.symbol.slug}
+                        source={source}
+                        tokenAddress={row.symbol.base}
+                      />
+                    )
+                  }
+                  highlight={source === 'final_stretch'}
+                  mini={mini}
+                  row={row}
+                  showProgress={source !== 'migrated'}
+                />
               </div>
             );
           })}
@@ -418,6 +333,153 @@ export const NCoinList: FC<{
     </div>
   );
 };
+
+export const TrenchToken = memo(
+  ({
+    row,
+    className,
+    mini,
+    showProgress = true,
+    highlight,
+    extra,
+  }: {
+    row: TrenchStreamResponseResult;
+    className?: string;
+    mini?: boolean;
+    showProgress?: boolean;
+    highlight?: boolean;
+    extra?: ReactNode;
+  }) => {
+    const ageAndSecurity = (
+      <NCoinAgeAndSecurity
+        createdAt={row.symbol?.createdAt}
+        lpBurned={row.securityData?.lpBurned}
+      />
+    );
+
+    const bCurve = (
+      <>
+        {showProgress && (
+          <NCoinBCurve
+            className="pe-1 text-xs"
+            value={row.networkData?.boundingCurve}
+          />
+        )}
+      </>
+    );
+
+    return (
+      <TokenLink
+        address={row.symbol?.base}
+        className={clsx(
+          'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
+          mini
+            ? 'flex-col justify-start gap-2'
+            : 'items-center justify-between',
+          className,
+        )}
+      >
+        {highlight && row.networkData?.boundingCurve === 1 && (
+          <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
+            <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
+          </div>
+        )}
+        <div className="relative flex flex-col gap-1">
+          <Token
+            abbreviation={row.symbol?.abbreviation}
+            address={row.symbol?.base}
+            extra={
+              !mini && (
+                <div className="flex flex-col justify-end gap-1">
+                  <div className="flex h-6 items-center gap-2">
+                    {!mini && bCurve}
+                    {row.meta && (
+                      <MetaTag
+                        id={row.meta.id}
+                        mini={mini}
+                        title={row.meta.title}
+                      />
+                    )}
+                  </div>
+                  <NCoinTokenInsight
+                    value={{
+                      ...row.validatedData,
+                      ...row.securityData,
+                    }}
+                  />
+                </div>
+              )
+            }
+            header={ageAndSecurity}
+            link={false}
+            logo={row.symbol?.imageUrl}
+            marker={row.validatedData?.protocol?.logo}
+            name={row.symbol?.name}
+            progress={
+              showProgress ? (row.networkData?.boundingCurve ?? 1) : undefined
+            }
+            size={mini ? 'md' : 'lg'}
+            slug={row.symbol?.slug}
+            socials={row.socials}
+            truncate={!!mini}
+          />
+        </div>
+        <div
+          className={clsx(
+            mini
+              ? 'flex items-center text-xxs'
+              : 'absolute end-2 top-2 flex h-full flex-col text-xs',
+          )}
+        >
+          {mini && bCurve}
+          <NCoinMarketDataCol className={clsx()} row={mini} value={row} />
+        </div>
+        {mini && (
+          <NCoinTokenInsight
+            value={{ ...row.validatedData, ...row.securityData }}
+          />
+        )}
+        {extra}
+      </TokenLink>
+    );
+  },
+  (prev, next) => {
+    return (
+      prev.row.meta?.id === next.row.meta?.id &&
+      prev.row.symbol?.base === next.row.symbol?.base &&
+      prev.row.networkData?.boundingCurve ===
+        next.row.networkData?.boundingCurve &&
+      prev.row.networkData?.marketCap === next.row.networkData?.marketCap &&
+      prev.row.networkData?.volume === next.row.networkData?.volume &&
+      prev.row.socials?.telegram === next.row.socials?.telegram &&
+      prev.row.socials?.website === next.row.socials?.website &&
+      prev.row.socials?.twitter === next.row.socials?.twitter &&
+      prev.row.networkData?.totalBuy === next.row.networkData?.totalBuy &&
+      prev.row.networkData?.totalSell === next.row.networkData?.totalSell &&
+      prev.row.symbol?.name === next.row.symbol?.name &&
+      prev.row.symbol?.abbreviation === next.row.symbol?.abbreviation &&
+      prev.row.symbol?.imageUrl === next.row.symbol?.imageUrl &&
+      prev.row.validatedData?.numberOfHolders ===
+        next.row.validatedData?.numberOfHolders &&
+      prev.row.validatedData?.protocol?.name ===
+        next.row.validatedData?.protocol?.name &&
+      prev.row.validatedData?.snipersHolding ===
+        next.row.validatedData?.snipersHolding &&
+      prev.row.validatedData?.boundleHolding ===
+        next.row.validatedData?.boundleHolding &&
+      prev.row.validatedData?.devHolding ===
+        next.row.validatedData?.devHolding &&
+      prev.row.validatedData?.insiderHolding ===
+        next.row.validatedData?.insiderHolding &&
+      prev.row.validatedData?.top10Holding ===
+        next.row.validatedData?.top10Holding &&
+      prev.row.securityData?.lpBurned === next.row.securityData?.lpBurned &&
+      prev.row.securityData?.dexPaid === next.row.securityData?.dexPaid &&
+      prev.mini === next.mini &&
+      prev.className === next.className
+    );
+  },
+);
 
 export const MetaTag = ({
   id,

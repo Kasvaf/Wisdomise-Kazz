@@ -12,6 +12,7 @@ export const useCoinDetailsTabs = () => {
   const { data: marketCapUsd } = useMarketCap({});
   const { symbol } = useUnifiedCoinDetails();
   const [showInsight, setShowInsight] = useState(false);
+  const { validatedData } = useUnifiedCoinDetails();
 
   useEffect(() => {
     if (marketCapUsd > 10 ** 6) {
@@ -33,6 +34,31 @@ export const useCoinDetailsTabs = () => {
         label: 'Transactions',
       },
       {
+        value: 'coinoverview_top_holders',
+        label: (
+          <div className="flex items-center gap-1">
+            Top Holders
+            {validatedData?.numberOfHolders && (
+              <span className="text-v1-content-secondary">
+                ({validatedData?.numberOfHolders})
+              </span>
+            )}
+          </div>
+        ),
+      },
+      {
+        value: 'coinoverview_top_traders',
+        label: 'Top Traders',
+      },
+      {
+        value: 'coinoverview_pools',
+        label: t('coin-details.tabs.pools.label'),
+      },
+      {
+        value: 'coinoverview_dev',
+        label: 'Dev Tokens',
+      },
+      {
         value: 'coinoverview_orders',
         label: (
           <div className="flex items-center gap-1">
@@ -44,22 +70,6 @@ export const useCoinDetailsTabs = () => {
             )}
           </div>
         ),
-      },
-      {
-        value: 'coinoverview_top_traders',
-        label: 'Top Traders',
-      },
-      {
-        value: 'coinoverview_top_holders',
-        label: 'Top Holders',
-      },
-      {
-        value: 'coinoverview_pools',
-        label: t('coin-details.tabs.pools.label'),
-      },
-      {
-        value: 'coinoverview_dev',
-        label: 'Dev Tokens',
       },
       ...(showInsight
         ? [
@@ -90,7 +100,7 @@ export const useCoinDetailsTabs = () => {
       //   label: 'Holding Whales',
       // },
     ],
-    [pendingOrders?.count, t, showInsight],
+    [pendingOrders?.count, t, showInsight, validatedData?.numberOfHolders],
   );
   return initialTabs;
 };
