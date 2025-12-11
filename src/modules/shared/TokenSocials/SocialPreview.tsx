@@ -1,12 +1,13 @@
 import { type FC, lazy } from 'react';
 import XCommunityEmbed from 'shared/v1-components/X/XCommunityEmbed';
+import { XPostEmbed } from 'shared/v1-components/X/XPostEmbed';
 import XProfileEmbed from 'shared/v1-components/X/XProfileEmbed';
 import type { Social } from './lib';
 
 const FacebookEmbed = lazy(() =>
   import('react-social-media-embed').then(x => ({ default: x.FacebookEmbed })),
 );
-const XEmbed = lazy(() =>
+const _XEmbed = lazy(() =>
   import('react-social-media-embed').then(x => ({ default: x.XEmbed })),
 );
 const InstagramEmbed = lazy(() =>
@@ -74,8 +75,8 @@ export const SocialPreview: FC<{ social: Social }> = ({ social }) => {
     return <InstagramEmbed url={social.url.href} width={325} />;
   if (social.type === 'x') {
     const res = parseXUrl(social.url.href);
-    if (res.type === 'post')
-      return <XEmbed url={social.url.href} width={325} />;
+    if (res.type === 'post' && res.postId)
+      return <XPostEmbed className="!w-72" tweetId={res.postId} />;
     if (res.type === 'profile' && res.username)
       return <XProfileEmbed username={res.username} />;
     if (res.type === 'community' && res.communityId)

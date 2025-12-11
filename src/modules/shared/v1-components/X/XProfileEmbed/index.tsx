@@ -1,23 +1,22 @@
-import { bxCalendar } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useTwitterUserPreviewQuery } from 'services/rest/twitter';
-import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as XIcon } from '../x.svg';
+import { ReactComponent as CalendarIcon } from './calendar.svg';
+import { ReactComponent as LinkIcon } from './link.svg';
+import { ReactComponent as LocationIcon } from './location.svg';
 import { ReactComponent as VerifiedIcon } from './verified.svg';
 
 export default function XProfileEmbed({ username }: { username: string }) {
   const { data, isPending } = useTwitterUserPreviewQuery({ username });
 
-  const openProfile = () => {
-    window.open(`https://x.com/${username}`, '_blank');
-  };
+  const profileUrl = `https://x.com/${username}`;
 
   return (
     <div
-      className="flex min-h-72 w-72 flex-col items-center justify-center rounded-md bg-x-bg text-sm"
+      className="flex min-h-72 w-72 flex-col items-center justify-center overflow-hidden rounded-lg border border-x-border bg-x-bg text-sm hover:bg-x-bg-hover"
       onClick={e => e.stopPropagation()}
     >
       {isPending ? (
@@ -34,42 +33,66 @@ export default function XProfileEmbed({ username }: { username: string }) {
             )}
           </div>
           <div className="flex w-full grow flex-col p-4 pt-3">
-            <div className="relative">
-              <button className="absolute top-2 right-0" onClick={openProfile}>
-                <XIcon className="size-6" />
-              </button>
+            <div className="flex justify-between gap-2">
               <XUser
+                className="overflow-hidden"
                 isBlueVerified={data.isBlueVerified}
                 name={data.name}
                 profilePicture={data.profilePicture}
                 username={data.userName}
+                verifiedType={data.verifiedType}
               />
+              <a href={profileUrl} target="_blank">
+                <XIcon className="size-5" />
+              </a>
             </div>
-            <p className="mt-3 mb-5 text-x-content-secondary">
+            <p className="mt-3 mb-5 break-words text-x-content-secondary">
               {data.description}
             </p>
-            <div className="mt-auto mb-1 flex items-center gap-1 text-x-content-secondary">
-              <Icon name={bxCalendar} size={14} />
-              Joined {dayjs(data.createdAt).format('MMM YYYY')}
+            <div className="mb-2 flex flex-wrap gap-x-3 gap-y-2 text-x-content-secondary">
+              {data.entities?.url?.urls?.[0] && (
+                <div className="flex gap-1">
+                  <LinkIcon className="mt-0.5 size-4 shrink-0" />
+                  <a
+                    className="!text-x-content-brand break-all hover:underline"
+                    href={data.entities?.url?.urls[0].url}
+                    target="_blank"
+                  >
+                    {data.entities?.url?.urls[0].display_url}
+                  </a>
+                </div>
+              )}
+              {data.location && (
+                <div className="flex items-center gap-1">
+                  <LocationIcon className="size-4" />
+                  {data.location}
+                </div>
+              )}
+              <div className="flex items-center gap-1">
+                <CalendarIcon className="size-4" />
+                Joined {dayjs(data.createdAt).format('MMM YYYY')}
+              </div>
             </div>
             <div className="mb-3 flex items-center gap-1">
               <ReadableNumber
                 className="font-medium"
-                format={{ decimalLength: 1 }}
+                format={{ decimalLength: 1, exactDecimal: true }}
                 value={data.following}
               />
               <span className="text-x-content-secondary">Following</span>
               <ReadableNumber
-                className="ml-auto font-medium"
-                format={{ decimalLength: 1 }}
+                className="ml-3 font-medium"
+                format={{ decimalLength: 1, exactDecimal: true }}
                 value={data.followers}
               />
               <span className="text-x-content-secondary">Followers</span>
             </div>
             <Button
+              as="a"
               className="!bg-transparent !text-x-content-brand !rounded-3xl w-full"
-              onClick={openProfile}
+              href={profileUrl}
               size="md"
+              target="_blank"
               variant="outline"
             >
               View Profile on <XIcon className="[*>svg]:size-3" />
@@ -90,6 +113,7 @@ export function XUser({
   profilePicture,
   mini,
   className,
+  verifiedType,
 }: {
   username: string;
   name: string;
@@ -97,16 +121,25 @@ export function XUser({
   profilePicture?: string;
   mini?: boolean;
   className?: string;
+  verifiedType?: 'Business' | 'Government' | null;
 }) {
-  const href = `https://x.com/${username}`;
-  const avatar = `https://unavatar.io/x/${username}`;
+  const profileUrl = `https://x.com/${username}`;
+  const followIntent = `https://x.com/intent/follow?screen_name=${username}`;
 
   return (
-    <div className={clsx(className, 'flex items-center gap-2')}>
+    <div
+      className={clsx(
+        className,
+        'flex items-center gap-2 text-sm leading-none',
+      )}
+    >
       <img
         alt=""
-        className={clsx('rounded-full bg-white/5', mini ? 'size-6' : 'size-10')}
-        src={profilePicture ?? avatar}
+        className={clsx(
+          'shrink-0 rounded-full bg-white/5',
+          mini ? 'size-5' : 'size-12',
+        )}
+        src={profilePicture}
       />
       <div
         className={clsx(
@@ -114,28 +147,44 @@ export function XUser({
           mini ? 'flex-row gap-1' : 'flex-col gap-1',
         )}
       >
-        <p
-          className={clsx(
-            'flex items-center gap-1 font-medium',
-            mini ? 'text-xs' : 'text-sm',
-          )}
-        >
-          <a
-            className="hover:!underline leading-none"
-            href={href}
-            target="_blank"
-          >
+        <p className={clsx('flex items-center gap-1 font-medium')}>
+          <a className="hover:!underline" href={profileUrl} target="_blank">
             {name}
           </a>
-          {isBlueVerified && <VerifiedIcon className="size-4" />}
+          {(isBlueVerified || verifiedType) && (
+            <VerifiedIcon
+              className={clsx(
+                'size-4',
+                verifiedType === 'Business'
+                  ? 'text-amber-300'
+                  : verifiedType === 'Government'
+                    ? 'text-x-content-secondary'
+                    : 'text-x-content-brand',
+              )}
+            />
+          )}
         </p>
-        <a
-          className="!text-x-content-secondary hover:!underline text-xs"
-          href={href}
-          target="_blank"
-        >
-          @{username}
-        </a>
+        <div className="flex items-center gap-1 text-xs">
+          <a
+            className="!text-x-content-secondary hover:!underline font-light"
+            href={profileUrl}
+            target="_blank"
+          >
+            @{username}
+          </a>
+          {!mini && (
+            <>
+              <span>·</span>
+              <a
+                className="!text-x-content-brand hover:!underline font-medium"
+                href={followIntent}
+                target="_blank"
+              >
+                Follow
+              </a>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

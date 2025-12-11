@@ -63,14 +63,14 @@ export const ReadableDate: FC<{
         .replace(' Minute', 'm')
         .replace(' Hours', 'h')
         .replace(' Hour', 'h')
-        .replace(' Days', 'D')
-        .replace(' Day', 'D')
-        .replace(' Weeks', 'W')
-        .replace(' Week', 'W')
+        .replace(' Days', 'd')
+        .replace(' Day', 'd')
+        .replace(' Weeks', 'w')
+        .replace(' Week', 'w')
         .replace(' Months', 'M')
         .replace(' Month', 'M')
-        .replace(' Years', 'Y')
-        .replace(' Year', 'Y')} ${
+        .replace(' Years', 'y')
+        .replace(' Year', 'y')} ${
         typeof suffix === 'string' ? suffix : ''
       }`.trim();
     }

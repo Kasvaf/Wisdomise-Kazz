@@ -12,13 +12,23 @@ interface TwitterUserResponse {
     location: string;
     url: string;
     description: string;
-    entities: {
+    entities?: {
       description: unknown;
+      url?: {
+        urls?: [
+          {
+            display_url: 'invoix-web-production.up.railway.app';
+            expanded_url: 'https://invoix-web-production.up.railway.app';
+            indices: [0, 23];
+            url: 'https://t.co/zQV48quCK1';
+          },
+        ];
+      };
     };
     protected: boolean;
     isVerified: boolean;
     isBlueVerified: boolean;
-    verifiedType: unknown;
+    verifiedType?: 'Business' | 'Government';
     followers: number;
     following: number;
     favouritesCount: number;
@@ -62,6 +72,25 @@ export function useTwitterUserPreviewQuery({ username }: { username: string }) {
     },
     staleTime: Number.POSITIVE_INFINITY,
     enabled: true,
+  });
+}
+
+export function useTwitterPostPreviewQuery({
+  tweetId,
+  enabled,
+}: {
+  tweetId?: string;
+  enabled?: boolean;
+}) {
+  return useQuery({
+    queryKey: ['twitter-post-preview', tweetId],
+    queryFn: async () => {
+      const res = await ofetch<TweetV2>('delphi/twitter-post-preview/', {
+        query: { tweet_id: tweetId },
+      });
+      return res;
+    },
+    enabled: enabled && !!tweetId,
   });
 }
 
@@ -119,6 +148,20 @@ export interface TwitterUser {
   profile_image_url_https: string;
   can_dm: boolean;
   isBlueVerified: boolean;
+  affiliatesHighlightedLabel?: {
+    label?: {
+      badge?: {
+        url?: 'https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg';
+      };
+      description?: 'X';
+      url?: {
+        url?: 'https://twitter.com/X';
+        url_type?: 'DeepLink';
+      };
+      user_label_type?: 'BusinessLabel';
+      user_label_display_type?: 'Badge';
+    };
+  };
 }
 
 export function useTwitterCommunityPreviewQuery({
@@ -136,4 +179,213 @@ export function useTwitterCommunityPreviewQuery({
     },
     staleTime: Number.POSITIVE_INFINITY,
   });
+}
+
+interface TweetV2 {
+  type: 'tweet';
+  id: '1998768968333668623';
+  url: 'https://x.com/fairtrades69/status/1998768968333668623';
+  twitterUrl: 'https://twitter.com/fairtrades69/status/1998768968333668623';
+  text: 'There is currently a huge trend on Tiktok.\n\nIts called "Liminal Space Backrooms" and people creating these new Liminal AI videos being deep inside the backrooms.    \n\nSeveral videos getting millions of views.  https://t.co/MCNIP4HE6I https://t.co/EllVK6mZC9';
+  source: '';
+  retweetCount: 0;
+  replyCount: 1;
+  likeCount: 1;
+  quoteCount: 0;
+  viewCount: 8;
+  createdAt: 'Wed Dec 10 14:57:12 +0000 2025';
+  lang: 'en';
+  bookmarkCount: 0;
+  isReply: false;
+  inReplyToId: '';
+  conversationId: '1998768968333668623';
+  displayTextRange: [0, 233];
+  inReplyToUserId: '';
+  inReplyToUsername: '';
+  isPinned: false;
+  author: {
+    type: 'user';
+    userName: 'fairtrades69';
+    url: 'https://x.com/fairtrades69';
+    twitterUrl: 'https://twitter.com/fairtrades69';
+    id: '1959252929694597120';
+    name: 'fair';
+    isVerified: false;
+    isBlueVerified: true;
+    verifiedType: null;
+    profilePicture: 'https://pbs.twimg.com/profile_images/1959257903132499968/xTzsqxP2_normal.jpg';
+    coverPicture: 'https://pbs.twimg.com/profile_banners/1959252929694597120/1755958263';
+    description: 'Onchain magician. 中国量化. NFA. DYOR.';
+    location: '';
+    followers: 751;
+    following: 414;
+    status: '';
+    canDm: true;
+    canMediaTag: true;
+    createdAt: 'Sat Aug 23 13:55:28 +0000 2025';
+    entities: {
+      description: unknown;
+      url: {
+        urls: [
+          {
+            display_url: 'axiom.trade/@fair69';
+            expanded_url: 'https://axiom.trade/@fair69';
+            indices: [0, 23];
+            url: 'https://t.co/kp1onS5Gp5';
+          },
+        ];
+      };
+    };
+    fastFollowersCount: 0;
+    favouritesCount: 0;
+    hasCustomTimelines: true;
+    isTranslator: false;
+    mediaCount: 20;
+    statusesCount: 161;
+    withheldInCountries: [];
+    affiliatesHighlightedLabel: unknown;
+    possiblySensitive: false;
+    pinnedTweetIds: ['1961411871933677703'];
+    profile_bio: {
+      description: 'Onchain magician. 中国量化. NFA. DYOR.';
+      entities: {
+        description: unknown;
+        url: {
+          urls: [
+            {
+              display_url: 'axiom.trade/@fair69';
+              expanded_url: 'https://axiom.trade/@fair69';
+              indices: [0, 23];
+              url: 'https://t.co/kp1onS5Gp5';
+            },
+          ];
+        };
+      };
+      withheld_in_countries: [];
+    };
+    isAutomated: false;
+    automatedBy: null;
+  };
+  extendedEntities: {
+    media?: [
+      {
+        allow_download_status: {
+          allow_download: true;
+        };
+        display_url: 'pic.twitter.com/EllVK6mZC9';
+        expanded_url: 'https://twitter.com/fairtrades69/status/1998768968333668623/photo/1';
+        ext_media_availability: {
+          status: 'Available';
+        };
+        features: {
+          large: {
+            faces: [
+              {
+                h: 48;
+                w: 48;
+                x: 384;
+                y: 62;
+              },
+              {
+                h: 68;
+                w: 68;
+                x: 420;
+                y: 45;
+              },
+            ];
+          };
+          orig: {
+            faces: [
+              {
+                h: 48;
+                w: 48;
+                x: 384;
+                y: 62;
+              },
+              {
+                h: 68;
+                w: 68;
+                x: 420;
+                y: 45;
+              },
+            ];
+          };
+        };
+        id_str: '1998766179922427905';
+        indices: [234, 257];
+        media_key: '3_1998766179922427905';
+        media_results: {
+          id: 'QXBpTWVkaWFSZXN1bHRzOgwAAQoAARu9C0AvV0ABCgACG70NyWmaMQ8AAA==';
+          result: {
+            __typename: 'ApiMedia';
+            id: 'QXBpTWVkaWE6DAABCgABG70LQC9XQAEKAAIbvQ3JaZoxDwAA';
+            media_key: '3_1998766179922427905';
+          };
+        };
+        media_url_https: 'https://pbs.twimg.com/media/G70LQC9XQAERTcs.png';
+        original_info: {
+          focus_rects: [
+            {
+              h: 232;
+              w: 414;
+              x: 103;
+              y: 0;
+            },
+            {
+              h: 232;
+              w: 232;
+              x: 194;
+              y: 0;
+            },
+            {
+              h: 232;
+              w: 204;
+              x: 208;
+              y: 0;
+            },
+            {
+              h: 232;
+              w: 116;
+              x: 252;
+              y: 0;
+            },
+            {
+              h: 232;
+              w: 592;
+              x: 0;
+              y: 0;
+            },
+          ];
+          height: 232;
+          width: 592;
+        };
+        sizes: {
+          large: {
+            h: 232;
+            w: 592;
+          };
+        };
+        type: 'photo';
+        url: 'https://t.co/EllVK6mZC9';
+      },
+    ];
+  };
+  card: unknown;
+  place: unknown;
+  entities: {
+    urls: [
+      {
+        display_url: 'tiktok.com/@exitdreamnow/…';
+        expanded_url: 'https://tiktok.com/@exitdreamnow/video/7581196521912159510';
+        indices: [210, 233];
+        url: 'https://t.co/MCNIP4HE6I';
+      },
+    ];
+  };
+  isRetweet: false;
+  isQuote: false;
+  isConversationControlled: false;
+  quoted_tweet: null;
+  retweeted_tweet: null;
+  isLimitedReply: false;
 }

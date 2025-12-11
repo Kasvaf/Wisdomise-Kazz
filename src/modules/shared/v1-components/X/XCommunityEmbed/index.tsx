@@ -5,8 +5,8 @@ import {
   useTwitterCommunityPreviewQuery,
 } from 'services/rest/twitter';
 import Icon from 'shared/Icon';
+import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { shortFromNow } from 'shared/TokenSocials/lib';
 import { Button } from 'shared/v1-components/Button';
 import { XUser } from 'shared/v1-components/X/XProfileEmbed';
 import { ReactComponent as XIcon } from '../x.svg';
@@ -18,17 +18,13 @@ export default function XCommunityEmbed({
 }) {
   const { data, isPending } = useTwitterCommunityPreviewQuery({ communityId });
 
-  const openCommunity = () => {
-    window.open(`https://x.com/i/communities/${communityId}`, '_blank');
-  };
-
-  const admin = data?.community_info?.admin;
+  const creator = data?.community_info?.creator;
+  const communityUrl = `https://x.com/i/communities/${communityId}`;
 
   return (
     <div
-      className="flex min-h-72 w-72 flex-col items-center justify-center rounded-md bg-(--x-bg-color) text-sm"
+      className="flex min-h-72 w-72 flex-col items-center justify-center overflow-hidden rounded-lg border border-x-border bg-x-bg text-sm hover:bg-x-bg-hover"
       onClick={e => e.stopPropagation()}
-      style={{ ['--x-bg-color' as never]: '#15202b' }}
     >
       {isPending ? (
         <div className="w-full space-y-3 p-3">
@@ -37,7 +33,7 @@ export default function XCommunityEmbed({
           <div className="h-30 rounded-xl bg-white/5" />
           <div className="h-16 rounded-xl bg-white/5" />
         </div>
-      ) : data?.community_info && admin ? (
+      ) : data?.community_info && creator ? (
         <>
           <img
             alt=""
@@ -45,31 +41,40 @@ export default function XCommunityEmbed({
             src={data.community_info.banner_url}
           />
           <div className="flex w-full grow flex-col p-4 pt-3">
-            <div className="relative flex items-center gap-2">
-              <button
-                className="absolute top-2 right-0 flex flex-col items-center"
-                onClick={openCommunity}
+            <div className="flex items-start justify-between gap-2">
+              <a
+                className="break-words text-left font-medium text-base hover:underline"
+                href={communityUrl}
+                target="_blank"
               >
-                <XIcon className="size-6" />
-                <div className="mt-1">
-                  {shortFromNow(data.community_info.created_at)}
-                </div>
-              </button>
-              <h1 className="flex items-center gap-1 font-medium text-base">
-                <button className="hover:underline" onClick={openCommunity}>
-                  {data.community_info.name}
-                </button>
-              </h1>
+                {data.community_info.name}
+              </a>
+              <a
+                className="flex flex-col items-center gap-1"
+                href={communityUrl}
+                target="_blank"
+              >
+                <XIcon className="size-5" />
+                <ReadableDate
+                  suffix={false}
+                  value={data.community_info.created_at}
+                />
+              </a>
             </div>
-            <p className="mt-8 mb-3">{data.community_info.description}</p>
-            <XCommunityMembers members={data.community_info.members_preview} />
+            <p className="mt-3 mb-3 break-words">
+              {data.community_info.description}
+            </p>
+            <XCommunityMembers
+              count={data.community_info.member_count}
+              members={data.community_info.members_preview}
+            />
             <hr className="my-3 border-x-border" />
             <p className="mb-2 text-x-content-secondary">Created By</p>
             <XUser
-              isBlueVerified={admin.isBlueVerified}
-              name={admin.name}
-              profilePicture={admin.profile_image_url_https}
-              username={admin.screen_name}
+              isBlueVerified={creator.isBlueVerified}
+              name={creator.name}
+              profilePicture={creator.profile_image_url_https}
+              username={creator.screen_name}
             />
             <div className="mt-3 mb-1 flex items-center gap-1 text-x-content-secondary">
               <Icon name={bxCalendar} size={14} />
@@ -78,19 +83,23 @@ export default function XCommunityEmbed({
             <div className="mb-3 flex items-center gap-1">
               <ReadableNumber
                 className="font-medium"
-                value={admin.following_count}
+                format={{ decimalLength: 1 }}
+                value={creator.following_count}
               />
               <span className="text-x-content-secondary">Following</span>
               <ReadableNumber
-                className="ml-2 font-medium"
-                value={admin.followers_count}
+                className="ml-3 font-medium"
+                format={{ decimalLength: 1 }}
+                value={creator.followers_count}
               />
               <span className="text-x-content-secondary">Followers</span>
             </div>
             <Button
+              as="a"
               className="!bg-transparent !text-x-content-brand !rounded-full w-full"
-              onClick={openCommunity}
+              href={communityUrl}
               size="md"
+              target="_blank"
               variant="outline"
             >
               View Community on <XIcon className="[*>svg]:size-3" />
@@ -104,28 +113,31 @@ export default function XCommunityEmbed({
   );
 }
 
-function XCommunityMembers({ members }: { members: TwitterUser[] }) {
+function XCommunityMembers({
+  members,
+  count,
+}: {
+  members: TwitterUser[];
+  count: number;
+}) {
   return (
     <div className="flex items-center gap-2">
       <span
         className={
-          '-space-x-4 inline-flex w-auto shrink cursor-help items-center justify-start'
+          '-space-x-4 inline-flex w-auto shrink items-center justify-start'
         }
       >
         {members.slice(0, 5).map(member => (
           <img
             alt=""
-            className="size-8 rounded-full border-(--x-bg-color) border-2 bg-white/5"
+            className="size-8 rounded-full border-2 border-x-bg-hover bg-white/5"
             key={member.id}
             src={member.profile_image_url_https}
           />
         ))}
       </span>
       <span>
-        <ReadableNumber
-          format={{ compactInteger: true }}
-          value={members.length}
-        />{' '}
+        <ReadableNumber format={{ compactInteger: true }} value={count} />{' '}
         <span className="text-x-content-secondary">Members</span>
       </span>
     </div>

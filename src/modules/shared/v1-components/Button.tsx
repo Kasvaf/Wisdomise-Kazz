@@ -1,5 +1,11 @@
 import { clsx } from 'clsx';
-import { type FC, type MouseEvent, type ReactNode, useState } from 'react';
+import {
+  type AnchorHTMLAttributes,
+  type ButtonHTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
+  useState,
+} from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
 export type ButtonSize =
@@ -12,7 +18,8 @@ export type ButtonSize =
   | 'xl'
   | '2xl';
 
-export interface ButtonProps {
+type ButtonAs = 'button' | 'a';
+type ButtonProps<T extends ButtonAs> = {
   size?: ButtonSize;
   fab?: boolean;
   variant?:
@@ -34,17 +41,18 @@ export interface ButtonProps {
   children?: ReactNode;
   className?: string;
   onClick?: (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    e: MouseEvent<HTMLElement, globalThis.MouseEvent>,
   ) => unknown | Promise<unknown>;
   surface?: Surface;
-  type?: 'button' | 'submit';
-}
+  as?: T;
+} & (T extends 'button'
+  ? ButtonHTMLAttributes<HTMLButtonElement>
+  : AnchorHTMLAttributes<HTMLAnchorElement>);
 
-export const Button: FC<ButtonProps> = ({
+export const Button = <T extends ButtonAs = 'button'>({
   size = 'xl',
   fab,
   variant = 'primary',
-  children,
   className,
   disabled,
   loading,
@@ -52,11 +60,16 @@ export const Button: FC<ButtonProps> = ({
   onClick,
   surface = 1,
   type,
-}) => {
+  as,
+  children,
+  ...props
+}: ButtonProps<T>) => {
   const [localLoading, setLocalLoading] = useState(false);
   const colors = useSurface(surface);
+  const RootComponent = as || ('button' as any);
+
   return (
-    <button
+    <RootComponent
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
         size === '3xs' && 'h-5 rounded text-2xs',
@@ -112,7 +125,7 @@ export const Button: FC<ButtonProps> = ({
         className,
       )}
       disabled={disabled || loading || localLoading}
-      onClick={e => {
+      onClick={(e: MouseEvent<HTMLElement, globalThis.MouseEvent>) => {
         const ret = onClick?.(e);
         if (ret && ret instanceof Promise) {
           setLocalLoading(true);
@@ -126,9 +139,9 @@ export const Button: FC<ButtonProps> = ({
         ['--ghost-color' as never]: colors.current,
         ['--ghost-hover-color' as never]: colors.next,
       }}
-      type={type}
+      {...props}
     >
       {children}
-    </button>
+    </RootComponent>
   );
 };

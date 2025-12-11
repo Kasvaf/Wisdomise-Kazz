@@ -275,7 +275,6 @@ const makeDataFeed = ({
       onDataCallback: GetMarksCallback<Mark>,
       _resolution: ResolutionString,
     ) {
-      console.log('ref', marksRef.current);
       onDataCallback(marksRef.current);
     },
   };

@@ -237,7 +237,6 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (isFetched && isLoggedIn && changedSettings) {
-      console.log(changedSettings);
       void save(changedSettings);
     }
   }, [changedSettings]);

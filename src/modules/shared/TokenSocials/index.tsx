@@ -47,7 +47,7 @@ export const TokenSocials: FC<{
           <HoverTooltip
             key={social.url.href}
             placement="bottom"
-            rootClassName="[&_.ant-tooltip-inner]:!p-0 [&_.ant-tooltip-inner]:overflow-auto [&_.ant-tooltip-inner]:max-h-96"
+            rootClassName="[&_.ant-tooltip-inner]:!p-0 !border-transparent [&_.ant-tooltip-inner]:overflow-auto [&_.ant-tooltip-inner]:max-h-96"
             title={
               <Suspense fallback={<Spin />}>
                 <SocialPreview social={social} />
