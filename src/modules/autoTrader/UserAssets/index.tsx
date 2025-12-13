@@ -198,7 +198,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         <div
           className={clsx(
             'flex items-center gap-2 font-medium text-xs',
-            isActive && 'bg-brand-gradient bg-clip-text text-transparent',
+            isActive && 'text-v1-content-brand',
           )}
         >
           <div className="flex items-center gap-1">
@@ -212,7 +212,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
             {(wallet?.address || address) && (
               <HoverTooltip title="Copy Wallet Address">
                 <button
-                  className="mt-1 text-v1-content-secondary"
+                  className="text-v1-content-secondary"
                   onClick={() => copy(wallet?.address ?? address ?? '')}
                 >
                   <Icon name={bxCopy} size={16} />

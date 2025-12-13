@@ -1,22 +1,25 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
+import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { useMediaDialog } from 'modules/discovery/ListView/XTracker/useMediaDialog';
 import { type FC, useMemo } from 'react';
 import type { TwitterTweet } from 'services/rest/discovery';
 import { useTwitterPostPreviewQuery } from 'services/rest/twitter';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
-import { XUser } from 'shared/v1-components/X/XProfileEmbed';
-import { ReactComponent as CalendarIcon } from '../XProfileEmbed/calendar.svg';
-import { ReactComponent as XIcon } from '../x.svg';
-import { ReactComponent as BookmarkIcon } from './bookmark.svg';
-import { ReactComponent as LikeIcon } from './like.svg';
-import { ReactComponent as ReplyIcon } from './reply.svg';
-import { ReactComponent as RetweetIcon } from './retweet.svg';
-import { ReactComponent as ViewIcon } from './view.svg';
+import Skeleton from 'shared/v1-components/Skeleton';
+import { ReactComponent as BookmarkIcon } from 'shared/v1-components/X/assets/bookmark.svg';
+import { ReactComponent as CalendarIcon } from 'shared/v1-components/X/assets/calendar.svg';
+import { ReactComponent as LikeIcon } from 'shared/v1-components/X/assets/like.svg';
+import { ReactComponent as ReplyIcon } from 'shared/v1-components/X/assets/reply.svg';
+import { ReactComponent as RetweetIcon } from 'shared/v1-components/X/assets/retweet.svg';
+import { ReactComponent as ViewIcon } from 'shared/v1-components/X/assets/view.svg';
+import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
+import { XUser, XUserSkeleton } from 'shared/v1-components/X/XProfileEmbed';
 
-export function XPostEmbed({
+export function XTweetEmbed({
   value: _value,
   tweetId,
   isQuote,
@@ -72,6 +75,18 @@ export function XPostEmbed({
     };
   }, [_value, data]);
 
+  const calcTimeColor = () =>
+    calcValueByThreshold({
+      value:
+        Date.now() -
+        (value?.createdAt ? new Date(value?.createdAt).getTime() : 0),
+      rules: [
+        { limit: 10 * 60 * 1000, result: 'text-v1-content-positive' },
+        { limit: 60 * 60 * 1000, result: 'text-v1-content-notice' },
+      ],
+      fallback: 'text-v1-content-negative',
+    });
+
   const tweetUrl = `https://x.com/${value?.user.username}/status/${value?.id}`;
   const replyIntent = `https://x.com/intent/tweet?in_reply_to=${value?.id}`;
   const likeIntent = `https://x.com/intent/like?tweet_id=${value?.id}`;
@@ -80,10 +95,10 @@ export function XPostEmbed({
   return (
     <div
       className={clsx(
-        '!bg-x-bg relative w-full overflow-hidden rounded-lg border border-x-border py-3 text-sm transition-colors',
+        '!bg-x-bg relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border border-x-border p-3 text-sm transition-colors',
         isQuote
-          ? 'hover:!bg-x-quote-bg-hover cursor-pointer px-3'
-          : 'hover:!bg-x-bg-hover px-4',
+          ? 'hover:!bg-x-quote-bg-hover cursor-pointer'
+          : 'hover:!bg-x-bg-hover min-h-72',
         className,
       )}
       onClick={e => {
@@ -93,12 +108,19 @@ export function XPostEmbed({
     >
       {!_value && isPending ? (
         <div className="w-full space-y-3">
-          <div className="h-20 rounded-xl bg-white/5" />
-          <div className="h-30 rounded-xl bg-white/5" />
-          <div className="h-16 rounded-xl bg-white/5" />
+          <XUserSkeleton />
+          <div className="flex items-center justify-between gap-1">
+            <Skeleton className="w-24 bg-white/5 text-xs leading-none" />
+            <Skeleton className="w-24 bg-white/5 text-xs leading-none" />
+          </div>
+          <hr className="border-x-border" />
+          <Skeleton className="mb-2 w-32 bg-white/5" />
+          <Skeleton className="mb-4 w-52 bg-white/5" />
+          <Skeleton className="mb-4 h-32 bg-white/5" />
+          <Skeleton className="h-10 rounded-xl bg-white/5" />
         </div>
       ) : value ? (
-        <>
+        <div className="w-full">
           <div>
             <div className="flex items-start justify-between gap-2 pb-3">
               <XUser
@@ -110,18 +132,26 @@ export function XPostEmbed({
                 username={value.user.username}
                 verifiedType={value.user.verifiedType}
               />
-              {!isQuote && (
-                <a
-                  className="flex flex-col items-center gap-2"
-                  href={tweetUrl}
-                  target="_blank"
-                >
-                  <XIcon className="size-5" />
-                  <div className="flex items-center gap-2">
-                    <ReadableDate suffix={false} value={value.createdAt} />
+              <a
+                className="flex flex-col items-center gap-2"
+                href={tweetUrl}
+                target="_blank"
+              >
+                {!isQuote && (
+                  <HoverTooltip title="Read More on X">
+                    <XIcon className="size-5" />
+                  </HoverTooltip>
+                )}
+                <HoverTooltip title="Tweet Created at">
+                  <div>
+                    <ReadableDate
+                      className={clsx(calcTimeColor(), 'font-medium')}
+                      suffix={false}
+                      value={value.createdAt}
+                    />
                   </div>
-                </a>
-              )}
+                </HoverTooltip>
+              </a>
             </div>
             {!isQuote && (
               <>
@@ -158,7 +188,7 @@ export function XPostEmbed({
               </p>
               <XPostMedia value={value.media} />
               {value.quotedTweet && !isQuote && (
-                <XPostEmbed isQuote={true} value={value.quotedTweet} />
+                <XTweetEmbed isQuote={true} value={value.quotedTweet} />
               )}
             </div>
 
@@ -166,23 +196,25 @@ export function XPostEmbed({
               <div>
                 <div className="mt-3 mb-2 flex items-center justify-between text-x-content-secondary">
                   {dayjs(value.createdAt).format('h:mm A · MMM D, YYYY')}
-                  <a
-                    className="group hover:!text-x-blue-primary flex items-center"
-                    href={tweetUrl}
-                    target="_blank"
-                  >
-                    <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-blue-primary-hover">
-                      <BookmarkIcon className="size-4" />
-                    </div>
-                    <ReadableNumber
-                      format={{
-                        compactInteger: true,
-                        decimalLength: 1,
-                        exactDecimal: true,
-                      }}
-                      value={value.bookmarkCount}
-                    />
-                  </a>
+                  <HoverTooltip title="Bookmark">
+                    <a
+                      className="group hover:!text-x-blue-primary flex items-center"
+                      href={tweetUrl}
+                      target="_blank"
+                    >
+                      <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-blue-primary-hover">
+                        <BookmarkIcon className="size-4" />
+                      </div>
+                      <ReadableNumber
+                        format={{
+                          compactInteger: true,
+                          decimalLength: 1,
+                          exactDecimal: true,
+                        }}
+                        value={value.bookmarkCount}
+                      />
+                    </a>
+                  </HoverTooltip>
                 </div>
                 <hr className="border-x-border" />
               </div>
@@ -192,76 +224,84 @@ export function XPostEmbed({
                 'mt-2 flex items-center justify-between text-x-content-secondary text-xs',
               )}
             >
-              <a
-                className="group hover:!text-x-blue-primary flex items-center"
-                href={replyIntent}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-blue-primary-hover">
-                  <ReplyIcon className="size-4" />
-                </div>
-                <ReadableNumber
-                  format={{
-                    compactInteger: true,
-                    decimalLength: 1,
-                    exactDecimal: true,
-                  }}
-                  value={value.retweetCount}
-                />
-              </a>
-              <a
-                className="group hover:!text-x-green-primary flex items-center"
-                href={retweetIntent}
-                target="_blank"
-              >
-                <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-green-primary-hover">
-                  <RetweetIcon className="size-4" />
-                </div>
-                <ReadableNumber
-                  format={{
-                    compactInteger: true,
-                    decimalLength: 1,
-                    exactDecimal: true,
-                  }}
-                  value={value.retweetCount}
-                />
-              </a>
-              <a
-                className="group hover:!text-x-red-primary flex items-center"
-                href={likeIntent}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-red-primary-hover">
-                  <LikeIcon className="size-4" />
-                </div>
-                <ReadableNumber
-                  format={{
-                    compactInteger: true,
-                    decimalLength: 1,
-                    exactDecimal: true,
-                  }}
-                  value={value.likeCount}
-                />
-              </a>
-              <a
-                className="group hover:!text-x-blue-primary flex items-center"
-                href={tweetUrl}
-                target="_blank"
-              >
-                <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-blue-primary-hover">
-                  <ViewIcon className="size-4" />
-                </div>
-                <ReadableNumber
-                  format={{
-                    compactInteger: true,
-                    decimalLength: 1,
-                    exactDecimal: true,
-                  }}
-                  value={value.viewCount}
-                />
-              </a>
+              <HoverTooltip title="Reply">
+                <a
+                  className="group hover:!text-x-blue-primary flex items-center"
+                  href={replyIntent}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-blue-primary-hover">
+                    <ReplyIcon className="size-4" />
+                  </div>
+                  <ReadableNumber
+                    format={{
+                      compactInteger: true,
+                      decimalLength: 1,
+                      exactDecimal: true,
+                    }}
+                    value={value.retweetCount}
+                  />
+                </a>
+              </HoverTooltip>
+              <HoverTooltip title="Retweet">
+                <a
+                  className="group hover:!text-x-green-primary flex items-center"
+                  href={retweetIntent}
+                  target="_blank"
+                >
+                  <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-green-primary-hover">
+                    <RetweetIcon className="size-4" />
+                  </div>
+                  <ReadableNumber
+                    format={{
+                      compactInteger: true,
+                      decimalLength: 1,
+                      exactDecimal: true,
+                    }}
+                    value={value.retweetCount}
+                  />
+                </a>
+              </HoverTooltip>
+              <HoverTooltip title="Like">
+                <a
+                  className="group hover:!text-x-red-primary flex items-center"
+                  href={likeIntent}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-red-primary-hover">
+                    <LikeIcon className="size-4" />
+                  </div>
+                  <ReadableNumber
+                    format={{
+                      compactInteger: true,
+                      decimalLength: 1,
+                      exactDecimal: true,
+                    }}
+                    value={value.likeCount}
+                  />
+                </a>
+              </HoverTooltip>
+              <HoverTooltip title="View">
+                <a
+                  className="group hover:!text-x-blue-primary flex items-center"
+                  href={tweetUrl}
+                  target="_blank"
+                >
+                  <div className="flex items-center justify-center rounded-full p-1 group-hover:bg-x-blue-primary-hover">
+                    <ViewIcon className="size-4" />
+                  </div>
+                  <ReadableNumber
+                    format={{
+                      compactInteger: true,
+                      decimalLength: 1,
+                      exactDecimal: true,
+                    }}
+                    value={value.viewCount}
+                  />
+                </a>
+              </HoverTooltip>
             </div>
             {!isQuote && (
               <Button
@@ -276,7 +316,7 @@ export function XPostEmbed({
               </Button>
             )}
           </div>
-        </>
+        </div>
       ) : (
         'Tweet Not Found'
       )}

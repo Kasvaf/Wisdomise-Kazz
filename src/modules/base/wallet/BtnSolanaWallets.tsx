@@ -153,7 +153,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         <div
           className={clsx(
             'flex items-center gap-2 font-medium',
-            isActive && 'bg-brand-gradient bg-clip-text text-transparent',
+            isActive && 'text-v1-content-brand',
           )}
         >
           {wallet ? wallet.name : 'Connected Wallet'}

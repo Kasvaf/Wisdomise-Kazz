@@ -4,10 +4,10 @@ import { type FC, memo, Suspense, useMemo } from 'react';
 import type { SymbolSocailAddresses } from 'services/grpc/proto/network_radar';
 import type { CoinCommunityData } from 'services/rest/discovery';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { ReactComponent as XCommunityIcon } from '../v1-components/X/XCommunityEmbed/x-community.svg';
-import { ReactComponent as XPostIcon } from '../v1-components/X/XPostEmbed/x-post.svg';
-import { ReactComponent as XProfileIcon } from '../v1-components/X/XProfileEmbed/x-profile.svg';
-import { ReactComponent as XIcon } from '../v1-components/X/x.svg';
+import { ReactComponent as XCommunityIcon } from 'shared/v1-components/X/assets/community.svg';
+import { ReactComponent as XProfileIcon } from 'shared/v1-components/X/assets/profile.svg';
+import { ReactComponent as XPostIcon } from 'shared/v1-components/X/assets/tweet.svg';
+import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
 import { getLogo, resolveSocials, type Social } from './lib';
 import { parseXUrl, SocialPreview } from './SocialPreview';
 import { ReactComponent as XSearchIcon } from './x-search.svg';
@@ -73,23 +73,25 @@ export const TokenSocials: FC<{
           </HoverTooltip>
         ))}
         {!hideSearch && (
-          <button
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              go(
-                `https://x.com/search?q=(${[
-                  abbreviation && `$${abbreviation}`,
-                  name && !name.includes(' ') && `${name}`,
-                  contractAddress,
-                ]
-                  .filter(x => !!x)
-                  .join('%20OR%20')})&src=typed_query&f=live`,
-              );
-            }}
-          >
-            <XSearchIcon className="size-4" />
-          </button>
+          <HoverTooltip title="Search on X">
+            <button
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                go(
+                  `https://x.com/search?q=(${[
+                    abbreviation && `$${abbreviation}`,
+                    name && !name.includes(' ') && `${name}`,
+                    contractAddress,
+                  ]
+                    .filter(x => !!x)
+                    .join('%20OR%20')})&src=typed_query&f=live`,
+                );
+              }}
+            >
+              <XSearchIcon className="size-4" />
+            </button>
+          </HoverTooltip>
         )}
       </div>
     );

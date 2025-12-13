@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import type { FC } from 'react';
 import type { TwitterTweet } from 'services/rest/discovery';
 import { Button } from 'shared/v1-components/Button';
-import { XPostEmbed } from 'shared/v1-components/X/XPostEmbed';
+import { XTweetEmbed } from 'shared/v1-components/X/XTweetEmbed';
 
 export const TweetCard: FC<{
   value: TwitterTweet;
@@ -14,7 +14,7 @@ export const TweetCard: FC<{
 }> = ({ value, nest = true, className, onOpenRelatedTokens, expanded }) => {
   return (
     <div className={clsx('w-full p-3', className)}>
-      <XPostEmbed value={value} />
+      <XTweetEmbed value={value} />
 
       <div className={clsx(nest && 'ps-6', 'flex flex-col gap-2')}>
         <Button

@@ -1,7 +1,7 @@
 import { bxPauseCircle, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { type MetaTab, useMeta } from 'modules/discovery/PageMeta/lib';
 import MetaTabsFilters from 'modules/discovery/PageMeta/MetaTabsFilters';
 import { useMemo, useState } from 'react';
@@ -95,11 +95,11 @@ export function MetaNarrative({
   const [open, setOpen] = useState(false);
 
   const getMcColor = (mc?: number) => {
-    return calcColorByThreshold({
+    return calcValueByThreshold({
       value: mc,
       rules: [
-        { limit: 200_000, color: '#0edcdc' },
-        { limit: 1_000_000, color: '#FFDA6C' },
+        { limit: 200_000, result: '#0edcdc' },
+        { limit: 1_000_000, result: '#FFDA6C' },
       ],
       fallback: '#00ffa3',
     });

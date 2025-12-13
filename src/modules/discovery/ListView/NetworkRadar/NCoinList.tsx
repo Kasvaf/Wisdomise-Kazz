@@ -46,7 +46,7 @@ const NCoinMarketDataCol: FC<{
         className,
       )}
     >
-      <div className="flex items-center gap-1">
+      <div className={clsx('flex gap-1', !row && 'flex-col-reverse items-end')}>
         <div className="flex items-center text-xs" title="Volume">
           <span className="mr-1 align-middle text-2xs text-v1-content-secondary">
             {'V'}

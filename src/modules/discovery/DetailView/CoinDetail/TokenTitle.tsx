@@ -3,7 +3,6 @@ import { BtnTokenShare } from 'modules/discovery/DetailView/CoinDetail/BtnTokenS
 import { doesNCoinHaveLargeTxns } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
-import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
 import {
   MetaTag,
   NCoinBCurve,
@@ -23,7 +22,6 @@ export const TokenTitle: FC<{
   const { t } = useTranslation('network-radar');
   const {
     symbol,
-    developer,
     createdAt,
     marketData,
     securityData,
@@ -51,10 +49,9 @@ export const TokenTitle: FC<{
               categories={symbol.categories}
               header={
                 <>
-                  {developer && <NCoinDeveloper value={developer} />}
                   {createdAt && (
                     <>
-                      <span className="size-[2px] rounded-full bg-white" />
+                      <span>·</span>
                       <NCoinAge className="text-xs" inline value={createdAt} />
                     </>
                   )}

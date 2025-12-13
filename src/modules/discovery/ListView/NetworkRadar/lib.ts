@@ -30,34 +30,34 @@ export const doesNCoinHaveLargeTxns = ({
 export const calcNCoinRiskLevel = ({ riskPercent }: { riskPercent: number }) =>
   riskPercent < 15 ? 'low' : riskPercent < 50 ? 'medium' : 'high';
 
-type ThresholdColor = {
+type ThresholdRule = {
   limit: number;
-  color: string;
+  result: string;
 };
 
-export const calcColorByThreshold = ({
+export const calcValueByThreshold = ({
   value,
   rules,
   fallback,
 }: {
   value?: number;
-  rules: ThresholdColor[];
+  rules: ThresholdRule[];
   fallback: string;
 }) => {
   for (const rule of rules) {
     if ((value ?? 0) <= rule.limit) {
-      return rule.color;
+      return rule.result;
     }
   }
   return fallback;
 };
 
 export const calcNCoinMarketCapColor = (mc: number) =>
-  calcColorByThreshold({
+  calcValueByThreshold({
     value: mc,
     rules: [
-      { limit: 30_000, color: '#0edcdc' },
-      { limit: 150_000, color: '#f3d525' },
+      { limit: 30_000, result: '#0edcdc' },
+      { limit: 150_000, result: '#f3d525' },
     ],
     fallback: '#00ffa3',
   });
@@ -67,12 +67,12 @@ export const calcNCoinBCurveColor = ({
 }: {
   bCurvePercent: number;
 }) =>
-  calcColorByThreshold({
+  calcValueByThreshold({
     value: bCurvePercent,
     rules: [
-      { limit: 33, color: '#fff' },
-      { limit: 66, color: '#00A3FF' },
-      { limit: 99, color: '#00ffa3' },
+      { limit: 33, result: '#fff' },
+      { limit: 66, result: '#00A3FF' },
+      { limit: 99, result: '#00ffa3' },
     ],
     fallback: '#FFDA6C',
   });

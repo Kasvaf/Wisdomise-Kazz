@@ -1,6 +1,6 @@
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { type FC, type ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -341,12 +341,12 @@ const TokenProgress = ({ progress }: { progress: number }) => {
         height="38"
         rx="3"
         ry="3"
-        stroke={calcColorByThreshold({
+        stroke={calcValueByThreshold({
           value: progress,
           rules: [
-            { limit: 0.33, color: '#FFF' },
-            { limit: 0.66, color: '#00A3FF' },
-            { limit: 0.99, color: '#00FFA3' },
+            { limit: 0.33, result: '#FFF' },
+            { limit: 0.66, result: '#00A3FF' },
+            { limit: 0.99, result: '#00FFA3' },
           ],
           fallback: '#FFDA6C',
         })}

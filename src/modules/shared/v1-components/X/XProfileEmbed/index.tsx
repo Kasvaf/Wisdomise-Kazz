@@ -1,13 +1,16 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useTwitterUserPreviewQuery } from 'services/rest/twitter';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
-import { ReactComponent as XIcon } from '../x.svg';
-import { ReactComponent as CalendarIcon } from './calendar.svg';
-import { ReactComponent as LinkIcon } from './link.svg';
-import { ReactComponent as LocationIcon } from './location.svg';
-import { ReactComponent as VerifiedIcon } from './verified.svg';
+import Skeleton from 'shared/v1-components/Skeleton';
+import { ReactComponent as BussinessVerifiedIcon } from 'shared/v1-components/X/assets/business-verified.svg';
+import { ReactComponent as CalendarIcon } from 'shared/v1-components/X/assets/calendar.svg';
+import { ReactComponent as LinkIcon } from 'shared/v1-components/X/assets/link.svg';
+import { ReactComponent as LocationIcon } from 'shared/v1-components/X/assets/location.svg';
+import { ReactComponent as VerifiedIcon } from 'shared/v1-components/X/assets/verified.svg';
+import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
 
 export default function XProfileEmbed({ username }: { username: string }) {
   const { data, isPending } = useTwitterUserPreviewQuery({ username });
@@ -20,10 +23,13 @@ export default function XProfileEmbed({ username }: { username: string }) {
       onClick={e => e.stopPropagation()}
     >
       {isPending ? (
-        <div className="w-full space-y-3 p-3">
-          <div className="h-20 rounded-xl bg-white/5" />
-          <div className="h-30 rounded-xl bg-white/5" />
-          <div className="h-16 rounded-xl bg-white/5" />
+        <div className="w-full">
+          <Skeleton className="!rounded-none aspect-3/1 w-full bg-white/5" />
+          <div className="space-y-2 p-3">
+            <XUserSkeleton />
+            <Skeleton className="h-16 rounded-xl bg-white/5" />
+            <Skeleton className="h-10 rounded-xl bg-white/5" />
+          </div>
         </div>
       ) : data && !data.unavailable ? (
         <>
@@ -43,7 +49,9 @@ export default function XProfileEmbed({ username }: { username: string }) {
                 verifiedType={data.verifiedType}
               />
               <a href={profileUrl} target="_blank">
-                <XIcon className="size-5" />
+                <HoverTooltip title="View Profile on X">
+                  <XIcon className="size-5" />
+                </HoverTooltip>
               </a>
             </div>
             <p className="mt-3 mb-5 break-words text-x-content-secondary">
@@ -54,7 +62,7 @@ export default function XProfileEmbed({ username }: { username: string }) {
                 <div className="flex gap-1">
                   <LinkIcon className="mt-0.5 size-4 shrink-0" />
                   <a
-                    className="!text-x-content-brand break-all hover:underline"
+                    className="!text-x-content-brand hover:!underline break-all"
                     href={data.entities?.url?.urls[0].url}
                     target="_blank"
                   >
@@ -151,20 +159,21 @@ export function XUser({
           <a className="hover:!underline" href={profileUrl} target="_blank">
             {name}
           </a>
-          {(isBlueVerified || verifiedType) && (
-            <VerifiedIcon
-              className={clsx(
-                'size-4',
-                verifiedType === 'Business'
-                  ? 'text-amber-300'
-                  : verifiedType === 'Government'
+          {(isBlueVerified || verifiedType) &&
+            (verifiedType === 'Business' ? (
+              <BussinessVerifiedIcon className="size-4" />
+            ) : (
+              <VerifiedIcon
+                className={clsx(
+                  'size-4 shrink-0',
+                  verifiedType === 'Government'
                     ? 'text-x-content-secondary'
                     : 'text-x-content-brand',
-              )}
-            />
-          )}
+                )}
+              />
+            ))}
         </p>
-        <div className="flex items-center gap-1 text-xs">
+        <div className="flex items-center gap-1">
           <a
             className="!text-x-content-secondary hover:!underline font-light"
             href={profileUrl}
@@ -185,6 +194,18 @@ export function XUser({
             </>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function XUserSkeleton() {
+  return (
+    <div className={clsx('flex items-center gap-2 text-sm leading-none')}>
+      <Skeleton className="!rounded-full size-12 shrink-0 bg-white/5" />
+      <div className={clsx('flex justify-center', 'flex-col gap-2')}>
+        <Skeleton className="w-max bg-white/5" />
+        <Skeleton className="w-32 bg-white/5" />
       </div>
     </div>
   );

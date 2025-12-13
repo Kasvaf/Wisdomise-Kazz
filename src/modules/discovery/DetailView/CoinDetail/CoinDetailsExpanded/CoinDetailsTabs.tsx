@@ -220,7 +220,7 @@ export const CoinDetailsTabs = () => {
                         label: (
                           <>
                             {x.label}
-                            <HoverTooltip className="mt-1" title="Unpin">
+                            <HoverTooltip title="Unpin">
                               <Button
                                 className="rounded-full"
                                 fab

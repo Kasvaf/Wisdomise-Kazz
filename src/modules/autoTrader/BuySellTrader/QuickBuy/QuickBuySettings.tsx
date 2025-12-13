@@ -25,18 +25,20 @@ export default function QuickBuySettings({
   return (
     <div className={clsx(className, 'flex items-center gap-2')}>
       <HoverTooltip ignoreFocus title="Quick Buy Amount">
-        <Input
-          className="!flex w-28"
-          onChange={newValue => updateQuickBuyAmount(source, newValue)}
-          onKeyDown={preventNonNumericInput}
-          placeholder="0.0"
-          prefixIcon={<InstantIcon className="!size-8 -ml-1" />}
-          size="xs"
-          suffixIcon={<SolanaIcon className="!-mr-1" />}
-          surface={surface}
-          type="string"
-          value={settings.quick_buy[source].amount}
-        />
+        <div>
+          <Input
+            className="!flex w-28"
+            onChange={newValue => updateQuickBuyAmount(source, newValue)}
+            onKeyDown={preventNonNumericInput}
+            placeholder="0.0"
+            prefixIcon={<InstantIcon className="!size-8 -ml-1" />}
+            size="xs"
+            suffixIcon={<SolanaIcon className="!-mr-1" />}
+            surface={surface}
+            type="string"
+            value={settings.quick_buy[source].amount}
+          />
+        </div>
       </HoverTooltip>
       <TraderPresetsSelector
         showValue
