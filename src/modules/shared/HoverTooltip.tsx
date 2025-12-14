@@ -32,7 +32,7 @@ export function HoverTooltip({
         onOpenChange={onOpenChange}
         placement={placement}
         rootClassName={clsx(
-          '!max-w-[450px] p-3 text-sm text-v1-content-primary [&_.ant-tooltip-inner]:!bg-v1-surface-l1 border border-white/10 rounded-lg',
+          '!max-w-[450px] p-3 text-v1-content-primary [&_.ant-tooltip-inner]:!bg-v1-surface-l1 border border-white/10 rounded-lg',
           rootClassName,
         )}
         title={title}

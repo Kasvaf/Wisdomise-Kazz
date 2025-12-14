@@ -47,10 +47,12 @@ const NCoinMarketDataCol: FC<{
       )}
     >
       <div className={clsx('flex gap-1', !row && 'flex-col-reverse items-end')}>
-        <div className="flex items-center text-xs" title="Volume">
-          <span className="mr-1 align-middle text-2xs text-v1-content-secondary">
-            {'V'}
-          </span>
+        <div className="flex items-center text-xs">
+          <HoverTooltip title="Volume">
+            <span className="mr-1 align-middle text-2xs text-v1-content-secondary">
+              {'V'}
+            </span>
+          </HoverTooltip>
           <ReadableNumber
             className="align-middle"
             format={{
@@ -67,11 +69,12 @@ const NCoinMarketDataCol: FC<{
               +(value.networkData?.marketCap ?? '0') || 0,
             ),
           }}
-          title="Market Cap"
         >
-          <span className="me-1 align-middle text-2xs text-v1-content-secondary">
-            {'MC'}
-          </span>
+          <HoverTooltip title="Market Cap">
+            <span className="me-1 align-middle text-2xs text-v1-content-secondary">
+              {'MC'}
+            </span>
+          </HoverTooltip>
           <ReadableNumber
             className="align-middle font-medium text-base"
             format={{
@@ -85,10 +88,12 @@ const NCoinMarketDataCol: FC<{
       </div>
       {!row && (
         <div className="flex items-center gap-1">
-          <div className="flex items-center" title="Transactions">
-            <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
-              {'TX'}
-            </span>
+          <div className="flex items-center">
+            <HoverTooltip title="Transactions">
+              <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+                {'TX'}
+              </span>
+            </HoverTooltip>
             <NCoinTransactions
               value={{
                 buys: value.networkData?.totalBuy,
@@ -96,19 +101,21 @@ const NCoinMarketDataCol: FC<{
               }}
             />
           </div>
-          <div title="Number of Holders">
-            <Icon
-              className="me-1 inline-block align-middle text-v1-content-secondary"
-              name={bxGroup}
-              size={16}
-              strokeWidth={0.1}
-            />
-            <ReadableNumber
-              className="align-middle"
-              popup="never"
-              value={value.validatedData?.numberOfHolders}
-            />
-          </div>
+          <HoverTooltip title="Holders">
+            <div>
+              <Icon
+                className="me-1 inline-block align-middle text-v1-content-secondary"
+                name={bxGroup}
+                size={16}
+                strokeWidth={0.1}
+              />
+              <ReadableNumber
+                className="align-middle"
+                popup="never"
+                value={value.validatedData?.numberOfHolders}
+              />
+            </div>
+          </HoverTooltip>
         </div>
       )}
     </div>

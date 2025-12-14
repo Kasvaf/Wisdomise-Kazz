@@ -120,13 +120,14 @@ const SharedTable: FC<{
               <div className="flex items-center gap-1">
                 <ReadableNumber
                   className="text-xs"
+                  format={{ decimalLength: 1 }}
                   label="$"
                   popup="never"
                   value={row.balance * (currentPrice ?? 0)}
                 />
                 <div className="rounded-md bg-white/10 px-1 text-2xs">
                   <ReadableNumber
-                    format={{ decimalLength: 3 }}
+                    format={{ decimalLength: 1 }}
                     value={percentage}
                   />
                   %

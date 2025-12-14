@@ -7,6 +7,7 @@ import { slugToTokenAddress } from 'services/rest/token-info';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { useMigrationMark } from 'shared/AdvancedChart/Marks/useMigrationMark';
 import { useSwapsMarks } from 'shared/AdvancedChart/Marks/useSwapMarks';
+import { useTweetMarks } from 'shared/AdvancedChart/Marks/useTweetMarks';
 import type { Mark } from '../../../../../public/charting_library';
 
 export const useChartMarks = () => {
@@ -14,7 +15,8 @@ export const useChartMarks = () => {
   const marksRef = useRef(marks);
 
   const [swaps, setSwaps] = useState<Swap[]>([]);
-  const { setMigratedAt, mark } = useMigrationMark();
+  const { setMigratedAt, mark: migrationMark } = useMigrationMark();
+  const { marks: tweetMarks } = useTweetMarks();
 
   const { symbol } = useUnifiedCoinDetails();
   const [widget] = useAdvancedChartWidget();
@@ -48,8 +50,12 @@ export const useChartMarks = () => {
   const swapMarks = useSwapsMarks({ swaps });
 
   useEffect(() => {
-    setMarks([...swapMarks, ...(mark ? [mark] : [])]);
-  }, [swapMarks, mark]);
+    setMarks([
+      ...swapMarks,
+      ...(migrationMark ? [migrationMark] : []),
+      ...tweetMarks,
+    ]);
+  }, [swapMarks, migrationMark, tweetMarks]);
 
   useEffect(() => {
     if (marks.length === 0) return;

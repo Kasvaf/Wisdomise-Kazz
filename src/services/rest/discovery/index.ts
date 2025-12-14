@@ -1025,3 +1025,20 @@ export const useCoinTopTraderHolders = (config: {
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
+
+export const useTokenTweets = ({
+  contractAddress,
+}: {
+  contractAddress?: string;
+}) => {
+  return useQuery({
+    queryKey: ['token-tweets', contractAddress],
+    queryFn: async () => {
+      const data = await ofetch<Tweet[]>('delphi/trench/tweets/', {
+        query: { contract_address: contractAddress },
+      });
+      return data;
+    },
+    enabled: !!contractAddress,
+  });
+};

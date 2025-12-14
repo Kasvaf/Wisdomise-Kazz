@@ -40,16 +40,7 @@ export default function XProfileEmbed({ username }: { username: string }) {
             )}
           </div>
           <div className="flex w-full grow flex-col p-4 pt-3">
-            <div className="relative">
-              <a
-                className="absolute top-0 right-0"
-                href={userUrl}
-                target="_blank"
-              >
-                <HoverTooltip title="View Profile on X">
-                  <XIcon className="size-5" />
-                </HoverTooltip>
-              </a>
+            <div className="flex gap-2">
               <XUser
                 isBlueVerified={data.isBlueVerified}
                 name={data.name}
@@ -57,6 +48,11 @@ export default function XProfileEmbed({ username }: { username: string }) {
                 username={data.userName}
                 verifiedType={data.verifiedType}
               />
+              <a href={userUrl} target="_blank">
+                <HoverTooltip title="View Profile on X">
+                  <XIcon className="size-5" />
+                </HoverTooltip>
+              </a>
             </div>
             <p className="mt-3 mb-5 break-words text-x-content-secondary">
               {data.description}
@@ -159,17 +155,17 @@ export function XUser({
           mini ? 'flex-row gap-1' : 'flex-col gap-1',
         )}
       >
-        <p className={clsx('flex items-center gap-1 font-medium')}>
+        <p className={clsx('font-medium')}>
           <a className="hover:!underline" href={userUrl} target="_blank">
             {name}
           </a>
           {(isBlueVerified || verifiedType) &&
             (verifiedType === 'Business' ? (
-              <BusinessVerifiedIcon className="size-4" />
+              <BusinessVerifiedIcon className="ml-1 inline size-4" />
             ) : (
               <VerifiedIcon
                 className={clsx(
-                  'size-4 shrink-0',
+                  'ml-1 inline size-4 shrink-0',
                   verifiedType === 'Government'
                     ? 'text-x-content-secondary'
                     : 'text-x-content-brand',

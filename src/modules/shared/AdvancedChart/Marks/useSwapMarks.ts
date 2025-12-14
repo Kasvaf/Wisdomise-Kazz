@@ -5,6 +5,7 @@ import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useT
 import { useMemo } from 'react';
 import { useAllWallets } from 'services/chains/wallet';
 import type { Swap } from 'services/grpc/proto/delphinus';
+import { useKolWallets } from 'services/rest/kol';
 import {
   useChartConvertToUSD,
   useChartIsMarketCap,
@@ -51,6 +52,7 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
           label,
           labelFontColor: 'white',
           minSize: 25,
+          imageUrl: s.image,
           time: Math.floor(new Date(s.relatedAt).getTime() / 1000),
           price: priceOrMc,
           text,
@@ -65,13 +67,16 @@ export const useNamedSwaps = ({ swaps }: { swaps: Swap[] }) => {
   const wallets = useTrackedWallets();
   const { developer } = useUnifiedCoinDetails();
   const userWallets = useAllWallets();
+  const { data: kols } = useKolWallets({});
 
   return useMemo(() => {
     return swaps
       .map(swap => {
         let name: string | undefined;
         let label: string | undefined;
+        let image: string | undefined;
         const trackedWallet = wallets.find(w => w.address === swap.wallet);
+        const kol = kols?.find(k => k.wallet_address === swap.wallet);
         const isUser = userWallets?.some(w => w === swap.wallet);
         if (isUser) {
           name = 'You';
@@ -82,10 +87,18 @@ export const useNamedSwaps = ({ swaps }: { swaps: Swap[] }) => {
         } else if (swap.wallet === developer?.address) {
           name = 'Dev';
           label = 'D';
+        } else if (kol) {
+          name = kol.name;
+          label = 'K';
+          image = kol.image_url;
         }
         if (!name) return undefined;
-        return { ...swap, name, label };
+        return { ...swap, name, label, image };
       })
-      .filter(Boolean) as (Swap & { name: string; label: string })[];
-  }, [swaps, developer, wallets, userWallets]);
+      .filter(Boolean) as (Swap & {
+      name: string;
+      label: string;
+      image?: string;
+    })[];
+  }, [swaps, developer, wallets, userWallets, kols]);
 };
