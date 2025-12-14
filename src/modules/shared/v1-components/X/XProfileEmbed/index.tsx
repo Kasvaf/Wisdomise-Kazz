@@ -5,17 +5,18 @@ import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import Skeleton from 'shared/v1-components/Skeleton';
-import { ReactComponent as BussinessVerifiedIcon } from 'shared/v1-components/X/assets/business-verified.svg';
+import { ReactComponent as BusinessVerifiedIcon } from 'shared/v1-components/X/assets/business-verified.svg';
 import { ReactComponent as CalendarIcon } from 'shared/v1-components/X/assets/calendar.svg';
 import { ReactComponent as LinkIcon } from 'shared/v1-components/X/assets/link.svg';
 import { ReactComponent as LocationIcon } from 'shared/v1-components/X/assets/location.svg';
 import { ReactComponent as VerifiedIcon } from 'shared/v1-components/X/assets/verified.svg';
 import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
+import { getXUserUrl } from 'shared/v1-components/X/utils';
 
 export default function XProfileEmbed({ username }: { username: string }) {
   const { data, isPending } = useTwitterUserPreviewQuery({ username });
 
-  const profileUrl = `https://x.com/${username}`;
+  const userUrl = getXUserUrl(username);
 
   return (
     <div
@@ -39,20 +40,23 @@ export default function XProfileEmbed({ username }: { username: string }) {
             )}
           </div>
           <div className="flex w-full grow flex-col p-4 pt-3">
-            <div className="flex justify-between gap-2">
+            <div className="relative">
+              <a
+                className="absolute top-0 right-0"
+                href={userUrl}
+                target="_blank"
+              >
+                <HoverTooltip title="View Profile on X">
+                  <XIcon className="size-5" />
+                </HoverTooltip>
+              </a>
               <XUser
-                className="overflow-hidden"
                 isBlueVerified={data.isBlueVerified}
                 name={data.name}
                 profilePicture={data.profilePicture}
                 username={data.userName}
                 verifiedType={data.verifiedType}
               />
-              <a href={profileUrl} target="_blank">
-                <HoverTooltip title="View Profile on X">
-                  <XIcon className="size-5" />
-                </HoverTooltip>
-              </a>
             </div>
             <p className="mt-3 mb-5 break-words text-x-content-secondary">
               {data.description}
@@ -98,7 +102,7 @@ export default function XProfileEmbed({ username }: { username: string }) {
             <Button
               as="a"
               className="!bg-transparent !text-x-content-brand !rounded-3xl w-full"
-              href={profileUrl}
+              href={userUrl}
               size="md"
               target="_blank"
               variant="outline"
@@ -131,7 +135,7 @@ export function XUser({
   className?: string;
   verifiedType?: 'Business' | 'Government' | null;
 }) {
-  const profileUrl = `https://x.com/${username}`;
+  const userUrl = getXUserUrl(username);
   const followIntent = `https://x.com/intent/follow?screen_name=${username}`;
 
   return (
@@ -156,12 +160,12 @@ export function XUser({
         )}
       >
         <p className={clsx('flex items-center gap-1 font-medium')}>
-          <a className="hover:!underline" href={profileUrl} target="_blank">
+          <a className="hover:!underline" href={userUrl} target="_blank">
             {name}
           </a>
           {(isBlueVerified || verifiedType) &&
             (verifiedType === 'Business' ? (
-              <BussinessVerifiedIcon className="size-4" />
+              <BusinessVerifiedIcon className="size-4" />
             ) : (
               <VerifiedIcon
                 className={clsx(
@@ -176,7 +180,7 @@ export function XUser({
         <div className="flex items-center gap-1">
           <a
             className="!text-x-content-secondary hover:!underline font-light"
-            href={profileUrl}
+            href={userUrl}
             target="_blank"
           >
             @{username}

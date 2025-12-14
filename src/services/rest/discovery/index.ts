@@ -37,11 +37,11 @@ import type {
   TechnicalRadarSentiment,
   TelegramMessage,
   TradingViewIdeasMessage,
+  Tweet,
   TwitterAccount,
   TwitterFollowedAccount,
   TwitterMessage,
   TwitterRelatedToken,
-  TwitterTweet,
   WhaleRadarCoin,
   WhaleRadarSentiment,
   WhaleShort,
@@ -724,11 +724,11 @@ export const useTwitterFollowedAccounts = () => {
 };
 
 export const useStreamTweets = (config: { userIds: string[] }) => {
-  const [tweets, setTweets] = useState<TwitterTweet[]>([]);
+  const [tweets, setTweets] = useState<Tweet[]>([]);
   const initialStream = useQuery({
     queryKey: ['streamed-tweets', JSON.stringify(config.userIds)],
     queryFn: () =>
-      resolvePageResponseToArray<TwitterTweet>('delphi/streamed/tweets/', {
+      resolvePageResponseToArray<Tweet>('delphi/streamed/tweets/', {
         meta: {
           auth: false,
         },

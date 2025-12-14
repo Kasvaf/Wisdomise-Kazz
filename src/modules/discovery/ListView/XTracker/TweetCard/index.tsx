@@ -1,16 +1,16 @@
 import { clsx } from 'clsx';
 import type { FC } from 'react';
-import type { TwitterTweet } from 'services/rest/discovery';
+import type { Tweet } from 'services/rest/discovery';
 import { Button } from 'shared/v1-components/Button';
 import { XTweetEmbed } from 'shared/v1-components/X/XTweetEmbed';
 
 export const TweetCard: FC<{
-  value: TwitterTweet;
+  value: Tweet;
   nest?: boolean;
   expanded?: boolean;
   className?: string;
-  onOpenMedia?: (media: TwitterTweet['media'][number]) => void;
-  onOpenRelatedTokens?: (tweetId: TwitterTweet['tweet_id']) => void;
+  onOpenMedia?: (media: Tweet['media'][number]) => void;
+  onOpenRelatedTokens?: (tweetId: Tweet['tweet_id']) => void;
 }> = ({ value, nest = true, className, onOpenRelatedTokens, expanded }) => {
   return (
     <div className={clsx('w-full p-3', className)}>

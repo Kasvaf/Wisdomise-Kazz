@@ -181,28 +181,28 @@ export function useTwitterCommunityPreviewQuery({
   });
 }
 
-interface TweetV2 {
+export interface TweetV2 {
   type: 'tweet';
-  id: '1998768968333668623';
-  url: 'https://x.com/fairtrades69/status/1998768968333668623';
-  twitterUrl: 'https://twitter.com/fairtrades69/status/1998768968333668623';
-  text: 'There is currently a huge trend on Tiktok.\n\nIts called "Liminal Space Backrooms" and people creating these new Liminal AI videos being deep inside the backrooms.    \n\nSeveral videos getting millions of views.  https://t.co/MCNIP4HE6I https://t.co/EllVK6mZC9';
-  source: '';
-  retweetCount: 0;
-  replyCount: 1;
-  likeCount: 1;
-  quoteCount: 0;
-  viewCount: 8;
-  createdAt: 'Wed Dec 10 14:57:12 +0000 2025';
-  lang: 'en';
+  id: string;
+  url: string;
+  twitterUrl: string;
+  text: string;
+  source?: string;
+  retweetCount: number;
+  replyCount: number;
+  likeCount: number;
+  quoteCount: number;
+  viewCount: number;
+  createdAt: string;
+  lang: string;
   bookmarkCount: 0;
-  isReply: false;
-  inReplyToId: '';
-  conversationId: '1998768968333668623';
-  displayTextRange: [0, 233];
-  inReplyToUserId: '';
-  inReplyToUsername: '';
-  isPinned: false;
+  isReply: boolean;
+  inReplyToId?: string;
+  conversationId: string;
+  displayTextRange: [number, number];
+  inReplyToUserId?: string;
+  inReplyToUsername?: string;
+  isPinned: boolean;
   author: {
     type: 'user';
     userName: 'fairtrades69';
@@ -266,7 +266,7 @@ interface TweetV2 {
     isAutomated: false;
     automatedBy: null;
   };
-  extendedEntities: {
+  extendedEntities?: {
     media?: [
       {
         allow_download_status: {
@@ -372,20 +372,54 @@ interface TweetV2 {
   };
   card: unknown;
   place: unknown;
-  entities: {
-    urls: [
+  entities?: {
+    symbols?: [
       {
-        display_url: 'tiktok.com/@exitdreamnow/…';
-        expanded_url: 'https://tiktok.com/@exitdreamnow/video/7581196521912159510';
-        indices: [210, 233];
-        url: 'https://t.co/MCNIP4HE6I';
+        indices: [0, 6];
+        text: 'CLARK';
+      },
+    ];
+    urls?: [
+      {
+        display_url: 'wallet.coinbase.com/home/create';
+        expanded_url: 'https://wallet.coinbase.com/home/create';
+        indices: [49, 72];
+        url: 'https://t.co/L3r0I7HByC';
+      },
+    ];
+    user_mentions?: [
+      {
+        id_str: '232022923';
+        indices: [0, 9];
+        name: 'Goated';
+        screen_name: 'Goated0x';
+      },
+      {
+        id_str: '926902989679415296';
+        indices: [10, 22];
+        name: 'Phletchy';
+        screen_name: 'PhletchyIRL';
+      },
+    ];
+    hashtags?: [
+      {
+        indices: [34, 44];
+        text: 'animation';
+      },
+      {
+        indices: [61, 68];
+        text: 'French';
+      },
+      {
+        indices: [87, 99];
+        text: 'Intermarché';
       },
     ];
   };
-  isRetweet: false;
-  isQuote: false;
-  isConversationControlled: false;
-  quoted_tweet: null;
-  retweeted_tweet: null;
-  isLimitedReply: false;
+  isRetweet: boolean;
+  isQuote: boolean;
+  isConversationControlled: boolean;
+  quoted_tweet: TweetV2;
+  retweeted_tweet: TweetV2;
+  isLimitedReply: boolean;
 }

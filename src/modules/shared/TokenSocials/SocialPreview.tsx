@@ -76,7 +76,7 @@ export const SocialPreview: FC<{ social: Social }> = ({ social }) => {
   if (social.type === 'x') {
     const res = parseXUrl(social.url.href);
     if (res.type === 'post' && res.postId)
-      return <XTweetEmbed className="!w-72" tweetId={res.postId} />;
+      return <XTweetEmbed className="!w-84" tweetId={res.postId} />;
     if (res.type === 'profile' && res.username)
       return <XProfileEmbed username={res.username} />;
     if (res.type === 'community' && res.communityId)

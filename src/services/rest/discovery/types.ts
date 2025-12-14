@@ -791,7 +791,7 @@ export interface RedditMessage {
   }>;
 }
 
-export type TwitterMessage = TwitterTweet;
+export type TwitterMessage = Tweet;
 
 export interface TradingViewIdeasMessage {
   id: number;
@@ -863,7 +863,7 @@ export interface TwitterFollowedAccount {
   hide_from_list: boolean;
 }
 
-export interface TwitterTweet {
+export interface Tweet {
   user: TwitterAccount;
   tweet_id: string;
   related_at: string;
@@ -881,9 +881,9 @@ export interface TwitterTweet {
     width: number;
     height: number;
   }>;
-  quoted_tweet?: null | TwitterTweet;
-  retweeted_tweet?: null | TwitterTweet;
-  replied_tweet?: null | TwitterTweet;
+  quoted_tweet?: null | Tweet;
+  retweeted_tweet?: null | Tweet;
+  replied_tweet?: null | Tweet;
 }
 
 /* Rest */

@@ -8,6 +8,7 @@ import { ReactComponent as XCommunityIcon } from 'shared/v1-components/X/assets/
 import { ReactComponent as XProfileIcon } from 'shared/v1-components/X/assets/profile.svg';
 import { ReactComponent as XPostIcon } from 'shared/v1-components/X/assets/tweet.svg';
 import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
+import { getXSearchUrl } from 'shared/v1-components/X/utils';
 import { getLogo, resolveSocials, type Social } from './lib';
 import { parseXUrl, SocialPreview } from './SocialPreview';
 import { ReactComponent as XSearchIcon } from './x-search.svg';
@@ -31,8 +32,6 @@ export const TokenSocials: FC<{
     hideSearch,
   }) => {
     const socials = useMemo(() => resolveSocials(value), [value]);
-
-    const go = (href: string) => window.open(href, '_blank');
 
     return (
       <div
@@ -65,7 +64,7 @@ export const TokenSocials: FC<{
               onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
-                go(social.url.href);
+                window.open(social.url.href, '_blank');
               }}
             >
               {social && <SocialIcon social={social} />}
@@ -78,14 +77,17 @@ export const TokenSocials: FC<{
               onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
-                go(
-                  `https://x.com/search?q=(${[
-                    abbreviation && `$${abbreviation}`,
-                    name && !name.includes(' ') && `${name}`,
-                    contractAddress,
-                  ]
-                    .filter(x => !!x)
-                    .join('%20OR%20')})&src=typed_query&f=live`,
+                window.open(
+                  getXSearchUrl(
+                    `(${[
+                      abbreviation && `$${abbreviation}`,
+                      name && !name.includes(' ') && `${name}`,
+                      contractAddress,
+                    ]
+                      .filter(x => !!x)
+                      .join(' OR ')})&src=typed_query&f=live`,
+                  ),
+                  '_blank',
                 );
               }}
             >

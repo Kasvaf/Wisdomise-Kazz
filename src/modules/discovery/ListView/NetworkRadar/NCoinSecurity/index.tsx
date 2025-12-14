@@ -126,11 +126,7 @@ export const NCoinSecurity: FC<{
             )}
           >
             {items.map(item => (
-              <HoverTooltip
-                key={item.key}
-                placement="bottom"
-                title={item.title}
-              >
+              <HoverTooltip key={item.key} title={item.title}>
                 <div className={clsx('flex items-center gap-2 text-center')}>
                   <div
                     className={clsx(

@@ -3,8 +3,11 @@ import dayjs from 'dayjs';
 import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { useMediaDialog } from 'modules/discovery/ListView/XTracker/useMediaDialog';
 import { type FC, useMemo } from 'react';
-import type { TwitterTweet } from 'services/rest/discovery';
-import { useTwitterPostPreviewQuery } from 'services/rest/twitter';
+import type { Tweet } from 'services/rest/discovery';
+import {
+  type TweetV2,
+  useTwitterPostPreviewQuery,
+} from 'services/rest/twitter';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -17,6 +20,7 @@ import { ReactComponent as ReplyIcon } from 'shared/v1-components/X/assets/reply
 import { ReactComponent as RetweetIcon } from 'shared/v1-components/X/assets/retweet.svg';
 import { ReactComponent as ViewIcon } from 'shared/v1-components/X/assets/view.svg';
 import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
+import { extractEnrichedTweetText } from 'shared/v1-components/X/utils';
 import { XUser, XUserSkeleton } from 'shared/v1-components/X/XProfileEmbed';
 
 export function XTweetEmbed({
@@ -25,7 +29,7 @@ export function XTweetEmbed({
   isQuote,
   className,
 }: {
-  value?: TwitterTweet;
+  value?: Tweet | TweetV2;
   tweetId?: string;
   isQuote?: boolean;
   className?: string;
@@ -68,9 +72,9 @@ export function XTweetEmbed({
         : tweet.inReplyToUsername,
       media: isV1
         ? tweet.media.map(m => ({ url: m.url }))
-        : tweet.extendedEntities.media?.map(m => ({ url: m.media_url_https })),
+        : tweet.extendedEntities?.media?.map(m => ({ url: m.media_url_https })),
       quotedTweet: tweet.quoted_tweet,
-      text: tweet.text,
+      text: isV1 ? tweet.text : extractEnrichedTweetText(tweet),
       id: isV1 ? tweet.tweet_id : tweet.id,
     };
   }, [_value, data]);
@@ -98,7 +102,7 @@ export function XTweetEmbed({
         '!bg-x-bg relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border border-x-border p-3 text-sm transition-colors',
         isQuote
           ? 'hover:!bg-x-quote-bg-hover cursor-pointer'
-          : 'hover:!bg-x-bg-hover min-h-72',
+          : 'hover:!bg-x-bg-hover min-h-60',
         className,
       )}
       onClick={e => {
@@ -110,8 +114,8 @@ export function XTweetEmbed({
         <div className="w-full space-y-3">
           <XUserSkeleton />
           <div className="flex items-center justify-between gap-1">
-            <Skeleton className="w-24 bg-white/5 text-xs leading-none" />
-            <Skeleton className="w-24 bg-white/5 text-xs leading-none" />
+            <Skeleton className="w-24 bg-white/5 leading-none" />
+            <Skeleton className="w-24 bg-white/5 leading-none" />
           </div>
           <hr className="border-x-border" />
           <Skeleton className="mb-2 w-32 bg-white/5" />
@@ -120,7 +124,7 @@ export function XTweetEmbed({
           <Skeleton className="h-10 rounded-xl bg-white/5" />
         </div>
       ) : value ? (
-        <div className="w-full">
+        <div className="@container w-full">
           <div>
             <div className="flex items-start justify-between gap-2 pb-3">
               <XUser
@@ -155,7 +159,7 @@ export function XTweetEmbed({
             </div>
             {!isQuote && (
               <>
-                <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center justify-between @max-2xs:text-xs">
                   <div className="flex items-center gap-1 text-x-content-secondary">
                     <CalendarIcon className="size-4" />
                     Joined {dayjs(value.user.createdAt).format('MMM YYYY')}
@@ -178,14 +182,21 @@ export function XTweetEmbed({
               <div className="mb-2 flex h-7 w-full items-center justify-start overflow-hidden rounded-[12px] px-[8px]">
                 <div className="mr-[10px] h-full w-[3px] min-w-[3px] rounded-full bg-x-content-secondary"></div>
                 <span className="text-nowrap break-words text-x-content-secondary">
-                  Replying to <span>@{value.inReplyToUsername}</span>
+                  Replying to{' '}
+                  <a
+                    className="hover:!underline"
+                    href={`https://x.com/${value?.inReplyToUsername}`}
+                  >
+                    @{value.inReplyToUsername}
+                  </a>
                 </span>
               </div>
             )}
             <div className="flex w-full flex-col items-center justify-start gap-[8px]">
-              <p className="w-full whitespace-pre-wrap break-words">
-                {value.text}
-              </p>
+              <div
+                className="[&_a]:!text-x-content-brand [&_a]:hover:!underline w-full whitespace-pre-wrap break-words"
+                dangerouslySetInnerHTML={{ __html: value.text ?? '' }}
+              />
               <XPostMedia value={value.media} />
               {value.quotedTweet && !isQuote && (
                 <XTweetEmbed isQuote={true} value={value.quotedTweet} />
@@ -373,21 +384,3 @@ const XPostMedia: FC<{
     </div>
   );
 };
-
-// const _TweetType: FC<{
-//   value: TwitterTweet;
-//   className?: string;
-// }> = ({ value, className }) => {
-//   const isRetweet = !!value?.retweeted_tweet;
-//   const isQuote = !!value?.quoted_tweet;
-//   const isReply = !!value?.replied_tweet;
-//
-//   const Component = isRetweet
-//     ? RetweetIcon
-//     : isQuote
-//       ? QuoteIcon
-//       : isReply
-//         ? ReplyIcon
-//         : TweetIcon;
-//   return <Component className={className} />;
-// };

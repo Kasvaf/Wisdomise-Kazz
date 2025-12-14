@@ -4,7 +4,7 @@ import { useLibraryUsers } from 'modules/discovery/ListView/XTracker/useLibraryU
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  type TwitterTweet,
+  type Tweet,
   useStreamTweets,
   useTweetRelatedTokens,
   useTwitterFollowedAccounts,
@@ -22,7 +22,7 @@ export const XTrackerView: FC<{
 }> = ({ className, expanded }) => {
   const { t } = useTranslation();
   const [openedRelatedTokens, setOpenedRelatedTokens] = useState<
-    TwitterTweet['tweet_id'] | null
+    Tweet['tweet_id'] | null
   >(null);
   const libraryUsers = useLibraryUsers();
 
