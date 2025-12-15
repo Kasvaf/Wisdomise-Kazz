@@ -1,0 +1,19 @@
+name: Security Analysis
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  actions: read
+  packages: read
+  contents: read
+
+jobs:
+  security-analysis:
+    uses: Wisdomise/wisflows/.github/workflows/security-analysis.yml@main
+    with:
+      dt-project-uuid: 7ad67367-07e6-49e6-b2f9-ebcfa40d6646
+    secrets: inherit
