@@ -74,7 +74,7 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
       surface={surface}
       variant="ghost"
     >
-      <InstantIcon />
+      <InstantIcon className="-ml-1" />
       <span className="shrink-0">{amount} SOL</span>
       {modal}
     </Button>

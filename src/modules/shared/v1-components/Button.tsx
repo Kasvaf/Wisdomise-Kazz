@@ -19,7 +19,7 @@ export type ButtonSize =
   | '2xl';
 
 type ButtonAs = 'button' | 'a';
-type ButtonProps<T extends ButtonAs> = {
+export type ButtonProps<T extends ButtonAs = 'button'> = {
   size?: ButtonSize;
   fab?: boolean;
   variant?:

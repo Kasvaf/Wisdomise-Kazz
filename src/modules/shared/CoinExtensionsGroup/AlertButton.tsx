@@ -8,7 +8,7 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 
 export const AlertButton: FC<
-  Omit<ComponentProps<typeof Button>, 'variant' | 'onClick' | 'fab'>
+  Omit<ComponentProps<typeof Button<'button'>>, 'variant' | 'onClick' | 'fab'>
 > = props => {
   const hasFlag = useHasFlag();
   const { openSaveModal: openAlert, content: alertModal } = useAlertActions(
