@@ -8,6 +8,7 @@ import type {
 } from 'services/grpc/proto/network_radar';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Badge } from 'shared/v1-components/Badge';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Wallet } from 'shared/v1-components/Wallet';
 import { useUnifiedCoinDetails } from './lib';
@@ -125,13 +126,13 @@ const SharedTable: FC<{
                   popup="never"
                   value={row.balance * (currentPrice ?? 0)}
                 />
-                <div className="rounded-md bg-white/10 px-1 text-2xs">
+                <Badge color="neutral" variant="soft">
                   <ReadableNumber
                     format={{ decimalLength: 1 }}
                     value={percentage}
                   />
                   %
-                </div>
+                </Badge>
               </div>
               <div className="mt-1 h-1 w-28 overflow-hidden rounded-xl bg-white/10">
                 <div

@@ -115,20 +115,16 @@ export const DiscoveryExpandCollapser = () => {
 
   useEffect(() => {
     if (!ref.current) return;
-    const headerHeight = 48;
     const sidebarWidth = 74;
     const compactListWidth = 288;
 
     if (urlParams.detail && !backdropParams.list) {
-      ref.current.style.top = `${headerHeight + 10}px`;
       ref.current.style.left = `${sidebarWidth - 20}px`;
       ref.current.style.right = `auto`;
     } else if (urlParams.detail && backdropParams.list) {
-      ref.current.style.top = `${headerHeight + 10}px`;
       ref.current.style.left = `${sidebarWidth + compactListWidth - 20}px`;
       ref.current.style.right = `auto`;
     } else if (urlParams.list) {
-      ref.current.style.top = `${headerHeight + 10}px`;
       ref.current.style.left = `auto`;
       ref.current.style.right = `0`;
     }
@@ -162,7 +158,10 @@ export const DiscoveryExpandCollapser = () => {
   if (isMobile) return null;
 
   return (
-    <div className="fixed z-30 flex flex-col items-center gap-1" ref={ref}>
+    <div
+      className="fixed top-1/2 z-30 flex flex-col items-center gap-1"
+      ref={ref}
+    >
       {urlParams.detail && (
         <Button
           className="rounded-full"
@@ -175,8 +174,7 @@ export const DiscoveryExpandCollapser = () => {
           <Icon name={bxChevronRight} />
         </Button>
       )}
-      {((urlParams.detail && backdropParams.list) ||
-        (urlParams.list && backdropParams.detail)) && (
+      {urlParams.detail && backdropParams.list && (
         <Button
           className="rounded-full"
           fab

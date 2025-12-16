@@ -38,7 +38,7 @@ export const useCoinDetailsTabs = () => {
         label: (
           <div className="flex items-center gap-1">
             Top Holders
-            {validatedData?.numberOfHolders && (
+            {validatedData?.numberOfHolders !== undefined && (
               <span className="text-v1-content-secondary">
                 ({validatedData?.numberOfHolders})
               </span>

@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import type { NetworkRadarTab } from 'modules/discovery/ListView/NetworkRadar/lib';
 import type { MetaFilters } from 'modules/discovery/PageMeta';
@@ -37,6 +38,7 @@ interface UserSettings {
   meta: {
     filters: MetaFilters;
   };
+  blacklists: Blacklist[];
 }
 
 type NetworkRadarStreamFilters = Record<
@@ -49,6 +51,15 @@ interface ImportedWallet {
   address: string;
   emoji: string;
 }
+
+interface Blacklist {
+  network: 'solana';
+  type: BlacklistType;
+  value: string;
+  created_at: string;
+}
+
+export type BlacklistType = 'dev' | 'ca' | 'keyword';
 
 interface SwapsSettings {
   show_amount_in_usd: boolean;
@@ -95,6 +106,8 @@ const DEFAULT_TRENCH_PROTOCOLS = [
   'Jup Studio',
   'Moonshot',
 ];
+
+export const MAX_BLACKLISTS_LENGTH = 1000;
 
 const DEFAULT_USER_SETTINGS: UserSettings = {
   presets: Array.from({ length: 3 }, () => ({
@@ -169,6 +182,7 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
   meta: {
     filters: { new: {}, trend: {}, high_mc: {} },
   },
+  blacklists: [],
 };
 
 const context = createContext<
@@ -206,6 +220,16 @@ const context = createContext<
       updateSelectedLibs: (libs: { key: string }[]) => void;
       updateTrenchFilters: (patch: Partial<NetworkRadarStreamFilters>) => void;
       updateMetaFilters: (meta: Partial<MetaFilters>) => void;
+      addBlacklist: (
+        item: Omit<Blacklist, 'created_at'>,
+        deleteIfAvailable?: boolean,
+      ) => void;
+      deleteBlacklist: (item: {
+        type: BlacklistType;
+        network: string;
+        value: string;
+      }) => void;
+      deleteAllBlacklists: () => void;
     }
   | undefined
 >(undefined);
@@ -432,6 +456,77 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const addBlacklist = (
+    item: Omit<Blacklist, 'created_at'>,
+    deleteIfAvailable?: boolean,
+  ) => {
+    if (settings.blacklists.length >= MAX_BLACKLISTS_LENGTH) {
+      notification.error({ message: 'Max blacklist items reached' });
+      return;
+    }
+
+    if (
+      settings.blacklists.find(
+        i =>
+          i.type === item.type &&
+          i.value === item.value &&
+          i.network === item.network,
+      )
+    ) {
+      if (deleteIfAvailable) {
+        deleteBlacklist(item);
+      } else {
+        notification.error({ message: 'Item already added to blacklists' });
+      }
+      return;
+    }
+
+    setSettings(prev => {
+      return {
+        ...prev,
+        blacklists: [
+          ...prev.blacklists,
+          { ...item, created_at: new Date().toISOString() },
+        ],
+      };
+    });
+    notification.success({ message: 'Item added to blacklists' });
+  };
+
+  const deleteBlacklist = ({
+    type,
+    network,
+    value,
+  }: {
+    type: BlacklistType;
+    value: string;
+    network: string;
+  }) => {
+    setSettings(prev => {
+      const blackLists = [...prev.blacklists];
+      const index = blackLists.findIndex(
+        i => i.type === type && i.value === value && i.network === network,
+      );
+      blackLists.splice(index, 1);
+
+      return {
+        ...prev,
+        blacklists: blackLists,
+      };
+    });
+    notification.success({ message: 'Item removed from blacklists' });
+  };
+
+  const deleteAllBlacklists = () => {
+    setSettings(prev => {
+      return {
+        ...prev,
+        blacklists: [],
+      };
+    });
+    notification.success({ message: 'All blacklists removed' });
+  };
+
   return (
     <context.Provider
       value={{
@@ -451,6 +546,9 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         updateSelectedLibs,
         updateTrenchFilters,
         updateMetaFilters,
+        addBlacklist,
+        deleteBlacklist,
+        deleteAllBlacklists,
       }}
     >
       {children}

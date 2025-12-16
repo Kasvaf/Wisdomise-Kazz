@@ -1,5 +1,6 @@
-import { bxsCopy } from 'boxicons-quasar';
+import { bxHide, bxShow, bxsCopy, bxUser, bxUserX } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { type FC, type ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -11,18 +12,21 @@ import type { SymbolSocailAddresses } from 'services/grpc/proto/network_radar';
 import type { CoinCommunityData, CoinNetwork } from 'services/rest/discovery';
 import { slugToTokenAddress, useTokenInfo } from 'services/rest/token-info';
 import type { Coin as CoinType } from 'services/rest/types/shared';
+import { useHideToken } from 'shared/BlacklistManager/useHideToken';
 import { TokenLabels, TokenNetworksLabel } from 'shared/CoinLabels';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { TokenSocials } from 'shared/TokenSocials';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { shortenAddress } from 'utils/address';
 import { openInNewTab } from 'utils/click';
 import { base64UrlDecode } from 'utils/encode';
 import { formatNumber } from 'utils/numbers';
 import { isProduction } from 'utils/version';
+
+type TokenSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export const Token: FC<{
   name?: string | null;
@@ -33,6 +37,7 @@ export const Token: FC<{
 
   slug?: string | null;
   address?: string | null;
+  devAddress?: string | null;
 
   logo?: string | null;
   noCors?: boolean;
@@ -53,14 +58,16 @@ export const Token: FC<{
   showAddress?: boolean;
   truncate?: boolean;
   extra?: ReactNode;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: TokenSize;
   popup?: boolean;
   autoFill?: boolean;
+  enableBlacklist?: boolean;
 }> = ({
   slug,
   address,
   name,
   abbreviation,
+  devAddress,
   header,
   subtitle,
   logo,
@@ -78,6 +85,7 @@ export const Token: FC<{
   className,
   block,
   onClick,
+  enableBlacklist,
 
   truncate = true,
   extra,
@@ -139,7 +147,7 @@ export const Token: FC<{
         >
           <div
             className={clsx(
-              'relative shrink-0',
+              'group/image shrink-0',
               size === 'md'
                 ? 'size-11'
                 : size === 'sm'
@@ -177,7 +185,32 @@ export const Token: FC<{
                     : 'right-[-4px] bottom-[-4px] size-5',
                 )}
               >
-                <img alt="" className="size-full object-cover" src={marker} />
+                <img alt="" className="size-[80%] object-cover" src={marker} />
+              </div>
+            )}
+            {enableBlacklist && (
+              <div
+                className={clsx(
+                  'group-hover/image:!inline-flex !hidden',
+                  '-top-1 -left-1 absolute z-10 flex flex-col gap-1',
+                )}
+              >
+                <BtnHideToken
+                  address={address}
+                  className={
+                    size === 'lg' ? '[&_svg]:!size-4' : '[&_svg]:!size-3'
+                  }
+                  size={size === 'lg' ? '2xs' : '3xs'}
+                />
+                {devAddress && (
+                  <BtnBlacklistDev
+                    className={
+                      size === 'lg' ? '[&_svg]:!size-4' : '[&_svg]:!size-3'
+                    }
+                    devAddress={devAddress}
+                    size={size === 'lg' ? '2xs' : '3xs'}
+                  />
+                )}
               </div>
             )}
           </div>
@@ -371,7 +404,7 @@ export const TokenImage = ({
 }: {
   src?: string | null;
   name?: string | null;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: TokenSize;
   noCors?: boolean;
 }) => {
   const [imgSrc, setImgSrc] = useState(src);
@@ -421,5 +454,77 @@ export const TokenImage = ({
         />
       )}
     </div>
+  );
+};
+
+const BtnHideToken = ({
+  address,
+  size,
+  className,
+}: {
+  address?: string | null;
+  size?: ButtonSize;
+  className?: string;
+}) => {
+  const { addBlacklist } = useUserSettings();
+  const { isHidden } = useHideToken({ address, network: 'solana' });
+
+  return (
+    <HoverTooltip title={isHidden ? 'Show Token' : 'Hide Token'}>
+      <Button
+        className={className}
+        fab
+        onClick={e => {
+          if (address) {
+            addBlacklist(
+              { type: 'ca', network: 'solana', value: address },
+              true,
+            );
+          }
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+        size={size}
+        variant="outline"
+      >
+        <Icon name={isHidden ? bxShow : bxHide} />
+      </Button>
+    </HoverTooltip>
+  );
+};
+
+const BtnBlacklistDev = ({
+  devAddress,
+  size,
+  className,
+}: {
+  size?: ButtonSize;
+  className?: string;
+  devAddress?: string | null;
+}) => {
+  const { addBlacklist } = useUserSettings();
+  const { isHidden } = useHideToken({ network: 'solana', devAddress });
+
+  return (
+    <HoverTooltip title={isHidden ? 'Unblacklist Dev' : 'Blacklist Dev'}>
+      <Button
+        className={className}
+        fab
+        onClick={e => {
+          if (devAddress) {
+            addBlacklist(
+              { type: 'dev', network: 'solana', value: devAddress },
+              true,
+            );
+          }
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+        size={size}
+        variant="outline"
+      >
+        <Icon name={isHidden ? bxUser : bxUserX} />
+      </Button>
+    </HoverTooltip>
   );
 };

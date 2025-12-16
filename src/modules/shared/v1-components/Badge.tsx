@@ -61,8 +61,7 @@ export const Badge: FC<BadgeProps> = ({
             color === 'notice' &&
               'bg-v1-background-notice/15 text-v1-content-notice',
             color === 'info' && 'bg-v1-background-info/10 text-v1-content-info',
-            color === 'neutral' &&
-              'bg-v1-background-primary/10 text-v1-content-primary',
+            color === 'neutral' && 'bg-white/10 text-v1-content-primary',
             color === 'secondary' &&
               'bg-v1-background-secondary/10 text-v1-background-secondary',
           ),

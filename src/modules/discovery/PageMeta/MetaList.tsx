@@ -83,9 +83,11 @@ export default function MetaList({
 export function MetaNarrative({
   meta,
   mode = 'card',
+  className,
 }: {
   meta: Meta;
   mode?: 'card' | 'dialog';
+  className?: string;
 }) {
   const latestToken = [...meta.trench].sort(
     (a, b) =>
@@ -108,8 +110,9 @@ export function MetaNarrative({
   return (
     <div
       className={clsx(
-        'flex flex-col gap-3 rounded-xl bg-v1-surface-l1 p-3',
-        mode === 'card' && 'h-[35rem]',
+        'flex flex-col gap-3 rounded-xl bg-v1-surface-l1',
+        mode === 'card' && 'h-[35rem] p-3',
+        className,
       )}
       key={meta.id}
     >
@@ -182,7 +185,7 @@ export function MetaNarrative({
         onClose={() => setOpen(false)}
         open={open}
       >
-        <MetaNarrative meta={meta} mode="dialog" />
+        <MetaNarrative className="p-3" meta={meta} mode="dialog" />
       </Dialog>
     </div>
   );

@@ -9,6 +9,7 @@ import {
 } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHideToken } from 'shared/BlacklistManager/useHideToken';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Skeleton from 'shared/v1-components/Skeleton';
 import { Token } from 'shared/v1-components/Token';
@@ -30,6 +31,10 @@ export const TokenTitle: FC<{
     socials,
     meta,
   } = useUnifiedCoinDetails();
+  const { isHidden } = useHideToken({
+    address: symbol.contractAddress,
+    network: 'solana',
+  });
 
   return (
     <>
@@ -41,12 +46,18 @@ export const TokenTitle: FC<{
         )}
       >
         {symbol.name ? (
-          <div className="flex items-center justify-start gap-2 max-md:w-full max-md:flex-wrap">
+          <div
+            className={clsx(
+              'flex items-center justify-start gap-2 max-md:w-full max-md:flex-wrap',
+              isHidden && 'opacity-60',
+            )}
+          >
             <Token
               abbreviation={symbol.abbreviation ?? undefined}
               address={symbol.contractAddress ?? undefined}
               block
               categories={symbol.categories}
+              enableBlacklist
               header={
                 <>
                   {createdAt && (
