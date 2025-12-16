@@ -320,7 +320,7 @@ export const NCoinList: FC<{
                 extra={
                   row.symbol && (
                     <BtnQuickBuy
-                      className="!absolute !hidden group-hover:!flex right-2 bottom-2"
+                      className="!absolute right-2 bottom-2"
                       slug={row.symbol.slug}
                       source={source}
                       tokenAddress={row.symbol.base}
@@ -398,7 +398,7 @@ export const TrenchToken = memo(
           )}
         >
           {highlight && row.networkData?.boundingCurve === 1 && (
-            <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
+            <div className="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden">
               <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
             </div>
           )}
@@ -455,9 +455,11 @@ export const TrenchToken = memo(
             <NCoinMarketDataCol className={clsx()} row={mini} value={row} />
           </div>
           {mini && (
-            <NCoinTokenInsight
-              value={{ ...row.validatedData, ...row.securityData }}
-            />
+            <div className="h-[50px]">
+              <NCoinTokenInsight
+                value={{ ...row.validatedData, ...row.securityData }}
+              />
+            </div>
           )}
           {extra}
         </TokenLink>

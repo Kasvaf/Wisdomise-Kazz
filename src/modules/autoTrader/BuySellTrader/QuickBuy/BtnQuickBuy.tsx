@@ -11,6 +11,7 @@ import { useTokenPairsQuery } from 'services/rest';
 import type { CoinNetwork } from 'services/rest/discovery';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
+import type { Surface } from 'utils/useSurface';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 const BtnQuickBuy = React.memo(function BtnQuickBuy({
@@ -20,6 +21,7 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
   className,
   networks,
   size = '2xs',
+  surface = 2,
 }: {
   source: TradeSettingsSource;
   slug: string;
@@ -27,6 +29,7 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
   className?: string;
   networks?: CoinNetwork[] | null;
   size?: ButtonSize;
+  surface?: Surface;
 }) {
   const quote = WRAPPED_SOLANA_SLUG;
 
@@ -55,7 +58,10 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
 
   return isSolana ? (
     <Button
-      className={clsx(className, '!px-2 flex items-center')}
+      className={clsx(
+        className,
+        '!px-2 !text-v1-content-brand flex items-center',
+      )}
       onClick={async e => {
         e.stopPropagation();
         e.preventDefault();
@@ -65,6 +71,8 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
         }
       }}
       size={size}
+      surface={surface}
+      variant="ghost"
     >
       <InstantIcon />
       <span className="shrink-0">{amount} SOL</span>

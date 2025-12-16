@@ -2,7 +2,6 @@ import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { UserTradingAssets } from 'modules/autoTrader/UserAssets';
 import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
-import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +22,7 @@ import useHotCoinsTour from './useHotCoinsTour';
 
 export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
   const { t } = useTranslation('insight');
-  const [globalNetwork] = useGlobalNetwork();
+  const [_globalNetwork] = useGlobalNetwork();
   const coins = useCoinRadarCoins({});
   useLoadingBadge(coins.isFetching);
 
@@ -70,7 +69,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
             labels={row.symbol_labels}
             link={false}
             logo={row.symbol.logo_url}
-            networks={row.networks}
             slug={row.symbol.slug}
           />
         ),
@@ -80,27 +78,32 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
         className: 'id-tour-sentiment',
         align: 'end',
         render: row => (
-          <div className="flex items-center gap-1">
-            {row.social_radar_insight && (
-              <SocialRadarSentiment
-                mode="tiny"
-                value={row.social_radar_insight}
-              />
-            )}
-            {row.technical_radar_insight && (
-              <TechnicalRadarSentiment
-                mode="tiny"
-                value={row.technical_radar_insight}
-              />
-            )}
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-1">
+              {row.social_radar_insight && (
+                <SocialRadarSentiment
+                  mode="tiny"
+                  value={row.social_radar_insight}
+                />
+              )}
+              {row.technical_radar_insight && (
+                <TechnicalRadarSentiment
+                  mode="tiny"
+                  value={row.technical_radar_insight}
+                />
+              )}
+            </div>
+            <BtnQuickBuy
+              networks={row.networks}
+              slug={row.symbol.slug}
+              source="coin_radar"
+            />
           </div>
         ),
       },
     ],
     [],
   );
-  const params = useDiscoveryParams();
-  const activeSlug = params.slugs?.[1];
 
   return (
     <div className="p-3">
@@ -112,10 +115,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
           chunkSize={10}
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}
-          isActive={r =>
-            r.networks?.find(x => x.network.slug === globalNetwork)
-              ?.contract_address === activeSlug
-          }
           loading={coins.isLoading}
           onClick={r => {
             if (r.networks) {
@@ -123,13 +122,6 @@ export const CoinRadarCompact: FC<{ focus?: boolean }> = ({ focus }) => {
             }
           }}
           rowClassName="id-tour-row"
-          rowHoverSuffix={row => (
-            <BtnQuickBuy
-              networks={row.networks}
-              slug={row.symbol.slug}
-              source="coin_radar"
-            />
-          )}
           rowKey={r => r.rank}
           scrollable={false}
           surface={1}

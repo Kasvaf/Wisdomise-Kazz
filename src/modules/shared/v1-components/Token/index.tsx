@@ -25,6 +25,7 @@ import { openInNewTab } from 'utils/click';
 import { base64UrlDecode } from 'utils/encode';
 import { formatNumber } from 'utils/numbers';
 import { isProduction } from 'utils/version';
+import { ReactComponent as LensIcon } from './lens.svg';
 
 type TokenSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -285,21 +286,17 @@ export const Token: FC<{
               {(address || slug) && showAddress && (
                 <div
                   className={clsx(
-                    'flex items-center gap-1 font-mono text-v1-content-secondary',
+                    'flex cursor-copy items-center gap-1 font-mono text-v1-content-primary/50 hover:text-v1-content-primary/70',
                     size === 'md' ? 'text-xs' : 'text-sm',
                   )}
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    void copy(address ?? slugToTokenAddress(slug) ?? '');
+                  }}
                 >
                   {shortenAddress(address ?? slugToTokenAddress(slug))}
-                  <div
-                    className="cursor-copy"
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      void copy(address ?? slugToTokenAddress(slug) ?? '');
-                    }}
-                  >
-                    <Icon name={bxsCopy} size={12} />
-                  </div>
+                  <Icon name={bxsCopy} size={12} />
                 </div>
               )}
               {(networks?.length ?? 0) > 1 && (
@@ -348,7 +345,7 @@ export const TokenLink = ({
 const TokenProgress = ({ progress }: { progress: number }) => {
   return (
     <svg
-      className="absolute inset-0 rounded-md"
+      className="pointer-events-none absolute inset-0 rounded-md"
       height="100%"
       style={{ ['--value' as never]: progress * 100 }}
       viewBox="0 0 40 40"
@@ -412,15 +409,19 @@ export const TokenImage = ({
   const [isFallback, setIsFallback] = useState(false);
   const [fallbackFailed, setFallbackFailed] = useState(false);
 
+  const fallbackSrcBase64 = src?.split('/').pop();
+  const fallbackSrc =
+    fallbackSrcBase64 && !isFallback && src?.includes('cdn-trench')
+      ? base64UrlDecode(fallbackSrcBase64)
+      : '';
+
   const setFallback = () => {
     if (isFallback || !src?.includes('cdn-trench') || !isProduction) {
       setFallbackFailed(true);
       return;
     }
 
-    const fallbackSrcBase64 = src?.split('/').pop();
     if (fallbackSrcBase64) {
-      const fallbackSrc = base64UrlDecode(fallbackSrcBase64);
       setImgSrc(fallbackSrc);
       setIsFallback(true);
     }
@@ -431,29 +432,51 @@ export const TokenImage = ({
   }, [src]);
 
   return (
-    <div
-      className={clsx(
-        'relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-lg border border-white/5 bg-v1-surface-l0 text-3xl text-white/70',
-        size === 'sm' && '!text-base !rounded-md',
-        size === 'xs' && '!rounded-sm text-2xs',
-      )}
+    <HoverTooltip
+      disabled={size === 'xs'}
+      placement="bottomLeft"
+      title={
+        (fallbackSrc || src) && (
+          <a
+            className="group/full-image flex items-center justify-center"
+            href={`https://lens.google.com/uploadbyurl?url=${fallbackSrc || src}`}
+            onClick={e => e.stopPropagation()}
+            target="_blank"
+          >
+            <LensIcon className="group-hover/full-image:!opacity-100 absolute size-10 opacity-0" />
+            <img
+              alt={name ?? ''}
+              className="size-52 rounded-lg group-hover/full-image:opacity-40"
+              src={fallbackSrc || src || undefined}
+            />
+          </a>
+        )
+      }
     >
-      {!isLoaded && (
-        <span className="absolute">
-          {name?.split('').shift()?.toUpperCase()}
-        </span>
-      )}
-      {imgSrc && !fallbackFailed && (
-        <img
-          alt=""
-          className="relative size-full object-cover"
-          loading="lazy"
-          onError={setFallback}
-          onLoad={() => setIsLoaded(true)}
-          src={noCors ? `https://corsproxy.io/?url=${imgSrc}` : imgSrc}
-        />
-      )}
-    </div>
+      <div
+        className={clsx(
+          'relative flex aspect-square h-full items-center justify-center overflow-hidden rounded-lg border border-white/5 bg-v1-surface-l0 text-3xl text-white/70',
+          size === 'sm' && '!text-base !rounded-md',
+          size === 'xs' && '!rounded-sm text-2xs',
+        )}
+      >
+        {!isLoaded && (
+          <span className="absolute">
+            {name?.split('').shift()?.toUpperCase()}
+          </span>
+        )}
+        {imgSrc && !fallbackFailed && (
+          <img
+            alt={name ?? ''}
+            className="relative size-full object-cover"
+            loading="lazy"
+            onError={setFallback}
+            onLoad={() => setIsLoaded(true)}
+            src={noCors ? `https://corsproxy.io/?url=${imgSrc}` : imgSrc}
+          />
+        )}
+      </div>
+    </HoverTooltip>
   );
 };
 

@@ -105,6 +105,19 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             <EmptySentiment value="technical_radar" />
           ),
       },
+      {
+        key: 'quick_buy',
+        title: '',
+        align: 'end',
+        render: row => (
+          <BtnQuickBuy
+            networks={row.networks}
+            slug={row.symbol.slug}
+            source="coin_radar"
+            surface={3}
+          />
+        ),
+      },
     ],
     [t],
   );
@@ -132,13 +145,6 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             dataSource={coins.data?.slice(0, 10)}
             loading={coins.isLoading}
             rowClassName="id-tour-row"
-            rowHoverSuffix={row => (
-              <BtnQuickBuy
-                networks={row.networks}
-                slug={row.symbol.slug}
-                source="coin_radar"
-              />
-            )}
             rowKey={(r, i) => `${r.symbol.slug} ${i}`}
             scrollable
             surface={2}
