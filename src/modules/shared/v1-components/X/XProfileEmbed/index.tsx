@@ -40,7 +40,7 @@ export default function XProfileEmbed({ username }: { username: string }) {
             )}
           </div>
           <div className="flex w-full grow flex-col p-4 pt-3">
-            <div className="flex gap-2">
+            <div className="flex justify-between gap-2">
               <XUser
                 isBlueVerified={data.isBlueVerified}
                 name={data.name}

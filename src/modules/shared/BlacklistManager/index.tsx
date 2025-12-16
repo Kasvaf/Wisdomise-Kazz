@@ -1,5 +1,6 @@
 import { bxBookmarkMinus, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import dayjs from 'dayjs';
 import {
   type BlacklistType,
   MAX_BLACKLISTS_LENGTH,
@@ -109,7 +110,14 @@ export default function BlacklistManager({
                 >
                   <div>
                     <p className="mb-1 text-xs">{item.value}</p>
-                    <Badge variant="soft">{blacklistTypeMap[item.type]}</Badge>
+                    <div>
+                      <Badge variant="soft">
+                        {blacklistTypeMap[item.type]}
+                      </Badge>
+                      <span className="ml-2 text-2xs text-v1-content-secondary">
+                        Added {dayjs(item.created_at).fromNow()}
+                      </span>
+                    </div>
                   </div>
                   <Button
                     fab
