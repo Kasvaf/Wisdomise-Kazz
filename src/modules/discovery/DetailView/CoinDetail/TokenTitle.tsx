@@ -31,6 +31,7 @@ export const TokenTitle: FC<{
     isInitiating,
     socials,
     meta,
+    developer,
   } = useUnifiedCoinDetails();
 
   const { data: tokenUpdate } = useTokenUpdateStream({
@@ -41,6 +42,7 @@ export const TokenTitle: FC<{
 
   const { isHidden } = useHideToken({
     address: symbol.contractAddress,
+    devAddress: developer?.address,
     network: 'solana',
   });
 
@@ -65,6 +67,7 @@ export const TokenTitle: FC<{
               address={symbol.contractAddress ?? undefined}
               block
               categories={symbol.categories}
+              devAddress={developer.address}
               enableBlacklist
               header={
                 <>

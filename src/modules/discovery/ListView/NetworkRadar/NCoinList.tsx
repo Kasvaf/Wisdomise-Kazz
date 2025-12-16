@@ -362,6 +362,7 @@ export const TrenchToken = memo(
   }) => {
     const { isHidden } = useHideToken({
       address: row.symbol?.base,
+      devAddress: row.devData?.address,
       network: 'solana',
     });
 
@@ -406,7 +407,7 @@ export const TrenchToken = memo(
             <Token
               abbreviation={row.symbol?.abbreviation}
               address={row.symbol?.base}
-              devAddress=""
+              devAddress={row.devData?.address}
               enableBlacklist
               extra={
                 !mini && (

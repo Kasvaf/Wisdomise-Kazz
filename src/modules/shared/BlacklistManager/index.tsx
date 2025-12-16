@@ -18,7 +18,7 @@ import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
 
 const blacklistTypeMap: Record<BlacklistType, string> = {
   ca: 'Contract Address',
-  dev: 'Developer',
+  dev: 'Developer Address',
   keyword: 'Keyword',
 };
 
@@ -79,7 +79,7 @@ export default function BlacklistManager({
                   {Object.entries(blacklistTypeMap).map(([key, value]) => (
                     <Button
                       className={clsx(
-                        key !== 'ca' && '!hidden',
+                        key === 'keyword' && '!hidden',
                         'w-full justify-start',
                       )}
                       key={key}

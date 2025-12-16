@@ -446,7 +446,7 @@ export const TokenImage = ({
             <LensIcon className="group-hover/full-image:!opacity-100 absolute size-10 opacity-0" />
             <img
               alt={name ?? ''}
-              className="h-auto min-h-20 w-52 rounded-lg group-hover/full-image:opacity-40"
+              className="h-auto min-h-20 w-52 rounded-md group-hover/full-image:opacity-40"
               src={fallbackSrc || src || undefined}
             />
           </a>
