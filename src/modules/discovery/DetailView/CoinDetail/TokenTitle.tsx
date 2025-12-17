@@ -67,7 +67,7 @@ export const TokenTitle: FC<{
               address={symbol.contractAddress ?? undefined}
               block
               categories={symbol.categories}
-              devAddress={developer.address}
+              devAddress={developer?.address}
               enableBlacklist
               header={
                 <>
