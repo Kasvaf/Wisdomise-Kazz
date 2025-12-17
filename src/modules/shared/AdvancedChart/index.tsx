@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useTokenPairsQuery } from 'services/rest';
 import { useChartMarks } from 'shared/AdvancedChart/Marks/useChartMarks';
+import { useKnownWallets } from 'shared/AdvancedChart/useKnownWallets';
 import { formatNumber } from 'utils/numbers';
 import {
   type IChartingLibraryWidget,
@@ -40,6 +41,12 @@ const AdvancedChart: React.FC<{
   const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
   const { marksRef, addSwap, setMigratedAt } = useChartMarks();
   const { totalSupply } = useTotalSupply();
+  const knownWallets = useKnownWallets();
+  const knownWalletsRef = useRef(knownWallets);
+
+  useEffect(() => {
+    knownWalletsRef.current = knownWallets || [];
+  }, [knownWallets]);
 
   const [quote, setQuote] = useActiveQuote();
   const { data: pairs } = useTokenPairsQuery(slug);
@@ -65,6 +72,7 @@ const AdvancedChart: React.FC<{
         marksRef,
         addSwap,
         setMigratedAt,
+        walletsRef: knownWalletsRef,
       }),
       // datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
       //   'https://demo-feed-data.tradingview.com',

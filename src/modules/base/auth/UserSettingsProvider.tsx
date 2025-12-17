@@ -485,8 +485,8 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
       return {
         ...prev,
         blacklists: [
-          ...prev.blacklists,
           { ...item, created_at: new Date().toISOString() },
+          ...prev.blacklists,
         ],
       };
     });

@@ -137,7 +137,7 @@ export function XTweetEmbed({
                 verifiedType={value.user.verifiedType}
               />
               <a
-                className="flex flex-col items-center gap-2"
+                className="flex flex-col items-end gap-2"
                 href={tweetUrl}
                 target="_blank"
               >

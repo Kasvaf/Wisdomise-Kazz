@@ -38,7 +38,7 @@ const GreenRedChart: FC<{
             value={value}
           />
         ))}
-        <span className="-translate-x-1/2 absolute left-1/2 text-2xs text-v1-content-secondary">
+        <span className="-translate-x-1/2 absolute left-1/2 text-xs">
           {values[1] === 0 ? (
             '∞'
           ) : (

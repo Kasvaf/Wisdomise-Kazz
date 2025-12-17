@@ -28,5 +28,6 @@ export const useKolWallets = ({
       });
       return data;
     },
+    staleTime: 60 * 1000,
   });
 };

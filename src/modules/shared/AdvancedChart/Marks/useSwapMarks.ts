@@ -2,8 +2,8 @@ import { enrichSwap } from 'modules/autoTrader/useEnrichedSwaps';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useTotalSupply } from 'modules/discovery/DetailView/CoinDetail/useTotalSupply';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
-import { useMemo } from 'react';
-import { useAllWallets } from 'services/chains/wallet';
+import { useEffect, useMemo, useState } from 'react';
+import { useUserWallets } from 'services/chains/wallet';
 import type { Swap } from 'services/grpc/proto/delphinus';
 import { useKolWallets } from 'services/rest/kol';
 import {
@@ -14,14 +14,22 @@ import { formatNumber } from 'utils/numbers';
 import type { Mark } from '../../../../../public/charting_library';
 
 export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
+  const { symbol } = useUnifiedCoinDetails();
   const [convertToUsd] = useChartConvertToUSD();
   const [isMarketCap] = useChartIsMarketCap();
   const { totalSupply } = useTotalSupply();
+  const [marks, setMarks] = useState<Mark[]>([]);
   const namedSwaps = useNamedSwaps({ swaps });
 
-  return useMemo(() => {
-    return (
-      namedSwaps.map(s => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    setMarks([]);
+  }, [isMarketCap, convertToUsd, symbol.contractAddress]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    for (const s of namedSwaps) {
+      if (!marks.map(m => m.id).includes(s.txId)) {
         const swap = enrichSwap(s);
 
         const priceOrMc =
@@ -47,26 +55,30 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
         const dirLabel = swap.dir === 'buy' ? 'B' : 'S';
         const label = `${s.label ? s.label : ''}${!s.label || s.name === 'Dev' ? dirLabel : ''}`;
 
-        return {
+        const mark: Mark = {
           id: swap.txId,
           label,
           labelFontColor: 'white',
           minSize: 25,
           imageUrl: s.image,
           time: Math.floor(new Date(s.relatedAt).getTime() / 1000),
-          price: priceOrMc,
           text,
           color: swap.dir === 'buy' ? 'green' : 'red',
-        } as Mark;
-      }) ?? []
-    );
-  }, [convertToUsd, isMarketCap, namedSwaps, totalSupply]);
+        };
+        setMarks(prev => {
+          return [...prev, mark];
+        });
+      }
+    }
+  }, [namedSwaps, isMarketCap, totalSupply, convertToUsd]);
+
+  return marks;
 };
 
 export const useNamedSwaps = ({ swaps }: { swaps: Swap[] }) => {
   const wallets = useTrackedWallets();
   const { developer } = useUnifiedCoinDetails();
-  const userWallets = useAllWallets();
+  const userWallets = useUserWallets();
   const { data: kols } = useKolWallets({});
 
   return useMemo(() => {

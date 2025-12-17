@@ -1040,5 +1040,6 @@ export const useTokenTweets = ({
       return data;
     },
     enabled: !!contractAddress,
+    refetchInterval: 10 * 1000,
   });
 };

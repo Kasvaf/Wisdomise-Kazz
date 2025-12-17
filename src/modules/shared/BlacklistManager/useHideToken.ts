@@ -12,14 +12,21 @@ export const useHideToken = ({
 }) => {
   const { settings } = useUserSettings();
 
-  const isHidden = useMemo(() => {
+  const isHiddenByDev = useMemo(() => {
     return settings.blacklists.some(
-      i =>
-        i.network === network &&
-        ((i.type === 'ca' && i.value === address) ||
-          (i.type === 'dev' && i.value === devAddress)),
+      i => i.network === network && i.type === 'dev' && i.value === devAddress,
     );
-  }, [address, network, settings.blacklists, devAddress]);
+  }, [network, settings.blacklists, devAddress]);
 
-  return { isHidden };
+  const isHiddenByCA = useMemo(() => {
+    return settings.blacklists.some(
+      i => i.network === network && i.type === 'ca' && i.value === address,
+    );
+  }, [address, network, settings.blacklists]);
+
+  return {
+    isHidden: isHiddenByDev || isHiddenByCA,
+    isHiddenByCA,
+    isHiddenByDev,
+  };
 };

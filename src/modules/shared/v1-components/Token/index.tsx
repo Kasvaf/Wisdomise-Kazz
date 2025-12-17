@@ -1,7 +1,8 @@
-import { bxHide, bxShow, bxsCopy, bxUser, bxUserX } from 'boxicons-quasar';
+import { bxHide, bxShow, bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { ReactComponent as UnBlackListDevIcon } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/dev_holding.svg';
 import { type FC, type ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -25,6 +26,7 @@ import { openInNewTab } from 'utils/click';
 import { base64UrlDecode } from 'utils/encode';
 import { formatNumber } from 'utils/numbers';
 import { isProduction } from 'utils/version';
+import { ReactComponent as BlackListDevIcon } from './blacklist_dev.svg';
 import { ReactComponent as LensIcon } from './lens.svg';
 
 type TokenSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -490,10 +492,10 @@ const BtnHideToken = ({
   className?: string;
 }) => {
   const { addBlacklist } = useUserSettings();
-  const { isHidden } = useHideToken({ address, network: 'solana' });
+  const { isHiddenByCA } = useHideToken({ address, network: 'solana' });
 
   return (
-    <HoverTooltip title={isHidden ? 'Show Token' : 'Hide Token'}>
+    <HoverTooltip title={isHiddenByCA ? 'Show Token' : 'Hide Token'}>
       <Button
         className={className}
         fab
@@ -510,7 +512,7 @@ const BtnHideToken = ({
         size={size}
         variant="outline"
       >
-        <Icon name={isHidden ? bxShow : bxHide} />
+        <Icon name={isHiddenByCA ? bxShow : bxHide} />
       </Button>
     </HoverTooltip>
   );
@@ -526,10 +528,10 @@ const BtnBlacklistDev = ({
   devAddress?: string | null;
 }) => {
   const { addBlacklist } = useUserSettings();
-  const { isHidden } = useHideToken({ network: 'solana', devAddress });
+  const { isHiddenByDev } = useHideToken({ network: 'solana', devAddress });
 
   return (
-    <HoverTooltip title={isHidden ? 'Unblacklist Dev' : 'Blacklist Dev'}>
+    <HoverTooltip title={isHiddenByDev ? 'Unblacklist Dev' : 'Blacklist Dev'}>
       <Button
         className={className}
         fab
@@ -546,7 +548,7 @@ const BtnBlacklistDev = ({
         size={size}
         variant="outline"
       >
-        <Icon name={isHidden ? bxUser : bxUserX} />
+        {isHiddenByDev ? <UnBlackListDevIcon /> : <BlackListDevIcon />}
       </Button>
     </HoverTooltip>
   );

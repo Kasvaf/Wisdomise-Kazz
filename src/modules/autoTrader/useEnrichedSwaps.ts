@@ -19,6 +19,89 @@ const QUOTES_ADDRESSES = [
   USDT_CONTRACT_ADDRESS,
 ];
 
+export const useTokenSwaps = ({
+  tokenAddress,
+  network,
+  wallets,
+  enabled = true,
+}: {
+  tokenAddress?: string;
+  wallets?: string[];
+  network: string;
+  enabled?: boolean;
+}) => {
+  const [quote] = useActiveQuote();
+  const { data: history, isLoading: l1 } = useGrpc({
+    service: 'delphinus',
+    method: 'swapsHistory',
+    payload: {
+      network,
+      asset: tokenAddress,
+      wallets,
+    },
+    enabled: enabled,
+    history: 0,
+  });
+
+  // console.log(
+  //   'history',
+  //   history?.swaps?.find(
+  //     s => s.wallet === '2foGd2F4hY5SRDXdyhX4nMxtQczk7p2fZ5GuczmvsgBZ',
+  //   ),
+  // );
+
+  const { history: streamHistory, isLoading: l2 } = useAssetEventStream({
+    payload: {
+      network,
+      asset: tokenAddress!,
+      lastCandleOptions: {
+        quote: slugToTokenAddress(quote),
+        market: 'SPOT',
+        convertToUsd: false,
+      },
+    },
+    enabled: !!tokenAddress && enabled,
+    history: 200,
+  });
+
+  // console.log(
+  //   'stream',
+  //   streamHistory.find(
+  //     s => s.swap?.wallet === '2foGd2F4hY5SRDXdyhX4nMxtQczk7p2fZ5GuczmvsgBZ',
+  //   ),
+  // );
+
+  const data = useMemo(() => {
+    const swaps = (
+      history
+        ? uniqueBy(
+            [
+              ...(streamHistory
+                ?.filter(s =>
+                  wallets?.length
+                    ? wallets?.includes(s.swap?.wallet ?? '')
+                    : true,
+                )
+                ?.map(x => x.swap)
+                .toReversed() ?? []),
+              ...(history?.swaps ?? []),
+            ]
+              .filter(s => !!s)
+              .filter(s => !SwapAssetsAreBothQuotes(s)),
+            x => x.txId,
+          )
+        : []
+    ).slice(0, 200);
+
+    return swaps.map(row => enrichSwap(row));
+  }, [history, streamHistory, wallets]);
+
+  return {
+    data,
+    isLoading: l1 || l2,
+  };
+};
+
 export const useEnrichedSwaps = ({
   tokenAddress,
   network,
@@ -37,6 +120,7 @@ export const useEnrichedSwaps = ({
     payload: {
       network,
       asset: tokenAddress,
+      wallets,
     },
     enabled: enabled && !wallets,
     history: 0,

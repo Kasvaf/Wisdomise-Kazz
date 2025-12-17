@@ -119,7 +119,7 @@ export const useActiveWallet = () => {
   };
 };
 
-export const useAllWallets = () => {
+export const useUserWallets = () => {
   const { data } = useWalletsQuery();
   const { address, connected } = useConnectedWallet();
 

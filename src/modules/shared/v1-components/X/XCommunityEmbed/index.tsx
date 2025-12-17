@@ -76,7 +76,7 @@ export default function XCommunityEmbed({
                 {data.community_info.name}
               </a>
               <a
-                className="flex flex-col items-center gap-1"
+                className="flex flex-col items-end gap-1"
                 href={communityUrl}
                 target="_blank"
               >
