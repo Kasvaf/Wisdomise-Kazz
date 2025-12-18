@@ -18,7 +18,6 @@ import { TokenLabels, TokenNetworksLabel } from 'shared/CoinLabels';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { TokenSocials } from 'shared/TokenSocials';
-import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { useShare } from 'shared/useShare';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { shortenAddress } from 'utils/address';
@@ -103,7 +102,6 @@ export const Token: FC<{
     tokenAddress: address ?? undefined,
     enabled: autoFill,
   });
-  const [globalNetwork] = useGlobalNetwork();
   const [copy, copyNotif] = useShare('copy');
 
   const RootComponent = link ? TokenLink : 'div';
@@ -256,10 +254,7 @@ export const Token: FC<{
               )}
               <TokenSocials
                 abbreviation={abbreviation}
-                contractAddress={
-                  networks?.filter(x => x.network.slug === globalNetwork)?.[0]
-                    ?.contract_address
-                }
+                contractAddress={address}
                 hideSearch={!abbreviation || truncate}
                 name={name}
                 size="xs"
