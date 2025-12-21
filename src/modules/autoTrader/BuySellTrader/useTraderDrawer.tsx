@@ -1,10 +1,10 @@
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import { useTokenInfo } from 'api/token-info';
 import { clsx } from 'clsx';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { useCallback, useEffect, useState } from 'react';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useTokenInfo } from 'services/rest/token-info';
 import Spinner from 'shared/Spinner';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { Token } from 'shared/v1-components/Token';

@@ -1,8 +1,8 @@
-import { useNetworks } from 'api/discovery';
-import type { Coin as CoinType } from 'api/types/shared';
 import { clsx } from 'clsx';
 import { type ReactNode, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useNetworks } from 'services/rest/discovery';
+import type { Coin as CoinType } from 'services/rest/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
 import NetworkIcon from './NetworkIcon';

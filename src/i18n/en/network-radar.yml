@@ -19,17 +19,17 @@ security:
 token_insight:
   title: Token Info
   bundle_holding:
-    full: Bundlers Holding Percentage
+    full: Bundlers Holding
     mini: Bundlers
   dev_holding:
-    full: Developer Holding Percentage
+    full: Developer Holding
     mini: Dev H.
   insiders_holding:
-    full: Insiders Holding Percentage
+    full: Insiders Holding
     mini: Insiders
   snipers_holding:
-    full: Snipers Holding Percentage
+    full: Snipers Holding
     mini: Snipers H.
   top_10_holders_holding:
-    full: Top 10 Holders Holding Percentage
+    full: Top 10 Holders Holding
     mini: Top 10 H.

@@ -1,10 +1,10 @@
-import { useOrdersQuery } from 'api/order';
-import { slugToTokenAddress, useTokenInfo } from 'api/token-info';
 import type { SwapState } from 'modules/autoTrader/BuySellTrader/useSwapState';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { orderTypeMap } from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Orders';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useRef } from 'react';
+import { useOrdersQuery } from 'services/rest/order';
+import { slugToTokenAddress, useTokenInfo } from 'services/rest/token-info';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import {
   useChartConvertToUSD,

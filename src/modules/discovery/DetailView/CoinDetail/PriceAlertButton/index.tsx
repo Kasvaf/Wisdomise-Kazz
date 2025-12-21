@@ -1,10 +1,10 @@
-import { useHasFlag } from 'api';
-import { type Alert, useAlerts } from 'api/alert';
 import { bxBell } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'services/rest';
+import { type Alert, useAlerts } from 'services/rest/alert';
 import { DebugPin } from 'shared/DebugPin';
 import Icon from 'shared/Icon';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';

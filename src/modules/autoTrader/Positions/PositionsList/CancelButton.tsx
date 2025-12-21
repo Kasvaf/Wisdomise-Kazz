@@ -1,9 +1,9 @@
+import { bxX } from 'boxicons-quasar';
 import {
   type Position,
   useSupportedNetworks,
   useTraderCancelPositionMutation,
-} from 'api';
-import { bxX } from 'boxicons-quasar';
+} from 'services/rest';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';

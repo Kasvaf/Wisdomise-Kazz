@@ -1,6 +1,7 @@
-import { initialQuoteAsset, type Position, useLastPriceStream } from 'api';
 import logo from 'assets/logo-white.svg';
 import { useRef, useState } from 'react';
+import { useLastPriceStream } from 'services/price';
+import { initialQuoteAsset, type Position } from 'services/rest';
 import PriceChange from 'shared/PriceChange';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import SharingModal from 'shared/ShareTools/SharingModal';

@@ -1,7 +1,7 @@
-import { useSocialRadarMessages } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSocialRadarMessages } from 'services/rest/discovery';
 import { Button } from 'shared/v1-components/Button';
 import { Table } from 'shared/v1-components/Table';
 import { useUnifiedCoinDetails } from '../lib';

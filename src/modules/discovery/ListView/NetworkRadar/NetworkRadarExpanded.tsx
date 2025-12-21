@@ -2,6 +2,7 @@ import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { useTranslation } from 'react-i18next';
+import BlacklistManager from 'shared/BlacklistManager';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { useNetworkRadarStream } from './lib';
@@ -29,6 +30,8 @@ export function NetworkRadarExpanded({ className }: { className?: string }) {
         <HoverTooltip title={t('page.info')}>
           <Icon className="size-5" name={bxInfoCircle} size={20} />
         </HoverTooltip>
+
+        <BlacklistManager className="ml-auto" />
       </h2>
 
       <NCoinList

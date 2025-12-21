@@ -1,5 +1,5 @@
-import type { ExchangeTypes } from 'api';
 import type React from 'react';
+import type { ExchangeTypes } from 'services/rest';
 import ComboBox from 'shared/ComboBox';
 
 // const exchangeIcons = {

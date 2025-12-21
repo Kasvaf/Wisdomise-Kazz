@@ -1,7 +1,7 @@
-import { useSubscription } from 'api';
 import { clsx } from 'clsx';
 import { SubscriptionIcon } from 'modules/account/PageAccount/icons';
 import { useTranslation } from 'react-i18next';
+import { useSubscription } from 'services/rest';
 import { ReadableDuration } from 'shared/ReadableDuration';
 import BoxedIcon from './BoxedIcon';
 import MenuItem from './MenuItem';

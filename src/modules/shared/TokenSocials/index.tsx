@@ -1,13 +1,14 @@
 import { Spin } from 'antd';
-import type { CoinCommunityData } from 'api/discovery';
-import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import { type FC, memo, Suspense, useMemo } from 'react';
+import type { SymbolSocailAddresses } from 'services/grpc/proto/network_radar';
+import type { CoinCommunityData } from 'services/rest/discovery';
 import { HoverTooltip } from 'shared/HoverTooltip';
-import { ReactComponent as XCommunityIcon } from '../v1-components/X/XCommunityEmbed/x-community.svg';
-import { ReactComponent as XPostIcon } from '../v1-components/X/XPostEmbed/x-post.svg';
-import { ReactComponent as XProfileIcon } from '../v1-components/X/XProfileEmbed/x-profile.svg';
-import { ReactComponent as XIcon } from '../v1-components/X/x.svg';
+import { ReactComponent as XCommunityIcon } from 'shared/v1-components/X/assets/community.svg';
+import { ReactComponent as XProfileIcon } from 'shared/v1-components/X/assets/profile.svg';
+import { ReactComponent as XPostIcon } from 'shared/v1-components/X/assets/tweet.svg';
+import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
+import { getXSearchUrl } from 'shared/v1-components/X/utils';
 import { getLogo, resolveSocials, type Social } from './lib';
 import { parseXUrl, SocialPreview } from './SocialPreview';
 import { ReactComponent as XSearchIcon } from './x-search.svg';
@@ -32,8 +33,6 @@ export const TokenSocials: FC<{
   }) => {
     const socials = useMemo(() => resolveSocials(value), [value]);
 
-    const go = (href: string) => window.open(href, '_blank');
-
     return (
       <div
         className={clsx(
@@ -47,7 +46,7 @@ export const TokenSocials: FC<{
           <HoverTooltip
             key={social.url.href}
             placement="bottom"
-            rootClassName="[&_.ant-tooltip-inner]:!p-0 [&_.ant-tooltip-inner]:overflow-auto [&_.ant-tooltip-inner]:max-h-96"
+            rootClassName="[&_.ant-tooltip-inner]:!p-0 !border-transparent [&_.ant-tooltip-inner]:overflow-auto [&_.ant-tooltip-inner]:max-h-96"
             title={
               <Suspense fallback={<Spin />}>
                 <SocialPreview social={social} />
@@ -65,7 +64,7 @@ export const TokenSocials: FC<{
               onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
-                go(social.url.href);
+                window.open(social.url.href, '_blank');
               }}
             >
               {social && <SocialIcon social={social} />}
@@ -73,23 +72,28 @@ export const TokenSocials: FC<{
           </HoverTooltip>
         ))}
         {!hideSearch && (
-          <button
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              go(
-                `https://x.com/search?q=(${[
-                  abbreviation && `$${abbreviation}`,
-                  name && !name.includes(' ') && `${name}`,
-                  contractAddress,
-                ]
-                  .filter(x => !!x)
-                  .join('%20OR%20')})&src=typed_query&f=live`,
-              );
-            }}
-          >
-            <XSearchIcon className="size-4" />
-          </button>
+          <HoverTooltip title="Search on X">
+            <button
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(
+                  getXSearchUrl(
+                    `(${[
+                      abbreviation && `$${abbreviation}`,
+                      name && !name.includes(' ') && `${name}`,
+                      contractAddress,
+                    ]
+                      .filter(x => !!x)
+                      .join(' OR ')})&src=typed_query&f=live`,
+                  ),
+                  '_blank',
+                );
+              }}
+            >
+              <XSearchIcon className="size-4" />
+            </button>
+          </HoverTooltip>
         )}
       </div>
     );
@@ -104,7 +108,7 @@ const SocialIcon = ({ social }: { social: Social }) => {
       return <XProfileIcon className="size-4" />;
     if (res.type === 'community' && res.communityId)
       return <XCommunityIcon className="size-4" />;
-    return <XIcon className="size-4" />;
+    return <XIcon className="size-[15px]" />;
   } else {
     return (
       <img

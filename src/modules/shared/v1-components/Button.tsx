@@ -1,5 +1,11 @@
 import { clsx } from 'clsx';
-import { type FC, type MouseEvent, type ReactNode, useState } from 'react';
+import {
+  type AnchorHTMLAttributes,
+  type ButtonHTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
+  useState,
+} from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
 export type ButtonSize =
@@ -12,7 +18,8 @@ export type ButtonSize =
   | 'xl'
   | '2xl';
 
-export interface ButtonProps {
+type ButtonAs = 'button' | 'a';
+export type ButtonProps<T extends ButtonAs = 'button'> = {
   size?: ButtonSize;
   fab?: boolean;
   variant?:
@@ -34,17 +41,18 @@ export interface ButtonProps {
   children?: ReactNode;
   className?: string;
   onClick?: (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    e: MouseEvent<HTMLElement, globalThis.MouseEvent>,
   ) => unknown | Promise<unknown>;
   surface?: Surface;
-  type?: 'button' | 'submit';
-}
+  as?: T;
+} & (T extends 'button'
+  ? ButtonHTMLAttributes<HTMLButtonElement>
+  : AnchorHTMLAttributes<HTMLAnchorElement>);
 
-export const Button: FC<ButtonProps> = ({
+export const Button = <T extends ButtonAs = 'button'>({
   size = 'xl',
   fab,
   variant = 'primary',
-  children,
   className,
   disabled,
   loading,
@@ -52,11 +60,16 @@ export const Button: FC<ButtonProps> = ({
   onClick,
   surface = 1,
   type,
-}) => {
+  as,
+  children,
+  ...props
+}: ButtonProps<T>) => {
   const [localLoading, setLocalLoading] = useState(false);
   const colors = useSurface(surface);
+  const RootComponent = as || ('button' as any);
+
   return (
-    <button
+    <RootComponent
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
         size === '3xs' && 'h-5 rounded text-2xs',
@@ -77,42 +90,42 @@ export const Button: FC<ButtonProps> = ({
         size === '2xl' && (fab ? 'w-2xl' : 'px-5'),
         /* Variant: background-color, color, :hover, :active */
         variant === 'primary' &&
-          'border-v1-background-brand bg-v1-background-brand text-v1-content-primary-inverse enabled:active:bg-v1-background-brand-pressed enabled:hover:bg-v1-background-brand-hover',
+          'border-v1-background-brand bg-v1-background-brand text-v1-content-primary-inverse [&:not([disabled])]:hover:bg-v1-background-brand-hover [&:not([disabled])]:active:bg-v1-background-brand-pressed',
         variant === 'secondary' &&
-          'border-v1-background-secondary bg-v1-background-secondary text-v1-content-primary enabled:active:bg-v1-background-secondary-pressed enabled:hover:bg-v1-background-secondary-hover',
+          'border-v1-background-secondary bg-v1-background-secondary text-v1-content-primary [&:not([disabled])]:hover:bg-v1-background-secondary-hover [&:not([disabled])]:active:bg-v1-background-secondary-pressed',
         variant === 'outline' &&
-          'border-white/5 bg-(--ghost-color) text-v1-content-primary enabled:active:border-white/100 enabled:hover:border-white/50',
+          'border-white/5 bg-(--ghost-color) text-v1-content-primary [&:not([disabled])]:hover:border-white/50 [&:not([disabled])]:active:border-white/100',
         variant === 'ghost' &&
-          'border-transparent bg-(--ghost-color) text-v1-content-primary enabled:active:bg-(--ghost-color) enabled:hover:bg-(--ghost-hover-color)',
+          'border-transparent bg-(--ghost-color) text-v1-content-primary [&:not([disabled])]:hover:bg-(--ghost-hover-color) [&:not([disabled])]:active:bg-(--ghost-color)',
         variant === 'pro' &&
-          'border-transparent bg-pro-gradient text-v1-content-primary-inverse enabled:active:brightness-125 enabled:hover:brightness-[1.15]',
+          'border-transparent bg-pro-gradient text-v1-content-primary-inverse [&:not([disabled])]:hover:brightness-[1.15] [&:not([disabled])]:active:brightness-125',
         variant === 'wsdm' &&
-          'border-transparent bg-brand-gradient text-v1-content-primary enabled:active:brightness-125 enabled:hover:brightness-[1.15]',
+          'border-transparent bg-brand-gradient text-v1-content-primary [&:not([disabled])]:hover:brightness-[1.15] [&:not([disabled])]:active:brightness-125',
         variant === 'white' &&
-          'border-white bg-white text-v1-content-primary-inverse enabled:active:bg-white/100 enabled:hover:bg-white/90',
+          'border-white bg-white text-v1-content-primary-inverse [&:not([disabled])]:hover:bg-white/90 [&:not([disabled])]:active:bg-white/100',
         variant === 'link' &&
-          'border-transparent text-v1-content-link enabled:active:text-v1-content-link-pressed enabled:hover:text-v1-content-link-hover',
+          'border-transparent text-v1-content-link [&:not([disabled])]:hover:text-v1-content-link-hover [&:not([disabled])]:active:text-v1-content-link-pressed',
         variant === 'negative' &&
-          'border-v1-border-negative bg-v1-background-negative text-v1-content-primary-inverse enabled:hover:bg-v1-background-negative/90',
+          'border-v1-border-negative bg-v1-background-negative text-v1-content-primary-inverse [&:not([disabled])]:hover:bg-v1-background-negative/90',
         variant === 'negative_outline' &&
-          'border-v1-border-negative bg-transparent text-v1-content-negative enabled:active:bg-transparent enabled:hover:bg-v1-background-negative/15',
+          'border-v1-border-negative bg-transparent text-v1-content-negative [&:not([disabled])]:hover:bg-v1-background-negative/15 [&:not([disabled])]:active:bg-transparent',
         variant === 'positive' &&
-          'border-v1-border-positive bg-v1-background-positive text-v1-content-primary-inverse enabled:hover:bg-v1-background-positive',
+          'border-v1-border-positive bg-v1-background-positive text-v1-content-primary-inverse [&:not([disabled])]:hover:bg-v1-background-positive',
         variant === 'positive_outline' &&
-          'border-v1-border-positive bg-transparent text-v1-content-positive enabled:active:bg-transparent enabled:hover:bg-v1-background-positive/15',
+          'border-v1-border-positive bg-transparent text-v1-content-positive [&:not([disabled])]:hover:bg-v1-background-positive/15 [&:not([disabled])]:active:bg-transparent',
         /* Loading */
         (loading || localLoading) && 'animate-pulse',
         /* Disabled */
         'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-none disabled:bg-white/5 disabled:text-white/50 disabled:grayscale',
         /* Shared */
-        'outline-none enabled:focus-visible:border-v1-border-focus',
+        'outline-none [&:not([disabled])]:focus-visible:border-v1-border-focus',
         'relative select-none border font-normal transition-all [&_svg]:size-5 [&_svg]:shrink-0',
         block ? 'flex' : 'inline-flex',
         'items-center justify-center gap-1',
         className,
       )}
       disabled={disabled || loading || localLoading}
-      onClick={e => {
+      onClick={(e: MouseEvent<HTMLElement, globalThis.MouseEvent>) => {
         const ret = onClick?.(e);
         if (ret && ret instanceof Promise) {
           setLocalLoading(true);
@@ -126,9 +139,9 @@ export const Button: FC<ButtonProps> = ({
         ['--ghost-color' as never]: colors.current,
         ['--ghost-hover-color' as never]: colors.next,
       }}
-      type={type}
+      {...props}
     >
       {children}
-    </button>
+    </RootComponent>
   );
 };

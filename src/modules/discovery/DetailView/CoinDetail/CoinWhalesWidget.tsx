@@ -1,9 +1,8 @@
-import { type CoinWhale, useCoinWhales } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
-
 import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { type CoinWhale, useCoinWhales } from 'services/rest/discovery';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
 import { Network } from 'shared/Network';

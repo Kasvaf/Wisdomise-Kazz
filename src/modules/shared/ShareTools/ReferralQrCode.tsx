@@ -1,7 +1,7 @@
-import { useReferralStatusQuery } from 'api';
 import { clsx } from 'clsx';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import { QRCodeSVG } from 'qrcode.react';
+import { useReferralStatusQuery } from 'services/rest';
 
 export default function ReferralQrCode({ className }: { className?: string }) {
   const myReferralLink = useReferral();

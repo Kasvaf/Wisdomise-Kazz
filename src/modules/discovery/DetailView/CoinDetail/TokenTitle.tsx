@@ -3,13 +3,14 @@ import { BtnTokenShare } from 'modules/discovery/DetailView/CoinDetail/BtnTokenS
 import { doesNCoinHaveLargeTxns } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
-import { NCoinDeveloper } from 'modules/discovery/ListView/NetworkRadar/NCoinDeveloper';
 import {
   MetaTag,
   NCoinBCurve,
 } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTokenUpdateStream } from 'services/grpc/tokenUpdate';
+import { useHideToken } from 'shared/BlacklistManager/useHideToken';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Skeleton from 'shared/v1-components/Skeleton';
 import { Token } from 'shared/v1-components/Token';
@@ -23,7 +24,6 @@ export const TokenTitle: FC<{
   const { t } = useTranslation('network-radar');
   const {
     symbol,
-    developer,
     createdAt,
     marketData,
     securityData,
@@ -31,7 +31,20 @@ export const TokenTitle: FC<{
     isInitiating,
     socials,
     meta,
+    developer,
   } = useUnifiedCoinDetails();
+
+  const { data: tokenUpdate } = useTokenUpdateStream({
+    network: 'solana',
+    tokenAddress: symbol.contractAddress ?? undefined,
+    resolution: 'all-time',
+  });
+
+  const { isHidden } = useHideToken({
+    address: symbol.contractAddress,
+    devAddress: developer?.address,
+    network: 'solana',
+  });
 
   return (
     <>
@@ -43,18 +56,24 @@ export const TokenTitle: FC<{
         )}
       >
         {symbol.name ? (
-          <div className="flex w-full items-center justify-start gap-2 max-md:w-full max-md:flex-wrap">
+          <div
+            className={clsx(
+              'flex items-center justify-start gap-2 max-md:w-full max-md:flex-wrap',
+              isHidden && 'opacity-60',
+            )}
+          >
             <Token
               abbreviation={symbol.abbreviation ?? undefined}
               address={symbol.contractAddress ?? undefined}
               block
               categories={symbol.categories}
+              devAddress={developer?.address}
+              enableBlacklist
               header={
                 <>
-                  {developer && <NCoinDeveloper value={developer} />}
                   {createdAt && (
                     <>
-                      <span className="size-[2px] rounded-full bg-white" />
+                      <span>·</span>
                       <NCoinAge className="text-xs" inline value={createdAt} />
                     </>
                   )}
@@ -98,7 +117,6 @@ export const TokenTitle: FC<{
                 <div className="flex flex-col justify-between gap-2">
                   <p className="text-v1-content-secondary text-xs">
                     {t('common.buy_sell')}
-                    {' (24h)'}
                     {doesNCoinHaveLargeTxns({
                       totalNumBuys: marketData.totalNumBuys24h ?? 0,
                       totalNumSells: marketData.totalNumSells24h ?? 0,
@@ -108,10 +126,10 @@ export const TokenTitle: FC<{
                   </p>
                   <NCoinBuySell
                     className="text-xs"
-                    imgClassName="size-4"
+                    imgClassName="size-3"
                     value={{
-                      buys: marketData.totalNumBuys24h ?? 0,
-                      sells: marketData.totalNumSells24h ?? 0,
+                      buys: tokenUpdate?.numBuys ?? 0,
+                      sells: tokenUpdate?.numSells ?? 0,
                     }}
                   />
                 </div>

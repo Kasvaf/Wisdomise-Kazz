@@ -1,10 +1,13 @@
-import { useAccountQuery } from 'api';
-import { useActiveWallet } from 'api/chains/wallet';
-import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { clsx } from 'clsx';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import { type ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useActiveWallet } from 'services/chains/wallet';
+import { useAccountQuery } from 'services/rest';
+import {
+  useGenerateNonceQuery,
+  useNonceVerificationMutation,
+} from 'services/rest/defi';
 import Card from 'shared/Card';
 import Spinner from 'shared/Spinner';
 import { Button } from 'shared/v1-components/Button';

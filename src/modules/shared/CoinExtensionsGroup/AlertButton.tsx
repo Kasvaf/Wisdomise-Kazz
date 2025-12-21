@@ -1,14 +1,14 @@
-import { useHasFlag } from 'api';
-import { useAlerts } from 'api/alert';
 import { bxBell } from 'boxicons-quasar';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import type { ComponentProps, FC } from 'react';
+import { useHasFlag } from 'services/rest';
+import { useAlerts } from 'services/rest/alert';
 import { DebugPin } from 'shared/DebugPin';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 
 export const AlertButton: FC<
-  Omit<ComponentProps<typeof Button>, 'variant' | 'onClick' | 'fab'>
+  Omit<ComponentProps<typeof Button<'button'>>, 'variant' | 'onClick' | 'fab'>
 > = props => {
   const hasFlag = useHasFlag();
   const { openSaveModal: openAlert, content: alertModal } = useAlertActions(

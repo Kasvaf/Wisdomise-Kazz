@@ -1,5 +1,8 @@
-import type { LeaderboardParticipant, PromotionStatus } from 'api/tournament';
 import { clsx } from 'clsx';
+import type {
+  LeaderboardParticipant,
+  PromotionStatus,
+} from 'services/rest/tournament';
 import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as IconUser } from '../user.svg';

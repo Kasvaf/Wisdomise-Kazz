@@ -1,10 +1,10 @@
 import { Steps } from 'antd';
-import { useLockingRequirementQuery } from 'api/defi';
-import type { SubscriptionPlan } from 'api/types/subscription';
 import { useVipAccessFlow } from 'modules/account/PageBilling/useVipAccessFlow';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useLockingRequirementQuery } from 'services/rest/defi';
+import type { SubscriptionPlan } from 'services/rest/types/subscription';
 import Card from 'shared/Card';
 import { Button } from 'shared/v1-components/Button';
 import { useCountdown } from 'usehooks-ts';

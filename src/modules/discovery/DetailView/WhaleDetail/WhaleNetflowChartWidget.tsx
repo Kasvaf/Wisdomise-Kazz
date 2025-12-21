@@ -1,8 +1,8 @@
 import { Tooltip } from 'antd';
-import { useWhaleDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useWhaleDetails } from 'services/rest/discovery';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 

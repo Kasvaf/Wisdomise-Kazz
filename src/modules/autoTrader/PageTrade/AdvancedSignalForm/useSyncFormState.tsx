@@ -1,6 +1,6 @@
-import { initialQuoteDeposit, type Position } from 'api';
-import type { SignalItem } from 'api/builder';
 import { useEffect, useState } from 'react';
+import { initialQuoteDeposit, type Position } from 'services/rest';
+import type { SignalItem } from 'services/rest/builder';
 import { roundSensible } from 'utils/numbers';
 import { v4 } from 'uuid';
 import type { SignalFormState, TpSlData } from './useSignalFormStates';

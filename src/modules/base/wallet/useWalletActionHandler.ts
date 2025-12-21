@@ -1,6 +1,6 @@
-import { useWalletsQuery, type Wallet } from 'api/wallets';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import WithdrawDepositModal from 'modules/base/wallet/WithdrawDeposit';
+import { useWalletsQuery, type Wallet } from 'services/rest/wallets';
 import useDialog from 'shared/useDialog';
 
 export function useWalletActionHandler() {

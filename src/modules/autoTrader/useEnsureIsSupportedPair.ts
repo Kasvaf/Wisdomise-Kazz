@@ -1,6 +1,6 @@
-import { useTokenPairsQuery } from 'api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTokenPairsQuery } from 'services/rest';
 
 const useEnsureIsSupportedPair = ({
   slug,

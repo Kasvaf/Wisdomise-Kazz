@@ -1,7 +1,10 @@
-import { useWhaleTransactions, type WhaleTransaction } from 'api/discovery';
-import type { Coin as CoinType } from 'api/types/shared';
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  useWhaleTransactions,
+  type WhaleTransaction,
+} from 'services/rest/discovery';
+import type { Coin as CoinType } from 'services/rest/types/shared';
 import { AccessShield } from 'shared/AccessShield';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

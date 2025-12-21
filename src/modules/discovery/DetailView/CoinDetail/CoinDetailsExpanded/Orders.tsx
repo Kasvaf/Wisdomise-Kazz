@@ -1,14 +1,14 @@
 import { notification, Pagination } from 'antd';
+import { clsx } from 'clsx';
+import { TraderPresetValues } from 'modules/autoTrader/BuySellTrader/TraderPresets';
+import { useCallback, useMemo, useState } from 'react';
 import {
   type Order,
   type OrderStatus,
   useOrderCancelMutation,
   useOrdersQuery,
-} from 'api/order';
-import { useTokenInfo } from 'api/token-info';
-import { clsx } from 'clsx';
-import { TraderPresetValues } from 'modules/autoTrader/BuySellTrader/TraderPresets';
-import { useCallback, useMemo, useState } from 'react';
+} from 'services/rest/order';
+import { useTokenInfo } from 'services/rest/token-info';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Badge, type BadgeColor } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';

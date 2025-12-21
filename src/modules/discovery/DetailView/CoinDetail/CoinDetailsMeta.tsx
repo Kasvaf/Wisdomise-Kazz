@@ -1,4 +1,4 @@
-import { useEnrichedSwaps } from 'modules/autoTrader/useEnrichedSwaps';
+import { useTokenSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { Helmet } from 'react-helmet-async';
 import { formatNumber } from 'utils/numbers';
@@ -10,7 +10,7 @@ export function CoinDetailsMeta() {
   const tokenAddress = symbol.contractAddress!;
   const abbreviation = symbol.abbreviation;
 
-  const swaps = useEnrichedSwaps({
+  const swaps = useTokenSwaps({
     tokenAddress,
     network,
   });

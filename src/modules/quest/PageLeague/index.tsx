@@ -1,8 +1,3 @@
-import {
-  type LeagueDetail,
-  useLeagueLeaderboardQuery,
-  useLeagueProfileQuery,
-} from 'api/gamification';
 import { clsx } from 'clsx';
 import PageWrapper from 'modules/base/PageWrapper';
 import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
@@ -16,6 +11,11 @@ import {
   LeaderboardPrizes,
 } from 'modules/quest/PageTournaments/TournamentCard';
 import { useEffect, useState } from 'react';
+import {
+  type LeagueDetail,
+  useLeagueLeaderboardQuery,
+  useLeagueProfileQuery,
+} from 'services/rest/gamification';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import useModal from 'shared/useModal';

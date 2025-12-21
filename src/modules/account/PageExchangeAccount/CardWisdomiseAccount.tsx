@@ -1,6 +1,6 @@
-import { useSubscription } from 'api';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { useSubscription } from 'services/rest';
 import Card from 'shared/Card';
 
 const CardWisdomiseAccount: React.FC<{ className?: string }> = ({

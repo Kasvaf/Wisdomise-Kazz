@@ -1,8 +1,8 @@
-import type { WhaleAssetLabel } from 'api/discovery';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { WhaleAssetLabel } from 'services/rest/discovery';
 import { ClickableTooltip } from './ClickableTooltip';
 import { ReadableNumber } from './ReadableNumber';
 

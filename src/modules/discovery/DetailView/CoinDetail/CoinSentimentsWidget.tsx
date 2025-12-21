@@ -1,10 +1,10 @@
+import { clsx } from 'clsx';
+import type { FC } from 'react';
 import {
   type MiniMarketData,
   useSocialRadarSentiment,
   useTechnicalRadarSentiment,
-} from 'api/discovery';
-import { clsx } from 'clsx';
-import type { FC } from 'react';
+} from 'services/rest/discovery';
 import { SocialRadarSentiment } from '../../ListView/SocialRadar/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from '../../ListView/TechnicalRadar/TechnicalRadarSentiment';
 import { useUnifiedCoinDetails } from './lib';

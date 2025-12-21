@@ -1,12 +1,4 @@
 import { Radio } from 'antd';
-import { useWalletAssets } from 'api/chains';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import {
-  useActiveWallet,
-  useConnectedWallet,
-  useCustodialWallet,
-} from 'api/chains/wallet';
-import { useWalletsQuery, type Wallet } from 'api/wallets';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
@@ -18,6 +10,14 @@ import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWalletAssets } from 'services/chains';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import {
+  useActiveWallet,
+  useConnectedWallet,
+  useCustodialWallet,
+} from 'services/chains/wallet';
+import { useWalletsQuery, type Wallet } from 'services/rest/wallets';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
 import { Tokens } from 'shared/Tokens';
@@ -153,7 +153,7 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
         <div
           className={clsx(
             'flex items-center gap-2 font-medium',
-            isActive && 'bg-brand-gradient bg-clip-text text-transparent',
+            isActive && 'text-v1-content-brand',
           )}
         >
           {wallet ? wallet.name : 'Connected Wallet'}

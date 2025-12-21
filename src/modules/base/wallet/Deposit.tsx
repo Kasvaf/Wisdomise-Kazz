@@ -1,7 +1,7 @@
-import { useNativeTokenBalance } from 'api/chains';
-import type { Wallet } from 'api/wallets';
 import { bxCopy, bxInfoCircle } from 'boxicons-quasar';
 import { QRCodeSVG } from 'qrcode.react';
+import { useNativeTokenBalance } from 'services/chains';
+import type { Wallet } from 'services/rest/wallets';
 import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';

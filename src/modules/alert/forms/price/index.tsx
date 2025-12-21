@@ -1,7 +1,7 @@
-import { useHasFlag } from 'api';
-import { useDeleteAlert, useSaveAlert } from 'api/alert';
 import type { AlertForm } from 'modules/alert/library/types';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'services/rest';
+import { useDeleteAlert, useSaveAlert } from 'services/rest/alert';
 import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as NotificationIcon } from './notification.svg';
 import { ReactComponent as PriceIcon } from './price.svg';

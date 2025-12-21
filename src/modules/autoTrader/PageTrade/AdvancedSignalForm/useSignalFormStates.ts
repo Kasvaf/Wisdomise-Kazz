@@ -1,9 +1,9 @@
+import { useMemo, useState } from 'react';
 import type {
   OpenOrderInput,
   OpenOrderResponse,
   SignalItem,
-} from 'api/builder';
-import { useMemo, useState } from 'react';
+} from 'services/rest/builder';
 import { v4 } from 'uuid';
 import type { TraderInputs } from '../types';
 

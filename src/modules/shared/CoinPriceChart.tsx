@@ -1,7 +1,10 @@
-import type { CoinSignalAnalysis, WhaleRadarCoin } from 'api/discovery';
 import dayjs from 'dayjs';
 import type { EChartsOption } from 'echarts';
 import { type ComponentProps, type FC, useMemo } from 'react';
+import type {
+  CoinSignalAnalysis,
+  WhaleRadarCoin,
+} from 'services/rest/discovery';
 import { ECharts } from 'shared/ECharts';
 import { formatNumber } from 'utils/numbers';
 

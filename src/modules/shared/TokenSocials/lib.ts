@@ -1,6 +1,6 @@
-import type { CoinCommunityData } from 'api/discovery';
-import type { SymbolSocailAddresses } from 'api/proto/network_radar';
 import dayjs from 'dayjs';
+import type { SymbolSocailAddresses } from 'services/grpc/proto/network_radar';
+import type { CoinCommunityData } from 'services/rest/discovery';
 
 type KnownSocialType =
   | 'reddit'

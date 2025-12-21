@@ -1,8 +1,3 @@
-import {
-  useGamification,
-  useGamificationActionMutation,
-  useGamificationProfileQuery,
-} from 'api/gamification';
 import { bxChevronRight } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
@@ -13,6 +8,11 @@ import { StatusChip } from 'modules/quest/PageQuests/StatusChip';
 import { StatusBadge } from 'modules/quest/PageTournaments/TournamentCard';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  useGamification,
+  useGamificationActionMutation,
+  useGamificationProfileQuery,
+} from 'services/rest/gamification';
 import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';

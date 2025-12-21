@@ -1,6 +1,6 @@
-import { useReferralStatusQuery } from 'api';
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
+import { useReferralStatusQuery } from 'services/rest';
 import gradient from './gradient.png';
 import leaderboard from './users.png';
 

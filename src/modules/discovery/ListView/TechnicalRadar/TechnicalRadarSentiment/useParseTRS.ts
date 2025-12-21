@@ -2,7 +2,7 @@ import type {
   MacdConfirmation,
   RsiConfirmation,
   TechnicalRadarSentiment,
-} from 'api/discovery';
+} from 'services/rest/discovery';
 
 export const useParseTRS = (
   value?:

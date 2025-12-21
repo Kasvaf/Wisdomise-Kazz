@@ -1,5 +1,5 @@
-import type { SubscriptionPlan } from 'api/types/subscription';
 import { useTranslation } from 'react-i18next';
+import type { SubscriptionPlan } from 'services/rest/types/subscription';
 import Periodicity from '../../Periodicity';
 
 interface Props {

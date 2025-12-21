@@ -1,5 +1,5 @@
-import { usePlansQuery } from 'api';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
+import { usePlansQuery } from 'services/rest';
 import useModal from 'shared/useModal';
 
 export function useStakeModal() {

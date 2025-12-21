@@ -1,8 +1,9 @@
-import { useLastPriceStream, useSupportedNetworks } from 'api';
-import { useTokenBalance } from 'api/chains';
-import { useTokenInfo } from 'api/token-info';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useCallback, useEffect, useState } from 'react';
+import { useTokenBalance } from 'services/chains';
+import { useLastPriceStream } from 'services/price';
+import { useSupportedNetworks } from 'services/rest';
+import { useTokenInfo } from 'services/rest/token-info';
 import {
   useChartConvertToUSD,
   useChartIsMarketCap,

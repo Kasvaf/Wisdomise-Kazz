@@ -1,5 +1,3 @@
-import { useSubscription } from 'api';
-import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
 import { ReactComponent as Logo } from 'assets/logo-white.svg';
 import { bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
@@ -8,6 +6,11 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type FC, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useSubscription } from 'services/rest';
+import {
+  type TechnicalRadarCoin,
+  useTechnicalRadarCoins,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { ECharts } from 'shared/ECharts';
 import Icon from 'shared/Icon';

@@ -1,9 +1,9 @@
 import { Treemap } from '@ant-design/plots';
 import type { TreemapConfig } from '@ant-design/plots/es/components/treemap';
-import { useWhaleDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useWhaleDetails } from 'services/rest/discovery';
 import { formatNumber } from 'utils/numbers';
 
 export function WhaleAssetsTreeMapWidget({

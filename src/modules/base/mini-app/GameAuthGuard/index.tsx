@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useGameLoginQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { type PropsWithChildren, useEffect, useState } from 'react';
+import { useGameLoginQuery } from 'services/rest';
 import { isLocal } from 'utils/version';
 import { useTelegram } from '../TelegramProvider';
 import WalletGuard from './WalletGuard';

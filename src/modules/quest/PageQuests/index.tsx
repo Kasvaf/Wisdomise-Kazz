@@ -1,9 +1,9 @@
-import { useHasFlag } from 'api';
-import { useTournaments } from 'api/tournament';
 import PageWrapper from 'modules/base/PageWrapper';
 import DailyTrade from 'modules/quest/PageQuests/DailyTrade';
 import League from 'modules/quest/PageQuests/League';
 import Referral from 'modules/quest/PageQuests/Referral';
+import { useHasFlag } from 'services/rest';
+import { useTournaments } from 'services/rest/tournament';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import useIsMobile from 'utils/useIsMobile';

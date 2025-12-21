@@ -1,9 +1,9 @@
-import type { Alert } from 'api/alert';
 import { useAlertForm, useAlertForms } from 'modules/alert/forms';
 import { AlertEdit } from 'modules/alert/library/AlertEdit';
 import { AlertModal } from 'modules/alert/library/AlertModal';
 import { AlertProvider } from 'modules/alert/library/AlertProvider';
 import { useMemo, useState } from 'react';
+import type { Alert } from 'services/rest/alert';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import {
   useAlertDeleteConfirm,

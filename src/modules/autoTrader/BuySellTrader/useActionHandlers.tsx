@@ -1,9 +1,9 @@
 import { notification } from 'antd';
-import { useSwap } from 'api/chains';
-import { useActiveWallet } from 'api/chains/wallet';
-import { type CreateOrderRequest, useOrderMutation } from 'api/order';
-import { slugToTokenAddress } from 'api/token-info';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useSwap } from 'services/chains';
+import { useActiveWallet } from 'services/chains/wallet';
+import { type CreateOrderRequest, useOrderMutation } from 'services/rest/order';
+import { slugToTokenAddress } from 'services/rest/token-info';
 import { useChartConvertToUSD } from 'shared/AdvancedChart/chartSettings';
 import Spin from 'shared/v1-components/Spin';
 import type { SwapState } from './useSwapState';

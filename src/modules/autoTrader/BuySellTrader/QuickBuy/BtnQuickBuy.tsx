@@ -1,16 +1,17 @@
 import { notification } from 'antd';
-import { useTokenPairsQuery } from 'api';
-import { useSwap } from 'api/chains';
-import { WRAPPED_SOLANA_SLUG } from 'api/chains/constants';
-import type { CoinNetwork } from 'api/discovery';
 import { clsx } from 'clsx';
 import {
   type TradeSettingsSource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
 import React from 'react';
+import { useSwap } from 'services/chains';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useTokenPairsQuery } from 'services/rest';
+import type { CoinNetwork } from 'services/rest/discovery';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
+import type { Surface } from 'utils/useSurface';
 import { ReactComponent as InstantIcon } from '../BtnInstantTrade/instant.svg';
 
 const BtnQuickBuy = React.memo(function BtnQuickBuy({
@@ -20,6 +21,7 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
   className,
   networks,
   size = '2xs',
+  surface = 2,
 }: {
   source: TradeSettingsSource;
   slug: string;
@@ -27,6 +29,7 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
   className?: string;
   networks?: CoinNetwork[] | null;
   size?: ButtonSize;
+  surface?: Surface;
 }) {
   const quote = WRAPPED_SOLANA_SLUG;
 
@@ -55,7 +58,10 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
 
   return isSolana ? (
     <Button
-      className={clsx(className, '!px-2 flex items-center')}
+      className={clsx(
+        className,
+        '!px-2 !text-v1-content-brand flex items-center',
+      )}
       onClick={async e => {
         e.stopPropagation();
         e.preventDefault();
@@ -65,8 +71,10 @@ const BtnQuickBuy = React.memo(function BtnQuickBuy({
         }
       }}
       size={size}
+      surface={surface}
+      variant="ghost"
     >
-      <InstantIcon />
+      <InstantIcon className="-ml-1" />
       <span className="shrink-0">{amount} SOL</span>
       {modal}
     </Button>

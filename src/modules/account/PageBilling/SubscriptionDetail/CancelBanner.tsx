@@ -1,8 +1,8 @@
 import { notification } from 'antd';
-import { useInstantCancelMutation } from 'api';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import gradient2 from 'modules/account/PageBilling/SubscriptionDetail/gradient-2.png';
 import wiseClub from 'modules/account/PageBilling/SubscriptionDetail/wise-club.png';
+import { useInstantCancelMutation } from 'services/rest';
 import Icon from 'shared/Icon';
 import useConfirm from 'shared/useConfirm';
 import { Button } from 'shared/v1-components/Button';

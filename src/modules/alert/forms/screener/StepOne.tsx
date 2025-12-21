@@ -1,5 +1,3 @@
-import { useSubscription } from 'api';
-import type { AlertMessenger } from 'api/alert';
 import { bxBell } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
@@ -10,6 +8,8 @@ import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import type { AlertFormStepProps } from 'modules/alert/library/types';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSubscription } from 'services/rest';
+import type { AlertMessenger } from 'services/rest/alert';
 import VipRedirectButton from 'shared/AccessShield/VipBanner/VipRedirectButton';
 import Icon from 'shared/Icon';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';

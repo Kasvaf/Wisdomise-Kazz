@@ -10,6 +10,7 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table } from 'shared/v1-components/Table';
+import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
 import { Token, TokenImage, TokenLink } from 'shared/v1-components/Token';
 import { Wallet } from 'shared/v1-components/Wallet';
 
@@ -129,6 +130,7 @@ export default function WalletsSwaps({ expanded }: { expanded?: boolean }) {
           />
         ) : (
           <div>
+            {pausedData.length === 0 && <EmptyContent />}
             {pausedData.map(row => (
               <TokenLink
                 address={row.asset}
@@ -136,7 +138,11 @@ export default function WalletsSwaps({ expanded }: { expanded?: boolean }) {
                 key={row.id}
               >
                 <div className="size-8">
-                  <TokenImage size="sm" src={row.assetDetail?.image} />
+                  <TokenImage
+                    name={row.assetDetail?.name}
+                    size="sm"
+                    src={row.assetDetail?.image}
+                  />
                 </div>
                 <div className="grow">
                   <div className="mb-1 flex items-center gap-1">

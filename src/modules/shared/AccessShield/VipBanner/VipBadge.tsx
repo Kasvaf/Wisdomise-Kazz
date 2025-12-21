@@ -1,5 +1,5 @@
-import { useSubscription } from 'api';
 import { clsx } from 'clsx';
+import { useSubscription } from 'services/rest';
 import badge from './images/wise-gold.png';
 import mini from './images/wise-mini.png';
 

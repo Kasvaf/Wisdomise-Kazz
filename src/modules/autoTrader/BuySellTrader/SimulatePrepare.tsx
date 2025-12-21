@@ -1,10 +1,10 @@
-import type { CreatePositionRequest } from 'api';
-import { useNativeTokenBalance } from 'api/chains';
 import { ReactComponent as ProIcon } from 'assets/monogram-green.svg';
 import { useSimulatePrepare } from 'modules/autoTrader/BuySellTrader/useSimulatePrepare';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { NavLink } from 'react-router-dom';
+import { useNativeTokenBalance } from 'services/chains';
+import type { CreatePositionRequest } from 'services/rest';
 import Spin from 'shared/Spin';
 import { Token } from 'shared/v1-components/Token';
 import { roundSensible } from 'utils/numbers';

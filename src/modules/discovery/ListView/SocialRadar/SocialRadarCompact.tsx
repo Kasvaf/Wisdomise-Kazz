@@ -1,8 +1,11 @@
-import { type SocialRadarCoin, useSocialRadarCoins } from 'api/discovery';
 import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  type SocialRadarCoin,
+  useSocialRadarCoins,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

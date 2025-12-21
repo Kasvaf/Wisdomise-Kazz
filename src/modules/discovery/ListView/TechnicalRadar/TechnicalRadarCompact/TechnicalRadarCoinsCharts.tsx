@@ -1,6 +1,6 @@
-import type { TechnicalRadarCoin } from 'api/discovery';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TechnicalRadarCoin } from 'services/rest/discovery';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 

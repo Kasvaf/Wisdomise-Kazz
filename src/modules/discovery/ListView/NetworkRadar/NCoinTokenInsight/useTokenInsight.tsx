@@ -1,7 +1,7 @@
-import type { RiskData } from 'api/proto/network_radar';
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { RiskData } from 'services/grpc/proto/network_radar';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReactComponent as BundleHolding } from './bundle_holding.svg';
 import { ReactComponent as DevHolding } from './dev_holding.svg';

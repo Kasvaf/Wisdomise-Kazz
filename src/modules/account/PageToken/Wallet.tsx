@@ -1,5 +1,5 @@
-import { useAccountQuery } from 'api';
 import { useTranslation } from 'react-i18next';
+import { useAccountQuery } from 'services/rest';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import CopyInputBox from 'shared/CopyInputBox';

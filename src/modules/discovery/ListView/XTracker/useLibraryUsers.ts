@@ -1,9 +1,9 @@
+import { useSelectedLibraries } from 'modules/discovery/ListView/WalletTracker/useSelectedLibraries';
+import { useMemo } from 'react';
 import {
   type TwitterAccount,
   useTwitterSuggestedAccounts,
-} from 'api/discovery';
-import { useSelectedLibraries } from 'modules/discovery/ListView/WalletTracker/useSelectedLibraries';
-import { useMemo } from 'react';
+} from 'services/rest/discovery';
 
 export const useLibraryUsers = () => {
   const libs = useSelectedLibraries();

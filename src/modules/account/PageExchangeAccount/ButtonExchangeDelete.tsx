@@ -1,7 +1,7 @@
 import { notification } from 'antd';
-import { type ExchangeAccount, useDeleteExchangeAccount } from 'api';
 import { bxTrash } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
+import { type ExchangeAccount, useDeleteExchangeAccount } from 'services/rest';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';

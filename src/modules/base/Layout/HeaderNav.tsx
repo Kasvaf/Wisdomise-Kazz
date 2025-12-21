@@ -1,8 +1,8 @@
-import { useHasFlag, useTraderPositionsQuery } from 'api';
 import { clsx } from 'clsx';
 import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useHasFlag, useTraderPositionsQuery } from 'services/rest';
 import usePageTour from 'shared/usePageTour';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';

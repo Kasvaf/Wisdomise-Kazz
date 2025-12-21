@@ -1,8 +1,8 @@
-import { type Pool, useCoinDetails } from 'api/discovery';
 import { clsx } from 'clsx';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { type Pool, useCoinDetails } from 'services/rest/discovery';
 import { ContractAddress } from 'shared/ContractAddress';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';

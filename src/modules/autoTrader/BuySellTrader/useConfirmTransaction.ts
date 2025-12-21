@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { notification } from 'antd';
-import { swapsNotifications } from 'api/chains';
-import type { OrderStatus } from 'api/order';
-import { WatchEventType } from 'api/proto/wealth_manager';
 import { useWatchTokenStream } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useEffect } from 'react';
+import { swapsNotifications } from 'services/chains';
+import { WatchEventType } from 'services/grpc/proto/wealth_manager';
+import type { OrderStatus } from 'services/rest/order';
 
 const filledOrders: string[] = [];
 

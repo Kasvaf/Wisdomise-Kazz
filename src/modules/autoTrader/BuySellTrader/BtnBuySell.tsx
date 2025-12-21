@@ -1,10 +1,10 @@
-import { useActiveWallet } from 'api/chains/wallet';
-import { useTokenInfo } from 'api/token-info';
 import { ReactComponent as WarnIcon } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/WarnIcon.svg';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
+import { useActiveWallet } from 'services/chains/wallet';
+import { useTokenInfo } from 'services/rest/token-info';
 import { useChartConvertToUSD } from 'shared/AdvancedChart/chartSettings';
 import usePageTour from 'shared/usePageTour';
 import { Button } from 'shared/v1-components/Button';

@@ -1,15 +1,15 @@
 import useNotification from 'antd/es/notification/useNotification';
-import {
-  type TwitterAccount,
-  type TwitterFollowedAccount,
-  useTwitterFollowedAccounts,
-  useTwitterSuggestedAccounts,
-} from 'api/discovery';
 import { bxPlus, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { type FC, useMemo } from 'react';
+import {
+  type TwitterAccount,
+  type TwitterFollowedAccount,
+  useTwitterFollowedAccounts,
+  useTwitterSuggestedAccounts,
+} from 'services/rest/discovery';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';

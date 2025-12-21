@@ -1,4 +1,4 @@
-import { useTraderPositionQuery } from 'api';
+import { useTraderPositionQuery } from 'services/rest';
 import Spinner from 'shared/Spinner';
 import AdvancedSignalForm from './AdvancedSignalForm';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';

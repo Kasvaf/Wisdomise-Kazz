@@ -1,5 +1,5 @@
-import { useReferralStatusQuery } from 'api';
 import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
+import { useReferralStatusQuery } from 'services/rest';
 import { isMiniApp } from 'utils/version';
 
 export function useReferral() {

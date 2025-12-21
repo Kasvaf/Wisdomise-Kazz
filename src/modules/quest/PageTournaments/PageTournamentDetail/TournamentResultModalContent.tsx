@@ -1,10 +1,10 @@
-import {
-  useTournamentClaimMutation,
-  useTournamentProfileQuery,
-} from 'api/tournament';
 import bg from 'modules/account/PageRewards/RewardModal/images/bg.png';
 import usdc from 'modules/account/PageRewards/RewardModal/images/usdc.svg';
 import video from 'modules/account/PageRewards/RewardModal/images/video.webm';
+import {
+  useTournamentClaimMutation,
+  useTournamentProfileQuery,
+} from 'services/rest/tournament';
 import { Button } from 'shared/v1-components/Button';
 
 export default function TournamentResultModalContent({

@@ -1,8 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import {
   type IndicatorHeatmapResolution,
   useIndicatorHeatmap,
-} from 'api/discovery';
-import { useTranslation } from 'react-i18next';
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { OverviewWidget } from 'shared/OverviewWidget';

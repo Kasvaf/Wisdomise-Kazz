@@ -1,7 +1,7 @@
-import { useHasFlag } from 'api';
 import { clsx } from 'clsx';
 import type { FC, MouseEventHandler, ReactNode, SVGProps } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useHasFlag } from 'services/rest';
 import { DebugPin } from 'shared/DebugPin';
 import { ArrowIcon } from './icons';
 

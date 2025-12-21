@@ -1,5 +1,5 @@
-import type { SocialMessage } from 'api/discovery';
 import { clsx } from 'clsx';
+import type { SocialMessage } from 'services/rest/discovery';
 import { useSocialMessage } from './useSocialMessage';
 
 export function SocialMessageUser({

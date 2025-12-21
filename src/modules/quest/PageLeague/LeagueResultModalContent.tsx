@@ -1,8 +1,8 @@
-import { useLeagueClaimMutation } from 'api/gamification';
 import video from 'modules/account/PageRewards/RewardModal/images/video.webm';
 import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
 import useLeague from 'modules/quest/PageLeague/useLeague';
+import { useLeagueClaimMutation } from 'services/rest/gamification';
 import { Button } from 'shared/v1-components/Button';
 
 export default function LeagueResultModalContent({

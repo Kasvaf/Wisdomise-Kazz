@@ -1,12 +1,12 @@
-import type { Meta, MetaToken } from 'api/meta';
 import { bxPauseCircle, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { calcColorByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
 import { type MetaTab, useMeta } from 'modules/discovery/PageMeta/lib';
 import MetaTabsFilters from 'modules/discovery/PageMeta/MetaTabsFilters';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { Meta, MetaToken } from 'services/rest/meta';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Dialog } from 'shared/v1-components/Dialog';
@@ -83,9 +83,11 @@ export default function MetaList({
 export function MetaNarrative({
   meta,
   mode = 'card',
+  className,
 }: {
   meta: Meta;
   mode?: 'card' | 'dialog';
+  className?: string;
 }) {
   const latestToken = [...meta.trench].sort(
     (a, b) =>
@@ -95,11 +97,11 @@ export function MetaNarrative({
   const [open, setOpen] = useState(false);
 
   const getMcColor = (mc?: number) => {
-    return calcColorByThreshold({
+    return calcValueByThreshold({
       value: mc,
       rules: [
-        { limit: 200_000, color: '#0edcdc' },
-        { limit: 1_000_000, color: '#FFDA6C' },
+        { limit: 200_000, result: '#0edcdc' },
+        { limit: 1_000_000, result: '#FFDA6C' },
       ],
       fallback: '#00ffa3',
     });
@@ -108,8 +110,9 @@ export function MetaNarrative({
   return (
     <div
       className={clsx(
-        'flex flex-col gap-3 rounded-xl bg-v1-surface-l1 p-3',
-        mode === 'card' && 'h-[35rem]',
+        'flex flex-col gap-3 rounded-xl bg-v1-surface-l1',
+        mode === 'card' && 'h-[35rem] p-3',
+        className,
       )}
       key={meta.id}
     >
@@ -182,7 +185,7 @@ export function MetaNarrative({
         onClose={() => setOpen(false)}
         open={open}
       >
-        <MetaNarrative meta={meta} mode="dialog" />
+        <MetaNarrative className="p-3" meta={meta} mode="dialog" />
       </Dialog>
     </div>
   );

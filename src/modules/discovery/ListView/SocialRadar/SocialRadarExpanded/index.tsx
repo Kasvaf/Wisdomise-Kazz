@@ -1,8 +1,3 @@
-import {
-  type SocialRadarCoin,
-  useSocialRadarCoins,
-  useSocialRadarInfo,
-} from 'api/discovery';
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
@@ -11,6 +6,11 @@ import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuy
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import {
+  type SocialRadarCoin,
+  useSocialRadarCoins,
+  useSocialRadarInfo,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';

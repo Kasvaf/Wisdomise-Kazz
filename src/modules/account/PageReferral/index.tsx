@@ -1,13 +1,7 @@
 import { notification } from 'antd';
-import {
-  useCashbackClaimMutation,
-  useFriendsQuery,
-  useReferralCodeMutation,
-  useReferralStatusQuery,
-  useTradeReferralClaimMutation,
-} from 'api';
 import { bxCopy, bxRightArrowAlt, bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { DOCS_ORIGIN } from 'config/constants';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
 import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
@@ -15,6 +9,13 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import {
+  useCashbackClaimMutation,
+  useFriendsQuery,
+  useReferralCodeMutation,
+  useReferralStatusQuery,
+  useTradeReferralClaimMutation,
+} from 'services/rest';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import Icon from 'shared/Icon';
@@ -246,7 +247,14 @@ export default function ReferralPage() {
             </Badge>
           </h1>
           <p className="mb-5 text-v1-content-secondary text-xs">
-            Earn SOL from Trading on Solana
+            Earn SOL from Trading on Solana.
+            <a
+              className="!text-v1-content-link ml-2"
+              href={`${DOCS_ORIGIN}/Cashback-2b1c705b061580f59398d174b3e507c4`}
+              target="_blank"
+            >
+              {t('page-referral.how.button')}
+            </a>
           </p>
 
           {/* Claim Rewards */}

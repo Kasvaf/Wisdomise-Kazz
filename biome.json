@@ -7,8 +7,7 @@
       "!.vscode/**/*",
       "!public/**/*",
       "!scripts/*",
-      "!src/modules/shared/AdvancedChart/charting_library/*",
-      "!src/api/proto/*"
+      "!src/services/grpc/proto/*"
     ],
     "ignoreUnknown": true
   },

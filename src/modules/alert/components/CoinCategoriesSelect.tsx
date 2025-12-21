@@ -1,8 +1,8 @@
 import { Select, type SelectProps, Spin } from 'antd';
-import { useCategories } from 'api/discovery';
 import { clsx } from 'clsx';
 import { type FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCategories } from 'services/rest/discovery';
 import { useDebounce } from 'usehooks-ts';
 
 export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({

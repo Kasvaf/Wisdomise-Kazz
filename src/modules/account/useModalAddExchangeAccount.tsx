@@ -1,8 +1,8 @@
 import { notification } from 'antd';
-import { type ExchangeTypes, useCreateExchangeAccount } from 'api';
-import type { MarketTypes } from 'api/types/shared';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { type ExchangeTypes, useCreateExchangeAccount } from 'services/rest';
+import type { MarketTypes } from 'services/rest/types/shared';
 import Button from 'shared/Button';
 import CopyInputBox from 'shared/CopyInputBox';
 import LabelInfo from 'shared/LabelInfo';

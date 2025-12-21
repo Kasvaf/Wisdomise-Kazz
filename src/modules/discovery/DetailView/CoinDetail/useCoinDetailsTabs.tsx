@@ -1,8 +1,8 @@
-import { useOrdersQuery } from 'api/order';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useMarketCap } from 'modules/discovery/DetailView/CoinDetail/useMarketCap';
 import { type ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useOrdersQuery } from 'services/rest/order';
 import { Badge } from 'shared/v1-components/Badge';
 import type { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
@@ -38,7 +38,7 @@ export const useCoinDetailsTabs = () => {
         label: (
           <div className="flex items-center gap-1">
             Top Holders
-            {validatedData?.numberOfHolders && (
+            {validatedData?.numberOfHolders !== undefined && (
               <span className="text-v1-content-secondary">
                 ({validatedData?.numberOfHolders})
               </span>

@@ -1,5 +1,5 @@
-import { useLastPriceStream } from 'api';
 import { useEffect } from 'react';
+import { useLastPriceStream } from 'services/price';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
 import type { IChartWidgetApi } from '../../../../../public/charting_library';
 import { type SignalFormState, sortTpSlItems } from './useSignalFormStates';

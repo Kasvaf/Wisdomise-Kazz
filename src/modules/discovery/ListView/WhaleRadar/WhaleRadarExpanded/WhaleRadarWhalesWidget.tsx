@@ -1,8 +1,8 @@
-import { useHasFlag } from 'api';
-import { useWhaleRadarWhales, type WhaleShort } from 'api/discovery';
 import { clsx } from 'clsx';
 import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'services/rest';
+import { useWhaleRadarWhales, type WhaleShort } from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { DebugPin } from 'shared/DebugPin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

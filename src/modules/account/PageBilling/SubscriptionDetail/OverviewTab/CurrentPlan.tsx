@@ -1,7 +1,7 @@
-import { useAccountQuery, useSubscription } from 'api';
-import type { PaymentMethod } from 'api/types/subscription';
 import dayjs from 'dayjs';
 import { Trans, useTranslation } from 'react-i18next';
+import { useAccountQuery, useSubscription } from 'services/rest';
+import type { PaymentMethod } from 'services/rest/types/subscription';
 import InfoBadge from './InfoBadge';
 import PendingInvoice from './PendingInvoice';
 

@@ -1,4 +1,4 @@
-import { useLogoutMutation } from 'api/auth';
+import { useLogoutMutation } from 'services/rest/auth';
 import { Button } from 'shared/v1-components/Button';
 import { IconSignOut } from './icons';
 

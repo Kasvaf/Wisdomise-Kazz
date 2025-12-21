@@ -1,8 +1,8 @@
-import type { SocialMessage } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Markdown from 'react-markdown';
+import type { SocialMessage } from 'services/rest/discovery';
 import { Button } from 'shared/v1-components/Button';
 
 export function SocialMessageContent({

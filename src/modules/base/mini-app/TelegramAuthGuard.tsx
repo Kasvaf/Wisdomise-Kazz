@@ -1,12 +1,12 @@
 import * as Sentry from '@sentry/react';
+import { type PropsWithChildren, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
   useMiniAppConnectMutation,
   useMiniAppTgLoginMutation,
   useMiniAppWebLoginMutation,
-} from 'api/auth';
-import { type PropsWithChildren, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+} from 'services/rest/auth';
 import useConfirm from 'shared/useConfirm';
 import useStartParams from '../../autoTrader/useStartParams';
 import Splash from '../Splash';

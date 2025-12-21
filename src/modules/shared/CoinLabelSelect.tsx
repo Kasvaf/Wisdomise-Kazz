@@ -1,7 +1,7 @@
-import { type CoinLabels, useCoinLabels } from 'api/discovery';
 import { clsx } from 'clsx';
 import type { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
+import { type CoinLabels, useCoinLabels } from 'services/rest/discovery';
 import { CoinLabel } from 'shared/CoinLabels';
 import { Select } from 'shared/v1-components/Select';
 

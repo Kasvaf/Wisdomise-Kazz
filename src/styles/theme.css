@@ -237,7 +237,15 @@
   /* X (Twitter) */
   --color-x-bg: #15202b;
   --color-x-bg-hover: #1d2c3a;
-  --color-x-content-secondary: #8b98a6;
-  --color-x-content-brand: #6cc9fb;
-  --color-x-border: #425464;
+  --color-x-quote-bg-hover: #ffffff08;
+  --color-x-content-secondary: #8b98a5;
+  --color-x-content-brand: #6bc9fb;
+  --color-x-border: #425364;
+
+  --color-x-blue-primary: #1d9bf0;
+  --color-x-blue-primary-hover: #6bc9fb1a;
+  --color-x-red-primary: #f91880;
+  --color-x-red-primary-hover: #f918801a;
+  --color-x-green-primary: #00ba7c;
+  --color-x-green-primary-hover: #00ba7c1a;
 }

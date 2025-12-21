@@ -1,8 +1,8 @@
-import { useHasFlag } from 'api/feature-flags';
 import { clsx } from 'clsx';
 import { TelegramIcon } from 'modules/account/PageProfile/assets';
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'services/rest/feature-flags';
 import { Button } from 'shared/v1-components/Button';
 
 const TelegramLogin: React.FC<{

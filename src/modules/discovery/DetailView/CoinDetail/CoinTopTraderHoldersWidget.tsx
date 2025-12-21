@@ -1,13 +1,14 @@
-import { type GrpcState, useGrpc } from 'api/grpc-v2';
+import { clsx } from 'clsx';
+import { type FC, useMemo } from 'react';
+import { type GrpcState, useGrpc } from 'services/grpc/core';
 import type {
   TopHolderStreamResponse,
   TopTraderStreamResponse,
   WalletUpdate,
-} from 'api/proto/network_radar';
-import { clsx } from 'clsx';
-import { type FC, useMemo } from 'react';
+} from 'services/grpc/proto/network_radar';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Badge } from 'shared/v1-components/Badge';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Wallet } from 'shared/v1-components/Wallet';
 import { useUnifiedCoinDetails } from './lib';
@@ -120,17 +121,18 @@ const SharedTable: FC<{
               <div className="flex items-center gap-1">
                 <ReadableNumber
                   className="text-xs"
+                  format={{ decimalLength: 1 }}
                   label="$"
                   popup="never"
                   value={row.balance * (currentPrice ?? 0)}
                 />
-                <div className="rounded-md bg-white/10 px-1 text-2xs">
+                <Badge color="neutral" variant="soft">
                   <ReadableNumber
-                    format={{ decimalLength: 3 }}
+                    format={{ decimalLength: 1 }}
                     value={percentage}
                   />
                   %
-                </div>
+                </Badge>
               </div>
               <div className="mt-1 h-1 w-28 overflow-hidden rounded-xl bg-white/10">
                 <div

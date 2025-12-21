@@ -1,6 +1,7 @@
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import type { Surface } from 'utils/useSurface';
@@ -86,21 +87,23 @@ export default function EditableText({
               {localValue}
             </span>
           )}
-          <Button
-            fab
-            onClick={() => {
-              setEditMode(prev => !prev);
-              setTimeout(() => inputRef.current?.select(), 0);
-            }}
-            size="3xs"
-            surface={surface}
-            variant="ghost"
-          >
-            <Icon
-              className="text-v1-content-primary/70 [&>svg]:size-4"
-              name={bxEditAlt}
-            />
-          </Button>
+          <HoverTooltip title="Edit">
+            <Button
+              fab
+              onClick={() => {
+                setEditMode(prev => !prev);
+                setTimeout(() => inputRef.current?.select(), 0);
+              }}
+              size="3xs"
+              surface={surface}
+              variant="ghost"
+            >
+              <Icon
+                className="text-v1-content-primary/70 [&>svg]:size-4"
+                name={bxEditAlt}
+              />
+            </Button>
+          </HoverTooltip>
         </div>
       )}
     </div>

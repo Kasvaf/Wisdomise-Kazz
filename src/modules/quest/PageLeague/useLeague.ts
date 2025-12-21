@@ -1,5 +1,8 @@
-import { useLeagueProfileQuery, useLeaguesQuery } from 'api/gamification';
 import { useCallback, useMemo } from 'react';
+import {
+  useLeagueProfileQuery,
+  useLeaguesQuery,
+} from 'services/rest/gamification';
 import horizon from './images/horizon.png';
 import pioneer from './images/pioneer.png';
 import summit from './images/summit.png';

@@ -1,10 +1,11 @@
 // import { Coin } from 'shared/Coin';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api/discovery';
+
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
 import QuickBuySettings from 'modules/autoTrader/BuySellTrader/QuickBuy/QuickBuySettings';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { type CoinRadarCoin, useCoinRadarCoins } from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { useLoadingBadge } from 'shared/LoadingBadge';
@@ -104,6 +105,19 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             <EmptySentiment value="technical_radar" />
           ),
       },
+      {
+        key: 'quick_buy',
+        title: '',
+        align: 'end',
+        render: row => (
+          <BtnQuickBuy
+            networks={row.networks}
+            slug={row.symbol.slug}
+            source="coin_radar"
+            surface={3}
+          />
+        ),
+      },
     ],
     [t],
   );
@@ -131,13 +145,6 @@ export function CoinRadarExpanded({ className }: { className?: string }) {
             dataSource={coins.data?.slice(0, 10)}
             loading={coins.isLoading}
             rowClassName="id-tour-row"
-            rowHoverSuffix={row => (
-              <BtnQuickBuy
-                networks={row.networks}
-                slug={row.symbol.slug}
-                source="coin_radar"
-              />
-            )}
             rowKey={(r, i) => `${r.symbol.slug} ${i}`}
             scrollable
             surface={2}

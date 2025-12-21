@@ -1,8 +1,3 @@
-import { useHasFlag, useLastCandleStream, useTokenPairsQuery } from 'api';
-import {
-  WRAPPED_SOLANA_CONTRACT_ADDRESS,
-  WRAPPED_SOLANA_SLUG,
-} from 'api/chains/constants';
 import { bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import SwapSharingModal from 'modules/autoTrader/SwapSharingModal';
@@ -11,6 +6,12 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useState } from 'react';
+import {
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from 'services/chains/constants';
+import { useLastPriceStream } from 'services/price';
+import { useHasFlag, useTokenPairsQuery } from 'services/rest';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { Token } from 'shared/v1-components/Token';
@@ -85,17 +86,15 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
     !isPending && pairs?.some(p => p.quote.slug === WRAPPED_SOLANA_SLUG);
   const showUsd = hasSolanaPair ? settings.show_activity_in_usd : true;
 
-  const lastCandle = useLastCandleStream({
-    market: 'SPOT',
+  const { data: price } = useLastPriceStream({
     network,
-    slug: symbol.slug ?? '',
+    slug: symbol.slug,
     quote: WRAPPED_SOLANA_SLUG,
   });
 
-  const lastCandleUsd = useLastCandleStream({
-    market: 'SPOT',
+  const { data: priceUsd } = useLastPriceStream({
     network,
-    slug: symbol.slug ?? '',
+    slug: symbol.slug,
     quote: WRAPPED_SOLANA_SLUG,
     convertToUsd: true,
   });
@@ -109,8 +108,8 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
   const soldUsd = Number(data?.totalSoldUsd ?? '0');
 
   const balance = Number(data?.balance ?? '0');
-  const hold = balance * Number(lastCandle.data?.candle?.close ?? '0');
-  const holdUsd = balance * Number(lastCandleUsd.data?.candle?.close ?? '0');
+  const hold = balance * (price ?? 0);
+  const holdUsd = balance * (priceUsd ?? 0);
 
   const pnl = sold + hold - bought;
   const pnlUsd = soldUsd + holdUsd - boughtUsd;

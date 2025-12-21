@@ -1,7 +1,7 @@
-import { useTournaments } from 'api/tournament';
 import { clsx } from 'clsx';
 import { StatusChip } from 'modules/quest/PageQuests/StatusChip';
 import { NavLink } from 'react-router-dom';
+import { useTournaments } from 'services/rest/tournament';
 import gradient from './gradient.png';
 import leaderboard from './leaderboard.png';
 

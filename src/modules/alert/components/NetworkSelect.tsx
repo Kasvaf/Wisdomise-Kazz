@@ -1,8 +1,8 @@
 import { Select, type SelectProps, Spin } from 'antd';
-import { useNetworks } from 'api/discovery';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNetworks } from 'services/rest/discovery';
 
 export const NetworkSelect: FC<SelectProps<string[]>> = ({
   value,

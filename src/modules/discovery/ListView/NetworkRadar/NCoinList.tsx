@@ -1,5 +1,3 @@
-import { useMetaDetailsQuery } from 'api/meta';
-import type { TrenchStreamResponseResult } from 'api/proto/network_radar';
 import { bxGroup, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
@@ -15,10 +13,14 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TrenchStreamResponseResult } from 'services/grpc/proto/network_radar';
+import { useMetaDetailsQuery } from 'services/rest/meta';
+import { useHideToken } from 'shared/BlacklistManager/useHideToken';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Badge } from 'shared/v1-components/Badge';
+import Skeleton from 'shared/v1-components/Skeleton';
 import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useInterval, useSessionStorage } from 'usehooks-ts';
@@ -46,11 +48,13 @@ const NCoinMarketDataCol: FC<{
         className,
       )}
     >
-      <div className="flex items-center gap-1">
-        <div className="flex items-center text-xs" title="Volume">
-          <span className="mr-1 align-middle text-2xs text-v1-content-secondary">
-            {'V'}
-          </span>
+      <div className={clsx('flex gap-1', !row && 'flex-col-reverse items-end')}>
+        <div className="flex items-center text-xs">
+          <HoverTooltip title="Volume">
+            <span className="mr-1 align-middle text-2xs text-v1-content-secondary">
+              {'V'}
+            </span>
+          </HoverTooltip>
           <ReadableNumber
             className="align-middle"
             format={{
@@ -67,11 +71,12 @@ const NCoinMarketDataCol: FC<{
               +(value.networkData?.marketCap ?? '0') || 0,
             ),
           }}
-          title="Market Cap"
         >
-          <span className="me-1 align-middle text-2xs text-v1-content-secondary">
-            {'MC'}
-          </span>
+          <HoverTooltip title="Market Cap">
+            <span className="me-1 align-middle text-2xs text-v1-content-secondary">
+              {'MC'}
+            </span>
+          </HoverTooltip>
           <ReadableNumber
             className="align-middle font-medium text-base"
             format={{
@@ -85,10 +90,12 @@ const NCoinMarketDataCol: FC<{
       </div>
       {!row && (
         <div className="flex items-center gap-1">
-          <div className="flex items-center" title="Transactions">
-            <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
-              {'TX'}
-            </span>
+          <div className="flex items-center">
+            <HoverTooltip title="Transactions">
+              <span className="me-1 align-middle text-[0.9em] text-v1-content-secondary">
+                {'TX'}
+              </span>
+            </HoverTooltip>
             <NCoinTransactions
               value={{
                 buys: value.networkData?.totalBuy,
@@ -96,19 +103,21 @@ const NCoinMarketDataCol: FC<{
               }}
             />
           </div>
-          <div title="Number of Holders">
-            <Icon
-              className="me-1 inline-block align-middle text-v1-content-secondary"
-              name={bxGroup}
-              size={16}
-              strokeWidth={0.1}
-            />
-            <ReadableNumber
-              className="align-middle"
-              popup="never"
-              value={value.validatedData?.numberOfHolders}
-            />
-          </div>
+          <HoverTooltip title="Holders">
+            <div>
+              <Icon
+                className="me-1 inline-block align-middle text-v1-content-secondary"
+                name={bxGroup}
+                size={16}
+                strokeWidth={0.1}
+              />
+              <ReadableNumber
+                className="align-middle"
+                popup="never"
+                value={value.validatedData?.numberOfHolders}
+              />
+            </div>
+          </HoverTooltip>
         </div>
       )}
     </div>
@@ -303,29 +312,29 @@ export const NCoinList: FC<{
         >
           {dataSource.map(row => {
             return (
-              <div key={row.symbol?.slug ?? ''} onClick={() => setTab(source)}>
-                <TrenchToken
-                  className={
-                    shown.has(row.symbol?.slug ?? '')
-                      ? 'translate-y-0 opacity-100'
-                      : '-translate-y-14 opacity-0'
-                  }
-                  extra={
-                    row.symbol && (
-                      <BtnQuickBuy
-                        className="!absolute !hidden group-hover:!flex right-2 bottom-2"
-                        slug={row.symbol.slug}
-                        source={source}
-                        tokenAddress={row.symbol.base}
-                      />
-                    )
-                  }
-                  highlight={source === 'final_stretch'}
-                  mini={mini}
-                  row={row}
-                  showProgress={source !== 'migrated'}
-                />
-              </div>
+              <TrenchToken
+                className={
+                  shown.has(row.symbol?.slug ?? '')
+                    ? 'translate-y-0 opacity-100'
+                    : '-translate-y-14 opacity-0'
+                }
+                extra={
+                  row.symbol && (
+                    <BtnQuickBuy
+                      className="!absolute right-2 bottom-2"
+                      slug={row.symbol.slug}
+                      source={source}
+                      tokenAddress={row.symbol.base}
+                    />
+                  )
+                }
+                highlight={source === 'final_stretch'}
+                key={row.symbol?.slug ?? ''}
+                mini={mini}
+                onClick={() => setTab(source)}
+                row={row}
+                showProgress={source !== 'migrated'}
+              />
             );
           })}
         </div>
@@ -342,7 +351,9 @@ export const TrenchToken = memo(
     showProgress = true,
     highlight,
     extra,
+    onClick,
   }: {
+    onClick: () => void;
     row: TrenchStreamResponseResult;
     className?: string;
     mini?: boolean;
@@ -350,6 +361,12 @@ export const TrenchToken = memo(
     highlight?: boolean;
     extra?: ReactNode;
   }) => {
+    const { isHidden } = useHideToken({
+      address: row.symbol?.base,
+      devAddress: row.devData?.address,
+      network: 'solana',
+    });
+
     const ageAndSecurity = (
       <NCoinAgeAndSecurity
         createdAt={row.symbol?.createdAt}
@@ -368,79 +385,87 @@ export const TrenchToken = memo(
       </>
     );
 
+    if (isHidden) return null;
+
     return (
-      <TokenLink
-        address={row.symbol?.base}
-        className={clsx(
-          'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
-          mini
-            ? 'flex-col justify-start gap-2'
-            : 'items-center justify-between',
-          className,
-        )}
-      >
-        {highlight && row.networkData?.boundingCurve === 1 && (
-          <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
-            <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
-          </div>
-        )}
-        <div className="relative flex flex-col gap-1">
-          <Token
-            abbreviation={row.symbol?.abbreviation}
-            address={row.symbol?.base}
-            extra={
-              !mini && (
-                <div className="flex flex-col justify-end gap-1">
-                  <div className="flex h-6 items-center gap-2">
-                    {!mini && bCurve}
-                    {row.meta && (
-                      <MetaTag
-                        id={row.meta.id}
-                        mini={mini}
-                        title={row.meta.title}
-                      />
-                    )}
-                  </div>
-                  <NCoinTokenInsight
-                    value={{
-                      ...row.validatedData,
-                      ...row.securityData,
-                    }}
-                  />
-                </div>
-              )
-            }
-            header={ageAndSecurity}
-            link={false}
-            logo={row.symbol?.imageUrl}
-            marker={row.validatedData?.protocol?.logo}
-            name={row.symbol?.name}
-            progress={
-              showProgress ? (row.networkData?.boundingCurve ?? 1) : undefined
-            }
-            size={mini ? 'md' : 'lg'}
-            slug={row.symbol?.slug}
-            socials={row.socials}
-            truncate={!!mini}
-          />
-        </div>
-        <div
+      <div onClick={onClick}>
+        <TokenLink
+          address={row.symbol?.base}
           className={clsx(
+            'group relative flex max-w-full cursor-pointer rounded-lg bg-v1-surface-l-next p-2 transition-all hover:brightness-110',
             mini
-              ? 'flex items-center text-xxs'
-              : 'absolute end-2 top-2 flex h-full flex-col text-xs',
+              ? 'flex-col justify-start gap-2'
+              : 'items-center justify-between',
+            className,
           )}
         >
-          {mini && bCurve}
-          <NCoinMarketDataCol className={clsx()} row={mini} value={row} />
-        </div>
-        {mini && (
-          <NCoinTokenInsight
-            value={{ ...row.validatedData, ...row.securityData }}
-          />
-        )}
-        {extra}
-      </TokenLink>
+          {highlight && row.networkData?.boundingCurve === 1 && (
+            <div className="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden">
+              <div className="-mt-14 h-36 w-64 rounded-b-3xl bg-gradient-to-b from-v1-background-brand to-transparent opacity-20 blur-2xl" />
+            </div>
+          )}
+          <div className="relative flex flex-col gap-1">
+            <Token
+              abbreviation={row.symbol?.abbreviation}
+              address={row.symbol?.base}
+              devAddress={row.devData?.address}
+              enableBlacklist
+              extra={
+                !mini && (
+                  <div className="flex flex-col justify-end gap-1">
+                    <div className="flex h-6 items-center gap-2">
+                      {!mini && bCurve}
+                      {row.meta && (
+                        <MetaTag
+                          id={row.meta.id}
+                          mini={mini}
+                          title={row.meta.title}
+                        />
+                      )}
+                    </div>
+                    <NCoinTokenInsight
+                      value={{
+                        ...row.validatedData,
+                        ...row.securityData,
+                      }}
+                    />
+                  </div>
+                )
+              }
+              header={ageAndSecurity}
+              link={false}
+              logo={row.symbol?.imageUrl}
+              marker={row.validatedData?.protocol?.logo}
+              name={row.symbol?.name}
+              progress={
+                showProgress ? (row.networkData?.boundingCurve ?? 1) : undefined
+              }
+              size={mini ? 'md' : 'lg'}
+              slug={row.symbol?.slug}
+              socials={row.socials}
+              truncate={!!mini}
+            />
+          </div>
+          <div
+            className={clsx(
+              mini
+                ? 'flex items-center text-xxs'
+                : 'absolute end-2 top-2 flex h-full flex-col text-xs',
+            )}
+          >
+            {mini && bCurve}
+            <NCoinMarketDataCol className={clsx()} row={mini} value={row} />
+          </div>
+          {mini && (
+            <div className="h-[50px]">
+              <NCoinTokenInsight
+                value={{ ...row.validatedData, ...row.securityData }}
+              />
+            </div>
+          )}
+          {extra}
+        </TokenLink>
+      </div>
     );
   },
   (prev, next) => {
@@ -497,13 +522,36 @@ export const MetaTag = ({
     <HoverTooltip
       onOpenChange={() => setEnabled(true)}
       title={
-        isLoading ? (
-          'Loading'
-        ) : (
-          <div className="h-80 overflow-auto">
-            {meta && <MetaNarrative meta={meta} mode="dialog" />}
-          </div>
-        )
+        <div className="h-80 overflow-auto px-1 py-2">
+          {isLoading ? (
+            <div className="flex h-full w-[422px] flex-col gap-3">
+              <div className="rounded-2xl bg-v1-surface-l2 p-3">
+                <Skeleton className="inline">Narrative</Skeleton>
+                <Skeleton className="mt-3 mb-4 w-1/2 text-lg" />
+                <div className="space-y-2">
+                  <Skeleton className="w-40" />
+                  <Skeleton className="w-[80%]" />
+                  <Skeleton className="w-[70%]" />
+                </div>
+                <hr className="my-3 border-white/10" />
+                <div className="flex gap-3">
+                  <div className="w-1/2 space-y-2">
+                    <Skeleton />
+                    <Skeleton />
+                  </div>
+                  <div className="h-10 border-white/10 border-r" />
+                  <div className="w-1/2 space-y-2">
+                    <Skeleton />
+                    <Skeleton />
+                  </div>
+                </div>
+              </div>
+              <div className="w-full grow rounded-xl bg-v1-surface-l2" />
+            </div>
+          ) : meta ? (
+            <MetaNarrative meta={meta} mode="dialog" />
+          ) : null}
+        </div>
       }
     >
       <Badge

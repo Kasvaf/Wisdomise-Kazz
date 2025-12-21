@@ -1,6 +1,9 @@
-import { useGrpc } from 'api/grpc-v2';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { type FC, useState } from 'react';
+import {
+  type TokenUpdateResolution,
+  useTokenUpdateStream,
+} from 'services/grpc/tokenUpdate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
@@ -12,14 +15,17 @@ const GreenRedChart: FC<{
   const percentage = (values[0] / (values[0] + values[1])) * 100;
   return (
     <div className="flex h-11 flex-col gap-1">
-      <div className="flex items-start justify-between">
+      <div className="relative flex items-start justify-between">
         {titles.map(title => (
           <p className="text-2xs text-v1-content-secondary" key={title}>
             {title}
           </p>
         ))}
+        <p className="-translate-x-1/2 absolute left-1/2 text-2xs text-v1-content-secondary">
+          Buy/Sell Ratio
+        </p>
       </div>
-      <div className="flex items-start justify-between">
+      <div className="relative flex items-start justify-between">
         {values.map((value, index) => (
           <ReadableNumber
             className="text-xs"
@@ -32,6 +38,16 @@ const GreenRedChart: FC<{
             value={value}
           />
         ))}
+        <span className="-translate-x-1/2 absolute left-1/2 text-xs">
+          {values[1] === 0 ? (
+            '∞'
+          ) : (
+            <ReadableNumber
+              format={{ decimalLength: 1 }}
+              value={values[0] / values[1]}
+            />
+          )}
+        </span>
       </div>
       <div className="flex h-1 w-full max-w-full grow gap-1 overflow-hidden rounded">
         <div
@@ -46,7 +62,7 @@ const GreenRedChart: FC<{
   );
 };
 
-const resolutions = [
+const resolutions: { value: TokenUpdateResolution; label: string }[] = [
   { value: '1m', label: '1m' },
   { value: '5m', label: '5m' },
   { value: '15m', label: '15m' },
@@ -58,16 +74,13 @@ const resolutions = [
 
 export function TokenUpdateWidget({ className }: { className?: string }) {
   const { symbol } = useUnifiedCoinDetails();
-  const [resolution, setResolution] = useState<string>('1h');
+  const [resolution, setResolution] =
+    useState<TokenUpdateResolution>('all-time');
 
-  const { data } = useGrpc({
-    service: 'network_radar',
-    method: 'tokenUpdateStream',
-    payload: {
-      network: 'solana',
-      tokenAddress: symbol.contractAddress ?? '',
-      resolution,
-    },
+  const { data } = useTokenUpdateStream({
+    network: 'solana',
+    tokenAddress: symbol.contractAddress ?? undefined,
+    resolution,
   });
 
   const numBuys = data?.numBuys ?? 0;

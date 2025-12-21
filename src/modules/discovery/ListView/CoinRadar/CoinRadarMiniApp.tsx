@@ -1,5 +1,5 @@
-import { useTraderCoins } from 'api';
 import { useState } from 'react';
+import { useTraderCoins } from 'services/rest';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';

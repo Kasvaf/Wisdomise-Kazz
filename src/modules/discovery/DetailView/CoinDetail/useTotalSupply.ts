@@ -1,6 +1,6 @@
-import { useTokenInfo } from 'api/token-info';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useEffect, useState } from 'react';
+import { useTokenInfo } from 'services/rest/token-info';
 
 export const useTotalSupply = () => {
   const [totalSupply, setTotalSupply] = useState<number | undefined>(undefined);

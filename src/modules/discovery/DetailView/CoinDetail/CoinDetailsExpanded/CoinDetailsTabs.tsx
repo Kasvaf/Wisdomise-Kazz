@@ -194,14 +194,19 @@ export const CoinDetailsTabs = () => {
                 />
               </div>
               <div className="scrollbar-none -mt-[1px] grow overflow-auto border-white/10 border-t p-2">
-                {Object.entries(tabContents).map(([key, value]) => (
-                  <div
-                    className={clsx(key !== selectedTab && 'hidden', 'h-full')}
-                    key={key}
-                  >
-                    {value}
-                  </div>
-                ))}
+                {Object.entries(tabContents)
+                  .filter(([key]) => key !== pinnedTab)
+                  .map(([key, value]) => (
+                    <div
+                      className={clsx(
+                        key !== selectedTab && 'hidden',
+                        'h-full',
+                      )}
+                      key={key}
+                    >
+                      {value}
+                    </div>
+                  ))}
               </div>
             </div>
           </Fragment>,
@@ -220,7 +225,7 @@ export const CoinDetailsTabs = () => {
                         label: (
                           <>
                             {x.label}
-                            <HoverTooltip className="mt-1" title="Unpin">
+                            <HoverTooltip title="Unpin">
                               <Button
                                 className="rounded-full"
                                 fab
@@ -243,14 +248,16 @@ export const CoinDetailsTabs = () => {
                 />
               </div>
               <div className="grow overflow-auto p-2">
-                {Object.entries(tabContents).map(([key, value]) => (
-                  <div
-                    className={clsx(key !== pinnedTab && 'hidden', 'h-full')}
-                    key={key}
-                  >
-                    {value}
-                  </div>
-                ))}
+                {Object.entries(tabContents)
+                  .filter(([key]) => key !== selectedTab)
+                  .map(([key, value]) => (
+                    <div
+                      className={clsx(key !== pinnedTab && 'hidden', 'h-full')}
+                      key={key}
+                    >
+                      {value}
+                    </div>
+                  ))}
               </div>
             </div>
           </Fragment>,

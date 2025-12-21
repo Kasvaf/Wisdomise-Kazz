@@ -1,10 +1,10 @@
-import {
-  useTraderPositionQuery,
-  useTraderPositionTransactionsQuery,
-} from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import {
+  useTraderPositionQuery,
+  useTraderPositionTransactionsQuery,
+} from 'services/rest';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';

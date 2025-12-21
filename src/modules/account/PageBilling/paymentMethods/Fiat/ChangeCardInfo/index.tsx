@@ -1,9 +1,9 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useStripeSetupIntentQuery } from 'api';
 import { STRIPE_CLIENT_PUBLIC_KEY } from 'config/constants';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useState } from 'react';
+import { useStripeSetupIntentQuery } from 'services/rest';
 import ChangeStripeCardInfoForm from './ChangeStripeCardInfoForm';
 
 export default function ChangeStripeCardInfoPage() {

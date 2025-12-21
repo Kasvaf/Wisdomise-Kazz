@@ -1,7 +1,7 @@
-import type { CoinNetwork } from 'api/discovery';
-import type { Coin } from 'api/types/shared';
 import { clsx } from 'clsx';
 import { type FC, memo, type ReactNode } from 'react';
+import type { CoinNetwork } from 'services/rest/discovery';
+import type { Coin } from 'services/rest/types/shared';
 import { CoinCategoryLabel } from './CoinCategoryLabel';
 import { CoinLabel } from './CoinLabel';
 import { icons } from './icons';

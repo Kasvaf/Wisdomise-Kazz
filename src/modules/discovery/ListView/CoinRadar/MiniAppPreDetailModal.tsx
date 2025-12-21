@@ -1,11 +1,11 @@
-import { useHasFlag } from 'api';
-import { useCoinDetails } from 'api/discovery';
 import { bxSlider } from 'boxicons-quasar';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
+import { useHasFlag } from 'services/rest';
+import { useCoinDetails } from 'services/rest/discovery';
 import { Coin } from 'shared/Coin';
 import { TokenLabels } from 'shared/CoinLabels';
 import { DrawerModal } from 'shared/DrawerModal';

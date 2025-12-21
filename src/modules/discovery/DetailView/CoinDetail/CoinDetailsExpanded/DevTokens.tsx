@@ -1,9 +1,9 @@
-import { type DevToken, useDevTokensQuery } from 'api/dev-tokens';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type { EChartsOption } from 'echarts';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useMemo } from 'react';
+import { type DevToken, useDevTokensQuery } from 'services/rest/dev-tokens';
 import { ECharts } from 'shared/ECharts';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table, type TableColumn } from 'shared/v1-components/Table';

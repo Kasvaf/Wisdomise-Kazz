@@ -1,6 +1,6 @@
-import type { SocialMessage } from 'api/discovery';
 import { clsx } from 'clsx';
 import { useState } from 'react';
+import type { SocialMessage } from 'services/rest/discovery';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { useSocialMessage } from './useSocialMessage';
 

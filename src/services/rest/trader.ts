@@ -1,0 +1,707 @@
+import {
+  type UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { ofetch } from 'config/ofetch';
+import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
+import { FetchError } from 'ofetch';
+import { useMemo } from 'react';
+import { uniqueBy } from 'utils/uniqueBy';
+import { WRAPPED_SOLANA_SLUG } from '../chains/constants';
+import type { OpenOrderResponse, Signal, SignalItem } from './builder';
+import type { WhaleCoin, WhaleCoinsFilter } from './discovery';
+import { slugToTokenAddress } from './token-info';
+import type { PageResponse } from './types/page';
+import type { Coin } from './types/shared';
+
+const NETWORK_MAIN_EXCHANGE = {
+  'the-open-network': 'STONFI',
+  solana: 'RAYDIUM',
+  polygon: 'UNKOWN',
+} as const;
+
+export type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;
+
+export interface UserAssetPair {
+  usd_equity: number;
+  amount: number;
+  position_keys: string[];
+  address: string;
+}
+
+export const useTraderAssetsQuery = () => {
+  const email = useJwtEmail();
+  return useQuery({
+    queryKey: ['user-assets', email],
+    queryFn: async () => {
+      const data = await ofetch<{
+        symbols: Array<{
+          slug: string;
+          amount: string;
+          usd_equity: string;
+          position_keys: string[];
+        }>;
+      }>('/trader/overview');
+
+      return data.symbols.map(
+        x =>
+          ({
+            usd_equity: Number(x.usd_equity),
+            amount: Number(x.amount),
+            position_keys: x.position_keys,
+            address: slugToTokenAddress(x.slug),
+          }) satisfies UserAssetPair,
+      );
+    },
+    staleTime: Number.POSITIVE_INFINITY,
+    refetchInterval: 30_000,
+    enabled: !!email,
+  });
+};
+
+export interface WalletActivity {
+  win_percent: string;
+  buy_count: number;
+  sell_count: number;
+  realized_pnl_usd: string;
+  realized_pnl_percent: string;
+  assets: AssetActivity[];
+}
+
+export interface AssetActivity {
+  avg_buy_price?: string;
+  avg_buy_price_usd?: string;
+  avg_sell_price?: string;
+  avg_sell_price_usd?: string;
+  balance: string;
+  symbol_slug: string;
+  realized_pnl_percent: string;
+  realized_pnl_usd: string;
+  total_bought: string;
+  total_bought_usd: string;
+  total_sold: string;
+  total_sold_usd: string;
+}
+
+export const useTraderAssetQuery = <
+  T extends {
+    slug?: string;
+    walletAddress?: string;
+    fromTime?: string;
+    toTime?: string;
+  },
+>({
+  slug,
+  walletAddress,
+  fromTime,
+  toTime,
+}: T): UseQueryResult<
+  T extends { slug: string }
+    ? AssetActivity
+    : T extends { walletAddress: string }
+      ? WalletActivity
+      : never
+> => {
+  const email = useJwtEmail();
+  slug = slug === 'solana' ? WRAPPED_SOLANA_SLUG : slug;
+
+  return useQuery({
+    queryKey: ['trader-asset', slug, walletAddress, email, fromTime, toTime],
+    queryFn: async () => {
+      return await ofetch<AssetActivity | WalletActivity>('/trader/asset/', {
+        query: {
+          symbol_slug: slug,
+          wallet_address: walletAddress,
+          from_time: fromTime,
+          to_time: toTime,
+        },
+      });
+    },
+    enabled: (!!slug || !!walletAddress) && !!email,
+    staleTime: 10_000,
+    refetchInterval: 10_000,
+  });
+};
+
+interface PairInfo {
+  id: string;
+  name: string; // pair name
+  base: Coin;
+  quote: Coin;
+  network_slugs: string[];
+}
+
+const cachedPairs: Record<string, PairInfo[]> = {};
+export const getPairsCached = async (baseSlug: string) => {
+  if (!cachedPairs[baseSlug]) {
+    const data = await ofetch<{
+      results: PairInfo[];
+    }>('/delphi/market/pairs/', {
+      query: {
+        base_slug: baseSlug,
+      },
+    });
+    cachedPairs[baseSlug] = uniqueBy(data.results, x => x.id);
+  }
+  return cachedPairs[baseSlug];
+};
+
+export const useTokenPairsQuery = (
+  baseSlug?: string,
+  config?: { enabled: boolean },
+) => {
+  baseSlug = baseSlug === 'solana' ? WRAPPED_SOLANA_SLUG : baseSlug;
+  return useQuery({
+    queryKey: ['token-pairs', baseSlug],
+    queryFn: async () => {
+      if (!baseSlug) return [];
+      return await getPairsCached(baseSlug);
+    },
+    enabled: config?.enabled === undefined ? true : config.enabled,
+  });
+};
+
+export const useSupportedNetworks = (base?: string, quote?: string) => {
+  const { data: supportedPairs } = useTokenPairsQuery(base);
+  return useMemo(
+    () =>
+      supportedPairs
+        ?.find(x => !quote || x.quote.slug === quote)
+        ?.network_slugs.map(
+          x => x.toLowerCase() as Exclude<SupportedNetworks, 'polygon'>,
+        ),
+    [quote, supportedPairs],
+  );
+};
+
+export const useTraderCoins = (filters?: {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  isAscending?: boolean;
+  networkName?: 'solana' | 'ton';
+  filter?: WhaleCoinsFilter;
+  days?: number;
+}) =>
+  useQuery({
+    queryKey: ['trader-coins', JSON.stringify(filters)],
+    queryFn: async () => {
+      const data = await ofetch<PageResponse<WhaleCoin>>(
+        '/delphi/intelligence/trader-top-coins/',
+        {
+          query: {
+            page_size: filters?.pageSize ?? 10,
+            page: filters?.page ?? 1,
+            days: filters?.days ?? 1,
+            network_name: filters?.networkName,
+            exchange_name: filters?.networkName
+              ? NETWORK_MAIN_EXCHANGE[
+                  filters.networkName === 'ton'
+                    ? 'the-open-network'
+                    : filters.networkName
+                ]
+              : undefined,
+            sorted_by: filters?.sortBy,
+            ascending:
+              typeof filters?.isAscending === 'boolean'
+                ? filters?.isAscending
+                  ? 'True'
+                  : 'False'
+                : undefined,
+            filter: filters?.filter ?? 'all',
+          },
+          meta: { auth: true },
+        },
+      );
+      return data;
+    },
+    placeholderData: p => p,
+  });
+
+export interface PositionsResponse {
+  positions: Position[];
+  count?: number;
+}
+
+export type PositionStatus =
+  | 'DRAFT'
+  | 'PENDING'
+  | 'OPENING'
+  | 'OPEN'
+  | 'CLOSING'
+  | 'CLOSED'
+  | 'CANCELED';
+
+export interface Position {
+  id: number;
+  key: string;
+  mode?: 'buy_and_sell' | 'buy_and_hold' | 'sell_and_hold';
+  status: PositionStatus;
+  deposit_status: 'PENDING' | 'PAID' | 'EXPIRED' | 'CANCELED';
+  withdraw_status?: 'SENT' | 'PAID';
+  network_slug: string;
+  pair_name: string;
+  pair_slug: string;
+  side: 'long' | 'short';
+  signal: Signal;
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+    open_orders?: OpenOrderResponse[];
+  };
+  trading_fee?: string;
+  entry_price?: string;
+  entry_time?: string;
+  exit_price?: string;
+  exit_time?: string;
+  pnl?: string;
+  pnl_quote?: number;
+  pnl_usd?: number;
+  current_total_quote_equity: string;
+  current_total_usd_equity: string;
+  stop_loss?: string;
+  take_profit?: string;
+  size?: string;
+  quote_name: string;
+  quote_slug: string;
+  base_name: string;
+  base_slug: string;
+  current_assets: PositionAsset[];
+  deposit_assets: PositionAsset[];
+  final_quote_amount?: string;
+}
+
+interface PositionAsset {
+  amount: string;
+  asset_slug: string;
+  asset_name: string;
+  is_gas_fee?: boolean;
+}
+
+export function isPositionUpdatable(position: Position) {
+  return (
+    position.status !== 'CLOSING' &&
+    position.status !== 'CLOSED' &&
+    position.status !== 'CANCELED' &&
+    (position.status !== 'DRAFT' || position.deposit_status !== 'PENDING')
+  );
+}
+
+export function initialQuoteAsset(p: Position) {
+  return p.deposit_assets.find(
+    x => x.asset_slug === p.quote_slug && !x.is_gas_fee,
+  );
+}
+
+export function initialQuoteDeposit(p: Position) {
+  const result = initialQuoteAsset(p)?.amount;
+  return result === undefined ? undefined : Number(result);
+}
+
+export function useTraderPositionQuery({
+  positionKey,
+}: {
+  positionKey?: string;
+}) {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery({
+    queryKey: ['traderPosition', positionKey],
+    queryFn: async () => {
+      if (!positionKey) return;
+
+      const data = await ofetch<Position>(`trader/positions/${positionKey}`);
+      return data;
+    },
+    staleTime: Number.POSITIVE_INFINITY,
+    refetchInterval: 7000,
+    enabled: !!positionKey && isLoggedIn,
+  });
+}
+
+export function useTraderPositionsQuery({
+  slug,
+  isOpen,
+  pageSize = 30,
+  page = 1,
+  network,
+  address,
+  enabled = true,
+}: {
+  slug?: string;
+  isOpen?: boolean;
+  pageSize?: number;
+  page?: number;
+  network?: SupportedNetworks;
+  address?: string;
+  enabled?: boolean;
+}) {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery({
+    queryKey: ['traderPositions', slug, isOpen, pageSize, page, address],
+    queryFn: async () => {
+      const data = await ofetch<PositionsResponse>('trader/positions', {
+        query: {
+          base_slug: slug || undefined,
+          is_open: isOpen,
+          page_size: pageSize,
+          page,
+          network_slug: network,
+          wallet_address: address,
+        },
+      });
+      return data;
+    },
+    staleTime: 10,
+    refetchInterval: isOpen ? 7000 : 20_000,
+    enabled: isLoggedIn && enabled,
+  });
+}
+
+export function usePendingPositionInCache() {
+  const queryClient = useQueryClient();
+  return ({ slug, positionKey }: { slug: string; positionKey: string }) => {
+    let resolve: (val: boolean) => void;
+    const p = new Promise<boolean>(_resolve => {
+      resolve = _resolve;
+    });
+
+    const timer = setInterval(() => {
+      const cached = queryClient.getQueriesData<PositionsResponse>({
+        queryKey: ['traderPositions', slug, true],
+        exact: false,
+      });
+
+      for (const [, data] of cached) {
+        const result = data?.positions.find(x => x.key === positionKey);
+        if (
+          result &&
+          (result?.status === 'CANCELED' ||
+            result?.deposit_status !== 'PENDING')
+        ) {
+          resolve(true);
+          clearInterval(timer);
+          return;
+        }
+      }
+    }, 500);
+
+    return Object.assign(p, {
+      stop: () => clearInterval(timer),
+    });
+  };
+}
+
+export interface CreatePositionRequest {
+  mode?: 'buy_and_sell' | 'buy_and_hold' | 'sell_and_hold';
+  signal: Signal;
+  withdraw_address: string;
+  quote_slug?: string;
+  quote_amount?: string;
+  base_slug?: string;
+  base_amount?: string;
+  network: SupportedNetworks;
+  buy_slippage?: string;
+  sell_slippage?: string;
+  buy_priority_fee?: string;
+  sell_priority_fee?: string;
+}
+
+export const usePreparePositionQuery = (req?: CreatePositionRequest) => {
+  return useQuery({
+    queryKey: ['traderPrepare', JSON.stringify(req)],
+    queryFn: async () => {
+      if (!req) return null;
+
+      const { network, ...body } = req;
+      const data = await ofetch<{
+        gas_fee: string;
+        min_ask: string;
+        ask_amount: string;
+        price_impact?: string;
+        exchange_fee: string;
+        trade_fee: string;
+        warning?: string;
+        error?: string;
+      }>('trader/positions/prepare', {
+        body,
+        method: 'post',
+        query: { network_slug: network },
+      });
+      return data;
+    },
+    staleTime: 50,
+    refetchInterval: 7000,
+    enabled: !!req,
+    meta: {
+      persist: false,
+    },
+  });
+};
+
+export interface CreatePositionResponse {
+  warning?: string;
+  gas_fee: string;
+  deposit_address: string;
+  position_key: string;
+}
+
+const useCreateTraderInstanceMutation = () => {
+  return useMutation({
+    mutationFn: async ({ network }: { network: SupportedNetworks }) => {
+      return await ofetch<null>('trader', {
+        body: {
+          network_slug: network,
+          exchange: NETWORK_MAIN_EXCHANGE[network],
+          market: 'SPOT',
+        },
+        method: 'post',
+      });
+    },
+  });
+};
+
+export const useTraderFirePositionMutation = () => {
+  const queryClient = useQueryClient();
+  const { mutateAsync } = useCreateTraderInstanceMutation();
+  return useMutation({
+    mutationFn: async ({ network, ...body }: CreatePositionRequest) => {
+      await mutateAsync({ network });
+      const data = await ofetch<CreatePositionResponse>('trader/positions', {
+        method: 'post',
+        body,
+        query: { network_slug: network },
+      });
+      return data;
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ['traderPositions'],
+      }),
+  });
+};
+
+export const useTraderCancelPositionMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      positionKey,
+      network,
+    }: {
+      positionKey: string;
+      network: SupportedNetworks;
+    }) => {
+      return await ofetch<null>(`trader/positions/${positionKey}/cancel`, {
+        method: 'post',
+        query: { network_slug: network },
+      });
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ['traderPositions'],
+      }),
+  });
+};
+
+export interface UpdatePositionRequest {
+  position_key: string;
+  signal: Signal;
+  network: SupportedNetworks;
+}
+
+export const useTraderUpdatePositionMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ network, ...body }: UpdatePositionRequest) => {
+      try {
+        return await ofetch<null>('trader/positions/signal', {
+          method: 'post',
+          body,
+          query: { network_slug: network },
+        });
+      } catch (error) {
+        if (error instanceof FetchError && error.status === 409) {
+          await queryClient.invalidateQueries({
+            queryKey: ['traderPosition', body.position_key],
+          });
+          throw new Error(
+            'Position state is changed, please review and fire again!',
+          );
+        }
+        throw error;
+      }
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ['traderPositions'],
+      }),
+  });
+};
+
+export type TransactionStatus = 'processing' | 'failed' | 'completed';
+export interface TransactionOrder {
+  type: 'stop_loss' | 'take_profit' | 'safety_open';
+  data: {
+    index: number;
+    from_asset_name: string;
+    from_asset_slug: string;
+    from_amount: string;
+    to_asset_name: string;
+    to_asset_slug: string;
+    to_amount?: string | null;
+    gas_fee_asset_name: string;
+    gas_fee_asset_slug: string;
+    gas_fee_amount?: string | null;
+    trading_fee_asset: string;
+    trading_fee_amount?: string | null;
+    price_quote: string;
+    price_usd: string;
+    time: string;
+    status: TransactionStatus;
+    link?: string | null;
+  };
+}
+
+export interface TransactionOpenClose {
+  type: 'open' | 'close'; // (close swap, triggered by close signal)
+  data: {
+    from_asset_name: string;
+    from_asset_slug: string;
+    from_amount: string;
+    to_asset_name: string;
+    to_asset_slug: string;
+    to_amount?: string | null; // nullable
+    gas_fee_asset_name: string;
+    gas_fee_asset_slug: string;
+    gas_fee_amount?: string | null; // nullable
+    trading_fee_asset: string;
+    trading_fee_amount: string | null; // nullable
+    price_quote: string;
+    price_usd: string;
+    time: string;
+    status: TransactionStatus;
+    link?: string | null;
+  };
+}
+
+interface Asset {
+  asset_name: string;
+  asset_slug: string;
+  amount: string;
+}
+export interface TransactionDeposit {
+  type: 'deposit';
+  data: {
+    assets: Asset[]; // is empty in "pending" status
+    time: string;
+    status: TransactionStatus; // (it can be seen on tonviewer but not confirmed), failed, completed
+    link?: string | null;
+  };
+}
+
+export interface TransactionWithdraw {
+  type: 'withdraw';
+  data: {
+    assets: Asset[];
+    gas_fee_asset_name: string;
+    gas_fee_asset_slug: string;
+    gas_fee_amount?: string | null; // nullable
+    time: string;
+    status: TransactionStatus; // pending, processing (it can be seen on tonviewer but not confirmed), failed, completed
+    link?: string | null;
+  };
+}
+
+export interface TransactionClose {
+  type: 'close_event'; // "Closed" card, or cancel_event for "Canceled" card
+  data: {
+    time: string;
+  };
+}
+
+export type Transaction =
+  | TransactionOrder
+  | TransactionOpenClose
+  | TransactionDeposit
+  | TransactionWithdraw
+  | TransactionClose;
+
+export function useTraderPositionTransactionsQuery({
+  positionKey,
+  network,
+}: {
+  positionKey: string;
+  network?: SupportedNetworks;
+}) {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery({
+    queryKey: ['position-transactions', positionKey],
+    queryFn: async () => {
+      const data = await ofetch<{ transactions: Transaction[] }>(
+        `trader/positions/${positionKey}/transactions`,
+        {
+          query: { network_slug: network },
+        },
+      );
+      return data.transactions;
+    },
+    staleTime: 10_000,
+    refetchInterval: 30_000,
+    enabled: isLoggedIn,
+  });
+}
+
+export interface Swap {
+  key: string;
+  base_slug: string;
+  created_at: string;
+  from_amount: string;
+  network_slug: string;
+  pnl_quote: string;
+  pnl_quote_percent: string;
+  pnl_usd: string;
+  pnl_usd_percent: string;
+  quote_slug: string;
+  side: 'LONG' | 'SHORT';
+  status: SwapStatus;
+  to_amount: string;
+  trading_volume: string;
+  transaction_link: string;
+  wallet_address: string;
+  fail_reason: string;
+}
+
+export type SwapStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'FAILED';
+
+export function useTraderSwapsQuery({
+  address,
+  page,
+  pageSize,
+  baseSlug,
+}: {
+  address?: string;
+  page?: number;
+  pageSize?: number;
+  baseSlug?: string;
+}) {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery({
+    queryKey: ['buys-sells', page, pageSize, address, baseSlug],
+    queryFn: async () => {
+      return await ofetch<PageResponse<Swap>>('/trader/swap', {
+        method: 'get',
+        query: {
+          network_slug: 'solana',
+          symbol_slug: baseSlug,
+          wallet_address: address,
+          page_size: pageSize,
+          page,
+        },
+      });
+    },
+    staleTime: 10_000,
+    refetchInterval: 10_000,
+    enabled: isLoggedIn,
+  });
+}

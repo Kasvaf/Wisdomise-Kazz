@@ -1,14 +1,14 @@
 import { notification } from 'antd';
-import { useNativeTokenBalance } from 'api/chains';
-import { tokenAddressToSlug, useTokensInfo } from 'api/token-info';
+import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
+import SensibleSteps from 'modules/base/wallet/SensibleSteps';
+import { useEffect, useState } from 'react';
+import { useNativeTokenBalance } from 'services/chains';
+import { tokenAddressToSlug, useTokensInfo } from 'services/rest/token-info';
 import {
   useWalletsQuery,
   useWalletWithdrawMutation,
   type Wallet,
-} from 'api/wallets';
-import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
-import SensibleSteps from 'modules/base/wallet/SensibleSteps';
-import { useEffect, useState } from 'react';
+} from 'services/rest/wallets';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Select } from 'shared/v1-components/Select';

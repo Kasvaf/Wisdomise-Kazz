@@ -1,14 +1,14 @@
-import {
-  type TwitterTweet,
-  useStreamTweets,
-  useTweetRelatedTokens,
-  useTwitterFollowedAccounts,
-} from 'api/discovery';
 import { clsx } from 'clsx';
 import BtnAddHandle from 'modules/discovery/ListView/XTracker/BtnAddHandle';
 import { useLibraryUsers } from 'modules/discovery/ListView/XTracker/useLibraryUsers';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  type Tweet,
+  useStreamTweets,
+  useTweetRelatedTokens,
+  useTwitterFollowedAccounts,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import Spinner from 'shared/Spinner';
 import { Dialog } from 'shared/v1-components/Dialog';
@@ -22,7 +22,7 @@ export const XTrackerView: FC<{
 }> = ({ className, expanded }) => {
   const { t } = useTranslation();
   const [openedRelatedTokens, setOpenedRelatedTokens] = useState<
-    TwitterTweet['tweet_id'] | null
+    Tweet['tweet_id'] | null
   >(null);
   const libraryUsers = useLibraryUsers();
 
@@ -39,7 +39,7 @@ export const XTrackerView: FC<{
   });
   return (
     <div className={clsx('h-full', className)}>
-      <h2 className="p-3 pt-0 text-xs">X Feed</h2>
+      <h2 className="px-3 text-xs">X Feed</h2>
       <AccessShield
         mode="children"
         sizes={{ guest: true, vip: false, free: false, initial: false }}

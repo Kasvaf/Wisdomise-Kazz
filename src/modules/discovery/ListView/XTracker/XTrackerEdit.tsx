@@ -1,11 +1,11 @@
 import { Collapse } from 'antd';
-import {
-  type TwitterFollowedAccount,
-  useTwitterFollowedAccounts,
-} from 'api/discovery';
 import { bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useMemo } from 'react';
+import {
+  type TwitterFollowedAccount,
+  useTwitterFollowedAccounts,
+} from 'services/rest/discovery';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { Checkbox } from 'shared/v1-components/Checkbox';

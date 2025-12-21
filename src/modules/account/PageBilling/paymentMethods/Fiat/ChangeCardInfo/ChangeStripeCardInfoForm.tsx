@@ -3,9 +3,9 @@ import {
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
-import { useAccountQuery } from 'api';
 import { type FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAccountQuery } from 'services/rest';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 

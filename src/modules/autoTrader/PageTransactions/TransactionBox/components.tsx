@@ -1,15 +1,15 @@
+import { bxGlobe } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import dayjs from 'dayjs';
+import type { PropsWithChildren, ReactNode } from 'react';
 import type {
   SupportedNetworks,
   TransactionOpenClose,
   TransactionOrder,
   TransactionStatus,
   TransactionWithdraw,
-} from 'api';
-import { useTokenInfo } from 'api/token-info';
-import { bxGlobe } from 'boxicons-quasar';
-import { clsx } from 'clsx';
-import dayjs from 'dayjs';
-import type { PropsWithChildren, ReactNode } from 'react';
+} from 'services/rest';
+import { useTokenInfo } from 'services/rest/token-info';
 import Icon from 'shared/Icon';
 import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';

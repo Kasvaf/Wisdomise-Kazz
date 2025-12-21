@@ -1,7 +1,7 @@
-import { isPositionUpdatable, type Position } from 'api';
 import { bxEditAlt } from 'boxicons-quasar';
 import useTraderDrawer from 'modules/autoTrader/BuySellTrader/useTraderDrawer';
 import { useNavigate } from 'react-router-dom';
+import { isPositionUpdatable, type Position } from 'services/rest';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';

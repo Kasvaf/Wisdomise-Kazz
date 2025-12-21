@@ -1,7 +1,7 @@
-import type { Coin } from 'api/types/shared';
 import { t } from 'i18next';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useState } from 'react';
+import type { Coin } from 'services/rest/types/shared';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { WhaleAssetsTreeMapWidget } from './WhaleAssetsTreeMapWidget';
 import { WhaleCoinsWidget } from './WhaleCoinsWidget';

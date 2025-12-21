@@ -1,5 +1,5 @@
-import type { Alert } from 'api/alert';
 import { useMemo } from 'react';
+import type { Alert } from 'services/rest/alert';
 import type { AlertForm, AlertFormGroup } from '../library/types';
 import { usePriceAlert } from './price';
 import { useScreenerAlert } from './screener';

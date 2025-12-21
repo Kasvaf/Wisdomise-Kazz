@@ -1,9 +1,9 @@
 import { Collapse, notification } from 'antd';
-import type { LibraryWallet } from 'api/library';
-import { useTrackerUnsubscribeMutation } from 'api/tracker';
 import { bxCopy, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import type { LibraryWallet } from 'services/rest/library';
+import { useTrackerUnsubscribeMutation } from 'services/rest/tracker';
 import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';

@@ -1,10 +1,10 @@
 import { Tooltip } from 'antd';
-import { useHasFlag } from 'api';
-import { useWhaleDetails } from 'api/discovery';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'services/rest';
+import { useWhaleDetails } from 'services/rest/discovery';
 import BetaVersion from 'shared/BetaVersion';
 import { DebugPin } from 'shared/DebugPin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

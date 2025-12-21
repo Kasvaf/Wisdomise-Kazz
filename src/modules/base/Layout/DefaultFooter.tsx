@@ -1,8 +1,8 @@
-import { useHasFlag } from 'api';
 import { clsx } from 'clsx';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useHasFlag } from 'services/rest';
 import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import useIsMobile from 'utils/useIsMobile';
 import { useMenuItems } from './MenuItems/useMenuItems';

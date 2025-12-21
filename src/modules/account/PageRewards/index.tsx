@@ -1,16 +1,16 @@
 import { notification } from 'antd';
-import { useHasFlag } from 'api';
-import { useActiveWallet } from 'api/chains/wallet';
-import {
-  useGamificationRewards,
-  useRewardsHistoryQuery,
-  useWithdrawRewardMutation,
-} from 'api/gamification';
 import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import PageWrapper from 'modules/base/PageWrapper';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import leagueSrc from 'modules/quest/PageLeague/images/summit.png';
 import { useState } from 'react';
+import { useActiveWallet } from 'services/chains/wallet';
+import { useHasFlag } from 'services/rest';
+import {
+  useGamificationRewards,
+  useRewardsHistoryQuery,
+  useWithdrawRewardMutation,
+} from 'services/rest/gamification';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import { Button } from 'shared/v1-components/Button';

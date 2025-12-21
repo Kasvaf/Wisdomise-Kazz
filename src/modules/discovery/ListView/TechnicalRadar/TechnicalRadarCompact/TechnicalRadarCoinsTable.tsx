@@ -1,6 +1,9 @@
-import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api/discovery';
 import { useDiscoveryParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
+import {
+  type TechnicalRadarCoin,
+  useTechnicalRadarCoins,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

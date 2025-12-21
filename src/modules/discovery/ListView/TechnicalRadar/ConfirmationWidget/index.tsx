@@ -1,10 +1,3 @@
-import {
-  type Indicator,
-  type IndicatorConfirmation,
-  type IndicatorConfirmationCombination,
-  type IndicatorConfirmationCore,
-  useIndicatorConfirmations,
-} from 'api/discovery';
 import { clsx } from 'clsx';
 import {
   type ComponentProps,
@@ -14,6 +7,13 @@ import {
   useState,
 } from 'react';
 import { Trans } from 'react-i18next';
+import {
+  type Indicator,
+  type IndicatorConfirmation,
+  type IndicatorConfirmationCombination,
+  type IndicatorConfirmationCore,
+  useIndicatorConfirmations,
+} from 'services/rest/discovery';
 import { AccessShield } from 'shared/AccessShield';
 import { Lazy } from 'shared/Lazy';
 import { useLoadingBadge } from 'shared/LoadingBadge';

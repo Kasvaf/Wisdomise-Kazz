@@ -1,9 +1,9 @@
-import { type OrderPresetItem, useAIPresets } from 'api/ai-presets';
 import { ReactComponent as LogoIcon } from 'assets/monogram-green.svg';
 import { bxChevronDown } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useEffect, useState } from 'react';
+import { type OrderPresetItem, useAIPresets } from 'services/rest/ai-presets';
 import Button from 'shared/Button';
 import { DrawerModal } from 'shared/DrawerModal';
 import Icon from 'shared/Icon';

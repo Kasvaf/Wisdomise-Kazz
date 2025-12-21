@@ -1,7 +1,3 @@
-import { useTraderAssetsQuery } from 'api';
-import { useWalletAssets } from 'api/chains';
-import { useActiveWallet, useConnectedWallet } from 'api/chains/wallet';
-import type { Wallet } from 'api/wallets';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useSolanaWalletPricedAssets } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
@@ -14,6 +10,10 @@ import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandl
 import WalletDetail from 'modules/base/wallet/WalletDetail';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWalletAssets } from 'services/chains';
+import { useActiveWallet, useConnectedWallet } from 'services/chains/wallet';
+import { useTraderAssetsQuery } from 'services/rest';
+import type { Wallet } from 'services/rest/wallets';
 import { AccessShield } from 'shared/AccessShield';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -198,7 +198,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
         <div
           className={clsx(
             'flex items-center gap-2 font-medium text-xs',
-            isActive && 'bg-brand-gradient bg-clip-text text-transparent',
+            isActive && 'text-v1-content-brand',
           )}
         >
           <div className="flex items-center gap-1">
@@ -212,7 +212,7 @@ function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
             {(wallet?.address || address) && (
               <HoverTooltip title="Copy Wallet Address">
                 <button
-                  className="mt-1 text-v1-content-secondary"
+                  className="text-v1-content-secondary"
                   onClick={() => copy(wallet?.address ?? address ?? '')}
                 >
                   <Icon name={bxCopy} size={16} />

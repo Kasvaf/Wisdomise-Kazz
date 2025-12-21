@@ -1,8 +1,8 @@
-import type { CoinNetwork } from 'api/discovery';
 import { bxsCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { CoinNetwork } from 'services/rest/discovery';
 import { shortenAddress } from 'utils/address';
 import Icon from './Icon';
 import { useShare } from './useShare';

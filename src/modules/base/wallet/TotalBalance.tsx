@@ -1,7 +1,7 @@
-import { useAllWallets } from 'api/chains/wallet';
 import { clsx } from 'clsx';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useEffect, useMemo, useState } from 'react';
+import { useUserWallets } from 'services/chains/wallet';
 import { roundSensible } from 'utils/numbers';
 
 export default function TotalBalance({ className }: { className?: string }) {
@@ -19,7 +19,7 @@ export default function TotalBalance({ className }: { className?: string }) {
 }
 
 function TotalBalanceHandler() {
-  const addresses = useAllWallets();
+  const addresses = useUserWallets();
   const [balances, setBalances] = useState<
     Array<{ address: string; balance: number }>
   >([]);

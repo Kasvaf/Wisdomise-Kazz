@@ -1,9 +1,14 @@
-import { getPairsCached } from 'api';
-import { USDC_SLUG, USDT_SLUG } from 'api/chains/constants';
-import type { Resolution } from 'api/discovery';
-import { observeGrpc, requestGrpc } from 'api/grpc-v2';
-import type { Candle } from 'api/proto/delphinus';
 import type { MutableRefObject } from 'react';
+import { USDC_SLUG, USDT_SLUG } from 'services/chains/constants';
+import { observeGrpc, requestGrpc } from 'services/grpc/core';
+import {
+  type Candle,
+  MarkerType,
+  type Swap,
+} from 'services/grpc/proto/delphinus';
+import { getPairsCached } from 'services/rest';
+import type { Resolution } from 'services/rest/discovery';
+import { slugToTokenAddress } from 'services/rest/token-info';
 import { cdnCoinIcon } from 'shared/CoinsIcons';
 import type {
   DatafeedConfiguration,
@@ -23,7 +28,7 @@ interface ChartCandle {
   time: number;
 }
 
-const resolutionToSeconds: Record<Resolution, number> = {
+export const resolutionToSeconds: Record<Resolution, number> = {
   '1s': 1,
   '5s': 5,
   '15s': 15,
@@ -82,6 +87,9 @@ const makeDataFeed = ({
   totalSupply,
   isMarketCap,
   marksRef,
+  addSwap,
+  setMigratedAt,
+  walletsRef,
 }: {
   slug: string;
   quote: string;
@@ -89,6 +97,9 @@ const makeDataFeed = ({
   totalSupply: number;
   isMarketCap: boolean;
   marksRef: MutableRefObject<Mark[]>;
+  addSwap: (...swaps: Swap[]) => void;
+  setMigratedAt: (time: number) => void;
+  walletsRef: MutableRefObject<string[]>;
 }): IBasicDataFeed => {
   let lastCandle: ChartCandle | undefined;
   let lastRes: Resolution | undefined;
@@ -184,6 +195,10 @@ const makeDataFeed = ({
         });
         const candles = resp.candles;
 
+        if (resp.symbol?.migratedAt) {
+          setMigratedAt(new Date(resp.symbol.migratedAt).getTime() / 1000);
+        }
+
         let chartCandles = candles.map(c => convertToChartCandle(c));
         if (isMarketCap) {
           chartCandles = chartCandles.map(c =>
@@ -198,6 +213,19 @@ const makeDataFeed = ({
 
         noData = chartCandles.length < periodParams.countBack;
         onResult(chartCandles);
+
+        const swaps = await requestGrpc({
+          service: 'delphinus',
+          method: 'swapsHistory',
+          payload: {
+            network,
+            asset: slugToTokenAddress(baseSlug),
+            startTime: new Date(periodParams.from * 1000).toISOString(),
+            endTime: new Date(periodParams.to * 1000).toISOString(),
+            wallets: walletsRef.current,
+          },
+        });
+        addSwap(...swaps.swaps);
       } catch (error: any) {
         onError(error.message);
       }
@@ -206,25 +234,41 @@ const makeDataFeed = ({
       const unsubscribe = observeGrpc(
         {
           service: 'delphinus',
-          method: 'lastCandleStream',
+          method: 'assetEventStream',
           payload: {
-            market: 'SPOT',
+            asset: slugToTokenAddress(baseSlug),
             network,
-            baseSlug,
-            quoteSlug: quote,
-            convertToUsd: checkConvertToUsd(quote),
+            lastCandleOptions: {
+              quote: slugToTokenAddress(quote),
+              market: 'SPOT',
+              convertToUsd: checkConvertToUsd(quote),
+            },
           },
         },
         {
-          next: ({ candle }) => {
+          next: ({ candle, swap, marker }) => {
             if (!candle) return;
             let chartCandle = convertToChartCandle(candle);
             if (isMarketCap) {
               chartCandle = convertToMarketCapCandle(chartCandle, totalSupply);
             }
 
+            if (marker?.markerType === MarkerType.MIGRATE) {
+              setMigratedAt(Date.now() / 1000);
+            }
+
             // For solving detached candles problem
-            if (lastCandle && lastCandle.time <= chartCandle.time) {
+            if (lastCandle) {
+              if (lastCandle.time > chartCandle.time) {
+                console.warn(
+                  'time violating candle. prev time: ',
+                  new Date(lastCandle.time),
+                  ' current time: ',
+                  new Date(chartCandle.time),
+                );
+                chartCandle.time = lastCandle.time;
+              }
+
               if (chartCandle.time === lastCandle.time) {
                 chartCandle.open = lastCandle.open;
                 chartCandle.high = Math.max(lastCandle.high, chartCandle.high);
@@ -232,8 +276,13 @@ const makeDataFeed = ({
               } else {
                 chartCandle.open = lastCandle.close;
               }
+
               lastCandle = { ...chartCandle };
               onTick(chartCandle);
+            }
+
+            if (swap) {
+              addSwap(swap);
             }
           },
         },

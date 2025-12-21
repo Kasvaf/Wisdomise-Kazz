@@ -4,9 +4,9 @@ import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import { useSocialShare } from 'shared/useSocialShare';
 import { Button } from 'shared/v1-components/Button';
+import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
 import { ReactComponent as LinkedinIcon } from './images/linkedin.svg';
 import { ReactComponent as TelegramIcon } from './images/telegram.svg';
-import { ReactComponent as XIcon } from './images/twitter.svg';
 
 export default function ShareSocial({
   text,

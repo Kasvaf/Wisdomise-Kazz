@@ -1,7 +1,10 @@
-import { useHasFlag } from 'api';
-import { useCreateWalletMutation, useWalletsQuery } from 'api/wallets';
 import { bxPlus } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { useHasFlag } from 'services/rest';
+import {
+  useCreateWalletMutation,
+  useWalletsQuery,
+} from 'services/rest/wallets';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 

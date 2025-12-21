@@ -1,4 +1,3 @@
-import type { Alert } from 'api/alert';
 import {
   createContext,
   type Dispatch,
@@ -8,6 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import type { Alert } from 'services/rest/alert';
 import type { AlertForm, AlertFormGroup } from './types';
 
 export type EditingAlertState = [

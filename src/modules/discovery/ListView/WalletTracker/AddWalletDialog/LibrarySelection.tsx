@@ -1,9 +1,9 @@
-import { type LibraryType, useLibrariesQuery } from 'api/library';
 import { bxCheck, bxPlus } from 'boxicons-quasar';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
+import { type LibraryType, useLibrariesQuery } from 'services/rest/library';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import libBg from './lib-bg.png';

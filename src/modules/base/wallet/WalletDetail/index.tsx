@@ -1,11 +1,4 @@
 import { Tabs } from 'antd';
-import { useHasFlag, useTraderAssetQuery } from 'api';
-import {
-  useUpdateWalletMutation,
-  useWalletQuery,
-  useWalletsQuery,
-  type Wallet,
-} from 'api/wallets';
 import { bxCopy, bxLinkExternal } from 'boxicons-quasar';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -16,6 +9,13 @@ import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
 import Orders from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Orders';
 import { useEffect, useState } from 'react';
+import { useHasFlag, useTraderAssetQuery } from 'services/rest';
+import {
+  useUpdateWalletMutation,
+  useWalletQuery,
+  useWalletsQuery,
+  type Wallet,
+} from 'services/rest/wallets';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -56,9 +56,9 @@ export default function WalletDetail() {
     <div>
       <div className="flex items-center gap-1">
         <WalletName wallet={wallet} />
-        <HoverTooltip className="inline" title="Copy Wallet Address">
+        <HoverTooltip title="Copy Wallet Address">
           <Button
-            className="mt-1 text-v1-content-primary/70"
+            className="text-v1-content-primary/70"
             fab
             onClick={() => copy(wallet.address)}
             size="3xs"
@@ -68,12 +68,9 @@ export default function WalletDetail() {
             <Icon className="[&>svg]:size-4" name={bxCopy} />
           </Button>
         </HoverTooltip>
-        <HoverTooltip
-          className="inline"
-          title={`View on ${SCANNERS[wallet.network_slug].name}`}
-        >
+        <HoverTooltip title={`View on ${SCANNERS[wallet.network_slug].name}`}>
           <Button
-            className="mt-1 text-v1-content-primary/70"
+            className="text-v1-content-primary/70"
             fab
             onClick={() => openScan(wallet)}
             size="3xs"

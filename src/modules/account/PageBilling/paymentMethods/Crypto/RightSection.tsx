@@ -1,10 +1,10 @@
-import { useInvoicesQuery } from 'api';
-import type { Network } from 'api/types/NetworksResponse';
-import type { SubscriptionPlan } from 'api/types/subscription';
 import { clsx } from 'clsx';
 import NetworkSelector from 'modules/account/wallet/useCryptoNetworkSelector/NetworkSelector';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useInvoicesQuery } from 'services/rest';
+import type { Network } from 'services/rest/types/NetworksResponse';
+import type { SubscriptionPlan } from 'services/rest/types/subscription';
 import Button from 'shared/Button';
 import CoinsIcons from 'shared/CoinsIcons';
 import CopyInputBox from 'shared/CopyInputBox';

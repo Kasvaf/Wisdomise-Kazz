@@ -1,8 +1,8 @@
-import { useDetailedCoins } from 'api/discovery';
 import { bxSearch } from 'boxicons-quasar';
 import { type ComponentProps, type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useDetailedCoins } from 'services/rest/discovery';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useGlobalNetwork } from 'shared/useGlobalNetwork';

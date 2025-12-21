@@ -1,7 +1,7 @@
-import { useAccountQuery } from 'api';
 import { DOCS_ORIGIN, RouterBaseName } from 'config/constants';
 import { RewardIcon, WsdmTokenIcon } from 'modules/account/PageAccount/icons';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
+import { useAccountQuery } from 'services/rest';
 import { isMiniApp } from 'utils/version';
 import BranchSelector from '../../BranchSelector';
 import BoxedIcon from './BoxedIcon';

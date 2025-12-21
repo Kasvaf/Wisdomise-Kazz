@@ -1,6 +1,6 @@
-import type { SocialRadarSentiment } from 'api/discovery';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
+import type { SocialRadarSentiment } from 'services/rest/discovery';
 import Happy from './happy.png';
 import Sad from './sad.png';
 
