@@ -20,7 +20,10 @@ import { ReactComponent as ReplyIcon } from 'shared/v1-components/X/assets/reply
 import { ReactComponent as RetweetIcon } from 'shared/v1-components/X/assets/retweet.svg';
 import { ReactComponent as ViewIcon } from 'shared/v1-components/X/assets/view.svg';
 import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
-import { extractEnrichedTweetText } from 'shared/v1-components/X/utils';
+import {
+  extractEnrichedTweetText,
+  getXTweetUrl,
+} from 'shared/v1-components/X/utils';
 import { XUser, XUserSkeleton } from 'shared/v1-components/X/XProfileEmbed';
 
 export function XTweetEmbed({
@@ -91,7 +94,7 @@ export function XTweetEmbed({
       fallback: 'text-v1-content-negative',
     });
 
-  const tweetUrl = `https://x.com/${value?.user.username}/status/${value?.id}`;
+  const tweetUrl = getXTweetUrl(value?.user.username, value?.id);
   const replyIntent = `https://x.com/intent/tweet?in_reply_to=${value?.id}`;
   const likeIntent = `https://x.com/intent/like?tweet_id=${value?.id}`;
   const retweetIntent = `https://x.com/intent/retweet?tweet_id=${value?.id}`;
@@ -123,7 +126,7 @@ export function XTweetEmbed({
           <Skeleton className="mb-4 h-32 bg-white/5" />
           <Skeleton className="h-10 rounded-xl bg-white/5" />
         </div>
-      ) : value ? (
+      ) : value?.id ? (
         <div className="@container w-full">
           <div>
             <div className="flex items-start justify-between gap-2 pb-3">

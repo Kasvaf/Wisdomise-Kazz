@@ -36,4 +36,5 @@ export interface TableProps<RecordType extends object> {
   rowHoverSuffix?: RowFunction<RecordType, ReactNode>;
   footer?: ReactNode;
   size?: 'md' | 'sm';
+  emptyMessage?: string;
 }

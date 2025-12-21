@@ -70,6 +70,7 @@ export function useTwitterUserPreviewQuery({ username }: { username: string }) {
       );
       return res.data;
     },
+    retry: false,
     staleTime: Number.POSITIVE_INFINITY,
     enabled: true,
   });
@@ -90,6 +91,7 @@ export function useTwitterPostPreviewQuery({
       });
       return res;
     },
+    retry: false,
     enabled: enabled && !!tweetId,
   });
 }
@@ -177,6 +179,7 @@ export function useTwitterCommunityPreviewQuery({
         { query: { community_id: communityId } },
       );
     },
+    retry: false,
     staleTime: Number.POSITIVE_INFINITY,
   });
 }

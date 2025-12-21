@@ -8,6 +8,10 @@ export function getXUserUrl(username: string) {
   return `https://x.com/${username}`;
 }
 
+export function getXTweetUrl(username?: string, tweetId?: string) {
+  return `https://x.com/${username}/status/${tweetId}`;
+}
+
 interface TweetEntity {
   start: number;
   end: number;

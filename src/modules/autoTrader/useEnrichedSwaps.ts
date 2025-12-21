@@ -24,11 +24,15 @@ export const useTokenSwaps = ({
   network,
   wallets,
   enabled = true,
+  startTime,
+  endTime,
 }: {
   tokenAddress?: string;
   wallets?: string[];
   network: string;
   enabled?: boolean;
+  startTime?: string;
+  endTime?: string;
 }) => {
   const [quote] = useActiveQuote();
   const { data: history, isLoading: l1 } = useGrpc({
@@ -38,17 +42,12 @@ export const useTokenSwaps = ({
       network,
       asset: tokenAddress,
       wallets,
+      startTime,
+      endTime,
     },
     enabled: enabled,
     history: 0,
   });
-
-  // console.log(
-  //   'history',
-  //   history?.swaps?.find(
-  //     s => s.wallet === '2foGd2F4hY5SRDXdyhX4nMxtQczk7p2fZ5GuczmvsgBZ',
-  //   ),
-  // );
 
   const { history: streamHistory, isLoading: l2 } = useAssetEventStream({
     payload: {
@@ -64,23 +63,19 @@ export const useTokenSwaps = ({
     history: 200,
   });
 
-  // console.log(
-  //   'stream',
-  //   streamHistory.find(
-  //     s => s.swap?.wallet === '2foGd2F4hY5SRDXdyhX4nMxtQczk7p2fZ5GuczmvsgBZ',
-  //   ),
-  // );
-
   const data = useMemo(() => {
     const swaps = (
       history
         ? uniqueBy(
             [
               ...(streamHistory
-                ?.filter(s =>
-                  wallets?.length
-                    ? wallets?.includes(s.swap?.wallet ?? '')
-                    : true,
+                ?.filter(
+                  s =>
+                    !startTime &&
+                    !endTime &&
+                    (wallets?.length
+                      ? wallets?.includes(s.swap?.wallet ?? '')
+                      : true),
                 )
                 ?.map(x => x.swap)
                 .toReversed() ?? []),
@@ -94,7 +89,7 @@ export const useTokenSwaps = ({
     ).slice(0, 200);
 
     return swaps.map(row => enrichSwap(row));
-  }, [history, streamHistory, wallets]);
+  }, [history, streamHistory, wallets, startTime, endTime]);
 
   return {
     data,

@@ -28,7 +28,7 @@ interface ChartCandle {
   time: number;
 }
 
-const resolutionToSeconds: Record<Resolution, number> = {
+export const resolutionToSeconds: Record<Resolution, number> = {
   '1s': 1,
   '5s': 5,
   '15s': 15,

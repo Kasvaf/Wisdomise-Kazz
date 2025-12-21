@@ -1,9 +1,16 @@
-import { bxFilterAlt, bxPause, bxTransfer, bxUser } from 'boxicons-quasar';
+import {
+  bxFilterAlt,
+  bxPause,
+  bxTime,
+  bxTransfer,
+  bxUser,
+} from 'boxicons-quasar';
 import clsx from 'clsx';
 import { openInScan } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import { BtnConvertToUsd, SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import { useTokenSwaps } from 'modules/autoTrader/useEnrichedSwaps';
 import { usePausedData } from 'modules/autoTrader/usePausedData';
+import { useSelectedCandle } from 'modules/autoTrader/useSelectedCandle';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
@@ -13,6 +20,7 @@ import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useUserWallets } from 'services/chains/wallet';
 import { useTokenPairsQuery } from 'services/rest';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -27,6 +35,13 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const slug = symbol.slug;
   const trackedWallets = useTrackedWallets();
   const userWallets = useUserWallets();
+  const {
+    startTime,
+    endTime,
+    cleanLines,
+    enabled: filterTime,
+    setEnabled: setFilterTime,
+  } = useSelectedCandle();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { settings, updateSwapsPartial } = useUserSettings();
@@ -68,6 +83,14 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
     tokenAddress: asset,
     enabled,
     wallets: filteredWallets,
+    startTime:
+      filterTime && startTime
+        ? new Date(startTime * 1000).toISOString()
+        : undefined,
+    endTime:
+      filterTime && endTime
+        ? new Date(endTime * 1000).toISOString()
+        : undefined,
   });
 
   const { data: pausedData, isPaused } = usePausedData(data, containerRef);
@@ -80,6 +103,21 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={clsx(className)}>
       <div className="mr-3 mb-2 flex items-center">
+        <HoverTooltip title="Filter By Selected Candle Timeframe">
+          <Button
+            className={clsx(filterTime && '!text-v1-content-brand')}
+            fab
+            onClick={() => {
+              setFilterTime(!filterTime);
+              cleanLines();
+            }}
+            size="2xs"
+            surface={0}
+            variant="ghost"
+          >
+            <Icon className="[&>svg]:size-4" name={bxTime} />
+          </Button>
+        </HoverTooltip>
         <Button
           className={clsx(filterDev && '!text-v1-content-brand')}
           onClick={() => setFilterDev(prev => !prev)}
@@ -222,6 +260,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
             },
           ]}
           dataSource={partialData}
+          emptyMessage="No Transaction Found"
           isPaused={isPaused}
           loading={isLoading}
           rowClassName="relative"

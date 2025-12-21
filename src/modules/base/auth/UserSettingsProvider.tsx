@@ -490,7 +490,15 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         ],
       };
     });
-    notification.success({ message: 'Item added to blacklists' });
+
+    const message =
+      item.type === 'ca'
+        ? 'Token hidden'
+        : item.type === 'dev'
+          ? 'Dev blacklisted'
+          : 'Item added to blacklists';
+
+    notification.success({ message: message });
   };
 
   const deleteBlacklist = ({

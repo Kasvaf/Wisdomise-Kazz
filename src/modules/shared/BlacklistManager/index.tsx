@@ -1,17 +1,18 @@
 import { bxBookmarkMinus, bxTrash } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import dayjs from 'dayjs';
 import {
   type BlacklistType,
   MAX_BLACKLISTS_LENGTH,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
+import { ReadableDate } from 'shared/ReadableDate';
 import { Badge } from 'shared/v1-components/Badge';
 import { Button } from 'shared/v1-components/Button';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Dialog } from 'shared/v1-components/Dialog';
 import { Input } from 'shared/v1-components/Input';
 import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
@@ -28,6 +29,7 @@ export default function BlacklistManager({
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState<BlacklistType | null>(null);
   const [value, setValue] = useState<string>('');
   const { settings, deleteBlacklist, addBlacklist, deleteAllBlacklists } =
     useUserSettings();
@@ -38,7 +40,24 @@ export default function BlacklistManager({
       network: 'solana',
       value: value,
     });
+    setValue('');
   };
+
+  const tabs = useMemo(() => {
+    return [
+      { value: null, label: 'All' },
+      ...Object.entries(blacklistTypeMap)
+        .filter(([value]) => value !== 'keyword')
+        .map(([value, label]) => ({
+          value,
+          label,
+        })),
+    ];
+  }, []);
+
+  const blacklists = useMemo(() => {
+    return settings.blacklists.filter(b => (filter ? b.type === filter : true));
+  }, [settings.blacklists, filter]);
 
   return (
     <>
@@ -98,10 +117,17 @@ export default function BlacklistManager({
               </Button>
             </ClickableTooltip>
           </div>
-          <hr className="mt-5 border-white/10" />
+          <ButtonSelect
+            onChange={newValue => setFilter(newValue as BlacklistType)}
+            options={tabs}
+            size="sm"
+            surface={1}
+            value={filter}
+            variant="tab"
+          />
           <div className="h-[300px] overflow-y-auto">
-            {settings.blacklists.length === 0 && <EmptyContent />}
-            {settings.blacklists.map((item, index) => (
+            {blacklists.length === 0 && <EmptyContent />}
+            {blacklists.map((item, index) => (
               <>
                 {index !== 0 && <hr className="border-white/10" />}
                 <div
@@ -115,7 +141,7 @@ export default function BlacklistManager({
                         {blacklistTypeMap[item.type]}
                       </Badge>
                       <span className="ml-2 text-2xs text-v1-content-secondary">
-                        Added {dayjs(item.created_at).fromNow()}
+                        Added <ReadableDate value={item.created_at} />
                       </span>
                     </div>
                   </div>

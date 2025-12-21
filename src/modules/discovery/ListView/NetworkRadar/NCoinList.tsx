@@ -20,6 +20,7 @@ import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Badge } from 'shared/v1-components/Badge';
+import Skeleton from 'shared/v1-components/Skeleton';
 import Spin from 'shared/v1-components/Spin';
 import { Token, TokenLink } from 'shared/v1-components/Token';
 import { useInterval, useSessionStorage } from 'usehooks-ts';
@@ -521,15 +522,36 @@ export const MetaTag = ({
     <HoverTooltip
       onOpenChange={() => setEnabled(true)}
       title={
-        isLoading ? (
-          'Loading'
-        ) : (
-          <div className="h-80 overflow-auto">
-            {meta && (
-              <MetaNarrative className="px-1 py-2" meta={meta} mode="dialog" />
-            )}
-          </div>
-        )
+        <div className="h-80 overflow-auto px-1 py-2">
+          {isLoading ? (
+            <div className="flex h-full w-[422px] flex-col gap-3">
+              <div className="rounded-2xl bg-v1-surface-l2 p-3">
+                <Skeleton className="inline">Narrative</Skeleton>
+                <Skeleton className="mt-3 mb-4 w-1/2 text-lg" />
+                <div className="space-y-2">
+                  <Skeleton className="w-40" />
+                  <Skeleton className="w-[80%]" />
+                  <Skeleton className="w-[70%]" />
+                </div>
+                <hr className="my-3 border-white/10" />
+                <div className="flex gap-3">
+                  <div className="w-1/2 space-y-2">
+                    <Skeleton />
+                    <Skeleton />
+                  </div>
+                  <div className="h-10 border-white/10 border-r" />
+                  <div className="w-1/2 space-y-2">
+                    <Skeleton />
+                    <Skeleton />
+                  </div>
+                </div>
+              </div>
+              <div className="w-full grow rounded-xl bg-v1-surface-l2" />
+            </div>
+          ) : meta ? (
+            <MetaNarrative meta={meta} mode="dialog" />
+          ) : null}
+        </div>
       }
     >
       <Badge

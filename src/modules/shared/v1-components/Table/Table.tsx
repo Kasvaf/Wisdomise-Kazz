@@ -32,6 +32,7 @@ export function Table<RecordType extends object>({
   chunkSize = 48,
   footer,
   size = 'md',
+  emptyMessage,
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
 
@@ -169,7 +170,7 @@ export function Table<RecordType extends object>({
             <tr data-placeholder>
               <td colSpan={99} data-align="center">
                 <div>
-                  <EmptyContent />
+                  <EmptyContent message={emptyMessage} />
                 </div>
               </td>
             </tr>
