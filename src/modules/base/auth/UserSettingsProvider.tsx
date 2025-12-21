@@ -496,7 +496,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         ? 'Token hidden'
         : item.type === 'dev'
           ? 'Dev blacklisted'
-          : 'Item added to blacklists';
+          : 'Item added to blacklist';
 
     notification.success({ message: message });
   };
@@ -522,7 +522,14 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         blacklists: blackLists,
       };
     });
-    notification.success({ message: 'Item removed from blacklists' });
+
+    const message =
+      type === 'ca'
+        ? 'Token is now visible'
+        : type === 'dev'
+          ? 'Dev unblacklisted'
+          : 'Item removed from blacklist';
+    notification.success({ message });
   };
 
   const deleteAllBlacklists = () => {
