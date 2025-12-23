@@ -237,7 +237,7 @@ export const useGamificationRewards = () => {
     tradeCashback: findMissionReward('trade_cashback_solana'),
     league: findMissionReward('league_solana'),
     total: findMissionReward('solana'),
-    claimed: findMissionReward('solana_claimed'),
+    claimed: findMissionReward('claimed_solana'),
   };
 };
 
