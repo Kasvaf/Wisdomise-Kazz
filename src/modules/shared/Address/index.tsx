@@ -76,13 +76,26 @@ export const Address: FC<{
           </Button>
         }
       >
-        {isUser
-          ? 'You'
-          : walletDetail
-            ? walletDetail.name
-            : kolWalletDetail
-              ? kolWalletDetail.name
-              : shortAddress}
+        {isUser ? (
+          'You'
+        ) : walletDetail ? (
+          <span>
+            {walletDetail.emoji} {walletDetail.name}
+          </span>
+        ) : kolWalletDetail ? (
+          <span className="inline-flex items-center gap-1">
+            {kolWalletDetail?.image_url && (
+              <img
+                alt={kolWalletDetail.name}
+                className="size-4 rounded-full"
+                src={kolWalletDetail.image_url}
+              />
+            )}
+            <span>{kolWalletDetail.name}</span>
+          </span>
+        ) : (
+          shortAddress
+        )}
       </HoverTooltip>
       <HoverTooltip
         title={
@@ -104,8 +117,6 @@ export const Address: FC<{
             className="text-v1-content-brand [&>svg]:size-3"
             name={bxUser}
           />
-        ) : walletDetail ? (
-          walletDetail.emoji
         ) : isDev ? (
           <DevIcon className="size-3 text-v1-content-brand" />
         ) : kolWalletDetail ? (

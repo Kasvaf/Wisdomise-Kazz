@@ -36,7 +36,7 @@ export const useSelectedCandle = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled.current) return;
 
     widget?.onChartReady(() => {
       widget
@@ -76,7 +76,7 @@ export const useSelectedCandle = () => {
       destructed = true;
       cleanLines();
     };
-  }, [widget, enabled]);
+  }, [widget, enabled.current]);
 
   return {
     enabled: enabled.current,
