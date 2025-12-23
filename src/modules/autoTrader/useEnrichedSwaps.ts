@@ -82,7 +82,7 @@ export const useTokenSwaps = ({
               ...(history?.swaps ?? []),
             ]
               .filter(s => !!s)
-              .filter(s => !SwapAssetsAreBothQuotes(s)),
+              .filter(s => !swapAssetsAreBothQuotes(s)),
             x => x.txId,
           )
         : []
@@ -164,7 +164,7 @@ export const useEnrichedSwaps = ({
             ]
               .filter(s => !!s)
               .map(s => ('relatedAt' in s ? s : toCamelCaseObject<Swap>(s)))
-              .filter(s => !SwapAssetsAreBothQuotes(s)),
+              .filter(s => !swapAssetsAreBothQuotes(s)),
             x => x.txId,
           )
         : [];
@@ -206,7 +206,7 @@ export const enrichSwap = (swap: Swap) => {
   };
 };
 
-const SwapAssetsAreBothQuotes = (s: Swap) => {
+const swapAssetsAreBothQuotes = (s: Swap) => {
   return (
     QUOTES_ADDRESSES.includes(s.toAsset) &&
     QUOTES_ADDRESSES.includes(s.fromAsset)

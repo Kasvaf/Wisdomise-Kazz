@@ -78,6 +78,11 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const showMarketCap = settings.swaps.show_market_cap;
 
   const enabled = !!network && !!asset;
+  console.log(
+    filterTime,
+    endTime,
+    new Date((endTime ?? 0) * 1000).toISOString(),
+  );
   const { data, isLoading } = useTokenSwaps({
     network,
     tokenAddress: asset,
