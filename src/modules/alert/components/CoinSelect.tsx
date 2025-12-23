@@ -3,7 +3,7 @@ import { bxChevronDown } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC, useMemo, useState } from 'react';
 import { useLastPriceStream } from 'services/price';
-import { useCoinDetails, useCoins } from 'services/rest/discovery';
+import { useCoins, useTokenReview } from 'services/rest/discovery';
 import type { Coin as CoinType } from 'services/rest/types/shared';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -35,7 +35,7 @@ export const CoinSelect: FC<
   const q = useDebounce(query, 400);
   const coinList = useCoins({ query: q, tradableCoinsOnly });
 
-  const coin = useCoinDetails({ slug: value ?? undefined });
+  const coin = useTokenReview({ slug: value ?? undefined });
   const { data: lastPrice } = useLastPriceStream({
     slug: value == null ? undefined : value,
   });

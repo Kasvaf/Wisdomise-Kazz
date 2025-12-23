@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useTokenPairsQuery } from 'services/rest';
+import { useTokenInfo } from 'services/rest/token-info';
 import { useChartMarks } from 'shared/AdvancedChart/Marks/useChartMarks';
 import { useKnownWallets } from 'shared/AdvancedChart/useKnownWallets';
 import { formatNumber } from 'utils/numbers';
@@ -43,6 +44,7 @@ const AdvancedChart: React.FC<{
   const { totalSupply } = useTotalSupply();
   const knownWallets = useKnownWallets();
   const knownWalletsRef = useRef(knownWallets);
+  const { data: tokenInfo } = useTokenInfo({ slug });
 
   useEffect(() => {
     knownWalletsRef.current = knownWallets || [];
@@ -58,11 +60,11 @@ const AdvancedChart: React.FC<{
     const initResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
     ) || '1s') as ResolutionString;
-    const pair = pairs.find(x => x.quote.slug === quote);
-    if (!pair) return;
+    // const pair = pairs.find(x => x.quote.slug === quote);
+    // if (!pair) return;
 
     const widget = new Widget({
-      symbol: pair?.base.name ?? undefined,
+      symbol: tokenInfo?.name ?? undefined,
       datafeed: makeDataFeed({
         quote,
         slug,
@@ -226,6 +228,7 @@ const AdvancedChart: React.FC<{
     setIsMarketCap,
     setQuote,
     setConvertToUsd,
+    tokenInfo,
   ]);
 
   return <div className={clsx(className)} ref={chartContainerRef} />;

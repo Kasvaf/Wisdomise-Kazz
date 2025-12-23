@@ -2,8 +2,8 @@ import { clsx } from 'clsx';
 import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Pool, useCoinDetails } from 'services/rest/discovery';
-import { ContractAddress } from 'shared/ContractAddress';
+import { type Pool, useTokenReview } from 'services/rest/discovery';
+import { Address } from 'shared/Address';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
@@ -25,7 +25,7 @@ export function CoinPoolsWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const { symbol } = useUnifiedCoinDetails();
-  const nCoinDetails = useCoinDetails({ slug: symbol.slug });
+  const nCoinDetails = useTokenReview({ slug: symbol.slug });
   const pools = nCoinDetails.data?.symbol_pools ?? [];
   const [limit, setLimit] = useState<number | undefined>(_limit);
 
@@ -33,7 +33,7 @@ export function CoinPoolsWidget({
     () => [
       {
         title: t('pools.table.address'),
-        render: row => row.address && <ContractAddress value={row.address} />,
+        render: row => row.address && <Address value={row.address} />,
       },
       {
         title: t('pools.table.name'),
@@ -112,6 +112,7 @@ export function CoinPoolsWidget({
             )
           }
           loading={nCoinDetails.isLoading}
+          rowClassName="text-xs"
           rowKey={row => `${row.address ?? ''}${row.name ?? ''}`}
           scrollable
           surface={1}

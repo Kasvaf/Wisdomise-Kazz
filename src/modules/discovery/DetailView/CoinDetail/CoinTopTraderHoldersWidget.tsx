@@ -6,11 +6,11 @@ import type {
   TopTraderStreamResponse,
   WalletUpdate,
 } from 'services/grpc/proto/network_radar';
+import { Address } from 'shared/Address';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Badge } from 'shared/v1-components/Badge';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Wallet } from 'shared/v1-components/Wallet';
 import { useUnifiedCoinDetails } from './lib';
 
 const SharedTable: FC<{
@@ -22,12 +22,22 @@ const SharedTable: FC<{
   const {
     marketData: { currentPrice, totalSupply },
   } = useUnifiedCoinDetails();
+
   const columns = useMemo<Array<TableColumn<WalletUpdate>>>(
     () => [
       {
         title: 'Address',
         render: row => (
-          <Wallet address={row.walletAddress} className="text-xs" mode="name" />
+          <div className="flex items-center gap-1">
+            <Address
+              className="text-xs"
+              mode="name"
+              value={row.walletAddress}
+            />
+            {row.balance === 0 && type === 'holders' && (
+              <Badge color="neutral">Sold Out</Badge>
+            )}
+          </div>
         ),
       },
       {
@@ -36,6 +46,7 @@ const SharedTable: FC<{
           <div className="flex flex-col gap-px">
             <ReadableNumber
               className="text-xs"
+              format={{ decimalLength: 2 }}
               label="$"
               popup="never"
               value={row.volumeInflow}
@@ -58,6 +69,7 @@ const SharedTable: FC<{
           <div className="flex flex-col gap-px">
             <ReadableNumber
               className="text-xs"
+              format={{ decimalLength: 2 }}
               label="$"
               popup="never"
               value={row.volumeOutflow}
@@ -92,6 +104,7 @@ const SharedTable: FC<{
         render: row => (
           <DirectionalNumber
             className="text-xs"
+            format={{ decimalLength: 2 }}
             label="$"
             popup="never"
             showIcon={false}
@@ -178,6 +191,7 @@ export function CoinTopHoldersWidget({
     payload: {
       network: symbol.network ?? undefined,
       tokenAddress: symbol.contractAddress ?? undefined,
+      pageSize: 50,
     },
   });
 

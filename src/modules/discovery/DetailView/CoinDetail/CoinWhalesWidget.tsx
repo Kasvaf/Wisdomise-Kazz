@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type CoinWhale, useCoinWhales } from 'services/rest/discovery';
+import { Address } from 'shared/Address';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
 import { Network } from 'shared/Network';
@@ -10,7 +11,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Input } from 'shared/v1-components/Input';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Wallet } from 'shared/v1-components/Wallet';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { useUnifiedCoinDetails } from './lib';
 
@@ -40,7 +40,7 @@ export function CoinWhalesWidget({
       {
         title: t('whales_on_coin.address'),
         sticky: 'start',
-        render: row => <Wallet address={row.holder_address} />,
+        render: row => <Address value={row.holder_address} />,
       },
       {
         title: t('whales_on_coin.badge'),

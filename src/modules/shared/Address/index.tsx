@@ -1,10 +1,11 @@
-import { bxsCopy, bxTrophy, bxUser } from 'boxicons-quasar';
+import { bxDroplet, bxsCopy, bxTrophy, bxUser } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { ReactComponent as DevIcon } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/dev_holding.svg';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
-import type { FC } from 'react';
+import { type FC, useMemo } from 'react';
 import { useUserWallets } from 'services/chains/wallet';
+import { useTokenReview } from 'services/rest/discovery';
 import { useKolWallets } from 'services/rest/kol';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -12,29 +13,46 @@ import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
 import { getAddressSuffix, shortenAddress } from 'utils/address';
 
-export const Wallet: FC<{
-  address?: string;
+export const Address: FC<{
+  value?: string;
   className?: string;
   mode?: 'mini' | 'address' | 'name';
-}> = ({ className, address, mode = 'address' }) => {
+}> = ({ className, value, mode = 'address' }) => {
+  const { developer, symbol } = useUnifiedCoinDetails();
+
   const trackedWallets = useTrackedWallets();
   const userWallets = useUserWallets();
   const { data: kolWallets } = useKolWallets({});
-  const { developer } = useUnifiedCoinDetails();
+
+  const tokenReview = useTokenReview({ slug: symbol.slug });
+  const pools = tokenReview.data?.symbol_pools ?? [];
+  const isPool = useMemo(
+    () => pools.map(p => p.address).includes(value),
+    [pools, value],
+  );
 
   const [copy, notificationContent] = useShare('copy');
   const formatter = mode === 'mini' ? getAddressSuffix : shortenAddress;
-  const shortAddress = formatter(address);
+  const shortAddress = formatter(value);
 
-  const walletDetail = trackedWallets.find(w => w.address === address);
-  const kolWalletDetail = kolWallets?.find(w => w.wallet_address === address);
-  const isUser = !!address && userWallets.includes(address);
-  const isDev = !!address && developer?.address === address;
+  const walletDetail = useMemo(
+    () => trackedWallets.find(w => w.address === value),
+    [trackedWallets, value],
+  );
+  const kolWalletDetail = useMemo(
+    () => kolWallets?.find(w => w.wallet_address === value),
+    [kolWallets, value],
+  );
+  const isUser = useMemo(
+    () => !!value && userWallets.includes(value),
+    [userWallets, value],
+  );
+  const isDev = !!value && developer?.address === value;
 
   return (
     <span
       className={clsx(
-        'inline-flex w-max items-center gap-2 overflow-hidden rounded-md font-mono',
+        'inline-flex w-max items-center gap-1 overflow-hidden rounded-md font-mono',
         className,
       )}
     >
@@ -42,14 +60,14 @@ export const Wallet: FC<{
         title={
           <Button
             onClick={() => {
-              if (address) {
-                void copy(address);
+              if (value) {
+                void copy(value);
               }
             }}
             size="2xs"
             variant="ghost"
           >
-            <span>{shortenAddress(address, 12, 4)}</span>
+            <span>{shortenAddress(value, 12, 4)}</span>
             <Icon
               className="[&_svg]:!size-3 cursor-copy opacity-75"
               name={bxsCopy}
@@ -76,7 +94,9 @@ export const Wallet: FC<{
                 ? 'Dev'
                 : kolWalletDetail
                   ? 'KOL'
-                  : ''
+                  : isPool
+                    ? 'Liquidity Pool'
+                    : ''
         }
       >
         {isUser ? (
@@ -92,6 +112,11 @@ export const Wallet: FC<{
           <Icon
             className="text-v1-content-brand [&>svg]:size-3"
             name={bxTrophy}
+          />
+        ) : isPool ? (
+          <Icon
+            className="text-v1-content-brand [&>svg]:size-3"
+            name={bxDroplet}
           />
         ) : null}
       </HoverTooltip>

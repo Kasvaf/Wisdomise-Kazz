@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { type CoinWhale, useCoinWhales } from 'services/rest/discovery';
 import type { Coin as CoinType } from 'services/rest/types/shared';
 import { AccessShield } from 'shared/AccessShield';
+import { Address } from 'shared/Address';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { Network } from 'shared/Network';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
-import { Wallet } from 'shared/v1-components/Wallet';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 export const CoinWhalesWidget: FC<{
@@ -25,7 +25,7 @@ export const CoinWhalesWidget: FC<{
     () => [
       {
         title: t('whales_on_coin.address'),
-        render: row => <Wallet address={row.holder_address} />,
+        render: row => <Address value={row.holder_address} />,
       },
       {
         title: t('whales_on_coin.badge'),

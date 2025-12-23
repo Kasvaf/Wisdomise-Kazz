@@ -1,6 +1,6 @@
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { useTokenBalance } from 'services/chains';
-import { useCoinDetails } from 'services/rest/discovery';
+import { useTokenReview } from 'services/rest/discovery';
 import AmountInputBox from 'shared/AmountInputBox';
 import AIPresets from './AIPressets';
 import AmountBalanceLabel from './AmountBalanceLabel';
@@ -22,7 +22,7 @@ const PartIntro: React.FC<{
     slug: quote,
   });
 
-  const coin = useCoinDetails({ slug: baseSlug });
+  const coin = useTokenReview({ slug: baseSlug });
   const isNewBorn = coin?.data?.symbol_labels?.includes('new_born');
 
   return (

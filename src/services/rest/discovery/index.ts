@@ -950,7 +950,7 @@ export const useCoinLabels = (config: { query?: string }) =>
     staleTime: Number.POSITIVE_INFINITY,
   });
 
-export const useCoinDetails = ({
+export const useTokenReview = ({
   slug,
   priceHistoryDays,
 }: {

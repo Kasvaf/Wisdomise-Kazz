@@ -19,6 +19,7 @@ import { useMemo, useRef, useState } from 'react';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useUserWallets } from 'services/chains/wallet';
 import { useTokenPairsQuery } from 'services/rest';
+import { Address } from 'shared/Address';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
@@ -26,7 +27,6 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { Table } from 'shared/v1-components/Table';
-import { Wallet } from 'shared/v1-components/Wallet';
 
 const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const { symbol, marketData, developer } = useUnifiedCoinDetails();
@@ -241,7 +241,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
               title: 'Trader',
               key: 'trader',
               render: row => (
-                <Wallet address={row.wallet} className="text-xs" mode="mini" />
+                <Address className="text-xs" mode="mini" value={row.wallet} />
               ),
             },
             {

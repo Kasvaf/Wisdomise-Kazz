@@ -6,13 +6,13 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { useMemo, useRef } from 'react';
 import { AccessShield } from 'shared/AccessShield';
+import { Address } from 'shared/Address';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Table } from 'shared/v1-components/Table';
 import { EmptyContent } from 'shared/v1-components/Table/EmptyContent';
 import { Token, TokenImage, TokenLink } from 'shared/v1-components/Token';
-import { Wallet } from 'shared/v1-components/Wallet';
 
 export default function WalletsSwaps({ expanded }: { expanded?: boolean }) {
   const network = useActiveNetwork();
@@ -60,7 +60,7 @@ export default function WalletsSwaps({ expanded }: { expanded?: boolean }) {
               {
                 title: 'Name',
                 key: 'name',
-                render: row => <Wallet address={row.wallet} mode="name" />,
+                render: row => <Address mode="name" value={row.wallet} />,
               },
               {
                 title: 'Token',
@@ -146,10 +146,10 @@ export default function WalletsSwaps({ expanded }: { expanded?: boolean }) {
                 </div>
                 <div className="grow">
                   <div className="mb-1 flex items-center gap-1">
-                    <Wallet
-                      address={row.wallet}
+                    <Address
                       className="truncate"
                       mode="name"
+                      value={row.wallet}
                     />
                     <span
                       className={

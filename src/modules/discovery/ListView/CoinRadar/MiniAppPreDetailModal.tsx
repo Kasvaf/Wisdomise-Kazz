@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import { useHasFlag } from 'services/rest';
-import { useCoinDetails } from 'services/rest/discovery';
+import { useTokenReview } from 'services/rest/discovery';
 import { Coin } from 'shared/Coin';
 import { TokenLabels } from 'shared/CoinLabels';
 import { DrawerModal } from 'shared/DrawerModal';
@@ -28,7 +28,7 @@ const MiniAppPreDetailModal: React.FC<{
     }
   }, [slugArg]);
 
-  const coinOverview = useCoinDetails({ slug });
+  const coinOverview = useTokenReview({ slug });
   // coinOverview.isLoading = true;
   const tradingViewChartId = coinOverview.data?.charts.find(
     x => x.type === 'trading_view',

@@ -12,8 +12,8 @@ import type {
 import { useLastPriceStream } from 'services/price';
 import {
   type CoinNetwork,
-  useCoinDetails,
   useDetailedCoins,
+  useTokenReview,
 } from 'services/rest/discovery';
 import { useTokenInfo } from 'services/rest/token-info';
 import type { Coin } from 'services/rest/types/shared';
@@ -152,7 +152,7 @@ export const UnifiedCoinDetailsProvider: FC<{
   children?: ReactNode;
   slug: ComplexSlug;
 }> = ({ children, slug }) => {
-  const resp1 = useCoinDetails({ slug: slug.slug });
+  const resp1 = useTokenReview({ slug: slug.slug });
   const resp2 = useGrpc({
     service: 'network_radar',
     method: 'coinDetailStream',

@@ -3,7 +3,7 @@ import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPr
 import { useNavigate } from 'react-router-dom';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import type { Position } from 'services/rest';
-import { useCoinDetails } from 'services/rest/discovery';
+import { useTokenReview } from 'services/rest/discovery';
 import { Button } from 'shared/v1-components/Button';
 import BtnFireSignal from './BtnFireSignal';
 import PartIntro from './PartIntro';
@@ -35,7 +35,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
 
   const normSlug = baseSlug === 'solana' ? WRAPPED_SOLANA_SLUG : baseSlug;
 
-  const coin = useCoinDetails({ slug: baseSlug });
+  const coin = useTokenReview({ slug: baseSlug });
   const isNewBorn = coin?.data?.symbol_labels?.includes('new_born');
   return (
     <div className={clsx('flex flex-col gap-3', className)}>

@@ -2,7 +2,7 @@ import { bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type CoinExchange, useCoinDetails } from 'services/rest/discovery';
+import { type CoinExchange, useTokenReview } from 'services/rest/discovery';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
@@ -25,7 +25,7 @@ export function CoinExchangesWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const { symbol } = useUnifiedCoinDetails();
-  const { data: rawData } = useCoinDetails({ slug: symbol.slug });
+  const { data: rawData } = useTokenReview({ slug: symbol.slug });
   const exchanges = rawData?.exchanges;
   const [query, setQuery] = useState('');
   const [limit, setLimit] = useState<number | undefined>(_limit);

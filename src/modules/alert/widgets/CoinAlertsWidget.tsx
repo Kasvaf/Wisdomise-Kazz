@@ -7,7 +7,7 @@ import { AlertType } from 'modules/alert/components/AlertType';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Alert } from 'services/rest/alert';
-import { useCoinDetails } from 'services/rest/discovery';
+import { useTokenReview } from 'services/rest/discovery';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableDate } from 'shared/ReadableDate';
@@ -18,7 +18,7 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
   const slug = alerts[0].params.find(x => x.field_name === 'base')?.value;
   if (!slug) throw new Error('coin alerts not works');
-  const coin = useCoinDetails({ slug });
+  const coin = useTokenReview({ slug });
 
   const columns = useMemo<Array<TableColumn<Alert>>>(
     () => [

@@ -96,7 +96,7 @@ export const ContractAddress: FC<{
       {data.value === undefined && !noLabel ? (
         <p className={className}>{data.title}</p>
       ) : (
-        <div className={clsx('flex items-center gap-1', className)}>
+        <div className={clsx('flex items-center gap-1 font-mono', className)}>
           {!noLabel && data.title}
           {allowCopy && (
             <button
