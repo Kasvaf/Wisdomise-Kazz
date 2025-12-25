@@ -76,6 +76,7 @@ export type GrpcWorkerRequest = {
   method: string | number | symbol;
   payload?: any;
   debug?: boolean;
+  filter?: (data: any) => boolean;
 };
 
 export type GrpcWorkerResponse = {
@@ -86,7 +87,12 @@ export type GrpcWorkerResponse = {
 };
 
 export const generateKey = (request: Omit<GrpcWorkerRequest, 'action'>) =>
-  JSON.stringify([request.service, request.method, request.payload]);
+  JSON.stringify([
+    request.service,
+    request.method,
+    request.payload,
+    // request.filter,
+  ]);
 
 export const workerMessageHandler =
   (key: string, handler: (data: GrpcWorkerResponse) => void) =>

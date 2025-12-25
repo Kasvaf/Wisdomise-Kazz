@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { SCANNERS } from 'modules/autoTrader/PageTransactions/TransactionBox/components';
 import WalletPositions from 'modules/autoTrader/Positions/WalletPositions';
+import Positions from 'modules/autoTrader/SwapPositions';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import WalletSwaps from 'modules/autoTrader/WalletSwaps';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
@@ -203,25 +204,36 @@ export default function WalletDetail() {
         items={[
           {
             key: '1',
+            label: 'Active Positions',
+            children: <Positions status="ACTIVE" wallet={wallet} />,
+          },
+          {
+            key: '2',
+            label: 'Positions History',
+            children: <Positions status="CLOSED" wallet={wallet} />,
+          },
+          {
+            key: '3',
             label: 'Buys/Sells',
             children: <WalletSwaps wallet={wallet} />,
           },
           {
-            key: '2',
+            key: '4',
             label: 'Account PnL',
             children: <WalletStatus wallet={wallet} />,
           },
           {
-            key: '3',
+            key: '5',
             label: 'Orders',
             children: <Orders walletAddress={wallet.address} />,
           },
           {
-            key: '4',
+            key: '6',
             label: 'Auto Trade',
             children: <WalletPositions wallet={wallet} />,
           },
         ]}
+        size="middle"
       />
       {notif}
     </div>

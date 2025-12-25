@@ -117,7 +117,16 @@ export function useGrpc<
     const unsubscribe = subscribeWorker(worker, workerReq, resp => {
       lastObservedData.set(resp.key, resp.data);
       const isValid =
-        (!request.filter || request.filter(resp.data)) && resp.data;
+        (!request.filter || request.filter(resp.data)) && !!resp.data;
+      //
+      // if (key.toLowerCase().includes('watch')) {
+      //   console.log(
+      //     isValid,
+      //     !request.filter,
+      //     request.filter?.(resp.data),
+      //     resp.data,
+      //   );
+      // }
       setResponse(p => {
         lastObservedData.set(resp.key, resp.data);
         const newHistory = isValid ? [...p.history, resp.data] : p.history;

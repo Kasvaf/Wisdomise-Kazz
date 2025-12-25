@@ -1,6 +1,7 @@
 import { bxPin, bxX } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnInstantTrade from 'modules/autoTrader/BuySellTrader/BtnInstantTrade';
+import Positions from 'modules/autoTrader/SwapPositions';
 import TokenSwaps from 'modules/autoTrader/TokenSwaps';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import DevTokens from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/DevTokens';
@@ -46,6 +47,7 @@ export const CoinDetailsTabs = () => {
   const tabContents = {
     coinoverview_swaps: <TokenSwaps />,
     coinoverview_orders: <Orders />,
+    coinoverview_positions: <Positions status="ACTIVE" />,
     coinoverview_trading_view: (
       <CoinMessagesWidget
         className="w-full"
