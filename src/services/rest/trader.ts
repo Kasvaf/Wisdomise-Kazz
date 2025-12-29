@@ -705,3 +705,66 @@ export function useTraderSwapsQuery({
     enabled: isLoggedIn,
   });
 }
+
+export type SwapPositionStatus = 'CLOSED' | 'ACTIVE';
+
+export interface SwapPosition {
+  key: 'ebb74e60-e19e-415e-9271-aaa511abc003';
+  symbol_slug: 'solana_9jNLEJffGc4orvM17rMrYcmb55YfzEvgc6ymcyG3pump';
+  wallet_address: '2foGd2F4hY5SRDXdyhX4nMxtQczk7p2fZ5GuczmvsgBZ';
+  status: SwapPositionStatus;
+  balance: '3125.632160000000000000';
+  avg_buy_price: '0.000000317375797669';
+  avg_buy_price_usd: '0.120995410849594560';
+  total_asset_bought: '3125.632160000000000000';
+  total_bought: '0.000992000000000000';
+  total_bought_usd: '0.120995410849594560';
+  total_asset_sold: '0.000000000000000000';
+  total_sold: '0.000000000000000000';
+  total_sold_usd: '0.000000000000000000';
+  created_at: '2025-12-25T08:53:44.357408Z';
+  updated_at: '2025-12-25T08:53:44.362763Z';
+}
+
+export const useSwapPositionsQuery = ({
+  symbolSlug,
+  walletAddress,
+  status,
+  page,
+  pageSize,
+}: {
+  symbolSlug?: string;
+  walletAddress?: string;
+  status?: SwapPositionStatus;
+  page?: number;
+  pageSize?: number;
+}) => {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery({
+    queryKey: [
+      'swap-positions',
+      symbolSlug,
+      walletAddress,
+      status,
+      page,
+      pageSize,
+    ],
+    queryFn: async () => {
+      const data = await ofetch<PageResponse<SwapPosition>>(
+        `trader/swap-positions/`,
+        {
+          query: {
+            symbol_slug: symbolSlug,
+            wallet_address: walletAddress,
+            status,
+            page,
+            pageSize,
+          },
+        },
+      );
+      return data;
+    },
+    refetchInterval: 20 * 1000,
+    enabled: isLoggedIn,
+  });
+};

@@ -18,6 +18,7 @@ interface LastCandleParams {
   market?: MarketTypes;
   convertToUsd?: boolean;
   debug?: boolean;
+  enabled?: boolean;
 }
 
 export const useLastCandleStream = ({
@@ -26,6 +27,7 @@ export const useLastCandleStream = ({
   quote,
   market = 'SPOT',
   convertToUsd = !quote,
+  enabled = true,
 }: LastCandleParams) => {
   const { data: supportedPairs } = useTokenPairsQuery(base);
 
@@ -66,7 +68,7 @@ export const useLastCandleStream = ({
         convertToUsd,
       },
     },
-    enabled: Boolean(base && theQuote && bestNet && market),
+    enabled: Boolean(base && theQuote && bestNet && market && enabled),
     history: 0,
   });
 };

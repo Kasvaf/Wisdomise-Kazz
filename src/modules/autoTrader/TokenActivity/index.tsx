@@ -1,7 +1,11 @@
-import { bxShareAlt } from 'boxicons-quasar';
+import { bxArrowToRight, bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import SwapSharingModal from 'modules/autoTrader/SwapSharingModal';
 import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
+import {
+  calcPnl,
+  calcPnlPercent,
+} from 'modules/autoTrader/TokenActivity/utils';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
@@ -10,10 +14,12 @@ import {
   WRAPPED_SOLANA_CONTRACT_ADDRESS,
   WRAPPED_SOLANA_SLUG,
 } from 'services/chains/constants';
+import { WatchEventType } from 'services/grpc/proto/wealth_manager';
 import { useLastPriceStream } from 'services/price';
 import { useHasFlag, useTokenPairsQuery } from 'services/rest';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
 import { Token } from 'shared/v1-components/Token';
 import { formatNumber } from 'utils/numbers';
 import { ReactComponent as UsdIcon } from './usd.svg';
@@ -29,7 +35,7 @@ export const BtnConvertToUsd = ({
   onChange: (isUsd: boolean) => void;
   className?: string;
   disabled?: boolean;
-  size?: '3xs' | 'xs';
+  size?: ButtonSize;
 }) => {
   return (
     <Button
@@ -72,10 +78,18 @@ export function SolanaIcon({
 }
 
 export default function TokenActivity({ mini = false }: { mini?: boolean }) {
+  const [showLastPosition, setShowLastPosition] = useState(false);
+
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
   const slug = symbol.slug;
-  const { data } = useTokenActivity({ slug });
+  const { data } = useTokenActivity({
+    slug,
+    type: showLastPosition
+      ? WatchEventType.SWAP_POSITION_UPDATE
+      : WatchEventType.TRADE_ACTIVITY_UPDATE,
+  });
+
   const hasFlag = useHasFlag();
   const [openShare, setOpenShare] = useState(false);
 
@@ -111,11 +125,11 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
   const hold = balance * (price ?? 0);
   const holdUsd = balance * (priceUsd ?? 0);
 
-  const pnl = sold + hold - bought;
-  const pnlUsd = soldUsd + holdUsd - boughtUsd;
+  const pnl = calcPnl(bought, sold, balance, price ?? 0);
+  const pnlUsd = calcPnl(boughtUsd, soldUsd, balance, priceUsd ?? 0);
 
-  const pnlPercent = bought === 0 ? 0 : (pnl / bought) * 100;
-  const pnlUsdPercent = boughtUsd === 0 ? 0 : (pnlUsd / boughtUsd) * 100;
+  const pnlPercent = calcPnlPercent(bought, pnl);
+  const pnlUsdPercent = calcPnlPercent(boughtUsd, pnlUsd);
   const pnlSign = pnl >= 0 ? '+' : '-';
 
   const formatter = (value?: string | number) => {
@@ -145,19 +159,41 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
         )}
       >
         {!mini && (
-          <div className="mb-4 flex items-center justify-between">
-            Your Activity on This Token
+          <div className="mb-4 flex items-center">
+            <span className="mr-auto">Your Activity on This Token</span>
             {pnl !== 0 && (
+              <HoverTooltip title="Share Pnl">
+                <Button
+                  className="text-v1-content-primary/70"
+                  fab
+                  onClick={() => setOpenShare(true)}
+                  size="2xs"
+                  variant="ghost"
+                >
+                  <Icon className="[&>svg]:!size-4" name={bxShareAlt} />
+                </Button>
+              </HoverTooltip>
+            )}
+            <HoverTooltip
+              title={
+                showLastPosition
+                  ? 'Show Total Activity'
+                  : 'Show Last Position Activity'
+              }
+            >
               <Button
-                className="text-v1-content-primary/70"
+                className={clsx(
+                  'text-v1-content-primary/70',
+                  showLastPosition && '!text-v1-content-positive',
+                )}
                 fab
-                onClick={() => setOpenShare(true)}
+                onClick={() => setShowLastPosition(prev => !prev)}
                 size="2xs"
                 variant="ghost"
               >
-                <Icon className="[&>svg]:!size-4" name={bxShareAlt} />
+                <Icon className="[&>svg]:!size-5" name={bxArrowToRight} />
               </Button>
-            )}
+            </HoverTooltip>
           </div>
         )}
         <div className={clsx('flex gap-1', mini && 'items-center')}>
@@ -200,10 +236,11 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
               <div className="relative mb-2 flex items-center gap-1">
                 <span className="text-v1-content-secondary">PNL</span>
                 <BtnConvertToUsd
-                  className="!absolute right-0"
+                  className="!absolute left-6"
                   disabled={!hasSolanaPair}
                   isUsd={showUsd}
                   onChange={toggleShowActivityInUsd}
+                  size="2xs"
                 />
               </div>
             )}

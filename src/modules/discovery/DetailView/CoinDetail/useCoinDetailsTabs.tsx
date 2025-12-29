@@ -2,6 +2,7 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/l
 import { useMarketCap } from 'modules/discovery/DetailView/CoinDetail/useMarketCap';
 import { type ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSwapPositionsQuery } from 'services/rest';
 import { useOrdersQuery } from 'services/rest/order';
 import { Badge } from 'shared/v1-components/Badge';
 import type { ButtonSelect } from 'shared/v1-components/ButtonSelect';
@@ -9,6 +10,7 @@ import type { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 export const useCoinDetailsTabs = () => {
   const { t } = useTranslation('coin-radar');
   const { data: pendingOrders } = useOrdersQuery({ status: 'PENDING' });
+  const { data: activePositions } = useSwapPositionsQuery({ status: 'ACTIVE' });
   const { data: marketCapUsd } = useMarketCap({});
   const { symbol } = useUnifiedCoinDetails();
   const [showInsight, setShowInsight] = useState(false);
@@ -59,6 +61,19 @@ export const useCoinDetailsTabs = () => {
         label: 'Dev Tokens',
       },
       {
+        value: 'coinoverview_positions',
+        label: (
+          <div className="flex items-center gap-1">
+            Positions
+            {(activePositions?.count ?? 0) > 0 && (
+              <Badge color="brand" variant="solid">
+                {activePositions?.count}
+              </Badge>
+            )}
+          </div>
+        ),
+      },
+      {
         value: 'coinoverview_orders',
         label: (
           <div className="flex items-center gap-1">
@@ -100,7 +115,13 @@ export const useCoinDetailsTabs = () => {
       //   label: 'Holding Whales',
       // },
     ],
-    [pendingOrders?.count, t, showInsight, validatedData?.numberOfHolders],
+    [
+      pendingOrders?.count,
+      t,
+      showInsight,
+      validatedData?.numberOfHolders,
+      activePositions?.count,
+    ],
   );
   return initialTabs;
 };
