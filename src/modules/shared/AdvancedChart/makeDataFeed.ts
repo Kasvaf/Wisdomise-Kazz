@@ -254,7 +254,7 @@ const makeDataFeed = ({
             }
 
             if (marker?.markerType === MarkerType.MIGRATE) {
-              setMigratedAt(Date.now() / 1000);
+              setMigratedAt(new Date(marker.relatedAt).getTime() / 1000);
             }
 
             // For solving detached candles problem
