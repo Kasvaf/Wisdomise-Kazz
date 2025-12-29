@@ -8,7 +8,6 @@ import {
 import { useSessionStorage } from 'usehooks-ts';
 import CoinChart from '../CoinChart';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { NCoinRisksBanner } from '../NCoinRisksBanner';
 import { TokenTitle } from '../TokenTitle';
 import { TokenUpdateWidget } from '../TokenUpdateWidget';
 import { CoinDetailsTabs } from './CoinDetailsTabs';
@@ -59,7 +58,6 @@ export const CoinDetailsExpanded: FC = () => {
           <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />
           <TokenUpdateWidget />
-          <NCoinRisksBanner />
           <TokenInfo />
         </div>
       </div>
