@@ -17,35 +17,21 @@ login:
     By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
     Service</3>.
   step-1:
+    title: Your Goated Trading Terminal
+    subtitle: Trade. Compete. Earn <1></1> Weekly.
     button-submit-email: Get Started
     field-email: Email
     field-email-placeholder: Your Email Address
-    social_radar_subtitle: Seamless Trading, from Memecoins to High-Cap Tokens, all in One Place.
-    social_radar_title: Discover, Validate, and Trade Crypto with AI.
   step-2:
-    title: Enter Magic Code
     subtitle: Enter the 6-digit Magic code we sent to {{email}} to continue.
     btn-change-email: Change Email Address
     btn-resend: Resend Code
-    btn-submit-otp: Done
+    btn-submit-otp: Enter the Arena
     field-nonce: 6-Digit Magic Code
 page-referral:
   title: Invite Your Friends and Earn Rewards!
   subtitle: >-
     Share Your Referral Link and Earn Exclusive Bonuses When Your Friends Join
     and Trade.
-  bonus:
-    title: Bonus Bag
-    description: Your Reward Will Be Paid in USDC.
-    claim: Claim Reward
-    ready: Ready to Claim
-  earned-subscription: Earned From Wise Club Until Now
-  earned-trader: Earned From Trade Fees Until Now
-  friends-list:
-    title: Your Referral List
   how:
     button: How it Works?
-  referral-link: Your Referral Link
-  subscription: Wise Club
-  total-referrals: Total Referrals
-  trader: Trader
