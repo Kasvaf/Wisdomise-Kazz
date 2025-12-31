@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { DOCS_ORIGIN } from 'config/constants';
 import PageWrapper from 'modules/base/PageWrapper';
 import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
 import LeagueResultModalContent from 'modules/quest/PageLeague/LeagueResultModalContent';
@@ -19,6 +20,7 @@ import {
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
 import useModal from 'shared/useModal';
+import { Badge } from 'shared/v1-components/Badge';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import useIsMobile from 'utils/useIsMobile';
@@ -26,10 +28,6 @@ import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDet
 import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
 import cup from './images/cup.png';
 import prize from './images/prize.png';
-// eslint-disable-next-line import/no-unassigned-import
-import 'swiper/css/navigation';
-import { DOCS_ORIGIN } from 'config/constants';
-import { Badge } from 'shared/v1-components/Badge';
 
 export default function PageLeague() {
   const { profile, league, isLoading } = useLeague();

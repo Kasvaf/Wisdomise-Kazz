@@ -3,8 +3,6 @@ import { type FC, type ReactNode, useMemo } from 'react';
 import { Trans } from 'react-i18next';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
 import './slides.css';
 import { ReactComponent as Logo } from 'assets/logo-green.svg';
 import { clsx } from 'clsx';

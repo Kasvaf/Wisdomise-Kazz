@@ -16,6 +16,10 @@ import PageError from 'modules/base/PageError';
 import { LoadingBadgeProvider } from 'shared/LoadingBadge';
 import { useErrorNotification } from 'shared/useErrorNotification';
 import { ComponentsProvider } from 'shared/v1-components/ComponentsProvider';
+/* @ts-expect-error */
+import 'swiper/css';
+/* @ts-expect-error */
+import 'swiper/css/pagination';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');
