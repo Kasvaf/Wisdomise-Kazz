@@ -1,5 +1,6 @@
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type FC, useEffect, useState } from 'react';
+import { useHasFlag } from 'services/rest';
 import { useUserStorage } from 'services/rest/userStorage';
 import { Dialog } from 'shared/v1-components/Dialog';
 import ArenaOnboarding from './ArenaOnboarding';
@@ -7,20 +8,21 @@ import ArenaOnboarding from './ArenaOnboarding';
 export const ArenaOnboardingModal: FC = () => {
   const isLoggedIn = useIsLoggedIn();
   const [open, setOpen] = useState(false);
+  const hasFlag = useHasFlag();
   const { value, save, isFetching } = useUserStorage<boolean>(
-    'arena-onboarding-z4',
+    'arena-onboarding',
     {
       serializer: 'json',
     },
   );
-
-  const isFirstTime = isLoggedIn && !isFetching && !value;
+  const showModal =
+    hasFlag('/login?arena-onboarding') && isLoggedIn && !isFetching && !value;
 
   useEffect(() => {
-    if (isFirstTime) {
+    if (showModal) {
       setOpen(true);
     }
-  }, [isFirstTime]);
+  }, [showModal]);
 
   return (
     <Dialog
