@@ -1,7 +1,7 @@
 import { bxLeftArrowAlt, bxRightArrowAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonSize } from 'shared/v1-components/Button';
 
 export function NavigateButtons({
   nextText,
@@ -12,6 +12,9 @@ export function NavigateButtons({
   showNext = true,
   onNext,
   onPrev,
+  buttonClassName,
+  buttonSize = 'xl',
+  renderHiddenButtons = true,
   className,
 }: {
   nextText?: string;
@@ -22,6 +25,9 @@ export function NavigateButtons({
   showNext?: boolean;
   onNext?: () => void;
   onPrev?: () => void;
+  buttonSize?: ButtonSize;
+  buttonClassName?: string;
+  renderHiddenButtons?: boolean;
   className?: string;
 }) {
   return (
@@ -33,10 +39,17 @@ export function NavigateButtons({
     >
       <Button
         block
-        className={clsx('w-64', !showPrev && 'opacity-0 max-md:hidden')}
+        className={clsx(
+          'w-64',
+          !showPrev && [
+            'opacity-0 max-md:hidden',
+            !renderHiddenButtons && 'hidden',
+          ],
+          buttonClassName,
+        )}
         disabled={!allowPrev || !showPrev}
         onClick={onPrev}
-        size="xl"
+        size={buttonSize}
         variant="outline"
       >
         <Icon name={bxLeftArrowAlt} />
@@ -46,11 +59,15 @@ export function NavigateButtons({
         block
         className={clsx(
           'w-64 max-md:w-full',
-          !showNext && 'opacity-0 max-md:hidden',
+          !showNext && [
+            'opacity-0 max-md:hidden',
+            !renderHiddenButtons && 'hidden',
+          ],
+          buttonClassName,
         )}
         disabled={!allowNext || !showNext}
         onClick={onNext}
-        size="xl"
+        size={buttonSize}
         variant="primary"
       >
         {nextText}

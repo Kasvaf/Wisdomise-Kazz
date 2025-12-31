@@ -3,6 +3,7 @@ import { ReactComponent as Logo } from 'assets/logo-green.svg';
 import { bxArrowBack } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { DOCS_ORIGIN, TELEGRAM_BOT_BASE_URL } from 'config/constants';
+import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import { REFERRER_CODE_KEY } from 'modules/base/Container/ReferrerListener';
 import { useCallback, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -22,15 +23,12 @@ import { Dialog } from 'shared/v1-components/Dialog';
 import EditableText from 'shared/v1-components/EditableText';
 import useNow from 'utils/useNow';
 import { v4 } from 'uuid';
-import { ModalLoginSlides } from './ModalLoginSlides';
 import TelegramLogin from './TelegramLogin';
-import { useModalLoginTexts } from './useModalLoginTexts';
 
 const LoginModalContent: React.FC<{
   onResolve?: (success: boolean) => void;
 }> = ({ onResolve }) => {
   const { t } = useTranslation('auth');
-  const { title, subtitle } = useModalLoginTexts();
   const [step, setStep] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
   const [nonce, setNonce] = useState('');
@@ -116,7 +114,7 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
   const notice = (
-    <p className="text-2xs text-v1-content-secondary [&_a]:text-v1-content-brand">
+    <p className="text-center text-2xs text-v1-content-secondary [&_a]:text-v1-content-brand">
       <Trans i18nKey="login.notice" ns="auth">
         By continuing, you agree to our
         <a
@@ -143,11 +141,13 @@ const LoginModalContent: React.FC<{
 
   const emailContent = (
     <>
-      <h1 className="mb-3 pr-12 font-medium text-xl leading-normal max-md:hidden">
-        {title}
-      </h1>
-      <p className="mb-6 text-sm text-v1-content-secondary leading-normal max-md:hidden">
-        {subtitle}
+      <h2 className="mb-2 text-center font-bold text-lg leading-normal">
+        {t('login.step-1.title')}
+      </h2>
+      <p className="mb-6 text-center text-sm text-v1-content-secondary leading-normal">
+        <Trans i18nKey="login.step-1.subtitle" ns="auth">
+          Trade. Compete. Earn <SolanaIcon className="align-middle" /> Weekly.
+        </Trans>
       </p>
 
       <div className="flex flex-col items-stretch gap-4">
@@ -190,13 +190,13 @@ const LoginModalContent: React.FC<{
       </div>
 
       <div className="my-6 flex h-px w-full items-center justify-center overflow-visible bg-v1-border-disabled">
-        <span className="px-2 text-v1-content-secondary text-xs backdrop-blur-lg">
+        <span className="px-2 text-2xs text-v1-content-secondary backdrop-blur-lg">
           {t('common:or')}
         </span>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4">
-        <div className="h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
+      <div className="flex grow flex-col items-center justify-center gap-4">
+        <div className="h-md w-full max-w-[352px] overflow-hidden rounded-lg bg-white text-center">
           <GoogleLogin
             logo_alignment="center"
             onSuccess={googleHandler}
@@ -205,11 +205,12 @@ const LoginModalContent: React.FC<{
             theme="outline"
             type="standard"
             use_fedcm_for_prompt
-            width={320}
+            width={352}
           />
         </div>
 
         <TelegramLogin className="max-w-[320px]" onClick={tgHandler} />
+        <div className="grow" />
         {notice}
       </div>
     </>
@@ -217,10 +218,7 @@ const LoginModalContent: React.FC<{
 
   const codeContent = (
     <>
-      <h1 className="mb-5 pr-12 font-medium text-xl leading-normal max-md:hidden">
-        {t('login.step-2.title')}
-      </h1>
-      <p className="mb-9 text-v1-content-secondary text-xs leading-normal max-md:mb-4">
+      <p className="mb-5 text-center text-v1-content-secondary text-xs leading-normal">
         {t('login.step-2.subtitle', { email })}
       </p>
 
@@ -284,35 +282,30 @@ const LoginModalContent: React.FC<{
   );
 
   return (
-    <div className="relative grid h-[31rem] max-h-svh w-full grid-cols-2 items-stretch justify-between overflow-hidden max-md:flex max-md:h-full max-md:flex-col-reverse">
-      <div className="relative flex min-h-min grow flex-col items-stretch px-8 py-6 max-md:h-auto max-md:grow-0 max-md:justify-end">
-        <Logo className="mb-6 h-10 w-auto self-start max-md:hidden" />
-        {emailLoginLoading || verifyEmailLoading || isConnecting ? (
-          <div className="my-8 flex grow flex-col items-center justify-center">
-            <Spinner />
-            {isConnecting && (
-              <div className="flex justify-center">
-                <Button
-                  className="!pr-6 mt-4"
-                  onClick={() => setIsConnecting(false)}
-                  size="sm"
-                  variant="primary"
-                >
-                  <Icon className="mr-2" name={bxArrowBack} size={16} />
-                  {t('common:actions.cancel')}
-                </Button>
-              </div>
-            )}
-          </div>
-        ) : step === 'email' ? (
-          emailContent
-        ) : (
-          codeContent
-        )}
-      </div>
-      <div className="!overflow-hidden relative w-full shrink grow max-md:rounded-b-3xl">
-        <ModalLoginSlides className="size-full" />
-      </div>
+    <div className="relative flex h-auto min-h-min grow flex-col items-stretch p-4 pt-6">
+      <Logo className="mb-2 h-14 w-auto self-center" />
+      {emailLoginLoading || verifyEmailLoading || isConnecting ? (
+        <div className="my-8 flex h-[200px] grow flex-col items-center justify-center">
+          <Spinner />
+          {isConnecting && (
+            <div className="flex justify-center">
+              <Button
+                className="!pr-6 mt-4"
+                onClick={() => setIsConnecting(false)}
+                size="sm"
+                variant="primary"
+              >
+                <Icon className="mr-2" name={bxArrowBack} size={16} />
+                {t('common:actions.cancel')}
+              </Button>
+            </div>
+          )}
+        </div>
+      ) : step === 'email' ? (
+        emailContent
+      ) : (
+        codeContent
+      )}
     </div>
   );
 };
@@ -359,7 +352,7 @@ export const useModalLogin = () => {
   const content = (
     <>
       <Dialog
-        className="z-[2_147_483_647] w-[55rem] max-md:h-full max-md:max-h-full max-md:w-full max-md:max-w-full" // z-index: 1 unit higher than cookie-bot banner
+        className="z-[2_147_483_647] w-96 max-w-[calc(100%-2rem)]" // z-index: 1 unit higher than cookie-bot banner
         closable={!forceLogin}
         footer={false}
         modalConfig={{
