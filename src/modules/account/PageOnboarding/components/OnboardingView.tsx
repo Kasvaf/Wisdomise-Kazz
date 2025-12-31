@@ -45,21 +45,6 @@ export function OnboardingView<V extends string>({
     >
       <div className="relative mx-auto flex w-full max-w-7xl grow flex-col">
         <div className="flex shrink-0 items-center justify-between px-4 pt-4">
-          {/* <Button */}
-          {/*   size="md" */}
-          {/*   variant="ghost" */}
-          {/*   onClick={() => */}
-          {/*     onChange?.(steps[steps.findIndex(x => x.key === step) - 1].key) */}
-          {/*   } */}
-          {/*   block */}
-          {/*   className={clsx( */}
-          {/*     'invisible w-md shrink-0 max-md:visible', */}
-          {/*     step === steps[0].key && 'opacity-0', */}
-          {/*   )} */}
-          {/* > */}
-          {/*   <Icon name={bxLeftArrowAlt} /> */}
-          {/* </Button> */}
-
           {onClose && (
             <Button
               block
@@ -75,7 +60,8 @@ export function OnboardingView<V extends string>({
 
         <div
           className={clsx(
-            'relative flex w-full shrink-0 flex-nowrap items-start justify-between gap-1 p-4 xl:pt-6',
+            'relative flex w-full shrink-0 flex-nowrap items-start justify-between gap-1 px-4',
+            steps.some(x => x.label) && 'py-4',
             className,
           )}
         >
@@ -95,31 +81,33 @@ export function OnboardingView<V extends string>({
                   x.isPassed || x.isActive ? 'bg-white' : 'bg-white/10',
                 )}
               />
-              <div
-                className={clsx(
-                  'flex items-center gap-2',
-                  'w-full rounded-full font-medium text-sm max-md:text-xs',
-                  x.isPassed || x.isActive ? 'text-white' : 'text-white/50',
-                )}
-              >
-                <Icon
+              {x.label && (
+                <div
                   className={clsx(
-                    'transition-all',
-                    !x.isPassed && '-translate-x-3 opacity-0',
-                  )}
-                  name={bxsCheckCircle}
-                  size={20}
-                />
-                <span
-                  className={clsx(
-                    'transition-all',
-                    (!x.isPassed || x.isActive) && '-translate-x-6',
-                    x.isPassed && 'opacity-0 group-hover:opacity-100',
+                    'flex items-center gap-2',
+                    'w-full rounded-full font-medium text-sm max-md:text-xs',
+                    x.isPassed || x.isActive ? 'text-white' : 'text-white/50',
                   )}
                 >
-                  {x.label}
-                </span>
-              </div>
+                  <Icon
+                    className={clsx(
+                      'transition-all',
+                      !x.isPassed && '-translate-x-3 opacity-0',
+                    )}
+                    name={bxsCheckCircle}
+                    size={20}
+                  />
+                  <span
+                    className={clsx(
+                      'transition-all',
+                      (!x.isPassed || x.isActive) && '-translate-x-6',
+                      x.isPassed && 'opacity-0 group-hover:opacity-100',
+                    )}
+                  >
+                    {x.label}
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>

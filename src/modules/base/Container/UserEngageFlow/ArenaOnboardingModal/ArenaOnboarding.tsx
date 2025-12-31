@@ -37,7 +37,7 @@ const StepContent: FC<
   const isVisible = intersection?.isIntersecting || null;
 
   return (
-    <div className="flex flex-col gap-4 px-4" ref={element}>
+    <div className="flex flex-col gap-4 px-4 pt-7" ref={element}>
       <h2
         className={clsx(
           'mb-4 text-center font-extrabold text-2xl',
@@ -95,7 +95,7 @@ export default function ArenaOnboarding({
               </>
             }
           >
-            <div className="mb-8 flex w-full items-center justify-center gap-0">
+            <div className="mb-2 flex w-full items-center justify-center gap-0">
               <div className="flex basis-28 flex-col items-center text-center">
                 <div className="mb-2 flex size-14 items-center justify-center rounded-2xl bg-v1-content-brand/20">
                   <TradeIcon />
@@ -119,15 +119,6 @@ export default function ArenaOnboarding({
                 <h3 className="mb-0.5 font-bold text-xs text-yellow-400">
                   PVP
                 </h3>
-              </div>
-            </div>
-
-            <div className="px-4">
-              <div className="relative h-5 overflow-hidden rounded-full border border-v1-border-disabled bg-v1-surface-l2">
-                <div className="relative h-full w-2/3 rounded-full bg-gradient-to-r from-v1-content-brand to-[#9eff00]" />
-                <p className="absolute top-0 left-0 flex size-full items-center justify-center font-bold text-[10px] text-black/70">
-                  Your Weekly Bar
-                </p>
               </div>
             </div>
           </StepContent>
@@ -278,7 +269,6 @@ export default function ArenaOnboarding({
 
   return (
     <OnboardingView
-      className="w-"
       fullscreen={false}
       onChange={setStep}
       step={step}
