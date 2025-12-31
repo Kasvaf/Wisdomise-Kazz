@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSubscription } from 'services/rest';
 import { useUserStorage } from 'services/rest/userStorage';
 import { useIsLoggedIn } from '../../auth/jwt-store';
+import { ArenaOnboardingModal } from './ArenaOnboardingModal';
 import { SemiForceLoginModal } from './SemiForceLoginModal';
 
 const useSemiForceLoginModal = () => {
@@ -31,5 +32,10 @@ export const UserEngageFlow = () => {
   const loginModal = useSemiForceLoginModal();
   useNavigateToOnboarding();
 
-  return <>{loginModal}</>;
+  return (
+    <>
+      {loginModal}
+      <ArenaOnboardingModal />
+    </>
+  );
 };

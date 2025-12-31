@@ -11,6 +11,7 @@ export function OnboardingView<V extends string>({
   steps: rawSteps,
   step,
   loading,
+  fullscreen = true,
 }: {
   className?: string;
   onChange?: (newStep: V) => void;
@@ -22,6 +23,7 @@ export function OnboardingView<V extends string>({
   }>;
   step: V;
   loading?: boolean;
+  fullscreen?: boolean;
 }) {
   const steps = useMemo(() => {
     const activeStepIndex = rawSteps.findIndex(x => x.key === step);
@@ -35,7 +37,8 @@ export function OnboardingView<V extends string>({
   return (
     <div
       className={clsx(
-        'fixed top-0 left-0 flex h-dvh w-dvw text-v1-content-primary',
+        fullscreen && 'fixed top-0 left-0 flex h-dvh w-dvw',
+        'text-v1-content-primary',
         loading && 'pointer-events-none animate-pulse blur-sm transition-all',
         className,
       )}
