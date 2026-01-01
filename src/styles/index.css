@@ -9,7 +9,6 @@
 @import "./utils.css";
 
 @import "swiper/css";
-@import "swiper/css/pagination";
 
 @plugin "tailwind-scrollbar";
 @config '../../tailwind.config.js';

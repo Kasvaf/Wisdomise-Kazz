@@ -28,6 +28,7 @@ import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDet
 import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
 import cup from './images/cup.png';
 import prize from './images/prize.png';
+import 'swiper/css/navigation';
 
 export default function PageLeague() {
   const { profile, league, isLoading } = useLeague();
