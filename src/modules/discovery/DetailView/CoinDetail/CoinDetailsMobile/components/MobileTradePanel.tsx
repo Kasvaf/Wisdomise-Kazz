@@ -1,5 +1,5 @@
 import { bxCheck, bxCog, bxCopy, bxLink } from 'boxicons-quasar';
-import { type TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
+import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import Icon from 'modules/shared/Icon';
 import { Button } from 'modules/shared/v1-components/Button';
@@ -26,10 +26,10 @@ interface WalletConfig {
 }
 
 export function MobileTradePanel({
-  positions = 1,
-  tokenAmount = 0,
-  balance = 0,
-  activePageTab = 'trade',
+  positions: _positions = 1,
+  tokenAmount: _tokenAmount = 0,
+  balance: _balance = 0,
+  activePageTab: _activePageTab = 'trade',
 }: TradePanelProps) {
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState<number | null>(null);
