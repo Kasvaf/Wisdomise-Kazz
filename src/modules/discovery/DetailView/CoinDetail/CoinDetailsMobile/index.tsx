@@ -129,11 +129,99 @@ export default function CoinDetailsMobile() {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {/* Tables Section (Slides up from above the fixed buy/sell section) */}
+        <motion.div
+          animate={{
+            height: isTablesOpen ? 300 : 0,
+          }}
+          className="overflow-hidden border-v1-border-tertiary border-t bg-v1-surface-l1"
+          initial={false}
+          transition={{
+            type: 'spring',
+            stiffness: 400,
+            damping: 35,
+          }}
+        >
+          {isTablesOpen && (
+            <div className="h-[300px]">
+              <MobileTablesDrawer />
+            </div>
+          )}
+        </motion.div>
       </motion.div>
 
-      {/* Fixed Bottom Section - Trade Controls & Tables (Always Visible) */}
+      {/* Fixed Bottom Section - Always Visible, Never Moves */}
       <div className="shrink-0">
-        {/* Position Bar */}
+        {/* Tables Toggle Button - Stuck to top of fixed section */}
+        <div
+          className="relative h-[56px] cursor-pointer border-v1-border-tertiary border-t bg-v1-surface-l1 transition-colors hover:bg-v1-surface-l2/50 active:bg-v1-surface-l2"
+          onClick={() => setIsTablesOpen(!isTablesOpen)}
+        >
+          <div className="flex h-full flex-col items-center justify-center gap-2">
+            {/* Drag Handle Pill */}
+            <motion.div
+              animate={{
+                backgroundColor: isTablesOpen
+                  ? '#606060'
+                  : 'var(--color-v1-content-tertiary)',
+              }}
+              className="h-1 w-12 rounded-full bg-v1-content-tertiary"
+              transition={{ duration: 0.2 }}
+            />
+
+            {/* Tables Label with Chevron */}
+            <div className="flex items-center gap-2">
+              <motion.svg
+                animate={{
+                  rotate: isTablesOpen ? 180 : 0,
+                  y: isTablesOpen ? 0 : [-1, 1, -1],
+                }}
+                className="h-3.5 w-3.5 text-v1-content-brand"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                transition={{
+                  rotate: { duration: 0.3, ease: 'easeOut' },
+                  y: {
+                    duration: 1.8,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: 'easeInOut',
+                  },
+                }}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M5 15l7-7 7 7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </motion.svg>
+              <span className="font-medium text-sm text-v1-content-primary">
+                Tables
+              </span>
+              <motion.svg
+                animate={{
+                  rotate: isTablesOpen ? 180 : 0,
+                }}
+                className="h-3.5 w-3.5 text-v1-content-secondary"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M5 15l7-7 7 7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </motion.svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Position Bar - Fixed */}
         <MobilePositionBar
           bought={mockData.position.bought}
           holding={mockData.position.holding}
@@ -144,112 +232,13 @@ export default function CoinDetailsMobile() {
           tokenSymbol={mockData.token.ticker}
         />
 
-        {/* Trade Panel */}
+        {/* Trade Panel - Fixed */}
         <MobileTradePanel
           activePageTab={activePageTab}
           balance={0}
           positions={1}
           tokenAmount={0}
         />
-
-        {/* Tables Section (Modern Bottom Sheet) */}
-        <motion.div
-          animate={{
-            height: isTablesOpen ? 300 : 56,
-          }}
-          className="overflow-hidden border-v1-border-tertiary border-t bg-v1-surface-l1"
-          drag="y"
-          dragConstraints={{ top: 0, bottom: 0 }}
-          dragElastic={0.1}
-          initial={false}
-          onDragEnd={(_, info) => {
-            if (info.offset.y > 50) {
-              setIsTablesOpen(false);
-            } else if (info.offset.y < -50) {
-              setIsTablesOpen(true);
-            }
-          }}
-          transition={{
-            type: 'spring',
-            stiffness: 400,
-            damping: 35,
-          }}
-        >
-          {/* Minimalist Bottom Sheet Handle */}
-          <div
-            className="relative h-[56px] cursor-pointer transition-colors hover:bg-v1-surface-l2/50 active:bg-v1-surface-l2"
-            onClick={() => setIsTablesOpen(!isTablesOpen)}
-          >
-            <div className="flex h-full flex-col items-center justify-center gap-2">
-              {/* Drag Handle Pill */}
-              <motion.div
-                animate={{
-                  backgroundColor: isTablesOpen
-                    ? '#606060'
-                    : 'var(--color-v1-content-tertiary)',
-                }}
-                className="h-1 w-12 rounded-full bg-v1-content-tertiary"
-                transition={{ duration: 0.2 }}
-              />
-
-              {/* Tables Label with Chevron */}
-              <div className="flex items-center gap-2">
-                <motion.svg
-                  animate={{
-                    rotate: isTablesOpen ? 180 : 0,
-                    y: isTablesOpen ? 0 : [-1, 1, -1],
-                  }}
-                  className="h-3.5 w-3.5 text-v1-content-brand"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  transition={{
-                    rotate: { duration: 0.3, ease: 'easeOut' },
-                    y: {
-                      duration: 1.8,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: 'easeInOut',
-                    },
-                  }}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M5 15l7-7 7 7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </motion.svg>
-                <span className="font-medium text-sm text-v1-content-primary">
-                  Tables
-                </span>
-                <motion.svg
-                  animate={{
-                    rotate: isTablesOpen ? 180 : 0,
-                  }}
-                  className="h-3.5 w-3.5 text-v1-content-secondary"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M5 15l7-7 7 7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </motion.svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Content */}
-          {isTablesOpen && (
-            <div className="h-[244px] border-v1-border-tertiary border-t">
-              <MobileTablesDrawer />
-            </div>
-          )}
-        </motion.div>
       </div>
 
       {/* Token Info Drawer */}
