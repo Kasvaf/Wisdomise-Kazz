@@ -122,17 +122,17 @@ export function MobileTradePanel({
   const _selectedWallet = wallets.find(w => w.isSelected) || wallets[0];
 
   return (
-    <div className="flex flex-col gap-2.5 border-[#1a1a1a] border-t bg-[#0a0a0a] px-3 py-2.5">
+    <div className="flex flex-col gap-2.5 border-v1-surface-l1 border-t bg-v1-background-primary px-3 py-2.5">
       {/* Row 1: Presets + Buy/Sell Toggle */}
       <div className="flex items-center gap-2">
         {/* Inline Preset Selector */}
-        <div className="flex items-center rounded-md border border-[#252525] bg-[#1a1a1a] p-0.5">
+        <div className="flex items-center rounded-md border border-v1-border-tertiary bg-v1-surface-l1 p-0.5">
           {(['P1', 'P2', 'P3'] as const).map(preset => (
             <button
               className={`rounded px-2 py-0.5 font-medium text-[10px] transition-all ${
                 activePreset === preset
                   ? 'bg-[#BEFF21] text-black'
-                  : 'text-[#606060] hover:bg-[#252525] hover:text-white'
+                  : 'text-neutral-600 hover:bg-v1-surface-l2 hover:text-white'
               }`}
               key={preset}
               onClick={() => setActivePreset(preset)}
@@ -141,7 +141,7 @@ export function MobileTradePanel({
             </button>
           ))}
           <button
-            className="ml-0.5 rounded p-1 text-[#606060] transition-colors hover:bg-[#252525] hover:text-white"
+            className="ml-0.5 rounded p-1 text-neutral-600 transition-colors hover:bg-v1-surface-l2 hover:text-white"
             onClick={() => setShowPresetDrawer(true)}
             title="Preset Settings"
           >
@@ -151,12 +151,12 @@ export function MobileTradePanel({
 
         {/* Buy/Sell Toggle - Right side */}
         <div className="flex-1"></div>
-        <div className="flex shrink-0 items-center rounded-lg bg-[#1a1a1a] p-0.5">
+        <div className="flex shrink-0 items-center rounded-lg bg-v1-surface-l1 p-0.5">
           <button
             className={`rounded-md px-4 py-2 font-bold text-sm transition-all ${
               mode === 'buy'
                 ? 'bg-[#BEFF21] text-black'
-                : 'text-[#606060] hover:text-white'
+                : 'text-neutral-600 hover:text-white'
             }`}
             onClick={() => setMode('buy')}
           >
@@ -166,7 +166,7 @@ export function MobileTradePanel({
             className={`rounded-md px-4 py-2 font-bold text-sm transition-all ${
               mode === 'sell'
                 ? 'bg-[#ef4444] text-white'
-                : 'text-[#606060] hover:text-white'
+                : 'text-neutral-600 hover:text-white'
             }`}
             onClick={() => setMode('sell')}
           >
@@ -187,8 +187,8 @@ export function MobileTradePanel({
                     ? 'bg-[#BEFF21] text-black shadow-[0_0_10px_rgba(190,255,33,0.3)]'
                     : 'bg-[#ef4444] text-white shadow-[0_0_10px_rgba(239,68,68,0.2)]'
                   : mode === 'buy'
-                    ? 'border border-[#252525] bg-[#1a1a1a] text-[#BEFF21] hover:border-[#404040]'
-                    : 'border border-[#252525] bg-[#1a1a1a] text-[#ef4444] hover:border-[#404040]'
+                    ? 'border border-v1-border-tertiary bg-v1-surface-l1 text-v1-background-brand hover:border-v1-surface-l4'
+                    : 'border border-v1-border-tertiary bg-v1-surface-l1 text-[#ef4444] hover:border-v1-surface-l4'
               }`}
               key={amt}
               onClick={() => setAmount(amt)}
@@ -208,7 +208,7 @@ export function MobileTradePanel({
 
       {/* Preset Settings Drawer */}
       <Dialog
-        className="bg-[#1f1f1f]"
+        className="bg-v1-surface-l1"
         contentClassName="px-4 py-4 text-center"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         header={
@@ -220,14 +220,14 @@ export function MobileTradePanel({
         onClose={() => setShowPresetDrawer(false)}
         open={showPresetDrawer}
       >
-        <p className="text-[#606060] text-sm">
+        <p className="text-neutral-600 text-sm">
           Preset settings configuration will be implemented here.
         </p>
       </Dialog>
 
       {/* Order Type Drawer */}
       <Dialog
-        className="bg-[#1f1f1f]"
+        className="bg-v1-surface-l1"
         contentClassName="flex flex-col py-2"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         mode="drawer"
@@ -238,8 +238,8 @@ export function MobileTradePanel({
           <button
             className={`flex items-center justify-between px-4 py-4 text-left transition-colors ${
               orderType === type
-                ? 'bg-[#1a1a1a] text-white'
-                : 'text-[#808080] hover:bg-[#252525] hover:text-white'
+                ? 'bg-v1-surface-l1 text-white'
+                : 'text-neutral-500 hover:bg-v1-surface-l2 hover:text-white'
             }`}
             data-testid={`button-order-type-${type.toLowerCase()}`}
             key={type}
@@ -258,21 +258,21 @@ export function MobileTradePanel({
 
       {/* Wallet Selection Drawer */}
       <Dialog
-        className="bg-[#1f1f1f]"
+        className="bg-v1-surface-l1"
         contentClassName="flex flex-col max-h-[60vh] overflow-y-auto"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         header={
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                className="rounded-md bg-[#252525] px-3 py-1.5 font-medium text-sm text-white transition-colors hover:bg-[#303030]"
+                className="rounded-md bg-v1-surface-l2 px-3 py-1.5 font-medium text-sm text-white transition-colors hover:bg-v1-surface-l3"
                 data-testid="button-unselect-all"
                 onClick={unselectAll}
               >
                 Unselect All
               </button>
               <button
-                className="text-[#808080] text-sm transition-colors hover:text-white"
+                className="text-neutral-500 text-sm transition-colors hover:text-white"
                 data-testid="button-select-with-balance"
                 onClick={selectAllWithBalance}
               >
@@ -280,7 +280,7 @@ export function MobileTradePanel({
               </button>
             </div>
             <button
-              className="p-1.5 text-[#606060] transition-colors hover:text-white"
+              className="p-1.5 text-neutral-600 transition-colors hover:text-white"
               data-testid="button-wallet-settings"
             >
               <Icon name={bxCog} size={20} />
@@ -293,7 +293,7 @@ export function MobileTradePanel({
       >
         {wallets.map(wallet => (
           <button
-            className="flex items-center gap-3 border-[#252525] border-b px-4 py-3 text-left transition-colors hover:bg-[#252525]"
+            className="flex items-center gap-3 border-v1-border-tertiary border-b px-4 py-3 text-left transition-colors hover:bg-v1-surface-l2"
             data-testid={`wallet-row-${wallet.id}`}
             key={wallet.id}
             onClick={() => toggleWalletSelection(wallet.id)}
@@ -303,7 +303,7 @@ export function MobileTradePanel({
               className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-colors ${
                 wallet.isSelected
                   ? 'border-orange-500 bg-orange-500'
-                  : 'border-[#404040]'
+                  : 'border-v1-surface-l4'
               }`}
               data-testid={`checkbox-wallet-${wallet.id}`}
             >
@@ -323,7 +323,7 @@ export function MobileTradePanel({
               >
                 {wallet.name}
               </span>
-              <div className="flex items-center gap-1.5 text-[#606060] text-[11px]">
+              <div className="flex items-center gap-1.5 text-[11px] text-neutral-600">
                 <Icon name={bxLink} size={12} />
                 <span>Off</span>
                 <span className="text-[#404040]">{wallet.address}</span>
@@ -333,12 +333,12 @@ export function MobileTradePanel({
 
             {/* Balance */}
             <div className="flex items-center gap-1">
-              <span className="font-semibold text-[#9945FF] text-[10px]">
+              <span className="font-semibold text-[10px] text-v1-background-secondary">
                 SOL
               </span>
               <span
                 className={`font-mono text-sm ${
-                  wallet.balance > 0 ? 'text-[#00D179]' : 'text-[#606060]'
+                  wallet.balance > 0 ? 'text-[#00D179]' : 'text-neutral-600'
                 }`}
               >
                 {wallet.balance}

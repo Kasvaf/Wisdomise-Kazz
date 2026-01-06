@@ -29,7 +29,7 @@ export function MobilePositionBar({
   const [displayCurrency, setDisplayCurrency] = useState<'SOL' | 'USD'>('SOL');
   const [showHoldingAsTokens, setShowHoldingAsTokens] = useState(true);
 
-  const pnlColor = pnl >= 0 ? 'text-[#beff21]' : 'text-[#ef4444]';
+  const pnlColor = pnl >= 0 ? 'text-v1-background-brand' : 'text-[#ef4444]';
   const pnlSign = pnl >= 0 ? '+' : '';
 
   // Format token count (e.g., 130000 -> 130K)
@@ -42,11 +42,11 @@ export function MobilePositionBar({
   return (
     <>
       {/* Compact position stats bar */}
-      <div className="border-[#1a1a1a] border-t bg-[#0a0a0a] px-3 py-2">
+      <div className="border-v1-surface-l1 border-t bg-v1-background-primary px-3 py-2">
         <div className="grid grid-cols-5 items-center gap-3">
           {/* PnL Settings */}
           <button
-            className="flex items-center justify-start gap-1.5 text-[#606060] transition-colors hover:text-white"
+            className="flex items-center justify-start gap-1.5 text-neutral-600 transition-colors hover:text-white"
             data-testid="button-pnl-settings"
             onClick={() => setShowPnlSettings(true)}
           >
@@ -148,7 +148,7 @@ export function MobilePositionBar({
 
       {/* PnL Settings Drawer */}
       <Dialog
-        className="bg-[#1f1f1f]"
+        className="bg-v1-surface-l1"
         contentClassName="flex flex-col gap-4 px-4 py-4"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         header={
@@ -180,7 +180,7 @@ export function MobilePositionBar({
               value={resetPnl}
             />
           </div>
-          <span className="text-[#606060] text-xs">
+          <span className="text-neutral-600 text-xs">
             PNL resets to 0 when the position is fully closed
           </span>
         </div>
@@ -189,7 +189,7 @@ export function MobilePositionBar({
         <div className="flex items-center justify-between">
           <span className="text-sm text-white">Cumulative PNL</span>
           <button
-            className="flex items-center gap-1.5 rounded-md bg-[#252525] px-2.5 py-1.5 font-medium text-white text-xs transition-colors hover:bg-[#303030]"
+            className="flex items-center gap-1.5 rounded-md bg-v1-surface-l2 px-2.5 py-1.5 font-medium text-white text-xs transition-colors hover:bg-v1-surface-l3"
             data-testid="button-toggle-currency"
             onClick={() =>
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
@@ -204,12 +204,12 @@ export function MobilePositionBar({
         <div className="rounded-lg border-2 border-[#4F6EF7] bg-[#4F6EF7]/10 p-3">
           <div className="flex items-center justify-between gap-4">
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[#808080] text-xs">Bought</span>
+              <span className="text-neutral-500 text-xs">Bought</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-[#00D179] text-sm">
                 {displayCurrency === 'USD' ? (
                   '$'
                 ) : (
-                  <span className="font-semibold text-[#9945FF] text-[10px]">
+                  <span className="font-semibold text-[10px] text-v1-background-secondary">
                     SOL
                   </span>
                 )}
@@ -217,12 +217,12 @@ export function MobilePositionBar({
               </span>
             </div>
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[#808080] text-xs">Sold</span>
+              <span className="text-neutral-500 text-xs">Sold</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-red-400 text-sm">
                 {displayCurrency === 'USD' ? (
                   '$'
                 ) : (
-                  <span className="font-semibold text-[#9945FF] text-[10px]">
+                  <span className="font-semibold text-[10px] text-v1-background-secondary">
                     SOL
                   </span>
                 )}
@@ -230,12 +230,12 @@ export function MobilePositionBar({
               </span>
             </div>
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[#808080] text-xs">Holding</span>
+              <span className="text-neutral-500 text-xs">Holding</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-white">
                 {displayCurrency === 'USD' ? (
                   '$'
                 ) : (
-                  <span className="font-semibold text-[#9945FF] text-[10px]">
+                  <span className="font-semibold text-[10px] text-v1-background-secondary">
                     SOL
                   </span>
                 )}
@@ -243,12 +243,12 @@ export function MobilePositionBar({
               </span>
             </div>
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[#808080] text-xs">PnL</span>
+              <span className="text-neutral-500 text-xs">PnL</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-[#00D179] text-sm">
                 {displayCurrency === 'USD' ? (
                   '$'
                 ) : (
-                  <span className="font-semibold text-[#9945FF] text-[10px]">
+                  <span className="font-semibold text-[10px] text-v1-background-secondary">
                     SOL
                   </span>
                 )}

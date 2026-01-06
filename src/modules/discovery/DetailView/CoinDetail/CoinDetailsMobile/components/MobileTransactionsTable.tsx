@@ -224,7 +224,7 @@ export function MobileTransactionsTable() {
   return (
     <div className="flex h-full flex-col bg-[#000000]">
       {/* Filter Tabs */}
-      <div className="flex items-center justify-between border-[#252525] border-b px-3 py-2">
+      <div className="flex items-center justify-between border-v1-border-tertiary border-b px-3 py-2">
         <div className="flex items-center gap-4">
           {filters.map(filter => (
             <button
@@ -244,7 +244,7 @@ export function MobileTransactionsTable() {
           ))}
         </div>
         <button
-          className="flex items-center gap-1.5 rounded bg-[#1f1f1f] px-2 py-1 text-white/60 transition-colors hover:bg-[#252525] hover:text-white"
+          className="flex items-center gap-1.5 rounded bg-v1-surface-l1 px-2 py-1 text-white/60 transition-colors hover:bg-v1-surface-l2 hover:text-white"
           data-testid="button-open-filter"
           onClick={() => setShowFilterDrawer(true)}
         >
@@ -254,7 +254,7 @@ export function MobileTransactionsTable() {
       </div>
 
       {/* Table Header */}
-      <div className="grid grid-cols-[1fr_80px_60px_50px] gap-2 border-[#252525] border-b px-3 py-2 font-medium text-[10px] text-white/60">
+      <div className="grid grid-cols-[1fr_80px_60px_50px] gap-2 border-v1-border-tertiary border-b px-3 py-2 font-medium text-[10px] text-white/60">
         <div className="flex items-center gap-1">
           Amount USD
           <button className="opacity-60 hover:opacity-100">
@@ -278,7 +278,7 @@ export function MobileTransactionsTable() {
       <div className="flex-1 overflow-y-auto">
         {DEMO_TRANSACTIONS.map(tx => (
           <div
-            className="grid grid-cols-[1fr_80px_60px_50px] gap-2 border-[#0a0a0a] border-b px-3 py-2.5 transition-colors hover:bg-[#0e0e0e]"
+            className="grid grid-cols-[1fr_80px_60px_50px] gap-2 border-[#0a0a0a] border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
             key={tx.id}
           >
             {/* Amount */}
@@ -302,7 +302,7 @@ export function MobileTransactionsTable() {
             <div className="flex items-center gap-1 text-white text-xs">
               {tx.trader}
               {tx.trader.endsWith('*') && (
-                <span className="text-[#BEFF21] text-[8px]">★</span>
+                <span className="text-[8px] text-v1-background-brand">★</span>
               )}
             </div>
 
@@ -322,7 +322,7 @@ export function MobileTransactionsTable() {
 
       {/* Filter Drawer */}
       <Dialog
-        className="bg-[#1f1f1f]"
+        className="bg-v1-surface-l1"
         contentClassName="flex flex-col"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         mode="drawer"
@@ -335,7 +335,7 @@ export function MobileTransactionsTable() {
             Maker Address
           </label>
           <input
-            className="w-full rounded-md border border-[#252525] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder:text-[#606060] focus:border-[#5865F2] focus:outline-none"
+            className="w-full rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-[#5865F2] focus:outline-none"
             data-testid="input-maker-address"
             onChange={e => setMakerAddress(e.target.value)}
             placeholder="CXnxRV24ywNw3NyTmfgu7upN7VNAfRqjkdmAwNv6c1Pv"
@@ -355,7 +355,7 @@ export function MobileTransactionsTable() {
           </div>
           <div className="flex gap-2">
             <input
-              className="flex-1 rounded-md border border-[#252525] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder:text-[#606060] focus:border-[#5865F2] focus:outline-none"
+              className="flex-1 rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-[#5865F2] focus:outline-none"
               data-testid="input-min-usd"
               onChange={e => setMinUsd(e.target.value)}
               placeholder="Enter min USD"
@@ -363,7 +363,7 @@ export function MobileTransactionsTable() {
               value={minUsd}
             />
             <input
-              className="flex-1 rounded-md border border-[#252525] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder:text-[#606060] focus:border-[#5865F2] focus:outline-none"
+              className="flex-1 rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-[#5865F2] focus:outline-none"
               data-testid="input-max-usd"
               onChange={e => setMaxUsd(e.target.value)}
               placeholder="Enter max USD"
@@ -388,9 +388,9 @@ export function MobileTransactionsTable() {
         </div>
 
         {/* Footer Buttons */}
-        <div className="flex items-center gap-3 border-[#252525] border-t px-4 py-4">
+        <div className="flex items-center gap-3 border-v1-border-tertiary border-t px-4 py-4">
           <button
-            className="flex items-center justify-center gap-2 rounded-md px-4 py-2.5 font-medium text-sm text-white transition-colors hover:bg-[#252525]"
+            className="flex items-center justify-center gap-2 rounded-md px-4 py-2.5 font-medium text-sm text-white transition-colors hover:bg-v1-surface-l2"
             data-testid="button-reset-filter"
             onClick={() => {
               setMakerAddress('');

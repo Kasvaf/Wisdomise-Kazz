@@ -136,15 +136,15 @@ export function MobileTablesDrawer() {
   ];
 
   return (
-    <div className="flex h-full flex-col bg-[#000000]">
+    <div className="flex h-full flex-col bg-black">
       {/* Sub-tabs */}
-      <div className="flex items-center gap-1 overflow-x-auto border-[#252525] border-b px-3 py-2">
+      <div className="flex items-center gap-1 overflow-x-auto border-v1-border-tertiary border-b px-3 py-2">
         {tabs.map(tab => (
           <button
             className={`flex items-center gap-1.5 whitespace-nowrap rounded-md px-3 py-1.5 font-medium text-xs transition-all ${
               activeTab === tab.id
-                ? 'bg-[#252525] text-white'
-                : 'text-[#606060] hover:text-white'
+                ? 'bg-v1-surface-l2 text-white'
+                : 'text-neutral-600 hover:text-white'
             }`}
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
@@ -159,7 +159,7 @@ export function MobileTablesDrawer() {
         <div className="flex-1 overflow-auto">
           <div className="min-w-[500px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[1fr_80px_80px_90px_60px] gap-2 border-[#252525] border-b bg-[#000000] px-3 py-2 font-medium text-[#606060] text-[10px]">
+            <div className="sticky top-0 z-10 grid grid-cols-[1fr_80px_80px_90px_60px] gap-2 border-v1-border-tertiary border-b bg-black px-3 py-2 font-medium text-[10px] text-neutral-600">
               <div>Token</div>
               <div className="text-right">Bought</div>
               <div className="text-right">Sold</div>
@@ -170,11 +170,11 @@ export function MobileTablesDrawer() {
             {/* Positions List */}
             {DEMO_POSITIONS.map(position => (
               <div
-                className="grid grid-cols-[1fr_80px_80px_90px_60px] items-center gap-2 border-[#0a0a0a] border-b px-3 py-2.5 transition-colors hover:bg-[#0e0e0e]"
+                className="grid grid-cols-[1fr_80px_80px_90px_60px] items-center gap-2 border-v1-background-primary border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
                 key={position.id}
               >
                 <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#252525]">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-v1-surface-l2">
                     <span className="font-bold text-[10px] text-white">
                       {position.tokenSymbol.slice(0, 2)}
                     </span>
@@ -183,7 +183,7 @@ export function MobileTablesDrawer() {
                     <span className="font-semibold text-white text-xs">
                       {position.token}
                     </span>
-                    <span className="text-[#606060] text-[10px]">
+                    <span className="text-[10px] text-neutral-600">
                       {position.tokenSymbol}
                     </span>
                   </div>
@@ -192,7 +192,7 @@ export function MobileTablesDrawer() {
                   <div className="font-mono text-white text-xs">
                     {position.bought.toLocaleString()}
                   </div>
-                  <div className="text-[#606060] text-[10px]">
+                  <div className="text-[10px] text-neutral-600">
                     {position.boughtValue}
                   </div>
                 </div>
@@ -200,7 +200,7 @@ export function MobileTablesDrawer() {
                   <div className="font-mono text-white text-xs">
                     {position.sold.toLocaleString()}
                   </div>
-                  <div className="text-[#606060] text-[10px]">
+                  <div className="text-[10px] text-neutral-600">
                     {position.soldValue}
                   </div>
                 </div>
@@ -225,7 +225,7 @@ export function MobileTablesDrawer() {
                   </div>
                 </div>
                 <div className="flex items-center justify-center">
-                  <button className="p-1 text-[#606060] transition-colors hover:text-white">
+                  <button className="p-1 text-neutral-600 transition-colors hover:text-white">
                     <Icon name={bxLinkExternal} size={14} />
                   </button>
                 </div>
@@ -240,7 +240,7 @@ export function MobileTablesDrawer() {
         <div className="flex-1 overflow-auto">
           <div className="min-w-[700px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] gap-2 border-[#252525] border-b bg-[#000000] px-3 py-2 font-medium text-[#606060] text-[10px]">
+            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] gap-2 border-v1-border-tertiary border-b bg-black px-3 py-2 font-medium text-[10px] text-neutral-600">
               <button
                 className="flex items-center justify-center transition-colors hover:text-white"
                 onClick={() => setShowSettingsDrawer(true)}
@@ -256,10 +256,10 @@ export function MobileTablesDrawer() {
             {/* Holders List */}
             {DEMO_HOLDERS.map(holder => (
               <div
-                className="grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] items-center gap-2 border-[#0a0a0a] border-b px-3 py-2.5 transition-colors hover:bg-[#0e0e0e]"
+                className="grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] items-center gap-2 border-v1-background-primary border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
                 key={holder.id}
               >
-                <div className="text-center text-[#606060] text-xs">
+                <div className="text-center text-neutral-600 text-xs">
                   {holder.rank}
                 </div>
                 <div className="flex items-center gap-1">
@@ -284,19 +284,23 @@ export function MobileTablesDrawer() {
                     <Icon className="text-[#ef4444]" name={bxLock} size={12} />
                   )}
                   {holder.hasSparkle && (
-                    <Icon className="text-[#BEFF21]" name={bxStar} size={12} />
+                    <Icon
+                      className="text-v1-background-brand"
+                      name={bxStar}
+                      size={12}
+                    />
                   )}
                 </div>
                 <div className="text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <span className="font-semibold text-[#9945FF] text-[10px]">
+                    <span className="font-semibold text-[10px] text-v1-background-secondary">
                       SOL
                     </span>
                     <span className="font-mono text-white text-xs">
                       {holder.solBalance.toFixed(holder.solBalance < 1 ? 3 : 2)}
                     </span>
                   </div>
-                  <span className="text-[#606060] text-[10px]">
+                  <span className="text-[10px] text-neutral-600">
                     ({holder.lastActive})
                   </span>
                 </div>
@@ -330,7 +334,7 @@ export function MobileTablesDrawer() {
         <div className="flex-1 overflow-auto">
           <div className="min-w-[500px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] gap-2 border-[#252525] border-b bg-[#000000] px-3 py-2 font-medium text-[#606060] text-[10px]">
+            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] gap-2 border-v1-border-tertiary border-b bg-black px-3 py-2 font-medium text-[10px] text-neutral-600">
               <div></div>
               <div>Wallet</div>
               <div className="text-right">SOL Balance</div>
@@ -340,10 +344,10 @@ export function MobileTablesDrawer() {
             {/* Traders List */}
             {DEMO_HOLDERS.map(holder => (
               <div
-                className="grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] items-center gap-2 border-[#0a0a0a] border-b px-3 py-2.5 transition-colors hover:bg-[#0e0e0e]"
+                className="grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] items-center gap-2 border-v1-background-primary border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
                 key={holder.id}
               >
-                <div className="text-center text-[#606060] text-xs">
+                <div className="text-center text-neutral-600 text-xs">
                   {holder.rank}
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -353,14 +357,14 @@ export function MobileTablesDrawer() {
                 </div>
                 <div className="text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <span className="font-semibold text-[#9945FF] text-[10px]">
+                    <span className="font-semibold text-[10px] text-v1-background-secondary">
                       SOL
                     </span>
                     <span className="font-mono text-white text-xs">
                       {holder.solBalance.toFixed(holder.solBalance < 1 ? 3 : 2)}
                     </span>
                   </div>
-                  <span className="text-[#606060] text-[10px]">
+                  <span className="text-[10px] text-neutral-600">
                     ({holder.lastActive})
                   </span>
                 </div>
@@ -379,7 +383,7 @@ export function MobileTablesDrawer() {
       {activeTab === 'bubble-chart' && (
         <div className="flex flex-1 items-center justify-center">
           <div className="text-center">
-            <div className="text-[#606060] text-sm">
+            <div className="text-neutral-600 text-sm">
               Bubble chart coming soon
             </div>
           </div>
@@ -388,7 +392,7 @@ export function MobileTablesDrawer() {
 
       {/* Settings Drawer */}
       <Dialog
-        className="bg-[#1f1f1f]"
+        className="bg-v1-surface-l1"
         contentClassName="px-4 py-4 space-y-4"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         header={

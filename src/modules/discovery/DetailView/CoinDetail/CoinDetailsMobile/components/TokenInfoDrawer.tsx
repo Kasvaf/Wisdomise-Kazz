@@ -67,9 +67,9 @@ function StatBox({
   color?: string;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+    <div className="flex flex-col items-center justify-center rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
       <span className={`font-bold text-sm ${color}`}>{value}</span>
-      <span className="mt-0.5 text-[#606060] text-[10px]">{label}</span>
+      <span className="mt-0.5 text-[10px] text-neutral-600">{label}</span>
     </div>
   );
 }
@@ -84,7 +84,7 @@ export function TokenInfoDrawer({
   const header = (
     <div className="flex w-full items-center justify-between">
       <span className="font-bold text-base text-white">Token Info</span>
-      <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+      <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
         <Icon name={bxRefresh} size={16} />
       </button>
     </div>
@@ -92,7 +92,7 @@ export function TokenInfoDrawer({
 
   return (
     <Dialog
-      className="max-h-[85vh] bg-[#0e0e0e]"
+      className="max-h-[85vh] bg-v1-background-primary"
       contentClassName="overflow-y-auto px-4 py-4 space-y-4"
       drawerConfig={{ position: 'bottom', closeButton: true }}
       header={header}
@@ -140,45 +140,47 @@ export function TokenInfoDrawer({
 
       {/* Row 3: Holders, Pro Traders, Dex Paid */}
       <div className="grid grid-cols-3 gap-2">
-        <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
           <div className="flex items-center gap-1">
             <Icon className="text-white" name={bxGroup} size={14} />
             <span className="font-bold text-sm text-white">
               {mockTokenInfo.holders.toLocaleString()}
             </span>
           </div>
-          <span className="mt-0.5 text-[#606060] text-[10px]">Holders</span>
+          <span className="mt-0.5 text-[10px] text-neutral-600">Holders</span>
         </div>
-        <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
           <div className="flex items-center gap-1">
             <Icon className="text-white" name={bxTrendingUp} size={14} />
             <span className="font-bold text-sm text-white">
               {mockTokenInfo.proTraders}
             </span>
           </div>
-          <span className="mt-0.5 text-[#606060] text-[10px]">Pro Traders</span>
+          <span className="mt-0.5 text-[10px] text-neutral-600">
+            Pro Traders
+          </span>
         </div>
-        <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
           <div className="flex items-center gap-1">
             <Icon className="text-[#00D179]" name={bxsShield} size={14} />
             <span className="font-bold text-[#00D179] text-sm">Paid</span>
           </div>
-          <span className="mt-0.5 text-[#606060] text-[10px]">Dex Paid</span>
+          <span className="mt-0.5 text-[10px] text-neutral-600">Dex Paid</span>
         </div>
       </div>
 
       {/* Contract Address */}
-      <div className="rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+      <div className="rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
         <div className="flex items-center justify-between">
           <div className="flex min-w-0 flex-1 items-center gap-2">
-            <span className="shrink-0 text-[#606060] text-[10px]">CA:</span>
+            <span className="shrink-0 text-[10px] text-neutral-600">CA:</span>
             <span className="truncate font-mono text-white text-xs">
               {mockTokenInfo.contractAddress}
             </span>
           </div>
           <div className="ml-2 flex shrink-0 items-center gap-1">
             <button
-              className="p-1.5 text-[#606060] transition-colors hover:text-white"
+              className="p-1.5 text-neutral-600 transition-colors hover:text-white"
               onClick={() => copyToClipboard(mockTokenInfo.contractAddress)}
             >
               {copied ? (
@@ -187,7 +189,7 @@ export function TokenInfoDrawer({
                 <Icon name={bxCopy} size={14} />
               )}
             </button>
-            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
               <Icon name={bxLinkExternal} size={14} />
             </button>
           </div>
@@ -195,22 +197,22 @@ export function TokenInfoDrawer({
       </div>
 
       {/* Dev Address */}
-      <div className="rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+      <div className="rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
         <div className="flex items-center justify-between">
           <div className="flex min-w-0 flex-1 items-center gap-2">
-            <span className="shrink-0 text-[#606060] text-[10px]">DA:</span>
+            <span className="shrink-0 text-[10px] text-neutral-600">DA:</span>
             <span className="truncate font-mono text-white text-xs">
               {mockTokenInfo.devAddress}
             </span>
           </div>
           <div className="ml-2 flex shrink-0 items-center gap-1">
-            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
               <Icon name={bxShow} size={14} />
             </button>
-            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
               <Icon name={bxSearch} size={14} />
             </button>
-            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
               <Icon name={bxLinkExternal} size={14} />
             </button>
           </div>
@@ -218,7 +220,7 @@ export function TokenInfoDrawer({
       </div>
 
       {/* Coinbase Info */}
-      <div className="rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+      <div className="rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
@@ -227,12 +229,12 @@ export function TokenInfoDrawer({
             <span className="font-medium text-white text-xs">
               {mockTokenInfo.coinbase.name}
             </span>
-            <span className="text-[#606060] text-xs">=</span>
+            <span className="text-neutral-600 text-xs">=</span>
             <span className="font-mono text-white text-xs">
               {mockTokenInfo.coinbase.amount}
             </span>
           </div>
-          <span className="rounded bg-[#252525] px-2 py-0.5 text-[#606060] text-[10px]">
+          <span className="rounded bg-v1-surface-l2 px-2 py-0.5 text-[10px] text-neutral-600">
             6d
           </span>
         </div>
@@ -240,13 +242,13 @@ export function TokenInfoDrawer({
 
       {/* Reused Image Tokens */}
       <div>
-        <div className="mb-2 text-center text-[#606060] text-[10px] uppercase tracking-wider">
+        <div className="mb-2 text-center text-[10px] text-neutral-600 uppercase tracking-wider">
           Reused Image Tokens ({mockTokenInfo.reusedImages.length})
         </div>
         <div className="space-y-2">
           {mockTokenInfo.reusedImages.map((token, idx) => (
             <div
-              className="flex items-center gap-3 rounded-lg border border-[#252525] bg-[#1f1f1f] p-3"
+              className="flex items-center gap-3 rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3"
               key={idx}
             >
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-gray-700 to-gray-900">
@@ -259,16 +261,16 @@ export function TokenInfoDrawer({
                   <span className="font-bold text-white text-xs">
                     {token.name}
                   </span>
-                  <span className="truncate text-[#606060] text-xs">
+                  <span className="truncate text-neutral-600 text-xs">
                     {token.fullName}
                   </span>
                 </div>
-                <span className="text-[#606060] text-[10px]">
+                <span className="text-[10px] text-neutral-600">
                   Last TX: {token.lastTx}
                 </span>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-[#606060] text-[10px]">
+                <span className="text-[10px] text-neutral-600">
                   {token.lastTx}
                 </span>
                 <span className="font-mono text-[#00D179] text-xs">
