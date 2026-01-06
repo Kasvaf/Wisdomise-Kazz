@@ -144,11 +144,11 @@ const LoginModalContent: React.FC<{
       <h2 className="mb-2 text-center font-bold text-lg leading-normal">
         {t('login.step-1.title')}
       </h2>
-      <p className="mb-6 text-center text-sm text-v1-content-secondary leading-normal">
+      <div className="mb-6 text-center text-sm text-v1-content-secondary leading-normal">
         <Trans i18nKey="login.step-1.subtitle" ns="auth">
           Trade. Compete. Earn <SolanaIcon className="align-middle" /> Weekly.
         </Trans>
-      </p>
+      </div>
 
       <div className="flex flex-col items-stretch gap-4">
         <TextBox

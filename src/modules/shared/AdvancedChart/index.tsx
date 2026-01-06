@@ -55,13 +55,15 @@ const AdvancedChart: React.FC<{
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (!totalSupply || !pairs?.length) return;
+    if (!totalSupply || !pairs?.length || !chartContainerRef.current) return;
 
     const initResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
     ) || '1s') as ResolutionString;
     // const pair = pairs.find(x => x.quote.slug === quote);
     // if (!pair) return;
+
+    let isDestroyed = false;
 
     const widget = new Widget({
       symbol: tokenInfo?.name ?? undefined,
@@ -141,14 +143,19 @@ const AdvancedChart: React.FC<{
     });
 
     widget.onChartReady(async () => {
+      if (isDestroyed) return;
+
       await widget.headerReady();
 
+      if (isDestroyed) return;
+
       widget.subscribe('onAutoSaveNeeded', () => {
+        if (isDestroyed) return;
         widget.saveChartToServer(undefined, undefined, { chartName: 'GoatX' });
       });
 
       // Create quote selector
-      if (pairs.length > 1) {
+      if (pairs.length > 1 && !isDestroyed) {
         const dropDown = await widget.createDropdown({
           icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
           tooltip: 'Quote',
@@ -174,7 +181,7 @@ const AdvancedChart: React.FC<{
         });
       }
 
-      if (quote === WRAPPED_SOLANA_SLUG) {
+      if (quote === WRAPPED_SOLANA_SLUG && !isDestroyed) {
         const convertToUsdButton = widget.createButton();
         function setConvertButtonInnerContent() {
           const colorStyle = 'style="color:#beff21"';
@@ -186,11 +193,14 @@ const AdvancedChart: React.FC<{
         }
         setConvertButtonInnerContent();
         convertToUsdButton.addEventListener('click', () => {
+          if (isDestroyed) return;
           setConvertToUsd(!convertToUsd);
           setConvertButtonInnerContent();
           widget.activeChart().resetData();
         });
       }
+
+      if (isDestroyed) return;
 
       // Create button for MarketCap/Price toggle in top toolbar
       const button = widget.createButton();
@@ -202,6 +212,7 @@ const AdvancedChart: React.FC<{
       }
       setButtonInnerContent();
       button.addEventListener('click', () => {
+        if (isDestroyed) return;
         widget.activeChart().refreshMarks();
         // setIsMarketCap(!isMarketCap);
         // setButtonInnerContent();
@@ -213,8 +224,14 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget?.(widget);
 
     return () => {
+      isDestroyed = true;
       setGlobalChartWidget?.(undefined);
-      widget.remove();
+      try {
+        widget.remove();
+      } catch (error) {
+        // Widget already removed or not fully initialized
+        console.warn('Error removing TradingView widget:', error);
+      }
     };
   }, [
     language,
