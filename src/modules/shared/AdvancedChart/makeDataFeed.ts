@@ -53,10 +53,8 @@ const config: DatafeedConfiguration = {
   supports_marks: true,
 };
 
-const checkConvertToUsd = (quote: string) => {
-  return quote !== USDT_SLUG && quote !== USDC_SLUG
-    ? localStorage.getItem('tv-convert-to-usd') === 'true'
-    : false;
+const checkConvertToUsd = (quote: string, currentValue: boolean) => {
+  return quote !== USDT_SLUG && quote !== USDC_SLUG ? currentValue : false;
 };
 
 const convertToChartCandle = (candle: Candle): ChartCandle => {
@@ -90,6 +88,7 @@ const makeDataFeed = ({
   addSwap,
   setMigratedAt,
   walletsRef,
+  convertToUsd,
 }: {
   slug: string;
   quote: string;
@@ -100,6 +99,7 @@ const makeDataFeed = ({
   addSwap: (...swaps: Swap[]) => void;
   setMigratedAt: (time: number) => void;
   walletsRef: MutableRefObject<string[]>;
+  convertToUsd: boolean;
 }): IBasicDataFeed => {
   let lastCandle: ChartCandle | undefined;
   let lastRes: Resolution | undefined;
@@ -190,7 +190,7 @@ const makeDataFeed = ({
             endTime: new Date(periodParams.to * 1000).toISOString(),
             limit: Math.min(periodParams.countBack, 1000),
             skipEmptyCandles: true,
-            convertToUsd: checkConvertToUsd(quote),
+            convertToUsd: checkConvertToUsd(quote, convertToUsd),
           },
         });
         const candles = resp.candles;
@@ -241,7 +241,7 @@ const makeDataFeed = ({
             lastCandleOptions: {
               quote: slugToTokenAddress(quote),
               market: 'SPOT',
-              convertToUsd: checkConvertToUsd(quote),
+              convertToUsd: checkConvertToUsd(quote, convertToUsd),
             },
           },
         },

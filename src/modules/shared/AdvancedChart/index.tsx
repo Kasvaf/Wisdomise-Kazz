@@ -75,6 +75,7 @@ const AdvancedChart: React.FC<{
         addSwap,
         setMigratedAt,
         walletsRef: knownWalletsRef,
+        convertToUsd,
       }),
       // datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
       //   'https://demo-feed-data.tradingview.com',
