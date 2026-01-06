@@ -1,5 +1,6 @@
-import { Check, Copy, LinkIcon, Settings } from 'lucide-react';
+import { bxCheck, bxCog, bxCopy, bxLink } from 'boxicons-quasar';
 import { useTradingSettings } from 'modules/discovery/providers/TradingSettingsProvider';
+import Icon from 'modules/shared/Icon';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { useState } from 'react';
 
@@ -144,7 +145,7 @@ export function MobileTradePanel({
             onClick={() => setShowPresetDrawer(true)}
             title="Preset Settings"
           >
-            <Settings className="h-3 w-3" />
+            <Icon name={bxCog} size={12} />
           </button>
         </div>
 
@@ -248,7 +249,9 @@ export function MobileTradePanel({
             }}
           >
             <span className="font-medium text-base">{type}</span>
-            {orderType === type && <Check className="h-5 w-5 text-[#00D179]" />}
+            {orderType === type && (
+              <Icon className="text-[#00D179]" name={bxCheck} size={20} />
+            )}
           </button>
         ))}
       </Dialog>
@@ -280,7 +283,7 @@ export function MobileTradePanel({
               className="p-1.5 text-[#606060] transition-colors hover:text-white"
               data-testid="button-wallet-settings"
             >
-              <Settings className="h-5 w-5" />
+              <Icon name={bxCog} size={20} />
             </button>
           </div>
         }
@@ -304,7 +307,9 @@ export function MobileTradePanel({
               }`}
               data-testid={`checkbox-wallet-${wallet.id}`}
             >
-              {wallet.isSelected && <Check className="h-3 w-3 text-white" />}
+              {wallet.isSelected && (
+                <Icon className="text-white" name={bxCheck} size={12} />
+              )}
             </div>
 
             {/* Wallet Info */}
@@ -319,10 +324,10 @@ export function MobileTradePanel({
                 {wallet.name}
               </span>
               <div className="flex items-center gap-1.5 text-[#606060] text-[11px]">
-                <LinkIcon className="h-3 w-3" />
+                <Icon name={bxLink} size={12} />
                 <span>Off</span>
                 <span className="text-[#404040]">{wallet.address}</span>
-                <Copy className="h-3 w-3" />
+                <Icon name={bxCopy} size={12} />
               </div>
             </div>
 

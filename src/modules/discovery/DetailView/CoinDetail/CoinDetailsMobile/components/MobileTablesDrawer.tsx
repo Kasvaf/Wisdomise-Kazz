@@ -1,14 +1,15 @@
 import {
-  AlertTriangle,
-  ExternalLink,
-  Lock,
-  Settings,
-  Shield,
-  Sparkles,
-} from 'lucide-react';
+  bxCog,
+  bxError,
+  bxLinkExternal,
+  bxLock,
+  bxStar,
+  bxsShield,
+} from 'boxicons-quasar';
+import Icon from 'modules/shared/Icon';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
+import { Toggle } from 'modules/shared/v1-components/Toggle';
 import { useState } from 'react';
-import { Toggle } from './Toggle';
 
 interface Position {
   id: string;
@@ -225,7 +226,7 @@ export function MobileTablesDrawer() {
                 </div>
                 <div className="flex items-center justify-center">
                   <button className="p-1 text-[#606060] transition-colors hover:text-white">
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <Icon name={bxLinkExternal} size={14} />
                   </button>
                 </div>
               </div>
@@ -244,7 +245,7 @@ export function MobileTablesDrawer() {
                 className="flex items-center justify-center transition-colors hover:text-white"
                 onClick={() => setShowSettingsDrawer(true)}
               >
-                <Settings className="h-3 w-3" />
+                <Icon name={bxCog} size={12} />
               </button>
               <div>Wallet</div>
               <div className="text-right">SOL Balance</div>
@@ -270,16 +271,20 @@ export function MobileTablesDrawer() {
                     {holder.wallet}
                   </span>
                   {holder.hasShield && (
-                    <Shield className="h-3 w-3 text-[#5865F2]" />
+                    <Icon
+                      className="text-[#5865F2]"
+                      name={bxsShield}
+                      size={12}
+                    />
                   )}
                   {holder.hasWarning && (
-                    <AlertTriangle className="h-3 w-3 text-[#ef4444]" />
+                    <Icon className="text-[#ef4444]" name={bxError} size={12} />
                   )}
                   {holder.isLocked && (
-                    <Lock className="h-3 w-3 text-[#ef4444]" />
+                    <Icon className="text-[#ef4444]" name={bxLock} size={12} />
                   )}
                   {holder.hasSparkle && (
-                    <Sparkles className="h-3 w-3 text-[#BEFF21]" />
+                    <Icon className="text-[#BEFF21]" name={bxStar} size={12} />
                   )}
                 </div>
                 <div className="text-right">
@@ -397,19 +402,19 @@ export function MobileTablesDrawer() {
       >
         <div className="flex items-center justify-between">
           <span className="text-sm text-white">SOL Balance</span>
-          <Toggle checked={solBalance} onChange={setSolBalance} />
+          <Toggle onChange={setSolBalance} value={solBalance} />
         </div>
         <div className="flex items-center justify-between">
           <span className="text-sm text-white">Bought</span>
-          <Toggle checked={bought} onChange={setBought} />
+          <Toggle onChange={setBought} value={bought} />
         </div>
         <div className="flex items-center justify-between">
           <span className="text-sm text-white">Sold</span>
-          <Toggle checked={sold} onChange={setSold} />
+          <Toggle onChange={setSold} value={sold} />
         </div>
         <div className="flex items-center justify-between">
           <span className="text-sm text-white">PnL</span>
-          <Toggle checked={pnl} onChange={setPnl} />
+          <Toggle onChange={setPnl} value={pnl} />
         </div>
       </Dialog>
     </div>

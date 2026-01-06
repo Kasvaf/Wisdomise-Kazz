@@ -1,7 +1,8 @@
-import { ArrowUpDown, Menu, Settings } from 'lucide-react';
+import { bxCog, bxMenu, bxSort } from 'boxicons-quasar';
+import Icon from 'modules/shared/Icon';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
+import { Toggle } from 'modules/shared/v1-components/Toggle';
 import { useState } from 'react';
-import { Toggle } from './Toggle';
 
 interface MobilePositionBarProps {
   bought?: number;
@@ -49,7 +50,7 @@ export function MobilePositionBar({
             data-testid="button-pnl-settings"
             onClick={() => setShowPnlSettings(true)}
           >
-            <Settings className="h-3.5 w-3.5" />
+            <Icon name={bxCog} size={14} />
             <span className="font-medium text-[11px]">PnL</span>
           </button>
 
@@ -61,7 +62,7 @@ export function MobilePositionBar({
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
           >
-            <Menu className="h-3.5 w-3.5 text-cyan-400" />
+            <Icon className="text-cyan-400" name={bxMenu} size={14} />
             <span className="font-medium text-[#00D179] text-[11px]">
               Bought
             </span>
@@ -69,7 +70,7 @@ export function MobilePositionBar({
               {displayCurrency === 'USD' ? (
                 '$'
               ) : (
-                <Menu className="h-2.5 w-2.5" />
+                <Icon name={bxMenu} size={10} />
               )}
               {bought}
             </span>
@@ -83,13 +84,13 @@ export function MobilePositionBar({
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
           >
-            <Menu className="h-3.5 w-3.5 text-cyan-400" />
+            <Icon className="text-cyan-400" name={bxMenu} size={14} />
             <span className="font-medium text-[#ef4444] text-[11px]">Sold</span>
             <span className="flex items-center gap-0.5 font-bold font-mono text-[#ef4444] text-[11px]">
               {displayCurrency === 'USD' ? (
                 '$'
               ) : (
-                <Menu className="h-2.5 w-2.5" />
+                <Icon name={bxMenu} size={10} />
               )}
               {sold}
             </span>
@@ -101,7 +102,7 @@ export function MobilePositionBar({
             data-testid="button-toggle-holding"
             onClick={() => setShowHoldingAsTokens(!showHoldingAsTokens)}
           >
-            <Menu className="h-3.5 w-3.5 text-cyan-400" />
+            <Icon className="text-cyan-400" name={bxMenu} size={14} />
             <span className="font-medium text-[11px] text-white">Holding</span>
             <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
               {showHoldingAsTokens ? (
@@ -111,7 +112,7 @@ export function MobilePositionBar({
                   {displayCurrency === 'USD' ? (
                     '$'
                   ) : (
-                    <Menu className="h-2.5 w-2.5" />
+                    <Icon name={bxMenu} size={10} />
                   )}
                   {holding}
                 </>
@@ -127,12 +128,12 @@ export function MobilePositionBar({
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
           >
-            <Menu className={`h-3.5 w-3.5 ${pnlColor}`} />
+            <Icon className={pnlColor} name={bxMenu} size={14} />
             <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
               {displayCurrency === 'USD' ? (
                 '$'
               ) : (
-                <Menu className="h-2.5 w-2.5" />
+                <Icon name={bxMenu} size={10} />
               )}
               {pnlSign}
               {pnl}
@@ -163,9 +164,9 @@ export function MobilePositionBar({
         <div className="flex items-center justify-between">
           <span className="text-sm text-white">Show exit price in PNL</span>
           <Toggle
-            checked={showExitPrice}
             data-testid="switch-show-exit-price"
             onChange={setShowExitPrice}
+            value={showExitPrice}
           />
         </div>
 
@@ -174,9 +175,9 @@ export function MobilePositionBar({
           <div className="flex items-center justify-between">
             <span className="text-sm text-white">Reset PNL</span>
             <Toggle
-              checked={resetPnl}
               data-testid="switch-reset-pnl"
               onChange={setResetPnl}
+              value={resetPnl}
             />
           </div>
           <span className="text-[#606060] text-xs">
@@ -194,7 +195,7 @@ export function MobilePositionBar({
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
           >
-            <ArrowUpDown className="h-3.5 w-3.5" />
+            <Icon name={bxSort} size={14} />
             <span>{displayCurrency}</span>
           </button>
         </div>

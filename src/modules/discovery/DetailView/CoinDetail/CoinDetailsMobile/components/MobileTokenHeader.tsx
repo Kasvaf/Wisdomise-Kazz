@@ -1,15 +1,16 @@
 import {
-  Copy,
-  Eye,
-  Globe,
-  Grid3X3,
-  Link,
-  Search,
-  Send,
-  Share2,
-  Shield,
-  X,
-} from 'lucide-react';
+  bxCopy,
+  bxGrid,
+  bxLink,
+  bxSearch,
+  bxSend,
+  bxShareAlt,
+  bxShow,
+  bxsShield,
+  bxWorld,
+  bxX,
+} from 'boxicons-quasar';
+import Icon from 'modules/shared/Icon';
 import { useEffect, useState } from 'react';
 import { useCopyToClipboard } from 'utils/useCopyToClipboard';
 
@@ -100,7 +101,7 @@ export function MobileTokenHeader({
                 {copied ? (
                   <span className="text-[#BEFF21] text-[10px]">✓</span>
                 ) : (
-                  <Copy className="h-3.5 w-3.5 text-[#606060]" />
+                  <Icon className="text-[#606060]" name={bxCopy} size={14} />
                 )}
               </button>
               <span className="shrink-0 text-[#606060] text-xs">{age}</span>
@@ -109,22 +110,22 @@ export function MobileTokenHeader({
             {/* Social Icons Row */}
             <div className="flex items-center gap-0.5">
               <button className="rounded p-1 transition-colors hover:bg-[#252525]">
-                <Link className="h-3.5 w-3.5 text-[#606060]" />
+                <Icon className="text-[#606060]" name={bxLink} size={14} />
               </button>
               <button className="rounded p-1 transition-colors hover:bg-[#252525]">
-                <Grid3X3 className="h-3.5 w-3.5 text-[#606060]" />
+                <Icon className="text-[#606060]" name={bxGrid} size={14} />
               </button>
               <button className="rounded p-1 transition-colors hover:bg-[#252525]">
-                <Globe className="h-3.5 w-3.5 text-[#606060]" />
+                <Icon className="text-[#606060]" name={bxWorld} size={14} />
               </button>
               <button className="rounded p-1 transition-colors hover:bg-[#252525]">
-                <Send className="h-3.5 w-3.5 text-[#606060]" />
+                <Icon className="text-[#606060]" name={bxSend} size={14} />
               </button>
               <button className="rounded p-1 transition-colors hover:bg-[#252525]">
-                <Search className="h-3.5 w-3.5 text-[#606060]" />
+                <Icon className="text-[#606060]" name={bxSearch} size={14} />
               </button>
               <div className="ml-1 flex items-center gap-0.5 text-[#606060]">
-                <Eye className="h-3.5 w-3.5" />
+                <Icon name={bxShow} size={14} />
                 <span className="font-medium text-[10px]">{viewers}</span>
               </div>
             </div>
@@ -138,14 +139,14 @@ export function MobileTokenHeader({
             data-testid="button-token-info"
             onClick={onInfoClick}
           >
-            <Shield className="h-4 w-4 text-[#00D179]" />
+            <Icon className="text-[#00D179]" name={bxsShield} size={16} />
           </button>
           <button
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#252525] bg-[#0e0e0e] transition-colors hover:bg-[#252525]"
             data-testid="button-share"
             onClick={handleShare}
           >
-            <Share2 className="h-4 w-4 text-[#606060]" />
+            <Icon className="text-[#606060]" name={bxShareAlt} size={16} />
           </button>
         </div>
       </div>
@@ -153,13 +154,13 @@ export function MobileTokenHeader({
       {/* Share Toast */}
       {showShareToast && (
         <div className="-translate-x-1/2 fixed top-4 left-1/2 z-50 flex items-center gap-3 rounded-lg border border-[#252525] bg-[#1a1a1a] px-4 py-3 shadow-lg">
-          <Share2 className="h-4 w-4 text-[#606060]" />
+          <Icon className="text-[#606060]" name={bxShareAlt} size={16} />
           <span className="text-sm text-white">Link copied to clipboard</span>
           <button
             className="p-1 text-[#606060] transition-colors hover:text-white"
             onClick={() => setShowShareToast(false)}
           >
-            <X className="h-4 w-4" />
+            <Icon name={bxX} size={16} />
           </button>
         </div>
       )}

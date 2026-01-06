@@ -1,13 +1,14 @@
 import {
-  ArrowUpDown,
-  Filter,
-  Lock,
-  MessageCircle,
-  RotateCcw,
-} from 'lucide-react';
+  bxFilter,
+  bxLock,
+  bxMessage,
+  bxRotateLeft,
+  bxSort,
+} from 'boxicons-quasar';
+import Icon from 'modules/shared/Icon';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
+import { Toggle } from 'modules/shared/v1-components/Toggle';
 import { useState } from 'react';
-import { Toggle } from './Toggle';
 
 interface Transaction {
   id: string;
@@ -205,8 +206,12 @@ export function MobileTransactionsTable() {
   const [showFilterByTrader, setShowFilterByTrader] = useState(false);
 
   const filters: { id: FilterType; label: string; icon?: React.ReactNode }[] = [
-    { id: 'dev', label: 'DEV', icon: <Filter className="h-3 w-3" /> },
-    { id: 'tracked', label: 'TRACKED', icon: <Filter className="h-3 w-3" /> },
+    { id: 'dev', label: 'DEV', icon: <Icon name={bxFilter} size={12} /> },
+    {
+      id: 'tracked',
+      label: 'TRACKED',
+      icon: <Icon name={bxFilter} size={12} />,
+    },
     { id: 'you', label: 'YOU' },
   ];
 
@@ -243,7 +248,7 @@ export function MobileTransactionsTable() {
           data-testid="button-open-filter"
           onClick={() => setShowFilterDrawer(true)}
         >
-          <Filter className="h-3.5 w-3.5" />
+          <Icon name={bxFilter} size={14} />
           <span className="font-medium text-xs">Filter</span>
         </button>
       </div>
@@ -260,12 +265,12 @@ export function MobileTransactionsTable() {
         </div>
         <div className="flex items-center gap-1">
           MC
-          <ArrowUpDown className="h-2.5 w-2.5" />
+          <Icon name={bxSort} size={10} />
         </div>
         <div>Trader</div>
         <div className="flex items-center justify-end gap-1 text-right">
           Age
-          <ArrowUpDown className="h-2.5 w-2.5" />
+          <Icon name={bxSort} size={10} />
         </div>
       </div>
 
@@ -303,9 +308,11 @@ export function MobileTransactionsTable() {
 
             {/* Age & Icons */}
             <div className="flex items-center justify-end gap-1.5 text-white text-xs">
-              {tx.isLocked && <Lock className="h-3 w-3 text-[#FF6B6B]" />}
+              {tx.isLocked && (
+                <Icon className="text-[#FF6B6B]" name={bxLock} size={12} />
+              )}
               {tx.hasMessage && (
-                <MessageCircle className="h-3 w-3 text-[#00D179]" />
+                <Icon className="text-[#00D179]" name={bxMessage} size={12} />
               )}
               {tx.age}
             </div>
@@ -342,7 +349,7 @@ export function MobileTransactionsTable() {
           <div className="mb-2 flex items-center justify-between">
             <label className="font-medium text-sm text-white">Min. USD</label>
             <button className="flex items-center gap-1 text-white/60 text-xs">
-              <ArrowUpDown className="h-3 w-3" />
+              <Icon name={bxSort} size={12} />
               <span>USD</span>
             </button>
           </div>
@@ -373,9 +380,9 @@ export function MobileTransactionsTable() {
               Show filter button by trader
             </span>
             <Toggle
-              checked={showFilterByTrader}
               data-testid="switch-filter-by-trader"
               onChange={setShowFilterByTrader}
+              value={showFilterByTrader}
             />
           </div>
         </div>
@@ -392,7 +399,7 @@ export function MobileTransactionsTable() {
               setShowFilterByTrader(false);
             }}
           >
-            <RotateCcw className="h-4 w-4" />
+            <Icon name={bxRotateLeft} size={16} />
             Reset
           </button>
           <button

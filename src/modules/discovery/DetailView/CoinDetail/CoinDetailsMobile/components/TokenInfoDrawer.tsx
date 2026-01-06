@@ -1,14 +1,15 @@
 import {
-  Check,
-  Copy,
-  ExternalLink,
-  Eye,
-  RefreshCw,
-  Search,
-  Shield,
-  TrendingUp,
-  Users,
-} from 'lucide-react';
+  bxCheck,
+  bxCopy,
+  bxGroup,
+  bxLinkExternal,
+  bxRefresh,
+  bxSearch,
+  bxShow,
+  bxsShield,
+  bxTrendingUp,
+} from 'boxicons-quasar';
+import Icon from 'modules/shared/Icon';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { useCopyToClipboard } from 'utils/useCopyToClipboard';
 
@@ -84,7 +85,7 @@ export function TokenInfoDrawer({
     <div className="flex w-full items-center justify-between">
       <span className="font-bold text-base text-white">Token Info</span>
       <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
-        <RefreshCw className="h-4 w-4" />
+        <Icon name={bxRefresh} size={16} />
       </button>
     </div>
   );
@@ -141,7 +142,7 @@ export function TokenInfoDrawer({
       <div className="grid grid-cols-3 gap-2">
         <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
           <div className="flex items-center gap-1">
-            <Users className="h-3.5 w-3.5 text-white" />
+            <Icon className="text-white" name={bxGroup} size={14} />
             <span className="font-bold text-sm text-white">
               {mockTokenInfo.holders.toLocaleString()}
             </span>
@@ -150,7 +151,7 @@ export function TokenInfoDrawer({
         </div>
         <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
           <div className="flex items-center gap-1">
-            <TrendingUp className="h-3.5 w-3.5 text-white" />
+            <Icon className="text-white" name={bxTrendingUp} size={14} />
             <span className="font-bold text-sm text-white">
               {mockTokenInfo.proTraders}
             </span>
@@ -159,7 +160,7 @@ export function TokenInfoDrawer({
         </div>
         <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
           <div className="flex items-center gap-1">
-            <Shield className="h-3.5 w-3.5 text-[#00D179]" />
+            <Icon className="text-[#00D179]" name={bxsShield} size={14} />
             <span className="font-bold text-[#00D179] text-sm">Paid</span>
           </div>
           <span className="mt-0.5 text-[#606060] text-[10px]">Dex Paid</span>
@@ -181,13 +182,13 @@ export function TokenInfoDrawer({
               onClick={() => copyToClipboard(mockTokenInfo.contractAddress)}
             >
               {copied ? (
-                <Check className="h-3.5 w-3.5 text-[#00D179]" />
+                <Icon className="text-[#00D179]" name={bxCheck} size={14} />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Icon name={bxCopy} size={14} />
               )}
             </button>
             <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
-              <ExternalLink className="h-3.5 w-3.5" />
+              <Icon name={bxLinkExternal} size={14} />
             </button>
           </div>
         </div>
@@ -204,13 +205,13 @@ export function TokenInfoDrawer({
           </div>
           <div className="ml-2 flex shrink-0 items-center gap-1">
             <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
-              <Eye className="h-3.5 w-3.5" />
+              <Icon name={bxShow} size={14} />
             </button>
             <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
-              <Search className="h-3.5 w-3.5" />
+              <Icon name={bxSearch} size={14} />
             </button>
             <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
-              <ExternalLink className="h-3.5 w-3.5" />
+              <Icon name={bxLinkExternal} size={14} />
             </button>
           </div>
         </div>
