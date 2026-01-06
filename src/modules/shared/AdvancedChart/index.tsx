@@ -46,6 +46,13 @@ const AdvancedChart: React.FC<{
   const knownWalletsRef = useRef(knownWallets);
   const { data: tokenInfo } = useTokenInfo({ slug });
 
+  // Get symbol name/abbreviation from unified details
+  const symbolName =
+    details.symbol.abbreviation ||
+    details.symbol.name ||
+    tokenInfo?.symbol ||
+    tokenInfo?.name;
+
   useEffect(() => {
     knownWalletsRef.current = knownWallets || [];
   }, [knownWallets]);
@@ -55,7 +62,7 @@ const AdvancedChart: React.FC<{
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
-    if (!totalSupply || !pairs?.length || !chartContainerRef.current) return;
+    if (!totalSupply || !pairs?.length) return;
 
     const initResolution = (localStorage.getItem(
       'tradingview.chart.lastUsedTimeBasedResolution',
@@ -66,7 +73,7 @@ const AdvancedChart: React.FC<{
     let isDestroyed = false;
 
     const widget = new Widget({
-      symbol: tokenInfo?.name ?? undefined,
+      symbol: symbolName || slug,
       datafeed: makeDataFeed({
         quote,
         slug,
@@ -246,7 +253,7 @@ const AdvancedChart: React.FC<{
     setIsMarketCap,
     setQuote,
     setConvertToUsd,
-    tokenInfo,
+    symbolName,
   ]);
 
   return (
