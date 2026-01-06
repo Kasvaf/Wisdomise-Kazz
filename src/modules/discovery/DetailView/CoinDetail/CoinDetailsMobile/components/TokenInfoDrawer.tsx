@@ -1,0 +1,283 @@
+import {
+  Check,
+  Copy,
+  ExternalLink,
+  Eye,
+  RefreshCw,
+  Search,
+  Shield,
+  TrendingUp,
+  Users,
+} from 'lucide-react';
+import { Dialog } from 'modules/shared/v1-components/Dialog';
+import { useCopyToClipboard } from 'utils/useCopyToClipboard';
+
+interface TokenInfoDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+  tokenData?: {
+    name: string;
+    ticker: string;
+  };
+}
+
+const mockTokenInfo = {
+  top10Holders: '18.26%',
+  devHolding: '4.19%',
+  snipersHolding: '4.19%',
+  insiders: '17.79%',
+  bundlers: '0.86%',
+  lpBurned: '100%',
+  holders: 3912,
+  proTraders: 301,
+  dexPaid: true,
+  contractAddress: '8y45AJzCUBSZL1UDFQRzCKovQBLQFudBrpP...',
+  devAddress: 'CXnxRV24ywNw3NyTmfgu7upN7VNA...',
+  coinbase: { name: 'Coinbase', amount: '0.33' },
+  reusedImages: [
+    {
+      name: 'BlackWhale',
+      fullName: 'The Black Whale',
+      lastTx: '6d',
+      value: '$4.89K',
+    },
+    {
+      name: 'BlackWhale',
+      fullName: 'The Black Whale',
+      lastTx: '6d',
+      value: '$88.6K',
+    },
+    {
+      name: 'BlackWhale',
+      fullName: 'The Black Whale',
+      lastTx: '6d',
+      value: '$12.3K',
+    },
+  ],
+};
+
+function StatBox({
+  label,
+  value,
+  color = 'text-white',
+}: {
+  label: string;
+  value: string;
+  color?: string;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+      <span className={`font-bold text-sm ${color}`}>{value}</span>
+      <span className="mt-0.5 text-[#606060] text-[10px]">{label}</span>
+    </div>
+  );
+}
+
+export function TokenInfoDrawer({
+  isOpen,
+  onClose,
+  tokenData,
+}: TokenInfoDrawerProps) {
+  const { copyToClipboard, copied } = useCopyToClipboard();
+
+  const header = (
+    <div className="flex w-full items-center justify-between">
+      <span className="font-bold text-base text-white">Token Info</span>
+      <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+        <RefreshCw className="h-4 w-4" />
+      </button>
+    </div>
+  );
+
+  return (
+    <Dialog
+      className="max-h-[85vh] bg-[#0e0e0e]"
+      contentClassName="overflow-y-auto px-4 py-4 space-y-4"
+      drawerConfig={{ position: 'bottom', closeButton: true }}
+      header={header}
+      mode="drawer"
+      onClose={onClose}
+      open={isOpen}
+    >
+      {/* Row 1: Top 10 H., Dev H., Snipers H. */}
+      <div className="grid grid-cols-3 gap-2">
+        <StatBox
+          color="text-red-400"
+          label="Top 10 H."
+          value={mockTokenInfo.top10Holders}
+        />
+        <StatBox
+          color="text-[#00D179]"
+          label="Dev H."
+          value={mockTokenInfo.devHolding}
+        />
+        <StatBox
+          color="text-[#00D179]"
+          label="Snipers H."
+          value={mockTokenInfo.snipersHolding}
+        />
+      </div>
+
+      {/* Row 2: Insiders, Bundlers, LP Burned */}
+      <div className="grid grid-cols-3 gap-2">
+        <StatBox
+          color="text-red-400"
+          label="Insiders"
+          value={mockTokenInfo.insiders}
+        />
+        <StatBox
+          color="text-[#00D179]"
+          label="Bundlers"
+          value={mockTokenInfo.bundlers}
+        />
+        <StatBox
+          color="text-[#00D179]"
+          label="LP Burned"
+          value={mockTokenInfo.lpBurned}
+        />
+      </div>
+
+      {/* Row 3: Holders, Pro Traders, Dex Paid */}
+      <div className="grid grid-cols-3 gap-2">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+          <div className="flex items-center gap-1">
+            <Users className="h-3.5 w-3.5 text-white" />
+            <span className="font-bold text-sm text-white">
+              {mockTokenInfo.holders.toLocaleString()}
+            </span>
+          </div>
+          <span className="mt-0.5 text-[#606060] text-[10px]">Holders</span>
+        </div>
+        <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+          <div className="flex items-center gap-1">
+            <TrendingUp className="h-3.5 w-3.5 text-white" />
+            <span className="font-bold text-sm text-white">
+              {mockTokenInfo.proTraders}
+            </span>
+          </div>
+          <span className="mt-0.5 text-[#606060] text-[10px]">Pro Traders</span>
+        </div>
+        <div className="flex flex-col items-center justify-center rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+          <div className="flex items-center gap-1">
+            <Shield className="h-3.5 w-3.5 text-[#00D179]" />
+            <span className="font-bold text-[#00D179] text-sm">Paid</span>
+          </div>
+          <span className="mt-0.5 text-[#606060] text-[10px]">Dex Paid</span>
+        </div>
+      </div>
+
+      {/* Contract Address */}
+      <div className="rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+        <div className="flex items-center justify-between">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="shrink-0 text-[#606060] text-[10px]">CA:</span>
+            <span className="truncate font-mono text-white text-xs">
+              {mockTokenInfo.contractAddress}
+            </span>
+          </div>
+          <div className="ml-2 flex shrink-0 items-center gap-1">
+            <button
+              className="p-1.5 text-[#606060] transition-colors hover:text-white"
+              onClick={() => copyToClipboard(mockTokenInfo.contractAddress)}
+            >
+              {copied ? (
+                <Check className="h-3.5 w-3.5 text-[#00D179]" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </button>
+            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+              <ExternalLink className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Dev Address */}
+      <div className="rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+        <div className="flex items-center justify-between">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="shrink-0 text-[#606060] text-[10px]">DA:</span>
+            <span className="truncate font-mono text-white text-xs">
+              {mockTokenInfo.devAddress}
+            </span>
+          </div>
+          <div className="ml-2 flex shrink-0 items-center gap-1">
+            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+              <Eye className="h-3.5 w-3.5" />
+            </button>
+            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+              <Search className="h-3.5 w-3.5" />
+            </button>
+            <button className="p-1.5 text-[#606060] transition-colors hover:text-white">
+              <ExternalLink className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Coinbase Info */}
+      <div className="rounded-lg border border-[#252525] bg-[#1f1f1f] p-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
+              <span className="font-bold text-[8px] text-white">C</span>
+            </div>
+            <span className="font-medium text-white text-xs">
+              {mockTokenInfo.coinbase.name}
+            </span>
+            <span className="text-[#606060] text-xs">=</span>
+            <span className="font-mono text-white text-xs">
+              {mockTokenInfo.coinbase.amount}
+            </span>
+          </div>
+          <span className="rounded bg-[#252525] px-2 py-0.5 text-[#606060] text-[10px]">
+            6d
+          </span>
+        </div>
+      </div>
+
+      {/* Reused Image Tokens */}
+      <div>
+        <div className="mb-2 text-center text-[#606060] text-[10px] uppercase tracking-wider">
+          Reused Image Tokens ({mockTokenInfo.reusedImages.length})
+        </div>
+        <div className="space-y-2">
+          {mockTokenInfo.reusedImages.map((token, idx) => (
+            <div
+              className="flex items-center gap-3 rounded-lg border border-[#252525] bg-[#1f1f1f] p-3"
+              key={idx}
+            >
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-gray-700 to-gray-900">
+                <span className="font-bold text-white text-xs">
+                  {token.name[0]}
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-white text-xs">
+                    {token.name}
+                  </span>
+                  <span className="truncate text-[#606060] text-xs">
+                    {token.fullName}
+                  </span>
+                </div>
+                <span className="text-[#606060] text-[10px]">
+                  Last TX: {token.lastTx}
+                </span>
+              </div>
+              <div className="flex flex-col items-end">
+                <span className="text-[#606060] text-[10px]">
+                  {token.lastTx}
+                </span>
+                <span className="font-mono text-[#00D179] text-xs">
+                  {token.value}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Dialog>
+  );
+}
