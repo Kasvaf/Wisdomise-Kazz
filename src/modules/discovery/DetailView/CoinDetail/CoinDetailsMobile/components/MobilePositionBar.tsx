@@ -1,5 +1,6 @@
-import { bxCog, bxMenu, bxSort } from 'boxicons-quasar';
+import { bxCog, bxSort } from 'boxicons-quasar';
 import Icon from 'modules/shared/Icon';
+import { ReactComponent as SolanaIcon } from 'modules/shared/NetworkIcon/solana.svg';
 import { Button } from 'modules/shared/v1-components/Button';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { Toggle } from 'modules/shared/v1-components/Toggle';
@@ -28,7 +29,7 @@ export function MobilePositionBar({
   const [showExitPrice, setShowExitPrice] = useState(true);
   const [resetPnl, setResetPnl] = useState(false);
   const [displayCurrency, setDisplayCurrency] = useState<'SOL' | 'USD'>('SOL');
-  const [showHoldingAsTokens, setShowHoldingAsTokens] = useState(true);
+  const [showHoldingAsTokens, setShowHoldingAsTokens] = useState(false);
 
   const pnlColor =
     pnl >= 0 ? 'text-v1-background-brand' : 'text-v1-content-negative';
@@ -40,6 +41,14 @@ export function MobilePositionBar({
     if (count >= 1000) return `${(count / 1000).toFixed(0)}K`;
     return count.toString();
   };
+
+  // Currency icon component - standardized size
+  const CurrencyIcon = ({ size = 'w-2 h-2' }: { size?: string }) =>
+    displayCurrency === 'USD' ? (
+      <span className="font-semibold text-[10px]">$</span>
+    ) : (
+      <SolanaIcon className={`inline-block align-middle ${size}`} />
+    );
 
   return (
     <>
@@ -68,16 +77,11 @@ export function MobilePositionBar({
             size="3xs"
             variant="ghost"
           >
-            <Icon className="text-v1-content-info" name={bxMenu} size={14} />
             <span className="font-medium text-[11px] text-v1-content-positive">
               Bought
             </span>
             <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-positive">
-              {displayCurrency === 'USD' ? (
-                '$'
-              ) : (
-                <Icon name={bxMenu} size={10} />
-              )}
+              <CurrencyIcon />
               {bought}
             </span>
           </Button>
@@ -92,16 +96,11 @@ export function MobilePositionBar({
             size="3xs"
             variant="ghost"
           >
-            <Icon className="text-v1-content-info" name={bxMenu} size={14} />
             <span className="font-medium text-[11px] text-v1-content-negative">
               Sold
             </span>
             <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-negative">
-              {displayCurrency === 'USD' ? (
-                '$'
-              ) : (
-                <Icon name={bxMenu} size={10} />
-              )}
+              <CurrencyIcon />
               {sold}
             </span>
           </Button>
@@ -114,18 +113,13 @@ export function MobilePositionBar({
             size="3xs"
             variant="ghost"
           >
-            <Icon className="text-v1-content-info" name={bxMenu} size={14} />
             <span className="font-medium text-[11px] text-white">Holding</span>
             <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
               {showHoldingAsTokens ? (
                 `${formatTokenCount(holdingTokens)} ${tokenSymbol}`
               ) : (
                 <>
-                  {displayCurrency === 'USD' ? (
-                    '$'
-                  ) : (
-                    <Icon name={bxMenu} size={10} />
-                  )}
+                  <CurrencyIcon />
                   {holding}
                 </>
               )}
@@ -134,7 +128,7 @@ export function MobilePositionBar({
 
           {/* PnL */}
           <Button
-            className="gap-1 hover:opacity-80"
+            className="gap-0.5 hover:opacity-80"
             data-testid="button-toggle-pnl-value"
             onClick={() =>
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
@@ -142,17 +136,14 @@ export function MobilePositionBar({
             size="3xs"
             variant="ghost"
           >
-            <Icon className={pnlColor} name={bxMenu} size={14} />
-            <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
-              {displayCurrency === 'USD' ? (
-                '$'
-              ) : (
-                <Icon name={bxMenu} size={10} />
-              )}
+            <span
+              className={`flex items-center gap-0.5 font-bold font-mono text-[11px] ${pnlColor}`}
+            >
+              <CurrencyIcon />
               {pnlSign}
               {pnl}
             </span>
-            <span className="font-mono text-[11px] text-white">
+            <span className={`font-bold font-mono text-[11px] ${pnlColor}`}>
               ({pnlSign}
               {pnlPercent}%)
             </span>
@@ -223,52 +214,25 @@ export function MobilePositionBar({
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-neutral-500 text-xs">Bought</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-v1-content-positive">
-                {displayCurrency === 'USD' ? (
-                  '$'
-                ) : (
-                  <span className="font-semibold text-[10px] text-v1-background-secondary">
-                    SOL
-                  </span>
-                )}
-                0
+                <CurrencyIcon size="w-2.5 h-2.5" />0
               </span>
             </div>
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-neutral-500 text-xs">Sold</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-v1-content-negative">
-                {displayCurrency === 'USD' ? (
-                  '$'
-                ) : (
-                  <span className="font-semibold text-[10px] text-v1-background-secondary">
-                    SOL
-                  </span>
-                )}
-                0
+                <CurrencyIcon size="w-2.5 h-2.5" />0
               </span>
             </div>
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-neutral-500 text-xs">Holding</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-white">
-                {displayCurrency === 'USD' ? (
-                  '$'
-                ) : (
-                  <span className="font-semibold text-[10px] text-v1-background-secondary">
-                    SOL
-                  </span>
-                )}
-                0
+                <CurrencyIcon size="w-2.5 h-2.5" />0
               </span>
             </div>
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-neutral-500 text-xs">PnL</span>
               <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-v1-content-positive">
-                {displayCurrency === 'USD' ? (
-                  '$'
-                ) : (
-                  <span className="font-semibold text-[10px] text-v1-background-secondary">
-                    SOL
-                  </span>
-                )}
+                <CurrencyIcon size="w-2.5 h-2.5" />
                 +0 (+0%)
               </span>
             </div>
