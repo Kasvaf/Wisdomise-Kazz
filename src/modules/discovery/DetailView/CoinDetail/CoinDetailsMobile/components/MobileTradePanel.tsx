@@ -130,7 +130,7 @@ export function MobileTradePanel({
   const _selectedWallet = wallets.find(w => w.isSelected) || wallets[0];
 
   return (
-    <div className="flex flex-col gap-2.5 border-v1-surface-l1 border-t bg-v1-background-primary px-3 py-2.5">
+    <div className="flex flex-col gap-2.5 border-v1-border-tertiary/30 border-t bg-v1-surface-l1/30 px-3 py-3">
       {/* Row 1: Presets + Buy/Sell Toggle */}
       <div className="flex items-center gap-2">
         {/* Inline Preset Selector */}

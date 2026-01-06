@@ -109,42 +109,54 @@ export default function CoinDetailsMobile() {
         onDragEnd={onDragEnd}
       >
         {/* Swipeable Content Area */}
-        <div className="min-h-0 flex-1 overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              animate={{ opacity: 1, x: 0 }}
-              className="h-full"
-              exit={{ opacity: 0, x: -20 }}
-              initial={{ opacity: 0, x: 20 }}
-              key={activePageTab}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            >
-              {activePageTab === 'transactions' ? (
-                <MobileTransactionsTable />
-              ) : (
-                <div className="h-full">
-                  <CoinChart />
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+        <motion.div
+          animate={{
+            flex: isTablesOpen ? 0 : 1,
+            opacity: isTablesOpen ? 0 : 1,
+          }}
+          className="min-h-0 overflow-hidden"
+          transition={{
+            flex: { type: 'spring', stiffness: 300, damping: 30 },
+            opacity: { duration: 0.15 },
+          }}
+        >
+          <div className="h-full overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                animate={{ opacity: 1, x: 0 }}
+                className="h-full"
+                exit={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: 20 }}
+                key={activePageTab}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              >
+                {activePageTab === 'transactions' ? (
+                  <MobileTransactionsTable />
+                ) : (
+                  <div className="h-full">
+                    <CoinChart />
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
 
         {/* Tables Section (Slides up from above the fixed buy/sell section) */}
         <motion.div
           animate={{
-            height: isTablesOpen ? 300 : 0,
+            flex: isTablesOpen ? 1 : 0,
+            opacity: isTablesOpen ? 1 : 0,
           }}
           className="overflow-hidden border-v1-border-tertiary border-t bg-v1-surface-l1"
           initial={false}
           transition={{
-            type: 'spring',
-            stiffness: 400,
-            damping: 35,
+            flex: { type: 'spring', stiffness: 300, damping: 30 },
+            opacity: { duration: 0.15 },
           }}
         >
           {isTablesOpen && (
-            <div className="h-[300px]">
+            <div className="h-full">
               <MobileTablesDrawer />
             </div>
           )}

@@ -32,7 +32,7 @@ export function MobilePositionBar({
   const [showHoldingAsTokens, setShowHoldingAsTokens] = useState(false);
 
   const pnlColor =
-    pnl >= 0 ? 'text-v1-background-brand' : 'text-v1-content-negative';
+    pnl >= 0 ? 'text-v1-content-positive' : 'text-v1-content-negative';
   const pnlSign = pnl >= 0 ? '+' : '';
 
   // Format token count (e.g., 130000 -> 130K)
@@ -43,21 +43,21 @@ export function MobilePositionBar({
   };
 
   // Currency icon component - standardized size
-  const CurrencyIcon = ({ size = 'w-2 h-2' }: { size?: string }) =>
+  const CurrencyIcon = ({ size = 'w-1.5 h-1.5' }: { size?: string }) =>
     displayCurrency === 'USD' ? (
       <span className="font-semibold text-[10px]">$</span>
     ) : (
-      <SolanaIcon className={`inline-block align-middle ${size}`} />
+      <SolanaIcon className={`inline-block ${size}`} />
     );
 
   return (
     <>
       {/* Compact position stats bar */}
-      <div className="border-v1-surface-l1 border-t bg-v1-background-primary px-3 py-2">
-        <div className="grid grid-cols-5 items-center gap-3">
+      <div className="border-v1-surface-l1 border-t bg-v1-background-primary px-3 py-2.5">
+        <div className="flex items-center justify-between gap-2">
           {/* PnL Settings */}
           <Button
-            className="justify-start gap-1.5 text-neutral-600"
+            className="flex-shrink-0 justify-start gap-1.5 text-neutral-600"
             data-testid="button-pnl-settings"
             onClick={() => setShowPnlSettings(true)}
             size="3xs"
@@ -68,86 +68,96 @@ export function MobilePositionBar({
           </Button>
 
           {/* Bought */}
-          <Button
-            className="gap-1 hover:opacity-80"
-            data-testid="button-toggle-bought"
-            onClick={() =>
-              setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
-            }
-            size="3xs"
-            variant="ghost"
-          >
-            <span className="font-medium text-[11px] text-v1-content-positive">
-              Bought
-            </span>
-            <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-positive">
-              <CurrencyIcon />
-              {bought}
-            </span>
-          </Button>
+          <div className="relative flex-1">
+            <div className="-left-1 -translate-y-1/2 absolute top-1/2 h-4 w-px bg-v1-border-tertiary/50" />
+            <button
+              className="flex w-full flex-col items-center gap-0.5 hover:opacity-80"
+              data-testid="button-toggle-bought"
+              onClick={() =>
+                setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
+              }
+              type="button"
+            >
+              <span className="font-medium text-[11px] text-v1-content-positive">
+                Bought
+              </span>
+              <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-positive">
+                <CurrencyIcon />
+                {bought}
+              </span>
+            </button>
+          </div>
 
           {/* Sold */}
-          <Button
-            className="gap-1 hover:opacity-80"
-            data-testid="button-toggle-sold"
-            onClick={() =>
-              setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
-            }
-            size="3xs"
-            variant="ghost"
-          >
-            <span className="font-medium text-[11px] text-v1-content-negative">
-              Sold
-            </span>
-            <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-negative">
-              <CurrencyIcon />
-              {sold}
-            </span>
-          </Button>
+          <div className="relative flex-1">
+            <div className="-left-1 -translate-y-1/2 absolute top-1/2 h-4 w-px bg-v1-border-tertiary/50" />
+            <button
+              className="flex w-full flex-col items-center gap-0.5 hover:opacity-80"
+              data-testid="button-toggle-sold"
+              onClick={() =>
+                setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
+              }
+              type="button"
+            >
+              <span className="font-medium text-[11px] text-v1-content-negative">
+                Sold
+              </span>
+              <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-negative">
+                <CurrencyIcon />
+                {sold}
+              </span>
+            </button>
+          </div>
 
           {/* Holding */}
-          <Button
-            className="gap-1 hover:opacity-80"
-            data-testid="button-toggle-holding"
-            onClick={() => setShowHoldingAsTokens(!showHoldingAsTokens)}
-            size="3xs"
-            variant="ghost"
-          >
-            <span className="font-medium text-[11px] text-white">Holding</span>
-            <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
-              {showHoldingAsTokens ? (
-                `${formatTokenCount(holdingTokens)} ${tokenSymbol}`
-              ) : (
-                <>
-                  <CurrencyIcon />
-                  {holding}
-                </>
-              )}
-            </span>
-          </Button>
+          <div className="relative flex-1">
+            <div className="-left-1 -translate-y-1/2 absolute top-1/2 h-4 w-px bg-v1-border-tertiary/50" />
+            <button
+              className="flex w-full flex-col items-center gap-0.5 hover:opacity-80"
+              data-testid="button-toggle-holding"
+              onClick={() => setShowHoldingAsTokens(!showHoldingAsTokens)}
+              type="button"
+            >
+              <span className="font-medium text-[11px] text-white">
+                Holding
+              </span>
+              <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
+                {showHoldingAsTokens ? (
+                  `${formatTokenCount(holdingTokens)} ${tokenSymbol}`
+                ) : (
+                  <>
+                    <CurrencyIcon />
+                    {holding}
+                  </>
+                )}
+              </span>
+            </button>
+          </div>
 
           {/* PnL */}
-          <Button
-            className="gap-0.5 hover:opacity-80"
-            data-testid="button-toggle-pnl-value"
-            onClick={() =>
-              setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
-            }
-            size="3xs"
-            variant="ghost"
-          >
-            <span
-              className={`flex items-center gap-0.5 font-bold font-mono text-[11px] ${pnlColor}`}
+          <div className="relative flex-1">
+            <div className="-left-1 -translate-y-1/2 absolute top-1/2 h-4 w-px bg-v1-border-tertiary/50" />
+            <button
+              className="flex w-full flex-col items-center gap-0.5 hover:opacity-80"
+              data-testid="button-toggle-pnl-value"
+              onClick={() =>
+                setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
+              }
+              type="button"
             >
-              <CurrencyIcon />
-              {pnlSign}
-              {pnl}
-            </span>
-            <span className={`font-bold font-mono text-[11px] ${pnlColor}`}>
-              ({pnlSign}
-              {pnlPercent}%)
-            </span>
-          </Button>
+              <span
+                className={`flex items-center gap-0.5 font-bold font-mono text-[11px] ${pnlColor}`}
+              >
+                <CurrencyIcon />
+                {pnlSign}
+                {pnl}
+              </span>
+              <span className={`font-bold font-mono text-[11px] ${pnlColor}`}>
+                ({pnlSign}
+                {pnlPercent}%)
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
