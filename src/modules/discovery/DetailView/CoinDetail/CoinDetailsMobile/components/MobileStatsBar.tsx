@@ -1,3 +1,5 @@
+import { ReactComponent as SolanaIcon } from 'modules/shared/NetworkIcon/solana.svg';
+
 interface MobileStatsBarProps {
   marketCap?: number;
   volume?: number;
@@ -52,9 +54,7 @@ export function MobileStatsBar({
       <div className="flex items-center gap-1">
         <span className="font-medium text-[10px] text-neutral-600">F</span>
         <div className="flex items-center gap-0.5">
-          <span className="font-semibold text-[10px] text-v1-background-secondary">
-            SOL
-          </span>
+          <SolanaIcon className="inline-block h-1.5 w-1.5" />
           <span className="font-mono font-semibold text-white text-xs">
             {fees.toFixed(2)}
           </span>
