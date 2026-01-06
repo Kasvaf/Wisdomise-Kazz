@@ -78,7 +78,7 @@ export function MobileTokenHeader({
               )}
             </div>
             {/* Platform Badge */}
-            <div className="-bottom-0.5 -left-0.5 absolute flex h-5 w-5 items-center justify-center rounded-full border-2 border-v1-background-primary bg-[#00D179]">
+            <div className="-bottom-0.5 -left-0.5 absolute flex h-5 w-5 items-center justify-center rounded-full border-2 border-v1-background-primary bg-v1-background-positive">
               <span className="font-bold text-[8px] text-white">
                 {platform[0].toUpperCase()}
               </span>
@@ -149,7 +149,11 @@ export function MobileTokenHeader({
             surface={0}
             variant="outline"
           >
-            <Icon className="text-[#00D179]" name={bxsShield} size={16} />
+            <Icon
+              className="text-v1-content-positive"
+              name={bxsShield}
+              size={16}
+            />
           </Button>
           <Button
             className="border border-v1-border-tertiary"

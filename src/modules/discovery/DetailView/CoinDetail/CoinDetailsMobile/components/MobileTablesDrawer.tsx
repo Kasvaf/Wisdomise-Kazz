@@ -137,7 +137,7 @@ export function MobileTablesDrawer() {
   ];
 
   return (
-    <div className="flex h-full flex-col bg-black">
+    <div className="flex h-full flex-col bg-v1-background-primary">
       {/* Sub-tabs */}
       <div className="flex items-center gap-1 overflow-x-auto border-v1-border-tertiary border-b px-3 py-2">
         {tabs.map(tab => (
@@ -159,7 +159,7 @@ export function MobileTablesDrawer() {
         <div className="flex-1 overflow-auto">
           <div className="min-w-[500px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[1fr_80px_80px_90px_60px] gap-2 border-v1-border-tertiary border-b bg-black px-3 py-2 font-medium text-[10px] text-neutral-600">
+            <div className="sticky top-0 z-10 grid grid-cols-[1fr_80px_80px_90px_60px] gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2 font-medium text-[10px] text-neutral-600">
               <div>Token</div>
               <div className="text-right">Bought</div>
               <div className="text-right">Sold</div>
@@ -207,7 +207,9 @@ export function MobileTablesDrawer() {
                 <div className="text-right">
                   <div
                     className={`font-mono font-semibold text-xs ${
-                      position.pnl >= 0 ? 'text-[#00D179]' : 'text-[#ef4444]'
+                      position.pnl >= 0
+                        ? 'text-v1-content-positive'
+                        : 'text-v1-content-negative'
                     }`}
                   >
                     {position.pnl >= 0 ? '+' : ''}
@@ -216,8 +218,8 @@ export function MobileTablesDrawer() {
                   <div
                     className={`text-[10px] ${
                       position.pnlPercent >= 0
-                        ? 'text-[#00D179]'
-                        : 'text-[#ef4444]'
+                        ? 'text-v1-content-positive'
+                        : 'text-v1-content-negative'
                     }`}
                   >
                     {position.pnlPercent >= 0 ? '+' : ''}
@@ -245,7 +247,7 @@ export function MobileTablesDrawer() {
         <div className="flex-1 overflow-auto">
           <div className="min-w-[700px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] gap-2 border-v1-border-tertiary border-b bg-black px-3 py-2 font-medium text-[10px] text-neutral-600">
+            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2 font-medium text-[10px] text-neutral-600">
               <Button
                 className="flex items-center justify-center"
                 fab={true}
@@ -273,23 +275,33 @@ export function MobileTablesDrawer() {
                 <div className="flex items-center gap-1">
                   <span
                     className={`truncate font-mono text-xs ${
-                      holder.isLiquidityPool ? 'text-[#00D179]' : 'text-white'
+                      holder.isLiquidityPool
+                        ? 'text-v1-content-positive'
+                        : 'text-white'
                     }`}
                   >
                     {holder.wallet}
                   </span>
                   {holder.hasShield && (
                     <Icon
-                      className="text-[#5865F2]"
+                      className="text-v1-content-info"
                       name={bxsShield}
                       size={12}
                     />
                   )}
                   {holder.hasWarning && (
-                    <Icon className="text-[#ef4444]" name={bxError} size={12} />
+                    <Icon
+                      className="text-v1-content-negative"
+                      name={bxError}
+                      size={12}
+                    />
                   )}
                   {holder.isLocked && (
-                    <Icon className="text-[#ef4444]" name={bxLock} size={12} />
+                    <Icon
+                      className="text-v1-content-negative"
+                      name={bxLock}
+                      size={12}
+                    />
                   )}
                   {holder.hasSparkle && (
                     <Icon
@@ -313,7 +325,7 @@ export function MobileTablesDrawer() {
                   </span>
                 </div>
                 <div className="text-right">
-                  <div className="font-mono text-[#00D179] text-xs">
+                  <div className="font-mono text-v1-content-positive text-xs">
                     {holder.boughtValue}
                   </div>
                 </div>
@@ -321,8 +333,8 @@ export function MobileTablesDrawer() {
                   <span
                     className={`font-mono font-semibold text-xs ${
                       holder.unrealizedPnl >= 0
-                        ? 'text-[#00D179]'
-                        : 'text-[#ef4444]'
+                        ? 'text-v1-content-positive'
+                        : 'text-v1-content-negative'
                     }`}
                   >
                     {holder.unrealizedPnl >= 0 ? '+' : ''}$
@@ -342,7 +354,7 @@ export function MobileTablesDrawer() {
         <div className="flex-1 overflow-auto">
           <div className="min-w-[500px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] gap-2 border-v1-border-tertiary border-b bg-black px-3 py-2 font-medium text-[10px] text-neutral-600">
+            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2 font-medium text-[10px] text-neutral-600">
               <div></div>
               <div>Wallet</div>
               <div className="text-right">SOL Balance</div>
@@ -377,7 +389,7 @@ export function MobileTablesDrawer() {
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="font-mono text-[#00D179] text-xs">
+                  <span className="font-mono text-v1-content-positive text-xs">
                     {holder.boughtValue}
                   </span>
                 </div>

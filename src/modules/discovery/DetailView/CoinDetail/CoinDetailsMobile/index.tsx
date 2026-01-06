@@ -244,21 +244,18 @@ export default function CoinDetailsMobile() {
           </div>
 
           {/* Content */}
-          <div className="h-[244px] border-v1-border-tertiary border-t">
-            <MobileTablesDrawer />
-          </div>
+          {isTablesOpen && (
+            <div className="h-[244px] border-v1-border-tertiary border-t">
+              <MobileTablesDrawer />
+            </div>
+          )}
         </motion.div>
       </div>
 
       {/* Token Info Drawer */}
       <TokenInfoDrawer
-        devHoldingPercent={mockData.security.devHoldingPercent}
-        freezeAuthority={mockData.security.freezeAuthority}
         isOpen={showTokenInfo}
-        lpBurned={mockData.security.lpBurned}
-        mintAuthority={mockData.security.mintAuthority}
         onClose={() => setShowTokenInfo(false)}
-        top10HolderPercent={mockData.security.top10HolderPercent}
       />
     </div>
   );

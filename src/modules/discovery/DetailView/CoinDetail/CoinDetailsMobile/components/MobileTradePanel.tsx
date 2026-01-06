@@ -163,12 +163,14 @@ export function MobileTradePanel({
             {
               value: 'buy' as const,
               label: 'Buy',
-              className: mode === 'buy' ? 'bg-[#BEFF21] !text-black' : '',
+              className:
+                mode === 'buy' ? 'bg-v1-background-brand !text-black' : '',
             },
             {
               value: 'sell' as const,
               label: 'Sell',
-              className: mode === 'sell' ? '!bg-[#ef4444] !text-white' : '',
+              className:
+                mode === 'sell' ? '!bg-v1-background-negative !text-white' : '',
             },
           ]}
           size="md"
@@ -191,7 +193,7 @@ export function MobileTradePanel({
                     : 'shadow-[0_0_10px_rgba(239,68,68,0.2)]'
                   : mode === 'buy'
                     ? 'text-v1-background-brand'
-                    : 'text-[#ef4444]'
+                    : 'text-v1-content-negative'
               }`}
               key={amt}
               onClick={() => setAmount(amt)}
@@ -267,7 +269,11 @@ export function MobileTradePanel({
           >
             <span className="font-medium text-base">{type}</span>
             {orderType === type && (
-              <Icon className="text-[#00D179]" name={bxCheck} size={20} />
+              <Icon
+                className="text-v1-content-positive"
+                name={bxCheck}
+                size={20}
+              />
             )}
           </button>
         ))}
@@ -350,7 +356,7 @@ export function MobileTradePanel({
               <div className="flex items-center gap-1.5 text-[11px] text-neutral-600">
                 <Icon name={bxLink} size={12} />
                 <span>Off</span>
-                <span className="text-[#404040]">{wallet.address}</span>
+                <span className="text-v1-surface-l4">{wallet.address}</span>
                 <Icon name={bxCopy} size={12} />
               </div>
             </div>
@@ -362,7 +368,9 @@ export function MobileTradePanel({
               </span>
               <span
                 className={`font-mono text-sm ${
-                  wallet.balance > 0 ? 'text-[#00D179]' : 'text-neutral-600'
+                  wallet.balance > 0
+                    ? 'text-v1-content-positive'
+                    : 'text-neutral-600'
                 }`}
               >
                 {wallet.balance}

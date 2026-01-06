@@ -223,7 +223,7 @@ export function MobileTransactionsTable() {
   };
 
   return (
-    <div className="flex h-full flex-col bg-[#000000]">
+    <div className="flex h-full flex-col bg-v1-background-primary">
       {/* Filter Tabs */}
       <div className="flex items-center justify-between border-v1-border-tertiary border-b px-3 py-2">
         <div className="flex items-center gap-4">
@@ -293,13 +293,15 @@ export function MobileTransactionsTable() {
             {/* Amount */}
             <div
               className={`font-mono font-semibold text-xs ${
-                tx.type === 'buy' ? 'text-[#00D179]' : 'text-[#FF6B6B]'
+                tx.type === 'buy'
+                  ? 'text-v1-content-positive'
+                  : 'text-v1-content-negative'
               }`}
             >
               {formatAmount(tx.amountUsd)}
               {tx.hasWarning && (
-                <span className="ml-1 inline-block flex h-3 w-3 items-center justify-center rounded bg-[#FF6B6B]/20">
-                  <span className="text-[#FF6B6B] text-[8px]">!</span>
+                <span className="ml-1 inline-block flex h-3 w-3 items-center justify-center rounded bg-v1-content-negative/20">
+                  <span className="text-[8px] text-v1-content-negative">!</span>
                 </span>
               )}
             </div>
@@ -318,10 +320,18 @@ export function MobileTransactionsTable() {
             {/* Age & Icons */}
             <div className="flex items-center justify-end gap-1.5 text-white text-xs">
               {tx.isLocked && (
-                <Icon className="text-[#FF6B6B]" name={bxLock} size={12} />
+                <Icon
+                  className="text-v1-content-negative"
+                  name={bxLock}
+                  size={12}
+                />
               )}
               {tx.hasMessage && (
-                <Icon className="text-[#00D179]" name={bxMessage} size={12} />
+                <Icon
+                  className="text-v1-content-positive"
+                  name={bxMessage}
+                  size={12}
+                />
               )}
               {tx.age}
             </div>
@@ -344,7 +354,7 @@ export function MobileTransactionsTable() {
             Maker Address
           </label>
           <input
-            className="w-full rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-[#5865F2] focus:outline-none"
+            className="w-full rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-v1-content-info focus:outline-none"
             data-testid="input-maker-address"
             onChange={e => setMakerAddress(e.target.value)}
             placeholder="CXnxRV24ywNw3NyTmfgu7upN7VNAfRqjkdmAwNv6c1Pv"
@@ -364,7 +374,7 @@ export function MobileTransactionsTable() {
           </div>
           <div className="flex gap-2">
             <input
-              className="flex-1 rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-[#5865F2] focus:outline-none"
+              className="flex-1 rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-v1-content-info focus:outline-none"
               data-testid="input-min-usd"
               onChange={e => setMinUsd(e.target.value)}
               placeholder="Enter min USD"
@@ -372,7 +382,7 @@ export function MobileTransactionsTable() {
               value={minUsd}
             />
             <input
-              className="flex-1 rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-[#5865F2] focus:outline-none"
+              className="flex-1 rounded-md border border-v1-border-tertiary bg-v1-surface-l1 px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 focus:border-v1-content-info focus:outline-none"
               data-testid="input-max-usd"
               onChange={e => setMaxUsd(e.target.value)}
               placeholder="Enter max USD"
@@ -415,7 +425,7 @@ export function MobileTransactionsTable() {
           </Button>
           <Button
             block
-            className="flex-1 rounded-full bg-[#5865F2] hover:bg-[#4752C4]"
+            className="flex-1 rounded-full bg-v1-background-info hover:bg-v1-background-info/80"
             data-testid="button-apply-filter"
             onClick={() => setShowFilterDrawer(false)}
             size="md"

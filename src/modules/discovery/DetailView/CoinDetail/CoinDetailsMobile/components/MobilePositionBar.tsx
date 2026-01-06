@@ -30,7 +30,8 @@ export function MobilePositionBar({
   const [displayCurrency, setDisplayCurrency] = useState<'SOL' | 'USD'>('SOL');
   const [showHoldingAsTokens, setShowHoldingAsTokens] = useState(true);
 
-  const pnlColor = pnl >= 0 ? 'text-v1-background-brand' : 'text-[#ef4444]';
+  const pnlColor =
+    pnl >= 0 ? 'text-v1-background-brand' : 'text-v1-content-negative';
   const pnlSign = pnl >= 0 ? '+' : '';
 
   // Format token count (e.g., 130000 -> 130K)
@@ -67,11 +68,11 @@ export function MobilePositionBar({
             size="3xs"
             variant="ghost"
           >
-            <Icon className="text-cyan-400" name={bxMenu} size={14} />
-            <span className="font-medium text-[#00D179] text-[11px]">
+            <Icon className="text-v1-content-info" name={bxMenu} size={14} />
+            <span className="font-medium text-[11px] text-v1-content-positive">
               Bought
             </span>
-            <span className="flex items-center gap-0.5 font-bold font-mono text-[#00D179] text-[11px]">
+            <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-positive">
               {displayCurrency === 'USD' ? (
                 '$'
               ) : (
@@ -91,9 +92,11 @@ export function MobilePositionBar({
             size="3xs"
             variant="ghost"
           >
-            <Icon className="text-cyan-400" name={bxMenu} size={14} />
-            <span className="font-medium text-[#ef4444] text-[11px]">Sold</span>
-            <span className="flex items-center gap-0.5 font-bold font-mono text-[#ef4444] text-[11px]">
+            <Icon className="text-v1-content-info" name={bxMenu} size={14} />
+            <span className="font-medium text-[11px] text-v1-content-negative">
+              Sold
+            </span>
+            <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-v1-content-negative">
               {displayCurrency === 'USD' ? (
                 '$'
               ) : (
@@ -111,7 +114,7 @@ export function MobilePositionBar({
             size="3xs"
             variant="ghost"
           >
-            <Icon className="text-cyan-400" name={bxMenu} size={14} />
+            <Icon className="text-v1-content-info" name={bxMenu} size={14} />
             <span className="font-medium text-[11px] text-white">Holding</span>
             <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
               {showHoldingAsTokens ? (
@@ -215,11 +218,11 @@ export function MobilePositionBar({
         </div>
 
         {/* Preview Bar */}
-        <div className="rounded-lg border-2 border-[#4F6EF7] bg-[#4F6EF7]/10 p-3">
+        <div className="rounded-lg border-2 border-v1-content-info bg-v1-content-info/10 p-3">
           <div className="flex items-center justify-between gap-4">
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-neutral-500 text-xs">Bought</span>
-              <span className="flex items-center gap-0.5 font-medium font-mono text-[#00D179] text-sm">
+              <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-v1-content-positive">
                 {displayCurrency === 'USD' ? (
                   '$'
                 ) : (
@@ -232,7 +235,7 @@ export function MobilePositionBar({
             </div>
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-neutral-500 text-xs">Sold</span>
-              <span className="flex items-center gap-0.5 font-medium font-mono text-red-400 text-sm">
+              <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-v1-content-negative">
                 {displayCurrency === 'USD' ? (
                   '$'
                 ) : (
@@ -258,7 +261,7 @@ export function MobilePositionBar({
             </div>
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-neutral-500 text-xs">PnL</span>
-              <span className="flex items-center gap-0.5 font-medium font-mono text-[#00D179] text-sm">
+              <span className="flex items-center gap-0.5 font-medium font-mono text-sm text-v1-content-positive">
                 {displayCurrency === 'USD' ? (
                   '$'
                 ) : (

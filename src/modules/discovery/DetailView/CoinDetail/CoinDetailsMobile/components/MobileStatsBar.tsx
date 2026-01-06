@@ -27,7 +27,7 @@ export function MobileStatsBar({
     <div className="flex items-center justify-between gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-1.5">
       <div className="flex items-center gap-1">
         <span className="font-medium text-[10px] text-neutral-600">MC</span>
-        <span className="font-mono font-semibold text-[#00D179] text-xs">
+        <span className="font-mono font-semibold text-v1-content-positive text-xs">
           {formatNumber(marketCap)}
         </span>
       </div>

@@ -18,6 +18,7 @@ export default function PageDiscovery() {
 
   return (
     <PageWrapper
+      className="h-full"
       extension={<CoinExtensionsGroup />}
       mainClassName="!p-0 h-full max-md:overflow-hidden"
     >

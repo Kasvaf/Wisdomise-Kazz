@@ -104,17 +104,17 @@ export function TokenInfoDrawer({
       {/* Row 1: Top 10 H., Dev H., Snipers H. */}
       <div className="grid grid-cols-3 gap-2">
         <StatBox
-          color="text-red-400"
+          color="text-v1-content-negative"
           label="Top 10 H."
           value={mockTokenInfo.top10Holders}
         />
         <StatBox
-          color="text-[#00D179]"
+          color="text-v1-content-positive"
           label="Dev H."
           value={mockTokenInfo.devHolding}
         />
         <StatBox
-          color="text-[#00D179]"
+          color="text-v1-content-positive"
           label="Snipers H."
           value={mockTokenInfo.snipersHolding}
         />
@@ -123,17 +123,17 @@ export function TokenInfoDrawer({
       {/* Row 2: Insiders, Bundlers, LP Burned */}
       <div className="grid grid-cols-3 gap-2">
         <StatBox
-          color="text-red-400"
+          color="text-v1-content-negative"
           label="Insiders"
           value={mockTokenInfo.insiders}
         />
         <StatBox
-          color="text-[#00D179]"
+          color="text-v1-content-positive"
           label="Bundlers"
           value={mockTokenInfo.bundlers}
         />
         <StatBox
-          color="text-[#00D179]"
+          color="text-v1-content-positive"
           label="LP Burned"
           value={mockTokenInfo.lpBurned}
         />
@@ -163,8 +163,14 @@ export function TokenInfoDrawer({
         </div>
         <div className="flex flex-col items-center justify-center rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 p-3">
           <div className="flex items-center gap-1">
-            <Icon className="text-[#00D179]" name={bxsShield} size={14} />
-            <span className="font-bold text-[#00D179] text-sm">Paid</span>
+            <Icon
+              className="text-v1-content-positive"
+              name={bxsShield}
+              size={14}
+            />
+            <span className="font-bold text-sm text-v1-content-positive">
+              Paid
+            </span>
           </div>
           <span className="mt-0.5 text-[10px] text-neutral-600">Dex Paid</span>
         </div>
@@ -188,7 +194,11 @@ export function TokenInfoDrawer({
               variant="ghost"
             >
               {copied ? (
-                <Icon className="text-[#00D179]" name={bxCheck} size={14} />
+                <Icon
+                  className="text-v1-content-positive"
+                  name={bxCheck}
+                  size={14}
+                />
               ) : (
                 <Icon name={bxCopy} size={14} />
               )}
@@ -297,7 +307,7 @@ export function TokenInfoDrawer({
                 <span className="text-[10px] text-neutral-600">
                   {token.lastTx}
                 </span>
-                <span className="font-mono text-[#00D179] text-xs">
+                <span className="font-mono text-v1-content-positive text-xs">
                   {token.value}
                 </span>
               </div>
