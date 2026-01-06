@@ -67,7 +67,7 @@ export default function CoinDetailsMobile() {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-v1-background-primary">
+    <div className="flex h-full flex-col overflow-hidden overscroll-none bg-v1-background-primary">
       {/* Fixed Header Section */}
       <div className="shrink-0">
         {/* 1. Page Tabs */}

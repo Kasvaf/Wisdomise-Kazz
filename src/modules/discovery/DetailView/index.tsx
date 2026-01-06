@@ -9,7 +9,7 @@ export const DetailView: FC<{
   className?: string;
 }> = ({ focus, expanded, className }) => {
   return (
-    <div className={className}>
+    <div className={`${className} max-md:h-full max-md:overflow-hidden`}>
       <CoinDetail expanded={expanded} focus={focus} />
     </div>
   );

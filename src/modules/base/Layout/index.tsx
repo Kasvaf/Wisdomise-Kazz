@@ -36,7 +36,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
   return (
     <div
-      className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l0"
+      className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l0 max-md:h-screen max-md:overflow-hidden"
       style={{
         ['--desktop-sidebar-width' as never]:
           !isMobile && sidebar !== null ? '4rem' : '0px',
@@ -69,7 +69,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         />
       )} */}
 
-      <div className="flex grow items-start justify-start">
+      <div className="flex items-start justify-start max-md:min-h-0 max-md:flex-1 md:grow">
         {/* Sidebar - only for desktop */}
         {!isMobile && sidebar !== null && (
           <aside
@@ -84,7 +84,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         {/* Main content */}
         <main
           className={clsx(
-            'w-[calc(100%-var(--desktop-sidebar-width))] max-w-[calc(100%-var(--desktop-sidebar-width))] grow p-3',
+            'w-[calc(100%-var(--desktop-sidebar-width))] max-w-[calc(100%-var(--desktop-sidebar-width))] p-3 max-md:min-h-0 max-md:flex-1 md:grow',
             mainClassName,
           )}
         >
