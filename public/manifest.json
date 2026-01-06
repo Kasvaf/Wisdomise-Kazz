@@ -8,24 +8,28 @@
   "short_name": "GoatX",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/icons/favicon.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/icons/favicon.png",
       "sizes": "256x256",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/icons/favicon.png",
       "sizes": "384x384",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/icons/favicon.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

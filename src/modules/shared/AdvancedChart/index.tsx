@@ -40,7 +40,7 @@ const AdvancedChart: React.FC<{
   const [, setGlobalChartWidget] = useAdvancedChartWidget();
   const [convertToUsd, setConvertToUsd] = useChartConvertToUSD();
   const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
-  const { marksRef, addSwap, setMigratedAt } = useChartMarks();
+  const { marksRef, addSwap, setMigratedAt, content } = useChartMarks();
   const { totalSupply } = useTotalSupply();
   const knownWallets = useKnownWallets();
   const knownWalletsRef = useRef(knownWallets);
@@ -75,6 +75,7 @@ const AdvancedChart: React.FC<{
         addSwap,
         setMigratedAt,
         walletsRef: knownWalletsRef,
+        convertToUsd,
       }),
       // datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
       //   'https://demo-feed-data.tradingview.com',
@@ -231,7 +232,12 @@ const AdvancedChart: React.FC<{
     tokenInfo,
   ]);
 
-  return <div className={clsx(className)} ref={chartContainerRef} />;
+  return (
+    <>
+      <div className={clsx(className)} ref={chartContainerRef} />
+      {content}
+    </>
+  );
 };
 
 export default AdvancedChart;

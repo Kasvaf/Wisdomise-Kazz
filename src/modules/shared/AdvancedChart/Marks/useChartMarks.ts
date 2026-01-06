@@ -5,12 +5,14 @@ import { useAssetEventStream } from 'services/grpc/assetEvent';
 import type { Swap } from 'services/grpc/proto/delphinus';
 import { slugToTokenAddress } from 'services/rest/token-info';
 import { useAdvancedChartWidget } from 'shared/AdvancedChart/ChartWidgetProvider';
+import { useMarksClickListener } from 'shared/AdvancedChart/Marks/useMarksClickListener';
 import { useMigrationMark } from 'shared/AdvancedChart/Marks/useMigrationMark';
 import { useSwapsMarks } from 'shared/AdvancedChart/Marks/useSwapMarks';
 import { useTweetMarks } from 'shared/AdvancedChart/Marks/useTweetMarks';
 import type { Mark } from '../../../../../public/charting_library';
 
 export const useChartMarks = () => {
+  const { content } = useMarksClickListener();
   const [marks, setMarks] = useState<Mark[]>([]);
   const marksRef = useRef(marks);
 
@@ -70,5 +72,5 @@ export const useChartMarks = () => {
     marksRef.current = marks;
   }, [marks]);
 
-  return { marksRef, addSwap, setMigratedAt };
+  return { marksRef, addSwap, setMigratedAt, content };
 };

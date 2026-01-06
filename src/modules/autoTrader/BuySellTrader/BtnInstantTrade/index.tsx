@@ -18,6 +18,7 @@ import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/Quote
 import TokenActivity from 'modules/autoTrader/TokenActivity';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useState } from 'react';
 import Draggable, { type ControlPosition } from 'react-draggable';
@@ -82,9 +83,8 @@ export default function BtnInstantTrade({
   const minHeight = 240;
   const maxHeight = 300;
 
-  const [sellAmountType, setSellAmountType] = useState<
-    'percentage' | 'base' | 'quote'
-  >('percentage');
+  const { settings, updateQuickSetSellType } = useUserSettings();
+  const sellAmountType = settings.quotes_quick_set.sell_selected_type;
 
   const startResizing = (e: React.MouseEvent, direction: 'top' | 'bottom') => {
     setMaskIsOpen(true);
@@ -206,7 +206,7 @@ export default function BtnInstantTrade({
                         Sell
                         <AmountTypeSwitch
                           onChange={newType => {
-                            setSellAmountType(newType);
+                            updateQuickSetSellType(newType);
                           }}
                           quote={quote}
                           showIcon
@@ -217,7 +217,6 @@ export default function BtnInstantTrade({
                       <AccountBalance quote={quote} slug={slug} />
                     </div>
                     <QuoteQuickSet
-                      balance={baseBalance}
                       btnClassName={clsx(
                         '!border-[0.5px]',
                         !isEditMode &&

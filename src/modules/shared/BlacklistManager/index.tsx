@@ -85,7 +85,7 @@ export default function BlacklistManager({
             <Input
               className="grow"
               onChange={newValue => setValue(newValue)}
-              placeholder="Enter contract address"
+              placeholder="Enter token CA, dev address"
               size="sm"
               type="string"
               value={value}

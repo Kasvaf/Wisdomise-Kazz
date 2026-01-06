@@ -160,7 +160,17 @@ export const NetworkRadarFilters: FC<{
                 variant="white"
               />
             </div>
-            {/* <div className="border-b border-white/10" /> */}
+            <p className="text-v1-content-secondary text-xs">
+              Filters on{' '}
+              <span className="font-medium text-v1-content-primary">
+                {tab === 'new_pairs'
+                  ? 'New Pairs'
+                  : tab === 'final_stretch'
+                    ? 'Final Stretch'
+                    : 'Migrated'}
+              </span>{' '}
+              column:
+            </p>
 
             {/* Protocols */}
             {currentTabProtocols.length > 0 && (
@@ -271,42 +281,44 @@ export const NetworkRadarFilters: FC<{
             <div className="border-white/10 border-b" />
 
             {/* B Curve */}
-            <div className="flex flex-col items-start gap-2">
-              <p className="text-xs">{'B Curve %'}</p>
-              <div className="flex w-full items-center gap-3">
-                <Input
-                  block
-                  className="basis-1/2"
-                  max={state[tab]?.maxBoundingCurve ?? 100}
-                  min={0}
-                  onChange={minBoundingCurve =>
-                    setState(p => ({
-                      ...p,
-                      [tab]: { ...p[tab], minBoundingCurve },
-                    }))
-                  }
-                  placeholder="Min"
-                  size="sm"
-                  type="number"
-                  value={state[tab]?.minBoundingCurve}
-                />
-                <Input
-                  block
-                  className="basis-1/2"
-                  max={100}
-                  onChange={maxBoundingCurve =>
-                    setState(p => ({
-                      ...p,
-                      [tab]: { ...p[tab], maxBoundingCurve },
-                    }))
-                  }
-                  placeholder="Max"
-                  size="sm"
-                  type="number"
-                  value={state[tab]?.maxBoundingCurve}
-                />
+            {tab !== 'migrated' && (
+              <div className="flex flex-col items-start gap-2">
+                <p className="text-xs">{'B Curve %'}</p>
+                <div className="flex w-full items-center gap-3">
+                  <Input
+                    block
+                    className="basis-1/2"
+                    max={state[tab]?.maxBoundingCurve ?? 100}
+                    min={0}
+                    onChange={minBoundingCurve =>
+                      setState(p => ({
+                        ...p,
+                        [tab]: { ...p[tab], minBoundingCurve },
+                      }))
+                    }
+                    placeholder="Min"
+                    size="sm"
+                    type="number"
+                    value={state[tab]?.minBoundingCurve}
+                  />
+                  <Input
+                    block
+                    className="basis-1/2"
+                    max={100}
+                    onChange={maxBoundingCurve =>
+                      setState(p => ({
+                        ...p,
+                        [tab]: { ...p[tab], maxBoundingCurve },
+                      }))
+                    }
+                    placeholder="Max"
+                    size="sm"
+                    type="number"
+                    value={state[tab]?.maxBoundingCurve}
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             <div>
               <ButtonSelect

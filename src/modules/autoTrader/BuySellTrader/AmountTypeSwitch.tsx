@@ -15,8 +15,8 @@ export default function AmountTypeSwitch({
 }: {
   base?: string;
   quote?: string;
-  value: 'percentage' | 'base' | 'quote';
-  onChange: (value: 'percentage' | 'base' | 'quote') => void;
+  value: 'percentage' | 'quote';
+  onChange: (value: 'percentage' | 'quote') => void;
   showIcon?: boolean;
   surface?: Surface;
 }) {
@@ -27,15 +27,7 @@ export default function AmountTypeSwitch({
       className={clsx('shrink-0', showIcon && '!px-1')}
       fab={!showIcon}
       onClick={() => {
-        onChange(
-          value === 'percentage'
-            ? 'quote'
-            : value === 'quote'
-              ? base
-                ? 'base'
-                : 'percentage'
-              : 'percentage',
-        );
+        onChange(value === 'percentage' ? 'quote' : 'percentage');
       }}
       size="2xs"
       surface={surface}

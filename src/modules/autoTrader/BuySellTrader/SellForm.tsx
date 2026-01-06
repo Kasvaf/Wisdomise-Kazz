@@ -2,6 +2,7 @@ import AmountTypeSwitch from 'modules/autoTrader/BuySellTrader/AmountTypeSwitch'
 import QuoteQuickSet from 'modules/autoTrader/BuySellTrader/QuoteQuickSet';
 import { TraderPresetsSettings } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useEffect, useState } from 'react';
 import AmountInputBox from 'shared/AmountInputBox';
 import AmountBalanceLabel from '../PageTrade/AdvancedSignalForm/AmountBalanceLabel';
@@ -12,7 +13,7 @@ import type { SwapState } from './useSwapState';
 
 const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const {
-    base: { coinInfo: baseInfo, slug: baseSlug, balance: baseBalance },
+    base: { slug: baseSlug, balance: baseBalance },
     quote: {
       coinInfo: quoteInfo,
       slug: quoteSlug,
@@ -26,19 +27,18 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
   const handleBaseAmount = (newValue: string) => {
     setAmount(newValue);
     setBaseAmount(
-      convertToBaseAmount(newValue, amountType, baseBalance, priceByOther),
+      convertToBaseAmount(newValue, sellAmountType, baseBalance, priceByOther),
     );
   };
 
-  const [amountType, setAmountType] = useState<'percentage' | 'base' | 'quote'>(
-    'percentage',
-  );
+  const { settings, updateQuickSetSellType } = useUserSettings();
+  const sellAmountType = settings.quotes_quick_set.sell_selected_type;
 
   useEffect(() => {
     setBaseAmount(
-      convertToBaseAmount(amount, amountType, baseBalance, priceByOther),
+      convertToBaseAmount(amount, sellAmountType, baseBalance, priceByOther),
     );
-  }, [amount, amountType, baseBalance, priceByOther, setBaseAmount]);
+  }, [amount, sellAmountType, baseBalance, priceByOther, setBaseAmount]);
 
   return (
     <div>
@@ -48,40 +48,36 @@ const SellForm: React.FC<{ state: SwapState }> = ({ state }) => {
         onChange={handleBaseAmount}
         suffix={
           <div className="text-xs">
-            {amountType === 'percentage'
+            {sellAmountType === 'percentage'
               ? '%'
-              : amountType === 'base'
-                ? baseInfo?.symbol
-                : baseSlug &&
-                  quoteInfo && (
-                    <QuoteSelector
-                      baseSlug={baseSlug}
-                      className="-mr-4"
-                      onChange={setQuote}
-                      value={quoteSlug}
-                    />
-                  )}
+              : baseSlug &&
+                quoteInfo && (
+                  <QuoteSelector
+                    baseSlug={baseSlug}
+                    className="-mr-4"
+                    onChange={setQuote}
+                    value={quoteSlug}
+                  />
+                )}
           </div>
         }
         value={amount}
       />
 
       <QuoteQuickSet
-        balance={baseBalance}
         className="mb-5"
-        mode={amountType === 'percentage' ? 'sell_percentage' : 'sell'}
+        mode={sellAmountType === 'percentage' ? 'sell_percentage' : 'sell'}
         onClick={newAmount => handleBaseAmount(newAmount)}
         quote={quoteSlug}
-        sensible={amountType === 'base'}
       >
         <AmountTypeSwitch
           base={baseSlug}
           onChange={newType => {
-            setAmountType(newType);
+            updateQuickSetSellType(newType);
             setAmount('0');
           }}
           quote={quoteSlug}
-          value={amountType}
+          value={sellAmountType}
         />
       </QuoteQuickSet>
 

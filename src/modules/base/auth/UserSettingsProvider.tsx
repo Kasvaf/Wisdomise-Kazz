@@ -72,6 +72,7 @@ interface QuickBuySettings {
 }
 
 interface QuotesQuickSet {
+  sell_selected_type: 'percentage' | 'quote';
   buy: Record<string, string[]>;
   sell: Record<string, string[]>;
   sell_percentage: Record<string, string[]>;
@@ -152,6 +153,7 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     },
   },
   quotes_quick_set: {
+    sell_selected_type: 'percentage',
     buy: {
       sol: ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
       usd: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
@@ -194,10 +196,11 @@ const context = createContext<
       update: (newValue: UserSettings) => void;
       updateQuotesQuickSet: (
         quote: 'usd' | 'sol',
-        type: keyof QuotesQuickSet,
+        type: Exclude<keyof QuotesQuickSet, 'sell_selected_type'>,
         index: number,
         newValue: string,
       ) => void;
+      updateQuickSetSellType: (type: 'percentage' | 'quote') => void;
       updateQuickBuyActivePreset: (
         source: TradeSettingsSource,
         index: number,
@@ -276,7 +279,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
 
   const updateQuotesQuickSet = (
     quote: 'usd' | 'sol',
-    type: keyof QuotesQuickSet,
+    type: Exclude<keyof QuotesQuickSet, 'sell_selected_type'>,
     index: number,
     newValue: string,
   ) => {
@@ -290,6 +293,16 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
             i === index ? newValue : v,
           ),
         },
+      },
+    }));
+  };
+
+  const updateQuickSetSellType = (type: 'percentage' | 'quote') => {
+    setSettings(prev => ({
+      ...prev,
+      quotes_quick_set: {
+        ...prev.quotes_quick_set,
+        sell_selected_type: type,
       },
     }));
   };
@@ -553,6 +566,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         updateQuickBuyActivePreset,
         updateQuickBuyAmount,
         updateQuotesQuickSet,
+        updateQuickSetSellType,
         toggleShowActivityInUsd,
         updateSwapsPartial,
         upsertImportedWallet,
