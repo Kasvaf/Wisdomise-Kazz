@@ -1,10 +1,13 @@
 import { bxCheck, bxCog, bxCopy, bxLink } from 'boxicons-quasar';
-import { useTradingSettings } from 'modules/discovery/providers/TradingSettingsProvider';
+import { type TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import Icon from 'modules/shared/Icon';
 import { Button } from 'modules/shared/v1-components/Button';
 import { ButtonSelect } from 'modules/shared/v1-components/ButtonSelect';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
-import { useState } from 'react';
+import { Input } from 'modules/shared/v1-components/Input';
+import { useEffect, useState } from 'react';
+import { preventNonNumericInput } from 'utils/numbers';
 
 interface TradePanelProps {
   positions?: number;
@@ -37,8 +40,11 @@ export function MobileTradePanel({
     'Instant',
   );
 
-  const { settings, setActivePreset } = useTradingSettings();
-  const activePreset = settings.activePreset;
+  const { settings: userSettings, updateQuickBuyActivePreset } =
+    useUserSettings();
+
+  const activePresetIndex =
+    userSettings?.quick_buy?.terminal?.active_preset ?? 0;
 
   const quickAmounts = [0.1, 0.2, 0.3, 0.6];
   const orderTypes: Array<'Instant' | 'Market' | 'Limit'> = [
@@ -131,15 +137,17 @@ export function MobileTradePanel({
         <div className="flex items-center gap-1">
           <ButtonSelect
             className="h-6"
-            onChange={newPreset => setActivePreset(newPreset)}
+            onChange={newPresetIndex =>
+              updateQuickBuyActivePreset('terminal', newPresetIndex)
+            }
             options={[
-              { value: 'P1' as const, label: 'P1' },
-              { value: 'P2' as const, label: 'P2' },
-              { value: 'P3' as const, label: 'P3' },
+              { value: 0, label: 'P1' },
+              { value: 1, label: 'P2' },
+              { value: 2, label: 'P3' },
             ]}
             size="xxs"
             surface={1}
-            value={activePreset}
+            value={activePresetIndex}
             variant="primary"
           />
           <Button
@@ -226,23 +234,10 @@ export function MobileTradePanel({
       )}
 
       {/* Preset Settings Drawer */}
-      <Dialog
-        className="bg-v1-surface-l1"
-        contentClassName="px-4 py-4 text-center"
-        drawerConfig={{ position: 'bottom', closeButton: true }}
-        header={
-          <span className="font-semibold text-base text-white">
-            Preset Settings
-          </span>
-        }
-        mode="drawer"
+      <TraderPresetSettingsDrawer
         onClose={() => setShowPresetDrawer(false)}
         open={showPresetDrawer}
-      >
-        <p className="text-neutral-600 text-sm">
-          Preset settings configuration will be implemented here.
-        </p>
-      </Dialog>
+      />
 
       {/* Order Type Drawer */}
       <Dialog
@@ -384,6 +379,167 @@ export function MobileTradePanel({
           </button>
         ))}
       </Dialog>
+    </div>
+  );
+}
+
+function TraderPresetSettingsDrawer({
+  onClose,
+  open,
+}: {
+  onClose: () => void;
+  open: boolean;
+}) {
+  const { settings, updatePreset } = useUserSettings();
+  const [presets, setPresets] = useState(settings?.presets);
+  const [currentPreset, setCurrentPreset] = useState(0);
+  const [currentMode, setCurrentMode] = useState<'buy' | 'sell'>('buy');
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    if (settings?.presets) {
+      setPresets([...settings.presets]);
+    }
+  }, [open, settings?.presets]);
+
+  if (!presets || !settings?.presets) return null;
+
+  return (
+    <Dialog
+      className="bg-v1-surface-l1"
+      contentClassName="p-7"
+      drawerConfig={{ position: 'bottom', closeButton: true }}
+      mode="drawer"
+      onClose={onClose}
+      open={open}
+    >
+      <div>
+        <h1 className="mb-8 font-medium text-2xl">Quick Settings</h1>
+        <p className="mb-3 text-xs">Presets</p>
+        <ButtonSelect
+          className="mb-3"
+          onChange={setCurrentPreset}
+          options={
+            settings?.presets?.map((_, index) => ({
+              value: index,
+              label: `P${index + 1}`,
+            })) ?? []
+          }
+          size="md"
+          surface={2}
+          value={currentPreset}
+          variant="white"
+        />
+        <ButtonSelect
+          className="mb-6"
+          onChange={setCurrentMode}
+          options={[
+            {
+              value: 'buy',
+              label: 'Buy Settings',
+              className:
+                'aria-checked:!bg-v1-background-positive aria-checked:!text-v1-content-secondary-inverse',
+            },
+            {
+              value: 'sell',
+              label: 'Sell Settings',
+              className:
+                'aria-checked:!bg-v1-background-negative aria-checked:!text-v1-content-secondary-inverse',
+            },
+          ]}
+          size="md"
+          surface={2}
+          value={currentMode}
+        />
+        <TraderPresetForm
+          defaultValue={presets[currentPreset][currentMode]}
+          key={currentMode + String(currentPreset)}
+          onChange={newValue => {
+            setPresets(prev => {
+              const newPresets = [...(prev ?? [])];
+              newPresets[currentPreset][currentMode] = newValue;
+              return newPresets;
+            });
+          }}
+          surface={2}
+        />
+
+        <div className="mt-6 flex items-center justify-between gap-2">
+          <Button className="w-full" onClick={onClose} variant="outline">
+            Cancel
+          </Button>
+          <Button
+            className="w-full"
+            onClick={() => {
+              updatePreset(presets);
+              onClose();
+            }}
+          >
+            Confirm
+          </Button>
+        </div>
+      </div>
+    </Dialog>
+  );
+}
+
+function TraderPresetForm({
+  defaultValue,
+  surface,
+  onChange,
+}: {
+  defaultValue: TraderPreset;
+  surface: number;
+  onChange: (newValue: TraderPreset) => void;
+}) {
+  const [value, setValue] = useState(defaultValue);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  useEffect(() => {
+    onChange(value);
+  }, [value]);
+
+  return (
+    <div className="my-3">
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-white/70 text-xs">Slippage</span>
+        <Input
+          className="w-1/3"
+          onChange={newValue =>
+            setValue(prev => ({ ...prev, slippage: String(+newValue / 100) }))
+          }
+          onKeyDown={preventNonNumericInput}
+          size="xs"
+          suffixIcon="%"
+          surface={surface}
+          type="string"
+          value={String(+value.slippage * 100)}
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-white/70 text-xs">Priority Fee (SOL)</span>
+        <Input
+          className="w-1/3"
+          onBlur={() => {
+            value.sol_priority_fee === '' &&
+              setValue(prev => ({
+                ...prev,
+                sol_priority_fee: '0',
+              }));
+          }}
+          onChange={newValue =>
+            setValue(prev => ({
+              ...prev,
+              sol_priority_fee: newValue,
+            }))
+          }
+          onKeyDown={preventNonNumericInput}
+          size="xs"
+          surface={surface}
+          type="string"
+          value={value.sol_priority_fee}
+        />
+      </div>
     </div>
   );
 }
