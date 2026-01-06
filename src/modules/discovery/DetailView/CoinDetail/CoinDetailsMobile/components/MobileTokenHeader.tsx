@@ -11,6 +11,7 @@ import {
   bxX,
 } from 'boxicons-quasar';
 import Icon from 'modules/shared/Icon';
+import { Button } from 'modules/shared/v1-components/Button';
 import { useEffect, useState } from 'react';
 import { useCopyToClipboard } from 'utils/useCopyToClipboard';
 
@@ -94,9 +95,12 @@ export function MobileTokenHeader({
               <span className="min-w-0 max-w-[120px] flex-1 truncate text-neutral-500 text-sm">
                 {name}
               </span>
-              <button
-                className="shrink-0 rounded p-0.5 transition-colors hover:bg-v1-surface-l2"
+              <Button
+                className="shrink-0"
+                fab={true}
                 onClick={() => copyToClipboard(contractAddress || '')}
+                size="3xs"
+                variant="ghost"
               >
                 {copied ? (
                   <span className="text-[10px] text-v1-background-brand">
@@ -105,27 +109,27 @@ export function MobileTokenHeader({
                 ) : (
                   <Icon className="text-neutral-600" name={bxCopy} size={14} />
                 )}
-              </button>
+              </Button>
               <span className="shrink-0 text-neutral-600 text-xs">{age}</span>
             </div>
 
             {/* Social Icons Row */}
             <div className="flex items-center gap-0.5">
-              <button className="rounded p-1 transition-colors hover:bg-v1-surface-l2">
+              <Button fab={true} size="3xs" variant="ghost">
                 <Icon className="text-neutral-600" name={bxLink} size={14} />
-              </button>
-              <button className="rounded p-1 transition-colors hover:bg-v1-surface-l2">
+              </Button>
+              <Button fab={true} size="3xs" variant="ghost">
                 <Icon className="text-neutral-600" name={bxGrid} size={14} />
-              </button>
-              <button className="rounded p-1 transition-colors hover:bg-v1-surface-l2">
+              </Button>
+              <Button fab={true} size="3xs" variant="ghost">
                 <Icon className="text-neutral-600" name={bxWorld} size={14} />
-              </button>
-              <button className="rounded p-1 transition-colors hover:bg-v1-surface-l2">
+              </Button>
+              <Button fab={true} size="3xs" variant="ghost">
                 <Icon className="text-neutral-600" name={bxSend} size={14} />
-              </button>
-              <button className="rounded p-1 transition-colors hover:bg-v1-surface-l2">
+              </Button>
+              <Button fab={true} size="3xs" variant="ghost">
                 <Icon className="text-neutral-600" name={bxSearch} size={14} />
-              </button>
+              </Button>
               <div className="ml-1 flex items-center gap-0.5 text-neutral-600">
                 <Icon name={bxShow} size={14} />
                 <span className="font-medium text-[10px]">{viewers}</span>
@@ -136,20 +140,28 @@ export function MobileTokenHeader({
 
         {/* Right: Action Buttons */}
         <div className="flex min-w-0 items-center gap-1.5">
-          <button
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-v1-border-tertiary bg-v1-background-primary transition-colors hover:bg-v1-surface-l2"
+          <Button
+            className="border border-v1-border-tertiary"
             data-testid="button-token-info"
+            fab={true}
             onClick={onInfoClick}
+            size="md"
+            surface={0}
+            variant="outline"
           >
             <Icon className="text-[#00D179]" name={bxsShield} size={16} />
-          </button>
-          <button
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-v1-border-tertiary bg-v1-background-primary transition-colors hover:bg-v1-surface-l2"
+          </Button>
+          <Button
+            className="border border-v1-border-tertiary"
             data-testid="button-share"
+            fab={true}
             onClick={handleShare}
+            size="md"
+            surface={0}
+            variant="outline"
           >
             <Icon className="text-neutral-600" name={bxShareAlt} size={16} />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -158,12 +170,15 @@ export function MobileTokenHeader({
         <div className="-translate-x-1/2 fixed top-4 left-1/2 z-50 flex items-center gap-3 rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 px-4 py-3 shadow-lg">
           <Icon className="text-neutral-600" name={bxShareAlt} size={16} />
           <span className="text-sm text-white">Link copied to clipboard</span>
-          <button
-            className="p-1 text-neutral-600 transition-colors hover:text-white"
+          <Button
+            className="text-neutral-600"
+            fab={true}
             onClick={() => setShowShareToast(false)}
+            size="3xs"
+            variant="ghost"
           >
             <Icon name={bxX} size={16} />
-          </button>
+          </Button>
         </div>
       )}
     </div>

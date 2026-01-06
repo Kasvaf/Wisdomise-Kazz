@@ -10,6 +10,7 @@ import {
   bxTrendingUp,
 } from 'boxicons-quasar';
 import Icon from 'modules/shared/Icon';
+import { Button } from 'modules/shared/v1-components/Button';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { useCopyToClipboard } from 'utils/useCopyToClipboard';
 
@@ -84,9 +85,9 @@ export function TokenInfoDrawer({
   const header = (
     <div className="flex w-full items-center justify-between">
       <span className="font-bold text-base text-white">Token Info</span>
-      <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
+      <Button className="text-neutral-600" fab={true} size="xs" variant="ghost">
         <Icon name={bxRefresh} size={16} />
-      </button>
+      </Button>
     </div>
   );
 
@@ -179,19 +180,27 @@ export function TokenInfoDrawer({
             </span>
           </div>
           <div className="ml-2 flex shrink-0 items-center gap-1">
-            <button
-              className="p-1.5 text-neutral-600 transition-colors hover:text-white"
+            <Button
+              className="text-neutral-600"
+              fab={true}
               onClick={() => copyToClipboard(mockTokenInfo.contractAddress)}
+              size="xs"
+              variant="ghost"
             >
               {copied ? (
                 <Icon className="text-[#00D179]" name={bxCheck} size={14} />
               ) : (
                 <Icon name={bxCopy} size={14} />
               )}
-            </button>
-            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
+            </Button>
+            <Button
+              className="text-neutral-600"
+              fab={true}
+              size="xs"
+              variant="ghost"
+            >
               <Icon name={bxLinkExternal} size={14} />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -206,15 +215,30 @@ export function TokenInfoDrawer({
             </span>
           </div>
           <div className="ml-2 flex shrink-0 items-center gap-1">
-            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
+            <Button
+              className="text-neutral-600"
+              fab={true}
+              size="xs"
+              variant="ghost"
+            >
               <Icon name={bxShow} size={14} />
-            </button>
-            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
+            </Button>
+            <Button
+              className="text-neutral-600"
+              fab={true}
+              size="xs"
+              variant="ghost"
+            >
               <Icon name={bxSearch} size={14} />
-            </button>
-            <button className="p-1.5 text-neutral-600 transition-colors hover:text-white">
+            </Button>
+            <Button
+              className="text-neutral-600"
+              fab={true}
+              size="xs"
+              variant="ghost"
+            >
               <Icon name={bxLinkExternal} size={14} />
-            </button>
+            </Button>
           </div>
         </div>
       </div>

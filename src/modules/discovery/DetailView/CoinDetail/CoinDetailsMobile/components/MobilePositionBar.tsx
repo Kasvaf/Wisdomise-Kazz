@@ -1,5 +1,6 @@
 import { bxCog, bxMenu, bxSort } from 'boxicons-quasar';
 import Icon from 'modules/shared/Icon';
+import { Button } from 'modules/shared/v1-components/Button';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { Toggle } from 'modules/shared/v1-components/Toggle';
 import { useState } from 'react';
@@ -45,22 +46,26 @@ export function MobilePositionBar({
       <div className="border-v1-surface-l1 border-t bg-v1-background-primary px-3 py-2">
         <div className="grid grid-cols-5 items-center gap-3">
           {/* PnL Settings */}
-          <button
-            className="flex items-center justify-start gap-1.5 text-neutral-600 transition-colors hover:text-white"
+          <Button
+            className="justify-start gap-1.5 text-neutral-600"
             data-testid="button-pnl-settings"
             onClick={() => setShowPnlSettings(true)}
+            size="3xs"
+            variant="ghost"
           >
             <Icon name={bxCog} size={14} />
             <span className="font-medium text-[11px]">PnL</span>
-          </button>
+          </Button>
 
           {/* Bought */}
-          <button
-            className="flex items-center gap-1 transition-opacity hover:opacity-80"
+          <Button
+            className="gap-1 hover:opacity-80"
             data-testid="button-toggle-bought"
             onClick={() =>
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
+            size="3xs"
+            variant="ghost"
           >
             <Icon className="text-cyan-400" name={bxMenu} size={14} />
             <span className="font-medium text-[#00D179] text-[11px]">
@@ -74,15 +79,17 @@ export function MobilePositionBar({
               )}
               {bought}
             </span>
-          </button>
+          </Button>
 
           {/* Sold */}
-          <button
-            className="flex items-center gap-1 transition-opacity hover:opacity-80"
+          <Button
+            className="gap-1 hover:opacity-80"
             data-testid="button-toggle-sold"
             onClick={() =>
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
+            size="3xs"
+            variant="ghost"
           >
             <Icon className="text-cyan-400" name={bxMenu} size={14} />
             <span className="font-medium text-[#ef4444] text-[11px]">Sold</span>
@@ -94,13 +101,15 @@ export function MobilePositionBar({
               )}
               {sold}
             </span>
-          </button>
+          </Button>
 
           {/* Holding */}
-          <button
-            className="flex items-center gap-1 transition-opacity hover:opacity-80"
+          <Button
+            className="gap-1 hover:opacity-80"
             data-testid="button-toggle-holding"
             onClick={() => setShowHoldingAsTokens(!showHoldingAsTokens)}
+            size="3xs"
+            variant="ghost"
           >
             <Icon className="text-cyan-400" name={bxMenu} size={14} />
             <span className="font-medium text-[11px] text-white">Holding</span>
@@ -118,15 +127,17 @@ export function MobilePositionBar({
                 </>
               )}
             </span>
-          </button>
+          </Button>
 
           {/* PnL */}
-          <button
-            className="flex items-center gap-1 transition-opacity hover:opacity-80"
+          <Button
+            className="gap-1 hover:opacity-80"
             data-testid="button-toggle-pnl-value"
             onClick={() =>
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
+            size="3xs"
+            variant="ghost"
           >
             <Icon className={pnlColor} name={bxMenu} size={14} />
             <span className="flex items-center gap-0.5 font-bold font-mono text-[11px] text-white">
@@ -142,7 +153,7 @@ export function MobilePositionBar({
               ({pnlSign}
               {pnlPercent}%)
             </span>
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -188,16 +199,19 @@ export function MobilePositionBar({
         {/* Cumulative PNL with currency toggle */}
         <div className="flex items-center justify-between">
           <span className="text-sm text-white">Cumulative PNL</span>
-          <button
-            className="flex items-center gap-1.5 rounded-md bg-v1-surface-l2 px-2.5 py-1.5 font-medium text-white text-xs transition-colors hover:bg-v1-surface-l3"
+          <Button
+            className="gap-1.5"
             data-testid="button-toggle-currency"
             onClick={() =>
               setDisplayCurrency(displayCurrency === 'SOL' ? 'USD' : 'SOL')
             }
+            size="sm"
+            surface={2}
+            variant="ghost"
           >
             <Icon name={bxSort} size={14} />
             <span>{displayCurrency}</span>
-          </button>
+          </Button>
         </div>
 
         {/* Preview Bar */}

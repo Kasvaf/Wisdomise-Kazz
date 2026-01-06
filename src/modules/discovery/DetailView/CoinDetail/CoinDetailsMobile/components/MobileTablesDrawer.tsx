@@ -7,6 +7,7 @@ import {
   bxsShield,
 } from 'boxicons-quasar';
 import Icon from 'modules/shared/Icon';
+import { Button } from 'modules/shared/v1-components/Button';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { Toggle } from 'modules/shared/v1-components/Toggle';
 import { useState } from 'react';
@@ -140,17 +141,16 @@ export function MobileTablesDrawer() {
       {/* Sub-tabs */}
       <div className="flex items-center gap-1 overflow-x-auto border-v1-border-tertiary border-b px-3 py-2">
         {tabs.map(tab => (
-          <button
-            className={`flex items-center gap-1.5 whitespace-nowrap rounded-md px-3 py-1.5 font-medium text-xs transition-all ${
-              activeTab === tab.id
-                ? 'bg-v1-surface-l2 text-white'
-                : 'text-neutral-600 hover:text-white'
-            }`}
+          <Button
+            className={activeTab === tab.id ? 'text-white' : 'text-neutral-600'}
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
+            size="sm"
+            surface={activeTab === tab.id ? 2 : 0}
+            variant="ghost"
           >
             {tab.label}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -225,9 +225,14 @@ export function MobileTablesDrawer() {
                   </div>
                 </div>
                 <div className="flex items-center justify-center">
-                  <button className="p-1 text-neutral-600 transition-colors hover:text-white">
+                  <Button
+                    className="text-neutral-600"
+                    fab={true}
+                    size="3xs"
+                    variant="ghost"
+                  >
                     <Icon name={bxLinkExternal} size={14} />
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -241,12 +246,15 @@ export function MobileTablesDrawer() {
           <div className="min-w-[700px]">
             {/* Header */}
             <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] gap-2 border-v1-border-tertiary border-b bg-black px-3 py-2 font-medium text-[10px] text-neutral-600">
-              <button
-                className="flex items-center justify-center transition-colors hover:text-white"
+              <Button
+                className="flex items-center justify-center"
+                fab={true}
                 onClick={() => setShowSettingsDrawer(true)}
+                size="3xs"
+                variant="ghost"
               >
                 <Icon name={bxCog} size={12} />
-              </button>
+              </Button>
               <div>Wallet</div>
               <div className="text-right">SOL Balance</div>
               <div className="text-right">Bought</div>

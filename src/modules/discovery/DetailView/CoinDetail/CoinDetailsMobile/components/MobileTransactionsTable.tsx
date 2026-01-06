@@ -6,6 +6,7 @@ import {
   bxSort,
 } from 'boxicons-quasar';
 import Icon from 'modules/shared/Icon';
+import { Button } from 'modules/shared/v1-components/Button';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { Toggle } from 'modules/shared/v1-components/Toggle';
 import { useState } from 'react';
@@ -227,41 +228,49 @@ export function MobileTransactionsTable() {
       <div className="flex items-center justify-between border-v1-border-tertiary border-b px-3 py-2">
         <div className="flex items-center gap-4">
           {filters.map(filter => (
-            <button
-              className={`flex items-center gap-1.5 font-medium text-xs transition-colors ${
-                activeFilter === filter.id
-                  ? 'text-white'
-                  : 'text-white/60 hover:text-white'
-              }`}
+            <Button
+              className={
+                activeFilter === filter.id ? 'text-white' : 'text-white/60'
+              }
               key={filter.id}
               onClick={() =>
                 setActiveFilter(activeFilter === filter.id ? null : filter.id)
               }
+              size="xs"
+              variant="ghost"
             >
               {filter.icon}
               {filter.label}
-            </button>
+            </Button>
           ))}
         </div>
-        <button
-          className="flex items-center gap-1.5 rounded bg-v1-surface-l1 px-2 py-1 text-white/60 transition-colors hover:bg-v1-surface-l2 hover:text-white"
+        <Button
+          className="gap-1.5 text-white/60"
           data-testid="button-open-filter"
           onClick={() => setShowFilterDrawer(true)}
+          size="xs"
+          surface={1}
+          variant="ghost"
         >
           <Icon name={bxFilter} size={14} />
           <span className="font-medium text-xs">Filter</span>
-        </button>
+        </Button>
       </div>
 
       {/* Table Header */}
       <div className="grid grid-cols-[1fr_80px_60px_50px] gap-2 border-v1-border-tertiary border-b px-3 py-2 font-medium text-[10px] text-white/60">
         <div className="flex items-center gap-1">
           Amount USD
-          <button className="opacity-60 hover:opacity-100">
+          <Button
+            className="opacity-60 hover:opacity-100"
+            fab={true}
+            size="3xs"
+            variant="ghost"
+          >
             <div className="flex h-3 w-3 items-center justify-center rounded-full border border-white/60 text-[8px]">
               ?
             </div>
-          </button>
+          </Button>
         </div>
         <div className="flex items-center gap-1">
           MC
@@ -389,8 +398,8 @@ export function MobileTransactionsTable() {
 
         {/* Footer Buttons */}
         <div className="flex items-center gap-3 border-v1-border-tertiary border-t px-4 py-4">
-          <button
-            className="flex items-center justify-center gap-2 rounded-md px-4 py-2.5 font-medium text-sm text-white transition-colors hover:bg-v1-surface-l2"
+          <Button
+            className="gap-2"
             data-testid="button-reset-filter"
             onClick={() => {
               setMakerAddress('');
@@ -398,17 +407,22 @@ export function MobileTransactionsTable() {
               setMaxUsd('');
               setShowFilterByTrader(false);
             }}
+            size="md"
+            variant="ghost"
           >
             <Icon name={bxRotateLeft} size={16} />
             Reset
-          </button>
-          <button
-            className="flex-1 rounded-full bg-[#5865F2] py-2.5 font-semibold text-sm text-white transition-colors hover:bg-[#4752C4]"
+          </Button>
+          <Button
+            block
+            className="flex-1 rounded-full bg-[#5865F2] hover:bg-[#4752C4]"
             data-testid="button-apply-filter"
             onClick={() => setShowFilterDrawer(false)}
+            size="md"
+            variant="ghost"
           >
             Apply
-          </button>
+          </Button>
         </div>
       </Dialog>
     </div>

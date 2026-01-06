@@ -1,6 +1,8 @@
 import { bxCheck, bxCog, bxCopy, bxLink } from 'boxicons-quasar';
 import { useTradingSettings } from 'modules/discovery/providers/TradingSettingsProvider';
 import Icon from 'modules/shared/Icon';
+import { Button } from 'modules/shared/v1-components/Button';
+import { ButtonSelect } from 'modules/shared/v1-components/ButtonSelect';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { useState } from 'react';
 
@@ -126,53 +128,53 @@ export function MobileTradePanel({
       {/* Row 1: Presets + Buy/Sell Toggle */}
       <div className="flex items-center gap-2">
         {/* Inline Preset Selector */}
-        <div className="flex items-center rounded-md border border-v1-border-tertiary bg-v1-surface-l1 p-0.5">
-          {(['P1', 'P2', 'P3'] as const).map(preset => (
-            <button
-              className={`rounded px-2 py-0.5 font-medium text-[10px] transition-all ${
-                activePreset === preset
-                  ? 'bg-[#BEFF21] text-black'
-                  : 'text-neutral-600 hover:bg-v1-surface-l2 hover:text-white'
-              }`}
-              key={preset}
-              onClick={() => setActivePreset(preset)}
-            >
-              {preset}
-            </button>
-          ))}
-          <button
-            className="ml-0.5 rounded p-1 text-neutral-600 transition-colors hover:bg-v1-surface-l2 hover:text-white"
+        <div className="flex items-center gap-1">
+          <ButtonSelect
+            className="h-6"
+            onChange={newPreset => setActivePreset(newPreset)}
+            options={[
+              { value: 'P1' as const, label: 'P1' },
+              { value: 'P2' as const, label: 'P2' },
+              { value: 'P3' as const, label: 'P3' },
+            ]}
+            size="xxs"
+            surface={1}
+            value={activePreset}
+            variant="primary"
+          />
+          <Button
+            className="text-neutral-600 hover:text-white"
+            fab={true}
             onClick={() => setShowPresetDrawer(true)}
+            size="3xs"
             title="Preset Settings"
+            variant="ghost"
           >
             <Icon name={bxCog} size={12} />
-          </button>
+          </Button>
         </div>
 
         {/* Buy/Sell Toggle - Right side */}
         <div className="flex-1"></div>
-        <div className="flex shrink-0 items-center rounded-lg bg-v1-surface-l1 p-0.5">
-          <button
-            className={`rounded-md px-4 py-2 font-bold text-sm transition-all ${
-              mode === 'buy'
-                ? 'bg-[#BEFF21] text-black'
-                : 'text-neutral-600 hover:text-white'
-            }`}
-            onClick={() => setMode('buy')}
-          >
-            Buy
-          </button>
-          <button
-            className={`rounded-md px-4 py-2 font-bold text-sm transition-all ${
-              mode === 'sell'
-                ? 'bg-[#ef4444] text-white'
-                : 'text-neutral-600 hover:text-white'
-            }`}
-            onClick={() => setMode('sell')}
-          >
-            Sell
-          </button>
-        </div>
+        <ButtonSelect
+          buttonClassName="px-4 font-bold"
+          onChange={newMode => setMode(newMode)}
+          options={[
+            {
+              value: 'buy' as const,
+              label: 'Buy',
+              className: mode === 'buy' ? 'bg-[#BEFF21] !text-black' : '',
+            },
+            {
+              value: 'sell' as const,
+              label: 'Sell',
+              className: mode === 'sell' ? '!bg-[#ef4444] !text-white' : '',
+            },
+          ]}
+          size="md"
+          surface={1}
+          value={mode}
+        />
       </div>
 
       {/* Row 2: Quick Amount Buttons */}
@@ -180,30 +182,45 @@ export function MobileTradePanel({
         {quickAmounts.map(amt => {
           const isSelected = amount === amt;
           return (
-            <button
-              className={`rounded-lg py-2.5 font-bold font-mono text-sm transition-all ${
+            <Button
+              block
+              className={`font-mono ${
                 isSelected
                   ? mode === 'buy'
-                    ? 'bg-[#BEFF21] text-black shadow-[0_0_10px_rgba(190,255,33,0.3)]'
-                    : 'bg-[#ef4444] text-white shadow-[0_0_10px_rgba(239,68,68,0.2)]'
+                    ? 'shadow-[0_0_10px_rgba(190,255,33,0.3)]'
+                    : 'shadow-[0_0_10px_rgba(239,68,68,0.2)]'
                   : mode === 'buy'
-                    ? 'border border-v1-border-tertiary bg-v1-surface-l1 text-v1-background-brand hover:border-v1-surface-l4'
-                    : 'border border-v1-border-tertiary bg-v1-surface-l1 text-[#ef4444] hover:border-v1-surface-l4'
+                    ? 'text-v1-background-brand'
+                    : 'text-[#ef4444]'
               }`}
               key={amt}
               onClick={() => setAmount(amt)}
+              size="lg"
+              surface={1}
+              variant={
+                isSelected
+                  ? mode === 'buy'
+                    ? 'primary'
+                    : 'negative'
+                  : 'outline'
+              }
             >
               {amt}
-            </button>
+            </Button>
           );
         })}
       </div>
 
       {/* Sell Initials - Only in sell mode */}
       {mode === 'sell' && (
-        <button className="w-full rounded-lg border border-[#ef4444]/20 bg-[#ef4444]/10 py-2 font-bold text-[#ef4444] text-xs transition-colors hover:bg-[#ef4444]/20">
+        <Button
+          block
+          className="font-bold"
+          size="lg"
+          variant="negative_outline"
+        >
           Sell Initials
-        </button>
+        </Button>
       )}
 
       {/* Preset Settings Drawer */}
@@ -264,27 +281,34 @@ export function MobileTradePanel({
         header={
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-4">
-              <button
-                className="rounded-md bg-v1-surface-l2 px-3 py-1.5 font-medium text-sm text-white transition-colors hover:bg-v1-surface-l3"
+              <Button
                 data-testid="button-unselect-all"
                 onClick={unselectAll}
+                size="sm"
+                surface={2}
+                variant="ghost"
               >
                 Unselect All
-              </button>
-              <button
-                className="text-neutral-500 text-sm transition-colors hover:text-white"
+              </Button>
+              <Button
+                className="text-neutral-500"
                 data-testid="button-select-with-balance"
                 onClick={selectAllWithBalance}
+                size="sm"
+                variant="link"
               >
                 Select All with Balance
-              </button>
+              </Button>
             </div>
-            <button
-              className="p-1.5 text-neutral-600 transition-colors hover:text-white"
+            <Button
+              className="text-neutral-600"
               data-testid="button-wallet-settings"
+              fab={true}
+              size="sm"
+              variant="ghost"
             >
               <Icon name={bxCog} size={20} />
-            </button>
+            </Button>
           </div>
         }
         mode="drawer"
