@@ -7,3 +7,4 @@ export { MobileTokenHeader } from './MobileTokenHeader';
 export { MobileTradePanel } from './MobileTradePanel';
 export { MobileTransactionsTable } from './MobileTransactionsTable';
 export { TokenInfoDrawer } from './TokenInfoDrawer';
+export { VolumeFilterDrawer } from './VolumeFilterDrawer';

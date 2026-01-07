@@ -1,7 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import {
+  type TokenUpdateResolution,
+  useTokenUpdateStream,
+} from 'services/grpc/tokenUpdate';
 import { useSwipeNavigation } from 'utils/useSwipeNavigation';
 import CoinChart from '../CoinChart';
+import { useUnifiedCoinDetails } from '../lib';
 import {
   MobilePageTabs,
   MobilePositionBar,
@@ -11,6 +16,7 @@ import {
   MobileTradePanel,
   MobileTransactionsTable,
   TokenInfoDrawer,
+  VolumeFilterDrawer,
 } from './components';
 
 type PageTab = 'trade' | 'transactions';
@@ -19,6 +25,45 @@ export default function CoinDetailsMobile() {
   const [activePageTab, setActivePageTab] = useState<PageTab>('trade');
   const [showTokenInfo, setShowTokenInfo] = useState(false);
   const [isTablesOpen, setIsTablesOpen] = useState(false);
+
+  // Volume filter state
+  const [volumeResolution, setVolumeResolution] =
+    useState<TokenUpdateResolution>('all-time');
+  const [showVolumeFilter, setShowVolumeFilter] = useState(false);
+
+  // Get token address for volume stream
+  const { symbol } = useUnifiedCoinDetails();
+
+  // Fetch volume data
+  const { data: volumeData, isLoading: isVolumeLoading } = useTokenUpdateStream(
+    {
+      network: 'solana',
+      tokenAddress: symbol.contractAddress ?? undefined,
+      resolution: volumeResolution,
+    },
+  );
+
+  // Volume resolution cycling
+  const resolutions: TokenUpdateResolution[] = [
+    '1m',
+    '5m',
+    '15m',
+    '1h',
+    'all-time',
+  ];
+
+  const handleVolumeSwipe = (direction: 'next' | 'prev') => {
+    const currentIndex = resolutions.indexOf(volumeResolution);
+    let newIndex: number;
+
+    if (direction === 'next') {
+      newIndex = (currentIndex + 1) % resolutions.length;
+    } else {
+      newIndex = currentIndex === 0 ? resolutions.length - 1 : currentIndex - 1;
+    }
+
+    setVolumeResolution(resolutions[newIndex]);
+  };
 
   // Swipe navigation setup
   const { onDragEnd } = useSwipeNavigation<PageTab>({
@@ -47,7 +92,20 @@ export default function CoinDetailsMobile() {
         />
 
         {/* 3. Stats Bar */}
-        <MobileStatsBar />
+        <MobileStatsBar
+          isVolumeLoading={isVolumeLoading}
+          onVolumeCycle={() => handleVolumeSwipe('next')}
+          onVolumeSwipe={handleVolumeSwipe}
+          volumeData={
+            volumeData
+              ? {
+                  buyVolume: volumeData.buyVolume ?? 0,
+                  sellVolume: volumeData.sellVolume ?? 0,
+                }
+              : undefined
+          }
+          volumeResolution={volumeResolution}
+        />
       </div>
 
       {/* Main Content Area - Fills remaining space with Swipe */}
@@ -196,6 +254,14 @@ export default function CoinDetailsMobile() {
       <TokenInfoDrawer
         isOpen={showTokenInfo}
         onClose={() => setShowTokenInfo(false)}
+      />
+
+      {/* Volume Filter Drawer */}
+      <VolumeFilterDrawer
+        isOpen={showVolumeFilter}
+        onClose={() => setShowVolumeFilter(false)}
+        onResolutionChange={setVolumeResolution}
+        selectedResolution={volumeResolution}
       />
     </div>
   );
