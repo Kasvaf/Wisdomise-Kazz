@@ -119,6 +119,27 @@ export const useActiveWallet = () => {
   };
 };
 
+export const useWallets = () => {
+  const connectedWallet = useConnectedWallet();
+  const { cw } = useCustodialWallet();
+  const net = useActiveNetwork();
+  const isCustodial = Boolean(cw && net === 'solana');
+
+  return {
+    connectedWallet: {
+      address: connectedWallet.address,
+      name: connectedWallet.name,
+      connected: connectedWallet.connected,
+      connect: connectedWallet.connect,
+    },
+    primaryWallet: {
+      address: isCustodial ? cw?.address : connectedWallet.address,
+      name: isCustodial ? cw?.name : connectedWallet.name,
+    },
+    isCustodial,
+  };
+};
+
 export const useUserWallets = () => {
   const { data } = useWalletsQuery();
   const { address, connected } = useConnectedWallet();

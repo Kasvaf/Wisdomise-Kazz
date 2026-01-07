@@ -1,6 +1,7 @@
-import { bxCheck, bxCog, bxEditAlt } from 'boxicons-quasar';
+import { bxCheck, bxCog, bxEditAlt, bxWallet } from 'boxicons-quasar';
 import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
+import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
@@ -13,7 +14,12 @@ import { Input } from 'modules/shared/v1-components/Input';
 import { useEffect, useState } from 'react';
 import { useSwap, useTokenBalance } from 'services/chains';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
-import { useActiveWallet, useCustodialWallet } from 'services/chains/wallet';
+import {
+  useActiveWallet,
+  useCustodialWallet,
+  useWallets,
+} from 'services/chains/wallet';
+import { WatchEventType } from 'services/grpc/proto/wealth_manager';
 import { useLastPriceStream } from 'services/price';
 import { useWalletsQuery } from 'services/rest/wallets';
 import { preventNonNumericInput } from 'utils/numbers';
@@ -35,6 +41,7 @@ export function MobileTradePanel() {
   const [quote, _setQuote] = useState(WRAPPED_SOLANA_SLUG);
 
   const { connected } = useActiveWallet();
+  const { primaryWallet } = useWallets();
   const { data: baseBalance } = useTokenBalance({ slug });
   const isLoggedIn = useIsLoggedIn();
   const [loginModal, open] = useModalLogin();
@@ -48,6 +55,12 @@ export function MobileTradePanel() {
   });
 
   const swapAsync = useSwap({ source: 'terminal', slug, quote });
+
+  // Get initial position for Sell Initials
+  const { init } = useTokenActivity({
+    slug,
+    type: WatchEventType.SWAP_POSITION_UPDATE,
+  });
 
   const {
     settings: userSettings,
@@ -83,6 +96,16 @@ export function MobileTradePanel() {
     await swapAsync(side, finalAmount);
   };
 
+  // Sell all initial holdings instantly (no confirmation)
+  const sellInitials = async () => {
+    if (!isLoggedIn) {
+      open();
+      return;
+    }
+    if (init <= 0) return;
+    await swapAsync('SHORT', String(init));
+  };
+
   const activePresetIndex =
     userSettings?.quick_buy?.terminal?.active_preset ?? 0;
 
@@ -94,75 +117,9 @@ export function MobileTradePanel() {
 
   return (
     <div className="flex flex-col gap-2 border-v1-border-tertiary/30 border-t bg-v1-surface-l1/30 px-3 py-2.5">
-      {/* Row 1: Presets + Buy/Sell Toggle */}
-      <div className="flex items-center gap-2">
-        {/* Inline Preset Selector */}
-        <div className="flex items-center gap-1">
-          <ButtonSelect
-            className="h-6"
-            onChange={newPresetIndex =>
-              updateQuickBuyActivePreset('terminal', newPresetIndex)
-            }
-            options={[
-              { value: 0, label: 'P1' },
-              { value: 1, label: 'P2' },
-              { value: 2, label: 'P3' },
-            ]}
-            size="xxs"
-            surface={1}
-            value={activePresetIndex}
-            variant="primary"
-          />
-          <Button
-            className="text-neutral-600 hover:text-white"
-            fab={true}
-            onClick={() => setShowPresetDrawer(true)}
-            size="3xs"
-            title="Preset Settings"
-            variant="ghost"
-          >
-            <Icon name={bxCog} size={12} />
-          </Button>
-        </div>
-
-        {/* Buy/Sell Toggle - Right side */}
-        <div className="flex-1"></div>
-        <Button
-          className="text-neutral-600 hover:text-white"
-          fab={true}
-          onClick={() => setIsEditMode(prev => !prev)}
-          size="3xs"
-          title={isEditMode ? 'Save Changes' : 'Edit Quick Amounts'}
-          variant="ghost"
-        >
-          <Icon name={isEditMode ? bxCheck : bxEditAlt} size={12} />
-        </Button>
-        <ButtonSelect
-          buttonClassName="px-4 font-bold"
-          onChange={newMode => setMode(newMode)}
-          options={[
-            {
-              value: 'buy' as const,
-              label: 'Buy',
-              className:
-                mode === 'buy' ? 'bg-v1-content-positive !text-black' : '',
-            },
-            {
-              value: 'sell' as const,
-              label: 'Sell',
-              className:
-                mode === 'sell' ? '!bg-v1-content-negative !text-white' : '',
-            },
-          ]}
-          size="md"
-          surface={1}
-          value={mode}
-        />
-      </div>
-
-      {/* Quick Amount Buttons - Single Row */}
+      {/* ROW 1: PRIORITY 1 - Quick Amount Buttons (THUMB HOT ZONE) */}
       <div className="flex gap-1.5">
-        {quickAmounts.map((amt, index) => {
+        {quickAmounts.slice(0, mode === 'sell' ? 3 : 4).map((amt, index) => {
           const isSelected = amount === Number(amt);
           return (
             <Button
@@ -212,19 +169,105 @@ export function MobileTradePanel() {
             </Button>
           );
         })}
+
+        {/* Sell Initials - Only in sell mode, replaces 4th amount button */}
+        {mode === 'sell' && (
+          <Button
+            block
+            className="flex-1 bg-v1-content-negative font-bold text-white hover:bg-v1-content-negative/90 disabled:opacity-50"
+            disabled={init <= 0}
+            onClick={sellInitials}
+            size="md"
+            surface={1}
+          >
+            Sell Init
+          </Button>
+        )}
       </div>
 
-      {/* Sell Initials - Only in sell mode */}
-      {mode === 'sell' && (
+      {/* ROW 2: PRIORITY 2/3/4 - Wallet + Preset + Edit + Buy/Sell Toggle */}
+      <div className="flex items-center gap-2">
+        {/* Wallet Button - Priority 3 */}
         <Button
-          block
-          className="border-v1-content-negative font-bold text-v1-content-negative hover:border-v1-content-negative hover:bg-v1-content-negative/10"
-          size="lg"
-          variant="outline"
+          className="flex-1 justify-start gap-2"
+          onClick={() => setShowWalletDrawer(true)}
+          size="sm"
+          surface={1}
+          variant="ghost"
         >
-          Sell Initials
+          <Icon name={bxWallet} size={14} />
+          <span className="truncate text-sm">
+            {primaryWallet?.name || 'Wallet'}
+          </span>
+          <span className="ml-auto font-mono text-neutral-500 text-xs">
+            {baseBalance?.toFixed(2) ?? '0.00'}
+          </span>
         </Button>
-      )}
+
+        {/* Preset Selector - Priority 4 */}
+        <div className="flex items-center gap-1">
+          <ButtonSelect
+            className="h-6"
+            onChange={newPresetIndex =>
+              updateQuickBuyActivePreset('terminal', newPresetIndex)
+            }
+            options={[
+              { value: 0, label: 'P1' },
+              { value: 1, label: 'P2' },
+              { value: 2, label: 'P3' },
+            ]}
+            size="xxs"
+            surface={1}
+            value={activePresetIndex}
+            variant="primary"
+          />
+          <Button
+            className="text-neutral-600 hover:text-white"
+            fab={true}
+            onClick={() => setShowPresetDrawer(true)}
+            size="3xs"
+            title="Preset Settings"
+            variant="ghost"
+          >
+            <Icon name={bxCog} size={12} />
+          </Button>
+        </div>
+
+        {/* Edit Button */}
+        <Button
+          className="text-neutral-600 hover:text-white"
+          fab={true}
+          onClick={() => setIsEditMode(prev => !prev)}
+          size="3xs"
+          title={isEditMode ? 'Save Changes' : 'Edit Quick Amounts'}
+          variant="ghost"
+        >
+          <Icon name={isEditMode ? bxCheck : bxEditAlt} size={12} />
+        </Button>
+
+        {/* Buy/Sell Toggle - Priority 2 */}
+        <ButtonSelect
+          buttonClassName="px-4 font-bold"
+          onChange={newMode => setMode(newMode)}
+          options={[
+            {
+              value: 'buy' as const,
+              label: 'Buy',
+              className:
+                mode === 'buy' ? 'bg-v1-content-positive !text-black' : '',
+            },
+            {
+              value: 'sell' as const,
+              label: 'Sell',
+              className:
+                mode === 'sell' ? '!bg-v1-content-negative !text-white' : '',
+            },
+          ]}
+          size="md"
+          surface={1}
+          value={mode}
+        />
+      </div>
 
       {/* Preset Settings Drawer */}
       <TraderPresetSettingsDrawer
