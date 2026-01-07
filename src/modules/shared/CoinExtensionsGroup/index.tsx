@@ -10,12 +10,12 @@ export const CoinExtensionsGroup: FC = () => {
       <GlobalSearch
         className="min-w-[122px] grow"
         size={isMobile ? 'sm' : 'xs'}
-        surface={1}
+        surface={isMobile ? 2 : 1}
       />
       <AlertButton
         className="ms-6 shrink-0 max-md:ms-0"
         size={isMobile ? 'sm' : 'xs'}
-        surface={1}
+        surface={isMobile ? 2 : 1}
       />
     </div>
   );

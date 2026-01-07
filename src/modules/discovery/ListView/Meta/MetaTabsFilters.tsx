@@ -1,8 +1,6 @@
 import { bxRotateLeft } from 'boxicons-quasar';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { Filters } from 'modules/discovery/ListView/Filters';
-import type { MetaFilters } from 'modules/discovery/PageMeta/index';
-import type { MetaTab } from 'modules/discovery/PageMeta/lib';
 import {
   type Dispatch,
   type FC,
@@ -14,6 +12,8 @@ import {
 import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Input } from 'shared/v1-components/Input';
+import type { MetaFilters } from './index';
+import type { MetaTab } from './lib';
 
 export default function MetaTabsFilters({
   initialTab,

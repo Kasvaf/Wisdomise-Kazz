@@ -1,6 +1,6 @@
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
 import { clsx } from 'clsx';
-import BtnLogin from 'modules/base/Layout/ProfileMenu/BtnLogin';
+import { BtnLoginLogout } from 'modules/base/Layout/BtnLoginLogout';
 import {
   type PropsWithChildren,
   useCallback,
@@ -153,7 +153,7 @@ export function AccessShield({
               </p>
             }
           >
-            {group === 'guest' && <BtnLogin className="mt-3" />}
+            {group === 'guest' && <BtnLoginLogout className="mt-3" />}
           </HoverTooltip>
           {loginModal}
         </div>

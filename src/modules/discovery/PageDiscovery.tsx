@@ -1,18 +1,15 @@
-import { clsx } from 'clsx';
 import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
 import PageWrapper from 'modules/base/PageWrapper';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
+import { Draggable } from 'shared/v1-components/Draggable';
 import useIsMobile from 'utils/useIsMobile';
+import { LIST_NAMES } from './constants';
 import { DetailView } from './DetailView';
 import { ListView } from './ListView';
-import {
-  DiscoveryExpandCollapser,
-  useDiscoveryBackdropParams,
-  useDiscoveryUrlParams,
-} from './lib';
+import { useDiscoveryListPopups, useDiscoveryUrlParams } from './lib';
 
 export default function PageDiscovery() {
-  const [backdropParams] = useDiscoveryBackdropParams();
+  const [popups, togglePopup] = useDiscoveryListPopups();
   const urlParams = useDiscoveryUrlParams();
   const isMobile = useIsMobile();
 
@@ -22,22 +19,27 @@ export default function PageDiscovery() {
       mainClassName="!p-0 h-full"
     >
       <ActiveQuoteProvider>
-        <div className="flex justify-start">
-          {/* List Sidebar Mode */}
-          {!urlParams.list && backdropParams.list && !isMobile && (
-            <ListView
-              className={clsx(
-                'max-w-full',
-                'sticky top-(--desktop-content-top) z-30 h-(--desktop-content-height) w-72 min-w-72 max-w-72 overflow-auto',
-                'scrollbar-none border-white/10 border-r bg-v1-surface-l0',
-                'tablet:bg-v1-surface-l0/60 max-md:block md:max-xl:fixed md:max-xl:backdrop-blur-lg',
-              )}
-              expanded={false}
-              focus={false}
-              list={backdropParams.list ?? 'trench'}
-            />
-          )}
+        {/* Desktop Popups */}
+        {!isMobile &&
+          popups.map(popup => (
+            <Draggable
+              closable
+              header={LIST_NAMES[popup.list]}
+              id={`discovery-popup-${popup.list}`}
+              key={popup.list}
+              onClose={() => togglePopup(popup)}
+              surface={1}
+            >
+              <ListView
+                className="scrollbar-none h-[500px] w-[380px] overflow-auto bg-v1-surface-l0"
+                expanded={false}
+                focus={false}
+                list={popup.list}
+              />
+            </Draggable>
+          ))}
 
+        <div className="flex justify-start">
           {/* List Full-Page Mode */}
           {urlParams.list && (
             <ListView
@@ -48,7 +50,7 @@ export default function PageDiscovery() {
             />
           )}
 
-          {/* Detail FullPage/Semi-HalfPage Mode */}
+          {/* Detail FullPage Mode */}
           {urlParams.detail && (
             <DetailView
               className="min-w-0 shrink grow"
@@ -59,7 +61,6 @@ export default function PageDiscovery() {
           )}
         </div>
       </ActiveQuoteProvider>
-      <DiscoveryExpandCollapser />
     </PageWrapper>
   );
 }

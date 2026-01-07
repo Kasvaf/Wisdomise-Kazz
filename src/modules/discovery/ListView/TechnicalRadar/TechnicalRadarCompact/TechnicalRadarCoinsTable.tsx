@@ -1,4 +1,4 @@
-import { useDiscoveryParams } from 'modules/discovery/lib';
+import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import {
   type TechnicalRadarCoin,
@@ -78,7 +78,7 @@ export const TechnicalRadarCoinsTable: FC<{
     [],
   );
 
-  const params = useDiscoveryParams();
+  const params = useDiscoveryUrlParams();
   const activeSlug = params.slugs?.[0];
 
   return (

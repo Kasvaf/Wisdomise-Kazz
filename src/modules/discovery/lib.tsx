@@ -1,10 +1,6 @@
-import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
-import { useEffect, useMemo, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Icon from 'shared/Icon';
-import { Button } from 'shared/v1-components/Button';
+import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSessionStorage } from 'usehooks-ts';
-import useIsMobile from 'utils/useIsMobile';
 import type { DETAILS, LISTS, VIEWS } from './constants';
 
 export type DiscoveryView = (typeof VIEWS)[number];
@@ -17,49 +13,37 @@ export type DiscoveryParams = {
   slugs: DiscoverySlugs;
 };
 
-/**
- * @title Internal Method
- */
-export const useDiscoveryBackdropParams = () => {
-  const [storageParams, setStorageParams] = useSessionStorage<{
-    list?: DiscoveryList;
-    detail?: DiscoveryDetail;
-    slug1?: string;
-    slug2?: string;
-    slug3?: string;
-  }>('discovery', {});
+export const useDiscoveryListPopups = () => {
+  const [storageParams, setStorageParams] = useSessionStorage<
+    Pick<DiscoveryParams, 'list'>[]
+  >('discovery-popups', []);
 
   return useMemo(() => {
-    return [
-      {
-        detail: storageParams.detail,
-        list: storageParams.list,
-        slugs: [
-          storageParams.slug1,
-          storageParams.slug2,
-          storageParams.slug3,
-        ].filter(x => !!x) as string[],
-      } satisfies Partial<DiscoveryParams>,
-      (newValue: Partial<DiscoveryParams>) => {
-        setStorageParams({
-          ...storageParams,
-          list: 'list' in newValue ? newValue.list : storageParams.list,
-          detail: 'detail' in newValue ? newValue.detail : storageParams.detail,
-          slug1:
-            'slugs' in newValue ? newValue.slugs?.[0] : storageParams.slug1,
-          slug2:
-            'slugs' in newValue ? newValue.slugs?.[1] : storageParams.slug2,
-          slug3:
-            'slugs' in newValue ? newValue.slugs?.[2] : storageParams.slug3,
-        });
-      },
-    ] as const;
+    const value = storageParams.map(
+      p =>
+        ({
+          list: p.list,
+        }) satisfies Pick<DiscoveryParams, 'list'>,
+    );
+
+    const toggle = (newValue: Pick<DiscoveryParams, 'list'>) => {
+      setStorageParams(p => {
+        if (p.some(x => x.list === newValue.list)) {
+          return p.filter(x => x.list !== newValue.list);
+        }
+        return [
+          ...p,
+          {
+            list: newValue.list,
+          },
+        ];
+      });
+    };
+
+    return [value, toggle] as const;
   }, [storageParams, setStorageParams]);
 };
 
-/**
- * @title Internal Method
- */
 export const useDiscoveryUrlParams = (): Partial<DiscoveryParams> => {
   const nativeParams = useParams<{
     list: DiscoveryList;
@@ -75,117 +59,4 @@ export const useDiscoveryUrlParams = (): Partial<DiscoveryParams> => {
       x => !!x,
     ) as string[],
   };
-};
-
-export const useDiscoveryParams = () => {
-  const urlParams = useDiscoveryUrlParams();
-  const [backdropParams] = useDiscoveryBackdropParams();
-  return useMemo(() => {
-    const value: Partial<DiscoveryParams> = {
-      list: urlParams.list ?? backdropParams.list,
-      detail: urlParams.detail ?? backdropParams.detail,
-      slugs: urlParams.slugs?.length
-        ? urlParams.slugs
-        : backdropParams.slugs.length
-          ? backdropParams.slugs
-          : [],
-    };
-
-    return value;
-  }, [
-    backdropParams.detail,
-    backdropParams.list,
-    backdropParams.slugs,
-    urlParams.detail,
-    urlParams.list,
-    urlParams.slugs,
-  ]);
-};
-
-/**
- * @title Internal Component
- */
-export const DiscoveryExpandCollapser = () => {
-  const urlParams = useDiscoveryUrlParams();
-  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
-  const isMobile = useIsMobile();
-  const navigate = useNavigate();
-  const ref = useRef<HTMLDivElement>(null);
-  const lastList = useRef<DiscoveryList>('trench');
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const sidebarWidth = 74;
-    const compactListWidth = 288;
-
-    if (urlParams.detail && !backdropParams.list) {
-      ref.current.style.left = `${sidebarWidth - 20}px`;
-      ref.current.style.right = `auto`;
-    } else if (urlParams.detail && backdropParams.list) {
-      ref.current.style.left = `${sidebarWidth + compactListWidth - 20}px`;
-      ref.current.style.right = `auto`;
-    } else if (urlParams.list) {
-      ref.current.style.left = `auto`;
-      ref.current.style.right = `0`;
-    }
-  }, [urlParams.detail, backdropParams.list, urlParams.list]);
-
-  const handleExpandClick = () => {
-    if (backdropParams.list) {
-      navigate(`/${backdropParams.list}`);
-      setBackdropParams(urlParams);
-    } else {
-      setBackdropParams({
-        list: lastList.current,
-      });
-    }
-  };
-
-  const handleCollapseClick = () => {
-    if (urlParams.list && backdropParams.detail) {
-      navigate(
-        `/${[backdropParams.detail, ...backdropParams.slugs].join('/')}`,
-      );
-      setBackdropParams(urlParams);
-    } else if (urlParams.detail && backdropParams.list) {
-      lastList.current = backdropParams.list;
-      setBackdropParams({
-        list: undefined,
-      });
-    }
-  };
-
-  if (isMobile) return null;
-
-  return (
-    <div
-      className="fixed top-1/2 z-30 flex flex-col items-center gap-1"
-      ref={ref}
-    >
-      {urlParams.detail && (
-        <Button
-          className="rounded-full"
-          fab
-          onClick={handleExpandClick}
-          size="3xs"
-          surface={1}
-          variant="outline"
-        >
-          <Icon name={bxChevronRight} />
-        </Button>
-      )}
-      {urlParams.detail && backdropParams.list && (
-        <Button
-          className="rounded-full"
-          fab
-          onClick={handleCollapseClick}
-          size="3xs"
-          surface={1}
-          variant="outline"
-        >
-          <Icon name={bxChevronLeft} />
-        </Button>
-      )}
-    </div>
-  );
 };
