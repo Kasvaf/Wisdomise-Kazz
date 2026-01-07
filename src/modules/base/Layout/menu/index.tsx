@@ -1,3 +1,4 @@
+import { bxChevronDown } from 'boxicons-quasar';
 import clsx from 'clsx';
 import { DOCS_ORIGIN } from 'config/constants';
 import {
@@ -6,14 +7,20 @@ import {
   useDiscoveryUrlParams,
 } from 'modules/discovery/lib';
 import {
+  type ComponentProps,
   type FC,
   type ReactNode,
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from 'react';
+import AnimateHeight from 'react-animate-height';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useHasFlag, useTraderPositionsQuery } from 'services/rest';
+import { ClickableTooltip } from 'shared/ClickableTooltip';
+import Icon from 'shared/Icon';
+import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as HelpIcon } from './icons/help.svg';
@@ -32,10 +39,10 @@ import { ReactComponent as TwitterTrackerIcon } from './icons/twitter-tracker.sv
 import { ReactComponent as WalletTrackerIcon } from './icons/wallet-tracker.svg';
 import { ReactComponent as WhaleRadarIcon } from './icons/whale.svg';
 
-export interface MenuItem {
+export interface MenuItemType {
   isDisabled?: boolean;
   isActive?: boolean; // for when page rendered via exact url
-  isSemiActive?: boolean; // for when the page shown as popup
+  isPopupOpen?: boolean; // for when the page shown as popup
   link: string;
   meta?: Required<Pick<DiscoveryParams, 'list'>>;
   icon: FC<{ className?: string }>;
@@ -51,9 +58,10 @@ export const useHandleClickMenuItem = () => {
   const isOnDiscoveryPages =
     !!discoveryUrlParams.detail || !!discoveryUrlParams.list;
   return useCallback(
-    (item: MenuItem, asPopupIfPossible = false) => {
+    (item: MenuItemType, asPopupIfPossible = false) => {
       if (
-        asPopupIfPossible &&
+        (asPopupIfPossible || item.isPopupOpen) &&
+        !item.isActive &&
         isOnDiscoveryPages &&
         item.meta?.list &&
         !isMobile
@@ -95,7 +103,7 @@ export const useMenuItems = () => {
       trench: {
         isDisabled: !hasFlag('/trench'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'trench',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages && discoveryPopups.some(x => x.list === 'trench'),
         link: '/trench',
         meta: {
@@ -104,11 +112,11 @@ export const useMenuItems = () => {
         icon: NetworkRadarIcon,
         text: 'Trench',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       bluechips: {
         isDisabled: !hasFlag('/bluechips'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'bluechips',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'bluechips'),
         link: '/bluechips',
@@ -118,11 +126,11 @@ export const useMenuItems = () => {
         icon: CoinRadarIcon,
         text: 'Bluechips',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       whaleRadar: {
         isDisabled: !hasFlag('/whale-radar'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'whale-radar',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'whale-radar'),
         link: '/whale-radar',
@@ -132,11 +140,11 @@ export const useMenuItems = () => {
         icon: WhaleRadarIcon,
         text: 'Whale',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       socialRadar: {
         isDisabled: !hasFlag('/social-radar'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'social-radar',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'social-radar'),
         link: '/social-radar',
@@ -146,12 +154,12 @@ export const useMenuItems = () => {
         icon: SocialRadarIcon,
         text: 'Social',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       technicalRadar: {
         isDisabled: !hasFlag('/technical-radar'),
         isActive:
           isOnDiscoveryPages && discoveryParams.list === 'technical-radar',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'technical-radar'),
         link: '/technical-radar',
@@ -161,12 +169,12 @@ export const useMenuItems = () => {
         icon: TechnicalRadarIcon,
         text: 'Technical',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       walletTracker: {
         isDisabled: !hasFlag('/wallet-tracker'),
         isActive:
           isOnDiscoveryPages && discoveryParams.list === 'wallet-tracker',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'wallet-tracker'),
         link: '/wallet-tracker',
@@ -176,12 +184,12 @@ export const useMenuItems = () => {
         icon: WalletTrackerIcon,
         text: 'Wallet Tracker',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       twitterTracker: {
         isDisabled: !hasFlag('/twitter-tracker'),
         isActive:
           isOnDiscoveryPages && discoveryParams.list === 'twitter-tracker',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'twitter-tracker'),
         link: '/twitter-tracker',
@@ -191,11 +199,11 @@ export const useMenuItems = () => {
         icon: TwitterTrackerIcon,
         text: 'X Tracker',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       metaTracker: {
-        isDisabled: hasFlag('/meta'),
+        isDisabled: !hasFlag('/meta'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'meta',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages && discoveryPopups.some(x => x.list === 'meta'),
         link: '/meta',
         meta: {
@@ -204,11 +212,11 @@ export const useMenuItems = () => {
         icon: MetaIcon,
         text: 'Meta Tracker',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       portfolio: {
         isDisabled: !hasFlag('/portfolio'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'portfolio',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'portfolio'),
         link: '/portfolio',
@@ -218,11 +226,11 @@ export const useMenuItems = () => {
         icon: PortfolioIcon,
         text: 'Portfolio',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       positions: {
         isDisabled: !hasFlag('/positions'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'positions',
-        isSemiActive:
+        isPopupOpen:
           isOnDiscoveryPages &&
           discoveryPopups.some(x => x.list === 'positions'),
         link: '/positions',
@@ -232,7 +240,7 @@ export const useMenuItems = () => {
         icon: PositionsIcon,
         text: 'Positions',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       league: {
         isDisabled: !hasFlag('/trader/quests/league'),
         isActive: pathname.startsWith('/trader/quests/league'),
@@ -240,7 +248,7 @@ export const useMenuItems = () => {
         icon: LeagueIcon,
         text: 'League',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       trades: {
         isDisabled: !hasFlag('/positions'),
         isActive: isOnDiscoveryPages && discoveryParams.list === 'positions',
@@ -262,7 +270,7 @@ export const useMenuItems = () => {
           </>
         ),
         tour: hasClosedTrades,
-      } as MenuItem,
+      } as MenuItemType,
       referral: {
         isDisabled: !hasFlag('/account/referral'),
         isActive: pathname.startsWith('/account/referral'),
@@ -270,7 +278,7 @@ export const useMenuItems = () => {
         icon: ReferralIcon,
         text: 'Referral Program',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       trackers: {
         isDisabled: false,
         isActive: false,
@@ -278,7 +286,7 @@ export const useMenuItems = () => {
         icon: TrackerIcon,
         text: 'Trackers',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       docs: {
         isDisabled: false,
         isActive: false,
@@ -286,7 +294,7 @@ export const useMenuItems = () => {
         icon: HelpIcon,
         text: 'Docs',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
       rewards: {
         isDisabled: !hasFlag('/account/rewards'),
         isActive: pathname.startsWith('/account/rewards'),
@@ -294,7 +302,7 @@ export const useMenuItems = () => {
         icon: RewardsIcon,
         text: 'Rewards',
         tour: null,
-      } as MenuItem,
+      } as MenuItemType,
     }),
     [
       openTrades,
@@ -308,26 +316,129 @@ export const useMenuItems = () => {
   );
 };
 
-/*
-  // docs DOCS_ORIGIN
-  rewards /account/rewards
-  referral /*
-    const { data: referral } = useReferralStatusQuery();
+export const MenuItem: FC<
+  {
+    value: MenuItemType;
+    className?: string;
+    asPopupIfPossible?: boolean;
+    isActive?: boolean;
+    children?: ReactNode;
+  } & Omit<ButtonProps, 'value' | 'className' | 'children'>
+> = ({
+  value,
+  asPopupIfPossible,
+  className,
+  isActive: _isActive,
+  children,
+  ...buttonProps
+}) => {
+  const isMobile = useIsMobile();
+  const handleClickMenuItem = useHandleClickMenuItem();
 
+  const isActive = value.isActive || _isActive;
+
+  if (value.isDisabled) return null;
+
+  return (
+    <Button
+      className={clsx(
+        isActive && '!bg-v1-background-brand/10 !text-v1-content-brand',
+        className,
+      )}
+      onClick={() => handleClickMenuItem(value, asPopupIfPossible)}
+      size={isMobile ? 'md' : 'sm'}
+      surface={0}
+      variant="ghost"
+      {...buttonProps}
+    >
+      <value.icon />
+      {value.text}
+      {value.isPopupOpen && (
+        <span className="ms-1 block size-1 rounded-full bg-v1-content-brand" />
+      )}
+      {children && (
+        <div className="flex w-full shrink grow justify-end">{children}</div>
+      )}
+    </Button>
+  );
+};
+
+export const MenuItemGroup: FC<{
+  button: MenuItemType;
+  buttonProps?: Omit<ComponentProps<typeof MenuItem>, 'value'>;
+  items: MenuItemType[];
+  itemsProps?: Omit<ComponentProps<typeof MenuItem>, 'value'>;
+  block?: boolean;
+  blockProps?: { className?: string };
+  chevron?: boolean;
+}> = ({
+  items,
+  itemsProps,
+  button,
+  buttonProps,
+  block,
+  blockProps,
+  chevron,
+}) => {
+  const isActive = items.some(x => x.isActive) || button.isActive;
+  const [isMobileOpen, setIsMobileOpen] = useState(isActive);
+  if (block) {
     return (
-      <MenuItem to="/account/referral">
-        <BoxedIcon icon={IconReferral} />
-        {t('menu.referral.title')}
-
-        {!Number.isNaN(referral?.referred_users_count) && referral != null && (
-          <Badge color="info">
-            {t('accounts:page-accounts.users_invited', {
-              count: referral?.referred_users_count || 0,
-            })}
-          </Badge>
+      <div className={clsx(blockProps?.className)}>
+        <MenuItem
+          onClick={() => setIsMobileOpen(p => !p)}
+          value={button}
+          {...buttonProps}
+        >
+          {chevron && (
+            <Icon
+              className={clsx('-mx-1', isMobileOpen && 'rotate-180')}
+              name={bxChevronDown}
+              size={16}
+            />
+          )}
+        </MenuItem>
+        <AnimateHeight height={isMobileOpen ? 'auto' : 0}>
+          <div className="flex w-full flex-col items-start justify-start gap-0 ps-6">
+            {items.map(subMenuItem => (
+              <MenuItem
+                block
+                key={subMenuItem.link}
+                value={subMenuItem}
+                {...itemsProps}
+              />
+            ))}
+          </div>
+        </AnimateHeight>
+      </div>
+    );
+  }
+  return (
+    <ClickableTooltip
+      chevron={false}
+      title={
+        <div className="-m-1">
+          {items.map(item => (
+            <MenuItem
+              className="!justify-start !px-2 w-full"
+              key={item.link}
+              value={item}
+              {...itemsProps}
+            />
+          ))}
+        </div>
+      }
+    >
+      <MenuItem
+        isActive={isActive}
+        onClick={() => {}}
+        value={button}
+        {...buttonProps}
+      >
+        {chevron && (
+          <Icon className="-mx-1 opacity-75" name={bxChevronDown} size={16} />
         )}
       </MenuItem>
-    );
-  (/)
-
-*/
+    </ClickableTooltip>
+  );
+};

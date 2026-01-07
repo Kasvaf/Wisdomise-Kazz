@@ -18,7 +18,7 @@ export const Meta: FC<{ expanded?: boolean; focus?: boolean }> = () => {
   const [skipSimilar, setSkipSimilar] = useState(false);
 
   return (
-    <div className="grid h-[calc(var(--desktop-content-height)-1.5rem)] max-h-[calc(var(--desktop-content-height)-1.5rem)] grid-cols-3 gap-3">
+    <div className="grid h-[calc(var(--content-height)-1.5rem)] max-h-[calc(var(--content-height)-1.5rem)] grid-cols-3 gap-3">
       <div className="col-span-3 flex h-max justify-between">
         <PageTitle title="Meta" />
         <Checkbox

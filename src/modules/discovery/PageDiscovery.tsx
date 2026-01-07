@@ -31,7 +31,7 @@ export default function PageDiscovery() {
               surface={1}
             >
               <ListView
-                className="scrollbar-none h-[500px] w-[380px] overflow-auto bg-v1-surface-l0"
+                className="scrollbar-none h-[580px] w-[380px] overflow-auto bg-v1-surface-l0"
                 expanded={false}
                 focus={false}
                 list={popup.list}

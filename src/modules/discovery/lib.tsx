@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSessionStorage } from 'usehooks-ts';
+import useIsMobile from 'utils/useIsMobile';
 import type { DETAILS, LISTS, VIEWS } from './constants';
 
 export type DiscoveryView = (typeof VIEWS)[number];
@@ -17,14 +18,20 @@ export const useDiscoveryListPopups = () => {
   const [storageParams, setStorageParams] = useSessionStorage<
     Pick<DiscoveryParams, 'list'>[]
   >('discovery-popups', []);
+  const isMobile = useIsMobile();
+  const urlParams = useDiscoveryUrlParams();
 
   return useMemo(() => {
-    const value = storageParams.map(
-      p =>
-        ({
-          list: p.list,
-        }) satisfies Pick<DiscoveryParams, 'list'>,
-    );
+    const value = isMobile
+      ? []
+      : storageParams
+          .filter(x => x.list !== urlParams.list)
+          .map(
+            p =>
+              ({
+                list: p.list,
+              }) satisfies Pick<DiscoveryParams, 'list'>,
+          );
 
     const toggle = (newValue: Pick<DiscoveryParams, 'list'>) => {
       setStorageParams(p => {
@@ -41,7 +48,7 @@ export const useDiscoveryListPopups = () => {
     };
 
     return [value, toggle] as const;
-  }, [storageParams, setStorageParams]);
+  }, [storageParams, setStorageParams, isMobile, urlParams.list]);
 };
 
 export const useDiscoveryUrlParams = (): Partial<DiscoveryParams> => {

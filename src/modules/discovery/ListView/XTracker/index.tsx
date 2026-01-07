@@ -13,12 +13,9 @@ export const XTracker: FC<{
       <BtnAddHandle />
       <hr className="my-3 border-white/10" />
       <ResizableSides
-        className={[
-          'h-full max-h-[calc(var(--desktop-content-height)-120px)]',
-          '',
-        ]}
+        className={['h-full max-h-[calc(var(--content-height)-120px)]', '']}
         direction="row"
-        rootClassName="h-[calc(var(--desktop-content-height))]"
+        rootClassName="h-[calc(var(--content-height))]"
       >
         <XTrackerView className="scrollbar-thin" expanded />
         <HandlesManager />

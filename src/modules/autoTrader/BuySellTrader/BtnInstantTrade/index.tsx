@@ -142,7 +142,7 @@ export default function BtnInstantTrade({
           surface={1}
         >
           <div
-            className="relative min-h-max w-80 overflow-hidden rounded-xl"
+            className="relative min-h-max w-80 overflow-hidden rounded-xl text-xs"
             style={{ height }}
           >
             {connected ? (

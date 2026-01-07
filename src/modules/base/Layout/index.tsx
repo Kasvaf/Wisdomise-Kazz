@@ -33,18 +33,19 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
     <div
       className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l0"
       style={{
-        ['--desktop-header-height' as never]: isMobile ? '0px' : '3.75rem',
-        ['--desktop-content-height' as never]:
-          'calc(100svh - var(--desktop-header-height))',
+        ['--header-height' as never]: '60px',
+        ['--footer-height' as never]: isMobile ? '64px' : '44px',
+        ['--content-height' as never]:
+          'calc(100svh - var(--header-height) - var(--footer-height))',
       }}
     >
       {/* Sticky Header */}
-      <header className="sticky top-0 z-30 w-full max-w-full border-b border-b-white/10 max-md:h-auto">
+      <header className="sticky top-0 z-30 h-(--header-height) w-full max-w-full border-b border-b-white/10 max-md:h-auto">
         {header === null
           ? null
           : header || (
               <Header
-                className="h-auto md:max-h-(--desktop-header-height)"
+                className="h-auto max-h-full"
                 extension={extension}
                 hasBack={hasBack}
                 title={title}
@@ -63,8 +64,8 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
       {/* Sticky footer */}
       {footer !== null && (
-        <footer className="scrollbar-none sticky inset-y-0 z-50 w-full overflow-auto border-t border-t-white/10 empty:hidden">
-          {footer || <Footer />}
+        <footer className="scrollbar-none sticky inset-y-0 z-50 h-(--footer-height) w-full overflow-auto border-t border-t-white/10 empty:hidden">
+          {footer || <Footer className="h-auto max-h-full" />}
         </footer>
       )}
 

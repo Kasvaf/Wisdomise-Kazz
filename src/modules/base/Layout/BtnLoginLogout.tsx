@@ -1,4 +1,5 @@
 import { bxLogIn, bxLogOut } from 'boxicons-quasar';
+import clsx from 'clsx';
 import type { FC } from 'react';
 import { useLogoutMutation } from 'services/rest/auth';
 import Icon from 'shared/Icon';
@@ -8,6 +9,7 @@ import { useIsLoggedIn } from '../auth/jwt-store';
 import { useModalLogin } from '../auth/ModalLogin';
 
 export const BtnLoginLogout: FC<Omit<ButtonProps, 'onClick'>> = ({
+  className,
   ...buttonProps
 }) => {
   const isMobile = useIsMobile();
@@ -18,6 +20,7 @@ export const BtnLoginLogout: FC<Omit<ButtonProps, 'onClick'>> = ({
   return (
     <>
       <Button
+        className={clsx('border-0', className)}
         loading={loggingOut}
         onClick={e => {
           e.preventDefault();

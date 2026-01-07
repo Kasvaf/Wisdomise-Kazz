@@ -1,6 +1,6 @@
 import { bxX } from 'boxicons-quasar';
 import clsx from 'clsx';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDraggable, { type ControlPosition } from 'react-draggable';
 import Icon from 'shared/Icon';
@@ -29,7 +29,6 @@ export function Draggable({
   surface = 1,
 }: DraggableProps) {
   const colors = useSurface(surface);
-  const backdrop = useRef<HTMLDivElement>(null);
 
   const getHighestZIndex = () =>
     Math.max(
@@ -39,35 +38,39 @@ export function Draggable({
       500,
     );
 
+  const [isMoving, setIsMoving] = useState(false);
   const [zIndex, setZIndex] = useState(getHighestZIndex());
 
   // position
   const [pos, setPos] = useSessionStorage<ControlPosition | undefined>(
     `draggable-pos-${id}`,
-    { x: window.innerWidth / 4, y: window.innerHeight / 4 },
+    {
+      x: (window.innerWidth + Math.random() * 150) / 4,
+      y: (window.innerHeight + Math.random() * 150) / 4,
+    },
   );
 
   return createPortal(
     <>
-      <div
-        className="fixed inset-0 hidden"
-        ref={backdrop}
-        style={{
-          zIndex,
-        }}
-      />
-
+      {isMoving && (
+        <div
+          className="fixed inset-0"
+          style={{
+            zIndex,
+          }}
+        />
+      )}
       <ReactDraggable
         bounds="body"
         defaultPosition={pos}
         handle={`#drag-header-${id}`}
         key={id}
         onStart={() => {
-          backdrop.current?.classList.remove('hidden');
+          setIsMoving(true);
           setZIndex(getHighestZIndex());
         }}
         onStop={(_, data) => {
-          backdrop.current?.classList.add('hidden');
+          setIsMoving(false);
           setPos({ x: data.x, y: data.y });
         }}
       >
@@ -76,11 +79,13 @@ export function Draggable({
             'id-draggable-element',
             'fixed top-0 left-0 flex flex-col items-stretch justify-stretch overflow-hidden rounded-xl border border-white/10 shadow-xl',
             className,
+            isMoving && 'opacity-75',
           )}
-          onClick={() => setZIndex(getHighestZIndex())}
+          onPointerDown={() => setZIndex(getHighestZIndex())}
           style={{
             zIndex,
             backgroundColor: colors.current,
+            ['--content-height' as never]: '100%',
           }}
         >
           <div
