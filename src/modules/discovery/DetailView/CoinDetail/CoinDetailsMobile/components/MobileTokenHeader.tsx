@@ -1,19 +1,16 @@
-import {
-  bxCopy,
-  bxGrid,
-  bxLink,
-  bxSearch,
-  bxSend,
-  bxShareAlt,
-  bxShow,
-  bxsShield,
-  bxWorld,
-  bxX,
-} from 'boxicons-quasar';
+import { bxCopy, bxShareAlt, bxShow, bxsShield, bxX } from 'boxicons-quasar';
+import { doesNCoinHaveLargeTxns } from 'modules/discovery/ListView/NetworkRadar/lib';
+import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
+import { NCoinBuySell } from 'modules/discovery/ListView/NetworkRadar/NCoinBuySell';
+import { NCoinBCurve } from 'modules/discovery/ListView/NetworkRadar/NCoinList';
 import Icon from 'modules/shared/Icon';
+import { TokenSocials } from 'modules/shared/TokenSocials';
 import { Button } from 'modules/shared/v1-components/Button';
 import { useEffect, useState } from 'react';
+import { useTokenUpdateStream } from 'services/grpc/tokenUpdate';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { useCopyToClipboard } from 'utils/useCopyToClipboard';
+import { useUnifiedCoinDetails } from '../../lib';
 
 interface MobileTokenHeaderProps {
   name: string;
@@ -30,7 +27,7 @@ export function MobileTokenHeader({
   name = '26',
   ticker = '26',
   icon,
-  age = '17h',
+  age: _age = '17h',
   viewers = 6,
   contractAddress = 'BjMK...HjGs',
   platform = 'pump',
@@ -38,6 +35,13 @@ export function MobileTokenHeader({
 }: MobileTokenHeaderProps) {
   const { copyToClipboard, copied } = useCopyToClipboard();
   const [showShareToast, setShowShareToast] = useState(false);
+  const { symbol, marketData, createdAt, socials } = useUnifiedCoinDetails();
+
+  const { data: tokenUpdate } = useTokenUpdateStream({
+    network: 'solana',
+    tokenAddress: symbol.contractAddress ?? undefined,
+    resolution: 'all-time',
+  });
 
   const handleShare = async () => {
     const shareUrl = `${window.location.origin}/token/solana/${ticker}`;
@@ -98,7 +102,11 @@ export function MobileTokenHeader({
               <Button
                 className="shrink-0"
                 fab={true}
-                onClick={() => copyToClipboard(contractAddress || '')}
+                onClick={() =>
+                  copyToClipboard(
+                    symbol.contractAddress || contractAddress || '',
+                  )
+                }
                 size="3xs"
                 variant="ghost"
               >
@@ -110,29 +118,84 @@ export function MobileTokenHeader({
                   <Icon className="text-neutral-600" name={bxCopy} size={14} />
                 )}
               </Button>
-              <span className="shrink-0 text-neutral-600 text-xs">{age}</span>
+              {createdAt && (
+                <>
+                  <span className="text-neutral-600">·</span>
+                  <NCoinAge
+                    className="shrink-0 text-neutral-600 text-xs"
+                    imgClassName="size-3"
+                    inline
+                    value={createdAt}
+                  />
+                </>
+              )}
             </div>
 
             {/* Social Icons Row */}
             <div className="flex items-center gap-0.5">
-              <Button fab={true} size="3xs" variant="ghost">
-                <Icon className="text-neutral-600" name={bxLink} size={14} />
-              </Button>
-              <Button fab={true} size="3xs" variant="ghost">
-                <Icon className="text-neutral-600" name={bxGrid} size={14} />
-              </Button>
-              <Button fab={true} size="3xs" variant="ghost">
-                <Icon className="text-neutral-600" name={bxWorld} size={14} />
-              </Button>
-              <Button fab={true} size="3xs" variant="ghost">
-                <Icon className="text-neutral-600" name={bxSend} size={14} />
-              </Button>
-              <Button fab={true} size="3xs" variant="ghost">
-                <Icon className="text-neutral-600" name={bxSearch} size={14} />
-              </Button>
+              <TokenSocials
+                abbreviation={symbol.abbreviation}
+                contractAddress={symbol.contractAddress}
+                hideSearch={false}
+                name={symbol.name}
+                size="xs"
+                value={socials}
+              />
               <div className="ml-1 flex items-center gap-0.5 text-neutral-600">
                 <Icon name={bxShow} size={14} />
                 <span className="font-medium text-[10px]">{viewers}</span>
+              </div>
+            </div>
+
+            {/* Extended Metrics Row */}
+            <div className="flex items-center gap-3 pt-1">
+              {/* Price */}
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] text-v1-content-secondary">
+                  Price
+                </span>
+                <ReadableNumber
+                  className="text-xs"
+                  label="$"
+                  popup="never"
+                  value={marketData.currentPrice}
+                />
+              </div>
+
+              <div className="h-3 w-px bg-white/10" />
+
+              {/* TXNS */}
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] text-v1-content-secondary">
+                  TXNS
+                  {doesNCoinHaveLargeTxns({
+                    totalNumBuys: marketData.totalNumBuys24h ?? 0,
+                    totalNumSells: marketData.totalNumSells24h ?? 0,
+                  })
+                    ? ' 🔥'
+                    : ''}
+                </span>
+                <NCoinBuySell
+                  className="text-xs"
+                  imgClassName="size-3"
+                  value={{
+                    buys: tokenUpdate?.numBuys ?? 0,
+                    sells: tokenUpdate?.numSells ?? 0,
+                  }}
+                />
+              </div>
+
+              <div className="h-3 w-px bg-white/10" />
+
+              {/* B Curve */}
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] text-v1-content-secondary">
+                  B Curve
+                </span>
+                <NCoinBCurve
+                  className="text-xs"
+                  value={marketData.boundingCurve ?? 1}
+                />
               </div>
             </div>
           </div>

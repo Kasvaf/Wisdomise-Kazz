@@ -35,12 +35,12 @@ export default function CoinDetailsMobile() {
   const mockData = {
     token: {
       name: symbol.name || 'Unknown Token',
-      ticker: symbol.ticker || 'N/A',
+      ticker: symbol.abbreviation || 'N/A',
       age: '17h',
       viewers: 6,
-      contractAddress: symbol.address || 'N/A',
+      contractAddress: symbol.contractAddress || 'N/A',
       platform: 'pump',
-      imageUrl: symbol.imageUrl,
+      imageUrl: symbol.logo,
     },
     stats: {
       marketCap: 1_170_000,
@@ -79,23 +79,19 @@ export default function CoinDetailsMobile() {
         {/* 2. Token Header */}
         <MobileTokenHeader
           age={mockData.token.age}
-          contractAddress={mockData.token.contractAddress}
-          imageUrl={mockData.token.imageUrl}
-          name={mockData.token.name}
+          contractAddress={
+            symbol.contractAddress || mockData.token.contractAddress
+          }
+          icon={symbol.logo || mockData.token.imageUrl}
+          name={symbol.name || mockData.token.name}
           onInfoClick={() => setShowTokenInfo(true)}
           platform={mockData.token.platform as 'pump' | 'raydium'}
-          ticker={mockData.token.ticker}
+          ticker={symbol.abbreviation || mockData.token.ticker}
           viewers={mockData.token.viewers}
         />
 
         {/* 3. Stats Bar */}
-        <MobileStatsBar
-          fees={mockData.stats.fees}
-          holders={mockData.stats.holders}
-          liquidity={mockData.stats.liquidity}
-          marketCap={mockData.stats.marketCap}
-          volume={mockData.stats.volume}
-        />
+        <MobileStatsBar />
       </div>
 
       {/* Main Content Area - Fills remaining space with Swipe */}
