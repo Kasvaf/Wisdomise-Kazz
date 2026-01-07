@@ -9,10 +9,22 @@ import {
 } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/useTokenInsight';
 import { useMediaDialog } from 'modules/discovery/ListView/XTracker/useMediaDialog';
 import Icon from 'modules/shared/Icon';
-import { TokenSocials } from 'modules/shared/TokenSocials';
-import { useMemo } from 'react';
+import {
+  getLogo,
+  resolveSocials,
+  type Social,
+} from 'modules/shared/TokenSocials/lib';
+import { parseXUrl } from 'modules/shared/TokenSocials/SocialPreview';
+import { ReactComponent as XSearchIcon } from 'modules/shared/TokenSocials/x-search.svg';
+import { useMemo, useState } from 'react';
+import { ReactComponent as XCommunityIcon } from 'shared/v1-components/X/assets/community.svg';
+import { ReactComponent as XProfileIcon } from 'shared/v1-components/X/assets/profile.svg';
+import { ReactComponent as XPostIcon } from 'shared/v1-components/X/assets/tweet.svg';
+import { ReactComponent as XIcon } from 'shared/v1-components/X/assets/x.svg';
+import { getXSearchUrl } from 'shared/v1-components/X/utils';
 import { useCopyToClipboard } from 'utils/useCopyToClipboard';
 import { useUnifiedCoinDetails } from '../../lib';
+import { SocialPreviewDrawer } from './SocialPreviewDrawer';
 
 interface MobileTokenHeaderProps {
   viewers?: number;
@@ -28,8 +40,48 @@ export function MobileTokenHeader({
     useUnifiedCoinDetails();
   const { dialog, openMedia } = useMediaDialog();
 
+  // Social preview drawer state
+  const [selectedSocial, setSelectedSocial] = useState<Social | null>(null);
+  const [showSocialDrawer, setShowSocialDrawer] = useState(false);
+
+  const resolvedSocials = useMemo(() => resolveSocials(socials), [socials]);
+
   // Use meta.id as viewers count if available, otherwise use prop
   const viewersCount = meta?.id ?? viewers;
+
+  // Handle social icon click with double-click logic
+  const handleSocialClick = (social: Social) => {
+    // If clicking the same social that's already open, navigate to URL
+    if (showSocialDrawer && selectedSocial?.url.href === social.url.href) {
+      window.open(social.url.href, '_blank', 'noopener,noreferrer');
+      setShowSocialDrawer(false);
+      return;
+    }
+
+    // First click or different social: open drawer
+    setSelectedSocial(social);
+    setShowSocialDrawer(true);
+  };
+
+  // Render social icon based on type
+  const renderSocialIcon = (social: Social) => {
+    if (social.type === 'x') {
+      const res = parseXUrl(social.url.href);
+      if (res.type === 'post') return <XPostIcon className="size-3.5" />;
+      if (res.type === 'profile' && res.username)
+        return <XProfileIcon className="size-4" />;
+      if (res.type === 'community' && res.communityId)
+        return <XCommunityIcon className="size-4" />;
+      return <XIcon className="size-[15px]" />;
+    }
+    return (
+      <img
+        alt=""
+        className="size-4 shrink-0 rounded-full"
+        src={getLogo(social.type)}
+      />
+    );
+  };
 
   // Format viewers to show max 3 digits with 'k' suffix
   const formatViewers = (count: number): string => {
@@ -218,14 +270,44 @@ export function MobileTokenHeader({
         {/* Meta Row: Socials, Age, Viewers */}
         <div className="flex min-w-0 items-center gap-2">
           {/* Social Icons */}
-          <TokenSocials
-            abbreviation={symbol.abbreviation}
-            contractAddress={symbol.contractAddress}
-            hideSearch={false}
-            name={symbol.name}
-            size="xs"
-            value={socials}
-          />
+          <div className="flex flex-nowrap items-start justify-start gap-2 overflow-hidden text-2xs">
+            {resolvedSocials?.map(social => (
+              <button
+                className="flex shrink-0 items-center justify-center"
+                key={social.url.href}
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleSocialClick(social);
+                }}
+                type="button"
+              >
+                {renderSocialIcon(social)}
+              </button>
+            ))}
+            {/* X Search Icon */}
+            <button
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(
+                  getXSearchUrl(
+                    `(${[
+                      symbol.abbreviation && `$${symbol.abbreviation}`,
+                      symbol.name && !symbol.name.includes(' ') && symbol.name,
+                      symbol.contractAddress,
+                    ]
+                      .filter(x => !!x)
+                      .join(' OR ')})&src=typed_query&f=live`,
+                  ),
+                  '_blank',
+                );
+              }}
+              type="button"
+            >
+              <XSearchIcon className="size-4" />
+            </button>
+          </div>
 
           {/* Age */}
           {createdAt && (
@@ -279,6 +361,13 @@ export function MobileTokenHeader({
 
       {/* Logo Expansion Dialog */}
       {dialog}
+
+      {/* Social Preview Drawer */}
+      <SocialPreviewDrawer
+        isOpen={showSocialDrawer}
+        onClose={() => setShowSocialDrawer(false)}
+        social={selectedSocial}
+      />
     </div>
   );
 }
