@@ -118,7 +118,7 @@ export default function BtnInstantTrade({
           closable
           header={
             <div
-              className="relative flex w-full cursor-move items-center gap-2 border-white/5 border-b"
+              className="relative flex w-full cursor-move items-center gap-2"
               id="instant-trade-drag-handle"
             >
               <TraderPresetsSelector source="terminal" surface={2} />
