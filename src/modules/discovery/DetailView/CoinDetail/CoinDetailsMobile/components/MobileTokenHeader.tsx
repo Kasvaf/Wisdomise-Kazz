@@ -13,23 +13,13 @@ import { useCopyToClipboard } from 'utils/useCopyToClipboard';
 import { useUnifiedCoinDetails } from '../../lib';
 
 interface MobileTokenHeaderProps {
-  name: string;
-  ticker: string;
-  icon?: string;
-  age?: string;
   viewers?: number;
-  contractAddress?: string;
   platform?: string;
   onInfoClick?: () => void;
 }
 
 export function MobileTokenHeader({
-  name = '26',
-  ticker = '26',
-  icon,
-  age: _age = '17h',
-  viewers = 6,
-  contractAddress = 'BjMK...HjGs',
+  viewers = 0,
   platform = 'pump',
   onInfoClick,
 }: MobileTokenHeaderProps) {
@@ -44,7 +34,7 @@ export function MobileTokenHeader({
   });
 
   const handleShare = async () => {
-    const shareUrl = `${window.location.origin}/token/solana/${ticker}`;
+    const shareUrl = `${window.location.origin}/token/solana/${symbol.abbreviation}`;
     try {
       await navigator.clipboard.writeText(shareUrl);
       setShowShareToast(true);
@@ -69,15 +59,15 @@ export function MobileTokenHeader({
           {/* Token Icon with Platform Badge */}
           <div className="relative shrink-0">
             <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border-2 border-v1-border-tertiary bg-gradient-to-br from-yellow-500 to-orange-600">
-              {icon ? (
+              {symbol.logo ? (
                 <img
-                  alt={ticker}
+                  alt={symbol.abbreviation || 'Token'}
                   className="h-full w-full object-cover"
-                  src={icon}
+                  src={symbol.logo}
                 />
               ) : (
                 <span className="font-bold text-lg text-white">
-                  {ticker[0]}
+                  {symbol.abbreviation?.[0] || '?'}
                 </span>
               )}
             </div>
@@ -94,19 +84,15 @@ export function MobileTokenHeader({
             {/* Name Row */}
             <div className="flex min-w-0 items-center gap-1.5">
               <span className="max-w-[80px] truncate font-bold text-sm text-white">
-                {ticker}
+                {symbol.abbreviation}
               </span>
               <span className="min-w-0 max-w-[120px] flex-1 truncate text-neutral-500 text-sm">
-                {name}
+                {symbol.name}
               </span>
               <Button
                 className="shrink-0"
                 fab={true}
-                onClick={() =>
-                  copyToClipboard(
-                    symbol.contractAddress || contractAddress || '',
-                  )
-                }
+                onClick={() => copyToClipboard(symbol.contractAddress || '')}
                 size="3xs"
                 variant="ghost"
               >

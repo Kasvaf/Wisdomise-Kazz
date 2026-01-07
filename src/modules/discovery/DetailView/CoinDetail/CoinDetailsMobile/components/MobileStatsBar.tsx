@@ -1,4 +1,3 @@
-import { ReactComponent as SolanaIcon } from 'modules/shared/NetworkIcon/solana.svg';
 import { useUnifiedCoinDetails } from '../../lib';
 
 function formatNumber(num: number, prefix = '$'): string {
@@ -12,7 +11,7 @@ function formatNumber(num: number, prefix = '$'): string {
 }
 
 export function MobileStatsBar() {
-  const { marketData } = useUnifiedCoinDetails();
+  const { marketData, validatedData } = useUnifiedCoinDetails();
 
   return (
     <div className="flex items-center justify-between gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-1.5">
@@ -29,25 +28,22 @@ export function MobileStatsBar() {
         </span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="font-medium text-[10px] text-neutral-600">L</span>
+        <span className="font-medium text-[10px] text-neutral-600">TS</span>
         <span className="font-mono font-semibold text-white text-xs">
-          {formatNumber(marketData.liquidity ?? 0)}
+          {formatNumber(marketData.totalSupply ?? 0, '')}
         </span>
       </div>
       <div className="flex items-center gap-1">
         <span className="font-medium text-[10px] text-neutral-600">H</span>
         <span className="font-mono font-semibold text-white text-xs">
-          {(marketData.holders ?? 0).toLocaleString()}
+          {(validatedData?.numberOfHolders ?? 0).toLocaleString()}
         </span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="font-medium text-[10px] text-neutral-600">F</span>
-        <div className="flex items-center gap-0.5">
-          <SolanaIcon className="inline-block h-1.5 w-1.5" />
-          <span className="font-mono font-semibold text-white text-xs">
-            {(marketData.fees ?? 0).toFixed(2)}
-          </span>
-        </div>
+        <span className="font-medium text-[10px] text-neutral-600">BC</span>
+        <span className="font-mono font-semibold text-white text-xs">
+          {((marketData.boundingCurve ?? 0) * 100).toFixed(0)}%
+        </span>
       </div>
     </div>
   );

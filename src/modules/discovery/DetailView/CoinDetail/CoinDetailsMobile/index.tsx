@@ -56,15 +56,8 @@ export default function CoinDetailsMobile() {
 
         {/* 2. Token Header */}
         <MobileTokenHeader
-          age={mockData.token.age}
-          contractAddress={
-            symbol.contractAddress || mockData.token.contractAddress
-          }
-          icon={symbol.logo || mockData.token.imageUrl}
-          name={symbol.name || mockData.token.name}
           onInfoClick={() => setShowTokenInfo(true)}
           platform={mockData.token.platform as 'pump' | 'raydium'}
-          ticker={symbol.abbreviation || mockData.token.ticker}
           viewers={mockData.token.viewers}
         />
 
