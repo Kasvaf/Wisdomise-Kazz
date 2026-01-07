@@ -46,6 +46,13 @@ const AdvancedChart: React.FC<{
   const knownWalletsRef = useRef(knownWallets);
   const { data: tokenInfo } = useTokenInfo({ slug });
 
+  // Get symbol name/abbreviation from unified details
+  const symbolName =
+    details.symbol.abbreviation ||
+    details.symbol.name ||
+    tokenInfo?.symbol ||
+    tokenInfo?.name;
+
   useEffect(() => {
     knownWalletsRef.current = knownWallets || [];
   }, [knownWallets]);
@@ -63,8 +70,10 @@ const AdvancedChart: React.FC<{
     // const pair = pairs.find(x => x.quote.slug === quote);
     // if (!pair) return;
 
+    let isDestroyed = false;
+
     const widget = new Widget({
-      symbol: tokenInfo?.name ?? undefined,
+      symbol: symbolName || slug,
       datafeed: makeDataFeed({
         quote,
         slug,
@@ -89,6 +98,7 @@ const AdvancedChart: React.FC<{
         'seconds_resolution',
         'use_localstorage_for_settings',
         'two_character_bar_marks_labels',
+        'hide_left_toolbar_by_default',
       ],
       disabled_features: [
         'symbol_search_hot_key',
@@ -98,6 +108,12 @@ const AdvancedChart: React.FC<{
         'right_toolbar',
         'header_compare',
         'save_chart_properties_to_local_storage',
+        'header_resolutions',
+        'header_chart_type',
+        'header_settings',
+        'header_indicators',
+        'header_screenshot',
+        'header_undo_redo',
       ],
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
       interval: initResolution,
@@ -112,7 +128,19 @@ const AdvancedChart: React.FC<{
         'paneProperties.background': '#0c0c0c',
       },
       favorites: {
-        intervals: ['1S', '1', '5', '15', '60', '240'] as ResolutionString[],
+        intervals: [
+          '1S',
+          '5S',
+          '15S',
+          '30S',
+          '1',
+          '3',
+          '5',
+          '15',
+          '30',
+          '60',
+          '240',
+        ] as ResolutionString[],
       },
       custom_formatters: {
         priceFormatterFactory: () => {
@@ -141,14 +169,76 @@ const AdvancedChart: React.FC<{
     });
 
     widget.onChartReady(async () => {
+      if (isDestroyed) return;
+
       await widget.headerReady();
 
+      if (isDestroyed) return;
+
       widget.subscribe('onAutoSaveNeeded', () => {
+        if (isDestroyed) return;
         widget.saveChartToServer(undefined, undefined, { chartName: 'GoatX' });
       });
 
+      // Create timeframe selector dropdown
+      if (!isDestroyed) {
+        const timeframes: Array<{
+          resolution: ResolutionString;
+          label: string;
+        }> = [
+          { resolution: '1S' as ResolutionString, label: '1s' },
+          { resolution: '5S' as ResolutionString, label: '5s' },
+          { resolution: '15S' as ResolutionString, label: '15s' },
+          { resolution: '30S' as ResolutionString, label: '30s' },
+          { resolution: '1' as ResolutionString, label: '1m' },
+          { resolution: '3' as ResolutionString, label: '3m' },
+          { resolution: '5' as ResolutionString, label: '5m' },
+          { resolution: '15' as ResolutionString, label: '15m' },
+          { resolution: '30' as ResolutionString, label: '30m' },
+          { resolution: '60' as ResolutionString, label: '1h' },
+          { resolution: '240' as ResolutionString, label: '4h' },
+        ];
+
+        const getTimeframeLabel = (resolution: ResolutionString) => {
+          const tf = timeframes.find(t => t.resolution === resolution);
+          return tf?.label || resolution;
+        };
+
+        const currentInterval = widget.activeChart().resolution();
+
+        const timeframeDropdown = await widget.createDropdown({
+          icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
+          tooltip: 'Timeframe',
+          items: timeframes.map(tf => ({
+            title: tf.label,
+            onSelect: () => {
+              if (isDestroyed) return;
+              widget.activeChart().setResolution(tf.resolution, () => {
+                if (!isDestroyed) {
+                  timeframeDropdown.applyOptions({
+                    title: tf.label,
+                  });
+                }
+              });
+            },
+          })),
+          title: getTimeframeLabel(currentInterval),
+        });
+
+        // Listen for resolution changes and update dropdown
+        widget
+          .activeChart()
+          .onIntervalChanged()
+          .subscribe(null, interval => {
+            if (isDestroyed) return;
+            timeframeDropdown.applyOptions({
+              title: getTimeframeLabel(interval as ResolutionString),
+            });
+          });
+      }
+
       // Create quote selector
-      if (pairs.length > 1) {
+      if (pairs.length > 1 && !isDestroyed) {
         const dropDown = await widget.createDropdown({
           icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
           tooltip: 'Quote',
@@ -174,7 +264,7 @@ const AdvancedChart: React.FC<{
         });
       }
 
-      if (quote === WRAPPED_SOLANA_SLUG) {
+      if (quote === WRAPPED_SOLANA_SLUG && !isDestroyed) {
         const convertToUsdButton = widget.createButton();
         function setConvertButtonInnerContent() {
           const colorStyle = 'style="color:#beff21"';
@@ -186,11 +276,14 @@ const AdvancedChart: React.FC<{
         }
         setConvertButtonInnerContent();
         convertToUsdButton.addEventListener('click', () => {
+          if (isDestroyed) return;
           setConvertToUsd(!convertToUsd);
           setConvertButtonInnerContent();
           widget.activeChart().resetData();
         });
       }
+
+      if (isDestroyed) return;
 
       // Create button for MarketCap/Price toggle in top toolbar
       const button = widget.createButton();
@@ -202,6 +295,7 @@ const AdvancedChart: React.FC<{
       }
       setButtonInnerContent();
       button.addEventListener('click', () => {
+        if (isDestroyed) return;
         widget.activeChart().refreshMarks();
         setIsMarketCap(!isMarketCap);
         setButtonInnerContent();
@@ -213,8 +307,14 @@ const AdvancedChart: React.FC<{
     setGlobalChartWidget?.(widget);
 
     return () => {
+      isDestroyed = true;
       setGlobalChartWidget?.(undefined);
-      widget.remove();
+      try {
+        widget.remove();
+      } catch (error) {
+        // Widget already removed or not fully initialized
+        console.warn('Error removing TradingView widget:', error);
+      }
     };
   }, [
     language,
@@ -229,7 +329,7 @@ const AdvancedChart: React.FC<{
     setIsMarketCap,
     setQuote,
     setConvertToUsd,
-    tokenInfo,
+    symbolName,
   ]);
 
   return (

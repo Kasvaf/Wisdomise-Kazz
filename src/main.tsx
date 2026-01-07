@@ -13,6 +13,7 @@ import { useJwtEmail } from 'modules/base/auth/jwt-store';
 import { UserSettingsProvider } from 'modules/base/auth/UserSettingsProvider';
 import CustomTourProvider from 'modules/base/CustomTourProvider';
 import PageError from 'modules/base/PageError';
+import { TradingSettingsProvider } from 'modules/discovery/providers/TradingSettingsProvider';
 import { LoadingBadgeProvider } from 'shared/LoadingBadge';
 import { useErrorNotification } from 'shared/useErrorNotification';
 import { ComponentsProvider } from 'shared/v1-components/ComponentsProvider';
@@ -70,7 +71,9 @@ function Root() {
               <LoadingBadgeProvider>
                 <CustomTourProvider>
                   <UserSettingsProvider>
-                    <App />
+                    <TradingSettingsProvider>
+                      <App />
+                    </TradingSettingsProvider>
                   </UserSettingsProvider>
                 </CustomTourProvider>
               </LoadingBadgeProvider>

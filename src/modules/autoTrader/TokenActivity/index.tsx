@@ -63,7 +63,7 @@ export function SolanaIcon({
     <Token
       address={WRAPPED_SOLANA_CONTRACT_ADDRESS}
       autoFill
-      className={className}
+      className={clsx('!w-3 [&_img]:!size-3', className)}
       icon
       link={false}
       noCors={noCors}
@@ -231,7 +231,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
             <div
               className={
                 pnlSign === '+'
-                  ? 'text-v1-content-positive'
+                  ? 'text-v1-background-brand'
                   : 'text-v1-content-negative'
               }
             >

@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+yarn.lock
+package-lock.json
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Cache
+.cache/
+.vite/
+.turbo/
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Documentation (markdown files)
+*.md
+
+# Environment files
+.env*
+
+# Git
+.git/
+.github/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.DS_Store
+*.bak
+*.backup
+*.tmp
+*.temp

@@ -18,11 +18,12 @@ export default function PageDiscovery() {
 
   return (
     <PageWrapper
+      className="h-full"
       extension={<CoinExtensionsGroup />}
-      mainClassName="!p-0 h-full"
+      mainClassName="!p-0 h-full max-md:overflow-hidden"
     >
       <ActiveQuoteProvider>
-        <div className="flex justify-start">
+        <div className="flex h-full justify-start">
           {/* List Sidebar Mode */}
           {!urlParams.list && backdropParams.list && !isMobile && (
             <ListView

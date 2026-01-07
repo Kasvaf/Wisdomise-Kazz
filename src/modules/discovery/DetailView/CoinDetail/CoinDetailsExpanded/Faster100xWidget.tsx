@@ -8,8 +8,21 @@ export default function Faster100xWidget({
   className?: string;
   id?: string;
 }) {
-  const { symbol } = useUnifiedCoinDetails();
+  const { symbol, isInitiating } = useUnifiedCoinDetails();
   const platform = isLocal ? 'dev' : 'goatx';
+
+  // Show loading state while data is being fetched
+  if (isInitiating || !symbol.contractAddress) {
+    return (
+      <div className={`flex items-center justify-center ${className}`}>
+        <div className="text-center">
+          <div className="text-neutral-600 text-sm">
+            Loading bubble chart...
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <iframe
