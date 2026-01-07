@@ -1,9 +1,9 @@
+import Faster100xWidget from 'modules/discovery/DetailView/CoinDetail/CoinDetailsExpanded/Faster100xWidget';
+
 export function MobileBubbleChartTab() {
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <div className="text-center">
-        <div className="text-neutral-600 text-sm">Bubble chart coming soon</div>
-      </div>
+    <div className="flex h-full flex-1 flex-col overflow-hidden">
+      <Faster100xWidget className="h-full w-full" />
     </div>
   );
 }
