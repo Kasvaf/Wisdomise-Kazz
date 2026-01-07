@@ -7,7 +7,6 @@ import {
   useLpBurned,
   useTop10Holding,
 } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/useTokenInsight';
-import { useMediaDialog } from 'modules/discovery/ListView/XTracker/useMediaDialog';
 import Icon from 'modules/shared/Icon';
 import {
   getLogo,
@@ -17,6 +16,7 @@ import {
 import { parseXUrl } from 'modules/shared/TokenSocials/SocialPreview';
 import { ReactComponent as XSearchIcon } from 'modules/shared/TokenSocials/x-search.svg';
 import { useMemo, useState } from 'react';
+import { Dialog } from 'shared/v1-components/Dialog';
 import { ReactComponent as XCommunityIcon } from 'shared/v1-components/X/assets/community.svg';
 import { ReactComponent as XProfileIcon } from 'shared/v1-components/X/assets/profile.svg';
 import { ReactComponent as XPostIcon } from 'shared/v1-components/X/assets/tweet.svg';
@@ -38,7 +38,9 @@ export function MobileTokenHeader({
   const { copyToClipboard, copied } = useCopyToClipboard();
   const { symbol, createdAt, socials, meta, validatedData, securityData } =
     useUnifiedCoinDetails();
-  const { dialog, openMedia } = useMediaDialog();
+
+  // Logo expansion state
+  const [isLogoExpanded, setIsLogoExpanded] = useState(false);
 
   // Social preview drawer state
   const [selectedSocial, setSelectedSocial] = useState<Social | null>(null);
@@ -192,7 +194,7 @@ export function MobileTokenHeader({
             <img
               alt={symbol.abbreviation || 'Token'}
               className="h-full w-full cursor-pointer object-cover transition-opacity hover:opacity-80"
-              onClick={() => openMedia(symbol.logo || '')}
+              onClick={() => setIsLogoExpanded(true)}
               src={symbol.logo}
             />
           ) : (
@@ -360,7 +362,22 @@ export function MobileTokenHeader({
       )}
 
       {/* Logo Expansion Dialog */}
-      {dialog}
+      <Dialog
+        className="bg-transparent"
+        contentClassName="p-0"
+        modalConfig={{ closeButton: true }}
+        mode="modal"
+        onClose={() => setIsLogoExpanded(false)}
+        open={isLogoExpanded}
+      >
+        <div className="flex items-center justify-center">
+          <img
+            alt={symbol.abbreviation || 'Token'}
+            className="max-h-[80vh] max-w-[90vw] rounded-2xl object-contain shadow-2xl"
+            src={symbol.logo}
+          />
+        </div>
+      </Dialog>
 
       {/* Social Preview Drawer */}
       <SocialPreviewDrawer
