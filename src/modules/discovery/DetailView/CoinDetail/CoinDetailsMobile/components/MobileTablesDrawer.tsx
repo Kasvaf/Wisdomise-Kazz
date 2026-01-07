@@ -1,21 +1,28 @@
 import {
   bxCog,
   bxError,
-  bxLinkExternal,
+  bxHide,
   bxLock,
+  bxShow,
   bxStar,
   bxsShield,
 } from 'boxicons-quasar';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useHideToken } from 'modules/shared/BlacklistManager/useHideToken';
 import Icon from 'modules/shared/Icon';
+import { ReactComponent as SolanaIcon } from 'modules/shared/NetworkIcon/solana.svg';
 import { Button } from 'modules/shared/v1-components/Button';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { Toggle } from 'modules/shared/v1-components/Toggle';
 import { useState } from 'react';
+import { formatNumber } from 'utils/numbers';
 
 interface Position {
   id: string;
   token: string;
   tokenSymbol: string;
+  tokenAddress: string;
+  tokenImage?: string;
   bought: number;
   boughtValue: string;
   sold: number;
@@ -44,27 +51,50 @@ interface Holder {
   hasSparkle?: boolean;
 }
 
+const formatCurrency = (value: number): string => {
+  if (value === 0) return '$0';
+  const absValue = Math.abs(value);
+  const sign = value < 0 ? '-' : '';
+
+  if (absValue >= 1000) {
+    const formatted = formatNumber(absValue, {
+      compactInteger: true,
+      separateByComma: false,
+      decimalLength: 1,
+      minifyDecimalRepeats: false,
+      exactDecimal: true,
+    });
+    return `${sign}$${formatted}`;
+  }
+
+  return `${sign}$${absValue.toFixed(2)}`;
+};
+
 const DEMO_POSITIONS: Position[] = [
   {
     id: '1',
-    token: 'CUM',
-    tokenSymbol: 'CUM',
-    bought: 150_000,
-    boughtValue: '$45.00',
+    token: 'BBW',
+    tokenSymbol: 'BBW',
+    tokenAddress: '9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96WQLuke',
+    tokenImage: '/icons/tokens/wisebot.png',
+    bought: 4000,
+    boughtValue: '$0.3256',
     sold: 0,
     soldValue: '$0',
-    pnl: 12.5,
+    pnl: 12_500,
     pnlPercent: 27.8,
   },
   {
     id: '2',
     token: 'PEPE',
     tokenSymbol: 'PEPE',
+    tokenAddress: '8vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96WQLuke',
+    tokenImage: '/icons/tokens/green-logo.png',
     bought: 250_000,
     boughtValue: '$75.00',
     sold: 100_000,
     soldValue: '$35.00',
-    pnl: -5.25,
+    pnl: -5250,
     pnlPercent: -7.0,
   },
 ];
@@ -121,6 +151,35 @@ const DEMO_HOLDERS: Holder[] = [
 
 type TabType = 'positions' | 'top-holders' | 'top-traders' | 'bubble-chart';
 
+const HideTokenButton = ({ tokenAddress }: { tokenAddress: string }) => {
+  const { addBlacklist } = useUserSettings();
+  const { isHiddenByCA } = useHideToken({
+    address: tokenAddress,
+    network: 'solana',
+  });
+
+  return (
+    <Button
+      className="!p-0.5 text-neutral-600 hover:text-white"
+      fab={true}
+      onClick={e => {
+        if (tokenAddress) {
+          addBlacklist(
+            { type: 'ca', network: 'solana', value: tokenAddress },
+            true,
+          );
+        }
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+      size="3xs"
+      variant="ghost"
+    >
+      <Icon name={isHiddenByCA ? bxShow : bxHide} size={12} />
+    </Button>
+  );
+};
+
 export function MobileTablesDrawer() {
   const [activeTab, setActiveTab] = useState<TabType>('top-holders');
   const [showSettingsDrawer, setShowSettingsDrawer] = useState(false);
@@ -159,81 +218,75 @@ export function MobileTablesDrawer() {
         <div className="flex-1 overflow-auto">
           <div className="min-w-[500px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[1fr_80px_80px_90px_60px] gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2 font-medium text-[10px] text-neutral-600">
+            <div className="sticky top-0 z-10 grid grid-cols-[1fr_100px_100px_120px] gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2 font-medium text-[10px] text-neutral-600">
               <div>Token</div>
               <div className="text-right">Bought</div>
-              <div className="text-right">Sold</div>
-              <div className="text-right">PnL</div>
+              <div className="text-right">Sold ↓</div>
               <div className="text-center">Actions</div>
             </div>
 
             {/* Positions List */}
             {DEMO_POSITIONS.map(position => (
               <div
-                className="grid grid-cols-[1fr_80px_80px_90px_60px] items-center gap-2 border-v1-background-primary border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
+                className="grid grid-cols-[1fr_100px_100px_120px] items-center gap-2 border-v1-background-primary border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
                 key={position.id}
               >
                 <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-v1-surface-l2">
-                    <span className="font-bold text-[10px] text-white">
-                      {position.tokenSymbol.slice(0, 2)}
-                    </span>
-                  </div>
+                  {position.tokenImage ? (
+                    <img
+                      alt={position.tokenSymbol}
+                      className="h-7 w-7 rounded-full object-cover"
+                      src={position.tokenImage}
+                    />
+                  ) : (
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-v1-surface-l2">
+                      <span className="font-bold text-[10px] text-white">
+                        {position.tokenSymbol.slice(0, 2)}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex flex-col">
                     <span className="font-semibold text-white text-xs">
                       {position.token}
                     </span>
-                    <span className="text-[10px] text-neutral-600">
-                      {position.tokenSymbol}
+                    <span
+                      className={`text-[10px] ${
+                        position.pnl >= 0
+                          ? 'text-v1-content-positive'
+                          : 'text-v1-content-negative'
+                      }`}
+                    >
+                      {position.pnl >= 0 ? '+' : ''}
+                      {formatCurrency(position.pnl)} (
+                      {position.pnl >= 0 ? '+' : ''}
+                      {position.pnlPercent.toFixed(1)}%)
                     </span>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-mono text-white text-xs">
-                    {position.bought.toLocaleString()}
-                  </div>
-                  <div className="text-[10px] text-neutral-600">
+                  <div className="font-mono text-v1-content-positive text-xs">
                     {position.boughtValue}
                   </div>
+                  <div className="text-[10px] text-neutral-600">
+                    {position.bought.toLocaleString()} {position.tokenSymbol}
+                  </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-mono text-white text-xs">
-                    {position.sold.toLocaleString()}
-                  </div>
-                  <div className="text-[10px] text-neutral-600">
+                  <div className="font-mono text-v1-content-negative text-xs">
                     {position.soldValue}
                   </div>
-                </div>
-                <div className="text-right">
-                  <div
-                    className={`font-mono font-semibold text-xs ${
-                      position.pnl >= 0
-                        ? 'text-v1-content-positive'
-                        : 'text-v1-content-negative'
-                    }`}
-                  >
-                    {position.pnl >= 0 ? '+' : ''}
-                    {position.pnl.toFixed(2)}
-                  </div>
-                  <div
-                    className={`text-[10px] ${
-                      position.pnlPercent >= 0
-                        ? 'text-v1-content-positive'
-                        : 'text-v1-content-negative'
-                    }`}
-                  >
-                    {position.pnlPercent >= 0 ? '+' : ''}
-                    {position.pnlPercent.toFixed(1)}%
+                  <div className="text-[10px] text-neutral-600">
+                    {position.sold.toLocaleString()} {position.tokenSymbol}
                   </div>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center gap-1">
+                  <HideTokenButton tokenAddress={position.tokenAddress} />
                   <Button
-                    className="text-neutral-600"
-                    fab={true}
-                    size="3xs"
+                    className="!text-v1-content-negative"
+                    size="2xs"
                     variant="ghost"
                   >
-                    <Icon name={bxLinkExternal} size={14} />
+                    Sell
                   </Button>
                 </div>
               </div>
@@ -313,11 +366,11 @@ export function MobileTablesDrawer() {
                 </div>
                 <div className="text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <span className="font-semibold text-[10px] text-v1-background-secondary">
-                      SOL
-                    </span>
+                    <SolanaIcon className="inline-block h-3 w-3" />
                     <span className="font-mono text-white text-xs">
-                      {holder.solBalance.toFixed(holder.solBalance < 1 ? 3 : 2)}
+                      {holder.solBalance >= 1
+                        ? holder.solBalance.toFixed(1)
+                        : holder.solBalance.toFixed(3)}
                     </span>
                   </div>
                   <span className="text-[10px] text-neutral-600">
@@ -337,10 +390,8 @@ export function MobileTablesDrawer() {
                         : 'text-v1-content-negative'
                     }`}
                   >
-                    {holder.unrealizedPnl >= 0 ? '+' : ''}$
-                    {holder.unrealizedPnl >= 1000
-                      ? `${(holder.unrealizedPnl / 1000).toFixed(2)}K`
-                      : holder.unrealizedPnl.toFixed(2)}
+                    {holder.unrealizedPnl >= 0 ? '+' : ''}
+                    {formatCurrency(holder.unrealizedPnl)}
                   </span>
                 </div>
               </div>
@@ -377,11 +428,11 @@ export function MobileTablesDrawer() {
                 </div>
                 <div className="text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <span className="font-semibold text-[10px] text-v1-background-secondary">
-                      SOL
-                    </span>
+                    <SolanaIcon className="inline-block h-3 w-3" />
                     <span className="font-mono text-white text-xs">
-                      {holder.solBalance.toFixed(holder.solBalance < 1 ? 3 : 2)}
+                      {holder.solBalance >= 1
+                        ? holder.solBalance.toFixed(1)
+                        : holder.solBalance.toFixed(3)}
                     </span>
                   </div>
                   <span className="text-[10px] text-neutral-600">

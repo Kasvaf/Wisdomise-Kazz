@@ -172,13 +172,13 @@ export function MobileTradePanel({
               value: 'buy' as const,
               label: 'Buy',
               className:
-                mode === 'buy' ? 'bg-v1-background-brand !text-black' : '',
+                mode === 'buy' ? 'bg-v1-content-positive !text-black' : '',
             },
             {
               value: 'sell' as const,
               label: 'Sell',
               className:
-                mode === 'sell' ? '!bg-v1-background-negative !text-white' : '',
+                mode === 'sell' ? '!bg-v1-content-negative !text-white' : '',
             },
           ]}
           size="md"
@@ -197,23 +197,17 @@ export function MobileTradePanel({
               className={`font-mono ${
                 isSelected
                   ? mode === 'buy'
-                    ? 'shadow-[0_0_10px_rgba(190,255,33,0.3)]'
-                    : 'shadow-[0_0_10px_rgba(239,68,68,0.2)]'
+                    ? '!text-black bg-v1-content-positive shadow-[0_0_12px_rgba(34,197,94,0.4)]'
+                    : '!text-white bg-v1-content-negative shadow-[0_0_12px_rgba(239,68,68,0.4)]'
                   : mode === 'buy'
-                    ? 'text-v1-background-brand'
-                    : 'text-v1-content-negative'
+                    ? 'border-v1-content-positive text-v1-content-positive hover:border-v1-content-positive hover:bg-v1-content-positive/10'
+                    : 'border-v1-content-negative text-v1-content-negative hover:border-v1-content-negative hover:bg-v1-content-negative/10'
               }`}
               key={amt}
               onClick={() => setAmount(amt)}
               size="lg"
               surface={1}
-              variant={
-                isSelected
-                  ? mode === 'buy'
-                    ? 'primary'
-                    : 'negative'
-                  : 'outline'
-              }
+              variant="outline"
             >
               {amt}
             </Button>
@@ -225,9 +219,9 @@ export function MobileTradePanel({
       {mode === 'sell' && (
         <Button
           block
-          className="font-bold"
+          className="border-v1-content-negative font-bold text-v1-content-negative hover:border-v1-content-negative hover:bg-v1-content-negative/10"
           size="lg"
-          variant="negative_outline"
+          variant="outline"
         >
           Sell Initials
         </Button>
