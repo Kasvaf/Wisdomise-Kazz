@@ -93,7 +93,7 @@ export function MobileTradePanel() {
   ];
 
   return (
-    <div className="flex flex-col gap-2.5 border-v1-border-tertiary/30 border-t bg-v1-surface-l1/30 px-3 py-3">
+    <div className="flex flex-col gap-2 border-v1-border-tertiary/30 border-t bg-v1-surface-l1/30 px-3 py-2.5">
       {/* Row 1: Presets + Buy/Sell Toggle */}
       <div className="flex items-center gap-2">
         {/* Inline Preset Selector */}
@@ -160,14 +160,14 @@ export function MobileTradePanel() {
         />
       </div>
 
-      {/* Row 2: Quick Amount Buttons */}
-      <div className="grid grid-cols-4 gap-2">
+      {/* Quick Amount Buttons - Single Row */}
+      <div className="flex gap-1.5">
         {quickAmounts.map((amt, index) => {
           const isSelected = amount === Number(amt);
           return (
             <Button
               block
-              className={`font-mono ${
+              className={`flex-1 font-mono ${
                 isEditMode
                   ? '!border-v1-border-brand !bg-v1-background-brand/10 !text-v1-content-brand'
                   : isSelected
@@ -185,7 +185,7 @@ export function MobileTradePanel() {
                   swap(String(amt), mode === 'buy' ? 'LONG' : 'SHORT');
                 }
               }}
-              size="lg"
+              size="md"
               surface={1}
               variant="outline"
             >
