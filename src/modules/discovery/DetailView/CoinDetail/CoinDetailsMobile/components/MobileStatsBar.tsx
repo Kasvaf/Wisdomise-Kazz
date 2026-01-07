@@ -3,7 +3,10 @@ import { useUnifiedCoinDetails } from '../../lib';
 
 const formatCompact = (num: number, prefix = '$') => {
   const { value, label } = compressByLabel(num);
-  return `${prefix}${value}${label}`;
+  // Ensure 1 decimal place
+  const numValue = Number.parseFloat(value);
+  const formattedValue = numValue.toFixed(1);
+  return `${prefix}${formattedValue}${label}`;
 };
 
 export function MobileStatsBar() {
@@ -38,7 +41,7 @@ export function MobileStatsBar() {
       <div className="flex items-center gap-1">
         <span className="font-medium text-[10px] text-neutral-600">BC</span>
         <span className="font-mono font-semibold text-white text-xs">
-          {((marketData.boundingCurve ?? 0) * 100).toFixed(0)}%
+          {((marketData.boundingCurve ?? 0) * 100).toFixed(1)}%
         </span>
       </div>
     </div>
