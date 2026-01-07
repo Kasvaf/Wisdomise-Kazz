@@ -56,7 +56,7 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
         const label = `${s.label ? s.label : ''}${!s.label || s.name === 'Dev' ? dirLabel : ''}`;
 
         const mark: Mark = {
-          id: swap.txId,
+          id: `swap_${swap.wallet}_${swap.txId}`,
           label,
           labelFontColor: 'white',
           minSize: 25,

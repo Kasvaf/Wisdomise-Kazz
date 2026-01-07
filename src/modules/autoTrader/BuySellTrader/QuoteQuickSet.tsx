@@ -1,7 +1,6 @@
 import { bxCheck, bxEditAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
-import SensibleSteps from 'modules/base/wallet/SensibleSteps';
 import { type ReactNode, useEffect, useState } from 'react';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import Icon from 'shared/Icon';
@@ -10,7 +9,6 @@ import { preventNonNumericInput } from 'utils/numbers';
 import type { Surface } from 'utils/useSurface';
 
 export default function QuoteQuickSet({
-  balance,
   onClick,
   surface = 1,
   className,
@@ -21,10 +19,8 @@ export default function QuoteQuickSet({
   quote,
   showAll,
   children,
-  sensible,
 }: {
   token?: string;
-  balance?: number | null;
   value?: string;
   mode?: 'buy' | 'sell' | 'sell_percentage';
   onClick: (value: string) => void;
@@ -36,7 +32,6 @@ export default function QuoteQuickSet({
   quote: string;
   showAll?: boolean;
   children?: ReactNode;
-  sensible?: boolean;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { settings, updateQuotesQuickSet } = useUserSettings();
@@ -52,65 +47,56 @@ export default function QuoteQuickSet({
 
   return (
     <div className={clsx('flex gap-1', className)}>
-      {sensible ? (
-        <SensibleSteps
-          balance={balance}
-          className="grow"
-          onChange={newAmount => onClick(newAmount)}
-        />
-      ) : (
-        <div className="grid grow grid-cols-4 gap-1">
-          {presetOptions
-            ?.filter((_, index) => showAll || index < 4)
-            .map((value, index) => (
-              <Button
-                className={clsx(
-                  btnClassName,
-                  isEditMode &&
-                    '!border-v1-border-brand !bg-v1-background-brand/10',
-                )}
-                key={index}
-                onClick={() => {
-                  if (!isEditMode) {
-                    onClick(value);
-                  }
-                }}
-                size="2xs"
-                surface={surface}
-                variant="ghost"
-              >
-                {isEditMode ? (
-                  <input
-                    className="w-full bg-transparent text-center outline-none"
-                    inputMode="numeric"
-                    onChange={e => {
-                      if (normQuote && mode) {
-                        updateQuotesQuickSet(
-                          normQuote,
-                          mode,
-                          index,
-                          e.target.value,
-                        );
-                      }
-                    }}
-                    onKeyDown={preventNonNumericInput}
-                    pattern="[0-9]*"
-                    type="text"
-                    value={value}
-                  />
-                ) : (
-                  value
-                )}
-                {mode === 'sell_percentage' && !isEditMode && '%'}
-              </Button>
-            ))}
-        </div>
-      )}
+      <div className="grid grow grid-cols-4 gap-1">
+        {presetOptions
+          ?.filter((_, index) => showAll || index < 4)
+          .map((value, index) => (
+            <Button
+              className={clsx(
+                btnClassName,
+                isEditMode &&
+                  '!border-v1-border-brand !bg-v1-background-brand/10',
+              )}
+              key={index}
+              onClick={() => {
+                if (!isEditMode) {
+                  onClick(value);
+                }
+              }}
+              size="2xs"
+              surface={surface}
+              variant="ghost"
+            >
+              {isEditMode ? (
+                <input
+                  className="w-full bg-transparent text-center outline-none"
+                  inputMode="numeric"
+                  onChange={e => {
+                    if (normQuote && mode) {
+                      updateQuotesQuickSet(
+                        normQuote,
+                        mode,
+                        index,
+                        e.target.value,
+                      );
+                    }
+                  }}
+                  onKeyDown={preventNonNumericInput}
+                  pattern="[0-9]*"
+                  type="text"
+                  value={value}
+                />
+              ) : (
+                value
+              )}
+              {mode === 'sell_percentage' && !isEditMode && '%'}
+            </Button>
+          ))}
+      </div>
       {children}
       {hasEditBtn && (
         <Button
           className="shrink-0"
-          disabled={sensible}
           fab
           onClick={() => {
             setIsEditMode(prev => !prev);

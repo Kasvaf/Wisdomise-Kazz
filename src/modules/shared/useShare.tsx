@@ -7,7 +7,7 @@ export const useShare = (method?: 'copy' | 'share') => {
   const [notification, notificationContent] = useNotification();
 
   const action = useCallback(
-    async (data: string | File) => {
+    async (data: string | File, customMessage?: string) => {
       if (
         'share' in navigator &&
         'canShare' in navigator &&
@@ -40,7 +40,7 @@ export const useShare = (method?: 'copy' | 'share') => {
             ]);
           }
           notification.success({
-            message: t('copied-to-clipboard'),
+            message: customMessage ?? t('copied-to-clipboard'),
             className: '[&_.ant-notification-notice-description]:hidden',
           });
           return true;

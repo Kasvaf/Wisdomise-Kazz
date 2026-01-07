@@ -17,6 +17,7 @@ import {
 import { WatchEventType } from 'services/grpc/proto/wealth_manager';
 import { useLastPriceStream } from 'services/price';
 import { useHasFlag, useTokenPairsQuery } from 'services/rest';
+import { useTokenInfo } from 'services/rest/token-info';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
@@ -79,6 +80,7 @@ export function SolanaIcon({
 
 export default function TokenActivity({ mini = false }: { mini?: boolean }) {
   const [showLastPosition, setShowLastPosition] = useState(false);
+  const [showBalance, setShowBalance] = useState(false);
 
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
@@ -92,6 +94,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
 
   const hasFlag = useHasFlag();
   const [openShare, setOpenShare] = useState(false);
+  const { data: tokenInfo } = useTokenInfo({ slug });
 
   const network = useActiveNetwork();
   const { data: pairs, isPending } = useTokenPairsQuery(slug);
@@ -136,7 +139,7 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
     return formatNumber(Number(value ?? '0'), {
       decimalLength: 2,
       minifyDecimalRepeats: true,
-      compactInteger: false,
+      compactInteger: true,
       separateByComma: false,
     });
   };
@@ -223,11 +226,16 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
             </div>
           </div>
           <div className="h-7 border-white/5 border-r" />
-          <div className="grow">
+          <div
+            className="grow"
+            onMouseEnter={() => setShowBalance(true)}
+            onMouseLeave={() => setShowBalance(false)}
+          >
             {!mini && <p className="mb-2 text-v1-content-secondary">Holding</p>}
             <div className={clsx('flex gap-1', mini && 'justify-center')}>
-              {unit}
-              {formatter(showUsd ? holdUsd : hold)}
+              {!showBalance && unit}
+              {formatter(showBalance ? balance : showUsd ? holdUsd : hold)}
+              {showBalance && ` ${tokenInfo?.symbol?.slice(0, 3)}`}
             </div>
           </div>
           <div className="h-7 border-white/5 border-r" />

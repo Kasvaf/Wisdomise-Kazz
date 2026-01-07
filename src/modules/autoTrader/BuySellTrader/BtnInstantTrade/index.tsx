@@ -17,6 +17,7 @@ import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/Quote
 import TokenActivity from 'modules/autoTrader/TokenActivity';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useState } from 'react';
 import { useSwap, useTokenBalance } from 'services/chains';
@@ -72,14 +73,12 @@ export default function BtnInstantTrade({
   };
 
   const [isOpen, setIsOpen] = useLocalStorage('instant-open', false);
-
   const [height, setHeight] = useState(240); // initial height in px
   const minHeight = 240;
   const maxHeight = 300;
 
-  const [sellAmountType, setSellAmountType] = useState<
-    'percentage' | 'base' | 'quote'
-  >('percentage');
+  const { settings, updateQuickSetSellType } = useUserSettings();
+  const sellAmountType = settings.quotes_quick_set.sell_selected_type;
 
   const startResizing = (e: React.MouseEvent, direction: 'top' | 'bottom') => {
     setMaskIsOpen(true);
@@ -118,7 +117,10 @@ export default function BtnInstantTrade({
           className={clsx(!isOpen && 'hidden')}
           closable
           header={
-            <div className="relative flex w-full items-center gap-2">
+            <div
+              className="relative flex w-full cursor-move items-center gap-2 border-white/5 border-b"
+              id="instant-trade-drag-handle"
+            >
               <TraderPresetsSelector source="terminal" surface={2} />
               <Button
                 className="ml-auto"
@@ -135,13 +137,12 @@ export default function BtnInstantTrade({
               <BtnSolanaWallets fab size="2xs" />
             </div>
           }
-          id="instant-trade-drag"
-          onClose={() => setIsOpen(!isOpen)}
+          id="instant-trade"
+          onClose={() => setIsOpen(false)}
           surface={1}
         >
-          {/* <div className="fixed top-0 left-0 z-50 m-4  rounded-xl bg-v1-surface-l1 text-xs"> */}
           <div
-            className="relative min-h-max w-[20rem] overflow-hidden rounded-xl text-xs"
+            className="relative min-h-max w-80 overflow-hidden rounded-xl"
             style={{ height }}
           >
             {connected ? (
@@ -183,7 +184,7 @@ export default function BtnInstantTrade({
                       Sell
                       <AmountTypeSwitch
                         onChange={newType => {
-                          setSellAmountType(newType);
+                          updateQuickSetSellType(newType);
                         }}
                         quote={quote}
                         showIcon
@@ -194,7 +195,6 @@ export default function BtnInstantTrade({
                     <AccountBalance quote={quote} slug={slug} />
                   </div>
                   <QuoteQuickSet
-                    balance={baseBalance}
                     btnClassName={clsx(
                       '!border-[0.5px]',
                       !isEditMode &&
@@ -253,7 +253,6 @@ export default function BtnInstantTrade({
               />
             </div>
           </div>
-          {/* </div> */}
         </Draggable>
       </div>
       <Button

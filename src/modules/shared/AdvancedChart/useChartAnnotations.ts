@@ -31,10 +31,10 @@ interface IconOptions {
 export function useSwapActivityLines(slug: string) {
   const { data } = useTraderAssetQuery({ slug });
   const details = useUnifiedCoinDetails();
+  const [convertToUsd] = useChartConvertToUSD();
+  const [isMarketCap] = useChartIsMarketCap();
 
   const supply = details?.marketData.totalSupply ?? 0;
-  const isMarketCap = localStorage.getItem('tv-market-cap') !== 'false';
-  const convertToUsd = localStorage.getItem('tv-convert-to-usd') === 'true';
 
   const avgBuy = data?.avg_buy_price
     ? Number(convertToUsd ? data?.avg_buy_price_usd : data?.avg_buy_price) *
