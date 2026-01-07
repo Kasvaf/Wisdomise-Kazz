@@ -1,36 +1,24 @@
-import { bxCheck, bxCog, bxCopy, bxLink } from 'boxicons-quasar';
+import { bxCheck, bxCog } from 'boxicons-quasar';
 import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
+import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import Icon from 'modules/shared/Icon';
 import { Button } from 'modules/shared/v1-components/Button';
 import { ButtonSelect } from 'modules/shared/v1-components/ButtonSelect';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { Input } from 'modules/shared/v1-components/Input';
 import { useEffect, useState } from 'react';
+import { useSwap, useTokenBalance } from 'services/chains';
+import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useActiveWallet, useCustodialWallet } from 'services/chains/wallet';
+import { useLastPriceStream } from 'services/price';
+import { useWalletsQuery } from 'services/rest/wallets';
 import { preventNonNumericInput } from 'utils/numbers';
 
-interface TradePanelProps {
-  positions?: number;
-  tokenAmount?: number;
-  balance?: number;
-  activePageTab?: string;
-}
-
-interface WalletConfig {
-  id: string;
-  name: string;
-  address: string;
-  balance: number;
-  positions: number;
-  isSelected: boolean;
-}
-
-export function MobileTradePanel({
-  positions: _positions = 1,
-  tokenAmount: _tokenAmount = 0,
-  balance: _balance = 0,
-  activePageTab: _activePageTab = 'trade',
-}: TradePanelProps) {
+export function MobileTradePanel() {
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState<number | null>(null);
   const [showPresetDrawer, setShowPresetDrawer] = useState(false);
@@ -40,8 +28,50 @@ export function MobileTradePanel({
     'Instant',
   );
 
+  // Desktop hooks integration
+  const { symbol } = useUnifiedCoinDetails();
+  const slug = symbol.slug;
+  const [quote, _setQuote] = useState(WRAPPED_SOLANA_SLUG);
+
+  const { connected } = useActiveWallet();
+  const { data: baseBalance } = useTokenBalance({ slug });
+  const isLoggedIn = useIsLoggedIn();
+  const [loginModal, open] = useModalLogin();
+  const { setCw } = useCustodialWallet();
+  const { data: wallets } = useWalletsQuery();
+
+  const { data: basePriceByQuote } = useLastPriceStream({
+    slug,
+    quote,
+    convertToUsd: false,
+  });
+
+  const swapAsync = useSwap({ source: 'terminal', slug, quote });
+
   const { settings: userSettings, updateQuickBuyActivePreset } =
     useUserSettings();
+
+  const sellAmountType = userSettings.quotes_quick_set.sell_selected_type;
+
+  // Execute swap with desktop logic
+  const swap = async (amountValue: string, side: 'LONG' | 'SHORT') => {
+    if (!isLoggedIn) {
+      open();
+      return;
+    }
+
+    let finalAmount = amountValue;
+    if (side === 'SHORT') {
+      finalAmount = convertToBaseAmount(
+        amountValue,
+        sellAmountType,
+        baseBalance,
+        1 / (basePriceByQuote ?? 1),
+      );
+    }
+
+    await swapAsync(side, finalAmount);
+  };
 
   const activePresetIndex =
     userSettings?.quick_buy?.terminal?.active_preset ?? 0;
@@ -52,82 +82,6 @@ export function MobileTradePanel({
     'Market',
     'Limit',
   ];
-
-  // Sample wallet data
-  const [wallets, setWallets] = useState<WalletConfig[]>([
-    {
-      id: '1',
-      name: 'Axiom Main',
-      address: '4iKg5',
-      balance: 0,
-      positions: 15,
-      isSelected: true,
-    },
-    {
-      id: '2',
-      name: 'Wallet',
-      address: '9vF1p',
-      balance: 0,
-      positions: 0,
-      isSelected: false,
-    },
-    {
-      id: '3',
-      name: 'Wallet',
-      address: '6Ar9t',
-      balance: 0,
-      positions: 0,
-      isSelected: false,
-    },
-    {
-      id: '4',
-      name: 'Wallet',
-      address: '5ZiBG',
-      balance: 0.021,
-      positions: 3,
-      isSelected: false,
-    },
-    {
-      id: '5',
-      name: 'Wallet',
-      address: '3wsMn',
-      balance: 0,
-      positions: 0,
-      isSelected: false,
-    },
-    {
-      id: '6',
-      name: 'Wallet',
-      address: 'Asofa',
-      balance: 0.025,
-      positions: 1,
-      isSelected: false,
-    },
-    {
-      id: '7',
-      name: 'Wallet',
-      address: '2MPcs',
-      balance: 1.593,
-      positions: 2,
-      isSelected: false,
-    },
-  ]);
-
-  const toggleWalletSelection = (id: string) => {
-    setWallets(prev =>
-      prev.map(w => (w.id === id ? { ...w, isSelected: !w.isSelected } : w)),
-    );
-  };
-
-  const selectAllWithBalance = () => {
-    setWallets(prev => prev.map(w => ({ ...w, isSelected: w.balance > 0 })));
-  };
-
-  const unselectAll = () => {
-    setWallets(prev => prev.map(w => ({ ...w, isSelected: false })));
-  };
-
-  const _selectedWallet = wallets.find(w => w.isSelected) || wallets[0];
 
   return (
     <div className="flex flex-col gap-2.5 border-v1-border-tertiary/30 border-t bg-v1-surface-l1/30 px-3 py-3">
@@ -204,7 +158,10 @@ export function MobileTradePanel({
                     : 'border-v1-content-negative text-v1-content-negative hover:border-v1-content-negative hover:bg-v1-content-negative/10'
               }`}
               key={amt}
-              onClick={() => setAmount(amt)}
+              onClick={() => {
+                setAmount(amt);
+                swap(String(amt), mode === 'buy' ? 'LONG' : 'SHORT');
+              }}
               size="lg"
               surface={1}
               variant="outline"
@@ -268,33 +225,14 @@ export function MobileTradePanel({
         ))}
       </Dialog>
 
-      {/* Wallet Selection Drawer */}
+      {/* Wallet Selection Drawer - Using real wallet data */}
       <Dialog
         className="bg-v1-surface-l1"
         contentClassName="flex flex-col max-h-[60vh] overflow-y-auto"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         header={
           <div className="flex w-full items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                data-testid="button-unselect-all"
-                onClick={unselectAll}
-                size="sm"
-                surface={2}
-                variant="ghost"
-              >
-                Unselect All
-              </Button>
-              <Button
-                className="text-neutral-500"
-                data-testid="button-select-with-balance"
-                onClick={selectAllWithBalance}
-                size="sm"
-                variant="link"
-              >
-                Select All with Balance
-              </Button>
-            </div>
+            <span className="font-medium text-white">Select Wallet</span>
             <Button
               className="text-neutral-600"
               data-testid="button-wallet-settings"
@@ -310,69 +248,27 @@ export function MobileTradePanel({
         onClose={() => setShowWalletDrawer(false)}
         open={showWalletDrawer}
       >
-        {wallets.map(wallet => (
-          <button
-            className="flex items-center gap-3 border-v1-border-tertiary border-b px-4 py-3 text-left transition-colors hover:bg-v1-surface-l2"
-            data-testid={`wallet-row-${wallet.id}`}
-            key={wallet.id}
-            onClick={() => toggleWalletSelection(wallet.id)}
-          >
-            {/* Selection Checkbox */}
-            <div
-              className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-colors ${
-                wallet.isSelected
-                  ? 'border-orange-500 bg-orange-500'
-                  : 'border-v1-surface-l4'
-              }`}
-              data-testid={`checkbox-wallet-${wallet.id}`}
+        {!connected && (
+          <div className="p-4 text-center">
+            <p className="mb-4 text-sm text-white">
+              For instant trading, switch to a custodial wallet
+            </p>
+            <Button
+              className="w-full"
+              onClick={() => {
+                if (wallets?.results?.[0]) {
+                  setCw(wallets.results[0].key);
+                }
+                setShowWalletDrawer(false);
+              }}
+              size="md"
             >
-              {wallet.isSelected && (
-                <Icon className="text-white" name={bxCheck} size={12} />
-              )}
-            </div>
-
-            {/* Wallet Info */}
-            <div className="flex min-w-0 flex-1 flex-col">
-              <span
-                className={`font-medium text-sm ${
-                  wallet.name === 'Axiom Main'
-                    ? 'text-orange-400'
-                    : 'text-white'
-                }`}
-              >
-                {wallet.name}
-              </span>
-              <div className="flex items-center gap-1.5 text-[11px] text-neutral-600">
-                <Icon name={bxLink} size={12} />
-                <span>Off</span>
-                <span className="text-v1-surface-l4">{wallet.address}</span>
-                <Icon name={bxCopy} size={12} />
-              </div>
-            </div>
-
-            {/* Balance */}
-            <div className="flex items-center gap-1">
-              <span className="font-semibold text-[10px] text-v1-background-secondary">
-                SOL
-              </span>
-              <span
-                className={`font-mono text-sm ${
-                  wallet.balance > 0
-                    ? 'text-v1-content-positive'
-                    : 'text-neutral-600'
-                }`}
-              >
-                {wallet.balance}
-              </span>
-            </div>
-
-            {/* Position Count */}
-            <span className="w-6 text-right text-sm text-white">
-              {wallet.positions}
-            </span>
-          </button>
-        ))}
+              Switch to Custodial Wallet
+            </Button>
+          </div>
+        )}
       </Dialog>
+      {loginModal}
     </div>
   );
 }

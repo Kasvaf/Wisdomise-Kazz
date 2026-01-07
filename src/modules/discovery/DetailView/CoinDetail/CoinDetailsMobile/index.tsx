@@ -31,7 +31,7 @@ export default function CoinDetailsMobile() {
     velocityThreshold: 500,
   });
 
-  // Mock data - will be replaced with real data later
+  // Mock data for header display only (positions/PnL now use real hooks)
   const mockData = {
     token: {
       name: symbol.name || 'Unknown Token',
@@ -41,28 +41,6 @@ export default function CoinDetailsMobile() {
       contractAddress: symbol.contractAddress || 'N/A',
       platform: 'pump',
       imageUrl: symbol.logo,
-    },
-    stats: {
-      marketCap: 1_170_000,
-      volume: 868.2,
-      liquidity: 131_000,
-      holders: 3950,
-      fees: 124.3,
-    },
-    position: {
-      bought: 0,
-      sold: 0,
-      holding: 0,
-      holdingTokens: 0,
-      pnl: 0,
-      pnlPercent: 0,
-    },
-    security: {
-      top10HolderPercent: 12.5,
-      devHoldingPercent: 0,
-      lpBurned: true,
-      mintAuthority: false,
-      freezeAuthority: false,
     },
   };
 
@@ -229,24 +207,11 @@ export default function CoinDetailsMobile() {
           </div>
         </div>
 
-        {/* Position Bar - Fixed */}
-        <MobilePositionBar
-          bought={mockData.position.bought}
-          holding={mockData.position.holding}
-          holdingTokens={mockData.position.holdingTokens}
-          pnl={mockData.position.pnl}
-          pnlPercent={mockData.position.pnlPercent}
-          sold={mockData.position.sold}
-          tokenSymbol={mockData.token.ticker}
-        />
+        {/* Position Bar - Fixed (Now using real hooks) */}
+        <MobilePositionBar />
 
-        {/* Trade Panel - Fixed */}
-        <MobileTradePanel
-          activePageTab={activePageTab}
-          balance={0}
-          positions={1}
-          tokenAmount={0}
-        />
+        {/* Trade Panel - Fixed (Now using real hooks) */}
+        <MobileTradePanel />
       </div>
 
       {/* Token Info Drawer */}
