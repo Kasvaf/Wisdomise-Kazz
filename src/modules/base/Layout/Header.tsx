@@ -188,7 +188,7 @@ export const Header: FC<{
           }
           tooltipPlacement="top"
         >
-          <Button size={isMobile ? 'sm' : 'xs'} surface={1} variant="ghost">
+          <Button size="xs" surface={1} variant="ghost">
             <Icon className="[&>svg]:size-[18px]" name={bxUser} size={20} />{' '}
             <Icon name={bxMenu} size={20} />
           </Button>
