@@ -1,9 +1,11 @@
 import {
-  bxCog,
   bxError,
+  bxFilter,
   bxHide,
+  bxLinkExternal,
   bxLock,
   bxShow,
+  bxSortAlt2,
   bxStar,
   bxsShield,
 } from 'boxicons-quasar';
@@ -14,7 +16,7 @@ import { ReactComponent as SolanaIcon } from 'modules/shared/NetworkIcon/solana.
 import { Button } from 'modules/shared/v1-components/Button';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
 import { Toggle } from 'modules/shared/v1-components/Toggle';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { formatNumber } from 'utils/numbers';
 
 interface Position {
@@ -44,6 +46,10 @@ interface Holder {
   unrealizedPnl: number;
   remaining: string;
   remainingPercent: number;
+  fundingSource?: string;
+  fundingTime?: string;
+  fundingAmount?: number;
+  fundingIcon?: string;
   isLiquidityPool?: boolean;
   isLocked?: boolean;
   hasWarning?: boolean;
@@ -123,12 +129,15 @@ const DEMO_HOLDERS: Holder[] = [
     solBalance: 10.57,
     lastActive: '15m',
     bought: 34.2,
-    boughtValue: '$135.5',
+    boughtValue: '$1.52K',
     sold: 0,
     soldValue: '$0',
     unrealizedPnl: 1210,
-    remaining: '$1.17K',
-    remainingPercent: 3.42,
+    remaining: '$10.3K',
+    remainingPercent: 24.17,
+    fundingSource: '7unxGS...9ViE',
+    fundingTime: '49m',
+    fundingAmount: 0.033,
     hasWarning: true,
     isLocked: true,
   },
@@ -139,17 +148,55 @@ const DEMO_HOLDERS: Holder[] = [
     solBalance: 0.089,
     lastActive: '15m',
     bought: 31.4,
-    boughtValue: '$301.6',
+    boughtValue: '$796.9',
     sold: 0,
     soldValue: '$0',
     unrealizedPnl: 939.6,
-    remaining: '$1.08K',
-    remainingPercent: 31.43,
+    remaining: '$1.03K',
+    remainingPercent: 2.42,
+    fundingSource: 'AreDUi...enLv',
+    fundingTime: '9mc',
+    fundingAmount: 0.01,
     hasSparkle: true,
+  },
+  {
+    id: '4',
+    rank: 4,
+    wallet: 'ET5B8c...N3xi',
+    solBalance: 0.018,
+    lastActive: '24m',
+    bought: 37,
+    boughtValue: '$284.1',
+    sold: 0,
+    soldValue: '$0',
+    unrealizedPnl: 512,
+    remaining: '$1.02K',
+    remainingPercent: 2.4,
+    fundingSource: '2W18Kq...qLme',
+    fundingTime: '1d',
+    fundingAmount: 4.953,
+    isLocked: true,
+  },
+  {
+    id: '5',
+    rank: 5,
+    wallet: 'c3E4xF...Ft86',
+    solBalance: 42.05,
+    lastActive: '2h',
+    bought: 24,
+    boughtValue: '$278.2',
+    sold: 0,
+    soldValue: '$0',
+    unrealizedPnl: 234,
+    remaining: '$920.2',
+    remainingPercent: 2.164,
+    fundingSource: 'AucCPW...3xNr',
+    fundingTime: '3h',
+    fundingAmount: 2,
   },
 ];
 
-type TabType = 'positions' | 'top-holders' | 'top-traders' | 'bubble-chart';
+type TabType = 'positions' | 'top-holders' | 'bubble-chart';
 
 const HideTokenButton = ({ tokenAddress }: { tokenAddress: string }) => {
   const { addBlacklist } = useUserSettings();
@@ -188,12 +235,46 @@ export function MobileTablesDrawer() {
   const [sold, setSold] = useState(true);
   const [pnl, setPnl] = useState(true);
 
+  // Sorting state for U. PnL column
+  const [pnlSortOrder, setPnlSortOrder] = useState<'asc' | 'desc' | null>(null);
+
   const tabs: { id: TabType; label: string }[] = [
     { id: 'positions', label: 'Positions' },
     { id: 'top-holders', label: 'Top Holders' },
-    { id: 'top-traders', label: 'Top Traders' },
     { id: 'bubble-chart', label: 'Bubble chart' },
   ];
+
+  // Sort holders by Remaining (descending) by default, then by U. PnL if sort is active
+  const sortedHolders = useMemo(() => {
+    const sorted = [...DEMO_HOLDERS];
+
+    // If U. PnL sort is active, sort by U. PnL
+    if (pnlSortOrder) {
+      sorted.sort((a, b) => {
+        if (pnlSortOrder === 'asc') {
+          return a.unrealizedPnl - b.unrealizedPnl;
+        } else {
+          return b.unrealizedPnl - a.unrealizedPnl;
+        }
+      });
+    } else {
+      // Default: sort by Remaining percentage (descending - highest first)
+      sorted.sort((a, b) => b.remainingPercent - a.remainingPercent);
+    }
+
+    return sorted;
+  }, [pnlSortOrder]);
+
+  // Toggle U. PnL sort order
+  const handlePnlSort = () => {
+    if (pnlSortOrder === null) {
+      setPnlSortOrder('desc');
+    } else if (pnlSortOrder === 'desc') {
+      setPnlSortOrder('asc');
+    } else {
+      setPnlSortOrder(null);
+    }
+  };
 
   return (
     <div className="flex h-full flex-col bg-v1-background-primary">
@@ -298,36 +379,57 @@ export function MobileTablesDrawer() {
       {/* Top Holders Tab */}
       {activeTab === 'top-holders' && (
         <div className="flex-1 overflow-auto">
-          <div className="min-w-[700px]">
+          <div className="min-w-[800px]">
             {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2 font-medium text-[10px] text-neutral-600">
+            <div className="sticky top-0 z-10 grid grid-cols-[18px_28px_minmax(85px,100px)_minmax(95px,110px)_minmax(75px,90px)_minmax(75px,90px)_70px_minmax(70px,85px)_minmax(100px,120px)] gap-1 border-v1-border-tertiary border-b bg-v1-background-primary px-2 py-1.5 font-medium text-[9px] text-neutral-600">
+              <div></div>
+              <div></div>
+              <div>Wallet</div>
+              <div className="text-right">SOL (Active)</div>
+              <div className="text-right">Bought</div>
+              <div className="text-right">Sold</div>
               <Button
-                className="flex items-center justify-center"
-                fab={true}
-                onClick={() => setShowSettingsDrawer(true)}
+                className="!p-0 !text-neutral-600 hover:!text-white flex items-center justify-end gap-0.5"
+                onClick={handlePnlSort}
                 size="3xs"
                 variant="ghost"
               >
-                <Icon name={bxCog} size={12} />
+                <span>PnL</span>
+                <Icon name={bxSortAlt2} size={10} />
               </Button>
-              <div>Wallet</div>
-              <div className="text-right">SOL Balance</div>
-              <div className="text-right">Bought</div>
-              <div className="text-right">U. PnL</div>
+              <div className="text-right">Remain</div>
+              <div className="text-right">Funding</div>
             </div>
 
             {/* Holders List */}
-            {DEMO_HOLDERS.map(holder => (
+            {sortedHolders.map((holder, index) => (
               <div
-                className="grid grid-cols-[24px_minmax(100px,1fr)_90px_80px_75px] items-center gap-2 border-v1-background-primary border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
+                className="grid grid-cols-[18px_28px_minmax(85px,100px)_minmax(95px,110px)_minmax(75px,90px)_minmax(75px,90px)_70px_minmax(70px,85px)_minmax(100px,120px)] items-center gap-1 border-v1-background-primary border-b px-2 py-1.5 transition-colors hover:bg-v1-background-primary"
                 key={holder.id}
               >
-                <div className="text-center text-neutral-600 text-xs">
-                  {holder.rank}
+                {/* Rank */}
+                <div className="text-center text-[10px] text-neutral-600">
+                  {index + 1}
                 </div>
-                <div className="flex items-center gap-1">
+
+                {/* Filter & External Link Icons */}
+                <div className="flex items-center justify-center gap-0.5">
+                  <Icon
+                    className="cursor-pointer text-neutral-600 transition-colors hover:text-white"
+                    name={bxFilter}
+                    size={10}
+                  />
+                  <Icon
+                    className="cursor-pointer text-neutral-600 transition-colors hover:text-white"
+                    name={bxLinkExternal}
+                    size={10}
+                  />
+                </div>
+
+                {/* Wallet */}
+                <div className="flex items-center gap-0.5">
                   <span
-                    className={`truncate font-mono text-xs ${
+                    className={`truncate font-mono text-[10px] ${
                       holder.isLiquidityPool
                         ? 'text-v1-content-positive'
                         : 'text-white'
@@ -337,54 +439,79 @@ export function MobileTablesDrawer() {
                   </span>
                   {holder.hasShield && (
                     <Icon
-                      className="text-v1-content-info"
+                      className="shrink-0 text-v1-content-info"
                       name={bxsShield}
-                      size={12}
+                      size={10}
                     />
                   )}
                   {holder.hasWarning && (
                     <Icon
-                      className="text-v1-content-negative"
+                      className="shrink-0 text-v1-content-negative"
                       name={bxError}
-                      size={12}
+                      size={10}
                     />
                   )}
                   {holder.isLocked && (
                     <Icon
-                      className="text-v1-content-negative"
+                      className="shrink-0 text-v1-content-negative"
                       name={bxLock}
-                      size={12}
+                      size={10}
                     />
                   )}
                   {holder.hasSparkle && (
                     <Icon
-                      className="text-v1-background-brand"
+                      className="shrink-0 text-v1-background-brand"
                       name={bxStar}
-                      size={12}
+                      size={10}
                     />
                   )}
                 </div>
+
+                {/* SOL Balance & Last Active */}
                 <div className="text-right">
-                  <div className="flex items-center justify-end gap-1">
-                    <SolanaIcon className="inline-block h-3 w-3" />
-                    <span className="font-mono text-white text-xs">
-                      {holder.solBalance >= 1
-                        ? holder.solBalance.toFixed(1)
-                        : holder.solBalance.toFixed(3)}
+                  <div className="flex items-center justify-end gap-0.5">
+                    <SolanaIcon className="inline-block h-2.5 w-2.5" />
+                    <span className="font-mono text-[10px] text-white">
+                      {holder.solBalance < 0.01
+                        ? `0.0₃${Math.floor(holder.solBalance * 1000)}`
+                        : holder.solBalance < 1
+                          ? holder.solBalance.toFixed(3)
+                          : holder.solBalance.toFixed(2)}
                     </span>
                   </div>
-                  <span className="text-[10px] text-neutral-600">
+                  <span className="text-[9px] text-neutral-600">
                     ({holder.lastActive})
                   </span>
                 </div>
+
+                {/* Bought */}
                 <div className="text-right">
-                  <div className="font-mono text-v1-content-positive text-xs">
+                  <div className="font-mono text-[10px] text-white">
                     {holder.boughtValue}
                   </div>
+                  <div className="text-[8px] text-neutral-600">
+                    {holder.bought > 0
+                      ? `${holder.bought}M/${Math.floor(holder.bought * 2.8)}`
+                      : '0/0'}
+                  </div>
                 </div>
+
+                {/* Sold */}
+                <div className="text-right">
+                  <div className="font-mono text-[10px] text-v1-content-negative">
+                    {holder.soldValue}
+                  </div>
+                  <div className="text-[8px] text-neutral-600">
+                    {holder.sold > 0
+                      ? `${holder.sold}M/${Math.floor(holder.sold * 1.5)}`
+                      : '0/0'}
+                  </div>
+                </div>
+
+                {/* U. PnL */}
                 <div className="text-right">
                   <span
-                    className={`font-mono font-semibold text-xs ${
+                    className={`font-mono font-semibold text-[10px] ${
                       holder.unrealizedPnl >= 0
                         ? 'text-v1-content-positive'
                         : 'text-v1-content-negative'
@@ -394,55 +521,73 @@ export function MobileTablesDrawer() {
                     {formatCurrency(holder.unrealizedPnl)}
                   </span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
-      {/* Top Traders Tab */}
-      {activeTab === 'top-traders' && (
-        <div className="flex-1 overflow-auto">
-          <div className="min-w-[500px]">
-            {/* Header */}
-            <div className="sticky top-0 z-10 grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] gap-2 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2 font-medium text-[10px] text-neutral-600">
-              <div></div>
-              <div>Wallet</div>
-              <div className="text-right">SOL Balance</div>
-              <div className="text-right">Bought</div>
-            </div>
-
-            {/* Traders List */}
-            {DEMO_HOLDERS.map(holder => (
-              <div
-                className="grid grid-cols-[24px_minmax(100px,1fr)_90px_80px] items-center gap-2 border-v1-background-primary border-b px-3 py-2.5 transition-colors hover:bg-v1-background-primary"
-                key={holder.id}
-              >
-                <div className="text-center text-neutral-600 text-xs">
-                  {holder.rank}
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="truncate font-mono text-white text-xs">
-                    {holder.wallet}
-                  </span>
-                </div>
+                {/* Remaining */}
                 <div className="text-right">
-                  <div className="flex items-center justify-end gap-1">
-                    <SolanaIcon className="inline-block h-3 w-3" />
-                    <span className="font-mono text-white text-xs">
-                      {holder.solBalance >= 1
-                        ? holder.solBalance.toFixed(1)
-                        : holder.solBalance.toFixed(3)}
+                  <div className="flex items-center justify-end gap-0.5">
+                    <div
+                      className={`h-1 w-1 rounded-full ${
+                        holder.remainingPercent > 10
+                          ? 'bg-v1-content-negative'
+                          : holder.remainingPercent > 2
+                            ? 'bg-yellow-500'
+                            : 'bg-v1-content-positive'
+                      }`}
+                    />
+                    <span className="font-mono text-[10px] text-white">
+                      {holder.remaining}
                     </span>
                   </div>
-                  <span className="text-[10px] text-neutral-600">
-                    ({holder.lastActive})
-                  </span>
+                  <div className="flex flex-col items-end gap-0.5">
+                    <span className="text-[8px] text-neutral-600">
+                      {holder.remainingPercent.toFixed(1)}%
+                    </span>
+                    <div className="h-0.5 w-10 overflow-hidden rounded-full bg-v1-surface-l2">
+                      <div
+                        className={`h-full ${
+                          holder.remainingPercent > 10
+                            ? 'bg-v1-content-negative'
+                            : holder.remainingPercent > 2
+                              ? 'bg-yellow-500'
+                              : 'bg-v1-content-positive'
+                        }`}
+                        style={{
+                          width: `${Math.min(holder.remainingPercent * 3, 100)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
+
+                {/* Funding */}
                 <div className="text-right">
-                  <span className="font-mono text-v1-content-positive text-xs">
-                    {holder.boughtValue}
-                  </span>
+                  {holder.fundingSource ? (
+                    <>
+                      <div className="flex items-center justify-end gap-0.5">
+                        <Icon
+                          className="text-neutral-600"
+                          name={bxLinkExternal}
+                          size={8}
+                        />
+                        <span className="truncate font-mono text-[10px] text-white">
+                          {holder.fundingSource}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-end gap-0.5 text-[8px] text-neutral-600">
+                        <span>{holder.fundingTime}</span>
+                        <SolanaIcon className="inline-block h-2 w-2" />
+                        <span>
+                          {holder.fundingAmount && holder.fundingAmount < 0.01
+                            ? `0.0₃${Math.floor(holder.fundingAmount * 1000)}`
+                            : holder.fundingAmount?.toFixed(
+                                holder.fundingAmount >= 1 ? 1 : 2,
+                              )}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <span className="text-[10px] text-neutral-600">N/A</span>
+                  )}
                 </div>
               </div>
             ))}
