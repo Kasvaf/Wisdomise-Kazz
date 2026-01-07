@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useSwipeNavigation } from 'utils/useSwipeNavigation';
 import CoinChart from '../CoinChart';
-import { useUnifiedCoinDetails } from '../lib';
 import {
   MobilePageTabs,
   MobilePositionBar,
@@ -17,7 +16,6 @@ import {
 type PageTab = 'trade' | 'transactions';
 
 export default function CoinDetailsMobile() {
-  const { symbol } = useUnifiedCoinDetails();
   const [activePageTab, setActivePageTab] = useState<PageTab>('trade');
   const [showTokenInfo, setShowTokenInfo] = useState(false);
   const [isTablesOpen, setIsTablesOpen] = useState(false);
@@ -26,23 +24,10 @@ export default function CoinDetailsMobile() {
   const { onDragEnd } = useSwipeNavigation<PageTab>({
     tabs: ['trade', 'transactions'],
     activeTab: activePageTab,
-    onTabChange: setActivePageTab,
+    onTabChange: tab => setActivePageTab(tab as PageTab),
     swipeThreshold: 50,
     velocityThreshold: 500,
   });
-
-  // Mock data for header display only (positions/PnL now use real hooks)
-  const mockData = {
-    token: {
-      name: symbol.name || 'Unknown Token',
-      ticker: symbol.abbreviation || 'N/A',
-      age: '17h',
-      viewers: 6,
-      contractAddress: symbol.contractAddress || 'N/A',
-      platform: 'pump',
-      imageUrl: symbol.logo,
-    },
-  };
 
   return (
     <div className="flex h-full flex-col overflow-hidden overscroll-none bg-v1-background-primary">
@@ -51,14 +36,14 @@ export default function CoinDetailsMobile() {
         {/* 1. Page Tabs */}
         <MobilePageTabs
           activeTab={activePageTab}
-          onTabChange={setActivePageTab}
+          onTabChange={tab => setActivePageTab(tab as PageTab)}
         />
 
         {/* 2. Token Header */}
         <MobileTokenHeader
           onInfoClick={() => setShowTokenInfo(true)}
-          platform={mockData.token.platform as 'pump' | 'raydium'}
-          viewers={mockData.token.viewers}
+          platform={undefined}
+          viewers={undefined}
         />
 
         {/* 3. Stats Bar */}

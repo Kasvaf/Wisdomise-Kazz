@@ -1,14 +1,10 @@
+import { compressByLabel } from 'utils/numbers';
 import { useUnifiedCoinDetails } from '../../lib';
 
-function formatNumber(num: number, prefix = '$'): string {
-  if (num >= 1_000_000) {
-    return `${prefix}${(num / 1_000_000).toFixed(2)}M`;
-  }
-  if (num >= 1000) {
-    return `${prefix}${(num / 1000).toFixed(1)}K`;
-  }
-  return `${prefix}${num.toFixed(2)}`;
-}
+const formatCompact = (num: number, prefix = '$') => {
+  const { value, label } = compressByLabel(num);
+  return `${prefix}${value}${label}`;
+};
 
 export function MobileStatsBar() {
   const { marketData, validatedData } = useUnifiedCoinDetails();
@@ -18,19 +14,19 @@ export function MobileStatsBar() {
       <div className="flex items-center gap-1">
         <span className="font-medium text-[10px] text-neutral-600">MC</span>
         <span className="font-mono font-semibold text-v1-content-positive text-xs">
-          {formatNumber(marketData.marketCap ?? 0)}
+          {formatCompact(marketData.marketCap ?? 0)}
         </span>
       </div>
       <div className="flex items-center gap-1">
         <span className="font-medium text-[10px] text-neutral-600">V</span>
         <span className="font-mono font-semibold text-white text-xs">
-          {formatNumber(marketData.volume24h ?? 0)}
+          {formatCompact(marketData.volume24h ?? 0)}
         </span>
       </div>
       <div className="flex items-center gap-1">
         <span className="font-medium text-[10px] text-neutral-600">TS</span>
         <span className="font-mono font-semibold text-white text-xs">
-          {formatNumber(marketData.totalSupply ?? 0, '')}
+          {formatCompact(marketData.totalSupply ?? 0, '')}
         </span>
       </div>
       <div className="flex items-center gap-1">
