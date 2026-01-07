@@ -1,46 +1,135 @@
-import { bxShareAlt, bxShow, bxsShield, bxX } from 'boxicons-quasar';
+import { bxShow } from 'boxicons-quasar';
 import { NCoinAge } from 'modules/discovery/ListView/NetworkRadar/NCoinAge';
+import {
+  useBundleHolding,
+  useDevHolding,
+  useDexPaid,
+  useLpBurned,
+  useTop10Holding,
+} from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/useTokenInsight';
+import { useMediaDialog } from 'modules/discovery/ListView/XTracker/useMediaDialog';
 import Icon from 'modules/shared/Icon';
 import { TokenSocials } from 'modules/shared/TokenSocials';
-import { Button } from 'modules/shared/v1-components/Button';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useCopyToClipboard } from 'utils/useCopyToClipboard';
 import { useUnifiedCoinDetails } from '../../lib';
 
 interface MobileTokenHeaderProps {
   viewers?: number;
   platform?: string;
-  onInfoClick?: () => void;
 }
 
 export function MobileTokenHeader({
   viewers = 0,
   platform = 'pump',
-  onInfoClick,
 }: MobileTokenHeaderProps) {
   const { copyToClipboard, copied } = useCopyToClipboard();
-  const [showShareToast, setShowShareToast] = useState(false);
-  const { symbol, createdAt, socials, meta } = useUnifiedCoinDetails();
+  const { symbol, createdAt, socials, meta, validatedData, securityData } =
+    useUnifiedCoinDetails();
+  const { dialog, openMedia } = useMediaDialog();
 
   // Use meta.id as viewers count if available, otherwise use prop
   const viewersCount = meta?.id ?? viewers;
 
-  const handleShare = async () => {
-    const shareUrl = `${window.location.origin}/token/solana/${symbol.abbreviation}`;
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setShowShareToast(true);
-    } catch (err) {
-      console.error('Failed to copy:', err);
+  // Format viewers to show max 3 digits with 'k' suffix
+  const formatViewers = (count: number): string => {
+    if (count >= 1000) {
+      const thousands = count / 1000;
+      // Show max 3 digits total (e.g., "1.2k", "12k", "123k")
+      if (thousands >= 100) {
+        return `${Math.floor(thousands)}k`;
+      }
+      if (thousands >= 10) {
+        return `${Math.floor(thousands)}k`;
+      }
+      return `${thousands.toFixed(1)}k`;
     }
+    return count.toString();
   };
 
-  useEffect(() => {
-    if (showShareToast) {
-      const timer = setTimeout(() => setShowShareToast(false), 3000);
-      return () => clearTimeout(timer);
+  // Get formatted data using the same hooks as TokenInfoDrawer
+  const devHolding = useDevHolding(validatedData?.devHolding);
+  const bundleHolding = useBundleHolding(validatedData?.boundleHolding);
+  const top10Holding = useTop10Holding(validatedData?.top10Holding);
+  const lpBurned = useLpBurned(securityData?.lpBurned);
+  const dexPaid = useDexPaid(securityData?.dexPaid);
+
+  // Determine which risk indicators to show based on thresholds
+  const riskIndicators = useMemo(() => {
+    const indicators = [];
+
+    // Dev holder > 4%
+    if (
+      typeof validatedData?.devHolding === 'number' &&
+      validatedData.devHolding > 4
+    ) {
+      indicators.push({
+        key: 'dev',
+        label: 'Dev',
+        value: `${validatedData.devHolding.toFixed(1)}%`,
+        Icon: devHolding.icon,
+      });
     }
-  }, [showShareToast]);
+
+    // Bundle holder > 20%
+    if (
+      typeof validatedData?.boundleHolding === 'number' &&
+      validatedData.boundleHolding > 20
+    ) {
+      indicators.push({
+        key: 'bundle',
+        label: 'Bundle',
+        value: `${validatedData.boundleHolding.toFixed(1)}%`,
+        Icon: bundleHolding.icon,
+      });
+    }
+
+    // Top 10% holder > 25%
+    if (
+      typeof validatedData?.top10Holding === 'number' &&
+      validatedData.top10Holding > 25
+    ) {
+      indicators.push({
+        key: 'top10',
+        label: 'Top10',
+        value: `${validatedData.top10Holding.toFixed(1)}%`,
+        Icon: top10Holding.icon,
+      });
+    }
+
+    // LP not burnt
+    if (securityData?.lpBurned === false) {
+      indicators.push({
+        key: 'lp',
+        label: 'LP',
+        value: 'Not Burnt',
+        Icon: lpBurned.icon,
+      });
+    }
+
+    // Dex not paid
+    if (securityData?.dexPaid === false) {
+      indicators.push({
+        key: 'dex',
+        label: 'Dex',
+        value: 'Unpaid',
+        Icon: dexPaid.icon,
+      });
+    }
+
+    return indicators;
+  }, [
+    validatedData?.devHolding,
+    validatedData?.boundleHolding,
+    validatedData?.top10Holding,
+    securityData?.lpBurned,
+    securityData?.dexPaid,
+    devHolding.icon,
+    bundleHolding.icon,
+    top10Holding.icon,
+    lpBurned.icon,
+    dexPaid.icon,
+  ]);
 
   return (
     <div className="flex items-center justify-between gap-3 bg-v1-background-primary px-3 py-2.5">
@@ -50,7 +139,8 @@ export function MobileTokenHeader({
           {symbol.logo ? (
             <img
               alt={symbol.abbreviation || 'Token'}
-              className="h-full w-full object-cover"
+              className="h-full w-full cursor-pointer object-cover transition-opacity hover:opacity-80"
+              onClick={() => openMedia(symbol.logo || '')}
               src={symbol.logo}
             />
           ) : (
@@ -70,9 +160,9 @@ export function MobileTokenHeader({
       {/* Token Info - Center */}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         {/* Token Name & Symbol */}
-        <div className="flex min-w-0 items-center gap-2">
-          <div className="flex min-w-0 items-center gap-1.5">
-            <h1 className="truncate font-bold text-lg text-white leading-tight">
+        <div className="flex min-w-0 items-center gap-1">
+          <div className="flex shrink-0 items-center gap-1.5">
+            <h1 className="font-bold text-lg text-white leading-tight">
               {symbol.abbreviation}
             </h1>
             {/* Copy Address Button - Inline */}
@@ -148,59 +238,39 @@ export function MobileTokenHeader({
               <span className="text-neutral-700">·</span>
               <div className="flex shrink-0 items-center gap-1 text-neutral-500">
                 <Icon name={bxShow} size={13} />
-                <span className="font-medium text-[11px]">{viewersCount}</span>
+                <span className="font-medium text-[11px]">
+                  {formatViewers(viewersCount)}
+                </span>
               </div>
             </>
           )}
         </div>
       </div>
 
-      {/* Action Buttons - Right */}
-      <div className="flex shrink-0 items-center gap-1.5">
-        <Button
-          className="border border-v1-border-tertiary"
-          data-testid="button-token-info"
-          fab={true}
-          onClick={onInfoClick}
-          size="md"
-          surface={0}
-          variant="outline"
-        >
-          <Icon
-            className="text-v1-content-positive"
-            name={bxsShield}
-            size={16}
-          />
-        </Button>
-        <Button
-          className="border border-v1-border-tertiary"
-          data-testid="button-share"
-          fab={true}
-          onClick={handleShare}
-          size="md"
-          surface={0}
-          variant="outline"
-        >
-          <Icon className="text-neutral-600" name={bxShareAlt} size={16} />
-        </Button>
-      </div>
-
-      {/* Share Toast */}
-      {showShareToast && (
-        <div className="-translate-x-1/2 fixed top-4 left-1/2 z-50 flex items-center gap-3 rounded-lg border border-v1-border-tertiary bg-v1-surface-l1 px-4 py-3 shadow-lg">
-          <Icon className="text-neutral-600" name={bxShareAlt} size={16} />
-          <span className="text-sm text-white">Link copied to clipboard</span>
-          <Button
-            className="text-neutral-600"
-            fab={true}
-            onClick={() => setShowShareToast(false)}
-            size="3xs"
-            variant="ghost"
-          >
-            <Icon name={bxX} size={16} />
-          </Button>
+      {/* Risk Indicators - Right (Single Row, Max 3) */}
+      {riskIndicators.length > 0 && (
+        <div className="flex shrink-0 items-center gap-1">
+          {riskIndicators.slice(0, 3).map(indicator => (
+            <div
+              className="flex h-[44px] w-[38px] flex-col items-center justify-center gap-0.5"
+              key={indicator.key}
+            >
+              <div className="flex items-center gap-0.5">
+                <indicator.Icon className="h-2.5 w-2.5 shrink-0 text-red-500" />
+                <span className="font-medium text-[7px] text-red-500 leading-none">
+                  {indicator.label}
+                </span>
+              </div>
+              <span className="font-bold text-[9px] text-red-500 leading-none">
+                {indicator.value}
+              </span>
+            </div>
+          ))}
         </div>
       )}
+
+      {/* Logo Expansion Dialog */}
+      {dialog}
     </div>
   );
 }

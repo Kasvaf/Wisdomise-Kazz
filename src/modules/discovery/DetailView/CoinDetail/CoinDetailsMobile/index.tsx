@@ -26,9 +26,9 @@ export default function CoinDetailsMobile() {
   const [showTokenInfo, setShowTokenInfo] = useState(false);
   const [isTablesOpen, setIsTablesOpen] = useState(false);
 
-  // Volume filter state
+  // Volume filter state - default to 5m
   const [volumeResolution, setVolumeResolution] =
-    useState<TokenUpdateResolution>('all-time');
+    useState<TokenUpdateResolution>('5m');
   const [showVolumeFilter, setShowVolumeFilter] = useState(false);
 
   // Get token address for volume stream
@@ -85,11 +85,7 @@ export default function CoinDetailsMobile() {
         />
 
         {/* 2. Token Header */}
-        <MobileTokenHeader
-          onInfoClick={() => setShowTokenInfo(true)}
-          platform={undefined}
-          viewers={undefined}
-        />
+        <MobileTokenHeader platform={undefined} viewers={undefined} />
 
         {/* 3. Stats Bar */}
         <MobileStatsBar
@@ -101,6 +97,8 @@ export default function CoinDetailsMobile() {
               ? {
                   buyVolume: volumeData.buyVolume ?? 0,
                   sellVolume: volumeData.sellVolume ?? 0,
+                  numBuys: volumeData.numBuys ?? 0,
+                  numSells: volumeData.numSells ?? 0,
                 }
               : undefined
           }

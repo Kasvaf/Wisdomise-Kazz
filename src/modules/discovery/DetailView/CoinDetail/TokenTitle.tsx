@@ -46,6 +46,10 @@ export const TokenTitle: FC<{
     network: 'solana',
   });
 
+  // Hide BC for migrated tokens (100% bonding curve)
+  const isMigrated =
+    marketData.boundingCurve !== null && marketData.boundingCurve >= 0.99;
+
   return (
     <>
       <div
@@ -133,14 +137,20 @@ export const TokenTitle: FC<{
                     }}
                   />
                 </div>
-                <div className="h-4 w-px bg-white/10" />
-                <div className="flex flex-col justify-between gap-2">
-                  <p className="text-v1-content-secondary text-xs">B Curve</p>
-                  <NCoinBCurve
-                    className="text-xs"
-                    value={marketData.boundingCurve ?? 1}
-                  />
-                </div>
+                {!isMigrated && (
+                  <>
+                    <div className="h-4 w-px bg-white/10" />
+                    <div className="flex flex-col justify-between gap-2">
+                      <p className="text-v1-content-secondary text-xs">
+                        B Curve
+                      </p>
+                      <NCoinBCurve
+                        className="text-xs"
+                        value={marketData.boundingCurve ?? 1}
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="h-4 w-px bg-white/10" />
                 <div className="flex flex-col justify-between gap-2">
                   <p className="text-v1-content-secondary text-xs">
