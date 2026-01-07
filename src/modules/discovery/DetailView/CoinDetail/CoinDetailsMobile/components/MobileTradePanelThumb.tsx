@@ -1,4 +1,4 @@
-import { bxCog, bxWallet } from 'boxicons-quasar';
+import { bxCog, bxWallet, bxEditAlt, bxCheck } from 'boxicons-quasar';
 import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -18,12 +18,28 @@ import { useLastPriceStream } from 'services/price';
 import { useWalletsQuery } from 'services/rest/wallets';
 import { preventNonNumericInput } from 'utils/numbers';
 
+const SOL_PRESET_LIBRARY = [
+  { category: 'Micro', values: [0.001, 0.005, 0.01, 0.05] },
+  { category: 'Small', values: [0.1, 0.25, 0.5] },
+  { category: 'Medium', values: [1, 2, 5] },
+  { category: 'Large', values: [10, 20, 50, 100] },
+];
+
+const USD_PRESET_LIBRARY = [
+  { category: 'Small', values: [0.1, 0.5, 1, 2.5] },
+  { category: 'Medium', values: [5, 10, 20, 50] },
+  { category: 'Large', values: [100, 200, 500, 1000] },
+];
+
 export function MobileTradePanelThumb() {
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState<number | null>(null);
   const [showPresetDrawer, setShowPresetDrawer] = useState(false);
   const [showWalletDrawer, setShowWalletDrawer] = useState(false);
   const [showAmountsDrawer, setShowAmountsDrawer] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedCircleIndex, setSelectedCircleIndex] = useState<number | null>(null);
+  const [showPresetPicker, setShowPresetPicker] = useState(false);
 
   const { symbol } = useUnifiedCoinDetails();
   const slug = symbol.slug;
@@ -90,15 +106,28 @@ export function MobileTradePanelThumb() {
           return (
             <UnifiedButton
               active={isSelected}
+              className={isEditMode ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-v1-surface-l1 relative' : ''}
               key={index}
               onClick={() => {
-                setAmount(Number(amt));
-                swap(String(amt), mode === 'buy' ? 'LONG' : 'SHORT');
+                if (isEditMode) {
+                  // Edit mode: Open preset picker for this circle
+                  setSelectedCircleIndex(index);
+                  setShowPresetPicker(true);
+                } else {
+                  // Normal mode: Execute trade
+                  setAmount(Number(amt));
+                  swap(String(amt), mode === 'buy' ? 'LONG' : 'SHORT');
+                }
               }}
               size="circle"
               variant={mode}
             >
               <span className="text-xs">{amt}</span>
+              {isEditMode && (
+                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
+                  <Icon name={bxEditAlt} size={8} className="text-white" />
+                </div>
+              )}
             </UnifiedButton>
           );
         })}
@@ -137,6 +166,15 @@ export function MobileTradePanelThumb() {
           variant="neutral"
         >
           {presetLabels[activePresetIndex]} ▼
+        </UnifiedButton>
+
+        {/* Edit Button */}
+        <UnifiedButton
+          onClick={() => setIsEditMode(!isEditMode)}
+          size="icon"
+          variant="neutral"
+        >
+          <Icon name={isEditMode ? bxCheck : bxEditAlt} size={14} />
         </UnifiedButton>
 
         {/* Buy/Sell Toggle Switcher */}
@@ -218,6 +256,79 @@ export function MobileTradePanelThumb() {
           >
             Custodial Wallet
           </UnifiedButton>
+        </div>
+      </Dialog>
+
+      {/* Preset Picker Drawer */}
+      <Dialog
+        className="bg-v1-surface-l1"
+        contentClassName="p-0"
+        drawerConfig={{ position: 'bottom', closeButton: false }}
+        mode="drawer"
+        onClose={() => {
+          setShowPresetPicker(false);
+          setSelectedCircleIndex(null);
+        }}
+        open={showPresetPicker}
+      >
+        <div className="flex flex-col">
+          {/* Drawer Handle */}
+          <div className="flex items-center justify-center py-2">
+            <div className="h-1 w-12 rounded-full bg-neutral-700" />
+          </div>
+
+          {/* Header */}
+          <div className="flex items-center justify-between border-v1-border-tertiary border-b px-4 py-3">
+            <div>
+              <h3 className="font-semibold text-white">
+                Edit Amount {selectedCircleIndex !== null ? `#${selectedCircleIndex + 1}` : ''}
+              </h3>
+              <p className="text-xs text-neutral-400">
+                Current: {selectedCircleIndex !== null ? quickAmounts[selectedCircleIndex] : ''} {normQuote.toUpperCase()}
+              </p>
+            </div>
+            <button
+              className="text-blue-500 text-sm"
+              onClick={() => {
+                setShowPresetPicker(false);
+                setSelectedCircleIndex(null);
+              }}
+              type="button"
+            >
+              Done
+            </button>
+          </div>
+
+          {/* Categorized Presets */}
+          {(normQuote === 'sol' ? SOL_PRESET_LIBRARY : USD_PRESET_LIBRARY).map(category => (
+            <div key={category.category}>
+              <div className="px-4 pt-4 pb-2">
+                <span className="text-xs text-neutral-400">{category.category}</span>
+              </div>
+              <div className="grid grid-cols-3 gap-3 px-4 pb-3">
+                {category.values.map((value, idx) => {
+                  const currentValue = selectedCircleIndex !== null ? quickAmounts[selectedCircleIndex] : null;
+                  const isCurrentValue = String(value) === String(currentValue);
+                  return (
+                    <UnifiedButton
+                      active={isCurrentValue}
+                      key={idx}
+                      onClick={() => {
+                        if (selectedCircleIndex !== null) {
+                          updateQuotesQuickSet(normQuote, mode, selectedCircleIndex, String(value));
+                          setShowPresetPicker(false);
+                          setSelectedCircleIndex(null);
+                        }
+                      }}
+                      variant={mode}
+                    >
+                      {value}
+                    </UnifiedButton>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </Dialog>
       {loginModal}
