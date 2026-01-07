@@ -1,5 +1,5 @@
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
-import { bxTrophy } from 'boxicons-quasar';
+import { bxTrophy, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -7,6 +7,7 @@ import BtnBack from 'modules/base/BtnBack';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import type React from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
+import { useCallback, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useHasFlag } from 'services/rest';
 import Icon from 'shared/Icon';
@@ -29,12 +30,31 @@ const MobileHeader: React.FC<
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const handleSearchClick = useCallback(() => {
+    const searchOpener = searchRef.current?.querySelector('.custom-popover');
+    if (searchOpener instanceof HTMLElement) {
+      searchOpener.click();
+    }
+  }, []);
 
   const defaultChildren = (
     <>
       <Logo className="size-8" />
 
-      <div className="ml-auto has-[+div+div>*]:w-auto">
+      <div className="ml-auto flex items-center gap-2 has-[+div+div>*]:w-auto">
+        {/* Search Icon Button */}
+        {extension && (
+          <button
+            className="flex items-center justify-center rounded-md p-2 transition-colors hover:bg-v1-surface-l1 active:bg-v1-surface-l2"
+            onClick={handleSearchClick}
+            type="button"
+            aria-label="Open search"
+          >
+            <Icon className="text-white" name={bxSearch} size={20} />
+          </button>
+        )}
         {hasBack ? <BtnBack /> : <ProfileMenu />}
       </div>
 
@@ -78,9 +98,15 @@ const MobileHeader: React.FC<
           <div className="flex items-center justify-between">
             {children || defaultChildren}
           </div>
-          {extension && <div className="mt-2">{extension}</div>}
         </div>
       </div>
+
+      {/* Hidden search component - triggered by search icon */}
+      {extension && (
+        <div ref={searchRef} className="invisible fixed -left-[9999px]">
+          {extension}
+        </div>
+      )}
     </div>
   );
 };
