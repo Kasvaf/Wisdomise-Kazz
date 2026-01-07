@@ -59,17 +59,35 @@ export default defineConfig(config => ({
     drop: config.mode === 'production' ? ['debugger'] : [],
   },
   server: {
-    proxy: Object.fromEntries(
-      ['temple', 'account-panel', 'chatapp'].map(name => [
-        `/${name}-proxy`,
-        {
-          target: `https://stage-${name}.goatx.trade`,
-          changeOrigin: true,
-          secure: false,
-          rewrite: p => p.replace(`/${name}-proxy`, ''),
-        },
-      ]),
-    ),
+    allowedHosts: [
+      '.trycloudflare.com',
+      'localhost',
+    ],
+    proxy: {
+      ...Object.fromEntries(
+        ['temple', 'account-panel', 'chatapp'].map(name => [
+          `/${name}-proxy`,
+          {
+            target: `https://stage-${name}.goatx.trade`,
+            changeOrigin: true,
+            secure: false,
+            rewrite: p => p.replace(`/${name}-proxy`, ''),
+          },
+        ]),
+      ),
+      '/grpc-proxy': {
+        target: 'https://stage-grpc.goatx.trade',
+        changeOrigin: true,
+        secure: false,
+        rewrite: p => p.replace('/grpc-proxy', ''),
+      },
+      '/wsdm-app-proxy': {
+        target: 'https://stage-wsdm-app.goatx.trade',
+        changeOrigin: true,
+        secure: false,
+        rewrite: p => p.replace('/wsdm-app-proxy', ''),
+      },
+    },
     cors: false,
   },
   define: {

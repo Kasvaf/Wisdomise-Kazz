@@ -1,0 +1,60 @@
+/* ============================================
+   TOGGLE SWITCHER
+   Buy/Sell mode switcher with sliding indicator
+   ============================================ */
+
+.toggle-switcher {
+  position: relative;
+  display: inline-flex;
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 2px;
+  height: 40px;
+  min-width: 120px;
+}
+
+.toggle-switcher__option {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: 'monospace', ui-monospace, SFMono-Regular;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0 12px;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle-switcher__option--active {
+  color: #000000;
+}
+
+.toggle-switcher__indicator {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(50% - 2px);
+  height: calc(100% - 4px);
+  background: #10b981;
+  border-radius: 6px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+.toggle-switcher__indicator--sell {
+  left: calc(50%);
+  background: #ef4444;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2);
+}
+
+/* Hover states */
+.toggle-switcher__option:hover:not(.toggle-switcher__option--active) {
+  color: #cccccc;
+}

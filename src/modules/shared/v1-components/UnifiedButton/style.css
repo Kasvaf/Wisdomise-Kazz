@@ -1,0 +1,185 @@
+/* ============================================
+   UNIFIED BUTTON SYSTEM
+   One style, one interaction, one system
+   ============================================ */
+
+.unified-btn {
+  /* Base Structure */
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #333333;
+
+  /* Typography */
+  font-family: 'monospace', ui-monospace, SFMono-Regular;
+  font-size: 14px;
+  font-weight: 600;
+
+  /* Colors */
+  background: #1a1a1a;
+  color: #ffffff;
+
+  /* Interaction */
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  /* Remove default button styles */
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ============================================
+   BLOCK VARIANT
+   ============================================ */
+
+.unified-btn--block {
+  width: 100%;
+}
+
+/* ============================================
+   HOVER STATE
+   ============================================ */
+
+.unified-btn:hover:not(:disabled) {
+  background: #252525;
+  border-color: #404040;
+}
+
+/* ============================================
+   ACTIVE STATE (Pressed)
+   ============================================ */
+
+.unified-btn:active:not(:disabled) {
+  transform: scale(0.96);
+  background: #2a2a2a;
+}
+
+/* ============================================
+   SELECTED/ACTIVE STATE
+   ============================================ */
+
+.unified-btn--active {
+  border-color: #505050;
+  background: #2a2a2a;
+}
+
+/* ============================================
+   DISABLED STATE
+   ============================================ */
+
+.unified-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   BUY VARIANT
+   ============================================ */
+
+.unified-btn--buy {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.unified-btn--buy:hover:not(:disabled) {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: #10b981;
+}
+
+.unified-btn--buy.unified-btn--active {
+  background: #10b981;
+  color: #000000;
+  border-color: #10b981;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+.unified-btn--buy.unified-btn--active:hover {
+  background: #0ea472;
+}
+
+/* ============================================
+   SELL VARIANT
+   ============================================ */
+
+.unified-btn--sell {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.unified-btn--sell:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+}
+
+.unified-btn--sell.unified-btn--active {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2);
+}
+
+.unified-btn--sell.unified-btn--active:hover {
+  background: #dc2626;
+}
+
+/* ============================================
+   NEUTRAL VARIANT (For presets, settings)
+   ============================================ */
+
+.unified-btn--neutral {
+  border-color: #404040;
+}
+
+.unified-btn--neutral:hover:not(:disabled) {
+  background: #252525;
+  border-color: #505050;
+}
+
+.unified-btn--neutral.unified-btn--active {
+  background: #2a2a2a;
+  border-color: #0ea5e9;
+  color: #0ea5e9;
+}
+
+/* ============================================
+   CIRCULAR VARIANT (For amounts)
+   ============================================ */
+
+.unified-btn--circle {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   COMPACT VARIANT (For presets, settings)
+   ============================================ */
+
+.unified-btn--compact {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* ============================================
+   ICON BUTTON VARIANT
+   ============================================ */
+
+.unified-btn--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+}
