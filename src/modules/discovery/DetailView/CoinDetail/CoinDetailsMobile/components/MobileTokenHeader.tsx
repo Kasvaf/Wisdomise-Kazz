@@ -51,14 +51,14 @@ export function MobileTokenHeader({
   }, [showShareToast]);
 
   return (
-    <div className="flex flex-col bg-v1-background-primary px-3 py-1.5">
+    <div className="flex flex-col bg-v1-background-primary px-3 py-2">
       {/* Row 1: Token Info & Actions */}
       <div className="flex items-center justify-between gap-2">
         {/* Left: Token Icon + Info */}
-        <div className="flex min-w-0 flex-1 items-center gap-2.5">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
           {/* Token Icon with Platform Badge */}
           <div className="relative shrink-0">
-            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border-2 border-v1-border-tertiary bg-gradient-to-br from-yellow-500 to-orange-600">
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-v1-border-tertiary bg-gradient-to-br from-yellow-500 to-orange-600">
               {symbol.logo ? (
                 <img
                   alt={symbol.abbreviation || 'Token'}
@@ -66,7 +66,7 @@ export function MobileTokenHeader({
                   src={symbol.logo}
                 />
               ) : (
-                <span className="font-bold text-lg text-white">
+                <span className="font-bold text-base text-white">
                   {symbol.abbreviation?.[0] || '?'}
                 </span>
               )}
@@ -83,10 +83,10 @@ export function MobileTokenHeader({
           <div className="flex min-w-0 flex-1 flex-col gap-0.5">
             {/* Name Row */}
             <div className="flex min-w-0 items-center gap-1.5">
-              <span className="max-w-[80px] truncate font-bold text-sm text-white">
+              <span className="max-w-[80px] truncate font-bold text-base text-white">
                 {symbol.abbreviation}
               </span>
-              <span className="min-w-0 max-w-[120px] flex-1 truncate text-neutral-500 text-sm">
+              <span className="min-w-0 max-w-[120px] flex-1 truncate text-base text-neutral-500">
                 {symbol.name}
               </span>
               <Button
@@ -133,26 +133,25 @@ export function MobileTokenHeader({
               </div>
             </div>
 
-            {/* Extended Metrics Row */}
-            <div className="flex items-center gap-3 pt-1">
-              {/* Price */}
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-v1-content-secondary">
-                  Price
+            {/* 2x2 Metrics Grid */}
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 pt-0.5">
+              {/* Market Cap */}
+              <div className="flex flex-col">
+                <span className="text-v1-content-secondary text-xs">
+                  Market Cap
                 </span>
                 <ReadableNumber
-                  className="text-xs"
+                  className="font-medium text-sm"
+                  format={{ decimalLength: 1 }}
                   label="$"
                   popup="never"
-                  value={marketData.currentPrice}
+                  value={marketData.marketCap}
                 />
               </div>
 
-              <div className="h-3 w-px bg-white/10" />
-
               {/* TXNS */}
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-v1-content-secondary">
+              <div className="flex flex-col">
+                <span className="text-v1-content-secondary text-xs">
                   TXNS
                   {doesNCoinHaveLargeTxns({
                     totalNumBuys: marketData.totalNumBuys24h ?? 0,
@@ -162,7 +161,7 @@ export function MobileTokenHeader({
                     : ''}
                 </span>
                 <NCoinBuySell
-                  className="text-xs"
+                  className="text-sm"
                   imgClassName="size-3"
                   value={{
                     buys: tokenUpdate?.numBuys ?? 0,
@@ -171,18 +170,33 @@ export function MobileTokenHeader({
                 />
               </div>
 
-              <div className="h-3 w-px bg-white/10" />
-
-              {/* B Curve */}
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-v1-content-secondary">
-                  B Curve
+              {/* Volume 24h */}
+              <div className="flex flex-col">
+                <span className="text-v1-content-secondary text-xs">
+                  Volume 24h
                 </span>
-                <NCoinBCurve
-                  className="text-xs"
-                  value={marketData.boundingCurve ?? 1}
+                <ReadableNumber
+                  className="font-medium text-sm"
+                  format={{ decimalLength: 1 }}
+                  label="$"
+                  popup="never"
+                  value={marketData.volume24h}
                 />
               </div>
+
+              {/* Bonding Curve - Only show if <100% */}
+              {marketData.boundingCurve !== null &&
+                marketData.boundingCurve < 1 && (
+                  <div className="flex flex-col">
+                    <span className="text-v1-content-secondary text-xs">
+                      Bonding Curve
+                    </span>
+                    <NCoinBCurve
+                      className="text-sm"
+                      value={marketData.boundingCurve}
+                    />
+                  </div>
+                )}
             </div>
           </div>
         </div>
