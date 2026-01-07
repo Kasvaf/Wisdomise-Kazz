@@ -16,6 +16,7 @@ import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
 import QuoteSelector from 'modules/autoTrader/PageTrade/AdvancedSignalForm/QuoteSelector';
 import TokenActivity from 'modules/autoTrader/TokenActivity';
+import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
@@ -24,6 +25,7 @@ import { useState } from 'react';
 import Draggable, { type ControlPosition } from 'react-draggable';
 import { useSwap, useTokenBalance } from 'services/chains';
 import { useActiveWallet, useCustodialWallet } from 'services/chains/wallet';
+import { WatchEventType } from 'services/grpc/proto/wealth_manager';
 import { useLastPriceStream } from 'services/price';
 import { useHasFlag } from 'services/rest';
 import { useWalletsQuery } from 'services/rest/wallets';
@@ -60,6 +62,11 @@ export default function BtnInstantTrade({
     convertToUsd: false,
   });
 
+  const { init } = useTokenActivity({
+    slug,
+    type: WatchEventType.SWAP_POSITION_UPDATE,
+  });
+
   const swapAsync = useSwap({ source: 'terminal', slug, quote });
   const swap = async (amount: string, side: 'LONG' | 'SHORT') => {
     if (side === 'SHORT') {
@@ -72,6 +79,10 @@ export default function BtnInstantTrade({
     }
 
     await swapAsync(side, amount);
+  };
+
+  const sellInit = () => {
+    void swapAsync('SHORT', String(init));
   };
 
   const [isOpen, setIsOpen] = useLocalStorage('instant-open', false);
@@ -202,7 +213,7 @@ export default function BtnInstantTrade({
                     </div>
                     <hr className="my-3 border-white/5" />
                     <div className="mb-3 flex items-center justify-between">
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center">
                         Sell
                         <AmountTypeSwitch
                           onChange={newType => {
@@ -213,6 +224,14 @@ export default function BtnInstantTrade({
                           surface={1}
                           value={sellAmountType}
                         />
+                        <Button
+                          className="!text-v1-content-negative !px-1"
+                          onClick={sellInit}
+                          size="2xs"
+                          variant="ghost"
+                        >
+                          Sell init
+                        </Button>
                       </div>
                       <AccountBalance quote={quote} slug={slug} />
                     </div>
