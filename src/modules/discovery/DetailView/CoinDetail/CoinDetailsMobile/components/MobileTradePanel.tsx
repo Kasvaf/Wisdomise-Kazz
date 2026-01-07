@@ -1,4 +1,4 @@
-import { bxCheck, bxCog } from 'boxicons-quasar';
+import { bxCheck, bxCog, bxEditAlt } from 'boxicons-quasar';
 import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -27,6 +27,7 @@ export function MobileTradePanel() {
   const [orderType, setOrderType] = useState<'Instant' | 'Market' | 'Limit'>(
     'Instant',
   );
+  const [isEditMode, setIsEditMode] = useState(false);
 
   // Desktop hooks integration
   const { symbol } = useUnifiedCoinDetails();
@@ -48,10 +49,19 @@ export function MobileTradePanel() {
 
   const swapAsync = useSwap({ source: 'terminal', slug, quote });
 
-  const { settings: userSettings, updateQuickBuyActivePreset } =
-    useUserSettings();
+  const {
+    settings: userSettings,
+    updateQuickBuyActivePreset,
+    updateQuotesQuickSet,
+  } = useUserSettings();
 
   const sellAmountType = userSettings.quotes_quick_set.sell_selected_type;
+
+  // Get quick amounts from user settings based on current mode and quote
+  const normQuote = quote === WRAPPED_SOLANA_SLUG ? 'sol' : 'usd';
+  const quickAmounts = userSettings.quotes_quick_set[mode]?.[normQuote] || [
+    0.1, 0.2, 0.3, 0.6,
+  ];
 
   // Execute swap with desktop logic
   const swap = async (amountValue: string, side: 'LONG' | 'SHORT') => {
@@ -76,7 +86,6 @@ export function MobileTradePanel() {
   const activePresetIndex =
     userSettings?.quick_buy?.terminal?.active_preset ?? 0;
 
-  const quickAmounts = [0.1, 0.2, 0.3, 0.6];
   const orderTypes: Array<'Instant' | 'Market' | 'Limit'> = [
     'Instant',
     'Market',
@@ -118,6 +127,16 @@ export function MobileTradePanel() {
 
         {/* Buy/Sell Toggle - Right side */}
         <div className="flex-1"></div>
+        <Button
+          className="text-neutral-600 hover:text-white"
+          fab={true}
+          onClick={() => setIsEditMode(prev => !prev)}
+          size="3xs"
+          title={isEditMode ? 'Save Changes' : 'Edit Quick Amounts'}
+          variant="ghost"
+        >
+          <Icon name={isEditMode ? bxCheck : bxEditAlt} size={12} />
+        </Button>
         <ButtonSelect
           buttonClassName="px-4 font-bold"
           onChange={newMode => setMode(newMode)}
@@ -143,30 +162,53 @@ export function MobileTradePanel() {
 
       {/* Row 2: Quick Amount Buttons */}
       <div className="grid grid-cols-4 gap-2">
-        {quickAmounts.map(amt => {
-          const isSelected = amount === amt;
+        {quickAmounts.map((amt, index) => {
+          const isSelected = amount === Number(amt);
           return (
             <Button
               block
               className={`font-mono ${
-                isSelected
-                  ? mode === 'buy'
-                    ? '!text-black bg-v1-content-positive shadow-[0_0_12px_rgba(34,197,94,0.4)]'
-                    : '!text-white bg-v1-content-negative shadow-[0_0_12px_rgba(239,68,68,0.4)]'
-                  : mode === 'buy'
-                    ? 'border-v1-content-positive text-v1-content-positive hover:border-v1-content-positive hover:bg-v1-content-positive/10'
-                    : 'border-v1-content-negative text-v1-content-negative hover:border-v1-content-negative hover:bg-v1-content-negative/10'
+                isEditMode
+                  ? '!border-v1-border-brand !bg-v1-background-brand/10 !text-v1-content-brand'
+                  : isSelected
+                    ? mode === 'buy'
+                      ? '!text-black bg-v1-content-positive shadow-[0_0_12px_rgba(34,197,94,0.4)]'
+                      : '!text-white bg-v1-content-negative shadow-[0_0_12px_rgba(239,68,68,0.4)]'
+                    : mode === 'buy'
+                      ? 'border-v1-content-positive text-v1-content-positive hover:border-v1-content-positive hover:bg-v1-content-positive/10'
+                      : 'border-v1-content-negative text-v1-content-negative hover:border-v1-content-negative hover:bg-v1-content-negative/10'
               }`}
-              key={amt}
+              key={index}
               onClick={() => {
-                setAmount(amt);
-                swap(String(amt), mode === 'buy' ? 'LONG' : 'SHORT');
+                if (!isEditMode) {
+                  setAmount(Number(amt));
+                  swap(String(amt), mode === 'buy' ? 'LONG' : 'SHORT');
+                }
               }}
               size="lg"
               surface={1}
               variant="outline"
             >
-              {amt}
+              {isEditMode ? (
+                <input
+                  className="w-full bg-transparent text-center outline-none"
+                  inputMode="numeric"
+                  onChange={e => {
+                    updateQuotesQuickSet(
+                      normQuote,
+                      mode,
+                      index,
+                      e.target.value,
+                    );
+                  }}
+                  onKeyDown={preventNonNumericInput}
+                  pattern="[0-9]*"
+                  type="text"
+                  value={amt}
+                />
+              ) : (
+                amt
+              )}
             </Button>
           );
         })}
