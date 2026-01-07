@@ -2,8 +2,7 @@ import {
   bxCoin,
   bxGroup,
   bxLineChart,
-  bxsDownArrow,
-  bxsUpArrow,
+  bxTransfer,
   bxTrendingUp,
 } from 'boxicons-quasar';
 import { motion } from 'framer-motion';
@@ -122,6 +121,19 @@ export function MobileStatsBar({
 
   const volumeColor = getVolumeColor(totalVolume, volumeResolution);
 
+  // Calculate buy/sell ratio
+  const buySellRatio =
+    volumeData && volumeData.numSells > 0
+      ? volumeData.numBuys / volumeData.numSells
+      : 0;
+
+  // Determine ratio color (>1 = more buys = green, <1 = more sells = red, =1 = neutral)
+  const getRatioColor = (ratio: number): string => {
+    if (ratio > 1.2) return 'text-green-400';
+    if (ratio < 0.8) return 'text-red-400';
+    return 'text-yellow-400';
+  };
+
   return (
     <div
       className={`flex items-center ${isMigrated ? 'justify-around' : 'justify-between'} gap-3 border-v1-border-tertiary border-b bg-v1-background-primary px-3 py-2.5`}
@@ -182,27 +194,24 @@ export function MobileStatsBar({
         </motion.span>
       </motion.div>
 
-      {/* Buy/Sell */}
+      {/* Buy/Sell Ratio */}
       <div className="flex flex-col items-start gap-0.5">
         <div className="flex items-center gap-1">
+          <Icon className="text-white" name={bxTransfer} size={12} />
           <span className="font-medium text-[9px] text-white uppercase">
             B/S
           </span>
         </div>
-        <div className="flex items-center gap-1">
-          <div className="flex items-center gap-0.5">
-            <Icon className="text-green-400" name={bxsUpArrow} size={8} />
-            <span className="font-bold font-mono text-[11px] text-green-400 leading-none">
-              {volumeData?.numBuys ?? 0}
-            </span>
-          </div>
-          <span className="text-neutral-600">/</span>
-          <div className="flex items-center gap-0.5">
-            <Icon className="text-red-400" name={bxsDownArrow} size={8} />
-            <span className="font-bold font-mono text-[11px] text-red-400 leading-none">
-              {volumeData?.numSells ?? 0}
-            </span>
-          </div>
+        <div className="flex items-baseline gap-1">
+          <span
+            className={`font-bold font-mono text-sm leading-none ${getRatioColor(buySellRatio)}`}
+          >
+            {buySellRatio > 0 ? buySellRatio.toFixed(2) : '0.00'}
+          </span>
+          <span className="font-mono text-[8px] text-neutral-600 leading-none">
+            {formatCompact(volumeData?.buyVolume ?? 0)}/
+            {formatCompact(volumeData?.sellVolume ?? 0)}
+          </span>
         </div>
       </div>
 

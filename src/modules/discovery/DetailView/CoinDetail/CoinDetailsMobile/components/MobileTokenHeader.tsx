@@ -150,10 +150,18 @@ export function MobileTokenHeader({
           )}
         </div>
         {/* Platform Badge */}
-        <div className="-bottom-0.5 -right-0.5 absolute flex h-5 w-5 items-center justify-center rounded-full border-2 border-v1-background-primary bg-v1-background-positive">
-          <span className="font-bold text-[9px] text-white">
-            {platform[0].toUpperCase()}
-          </span>
+        <div className="-bottom-0.5 -right-0.5 absolute flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border-2 border-v1-background-primary bg-v1-background-positive">
+          {validatedData?.protocol?.logo ? (
+            <img
+              alt={validatedData.protocol.name || 'Platform'}
+              className="h-full w-full object-cover"
+              src={validatedData.protocol.logo}
+            />
+          ) : (
+            <span className="font-bold text-[9px] text-white">
+              {platform[0].toUpperCase()}
+            </span>
+          )}
         </div>
       </div>
 
