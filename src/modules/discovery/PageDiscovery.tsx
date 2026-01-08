@@ -1,5 +1,6 @@
 import { ActiveQuoteProvider } from 'modules/autoTrader/useActiveQuote';
 import PageWrapper from 'modules/base/PageWrapper';
+import { useNavigate } from 'react-router-dom';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { Draggable } from 'shared/v1-components/Draggable';
 import useIsMobile from 'utils/useIsMobile';
@@ -12,6 +13,7 @@ export default function PageDiscovery() {
   const [popups, togglePopup] = useDiscoveryListPopups();
   const urlParams = useDiscoveryUrlParams();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   return (
     <PageWrapper
@@ -27,7 +29,9 @@ export default function PageDiscovery() {
               header={LIST_NAMES[popup.list]}
               id={`discovery-popup-${popup.list}`}
               key={popup.list}
+              maximizable
               onClose={() => togglePopup(popup)}
+              onMaximize={() => navigate(`/${popup.list}`)}
               surface={1}
             >
               <ListView

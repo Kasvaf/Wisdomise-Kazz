@@ -1,4 +1,4 @@
-import { bxX } from 'boxicons-quasar';
+import { bxSquare, bxX } from 'boxicons-quasar';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -14,6 +14,8 @@ export type DraggableProps = {
   header?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  maximizable?: boolean;
+  onMaximize?: () => void;
   closable?: boolean;
   onClose?: () => void;
   surface?: Surface;
@@ -26,6 +28,8 @@ export function Draggable({
   className,
   closable = false,
   onClose,
+  maximizable = false,
+  onMaximize,
   surface = 1,
 }: DraggableProps) {
   const colors = useSurface(surface);
@@ -96,6 +100,21 @@ export function Draggable({
             <div className="flex grow items-center justify-start gap-2">
               {header}
             </div>
+            {maximizable && (
+              <Button
+                className="-me-1 text-v1-content-secondary"
+                fab
+                onClick={e => {
+                  e.stopPropagation();
+                  onMaximize?.();
+                }}
+                size="2xs"
+                surface={1}
+                variant="ghost"
+              >
+                <Icon className="[&>svg]:size-[14px]" name={bxSquare} />
+              </Button>
+            )}
             {closable && (
               <Button
                 className="text-v1-content-secondary"
