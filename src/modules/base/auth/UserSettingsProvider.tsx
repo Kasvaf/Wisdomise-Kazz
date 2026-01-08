@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import type { MetaFilters } from 'modules/discovery/ListView/Meta';
 import type { NetworkRadarTab } from 'modules/discovery/ListView/NetworkRadar/lib';
-import type { MetaFilters } from 'modules/discovery/PageMeta';
 import {
   createContext,
   type PropsWithChildren,

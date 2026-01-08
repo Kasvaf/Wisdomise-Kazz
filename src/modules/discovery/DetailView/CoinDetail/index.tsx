@@ -1,4 +1,4 @@
-import { useDiscoveryParams } from 'modules/discovery/lib';
+import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import type { FC } from 'react';
 import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
 import { CoinDetailsCompact } from './CoinDetailsCompact';
@@ -10,7 +10,7 @@ export const CoinDetail: FC<{
   expanded?: boolean;
   focus?: boolean;
 }> = ({ expanded, focus }) => {
-  const params = useDiscoveryParams();
+  const params = useDiscoveryUrlParams();
   const complexSlug = useResolveComplexSlug(params.slugs ?? []);
   if (!complexSlug) return <>loading...</>;
 

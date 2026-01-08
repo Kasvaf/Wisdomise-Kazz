@@ -1,8 +1,8 @@
 import { bxGroup, bxPauseCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import BtnQuickBuy from 'modules/autoTrader/BuySellTrader/QuickBuy/BtnQuickBuy';
+import { MetaNarrative } from 'modules/discovery/ListView/Meta/MetaList';
 import NCoinTransactions from 'modules/discovery/ListView/NetworkRadar/NCoinTransactions';
-import { MetaNarrative } from 'modules/discovery/PageMeta/MetaList';
 import {
   type FC,
   memo,

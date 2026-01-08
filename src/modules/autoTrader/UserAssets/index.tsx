@@ -164,7 +164,7 @@ export default function UserPortfolio(props: Props) {
           className={clsx(
             'sticky flex flex-col gap-2 pb-3',
             props.expanded &&
-              'sticky top-(--desktop-content-top) max-h-(--desktop-content-height) w-[17.25rem] overflow-y-auto border-r border-r-white/10 pr-3',
+              'sticky top-(--header-height) max-h-(--content-height) w-[17.25rem] overflow-y-auto border-r border-r-white/10 pr-3',
           )}
         >
           <UserTradingAssets />

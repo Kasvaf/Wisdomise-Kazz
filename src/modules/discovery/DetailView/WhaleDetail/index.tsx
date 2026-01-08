@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { useDiscoveryParams } from 'modules/discovery/lib';
+import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import { type FC, useState } from 'react';
 import type { Coin } from 'services/rest/types/shared';
 import { Dialog } from 'shared/v1-components/Dialog';
@@ -14,7 +14,7 @@ export const WhaleDetail: FC<{
   expanded?: boolean;
   focus?: boolean;
 }> = () => {
-  const params = useDiscoveryParams();
+  const params = useDiscoveryUrlParams();
   const [networkName, holderAddress] = params.slugs ?? [];
   const [selectedCoinTrx, setSelectedCoinTrx] = useState<Coin | undefined>(
     undefined,

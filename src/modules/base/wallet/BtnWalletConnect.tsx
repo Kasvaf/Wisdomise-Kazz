@@ -23,7 +23,7 @@ const BtnWalletConnect: React.FC<{ className?: string; size?: ButtonSize }> = ({
   if (!isLoggedIn) return null;
 
   return net ? (
-    <div onClick={onClick}>
+    <div className="contents" onClick={onClick}>
       {net === 'the-open-network' ? (
         <TonConnectButton
           className={clsx(className, !isMobile && 'h-[38px]')}

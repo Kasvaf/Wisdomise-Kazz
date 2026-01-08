@@ -2,8 +2,6 @@ import { bxPauseCircle, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { calcValueByThreshold } from 'modules/discovery/ListView/NetworkRadar/lib';
-import { type MetaTab, useMeta } from 'modules/discovery/PageMeta/lib';
-import MetaTabsFilters from 'modules/discovery/PageMeta/MetaTabsFilters';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Meta, MetaToken } from 'services/rest/meta';
@@ -14,6 +12,8 @@ import { Input } from 'shared/v1-components/Input';
 import Spin from 'shared/v1-components/Spin';
 import { Table, type TableColumn } from 'shared/v1-components/Table';
 import { Token } from 'shared/v1-components/Token';
+import { type MetaTab, useMeta } from './lib';
+import MetaTabsFilters from './MetaTabsFilters';
 
 export default function MetaList({
   title,

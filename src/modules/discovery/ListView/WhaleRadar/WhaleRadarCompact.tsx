@@ -1,5 +1,5 @@
 import { generateTokenLink } from 'modules/discovery/DetailView/CoinDetail/lib';
-import { useDiscoveryParams } from 'modules/discovery/lib';
+import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import { type FC, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -74,7 +74,7 @@ export const WhaleRadarCompact: FC<{ focus?: boolean }> = () => {
     [],
   );
 
-  const params = useDiscoveryParams();
+  const params = useDiscoveryUrlParams();
   const activeSlug = params.slugs?.[0];
 
   return (
