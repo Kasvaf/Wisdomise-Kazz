@@ -12,3 +12,146 @@
 .loading-indicator {
   background-color: #0c0c0c !important;
 }
+
+/* ========================================
+   MOBILE OPTIMIZATIONS
+   ======================================== */
+
+/* Mobile-specific styles for better touch interaction */
+@media (max-width: 768px) {
+  /* Larger touch targets for toolbar buttons */
+  .tv-toolbar-button {
+    min-height: 32px !important;
+    min-width: 32px !important;
+    padding: 6px 10px !important;
+  }
+
+  /* Optimize dropdown menus for mobile */
+  .tv-dropdown-behavior__button {
+    min-height: 32px !important;
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+
+  /* Better spacing for mobile toolbar */
+  .tv-header__area--left,
+  .tv-header__area--right {
+    gap: 4px !important;
+  }
+
+  /* Optimize legend for mobile screens */
+  .tv-legend {
+    font-size: 11px !important;
+  }
+
+  /* Better crosshair tooltip visibility on mobile */
+  .tv-floating-tooltip {
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Optimize price scale labels for mobile */
+  .tv-price-axis__label {
+    font-size: 11px !important;
+  }
+
+  /* Better zoom button visibility on mobile */
+  .tv-zoom-button {
+    min-height: 36px !important;
+    min-width: 36px !important;
+    opacity: 0.9 !important;
+  }
+
+  /* Optimize context menus for touch */
+  .tv-context-menu {
+    font-size: 14px !important;
+  }
+
+  .tv-context-menu__item {
+    min-height: 40px !important;
+    padding: 10px 16px !important;
+  }
+
+  /* Better modal/dialog sizing on mobile */
+  .tv-dialog {
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+  }
+
+  /* Optimize scrollbars for mobile */
+  .tv-scrollable::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+  }
+}
+
+/* Touch-specific optimizations (any touch device) */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .tv-toolbar-button:hover {
+    opacity: 1 !important;
+  }
+
+  /* Better active states for touch */
+  .tv-toolbar-button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+
+  /* Optimize touch scrolling */
+  .tv-chart-container {
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+  }
+}
+
+/* Extra small mobile devices (< 480px) */
+@media (max-width: 480px) {
+  /* Compact toolbar for very small screens */
+  .tv-toolbar-button {
+    min-width: 28px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+
+  /* Hide less critical UI elements on very small screens */
+  .tv-header__area--center {
+    flex-shrink: 1 !important;
+  }
+
+  /* Optimize legend placement */
+  .tv-legend {
+    font-size: 10px !important;
+  }
+
+  /* Smaller floating tooltip for tiny screens */
+  .tv-floating-tooltip {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  /* Maximize chart space in landscape */
+  .tv-header {
+    min-height: 36px !important;
+  }
+
+  /* Compact toolbar in landscape */
+  .tv-toolbar-button {
+    min-height: 28px !important;
+    padding: 4px 8px !important;
+  }
+}
+
+/* High DPI mobile displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper rendering on retina displays */
+  .tv-chart-container canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}

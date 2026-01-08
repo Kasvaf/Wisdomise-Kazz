@@ -3,7 +3,7 @@ import { RouterBaseName } from 'config/constants';
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useTotalSupply } from 'modules/discovery/DetailView/CoinDetail/useTotalSupply';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
 import { useTokenPairsQuery } from 'services/rest';
@@ -23,6 +23,8 @@ import { useChartConvertToUSD, useChartIsMarketCap } from './chartSettings';
 import { LocalStorageSaveLoadAdapter } from './localStorageSaveLoadAdapter';
 import makeDataFeed from './makeDataFeed';
 import { useSwapActivityLines } from './useChartAnnotations';
+import { getDeviceType, isMobileDevice } from './utils';
+import { getEnabledFeatures, getDisabledFeatures, getChartOverrides } from './chartConfig';
 
 const AdvancedChart: React.FC<{
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
@@ -60,6 +62,19 @@ const AdvancedChart: React.FC<{
   const [quote, setQuote] = useActiveQuote();
   const { data: pairs } = useTokenPairsQuery(slug);
 
+  // Detect device type for responsive configuration
+  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>(() => getDeviceType());
+
+  // Update device type on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setDeviceType(getDeviceType());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
   useEffect(() => {
     if (!totalSupply || !pairs?.length) return;
@@ -71,6 +86,12 @@ const AdvancedChart: React.FC<{
     // if (!pair) return;
 
     let isDestroyed = false;
+
+    // Get device-specific configurations
+    const isMobile = deviceType === 'mobile' || deviceType === 'tablet';
+    const enabledFeatures = getEnabledFeatures(deviceType);
+    const disabledFeatures = getDisabledFeatures(deviceType);
+    const chartOverrides = getChartOverrides(deviceType);
 
     const widget = new Widget({
       symbol: symbolName || slug,
@@ -94,27 +115,11 @@ const AdvancedChart: React.FC<{
       custom_css_url: `${RouterBaseName ? `/${RouterBaseName}` : ''}/charting_library/custom.css`,
 
       locale: language as LanguageCode,
-      enabled_features: [
-        'seconds_resolution',
-        'use_localstorage_for_settings',
-        'two_character_bar_marks_labels',
-        'hide_left_toolbar_by_default',
-      ],
-      disabled_features: [
-        'symbol_search_hot_key',
-        'hide_price_scale_global_last_bar_value',
-        'chart_style_hilo_last_price',
-        'header_symbol_search',
-        'right_toolbar',
-        'header_compare',
-        'save_chart_properties_to_local_storage',
-        'header_resolutions',
-        'header_chart_type',
-        'header_settings',
-        'header_indicators',
-        'header_screenshot',
-        'header_undo_redo',
-      ],
+
+      // Use device-specific feature sets
+      enabled_features: enabledFeatures,
+      disabled_features: disabledFeatures,
+
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as Timezone,
       interval: initResolution,
       time_frames: [
@@ -123,10 +128,10 @@ const AdvancedChart: React.FC<{
         { title: '5d', text: '5D', resolution: '5' as ResolutionString },
         { title: '1d', text: '1D', resolution: '1' as ResolutionString },
       ],
-      overrides: {
-        'paneProperties.backgroundType': 'solid',
-        'paneProperties.background': '#0c0c0c',
-      },
+
+      // Use device-specific overrides
+      overrides: chartOverrides,
+
       favorites: {
         intervals: [
           '1S',
@@ -180,7 +185,7 @@ const AdvancedChart: React.FC<{
         widget.saveChartToServer(undefined, undefined, { chartName: 'GoatX' });
       });
 
-      // Create timeframe selector dropdown
+      // Create timeframe selector dropdown (optimized for mobile)
       if (!isDestroyed) {
         const timeframes: Array<{
           resolution: ResolutionString;
@@ -206,8 +211,13 @@ const AdvancedChart: React.FC<{
 
         const currentInterval = widget.activeChart().resolution();
 
+        // Mobile-optimized dropdown with larger touch targets
+        const dropdownIcon = isMobile
+          ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="10" height="10" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>'
+          : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>';
+
         const timeframeDropdown = await widget.createDropdown({
-          icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" width="8" height="8" style="padding-right: 4px"><path fill="currentColor" d="M0 1.475l7.396 6.04.596.485.593-.49L16 1.39 14.807 0 7.393 6.122 8.58 6.12 1.186.08z"></path></svg>',
+          icon: dropdownIcon,
           tooltip: 'Timeframe',
           items: timeframes.map(tf => ({
             title: tf.label,
@@ -266,10 +276,19 @@ const AdvancedChart: React.FC<{
 
       if (quote === WRAPPED_SOLANA_SLUG && !isDestroyed) {
         const convertToUsdButton = widget.createButton();
+
+        // Mobile-optimized button styling
+        if (isMobile) {
+          convertToUsdButton.style.padding = '6px 10px';
+          convertToUsdButton.style.fontSize = '13px';
+          convertToUsdButton.style.minHeight = '32px';
+        }
+
         function setConvertButtonInnerContent() {
-          const colorStyle = 'style="color:#beff21"';
-          convertToUsdButton.innerHTML = `<span ${convertToUsd ? colorStyle : ''}>USD</span>/<span ${
-            convertToUsd ? '' : colorStyle
+          const colorStyle = 'style="color:#beff21;font-weight:500"';
+          const inactiveStyle = isMobile ? 'style="opacity:0.7"' : '';
+          convertToUsdButton.innerHTML = `<span ${convertToUsd ? colorStyle : inactiveStyle}>USD</span>/<span ${
+            convertToUsd ? inactiveStyle : colorStyle
           }>${
             pairs?.find(x => x.quote.slug === quote)?.quote.abbreviation ?? ''
           }</span>`;
@@ -287,11 +306,20 @@ const AdvancedChart: React.FC<{
 
       // Create button for MarketCap/Price toggle in top toolbar
       const button = widget.createButton();
+
+      // Mobile-optimized button styling
+      if (isMobile) {
+        button.style.padding = '6px 10px';
+        button.style.fontSize = '13px';
+        button.style.minHeight = '32px';
+      }
+
       function setButtonInnerContent() {
-        const colorStyle = 'style="color:#beff21"';
+        const colorStyle = 'style="color:#beff21;font-weight:500"';
+        const inactiveStyle = isMobile ? 'style="opacity:0.7"' : '';
         button.innerHTML = `<span ${
-          isMarketCap ? colorStyle : ''
-        }>MarketCap</span>/<span ${isMarketCap ? '' : colorStyle}>Price</span>`;
+          isMarketCap ? colorStyle : inactiveStyle
+        }>${isMobile ? 'MCap' : 'MarketCap'}</span>/<span ${isMarketCap ? inactiveStyle : colorStyle}>Price</span>`;
       }
       setButtonInnerContent();
       button.addEventListener('click', () => {
@@ -330,11 +358,20 @@ const AdvancedChart: React.FC<{
     setQuote,
     setConvertToUsd,
     symbolName,
+    deviceType, // Re-render chart when device type changes
   ]);
 
   return (
     <>
-      <div className={clsx(className)} ref={chartContainerRef} />
+      <div
+        className={clsx(className)}
+        ref={chartContainerRef}
+        style={{
+          minHeight: deviceType === 'mobile' ? '400px' : '500px',
+          height: '100%',
+          width: '100%',
+        }}
+      />
       {content}
     </>
   );
