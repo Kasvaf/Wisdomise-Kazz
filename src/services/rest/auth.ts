@@ -8,7 +8,7 @@ import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { FetchError } from 'ofetch';
 import { useRef } from 'react';
 import { isLocal } from 'utils/version';
-import { useCustodialWallet, useDisconnectAll } from '../chains/wallet';
+import { useDisconnectWallet } from '../chains/wallet';
 import { useUserStorage } from './userStorage';
 
 interface SuccessResponse {
@@ -232,17 +232,15 @@ export function useMiniAppWebLoginMutation() {
 
 export function useLogoutMutation() {
   const queryClient = useQueryClient();
-  const disconnectChains = useDisconnectAll();
-  const { delCw } = useCustodialWallet();
+  const disconnectChains = useDisconnectWallet();
 
-  return useMutation<boolean, unknown, unknown>({
+  return useMutation({
     mutationFn: async () => {
       const data = await ofetch<SuccessResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/logout/`,
         { credentials: 'include', body: {}, method: 'post' },
       );
       delJwtToken();
-      delCw();
       await Promise.all([
         disconnectChains(),
         clearPersistCache(),

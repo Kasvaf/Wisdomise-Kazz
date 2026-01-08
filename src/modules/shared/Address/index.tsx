@@ -4,7 +4,7 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/l
 import { ReactComponent as DevIcon } from 'modules/discovery/ListView/NetworkRadar/NCoinTokenInsight/dev_holding.svg';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { type FC, useMemo } from 'react';
-import { useUserWallets } from 'services/chains/wallet';
+import { useWalletsAddresses } from 'services/chains/wallet';
 import { useTokenReview } from 'services/rest/discovery';
 import { useKolWallets } from 'services/rest/kol';
 import { HoverTooltip } from 'shared/HoverTooltip';
@@ -21,7 +21,7 @@ export const Address: FC<{
   const { developer, symbol } = useUnifiedCoinDetails();
 
   const trackedWallets = useTrackedWallets();
-  const userWallets = useUserWallets();
+  const userWallets = useWalletsAddresses();
   const { data: kolWallets } = useKolWallets({});
 
   const tokenReview = useTokenReview({ slug: symbol.slug });

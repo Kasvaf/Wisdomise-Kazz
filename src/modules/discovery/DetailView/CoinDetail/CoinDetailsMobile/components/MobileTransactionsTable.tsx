@@ -18,7 +18,7 @@ import { ReadableNumber } from 'modules/shared/ReadableNumber';
 import { Button } from 'modules/shared/v1-components/Button';
 import { useMemo, useRef, useState } from 'react';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
-import { useUserWallets } from 'services/chains/wallet';
+import { useWalletsAddresses } from 'services/chains/wallet';
 import { useTokenPairsQuery } from 'services/rest';
 
 export function MobileTransactionsTable() {
@@ -27,7 +27,7 @@ export function MobileTransactionsTable() {
   const asset = symbol.contractAddress!;
   const slug = symbol.slug;
   const trackedWallets = useTrackedWallets();
-  const userWallets = useUserWallets();
+  const userWallets = useWalletsAddresses();
   const {
     startTime,
     endTime,

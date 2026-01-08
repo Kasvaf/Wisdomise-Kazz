@@ -7,7 +7,7 @@ import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { USDT_SLUG } from 'services/chains/constants';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useConnectedWallet } from 'services/chains/wallet';
 import Button from 'shared/Button';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
@@ -28,7 +28,7 @@ const PositionsExpandable = ({
   const [slug, setSlug] = useState('');
 
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
-  const wallet = useActiveWallet();
+  const wallet = useConnectedWallet();
   useEnsureIsSupportedPair({
     slug,
     nextPage: '/discovery?list=positions&view=list',

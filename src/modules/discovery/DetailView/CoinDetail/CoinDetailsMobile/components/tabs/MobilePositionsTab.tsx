@@ -3,7 +3,7 @@ import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useHideToken } from 'modules/shared/BlacklistManager/useHideToken';
 import Icon from 'modules/shared/Icon';
 import { Button } from 'modules/shared/v1-components/Button';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useWallets } from 'services/chains/wallet';
 import { useSwapPositionsQuery } from 'services/rest/trader';
 import { compressByLabel } from 'utils/numbers';
 
@@ -50,7 +50,8 @@ const HideTokenButton = ({ tokenAddress }: { tokenAddress: string }) => {
 };
 
 export function MobilePositionsTab() {
-  const { address } = useActiveWallet();
+  const { primaryWallet } = useWallets();
+  const address = primaryWallet?.address;
 
   const { data: positionsData, isLoading } = useSwapPositionsQuery({
     status: 'ACTIVE',

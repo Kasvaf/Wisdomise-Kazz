@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
 import { type ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useConnectedWallet } from 'services/chains/wallet';
 import { useAccountQuery } from 'services/rest';
 import {
   useGenerateNonceQuery,
@@ -32,7 +32,7 @@ export default function ConnectWalletGuard({
 }: Props) {
   const { t } = useTranslation('wisdomise-token');
 
-  const wallet = useActiveWallet();
+  const wallet = useConnectedWallet();
   const { disconnect } = useDisconnect();
   const { data: account, isLoading: isAccountLoading } = useAccountQuery();
   const { mutateAsync: mutateNonceVerification, isPending: isVerifying } =

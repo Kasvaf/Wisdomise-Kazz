@@ -1,4 +1,4 @@
-import { bxCog, bxWallet, bxEditAlt, bxCheck } from 'boxicons-quasar';
+import { bxCheck, bxEditAlt, bxWallet } from 'boxicons-quasar';
 import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -13,7 +13,7 @@ import { UnifiedButton } from 'modules/shared/v1-components/UnifiedButton';
 import { useEffect, useState } from 'react';
 import { useSwap, useTokenBalance } from 'services/chains';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
-import { useCustodialWallet } from 'services/chains/wallet';
+import { useWallets } from 'services/chains/wallet';
 import { useLastPriceStream } from 'services/price';
 import { useWalletsQuery } from 'services/rest/wallets';
 import { preventNonNumericInput } from 'utils/numbers';
@@ -38,7 +38,9 @@ export function MobileTradePanelThumb() {
   const [showWalletDrawer, setShowWalletDrawer] = useState(false);
   const [showAmountsDrawer, setShowAmountsDrawer] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedCircleIndex, setSelectedCircleIndex] = useState<number | null>(null);
+  const [selectedCircleIndex, setSelectedCircleIndex] = useState<number | null>(
+    null,
+  );
   const [showPresetPicker, setShowPresetPicker] = useState(false);
 
   const { symbol } = useUnifiedCoinDetails();
@@ -48,8 +50,8 @@ export function MobileTradePanelThumb() {
   const { data: baseBalance } = useTokenBalance({ slug });
   const isLoggedIn = useIsLoggedIn();
   const [loginModal, open] = useModalLogin();
-  const { setCw } = useCustodialWallet();
-  const { data: wallets } = useWalletsQuery();
+  const { setIsCustodial } = useWallets();
+  useWalletsQuery();
 
   const { data: basePriceByQuote } = useLastPriceStream({
     slug,
@@ -59,11 +61,7 @@ export function MobileTradePanelThumb() {
 
   const swapAsync = useSwap({ source: 'terminal', slug, quote });
 
-  const {
-    settings: userSettings,
-    updateQuickBuyActivePreset,
-    updateQuotesQuickSet,
-  } = useUserSettings();
+  const { settings: userSettings, updateQuotesQuickSet } = useUserSettings();
 
   const sellAmountType = userSettings.quotes_quick_set.sell_selected_type;
   const normQuote = quote === WRAPPED_SOLANA_SLUG ? 'sol' : 'usd';
@@ -106,7 +104,11 @@ export function MobileTradePanelThumb() {
           return (
             <UnifiedButton
               active={isSelected}
-              className={isEditMode ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-v1-surface-l1 relative' : ''}
+              className={
+                isEditMode
+                  ? 'relative ring-2 ring-blue-500 ring-offset-2 ring-offset-v1-surface-l1'
+                  : ''
+              }
               key={index}
               onClick={() => {
                 if (isEditMode) {
@@ -124,8 +126,8 @@ export function MobileTradePanelThumb() {
             >
               <span className="text-xs">{amt}</span>
               {isEditMode && (
-                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
-                  <Icon name={bxEditAlt} size={8} className="text-white" />
+                <div className="-top-1 -right-1 absolute flex h-4 w-4 items-center justify-center rounded-full bg-blue-500">
+                  <Icon className="text-white" name={bxEditAlt} size={8} />
                 </div>
               )}
             </UnifiedButton>
@@ -178,7 +180,7 @@ export function MobileTradePanelThumb() {
         </UnifiedButton>
 
         {/* Buy/Sell Toggle Switcher */}
-        <ToggleSwitcher value={mode} onChange={setMode} />
+        <ToggleSwitcher onChange={setMode} value={mode} />
       </div>
 
       {/* Amounts Drawer */}
@@ -247,9 +249,7 @@ export function MobileTradePanelThumb() {
           <UnifiedButton
             block
             onClick={() => {
-              if (wallets?.results?.[0]) {
-                setCw(wallets.results[0].key);
-              }
+              setIsCustodial(true);
               setShowWalletDrawer(false);
             }}
             variant="neutral"
@@ -281,10 +281,17 @@ export function MobileTradePanelThumb() {
           <div className="flex items-center justify-between border-v1-border-tertiary border-b px-4 py-3">
             <div>
               <h3 className="font-semibold text-white">
-                Edit Amount {selectedCircleIndex !== null ? `#${selectedCircleIndex + 1}` : ''}
+                Edit Amount{' '}
+                {selectedCircleIndex !== null
+                  ? `#${selectedCircleIndex + 1}`
+                  : ''}
               </h3>
-              <p className="text-xs text-neutral-400">
-                Current: {selectedCircleIndex !== null ? quickAmounts[selectedCircleIndex] : ''} {normQuote.toUpperCase()}
+              <p className="text-neutral-400 text-xs">
+                Current:{' '}
+                {selectedCircleIndex !== null
+                  ? quickAmounts[selectedCircleIndex]
+                  : ''}{' '}
+                {normQuote.toUpperCase()}
               </p>
             </div>
             <button
@@ -300,35 +307,48 @@ export function MobileTradePanelThumb() {
           </div>
 
           {/* Categorized Presets */}
-          {(normQuote === 'sol' ? SOL_PRESET_LIBRARY : USD_PRESET_LIBRARY).map(category => (
-            <div key={category.category}>
-              <div className="px-4 pt-4 pb-2">
-                <span className="text-xs text-neutral-400">{category.category}</span>
+          {(normQuote === 'sol' ? SOL_PRESET_LIBRARY : USD_PRESET_LIBRARY).map(
+            category => (
+              <div key={category.category}>
+                <div className="px-4 pt-4 pb-2">
+                  <span className="text-neutral-400 text-xs">
+                    {category.category}
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-3 px-4 pb-3">
+                  {category.values.map((value, idx) => {
+                    const currentValue =
+                      selectedCircleIndex !== null
+                        ? quickAmounts[selectedCircleIndex]
+                        : null;
+                    const isCurrentValue =
+                      String(value) === String(currentValue);
+                    return (
+                      <UnifiedButton
+                        active={isCurrentValue}
+                        key={idx}
+                        onClick={() => {
+                          if (selectedCircleIndex !== null) {
+                            updateQuotesQuickSet(
+                              normQuote,
+                              mode,
+                              selectedCircleIndex,
+                              String(value),
+                            );
+                            setShowPresetPicker(false);
+                            setSelectedCircleIndex(null);
+                          }
+                        }}
+                        variant={mode}
+                      >
+                        {value}
+                      </UnifiedButton>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="grid grid-cols-3 gap-3 px-4 pb-3">
-                {category.values.map((value, idx) => {
-                  const currentValue = selectedCircleIndex !== null ? quickAmounts[selectedCircleIndex] : null;
-                  const isCurrentValue = String(value) === String(currentValue);
-                  return (
-                    <UnifiedButton
-                      active={isCurrentValue}
-                      key={idx}
-                      onClick={() => {
-                        if (selectedCircleIndex !== null) {
-                          updateQuotesQuickSet(normQuote, mode, selectedCircleIndex, String(value));
-                          setShowPresetPicker(false);
-                          setSelectedCircleIndex(null);
-                        }
-                      }}
-                      variant={mode}
-                    >
-                      {value}
-                    </UnifiedButton>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </Dialog>
       {loginModal}
@@ -352,7 +372,7 @@ function TraderPresetSettingsDrawer({
     if (settings?.presets) {
       setPresets([...settings.presets]);
     }
-  }, [open, settings?.presets]);
+  }, [settings?.presets]);
 
   if (!presets || !settings?.presets) return null;
 
@@ -366,8 +386,10 @@ function TraderPresetSettingsDrawer({
       open={open}
     >
       <div>
-        <h1 className="mb-6 font-semibold text-xl text-white">Quick Settings</h1>
-        <p className="mb-2 text-xs text-neutral-400">Presets</p>
+        <h1 className="mb-6 font-semibold text-white text-xl">
+          Quick Settings
+        </h1>
+        <p className="mb-2 text-neutral-400 text-xs">Presets</p>
         <div className="mb-4 flex gap-2">
           {settings?.presets?.map((_, index) => (
             <UnifiedButton
@@ -447,7 +469,7 @@ function TraderPresetForm({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-neutral-400">Slippage</span>
+        <span className="text-neutral-400 text-sm">Slippage</span>
         <Input
           className="w-24"
           onChange={newValue =>
@@ -462,7 +484,7 @@ function TraderPresetForm({
         />
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-sm text-neutral-400">Priority Fee (SOL)</span>
+        <span className="text-neutral-400 text-sm">Priority Fee (SOL)</span>
         <Input
           className="w-24"
           onBlur={() => {

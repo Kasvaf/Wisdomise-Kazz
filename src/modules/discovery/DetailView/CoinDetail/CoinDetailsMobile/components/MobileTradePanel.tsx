@@ -14,11 +14,7 @@ import { Input } from 'modules/shared/v1-components/Input';
 import { useEffect, useState } from 'react';
 import { useSwap, useTokenBalance } from 'services/chains';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
-import {
-  useActiveWallet,
-  useCustodialWallet,
-  useWallets,
-} from 'services/chains/wallet';
+import { useWallets } from 'services/chains/wallet';
 import { WatchEventType } from 'services/grpc/proto/wealth_manager';
 import { useLastPriceStream } from 'services/price';
 import { useWalletsQuery } from 'services/rest/wallets';
@@ -40,13 +36,11 @@ export function MobileTradePanel() {
   const slug = symbol.slug;
   const [quote, _setQuote] = useState(WRAPPED_SOLANA_SLUG);
 
-  const { connected } = useActiveWallet();
-  const { primaryWallet } = useWallets();
+  const { primaryWallet, isCustodial, setIsCustodial } = useWallets();
   const { data: baseBalance } = useTokenBalance({ slug });
   const isLoggedIn = useIsLoggedIn();
   const [loginModal, open] = useModalLogin();
-  const { setCw } = useCustodialWallet();
-  const { data: wallets } = useWalletsQuery();
+  useWalletsQuery();
 
   const { data: basePriceByQuote } = useLastPriceStream({
     slug,
@@ -333,7 +327,7 @@ export function MobileTradePanel() {
         onClose={() => setShowWalletDrawer(false)}
         open={showWalletDrawer}
       >
-        {!connected && (
+        {!isCustodial && (
           <div className="p-4 text-center">
             <p className="mb-4 text-sm text-white">
               For instant trading, switch to a custodial wallet
@@ -341,9 +335,7 @@ export function MobileTradePanel() {
             <Button
               className="w-full"
               onClick={() => {
-                if (wallets?.results?.[0]) {
-                  setCw(wallets.results[0].key);
-                }
+                setIsCustodial(true);
                 setShowWalletDrawer(false);
               }}
               size="md"

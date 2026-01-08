@@ -9,7 +9,9 @@ import {
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import {
+  type AccountInfo,
   type AddressLookupTableAccount,
+  type Connection,
   PublicKey,
   SystemProgram,
   Transaction,
@@ -17,89 +19,129 @@ import {
   TransactionMessage,
   VersionedTransaction,
 } from '@solana/web3.js';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { usePendingPositionInCache } from 'services/rest';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { useSolanaConnection } from '../chains/connection';
 import {
   WRAPPED_SOLANA_CONTRACT_ADDRESS,
   WRAPPED_SOLANA_SLUG,
 } from '../chains/constants';
-import { useActiveWallet } from '../chains/wallet';
+import { useWallets } from '../chains/wallet';
 import { slugToTokenAddress, useTokenInfo } from '../rest/token-info';
-import { usePendingPositionInCache } from '../rest/trader';
+
+const accountInfoCache = new Map<string, AccountInfo<Buffer>>();
+const getAccountInfo = async (tokenAddress: string, connection: Connection) => {
+  if (accountInfoCache.has(tokenAddress)) {
+    return accountInfoCache.get(tokenAddress);
+  } else {
+    const mint = new PublicKey(tokenAddress);
+    const accountInfo = await connection.getAccountInfo(mint);
+    if (accountInfo) {
+      accountInfoCache.set(tokenAddress, accountInfo);
+      return accountInfo;
+    }
+  }
+};
+
+const fetchBalance = async ({
+  walletAddress,
+  tokenAddress,
+  connection,
+}: {
+  walletAddress?: string;
+  tokenAddress?: string;
+  connection: Connection;
+}) => {
+  if (!walletAddress || !tokenAddress) return null;
+
+  const publicKey = new PublicKey(walletAddress);
+
+  try {
+    if (tokenAddress === WRAPPED_SOLANA_CONTRACT_ADDRESS) {
+      return Number(fromBigMoney(await connection.getBalance(publicKey), 9));
+    } else {
+      const mint = new PublicKey(tokenAddress);
+      const accountInfo = await getAccountInfo(tokenAddress, connection);
+      if (!accountInfo) return 0;
+
+      const balance = await connection.getTokenAccountBalance(
+        getAssociatedTokenAddressSync(
+          mint,
+          publicKey,
+          false,
+          accountInfo.owner,
+        ),
+      );
+
+      // Return the balance as a number
+      return Number(fromBigMoney(balance.value.amount, balance.value.decimals));
+    }
+  } catch (error) {
+    if ((error as any)?.code === -32_602) {
+      // Invalid param: could not find account -> no transactions yet
+      return 0;
+    }
+    throw new Error((error as any)?.message || 'Cannot read user balance');
+  }
+};
 
 export const useSolanaTokenBalance = ({
   slug,
   tokenAddress,
-  walletAddress,
+  walletAddresses,
   enabled = true,
+  refetchInterval,
 }: {
   slug?: string;
   tokenAddress?: string;
-  walletAddress?: string;
+  walletAddresses?: string[];
   enabled?: boolean;
+  refetchInterval?: number;
 }) => {
   const connection = useSolanaConnection();
+  const { selectedWallets } = useWallets();
 
-  const { address: activeAddress } = useActiveWallet();
-  const contract = tokenAddress || slugToTokenAddress(slug);
+  const selectedWalletsAddresses = useMemo(
+    () => selectedWallets.map(w => w.address),
+    [selectedWallets],
+  );
+  const _walletAddresses = walletAddresses || selectedWalletsAddresses;
+  const _tokenAddress = tokenAddress || slugToTokenAddress(slug);
 
-  const queryWalletAddress = walletAddress ?? activeAddress;
-  const queryTokenAddress = contract || tokenAddress;
-
-  return useQuery({
-    queryKey: ['sol-balance', slug, queryWalletAddress],
-    queryFn: async () => {
-      if (!queryWalletAddress || !slug || !queryTokenAddress) return null;
-      const publicKey = new PublicKey(queryWalletAddress);
-
-      try {
-        if (
-          slug === WRAPPED_SOLANA_SLUG ||
-          tokenAddress === WRAPPED_SOLANA_CONTRACT_ADDRESS
-        ) {
-          return Number(
-            fromBigMoney(await connection.getBalance(publicKey), 9),
-          );
-        } else {
-          const mint = new PublicKey(queryTokenAddress);
-          const accountInfo = await connection.getAccountInfo(mint);
-          if (!accountInfo) return 0;
-
-          // Get the token account info
-          const balance = await connection.getTokenAccountBalance(
-            getAssociatedTokenAddressSync(
-              mint,
-              publicKey,
-              false,
-              accountInfo.owner,
-            ),
-          );
-
-          // Return the balance as a number
-          return Number(
-            fromBigMoney(balance.value.amount, balance.value.decimals),
-          );
-        }
-      } catch (error) {
-        if ((error as any)?.code === -32_602) {
-          // Invalid param: could not find account -> no transactions yet
-          return 0;
-        }
-        throw new Error((error as any)?.message || 'Cannot read user balance');
-      }
-    },
-    refetchInterval: 10_000,
-    staleTime: 10_000,
-    enabled: !!queryTokenAddress && enabled,
+  const queries = useQueries({
+    queries: _walletAddresses?.map(walletAddress => ({
+      queryKey: ['sol-balance', _tokenAddress, walletAddress],
+      queryFn: () =>
+        fetchBalance({
+          walletAddress,
+          tokenAddress: _tokenAddress,
+          connection,
+        }),
+      refetchInterval: refetchInterval ?? 20_000,
+      staleTime: 20_000,
+      enabled: !!_tokenAddress && enabled,
+    })),
   });
+
+  return {
+    queries,
+    data: queries.reduce((total, q) => (total += q.data ?? 0), 0),
+    refetch: async () => {
+      let data = 0;
+      for (const q of queries) {
+        data = data + ((await q.refetch()).data ?? 0);
+      }
+      return { data };
+    },
+    isLoading: queries.some(q => q.isLoading),
+  };
 };
 
 export const useSolanaWalletAssets = (address?: string) => {
-  const { address: activeAddress } = useActiveWallet();
-  const addr = address ?? activeAddress;
+  const addr = address;
   const connection = useSolanaConnection();
 
   const query = useQuery({
@@ -170,7 +212,7 @@ export const useSolanaWalletAssets = (address?: string) => {
 
 export const useSolanaTransferAssetsMutation = (slug?: string) => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
-  const { address } = useActiveWallet();
+  const { connectedWallet } = useWallets();
   const queryClient = useQueryClient();
   const { data: tokenInfo } = useTokenInfo({ slug });
   const awaitPositionInCache = usePendingPositionInCache();
@@ -189,14 +231,14 @@ export const useSolanaTransferAssetsMutation = (slug?: string) => {
   }) => {
     if (
       !connection ||
-      !address ||
+      !connectedWallet.address ||
       !slug ||
       !tokenInfo?.contract_address ||
       !tokenInfo?.decimals
     )
       throw new Error('Wallet not connected');
 
-    const publicKey = new PublicKey(address);
+    const publicKey = new PublicKey(connectedWallet.address);
     const tokenMint = new PublicKey(tokenInfo.contract_address);
     const transaction = new Transaction();
 
@@ -339,12 +381,11 @@ interface Account {
 // gas-fee: 0.005
 export const useSolanaSwap = () => {
   const { walletProvider } = useAppKitProvider<Provider>('solana');
-  const { address, isCustodial } = useActiveWallet();
   const connection = useSolanaConnection();
 
   const nonCustodialSwap = useCallback(
     async (swap: SwapResponse) => {
-      const publicKey = new PublicKey(address!);
+      const publicKey = new PublicKey(swap.wallet_address);
       const latestBlockhash = await connection.getLatestBlockhash();
       const { instructions, lookup_table_address, key } = swap;
 
@@ -407,7 +448,7 @@ export const useSolanaSwap = () => {
 
       return signature;
     },
-    [address, connection, walletProvider],
+    [connection, walletProvider],
   );
 
   return useCallback(
@@ -416,10 +457,12 @@ export const useSolanaSwap = () => {
       quote: string,
       side: 'LONG' | 'SHORT',
       amount: string,
+      walletAddress: string,
+      isCustodial: boolean,
       slippage?: string,
       priorityFee?: string,
     ) => {
-      if (!address) throw new Error('Wallet not connected');
+      if (!walletAddress) throw new Error('Wallet not connected');
 
       const swap = await ofetch<SwapResponse>('/trader/swap', {
         method: 'post',
@@ -428,7 +471,7 @@ export const useSolanaSwap = () => {
           side,
           amount,
           network_slug: 'solana',
-          wallet_address: address,
+          wallet_address: walletAddress,
           slippage,
           priority_fee: priorityFee,
         },
@@ -448,7 +491,7 @@ export const useSolanaSwap = () => {
 
       return { slug: base, signature, swapKey: swap.key };
     },
-    [address, isCustodial, nonCustodialSwap],
+    [nonCustodialSwap],
   );
 };
 

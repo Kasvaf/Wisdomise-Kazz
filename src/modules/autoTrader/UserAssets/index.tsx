@@ -11,7 +11,7 @@ import WalletDetail from 'modules/base/wallet/WalletDetail';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWalletAssets } from 'services/chains';
-import { useActiveWallet, useConnectedWallet } from 'services/chains/wallet';
+import { useConnectedWallet, useWallets } from 'services/chains/wallet';
 import { useTraderAssetsQuery } from 'services/rest';
 import type { Wallet } from 'services/rest/wallets';
 import { AccessShield } from 'shared/AccessShield';
@@ -182,7 +182,8 @@ export default function UserPortfolio(props: Props) {
 
 function WalletItem({ wallet }: { wallet?: Wallet; expanded?: boolean }) {
   const { address, connected } = useConnectedWallet();
-  const { address: activeAddress } = useActiveWallet();
+  const { singleWallet } = useWallets();
+  const activeAddress = singleWallet?.address;
   const { data: walletAssets } = useWalletAssets({
     address: wallet?.address ?? address,
   });

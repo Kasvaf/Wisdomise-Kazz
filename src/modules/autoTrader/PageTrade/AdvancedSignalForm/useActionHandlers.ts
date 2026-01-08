@@ -5,7 +5,7 @@ import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useTransferAssetsMutation } from 'services/chains';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useWallets } from 'services/chains/wallet';
 import { useLastPriceStream } from 'services/price';
 import {
   type CreatePositionRequest,
@@ -55,7 +55,8 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
     quote,
     convertToUsd: true,
   });
-  const { address, isCustodial } = useActiveWallet();
+  const { singleWallet, isCustodial } = useWallets();
+  const address = singleWallet?.address;
   const { getActivePreset } = useUserSettings();
 
   const { mutateAsync, isPending: isSubmitting } =

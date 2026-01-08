@@ -4,7 +4,7 @@ import PageWrapper from 'modules/base/PageWrapper';
 import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import leagueSrc from 'modules/quest/PageLeague/images/summit.png';
 import { useState } from 'react';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useWallets } from 'services/chains/wallet';
 import { useHasFlag } from 'services/rest';
 import {
   useGamificationRewards,
@@ -30,7 +30,8 @@ export default function PageRewards() {
   const { data: history } = useRewardsHistoryQuery();
   const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
-  const { address } = useActiveWallet();
+  const { singleWallet } = useWallets();
+  const address = singleWallet?.address;
   const disableWithdraw = history?.[0]?.status === 'pending';
   const unclaimed = total - claimed;
   const [activeTab, setActiveTab] = useState('rewards');

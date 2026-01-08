@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useSwap } from 'services/chains';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useWallets } from 'services/chains/wallet';
 import { type CreateOrderRequest, useOrderMutation } from 'services/rest/order';
 import { slugToTokenAddress } from 'services/rest/token-info';
 import { useChartConvertToUSD } from 'shared/AdvancedChart/chartSettings';
@@ -21,7 +21,8 @@ const useActionHandlers = (state: SwapState) => {
     firing: [firing, setFiring],
     finalPercentage,
   } = state;
-  const { address, isCustodial } = useActiveWallet();
+  const { selectedWallets } = useWallets();
+  const { isCustodial } = useWallets();
   const { getActivePreset } = useUserSettings();
 
   // const awaitConfirm = (cb: () => Promise<boolean>, message: string) => {
@@ -48,7 +49,7 @@ const useActionHandlers = (state: SwapState) => {
   });
 
   const firePosition = async () => {
-    if (!base.slug || !quote.slug || !address) return;
+    if (!base.slug || !quote.slug) return;
 
     const preset = getActivePreset('terminal');
 
@@ -71,38 +72,45 @@ const useActionHandlers = (state: SwapState) => {
     }
 
     // limit order
-    const notificationKey = Date.now();
-    notification.open({
-      key: notificationKey,
-      message: <NotificationContent />,
-      duration: 30_000,
-    });
-    const createData: CreateOrderRequest = {
-      network_slug: 'solana',
-      base_address: slugToTokenAddress(base.slug),
-      quote_address: slugToTokenAddress(quote.slug),
-      type:
-        dir === 'buy'
-          ? finalPercentage > 0
-            ? 'BUY_BELOW'
-            : 'BUY_ABOVE'
-          : finalPercentage > 0
-            ? 'SELL_BELOW'
-            : 'SELL_ABOVE',
-      amount: dir === 'buy' ? quote.amount : base.amount,
-      wallet_address: address,
-      price: String(base.finalPrice),
-      price_in_usd: convertToUSD,
-      slippage: preset[dir].slippage,
-      priority_fee: preset[dir].sol_priority_fee,
-    };
-    createOrder(createData).then(() => {
-      notification.success({
+    for (const wallet of selectedWallets) {
+      if (!wallet.address) return;
+
+      const notificationKey = Date.now();
+      notification.open({
         key: notificationKey,
-        message: 'Limit Order Placed!',
+        message: <NotificationContent />,
+        duration: 30_000,
       });
-      return;
-    });
+      const createData: CreateOrderRequest = {
+        network_slug: 'solana',
+        base_address: slugToTokenAddress(base.slug),
+        quote_address: slugToTokenAddress(quote.slug),
+        type:
+          dir === 'buy'
+            ? finalPercentage > 0
+              ? 'BUY_BELOW'
+              : 'BUY_ABOVE'
+            : finalPercentage > 0
+              ? 'SELL_BELOW'
+              : 'SELL_ABOVE',
+        amount: String(
+          +(dir === 'buy' ? quote.amount : base.amount) /
+            selectedWallets.length,
+        ),
+        wallet_address: wallet.address,
+        price: String(base.finalPrice),
+        price_in_usd: convertToUSD,
+        slippage: preset[dir].slippage,
+        priority_fee: preset[dir].sol_priority_fee,
+      };
+      createOrder(createData).then(() => {
+        notification.success({
+          key: notificationKey,
+          message: 'Limit Order Placed!',
+        });
+        return;
+      });
+    }
 
     // const createData: CreatePositionRequest = {
     //   network,

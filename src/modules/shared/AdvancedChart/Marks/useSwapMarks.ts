@@ -3,7 +3,7 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/l
 import { useTotalSupply } from 'modules/discovery/DetailView/CoinDetail/useTotalSupply';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { useEffect, useMemo, useState } from 'react';
-import { useUserWallets } from 'services/chains/wallet';
+import { useWalletsAddresses } from 'services/chains/wallet';
 import type { Swap } from 'services/grpc/proto/delphinus';
 import { useKolWallets } from 'services/rest/kol';
 import {
@@ -21,7 +21,7 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
   const [marks, setMarks] = useState<Mark[]>([]);
   const namedSwaps = useNamedSwaps({ swaps });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: namedSwaps intentionally excluded
   useEffect(() => {
     setMarks([]);
   }, [isMarketCap, convertToUsd, symbol.contractAddress]);
@@ -78,7 +78,7 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
 export const useNamedSwaps = ({ swaps }: { swaps: Swap[] }) => {
   const wallets = useTrackedWallets();
   const { developer } = useUnifiedCoinDetails();
-  const userWallets = useUserWallets();
+  const userWallets = useWalletsAddresses();
   const { data: kols } = useKolWallets({});
 
   return useMemo(() => {

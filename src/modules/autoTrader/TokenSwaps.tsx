@@ -17,7 +17,7 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/l
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { useMemo, useRef, useState } from 'react';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
-import { useUserWallets } from 'services/chains/wallet';
+import { useWalletsAddresses } from 'services/chains/wallet';
 import { useTokenPairsQuery } from 'services/rest';
 import { Address } from 'shared/Address';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -34,7 +34,7 @@ const TokenSwaps: React.FC<{ className?: string }> = ({ className }) => {
   const asset = symbol.contractAddress!;
   const slug = symbol.slug;
   const trackedWallets = useTrackedWallets();
-  const userWallets = useUserWallets();
+  const userWallets = useWalletsAddresses();
   const {
     startTime,
     endTime,

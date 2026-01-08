@@ -5,7 +5,7 @@ import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandl
 import { useMarketCap } from 'modules/discovery/DetailView/CoinDetail/useMarketCap';
 import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from 'services/chains';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useConnectedWallet, useWallets } from 'services/chains/wallet';
 import { type Position, useHasFlag } from 'services/rest';
 import { useTokenInfo } from 'services/rest/token-info';
 import { useUserStorage } from 'services/rest/userStorage';
@@ -24,7 +24,8 @@ const BtnFireSignal: React.FC<{
 }> = ({ baseSlug, activePosition, formState, className }) => {
   const { t } = useTranslation('builder');
   const hasFlag = useHasFlag();
-  const wallet = useActiveWallet();
+  const { isCustodial, primaryWallet } = useWallets();
+  const connectedWallet = useConnectedWallet();
   const isLoggedIn = useIsLoggedIn();
   const mc = useMarketCap({});
   const lowMc = mc.data < 10 ** 6;
@@ -57,7 +58,7 @@ const BtnFireSignal: React.FC<{
   };
 
   const { withdrawDepositModal, deposit } = useWalletActionHandler();
-  const enableDeposit = wallet.isCustodial && !quoteBalance && !balanceLoading;
+  const enableDeposit = isCustodial && !quoteBalance && !balanceLoading;
 
   const {
     isEnabled,
@@ -106,11 +107,11 @@ const BtnFireSignal: React.FC<{
       ) : hasFlag(
           isMiniApp ? '/trader/positions' : '/trader/positions?mobile',
         ) ? (
-        wallet.connected ? (
+        connectedWallet.connected || isCustodial ? (
           enableDeposit ? (
             <Button
               className={className}
-              onClick={() => deposit(wallet.address ?? '')}
+              onClick={() => deposit(primaryWallet?.address ?? '')}
             >
               Deposit {quoteInfo?.symbol} to Fire Position
             </Button>
@@ -135,7 +136,10 @@ const BtnFireSignal: React.FC<{
             </Button>
           )
         ) : (
-          <Button className={className} onClick={() => wallet.connect()}>
+          <Button
+            className={className}
+            onClick={() => connectedWallet.connect()}
+          >
             Connect Wallet
           </Button>
         )

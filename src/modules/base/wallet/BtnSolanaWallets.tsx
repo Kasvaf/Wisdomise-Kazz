@@ -1,35 +1,82 @@
-import { Radio } from 'antd';
-import { bxCopy } from 'boxicons-quasar';
+import { Slider } from 'antd';
+import { bxCog, bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { AccountBalance } from 'modules/autoTrader/PageTrade/AdvancedSignalForm/AccountBalance';
+import { SolanaIcon } from 'modules/autoTrader/TokenActivity';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { BtnAppKitWalletConnect } from 'modules/base/wallet/BtnAppkitWalletConnect';
-import CreateWalletBtn from 'modules/base/wallet/CreateWalletBtn';
+import BtnCreateWallet from 'modules/base/wallet/CreateWalletBtn';
 import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { useWalletActionHandler } from 'modules/base/wallet/useWalletActionHandler';
-import { type FC, type ReactNode, useMemo } from 'react';
+import { type FC, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useWalletAssets } from 'services/chains';
-import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
+import { useTokenBalance, useWalletAssets } from 'services/chains';
 import {
-  useActiveWallet,
+  WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  WRAPPED_SOLANA_SLUG,
+} from 'services/chains/constants';
+import {
+  type UserWallet,
   useConnectedWallet,
-  useCustodialWallet,
+  useWallets,
 } from 'services/chains/wallet';
-import { useWalletsQuery, type Wallet } from 'services/rest/wallets';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import Icon from 'shared/Icon';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { Tokens } from 'shared/Tokens';
 import { useShare } from 'shared/useShare';
 import { Badge } from 'shared/v1-components/Badge';
 import { Button, type ButtonSize } from 'shared/v1-components/Button';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { Checkbox } from 'shared/v1-components/Checkbox';
+import { Dialog } from 'shared/v1-components/Dialog';
+import { Input } from 'shared/v1-components/Input';
 import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
-import { roundSensible } from 'utils/numbers';
-import useIsMobile from 'utils/useIsMobile';
 import type { Surface } from 'utils/useSurface';
+import { ReactComponent as PrimaryWallet } from './primary-wallet.svg';
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
+
+export const WalletSolanaBalance = ({
+  walletAddress,
+}: {
+  walletAddress?: string;
+}) => {
+  const { data } = useTokenBalance({
+    network: 'solana',
+    walletAddress,
+    tokenAddress: WRAPPED_SOLANA_CONTRACT_ADDRESS,
+  });
+
+  return (
+    <HoverTooltip title="Balance">
+      <Badge className="gap-1" color="neutral" size="md" variant="outline">
+        <SolanaIcon />
+        <ReadableNumber value={data} />
+      </Badge>
+    </HoverTooltip>
+  );
+};
+
+export const PrimaryWalletIcon = () => {
+  return (
+    <HoverTooltip
+      title={
+        <div className="w-40">
+          <p className="mb-1">Primary Wallet</p>
+          <p className="text-v1-content-secondary text-xs">
+            This wallet will be used to receive rewards and for the auto trader.
+          </p>
+        </div>
+      }
+    >
+      <PrimaryWallet />
+    </HoverTooltip>
+  );
+};
 
 export default function BtnSolanaWallets({
   className,
@@ -38,7 +85,6 @@ export default function BtnSolanaWallets({
   size,
   variant = 'ghost',
   surface = 1,
-  fab,
 }: {
   className?: string;
   showAddress?: boolean;
@@ -46,12 +92,9 @@ export default function BtnSolanaWallets({
   size?: ButtonSize;
   variant?: 'outline' | 'ghost';
   surface?: Surface;
-  fab?: boolean;
 }) {
-  const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-  const { icon, connected } = useConnectedWallet();
-  const { address, isCustodial } = useActiveWallet();
+  const { selectedWallets } = useWallets();
 
   if (!isLoggedIn) return null;
 
@@ -59,17 +102,12 @@ export default function BtnSolanaWallets({
     <ClickableTooltip chevron={showAddress ?? false} title={<UserWallets />}>
       <Button
         className={className}
-        fab={fab}
         size={size ?? 'xs'}
         surface={surface}
         variant={variant}
       >
-        {!isMobile && connected && !isCustodial && icon ? (
-          <img alt="" className="size-5" src={icon} />
-        ) : (
-          <WalletIcon />
-        )}
-        {showAddress && (address ? shortenAddress(address) : 'Not Connected')}
+        <WalletIcon />
+        <span className="ml-1">{selectedWallets.length}</span>
         {showBalance && <AccountBalance slug={WRAPPED_SOLANA_SLUG} />}
       </Button>
     </ClickableTooltip>
@@ -78,9 +116,8 @@ export default function BtnSolanaWallets({
 
 function UserWallets() {
   return (
-    <div>
+    <div className="w-[25rem]">
       <TotalBalance className="-mx-3 -mt-3 max-md:!bg-transparent mb-2" />
-      <div className="text-2xs text-v1-inverse-overlay-70">Wallets</div>
       <WalletSelector WalletOptionComponent={WalletItem} />
     </div>
   );
@@ -89,54 +126,75 @@ function UserWallets() {
 export function WalletSelector({
   WalletOptionComponent,
   className,
-  radioClassName,
-  expanded,
 }: {
-  WalletOptionComponent: FC<{ wallet?: Wallet; expanded?: boolean }>;
+  WalletOptionComponent: FC<{ wallet: UserWallet }>;
   className?: string;
-  radioClassName?: string;
-  expanded?: boolean;
 }) {
-  const { cw, setCw } = useCustodialWallet();
-  const { data: wallets } = useWalletsQuery();
-  const isMobile = useIsMobile();
-
-  const options = useMemo(() => {
-    const ops: Array<{ value: string | boolean; label: ReactNode }> =
-      wallets?.results?.map(w => ({
-        value: w.key,
-        label: <WalletOptionComponent wallet={w} />,
-      })) ?? [];
-    if (!isMobile) {
-      ops.unshift({
-        value: false,
-        label: <WalletOptionComponent expanded={expanded} />,
-      });
-    }
-    return ops;
-  }, [WalletOptionComponent, isMobile, wallets?.results, expanded]);
+  const {
+    toggleWallet,
+    custodialWallets,
+    isCustodial,
+    setIsCustodial,
+    connectedWallet,
+    selectAll,
+    enableSelectAll,
+    deselectAll,
+  } = useWallets();
 
   return (
     <div className={className}>
-      <Radio.Group
-        className={clsx(
-          radioClassName,
-          'w-full [&_.ant-radio-wrapper>span:last-child]:w-full [&_.ant-radio-wrapper]:w-full',
-        )}
-        onChange={event => {
-          setCw(event.target.value || null);
-        }}
-        options={options}
-        value={cw?.key ?? false}
+      <ButtonSelect
+        className="mb-3"
+        onChange={newValue => setIsCustodial(newValue)}
+        options={[
+          { label: 'Custodial', value: true },
+          { label: 'Non-custodial', value: false },
+        ]}
+        size="xs"
+        value={isCustodial}
       />
-      <CreateWalletBtn />
+      {isCustodial ? (
+        <div>
+          <div className="flex items-center justify-between">
+            <Button
+              onClick={() => (enableSelectAll ? selectAll() : deselectAll())}
+              size="2xs"
+              surface={2}
+              variant="ghost"
+            >
+              {enableSelectAll ? 'Select All' : 'Deselect All'}
+            </Button>
+            <MultiWalletBuySettings />
+          </div>
+          <hr className="my-2 border-white/10" />
+          {custodialWallets.map(wallet => (
+            <div
+              className="flex items-center gap-3"
+              key={wallet.network + wallet.address}
+            >
+              <Checkbox
+                onChange={() => {
+                  toggleWallet({
+                    address: wallet.address!,
+                    network: wallet.network,
+                  });
+                }}
+                value={wallet.isSelected}
+              />
+              <WalletOptionComponent wallet={wallet} />
+            </div>
+          ))}
+          <BtnCreateWallet />
+        </div>
+      ) : (
+        <WalletOptionComponent wallet={connectedWallet} />
+      )}
     </div>
   );
 }
 
-function WalletItem({ wallet }: { wallet?: Wallet }) {
+function WalletItem({ wallet }: { wallet: UserWallet }) {
   const { connected, address, name, icon } = useConnectedWallet();
-  const { address: activeAddress } = useActiveWallet();
   const { withdrawDepositModal } = useWalletActionHandler();
   const [copy, notif] = useShare('copy');
   const navigate = useNavigate();
@@ -145,27 +203,26 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   );
   const [, setSlug] = useSessionStorage('walletSlug', '');
 
-  const isActive = (wallet ? wallet.address : address) === activeAddress;
-
   return (
-    <div className="-mr-2 flex items-center justify-between gap-4 border-v1-inverse-overlay-10 border-b py-2 text-xs">
+    <div className="flex w-full items-center justify-between gap-4 py-2 text-xs">
       <div className="flex flex-col gap-1">
         <div
           className={clsx(
             'flex items-center gap-2 font-medium',
-            isActive && 'text-v1-content-brand',
+            wallet.isSelected && 'text-v1-content-brand',
           )}
         >
-          {wallet ? wallet.name : 'Connected Wallet'}
-          <Badge className={clsx(!isActive && 'opacity-0')} color="brand">
-            Active
-          </Badge>
+          {wallet.name}
+          {wallet.isPrimary && <PrimaryWalletIcon />}
+          {wallet.icon && (
+            <img alt="wallet" className="size-3" src={wallet.icon} />
+          )}
         </div>
         <div className="flex items-center gap-1 text-2xs text-v1-inverse-overlay-50">
-          {wallet ? (
+          {wallet.address ? (
             <>
               {shortenAddress(wallet.address)}
-              <button onClick={() => copy(wallet.address)}>
+              <button onClick={() => wallet.address && copy(wallet.address)}>
                 <Icon name={bxCopy} size={12} />
               </button>
             </>
@@ -177,18 +234,26 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
             'Not Connected'
           )}
           {(wallet || address) && (
-            <span className="ml-2">${roundSensible(balance)}</span>
+            <ReadableNumber
+              className="ml-2"
+              format={{ decimalLength: 2 }}
+              label="$"
+              value={balance}
+            />
           )}
         </div>
       </div>
-      <div className="flex gap-1">
-        <WalletAssetsWidget address={wallet?.address} />
-        {wallet ? (
+      <div className="flex gap-2">
+        <WalletAssets walletAddress={wallet?.address} />
+        <WalletSolanaBalance walletAddress={wallet.address} />
+        {wallet.isCustodial ? (
           <Button
             className="!bg-transparent"
             onClick={() => {
-              setSlug(wallet.key);
-              navigate('/portfolio');
+              if (wallet.key) {
+                setSlug(wallet.key);
+                navigate('/portfolio');
+              }
             }}
             size="xs"
             variant="outline"
@@ -205,16 +270,131 @@ function WalletItem({ wallet }: { wallet?: Wallet }) {
   );
 }
 
-export function WalletAssetsWidget({ address }: { address?: string }) {
+export function WalletAssets({ walletAddress }: { walletAddress?: string }) {
   const { address: connectedWallet } = useConnectedWallet();
   const { data: assets } = useWalletAssets({
-    address: address ?? connectedWallet,
+    address: walletAddress ?? connectedWallet,
   });
-  const addresses = assets?.map(token => token.address);
+  const addresses = useMemo(
+    () =>
+      assets
+        ?.map(token => token.address)
+        .filter(addr => addr !== WRAPPED_SOLANA_CONTRACT_ADDRESS),
+    [assets],
+  );
 
-  return addresses?.length && (address || connectedWallet) ? (
-    <div className="flex items-center justify-center rounded-md border border-v1-inverse-overlay-10 px-2">
+  return addresses?.length && (walletAddress || connectedWallet) ? (
+    <Badge color="neutral" size="md" variant="outline">
       <Tokens addresses={addresses} />
-    </div>
+    </Badge>
   ) : null;
+}
+
+function MultiWalletBuySettings() {
+  const [open, setOpen] = useState(false);
+  const { settings, updateMultiWalletSettings } = useUserSettings();
+  const [variance, setVariance] = useState(
+    settings.multi_wallet.variance * 100,
+  );
+  const [delay, setDelay] = useState(settings.multi_wallet.delay);
+
+  const save = () => {
+    updateMultiWalletSettings({ variance: variance / 100, delay });
+  };
+
+  return (
+    <>
+      <HoverTooltip title="Multi Wallet Buy Settings">
+        <Button
+          fab
+          onClick={() => setOpen(true)}
+          size="2xs"
+          surface={2}
+          variant="ghost"
+        >
+          <Icon className="[&>svg]:size-4" name={bxCog} />
+        </Button>
+      </HoverTooltip>
+
+      <Dialog
+        className="md:max-w-[25rem]"
+        onClose={() => setOpen(false)}
+        open={open}
+      >
+        <div className="p-4">
+          <h1 className="mb-10 text-lg">Multi Wallet Buy Settings</h1>
+          <div className="mb-2 flex items-center justify-between">
+            <h2>Buy Variance</h2>
+            <Input
+              className="w-20"
+              max={100}
+              min={0}
+              onChange={value => setVariance(value ?? 0)}
+              size="xs"
+              suffixIcon="%"
+              type="number"
+              value={variance}
+            />
+          </div>
+          <p className="text-v1-content-primary/70 text-xs">
+            The variance of the buy amount across the selected wallets. 0% to
+            100% randomly.
+          </p>
+          <div className="mx-3">
+            <Slider
+              marks={{ 0: '0%', 25: '25%', 50: '50%', 75: '75%', 100: '100%' }}
+              max={100}
+              min={0}
+              onChange={value => setVariance(value)}
+              step={1}
+              value={variance}
+            />
+          </div>
+          <div className="mt-16 mb-3 flex items-center justify-between">
+            <h1>Transaction Delay</h1>
+            <Input
+              className="w-20"
+              max={1000}
+              min={0}
+              onChange={value => setDelay(value ?? 0)}
+              size="xs"
+              suffixIcon="ms"
+              type="number"
+              value={delay}
+            />
+          </div>
+          <p className="text-v1-content-primary/70 text-xs">
+            The delay between each transaction in milliseconds. 0ms means no
+            delay.
+          </p>
+          <div className="mx-3">
+            <Slider
+              marks={{
+                0: '0ms',
+                250: '250ms',
+                500: '500ms',
+                750: '750ms',
+                1000: '1s',
+              }}
+              max={1000}
+              min={0}
+              onChange={value => setDelay(value)}
+              step={1}
+              value={delay}
+            />
+          </div>
+          <Button
+            className="mt-5 w-full"
+            onClick={() => {
+              save();
+              setOpen(false);
+            }}
+            size="sm"
+          >
+            Done
+          </Button>
+        </div>
+      </Dialog>
+    </>
+  );
 }

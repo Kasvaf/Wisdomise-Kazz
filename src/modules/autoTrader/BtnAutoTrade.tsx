@@ -1,7 +1,6 @@
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { WRAPPED_SOLANA_SLUG } from 'services/chains/constants';
-import { useActiveWallet } from 'services/chains/wallet';
 import { useHasFlag, useTokenPairsQuery } from 'services/rest';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
@@ -19,7 +18,6 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const isLoggedIn = useIsLoggedIn();
   const [TraderDrawer, openTraderDrawer] = useTraderDrawer();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
-  const wallet = useActiveWallet();
 
   const hasFlag = useHasFlag();
   if (!isMobile && !hasFlag('/desk-trader')) {
@@ -28,7 +26,6 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
 
   const open = async () => {
     if (!(await ensureAuthenticated())) return;
-    if (!wallet.connected && !(await wallet.connect())) return;
     openTraderDrawer({ slug: normSlug ?? '' });
   };
 

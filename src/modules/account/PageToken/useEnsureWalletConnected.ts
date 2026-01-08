@@ -1,10 +1,10 @@
 import { notification } from 'antd';
-import { useActiveWallet } from 'services/chains/wallet';
+import { useConnectedWallet } from 'services/chains/wallet';
 import { useAccountQuery } from 'services/rest';
 
 export function useEnsureWalletConnected() {
   const { data } = useAccountQuery();
-  const wallet = useActiveWallet();
+  const wallet = useConnectedWallet();
 
   return async () => {
     if (!wallet.connected && !(await wallet.connect())) return;

@@ -35,6 +35,10 @@ interface UserSettings {
     imported_wallets: ImportedWallet[];
   };
   trench_filters: NetworkRadarStreamFilters;
+  multi_wallet: {
+    variance: number;
+    delay: number;
+  };
   meta: {
     filters: MetaFilters;
   };
@@ -155,12 +159,12 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
   quotes_quick_set: {
     sell_selected_type: 'percentage',
     buy: {
-      sol: ['0.01', '0.1', '0.25', '0.5', '1', '2'],
-      usd: ['0.1', '1', '2.5', '5', '10', '20'],
+      sol: ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      usd: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell: {
-      sol: ['0.01', '0.1', '0.25', '0.5', '1', '2'],
-      usd: ['0.1', '1', '2.5', '5', '10', '20'],
+      sol: ['0.01', '0.1', '1', '10', '0.25', '0.5', '2', '5'],
+      usd: ['0.1', '1', '10', '100', '2.5', '5', '20', '50'],
     },
     sell_percentage: {
       sol: [...DEFAULT_PERCENTAGE_PRESETS],
@@ -180,6 +184,10 @@ const DEFAULT_USER_SETTINGS: UserSettings = {
     new_pairs: { protocols: [...DEFAULT_TRENCH_PROTOCOLS] },
     final_stretch: { protocols: [...DEFAULT_TRENCH_PROTOCOLS] },
     migrated: { protocols: [...DEFAULT_TRENCH_PROTOCOLS] },
+  },
+  multi_wallet: {
+    variance: 0,
+    delay: 0,
   },
   meta: {
     filters: { new: {}, trend: {}, high_mc: {} },
@@ -217,6 +225,9 @@ const context = createContext<
       updatePreset: (newValue: TraderPresets) => void;
       toggleShowActivityInUsd: () => void;
       updateSwapsPartial: (patch: Partial<SwapsSettings>) => void;
+      updateMultiWalletSettings: (
+        patch: Partial<UserSettings['multi_wallet']>,
+      ) => void;
       upsertImportedWallet: (wallet: ImportedWallet) => void;
       deleteImportedWallet: (address: string) => void;
       deleteAllImportedWallets: () => void;
@@ -443,6 +454,20 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const updateMultiWalletSettings = (
+    patch: Partial<UserSettings['multi_wallet']>,
+  ) => {
+    setSettings(prev => {
+      return {
+        ...prev,
+        multi_wallet: {
+          ...prev.multi_wallet,
+          ...patch,
+        },
+      };
+    });
+  };
+
   const updateTrenchFilters = (patch: Partial<NetworkRadarStreamFilters>) => {
     setSettings(prev => {
       return {
@@ -569,6 +594,7 @@ export function UserSettingsProvider({ children }: PropsWithChildren) {
         updateQuickSetSellType,
         toggleShowActivityInUsd,
         updateSwapsPartial,
+        updateMultiWalletSettings,
         upsertImportedWallet,
         deleteImportedWallet,
         deleteAllImportedWallets,

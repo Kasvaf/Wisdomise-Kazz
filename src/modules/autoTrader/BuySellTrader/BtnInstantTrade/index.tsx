@@ -24,11 +24,10 @@ import BtnSolanaWallets from 'modules/base/wallet/BtnSolanaWallets';
 import { useState } from 'react';
 import Draggable, { type ControlPosition } from 'react-draggable';
 import { useSwap, useTokenBalance } from 'services/chains';
-import { useActiveWallet, useCustodialWallet } from 'services/chains/wallet';
+import { useWallets } from 'services/chains/wallet';
 import { WatchEventType } from 'services/grpc/proto/wealth_manager';
 import { useLastPriceStream } from 'services/price';
 import { useHasFlag } from 'services/rest';
-import { useWalletsQuery } from 'services/rest/wallets';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLocalStorage } from 'usehooks-ts';
@@ -47,14 +46,12 @@ export default function BtnInstantTrade({
   className?: string;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const { connected } = useActiveWallet();
   const { data: baseBalance } = useTokenBalance({ slug });
   const hasFlag = useHasFlag();
   const [maskIsOpen, setMaskIsOpen] = useState(false);
   const isLoggedIn = useIsLoggedIn();
   const [loginModal, open] = useModalLogin();
-  const { setCw } = useCustodialWallet();
-  const { data: wallets } = useWalletsQuery();
+  const { isCustodial, setIsCustodial } = useWallets();
 
   const { data: basePriceByQuote } = useLastPriceStream({
     slug,
@@ -166,7 +163,7 @@ export default function BtnInstantTrade({
                 >
                   <Icon name={isEditMode ? bxCheck : bxEditAlt} />
                 </Button>
-                <BtnSolanaWallets fab size="2xs" />
+                <BtnSolanaWallets className="!px-1" size="2xs" />
                 <Button
                   className="text-v1-content-secondary"
                   fab
@@ -178,7 +175,7 @@ export default function BtnInstantTrade({
                   <Icon name={bxX} />
                 </Button>
               </div>
-              {connected ? (
+              {isCustodial ? (
                 <>
                   <div className="flex h-full flex-col justify-between p-3">
                     <div className="mb-3 flex items-center justify-between">
@@ -276,7 +273,7 @@ export default function BtnInstantTrade({
                   <Button
                     className="mt-6 w-full"
                     onClick={() => {
-                      setCw(wallets?.results[0].key);
+                      setIsCustodial(true);
                     }}
                     size="sm"
                   >

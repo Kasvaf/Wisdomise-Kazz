@@ -7,11 +7,7 @@ import {
   useDisconnect,
   useWalletInfo,
 } from '@reown/appkit/react';
-import {
-  useTonAddress,
-  useTonConnectModal,
-  useTonConnectUI,
-} from '@tonconnect/ui-react';
+import { notification } from 'antd';
 import { trackClick } from 'config/segment';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -23,9 +19,6 @@ import { useWalletsQuery } from '../rest/wallets';
 export const useConnectedWallet = () => {
   const net = useActiveNetwork();
 
-  const tonAddress = useTonAddress();
-  const [tonConnectUI] = useTonConnectUI();
-
   const { address: appKitAddress, isConnected: isAppKitConnected } =
     useAppKitAccount();
   const appKitWalletInfo = useWalletInfo();
@@ -36,40 +29,19 @@ export const useConnectedWallet = () => {
     chainNameSpace === (net === 'solana' ? 'solana' : 'eip155');
 
   const awaitSolanaWalletConnect = useAwaitSolanaWalletConnection(
-    net === 'the-open-network' ? undefined : net,
+    net === 'solana' ? net : undefined,
   );
-  const awaitTonWalletConnect = useAwaitTonWalletConnection();
 
   return {
-    address:
-      net === 'the-open-network'
-        ? tonAddress
-        : net === 'solana' || net === 'polygon'
-          ? appKitAddress
-          : undefined,
-    name:
-      net === 'the-open-network'
-        ? tonConnectUI.wallet?.device.appName
-        : net === 'solana' || net === 'polygon'
-          ? appKitWalletInfo.walletInfo?.name
-          : undefined,
-    connected:
-      net === 'the-open-network'
-        ? tonConnectUI.connected
-        : net === 'solana' || net === 'polygon'
-          ? isAppKitConnected && isValidChain
-          : false,
-    icon:
-      net === 'solana' || net === 'polygon'
-        ? appKitWalletInfo.walletInfo?.icon
-        : undefined,
+    address: net === 'solana' ? appKitAddress : undefined,
+    name: net === 'solana' ? appKitWalletInfo.walletInfo?.name : undefined,
+    connected: net === 'solana' ? isAppKitConnected && isValidChain : false,
+    icon: net === 'solana' ? appKitWalletInfo.walletInfo?.icon : undefined,
+    network: net,
 
     connect: () => {
       trackClick('wallet_connect', { network: net })();
-      if (net === 'the-open-network') {
-        return awaitTonWalletConnect();
-      }
-      if (net === 'solana' || net === 'polygon') {
+      if (net === 'solana') {
         return awaitSolanaWalletConnect();
       }
       return Promise.resolve();
@@ -77,80 +49,183 @@ export const useConnectedWallet = () => {
   };
 };
 
-export const useCustodialWallet = () => {
-  const { data: wallets } = useWalletsQuery();
-  const [cwKey, setCw] = useLocalStorage<string | undefined>(
-    'custodial-key',
-    undefined,
-  );
-  const cw = wallets?.results.find(w => w.key === cwKey);
-  const isLoggedIn = useIsLoggedIn();
+export interface UserWallet {
+  address?: string;
+  network: string;
+  key?: string;
+  name?: string;
+  icon?: string;
+  isCustodial: boolean;
+  isPrimary: boolean;
+  isSelected: boolean;
+  connected: boolean;
+}
 
-  const delCw = () => {
-    localStorage.removeItem('custodial-key');
-  };
-
-  useEffect(() => {
-    if (
-      cwKey === undefined &&
-      wallets &&
-      wallets.results.length !== 0 &&
-      isLoggedIn
-    ) {
-      setCw(wallets.results[0]?.key);
-    }
-  }, [cwKey, setCw, wallets, isLoggedIn]);
-
-  return { cw, setCw, delCw };
-};
-
-export const useActiveWallet = () => {
-  const { address, name, connected, connect } = useConnectedWallet();
-  const net = useActiveNetwork();
-  const { cw } = useCustodialWallet();
-  const custodialSupported = cw && net === 'solana';
-
-  return {
-    address: custodialSupported ? cw.address : address,
-    name: custodialSupported ? cw.name : name,
-    connected: custodialSupported ? true : connected,
-    isCustodial: custodialSupported,
-    connect,
-  };
-};
+interface SelectedWallet {
+  address: string;
+  network: string;
+}
 
 export const useWallets = () => {
-  const connectedWallet = useConnectedWallet();
-  const { cw } = useCustodialWallet();
-  const net = useActiveNetwork();
-  const isCustodial = Boolean(cw && net === 'solana');
+  const isLoggedIn = useIsLoggedIn();
+  const { data: cWallets } = useWalletsQuery();
+  const {
+    address: connectedAddress,
+    connected,
+    network,
+    icon,
+    name,
+  } = useConnectedWallet();
+
+  const [isCustodial, setIsCustodial] = useLocalStorage('custodial', true);
+  const [selected, setSelected] = useLocalStorage<SelectedWallet[]>(
+    'selected-wallets',
+    [],
+  );
+
+  const isSelected = useCallback(
+    ({ address, network }: SelectedWallet) => {
+      return (
+        isCustodial &&
+        selected.some(
+          wallet => wallet.address === address && wallet.network === network,
+        )
+      );
+    },
+    [selected, isCustodial],
+  );
+
+  const custodialWallets = useMemo(() => {
+    return (
+      cWallets?.results.map((w, index) => ({
+        address: w.address,
+        network: w.network_slug,
+        key: w.key,
+        name: w.name,
+        isCustodial: true,
+        isPrimary: index === 0,
+        isSelected: isSelected({ address: w.address, network: w.network_slug }),
+        connected: true,
+      })) ?? []
+    );
+  }, [cWallets, isSelected]);
+
+  const connectedWallet = useMemo(
+    () => ({
+      address: connectedAddress,
+      network: network,
+      name: name ?? 'Connected Wallet',
+      icon: icon,
+      isCustodial: false,
+      isPrimary: false,
+      isSelected: !isCustodial,
+      connected: connected,
+    }),
+    [connected, connectedAddress, network, isCustodial, icon, name],
+  );
+
+  const primaryWallet = useMemo(() => custodialWallets[0], [custodialWallets])!;
+
+  const singleWallet = useMemo(
+    () => (isCustodial ? primaryWallet : connectedWallet),
+    [isCustodial, connectedWallet, primaryWallet],
+  );
+
+  const allWallets = useMemo(() => {
+    return [...custodialWallets, connectedWallet];
+  }, [custodialWallets, connectedWallet]);
+
+  const selectedWallets = useMemo(
+    () => allWallets.filter(w => w.isSelected),
+    [allWallets],
+  );
+
+  const toggleWallet = ({ address, network }: SelectedWallet) => {
+    const alreadySelected = selected.some(
+      wallet => wallet.address === address && wallet.network === network,
+    );
+    if (alreadySelected) {
+      deselectWallet({ address, network });
+    } else {
+      selectWallet({ address, network });
+    }
+  };
+
+  const selectWallet = ({ address, network }: SelectedWallet) => {
+    setSelected(prev => [...prev, { address, network }]);
+  };
+
+  const selectPrimaryWallet = () => {
+    setIsCustodial(true);
+    setSelected([
+      {
+        address: primaryWallet.address,
+        network: primaryWallet.network,
+      },
+    ]);
+  };
+
+  const deselectWallet = ({ address, network }: SelectedWallet) => {
+    if (selected.length === 1) {
+      notification.error({ message: 'At least one wallet should be selected' });
+      return;
+    }
+
+    const index = selected.findIndex(
+      wallet => wallet.address === address && wallet.network === network,
+    );
+    if (index !== -1) {
+      setSelected(prev => prev.toSpliced(index, 1));
+    }
+  };
+
+  const selectAll = () => {
+    setSelected(
+      custodialWallets.map(w => ({ address: w.address!, network: w.network })),
+    );
+  };
+
+  const deselectAll = () => {
+    if (primaryWallet) {
+      selectPrimaryWallet();
+    }
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <selected>
+  useEffect(() => {
+    if (isLoggedIn) {
+      if (selected.length === 0 && primaryWallet) {
+        setSelected([{ address: primaryWallet.address, network: 'solana' }]);
+      }
+    } else {
+      setSelected([]);
+    }
+  }, [setSelected, isLoggedIn, primaryWallet]);
 
   return {
-    connectedWallet: {
-      address: connectedWallet.address,
-      name: connectedWallet.name,
-      connected: connectedWallet.connected,
-      connect: connectedWallet.connect,
-    },
-    primaryWallet: {
-      address: isCustodial ? cw?.address : connectedWallet.address,
-      name: isCustodial ? cw?.name : connectedWallet.name,
-    },
+    custodialWallets,
+    connectedWallet,
+    allWallets,
+    selectedWallets,
+    primaryWallet,
+    singleWallet,
     isCustodial,
+    setIsCustodial,
+    toggleWallet,
+    selectAll,
+    selectPrimaryWallet,
+    enableSelectAll: selectedWallets.length !== custodialWallets.length,
+    deselectAll,
   };
 };
 
-export const useUserWallets = () => {
-  const { data } = useWalletsQuery();
-  const { address, connected } = useConnectedWallet();
+export const useWalletsAddresses = () => {
+  const { allWallets } = useWallets();
 
   return useMemo(
-    () => [
-      ...(data?.results?.map(w => w.address) ?? []),
-      ...(address && connected ? [address] : []),
-    ],
-    [data, address, connected],
-  );
+    () => allWallets?.map(w => w.address).filter(Boolean) ?? [],
+    [allWallets],
+  ) as string[];
 };
 
 function useAwaitSolanaWalletConnection(net: 'solana' | 'polygon' = 'solana') {
@@ -179,28 +254,16 @@ function useAwaitSolanaWalletConnection(net: 'solana' | 'polygon' = 'solana') {
   });
 }
 
-function useAwaitTonWalletConnection() {
-  const [tonConnectUI] = useTonConnectUI();
-  const { open } = useTonConnectModal();
-
-  return usePromiseOfEffect({
-    action: open,
-    done: tonConnectUI.connected || tonConnectUI.modalState.status === 'closed',
-    result: tonConnectUI.connected,
-  });
-}
-
-export const useDisconnectAll = () => {
-  const [{ disconnect: tonDisconnect }] = useTonConnectUI();
+export const useDisconnectWallet = () => {
   const { disconnect } = useDisconnect();
 
   return async () => {
     try {
-      await Promise.all([disconnect(), tonDisconnect()]);
+      await disconnect();
     } catch {
     } finally {
       for (const key of Object.keys(localStorage)) {
-        if (/^(wallet|ton|@appkit|binance|ethereum)/.test(key)) {
+        if (/^(wallet|@appkit|binance|ethereum)/.test(key)) {
           localStorage.removeItem(key);
         }
       }

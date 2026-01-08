@@ -1,14 +1,14 @@
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useTrackedWallets } from 'modules/discovery/ListView/WalletTracker/useTrackedWallets';
 import { useMemo } from 'react';
-import { useUserWallets } from 'services/chains/wallet';
+import { useWalletsAddresses } from 'services/chains/wallet';
 import { useKolWallets } from 'services/rest/kol';
 
 export const useKnownWallets = () => {
   const { developer } = useUnifiedCoinDetails();
   const trackedWallets = useTrackedWallets();
   const { data: kolWallets } = useKolWallets({});
-  const userWallets = useUserWallets();
+  const userWallets = useWalletsAddresses();
 
   return useMemo(() => {
     return [
