@@ -13,6 +13,7 @@ import {
 } from 'services/rest/gamification';
 import { CoinExtensionsGroup } from 'shared/CoinExtensionsGroup';
 import { PageTitle } from 'shared/PageTitle';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { shortenAddress } from 'utils/address';
@@ -193,7 +194,7 @@ function RewardItem({
           <p className="mt-2">{title}</p>
         </div>
         <div className="flex h-full w-32 items-center justify-center gap-2 border-v1-border-disabled border-l border-dashed">
-          <SolanaIcon /> {amount}
+          <SolanaIcon /> <ReadableNumber value={amount} />
         </div>
       </div>
     </div>

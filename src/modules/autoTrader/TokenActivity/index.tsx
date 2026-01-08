@@ -2,11 +2,6 @@ import { bxArrowToRight, bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import SwapSharingModal from 'modules/autoTrader/SwapSharingModal';
 import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
-import {
-  calcPnl,
-  calcPnlPercent,
-} from 'modules/autoTrader/TokenActivity/utils';
-import { useActiveNetwork } from 'modules/base/active-network';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import { useState } from 'react';
@@ -15,7 +10,6 @@ import {
   WRAPPED_SOLANA_SLUG,
 } from 'services/chains/constants';
 import { WatchEventType } from 'services/grpc/proto/wealth_manager';
-import { useLastPriceStream } from 'services/price';
 import { useHasFlag, useTokenPairsQuery } from 'services/rest';
 import { useTokenInfo } from 'services/rest/token-info';
 import { HoverTooltip } from 'shared/HoverTooltip';
@@ -85,7 +79,20 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
   const { symbol } = useUnifiedCoinDetails();
   const { settings, toggleShowActivityInUsd } = useUserSettings();
   const slug = symbol.slug;
-  const { data } = useTokenActivity({
+  const {
+    bought,
+    boughtUsd,
+    sold,
+    soldUsd,
+    balance,
+    hold,
+    holdUsd,
+    pnl,
+    pnlUsd,
+    pnlPercent,
+    pnlUsdPercent,
+    pnlSign,
+  } = useTokenActivity({
     slug,
     type: showLastPosition
       ? WatchEventType.SWAP_POSITION_UPDATE
@@ -96,44 +103,13 @@ export default function TokenActivity({ mini = false }: { mini?: boolean }) {
   const [openShare, setOpenShare] = useState(false);
   const { data: tokenInfo } = useTokenInfo({ slug });
 
-  const network = useActiveNetwork();
   const { data: pairs, isPending } = useTokenPairsQuery(slug);
 
   const hasSolanaPair =
     !isPending && pairs?.some(p => p.quote.slug === WRAPPED_SOLANA_SLUG);
   const showUsd = hasSolanaPair ? settings.show_activity_in_usd : true;
 
-  const { data: price } = useLastPriceStream({
-    network,
-    slug: symbol.slug,
-    quote: WRAPPED_SOLANA_SLUG,
-  });
-
-  const { data: priceUsd } = useLastPriceStream({
-    network,
-    slug: symbol.slug,
-    quote: WRAPPED_SOLANA_SLUG,
-    convertToUsd: true,
-  });
-
   const unit = showUsd ? '$' : <SolanaIcon />;
-
-  const bought = Number(data?.totalBought ?? '0');
-  const boughtUsd = Number(data?.totalBoughtUsd ?? '0');
-
-  const sold = Number(data?.totalSold ?? '0');
-  const soldUsd = Number(data?.totalSoldUsd ?? '0');
-
-  const balance = Number(data?.balance ?? '0');
-  const hold = balance * (price ?? 0);
-  const holdUsd = balance * (priceUsd ?? 0);
-
-  const pnl = calcPnl(bought, sold, balance, price ?? 0);
-  const pnlUsd = calcPnl(boughtUsd, soldUsd, balance, priceUsd ?? 0);
-
-  const pnlPercent = calcPnlPercent(bought, pnl);
-  const pnlUsdPercent = calcPnlPercent(boughtUsd, pnlUsd);
-  const pnlSign = pnl >= 0 ? '+' : '-';
 
   const formatter = (value?: string | number) => {
     return formatNumber(Number(value ?? '0'), {

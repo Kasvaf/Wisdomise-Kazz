@@ -203,9 +203,9 @@ const AdvancedChart: React.FC<{
       setButtonInnerContent();
       button.addEventListener('click', () => {
         widget.activeChart().refreshMarks();
-        // setIsMarketCap(!isMarketCap);
-        // setButtonInnerContent();
-        // widget.activeChart().resetData();
+        setIsMarketCap(!isMarketCap);
+        setButtonInnerContent();
+        widget.activeChart().resetData();
       });
     });
 
