@@ -135,11 +135,7 @@ export const Header: FC<{
                       className: 'w-full',
                     }}
                     chevron
-                    items={[
-                      menuItems.twitterTracker,
-                      menuItems.metaTracker,
-                      menuItems.walletTracker,
-                    ]}
+                    items={[menuItems.twitterTracker, menuItems.walletTracker]}
                     itemsProps={{
                       surface: 1,
                       className: 'w-full justify-start',
