@@ -4,19 +4,19 @@ import { AlertButton } from './AlertButton';
 import { GlobalSearch } from './GlobalSearch';
 
 export const CoinExtensionsGroup: FC = () => {
-  const isMobile = useIsMobile();
+  const _isMobile = useIsMobile();
   return (
-    <div className="flex items-center gap-2">
+    <>
       <GlobalSearch
-        className="min-w-[122px] grow"
-        size={isMobile ? 'sm' : 'xs'}
-        surface={isMobile ? 2 : 1}
+        className="max-md:!p-0 grow max-md:h-xs max-md:w-xs md:min-w-[122px]"
+        size="xs"
+        surface={1}
       />
       <AlertButton
         className="ms-6 shrink-0 max-md:ms-0"
-        size={isMobile ? 'sm' : 'xs'}
-        surface={isMobile ? 2 : 1}
+        size="xs"
+        surface={1}
       />
-    </div>
+    </>
   );
 };

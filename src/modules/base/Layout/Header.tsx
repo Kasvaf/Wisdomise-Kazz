@@ -93,11 +93,11 @@ export const Header: FC<{
         )}
       </div>
       <div className="flex items-center justify-end gap-2">
-        {!isMobile && extension && <>{extension}</>}
+        {extension && <>{extension}</>}
 
         {RouterBaseName && <BranchSelector />}
 
-        <BtnWalletConnect />
+        <BtnWalletConnect size="xs" />
 
         <ClickableTooltip
           chevron={false}
@@ -110,7 +110,6 @@ export const Header: FC<{
               )}
               {isMobile && (
                 <>
-                  <div className="mb-2 w-full shrink-0">{extension}</div>
                   <MenuItem
                     block
                     className="w-full justify-start"
