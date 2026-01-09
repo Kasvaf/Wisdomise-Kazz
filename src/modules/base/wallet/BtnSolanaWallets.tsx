@@ -36,6 +36,7 @@ import { Dialog } from 'shared/v1-components/Dialog';
 import { Input } from 'shared/v1-components/Input';
 import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
+import useIsMobile from 'utils/useIsMobile';
 import type { Surface } from 'utils/useSurface';
 import { ReactComponent as PrimaryWallet } from './primary-wallet.svg';
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
@@ -179,6 +180,7 @@ export function WalletSelector({
                     network: wallet.network,
                   });
                 }}
+                size="md"
                 value={wallet.isSelected}
               />
               <WalletOptionComponent wallet={wallet} />
@@ -297,6 +299,7 @@ function MultiWalletBuySettings() {
     settings.multi_wallet.variance * 100,
   );
   const [delay, setDelay] = useState(settings.multi_wallet.delay);
+  const isMobile = useIsMobile();
 
   const save = () => {
     updateMultiWalletSettings({ variance: variance / 100, delay });
@@ -318,6 +321,7 @@ function MultiWalletBuySettings() {
 
       <Dialog
         className="md:max-w-[25rem]"
+        mode={isMobile ? 'drawer' : 'modal'}
         onClose={() => setOpen(false)}
         open={open}
       >

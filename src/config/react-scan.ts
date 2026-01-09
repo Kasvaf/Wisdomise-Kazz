@@ -1,5 +1,5 @@
 export const configReactScan = () => {
-  // biome-ignore lint/correctness/noConstantCondition: <explanation>
+  // biome-ignore lint/correctness/noConstantCondition: disabled for production
   if (true) return;
 
   const f = document.querySelectorAll('script')[0];

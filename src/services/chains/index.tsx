@@ -39,7 +39,7 @@ export const useTokenBalance = ({
   const solResult = useSolanaTokenBalance({
     slug,
     tokenAddress,
-    walletAddress,
+    walletAddresses: walletAddress ? [walletAddress] : undefined,
     enabled: enabled && net === 'solana',
   });
 

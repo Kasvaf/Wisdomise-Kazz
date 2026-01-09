@@ -1,5 +1,5 @@
 import { ReactComponent as Logo } from 'assets/monogram-green.svg';
-import { bxTrophy, bxSearch } from 'boxicons-quasar';
+import { bxSearch, bxTrophy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -47,10 +47,10 @@ const MobileHeader: React.FC<
         {/* Search Icon Button */}
         {extension && (
           <button
+            aria-label="Open search"
             className="flex items-center justify-center rounded-md p-2 transition-colors hover:bg-v1-surface-l1 active:bg-v1-surface-l2"
             onClick={handleSearchClick}
             type="button"
-            aria-label="Open search"
           >
             <Icon className="text-white" name={bxSearch} size={20} />
           </button>
@@ -103,7 +103,7 @@ const MobileHeader: React.FC<
 
       {/* Hidden search component - triggered by search icon */}
       {extension && (
-        <div ref={searchRef} className="invisible fixed -left-[9999px]">
+        <div className="-left-[9999px] invisible fixed" ref={searchRef}>
           {extension}
         </div>
       )}

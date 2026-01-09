@@ -59,10 +59,7 @@ export default defineConfig(config => ({
     drop: config.mode === 'production' ? ['debugger'] : [],
   },
   server: {
-    allowedHosts: [
-      '.trycloudflare.com',
-      'localhost',
-    ],
+    allowedHosts: ['.trycloudflare.com', 'localhost'],
     proxy: {
       ...Object.fromEntries(
         ['temple', 'account-panel', 'chatapp'].map(name => [

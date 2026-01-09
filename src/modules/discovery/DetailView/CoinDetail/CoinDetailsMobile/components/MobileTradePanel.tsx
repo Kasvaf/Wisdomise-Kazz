@@ -5,6 +5,8 @@ import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchToken
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
+import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import Icon from 'modules/shared/Icon';
 import { Button } from 'modules/shared/v1-components/Button';
@@ -19,6 +21,7 @@ import { WatchEventType } from 'services/grpc/proto/wealth_manager';
 import { useLastPriceStream } from 'services/price';
 import { useWalletsQuery } from 'services/rest/wallets';
 import { preventNonNumericInput } from 'utils/numbers';
+import { MobileWalletItem } from './MobileWalletItem';
 
 export function MobileTradePanel() {
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
@@ -36,7 +39,7 @@ export function MobileTradePanel() {
   const slug = symbol.slug;
   const [quote, _setQuote] = useState(WRAPPED_SOLANA_SLUG);
 
-  const { primaryWallet, isCustodial, setIsCustodial } = useWallets();
+  const { primaryWallet, selectedWallets } = useWallets();
   const { data: baseBalance } = useTokenBalance({ slug });
   const isLoggedIn = useIsLoggedIn();
   const [loginModal, open] = useModalLogin();
@@ -191,7 +194,9 @@ export function MobileTradePanel() {
         >
           <Icon name={bxWallet} size={14} />
           <span className="truncate text-sm">
-            {primaryWallet?.name || 'Wallet'}
+            {selectedWallets.length > 1
+              ? `${selectedWallets.length} Wallets`
+              : primaryWallet?.name || 'Wallet'}
           </span>
           <span className="ml-auto font-mono text-neutral-500 text-xs">
             {baseBalance?.toFixed(2) ?? '0.00'}
@@ -304,46 +309,22 @@ export function MobileTradePanel() {
         ))}
       </Dialog>
 
-      {/* Wallet Selection Drawer - Using real wallet data */}
+      {/* Wallet Selection Drawer - Multi-wallet support */}
       <Dialog
         className="bg-v1-surface-l1"
-        contentClassName="flex flex-col max-h-[60vh] overflow-y-auto"
+        contentClassName="flex flex-col max-h-[70vh] overflow-y-auto p-4"
         drawerConfig={{ position: 'bottom', closeButton: true }}
         header={
-          <div className="flex w-full items-center justify-between">
-            <span className="font-medium text-white">Select Wallet</span>
-            <Button
-              className="text-neutral-600"
-              data-testid="button-wallet-settings"
-              fab={true}
-              size="sm"
-              variant="ghost"
-            >
-              <Icon name={bxCog} size={20} />
-            </Button>
+          <div className="flex w-full items-center justify-between px-4 pt-4">
+            <span className="font-medium text-lg text-white">Wallets</span>
           </div>
         }
         mode="drawer"
         onClose={() => setShowWalletDrawer(false)}
         open={showWalletDrawer}
       >
-        {!isCustodial && (
-          <div className="p-4 text-center">
-            <p className="mb-4 text-sm text-white">
-              For instant trading, switch to a custodial wallet
-            </p>
-            <Button
-              className="w-full"
-              onClick={() => {
-                setIsCustodial(true);
-                setShowWalletDrawer(false);
-              }}
-              size="md"
-            >
-              Switch to Custodial Wallet
-            </Button>
-          </div>
-        )}
+        <TotalBalance className="mb-4 rounded-lg bg-v1-surface-l2 p-3" />
+        <WalletSelector WalletOptionComponent={MobileWalletItem} />
       </Dialog>
       {loginModal}
     </div>

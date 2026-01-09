@@ -19,12 +19,16 @@ import {
   widget as Widget,
 } from '../../../../public/charting_library';
 import { useAdvancedChartWidget } from './ChartWidgetProvider';
+import {
+  getChartOverrides,
+  getDisabledFeatures,
+  getEnabledFeatures,
+} from './chartConfig';
 import { useChartConvertToUSD, useChartIsMarketCap } from './chartSettings';
 import { LocalStorageSaveLoadAdapter } from './localStorageSaveLoadAdapter';
 import makeDataFeed from './makeDataFeed';
 import { useSwapActivityLines } from './useChartAnnotations';
-import { getDeviceType, isMobileDevice } from './utils';
-import { getEnabledFeatures, getDisabledFeatures, getChartOverrides } from './chartConfig';
+import { getDeviceType } from './utils';
 
 const AdvancedChart: React.FC<{
   widgetRef?: (ref: IChartingLibraryWidget | undefined) => void;
@@ -63,7 +67,9 @@ const AdvancedChart: React.FC<{
   const { data: pairs } = useTokenPairsQuery(slug);
 
   // Detect device type for responsive configuration
-  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>(() => getDeviceType());
+  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>(
+    () => getDeviceType(),
+  );
 
   // Update device type on window resize
   useEffect(() => {

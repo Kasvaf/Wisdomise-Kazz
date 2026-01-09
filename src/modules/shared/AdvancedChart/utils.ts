@@ -11,9 +11,10 @@ export const isMobileDevice = (): boolean => {
   const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
 
   // Check user agent for mobile/tablet devices
-  const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  );
+  const isMobileUserAgent =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
 
   return isMobileViewport || isMobileUserAgent;
 };
@@ -25,7 +26,7 @@ export const isTouchDevice = (): boolean => {
   return (
     'ontouchstart' in window ||
     navigator.maxTouchPoints > 0 ||
-    // @ts-ignore - for older browsers
+    // @ts-expect-error - for older browsers
     navigator.msMaxTouchPoints > 0
   );
 };

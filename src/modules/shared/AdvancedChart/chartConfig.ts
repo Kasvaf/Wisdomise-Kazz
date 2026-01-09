@@ -87,7 +87,7 @@ const DESKTOP_DISABLED_FEATURES: ChartingLibraryFeatureset[] = [
  * Get enabled features based on device type
  */
 export const getEnabledFeatures = (
-  deviceType: 'mobile' | 'tablet' | 'desktop'
+  deviceType: 'mobile' | 'tablet' | 'desktop',
 ): ChartingLibraryFeatureset[] => {
   if (deviceType === 'mobile' || deviceType === 'tablet') {
     return MOBILE_ENABLED_FEATURES;
@@ -99,7 +99,7 @@ export const getEnabledFeatures = (
  * Get disabled features based on device type
  */
 export const getDisabledFeatures = (
-  deviceType: 'mobile' | 'tablet' | 'desktop'
+  deviceType: 'mobile' | 'tablet' | 'desktop',
 ): ChartingLibraryFeatureset[] => {
   if (deviceType === 'mobile' || deviceType === 'tablet') {
     return MOBILE_DISABLED_FEATURES;
@@ -158,7 +158,7 @@ const DESKTOP_OVERRIDES = {
  * Get chart overrides based on device type
  */
 export const getChartOverrides = (
-  deviceType: 'mobile' | 'tablet' | 'desktop'
+  deviceType: 'mobile' | 'tablet' | 'desktop',
 ): Record<string, any> => {
   if (deviceType === 'mobile' || deviceType === 'tablet') {
     return MOBILE_OVERRIDES;
