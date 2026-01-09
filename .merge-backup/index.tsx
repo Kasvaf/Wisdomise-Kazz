@@ -6,6 +6,7 @@ import {
   type TradeSettingsSource,
   useUserSettings,
 } from 'modules/base/auth/UserSettingsProvider';
+import { useEffect, useState } from 'react';
 import type { SupportedNetworks } from 'services/rest';
 import {
   USDC_CONTRACT_ADDRESS,
@@ -18,24 +19,19 @@ import {
   useSolanaTokenBalance,
   useSolanaTransferAssetsMutation,
 } from './solana';
-import { useWallets } from './wallet';
 
 export const useTokenBalance = ({
   network,
   slug,
   tokenAddress,
   walletAddress,
-  walletAddresses,
   enabled = true,
-  refetchInterval,
 }: {
   network?: SupportedNetworks;
   slug?: string;
   tokenAddress?: string;
   walletAddress?: string;
-  walletAddresses?: string[];
   enabled?: boolean;
-  refetchInterval?: number;
 }) => {
   const activeNet = useActiveNetwork();
   const net = network ?? activeNet;
@@ -43,16 +39,13 @@ export const useTokenBalance = ({
   const solResult = useSolanaTokenBalance({
     slug,
     tokenAddress,
-    walletAddresses:
-      walletAddresses || (walletAddress ? [walletAddress] : undefined),
+    walletAddress,
     enabled: enabled && net === 'solana',
-    refetchInterval,
   });
 
   if (net === 'solana') return solResult;
 
   return {
-    queries: [],
     data: null,
     isLoading: !net,
     refetch: () => {
@@ -135,62 +128,41 @@ export const useSwap = ({
   tokenAddress,
   quote,
   source,
-  baseBalanceEnabled = true,
 }: {
   slug?: string;
   tokenAddress?: string;
   quote?: string;
   source: TradeSettingsSource;
-  baseBalanceEnabled?: boolean;
 }) => {
   const net = useActiveNetwork();
   const solanaSwap = useSolanaSwap();
-  const { selectedWallets } = useWallets();
-
-  const { data: baseBalance, queries: baseBalances } = useTokenBalance({
+  const { data: baseBalance, refetch } = useTokenBalance({
     slug,
     tokenAddress,
-    walletAddresses: selectedWallets
-      .map(w => w.address)
-      .filter((addr): addr is string => !!addr),
-    enabled: baseBalanceEnabled,
+    enabled: false,
   });
-  const { getActivePreset, settings } = useUserSettings();
-  const { data: quoteBalance, queries: quoteBalances } = useTokenBalance({
-    slug: quote,
-    walletAddresses: selectedWallets
-      .map(w => w.address)
-      .filter((addr): addr is string => !!addr),
-  });
+  const { getActivePreset } = useUserSettings();
+  const { data: quoteBalance } = useTokenBalance({ slug: quote });
   const { confirm } = useConfirmTransaction({ slug });
 
   const attemptSolanaSwap = async (side: 'LONG' | 'SHORT', amount: string) => {
+    const balance = baseBalance ?? (await refetch())?.data;
+
     const preset = getActivePreset(source)[side === 'LONG' ? 'buy' : 'sell'];
     const priorityFee = preset.sol_priority_fee;
     const slippage = preset.slippage;
-
-    const variance = settings.multi_wallet.variance;
-    const delay = settings.multi_wallet.delay;
-
-    const splitAmounts =
-      side === 'LONG'
-        ? splitWithVariance(
-            +amount,
-            selectedWallets.length,
-            variance,
-            quoteBalances.map((q: { data?: number | null }) => q.data ?? 0),
-          )
-        : baseBalances.map((q: { data?: number | null }) =>
-            String((q.data ?? 0) * (+amount / (baseBalance ?? 1))),
-          );
 
     const coverPriorityFee =
       side === 'LONG' && quote === WRAPPED_SOLANA_SLUG
         ? +amount + +priorityFee < (quoteBalance ?? 0)
         : +priorityFee < (quoteBalance ?? 0);
 
-    if (!slug || !quote) {
-      throw new Error('slug or quote not found');
+    if (
+      (side === 'LONG' && (quoteBalance ?? 0) < +amount) ||
+      (side === 'SHORT' && (balance ?? 0) === 0)
+    ) {
+      notification.error({ message: 'Insufficient balance' });
+      return;
     }
 
     if (!coverPriorityFee) {
@@ -207,59 +179,40 @@ export const useSwap = ({
       return;
     }
 
-    if (
-      (side === 'LONG' && (quoteBalance ?? 0) < +amount) ||
-      (side === 'SHORT' && (baseBalance ?? 0) === 0)
-    ) {
-      notification.error({ message: 'Insufficient balance' });
-      return;
+    if (!slug || !quote) {
+      throw new Error('slug or quote not found');
     }
 
     const notificationKey = Date.now();
-    notification.open({
-      key: notificationKey,
-      message: <NotificationContent count={selectedWallets.length} />,
-      duration: 10_000,
-    });
-
-    const wait = (ms: number) =>
-      new Promise(resolve => setTimeout(resolve, ms));
-
-    const swaps = await Promise.allSettled(
-      selectedWallets
-        .filter((_, i) => +splitAmounts[i])
-        .map(async (_, i) => {
-          const wallet = selectedWallets[i];
-          if (!wallet?.address) throw new Error('Wallet not found');
-
-          const ms = side === 'LONG' && delay && i !== 0 ? delay : 0;
-          await wait(ms);
-
-          try {
-            return await solanaSwap(
-              slug,
-              quote,
-              side,
-              splitAmounts[i],
-              wallet.address,
-              wallet.isCustodial,
-              slippage,
-              priorityFee,
-            );
-          } catch (error) {
-            notification.error({
-              key: notificationKey,
-              message: `Failed to execute transaction. ${error}`,
-            });
-          }
-        }),
-    );
-
-    confirm();
-    if (!swaps.some(s => s.status === 'rejected')) {
-      notification.success({
+    try {
+      notification.open({
         key: notificationKey,
-        message: `${swaps.length} transaction${swaps.length > 1 ? 's' : ''} executed successfully`,
+        message: <NotificationContent />,
+        duration: 30_000,
+      });
+      const attemptTime = Date.now();
+      console.log('attempt', new Date(attemptTime).toISOString());
+      const { swapKey } = await solanaSwap(
+        slug,
+        quote,
+        side,
+        amount,
+        slippage,
+        priorityFee,
+      );
+      const doneTime = Date.now();
+      console.log(
+        'swap created',
+        new Date(doneTime).toISOString(),
+        'diff: ',
+        doneTime - attemptTime,
+      );
+      swapsNotifications.set(swapKey, notificationKey);
+      confirm({ swapKey });
+    } catch (error) {
+      notification.error({
+        key: notificationKey,
+        message: `Failed to execute transaction. ${error}`,
       });
     }
   };
@@ -271,60 +224,20 @@ export const useSwap = ({
   };
 };
 
-function splitWithVariance(
-  total: number,
-  parts: number,
-  variance: number,
-  maxCaps: number[], // absolute max per part
-) {
-  if (maxCaps.length !== parts) {
-    throw new Error('maxCaps length must equal parts');
-  }
+const NotificationContent = () => {
+  const [count, setCount] = useState(0);
 
-  const base = total / parts;
-  const maxDelta = base * variance;
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCount(prevCount => prevCount + 1);
+    }, 1000);
 
-  const min = base - maxDelta;
+    return () => clearInterval(intervalId);
+  }, []);
 
-  // Step 1: generate random deltas
-  let deltas = Array.from(
-    { length: parts },
-    () => (Math.random() * 2 - 1) * maxDelta,
-  );
-
-  // Step 2: normalize deltas so their sum is 0
-  const deltaSum = deltas.reduce((a, b) => a + b, 0);
-  deltas = deltas.map(d => d - deltaSum / parts);
-
-  // Step 3: apply base + delta, then clamp using BOTH rules
-  const values = deltas.map((d, i) => {
-    const value = base + d;
-    const maxAllowed = Math.min(base + maxDelta, maxCaps[i]);
-
-    return Math.min(maxAllowed, Math.max(min, value));
-  });
-
-  // Step 4: fix total drift (safe redistribution)
-  let diff = total - values.reduce((a, b) => a + b, 0);
-
-  for (let i = 0; i < parts && diff !== 0; i++) {
-    const maxAllowed = Math.min(base + maxDelta, maxCaps[i]);
-    const room = maxAllowed - values[i];
-
-    if (room > 0) {
-      const applied = Math.min(room, diff);
-      values[i] += applied;
-      diff -= applied;
-    }
-  }
-
-  return values.map(v => v.toFixed(5));
-}
-
-const NotificationContent = ({ count }: { count: number }) => {
   return (
     <div className="flex items-center gap-2">
-      <Spin /> {`Attempting transaction${count > 1 ? 's' : ''}`}
+      <Spin /> Attempting transaction ({count}s)
     </div>
   );
 };

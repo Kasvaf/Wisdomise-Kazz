@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { useSolanaWalletBalanceInUSD } from 'modules/autoTrader/UserAssets/useSolanaWalletPricedAssets';
 import { useEffect, useMemo, useState } from 'react';
 import { useWalletsAddresses } from 'services/chains/wallet';
-import { ReadableNumber } from 'shared/ReadableNumber';
+import { roundSensible } from 'utils/numbers';
 
 export default function TotalBalance({ className }: { className?: string }) {
   return (
@@ -58,8 +58,7 @@ function TotalBalanceHandler() {
 
   return (
     <span>
-      {handlers}
-      <ReadableNumber format={{ decimalLength: 2 }} label="$" value={total} />
+      {handlers}${roundSensible(total)}
     </span>
   );
 }

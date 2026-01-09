@@ -36,7 +36,6 @@ import { Dialog } from 'shared/v1-components/Dialog';
 import { Input } from 'shared/v1-components/Input';
 import { useSessionStorage } from 'usehooks-ts';
 import { shortenAddress } from 'utils/address';
-import useIsMobile from 'utils/useIsMobile';
 import type { Surface } from 'utils/useSurface';
 import { ReactComponent as PrimaryWallet } from './primary-wallet.svg';
 import { ReactComponent as WalletIcon } from './wallet-icon.svg';
@@ -117,7 +116,7 @@ export default function BtnSolanaWallets({
 
 function UserWallets() {
   return (
-    <div className="md:w-[25rem]">
+    <div className="w-[25rem]">
       <TotalBalance className="-mx-3 -mt-3 max-md:!bg-transparent mb-2" />
       <WalletSelector WalletOptionComponent={WalletItem} />
     </div>
@@ -141,22 +140,19 @@ export function WalletSelector({
     enableSelectAll,
     deselectAll,
   } = useWallets();
-  const isMobile = useIsMobile();
 
   return (
     <div className={className}>
-      {!isMobile && (
-        <ButtonSelect
-          className="mb-3"
-          onChange={newValue => setIsCustodial(newValue)}
-          options={[
-            { label: 'Custodial', value: true },
-            { label: 'Non-custodial', value: false },
-          ]}
-          size="xs"
-          value={isCustodial}
-        />
-      )}
+      <ButtonSelect
+        className="mb-3"
+        onChange={newValue => setIsCustodial(newValue)}
+        options={[
+          { label: 'Custodial', value: true },
+          { label: 'Non-custodial', value: false },
+        ]}
+        size="xs"
+        value={isCustodial}
+      />
       {isCustodial ? (
         <div>
           <div className="flex items-center justify-between">
@@ -179,11 +175,10 @@ export function WalletSelector({
               <Checkbox
                 onChange={() => {
                   toggleWallet({
-                    address: wallet.address,
+                    address: wallet.address!,
                     network: wallet.network,
                   });
                 }}
-                size="md"
                 value={wallet.isSelected}
               />
               <WalletOptionComponent wallet={wallet} />
@@ -302,7 +297,6 @@ function MultiWalletBuySettings() {
     settings.multi_wallet.variance * 100,
   );
   const [delay, setDelay] = useState(settings.multi_wallet.delay);
-  const isMobile = useIsMobile();
 
   const save = () => {
     updateMultiWalletSettings({ variance: variance / 100, delay });
@@ -324,7 +318,6 @@ function MultiWalletBuySettings() {
 
       <Dialog
         className="md:max-w-[25rem]"
-        mode={isMobile ? 'drawer' : 'modal'}
         onClose={() => setOpen(false)}
         open={open}
       >

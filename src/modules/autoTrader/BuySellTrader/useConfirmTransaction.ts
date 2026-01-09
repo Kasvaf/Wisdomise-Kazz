@@ -11,9 +11,13 @@ export const useConfirmTransaction = ({ slug }: { slug?: string }) => {
   const queryClient = useQueryClient();
   const { lastSwapPayload, lastOrderPayload } = useWatchTokenStream({ slug });
 
-  const confirm = ({ swapKey }: { swapKey: string }) => {
-    invalidateQueries(swapKey);
-    confirmNotification(swapKey);
+  const confirm = (params?: { swapKey: string }) => {
+    if (params?.swapKey) {
+      invalidateQueries(params.swapKey);
+      confirmNotification(params.swapKey);
+    } else {
+      invalidateQueries();
+    }
   };
 
   const invalidateQueries = useCallback(
