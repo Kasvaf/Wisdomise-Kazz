@@ -198,15 +198,10 @@ const AdvancedChart: React.FC<{
           const timeRange = 21_600; // 6 hours in seconds
 
           // Apply the visible range immediately since we're not loading saved state
-          chart.setVisibleRange(
-            {
-              from: now - timeRange,
-              to: now,
-            },
-            () => {
-              // Optional callback after range is set
-            },
-          );
+          chart.setVisibleRange({
+            from: now - timeRange,
+            to: now,
+          });
         } catch (error) {
           console.warn('Could not set initial visible range:', error);
         }
