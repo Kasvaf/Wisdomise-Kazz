@@ -1,9 +1,11 @@
 import { bxCheck, bxEditAlt, bxWallet } from 'boxicons-quasar';
-import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import {
+  type TraderPreset,
+  useUserSettings,
+} from 'modules/base/auth/UserSettingsProvider';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
 import Icon from 'modules/shared/Icon';
 import { Dialog } from 'modules/shared/v1-components/Dialog';
@@ -473,7 +475,10 @@ function TraderPresetForm({
         <Input
           className="w-24"
           onChange={newValue =>
-            setValue(prev => ({ ...prev, slippage: String(+newValue / 100) }))
+            setValue((prev: TraderPreset) => ({
+              ...prev,
+              slippage: String(+newValue / 100),
+            }))
           }
           onKeyDown={preventNonNumericInput}
           size="xs"
@@ -489,13 +494,13 @@ function TraderPresetForm({
           className="w-24"
           onBlur={() => {
             value.sol_priority_fee === '' &&
-              setValue(prev => ({
+              setValue((prev: TraderPreset) => ({
                 ...prev,
                 sol_priority_fee: '0',
               }));
           }}
           onChange={newValue =>
-            setValue(prev => ({
+            setValue((prev: TraderPreset) => ({
               ...prev,
               sol_priority_fee: newValue,
             }))

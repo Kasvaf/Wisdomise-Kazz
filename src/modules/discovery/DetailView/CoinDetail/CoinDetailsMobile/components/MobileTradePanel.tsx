@@ -1,10 +1,12 @@
 import { bxCheck, bxCog, bxEditAlt, bxWallet } from 'boxicons-quasar';
-import type { TraderPreset } from 'modules/autoTrader/BuySellTrader/TraderPresets';
 import { convertToBaseAmount } from 'modules/autoTrader/BuySellTrader/utils';
 import { useTokenActivity } from 'modules/autoTrader/TokenActivity/useWatchTokenStream';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
-import { useUserSettings } from 'modules/base/auth/UserSettingsProvider';
+import {
+  type TraderPreset,
+  useUserSettings,
+} from 'modules/base/auth/UserSettingsProvider';
 import { WalletSelector } from 'modules/base/wallet/BtnSolanaWallets';
 import TotalBalance from 'modules/base/wallet/TotalBalance';
 import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/lib';
@@ -437,7 +439,7 @@ function TraderPresetForm({
   onChange,
 }: {
   defaultValue: TraderPreset;
-  surface: number;
+  surface: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   onChange: (newValue: TraderPreset) => void;
 }) {
   const [value, setValue] = useState(defaultValue);
@@ -454,7 +456,10 @@ function TraderPresetForm({
         <Input
           className="w-1/3"
           onChange={newValue =>
-            setValue(prev => ({ ...prev, slippage: String(+newValue / 100) }))
+            setValue((prev: TraderPreset) => ({
+              ...prev,
+              slippage: String(+newValue / 100),
+            }))
           }
           onKeyDown={preventNonNumericInput}
           size="xs"
@@ -470,13 +475,13 @@ function TraderPresetForm({
           className="w-1/3"
           onBlur={() => {
             value.sol_priority_fee === '' &&
-              setValue(prev => ({
+              setValue((prev: TraderPreset) => ({
                 ...prev,
                 sol_priority_fee: '0',
               }));
           }}
           onChange={newValue =>
-            setValue(prev => ({
+            setValue((prev: TraderPreset) => ({
               ...prev,
               sol_priority_fee: newValue,
             }))
