@@ -145,9 +145,9 @@ const UserWallets = (props: Props) => {
       <p className="my-3 text-v1-content-secondary text-xs">Wallets</p>
       <WalletSelector
         className="-mr-1 -mt-3"
-        expanded={props.expanded}
-        radioClassName="w-full [&.ant-radio-wrapper]:!items-start [&_.ant-radio]:!mt-4 [&_.ant-radio]:!self-start"
-        WalletOptionComponent={WalletItem}
+        WalletOptionComponent={walletProps => (
+          <WalletItem wallet={walletProps.wallet as any} />
+        )}
       />
     </div>
   );

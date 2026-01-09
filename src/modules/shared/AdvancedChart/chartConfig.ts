@@ -29,7 +29,7 @@ const MOBILE_ENABLED_FEATURES: ChartingLibraryFeatureset[] = [
   'vert_touch_drag_scroll', // Better vertical drag behavior
 
   // Mobile UX improvements
-  'long_press_floating_tooltip', // Floating tooltip with OHLC values on long press
+  'long_press_floating_tooltip' as ChartingLibraryFeatureset, // Floating tooltip with OHLC values on long press
   // Note: 'always_show_legend_values_on_mobile' removed since legend is hidden
 
   // Performance optimizations
@@ -69,8 +69,8 @@ const BASE_DISABLED_FEATURES: ChartingLibraryFeatureset[] = [
  */
 const MOBILE_DISABLED_FEATURES: ChartingLibraryFeatureset[] = [
   ...BASE_DISABLED_FEATURES,
-  'right_toolbar', // Right toolbar not needed on mobile
-  'broker_button', // Reduce clutter on mobile
+  'right_toolbar' as ChartingLibraryFeatureset, // Right toolbar not needed on mobile
+  'broker_button' as ChartingLibraryFeatureset, // Reduce clutter on mobile
   'context_menus', // Better to use touch gestures
   // Note: 'legend_widget' already in BASE_DISABLED_FEATURES
 ];
@@ -80,7 +80,7 @@ const MOBILE_DISABLED_FEATURES: ChartingLibraryFeatureset[] = [
  */
 const DESKTOP_DISABLED_FEATURES: ChartingLibraryFeatureset[] = [
   ...BASE_DISABLED_FEATURES,
-  'right_toolbar', // Keep consistent with current config
+  'right_toolbar' as ChartingLibraryFeatureset, // Keep consistent with current config
 ];
 
 /**

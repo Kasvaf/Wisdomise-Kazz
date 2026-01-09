@@ -9,7 +9,7 @@ const MenuItemLogout = () => {
       loading={loggingOut}
       onClick={e => {
         e.preventDefault();
-        void mutateAsync({});
+        void mutateAsync();
       }}
       size="sm"
       variant="negative_outline"

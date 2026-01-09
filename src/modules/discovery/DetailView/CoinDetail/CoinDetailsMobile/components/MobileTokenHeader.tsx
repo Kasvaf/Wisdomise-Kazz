@@ -374,7 +374,7 @@ export function MobileTokenHeader({
           <img
             alt={symbol.abbreviation || 'Token'}
             className="max-h-[80vh] max-w-[90vw] rounded-2xl object-contain shadow-2xl"
-            src={symbol.logo}
+            src={symbol.logo || undefined}
           />
         </div>
       </Dialog>
