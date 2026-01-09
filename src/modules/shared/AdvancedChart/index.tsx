@@ -175,7 +175,8 @@ const AdvancedChart: React.FC<{
       theme: 'dark',
 
       save_load_adapter: new LocalStorageSaveLoadAdapter(),
-      load_last_chart: true,
+      // Disable loading saved chart state on mobile to ensure default zoom applies
+      load_last_chart: !isMobile,
       auto_save_delay: 1,
     });
 
@@ -185,6 +186,31 @@ const AdvancedChart: React.FC<{
       await widget.headerReady();
 
       if (isDestroyed) return;
+
+      // Set initial zoom level to show more historical data on mobile
+      if (isMobile) {
+        try {
+          const chart = widget.activeChart();
+          // Get current time in seconds
+          const now = Math.floor(Date.now() / 1000);
+          // Show last 6 hours of data by default (well spread out)
+          // This gives a good overview with visible candle spacing
+          const timeRange = 21_600; // 6 hours in seconds
+
+          // Apply the visible range immediately since we're not loading saved state
+          chart.setVisibleRange(
+            {
+              from: now - timeRange,
+              to: now,
+            },
+            () => {
+              // Optional callback after range is set
+            },
+          );
+        } catch (error) {
+          console.warn('Could not set initial visible range:', error);
+        }
+      }
 
       widget.subscribe('onAutoSaveNeeded', () => {
         if (isDestroyed) return;
