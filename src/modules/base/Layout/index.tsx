@@ -67,7 +67,9 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
       <div
         className={clsx(
-          'flex items-start justify-start md:grow',
+          'flex items-start justify-start',
+          // Only grow on detail pages to push footer to bottom
+          isDetailPage ? 'grow' : 'md:grow',
           // Critical for mobile flexbox scrolling on detail pages
           isDetailPage && 'max-md:min-h-0 max-md:flex-1',
         )}
@@ -75,7 +77,9 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         {/* Main content */}
         <main
           className={clsx(
-            'w-full max-w-full grow p-3',
+            'w-full max-w-full p-3',
+            // Only grow on detail pages to push footer to bottom
+            isDetailPage && 'grow',
             // Critical for mobile flexbox scrolling on detail pages
             isDetailPage && 'max-md:min-h-0 max-md:flex-1',
             mainClassName,
