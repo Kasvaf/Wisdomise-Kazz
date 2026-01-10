@@ -18,18 +18,23 @@ export default function PageDiscovery() {
 
   // Only lock scroll on mobile for detail pages (token/coin pages), not list pages (trench/bluechip)
   const mainClassName = clsx(
-    '!p-0 h-full',
-    urlParams.detail && 'max-md:overflow-hidden',
+    '!p-0',
+    urlParams.detail ? 'h-full max-md:overflow-hidden' : 'min-h-full',
   );
 
   return (
     <PageWrapper
-      className="h-full"
+      className={urlParams.detail ? 'h-full' : 'min-h-full'}
       extension={<CoinExtensionsGroup />}
       mainClassName={mainClassName}
     >
       <ActiveQuoteProvider>
-        <div className="flex h-full justify-start">
+        <div
+          className={clsx(
+            'flex justify-start',
+            urlParams.detail ? 'h-full' : 'min-h-full',
+          )}
+        >
           {/* List Sidebar Mode */}
           {!urlParams.list && backdropParams.list && !isMobile && (
             <ListView
