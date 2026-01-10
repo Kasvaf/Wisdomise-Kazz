@@ -78,7 +78,7 @@ export function MobileDevTokensTab() {
                 {formatNumber(migratedPercentage, {
                   compactInteger: false,
                   separateByComma: false,
-                  decimalLength: 1,
+                  decimalLength: 2,
                   minifyDecimalRepeats: false,
                 })}
                 %)
@@ -108,7 +108,7 @@ export function MobileDevTokensTab() {
                     {formatNumber(+topMCToken.market_cap_usd, {
                       compactInteger: true,
                       separateByComma: false,
-                      decimalLength: 1,
+                      decimalLength: 2,
                       minifyDecimalRepeats: false,
                     })}
                     )
@@ -228,7 +228,7 @@ export function MobileDevTokensTab() {
                   {formatNumber(+token.market_cap_usd, {
                     compactInteger: true,
                     separateByComma: false,
-                    decimalLength: 1,
+                    decimalLength: 2,
                     minifyDecimalRepeats: false,
                   })}
                 </span>
@@ -241,7 +241,7 @@ export function MobileDevTokensTab() {
                   {formatNumber(+token.volume_1h_usd, {
                     compactInteger: true,
                     separateByComma: false,
-                    decimalLength: 1,
+                    decimalLength: 2,
                     minifyDecimalRepeats: false,
                   })}
                 </span>

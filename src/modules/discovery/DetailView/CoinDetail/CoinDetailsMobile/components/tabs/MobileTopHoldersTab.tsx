@@ -14,7 +14,10 @@ const formatCurrency = (value: number): string => {
 
   if (absValue >= 1000) {
     const { value: formattedValue, label } = compressByLabel(absValue);
-    return `${sign}$${formattedValue}${label}`;
+    // Limit to 2 decimal places
+    const numValue = Number.parseFloat(formattedValue);
+    const truncatedValue = Math.floor(numValue * 100) / 100;
+    return `${sign}$${truncatedValue}${label}`;
   }
 
   return `${sign}$${absValue.toFixed(2)}`;

@@ -26,7 +26,11 @@ const TargetMC = ({ order }: { order: Order }) => {
   return (
     <ReadableNumber
       className="text-[8px] text-neutral-600"
-      format={{ decimalLength: 2, compactInteger: true }}
+      format={{
+        decimalLength: 2,
+        compactInteger: true,
+        minifyDecimalRepeats: false,
+      }}
       label={order.price_in_usd ? '$' : ''}
       value={+order.price * (tokenInfo?.total_supply ?? 0)}
     />
@@ -105,7 +109,11 @@ export function MobileOrdersTab({ walletAddress }: { walletAddress?: string }) {
               />
               <ReadableNumber
                 className="font-mono text-[10px] text-white"
-                format={{ compactInteger: true }}
+                format={{
+                  compactInteger: true,
+                  decimalLength: 2,
+                  minifyDecimalRepeats: false,
+                }}
                 value={+row.amount}
               />
             </div>

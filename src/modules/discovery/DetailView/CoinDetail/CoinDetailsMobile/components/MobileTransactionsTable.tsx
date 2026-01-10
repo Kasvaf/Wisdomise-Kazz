@@ -233,7 +233,9 @@ export function MobileTransactionsTable() {
                   className="text-xs"
                   direction={row.dir === 'sell' ? 'down' : 'up'}
                   format={{
-                    decimalLength: 1,
+                    decimalLength: 2,
+                    compactInteger: true,
+                    minifyDecimalRepeats: false,
                   }}
                   label={showAmountInUsd ? '$' : ''}
                   showIcon={false}
@@ -252,6 +254,8 @@ export function MobileTransactionsTable() {
                   className="text-xs"
                   format={{
                     decimalLength: 2,
+                    compactInteger: true,
+                    minifyDecimalRepeats: false,
                   }}
                   label="$"
                   value={row.price * (showMarketCap ? totalSupply : 1)}
