@@ -65,9 +65,22 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
       <div id="cio-inline-banner" />
 
-      <div className="flex grow items-start justify-start">
+      <div
+        className={clsx(
+          'flex items-start justify-start md:grow',
+          // Critical for mobile flexbox scrolling on detail pages
+          isDetailPage && 'max-md:min-h-0 max-md:flex-1',
+        )}
+      >
         {/* Main content */}
-        <main className={clsx('w-full max-w-full grow p-3', mainClassName)}>
+        <main
+          className={clsx(
+            'w-full max-w-full grow p-3',
+            // Critical for mobile flexbox scrolling on detail pages
+            isDetailPage && 'max-md:min-h-0 max-md:flex-1',
+            mainClassName,
+          )}
+        >
           <AuthorizedContent>{children}</AuthorizedContent>
         </main>
       </div>
