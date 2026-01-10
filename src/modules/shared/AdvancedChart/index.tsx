@@ -74,14 +74,22 @@ const AdvancedChart: React.FC<{
   const [quote, setQuote] = useActiveQuote();
   const { data: pairs } = useTokenPairsQuery(slug);
 
-  // Update device type on window resize
+  // Update device type on window resize with debouncing to prevent excessive re-renders
   useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     const handleResize = () => {
-      setDeviceType(getDeviceType());
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setDeviceType(getDeviceType());
+      }, 150); // Debounce by 150ms
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>

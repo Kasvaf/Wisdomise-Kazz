@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Mark } from '../../../../../public/charting_library';
+import { getMarkSize } from '../utils';
 
 export const useMigrationMark = ({
   deviceType,
@@ -9,7 +10,7 @@ export const useMigrationMark = ({
   const [migratedAt, setMigratedAt] = useState<number>();
 
   // Use smaller mark size on mobile for better visibility and reduced overlap
-  const markSize = deviceType === 'mobile' || deviceType === 'tablet' ? 16 : 25;
+  const markSize = getMarkSize(deviceType);
 
   const mark = useMemo(() => {
     if (migratedAt) {

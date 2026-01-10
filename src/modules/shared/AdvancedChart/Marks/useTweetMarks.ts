@@ -2,6 +2,7 @@ import { useUnifiedCoinDetails } from 'modules/discovery/DetailView/CoinDetail/l
 import { useMemo } from 'react';
 import { useTokenTweets } from 'services/rest/discovery';
 import type { Mark } from '../../../../../public/charting_library';
+import { getMarkSize } from '../utils';
 
 export const useTweetMarks = ({
   deviceType,
@@ -14,7 +15,7 @@ export const useTweetMarks = ({
   });
 
   // Use smaller mark size on mobile for better visibility and reduced overlap
-  const markSize = deviceType === 'mobile' || deviceType === 'tablet' ? 16 : 25;
+  const markSize = getMarkSize(deviceType);
 
   const marks = useMemo(() => {
     return (

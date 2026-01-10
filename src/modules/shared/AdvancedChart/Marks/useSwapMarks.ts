@@ -12,6 +12,7 @@ import {
 } from 'shared/AdvancedChart/chartSettings';
 import { formatNumber } from 'utils/numbers';
 import type { Mark } from '../../../../../public/charting_library';
+import { getMarkSize } from '../utils';
 
 export const useSwapsMarks = ({
   swaps,
@@ -28,15 +29,7 @@ export const useSwapsMarks = ({
   const namedSwaps = useNamedSwaps({ swaps });
 
   // Use smaller mark size on mobile for better visibility and reduced overlap
-  const markSize = deviceType === 'mobile' || deviceType === 'tablet' ? 16 : 25;
-
-  // Debug log to verify device detection and mark sizing
-  console.log(
-    '[useSwapMarks] Device type:',
-    deviceType,
-    '| Mark size:',
-    markSize,
-  );
+  const markSize = getMarkSize(deviceType);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: namedSwaps intentionally excluded
   useEffect(() => {

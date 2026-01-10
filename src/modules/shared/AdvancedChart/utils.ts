@@ -51,3 +51,22 @@ export const getDeviceType = (): 'mobile' | 'tablet' | 'desktop' => {
   }
   return 'desktop';
 };
+
+/**
+ * Chart mark size configuration per device type
+ * Smaller sizes on mobile/tablet for better visibility and reduced overlap
+ */
+export const MARK_SIZES = {
+  mobile: 16,
+  tablet: 16,
+  desktop: 25,
+} as const;
+
+/**
+ * Gets the appropriate mark size for the given device type
+ */
+export const getMarkSize = (
+  deviceType: 'mobile' | 'tablet' | 'desktop',
+): number => {
+  return MARK_SIZES[deviceType];
+};

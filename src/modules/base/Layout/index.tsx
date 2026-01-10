@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
+import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import type React from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
-import { useLocation } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import { Footer } from './Footer';
@@ -29,22 +29,11 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 }) => {
   // useHubSpot();
   const isMobile = useIsMobile();
-  const location = useLocation();
+  const urlParams = useDiscoveryUrlParams();
 
-  // Check if we're on a detail page (e.g., /token/slug or /coin/slug)
-  // Detail pages match the pattern: /:detail/:slug1/:slug2?/:slug3?
-  const pathSegments = location.pathname.split('/').filter(Boolean);
-  const isDetailPage =
-    pathSegments.length >= 2 &&
-    ![
-      'trench',
-      'bluechip',
-      'bluechips',
-      'meta',
-      'account',
-      'autotrader',
-      'embedded',
-    ].includes(pathSegments[0]);
+  // Check if we're on a detail page (e.g., /token/slug, /whale/slug, /wallet/slug)
+  // Uses route params instead of manual pathname parsing for robustness
+  const isDetailPage = !!urlParams.detail;
 
   return (
     <div
