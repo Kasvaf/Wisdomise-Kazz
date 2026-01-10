@@ -1,7 +1,6 @@
-import { bxFilter, bxLinkExternal, bxSortAlt2 } from 'boxicons-quasar';
+import { bxFilter, bxLinkExternal } from 'boxicons-quasar';
 import Icon from 'modules/shared/Icon';
 import { ReactComponent as SolanaIcon } from 'modules/shared/NetworkIcon/solana.svg';
-import { Button } from 'modules/shared/v1-components/Button';
 import { useMemo, useState } from 'react';
 import { useGrpc } from 'services/grpc/core';
 import { compressByLabel } from 'utils/numbers';
@@ -81,23 +80,44 @@ export function MobileTopHoldersTab() {
     <div className="flex-1 overflow-auto">
       <div className="min-w-[800px]">
         {/* Header */}
-        <div className="sticky top-0 z-10 grid grid-cols-[18px_28px_minmax(85px,100px)_minmax(95px,110px)_minmax(75px,90px)_minmax(75px,90px)_70px_minmax(70px,85px)_minmax(100px,120px)] gap-1 border-v1-border-tertiary border-b bg-v1-background-primary px-2 py-1.5 font-medium text-[9px] text-neutral-600">
+        <div className="sticky top-0 z-10 grid grid-cols-[18px_28px_minmax(70px,85px)_minmax(85px,100px)_minmax(95px,110px)_minmax(75px,90px)_minmax(75px,90px)_70px_minmax(100px,120px)] gap-1 border-v1-border-tertiary border-b bg-v1-background-primary px-2 py-1.5 font-medium text-[9px] text-neutral-600">
           <div></div>
           <div></div>
+          <div className="text-right">Remain</div>
           <div>Wallet</div>
           <div className="text-right">SOL (Active)</div>
           <div className="text-right">Bought</div>
           <div className="text-right">Sold</div>
-          <Button
-            className="!p-0 !text-neutral-600 hover:!text-white flex items-center justify-end gap-0.5"
+          <div
+            className="flex cursor-pointer select-none items-center justify-end gap-0.5 transition-colors hover:text-white active:text-v1-content-brand"
             onClick={handlePnlSort}
-            size="3xs"
-            variant="ghost"
           >
             <span>PnL</span>
-            <Icon name={bxSortAlt2} size={10} />
-          </Button>
-          <div className="text-right">Remain</div>
+            <div className="flex flex-col items-center">
+              <svg
+                className={`h-2 w-2 transition-opacity ${
+                  pnlSortOrder === 'desc'
+                    ? 'text-v1-content-brand opacity-100'
+                    : 'opacity-30'
+                }`}
+                fill="currentColor"
+                viewBox="0 0 8 8"
+              >
+                <path d="M0 8 L4 0 L8 8 Z" />
+              </svg>
+              <svg
+                className={`-mt-0.5 h-2 w-2 transition-opacity ${
+                  pnlSortOrder === 'asc'
+                    ? 'text-v1-content-brand opacity-100'
+                    : 'opacity-30'
+                }`}
+                fill="currentColor"
+                viewBox="0 0 8 8"
+              >
+                <path d="M0 0 L4 8 L8 0 Z" />
+              </svg>
+            </div>
+          </div>
           <div className="text-right">Funding</div>
         </div>
 
@@ -110,7 +130,7 @@ export function MobileTopHoldersTab() {
 
           return (
             <div
-              className="grid grid-cols-[18px_28px_minmax(85px,100px)_minmax(95px,110px)_minmax(75px,90px)_minmax(75px,90px)_70px_minmax(70px,85px)_minmax(100px,120px)] items-center gap-1 border-v1-background-primary border-b px-2 py-1.5 transition-colors hover:bg-v1-background-primary"
+              className="grid grid-cols-[18px_28px_minmax(70px,85px)_minmax(85px,100px)_minmax(95px,110px)_minmax(75px,90px)_minmax(75px,90px)_70px_minmax(100px,120px)] items-center gap-1 border-v1-background-primary border-b px-2 py-1.5 transition-colors hover:bg-v1-background-primary"
               key={holder.walletAddress || index}
             >
               {/* Rank */}
@@ -130,6 +150,43 @@ export function MobileTopHoldersTab() {
                   name={bxLinkExternal}
                   size={10}
                 />
+              </div>
+
+              {/* Remaining (MOVED TO FIRST) */}
+              <div className="text-right">
+                <div className="flex items-center justify-end gap-0.5">
+                  <div
+                    className={`h-1 w-1 rounded-full ${
+                      remainingPercent > 10
+                        ? 'bg-v1-content-negative'
+                        : remainingPercent > 2
+                          ? 'bg-yellow-500'
+                          : 'bg-v1-content-positive'
+                    }`}
+                  />
+                  <span className="font-mono text-[10px] text-white">
+                    {formatCurrency(remainingValue)}
+                  </span>
+                </div>
+                <div className="flex flex-col items-end gap-0.5">
+                  <span className="text-[8px] text-neutral-600">
+                    {remainingPercent.toFixed(1)}%
+                  </span>
+                  <div className="h-0.5 w-10 overflow-hidden rounded-full bg-v1-surface-l2">
+                    <div
+                      className={`h-full ${
+                        remainingPercent > 10
+                          ? 'bg-v1-content-negative'
+                          : remainingPercent > 2
+                            ? 'bg-yellow-500'
+                            : 'bg-v1-content-positive'
+                      }`}
+                      style={{
+                        width: `${Math.min(remainingPercent * 3, 100)}%`,
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Wallet */}
@@ -187,43 +244,6 @@ export function MobileTopHoldersTab() {
                   {totalPnl >= 0 ? '+' : ''}
                   {formatCurrency(totalPnl)}
                 </span>
-              </div>
-
-              {/* Remaining */}
-              <div className="text-right">
-                <div className="flex items-center justify-end gap-0.5">
-                  <div
-                    className={`h-1 w-1 rounded-full ${
-                      remainingPercent > 10
-                        ? 'bg-v1-content-negative'
-                        : remainingPercent > 2
-                          ? 'bg-yellow-500'
-                          : 'bg-v1-content-positive'
-                    }`}
-                  />
-                  <span className="font-mono text-[10px] text-white">
-                    {formatCurrency(remainingValue)}
-                  </span>
-                </div>
-                <div className="flex flex-col items-end gap-0.5">
-                  <span className="text-[8px] text-neutral-600">
-                    {remainingPercent.toFixed(1)}%
-                  </span>
-                  <div className="h-0.5 w-10 overflow-hidden rounded-full bg-v1-surface-l2">
-                    <div
-                      className={`h-full ${
-                        remainingPercent > 10
-                          ? 'bg-v1-content-negative'
-                          : remainingPercent > 2
-                            ? 'bg-yellow-500'
-                            : 'bg-v1-content-positive'
-                      }`}
-                      style={{
-                        width: `${Math.min(remainingPercent * 3, 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
               </div>
 
               {/* Funding */}
