@@ -16,7 +16,7 @@ export const Footer: FC<{
   return (
     <div
       className={clsx(
-        'flex flex-wrap items-center justify-between gap-2 bg-v1-background-primary px-3 py-1',
+        'flex h-full flex-wrap items-center justify-between gap-2 bg-v1-background-primary px-3 py-1',
         className,
       )}
     >

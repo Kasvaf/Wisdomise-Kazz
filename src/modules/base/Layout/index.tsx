@@ -87,8 +87,8 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 
       {/* Sticky footer */}
       {footer !== null && (
-        <footer className="scrollbar-none sticky inset-y-0 z-50 h-(--footer-height) w-full overflow-auto border-t border-t-white/10 empty:hidden">
-          {footer || <Footer className="h-auto max-h-full" />}
+        <footer className="scrollbar-none sticky bottom-0 z-50 h-(--footer-height) w-full overflow-hidden border-t border-t-white/10 empty:hidden">
+          {footer || <Footer className="h-full" />}
         </footer>
       )}
 
