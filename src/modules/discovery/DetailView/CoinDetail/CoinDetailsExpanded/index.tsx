@@ -21,7 +21,7 @@ export const CoinDetailsExpanded: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex h-(--desktop-content-height) max-h-(--desktop-content-height) w-full min-w-0 max-w-full flex-nowrap justify-between">
+    <div className="flex h-(--content-height) max-h-(--content-height) w-full min-w-0 max-w-full flex-nowrap justify-between">
       <div
         className="scrollbar-none flex w-full flex-col overflow-auto border-white/10 border-r"
         ref={containerRef}
@@ -32,7 +32,7 @@ export const CoinDetailsExpanded: FC = () => {
         />
         <ResizableSides
           className={[
-            'max-h-[calc(var(--desktop-content-height)-64px-42px)] min-h-52',
+            'max-h-[calc(var(--content-height)-64px-42px)] min-h-52',
             'min-h-8',
           ]}
           direction="row"
@@ -53,7 +53,7 @@ export const CoinDetailsExpanded: FC = () => {
         </ResizableSides>
       </div>
 
-      <div className="scrollbar-none sticky top-0 h-(--desktop-content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
+      <div className="scrollbar-none sticky top-0 h-(--content-height) w-96 min-w-[360px] shrink overflow-y-auto bg-v1-surface-l0">
         <div className="space-y-3 px-3 pb-3">
           <TraderSection quote={quote} setQuote={setQuote} />
           <hr className="border-white/10" />

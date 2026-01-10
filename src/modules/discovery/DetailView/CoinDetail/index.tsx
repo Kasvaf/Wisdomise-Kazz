@@ -1,5 +1,5 @@
 import { useActiveQuote } from 'modules/autoTrader/useActiveQuote';
-import { useDiscoveryParams } from 'modules/discovery/lib';
+import { useDiscoveryUrlParams } from 'modules/discovery/lib';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { ChartWidgetProvider } from 'shared/AdvancedChart/ChartWidgetProvider';
@@ -14,7 +14,7 @@ export const CoinDetail: FC<{
   expanded?: boolean;
   focus?: boolean;
 }> = ({ expanded, focus }) => {
-  const params = useDiscoveryParams();
+  const params = useDiscoveryUrlParams();
   const complexSlug = useResolveComplexSlug(params.slugs ?? []);
   const isMobile = useIsMobile();
   const [, , setBaseSlug] = useActiveQuote();

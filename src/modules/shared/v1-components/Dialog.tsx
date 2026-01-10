@@ -82,10 +82,7 @@ const usePopupPosition = (
         : pointerPosition.top) +
       margin;
 
-    if (
-      preferedBottom - (popupRect.height ?? 0) > 0 &&
-      (anchorRect?.top ?? 0) > window.innerHeight / 2
-    ) {
+    if ((anchorRect?.top ?? 0) > window.innerHeight / 2) {
       style.bottom = preferedBottom;
     } else {
       style.top = preferredTop;

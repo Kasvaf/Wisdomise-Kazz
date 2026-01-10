@@ -16,7 +16,7 @@ export const LoadingBadge: FC<{
         !value && animation === 'fade' && 'invisible opacity-0',
         !value &&
           animation === 'slide-down' &&
-          'invisible translate-y-[calc(100%+2rem)]',
+          'invisible translate-y-[calc(100%+2rem)] opacity-0',
         className,
       )}
     >

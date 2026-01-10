@@ -1,7 +1,8 @@
 import { WalletTracker } from 'modules/discovery/ListView/WalletTracker';
-import { type FC, useEffect } from 'react';
-import { type DiscoveryList, useDiscoveryBackdropParams } from '../lib';
+import type { FC } from 'react';
+import type { DiscoveryList } from '../lib';
 import { CoinRadar } from './CoinRadar';
+import { Meta } from './Meta';
 import { NetworkRadar } from './NetworkRadar';
 import { Portfolio } from './Portfolio';
 import { Positions } from './Positions';
@@ -16,14 +17,6 @@ export const ListView: FC<{
   focus?: boolean;
   className?: string;
 }> = ({ list, className, ...rest }) => {
-  const [backdropParams, setBackdropParams] = useDiscoveryBackdropParams();
-  useEffect(() => {
-    if (rest.expanded && backdropParams.list !== list) {
-      setBackdropParams({
-        list,
-      });
-    }
-  }, [list, rest.expanded, backdropParams.list, setBackdropParams]);
   return (
     <div className={className} id="app-list">
       {list === 'social-radar' ? (
@@ -44,6 +37,8 @@ export const ListView: FC<{
         <WalletTracker {...rest} />
       ) : list === 'twitter-tracker' ? (
         <XTracker {...rest} />
+      ) : list === 'meta' ? (
+        <Meta {...rest} />
       ) : null}
     </div>
   );

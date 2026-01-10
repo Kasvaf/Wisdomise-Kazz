@@ -9,6 +9,7 @@ import { useGlobalNetwork } from 'shared/useGlobalNetwork';
 import { Select } from 'shared/v1-components/Select';
 import { Token } from 'shared/v1-components/Token';
 import { useDebounce } from 'usehooks-ts';
+import useIsMobile from 'utils/useIsMobile';
 
 export const GlobalSearch: FC<
   Omit<
@@ -27,6 +28,7 @@ export const GlobalSearch: FC<
     | 'multiple'
   >
 > = props => {
+  const isMobile = useIsMobile();
   const { t } = useTranslation('common');
   const [network] = useGlobalNetwork();
   const networkName = network
@@ -53,9 +55,12 @@ export const GlobalSearch: FC<
       }}
       onSearch={setQuery}
       options={coins.data?.map?.(x => x.contract_address ?? null)}
-      placeholder={t('search_coins')}
+      placeholder={isMobile ? '' : t('search_coins')}
       prefixIcon={
-        <Icon className="text-v1-content-secondary" name={bxSearch} />
+        <Icon
+          className="max-md:ms-2 md:text-v1-content-secondary [&>svg]:size-4"
+          name={bxSearch}
+        />
       }
       render={opt => {
         const row = coins.data?.find?.(x => x.contract_address === opt);

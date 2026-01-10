@@ -4,10 +4,8 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { useLocation } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import AuthorizedContent from '../auth/AuthorizedContent';
-import DefaultFooter from './DefaultFooter';
-import DefaultSidebar from './DefaultSidebar';
-import DesktopHeader from './DesktopHeader';
-import MobileHeader from './MobileHeader';
+import { Footer } from './Footer';
+import { Header } from './Header';
 import ScrollToTop from './ScrollToTop';
 
 export interface LayoutProps {
@@ -17,7 +15,6 @@ export interface LayoutProps {
   extension?: null | false | ReactElement;
   header?: false | null | ReactElement;
   footer?: false | null | ReactElement;
-  sidebar?: false | null | ReactElement;
   mainClassName?: string;
 }
 
@@ -27,13 +24,11 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   extension,
   header,
   footer,
-  sidebar,
   mainClassName,
   children,
 }) => {
   // useHubSpot();
   const isMobile = useIsMobile();
-  const Header = isMobile ? MobileHeader : DesktopHeader;
   const location = useLocation();
 
   // Check if we're on a detail page (e.g., /token/slug or /coin/slug)
@@ -59,64 +54,39 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         isDetailPage && 'max-md:h-screen max-md:overflow-hidden',
       )}
       style={{
-        ['--desktop-sidebar-width' as never]:
-          !isMobile && sidebar !== null ? '4rem' : '0px',
-        ['--desktop-header-height' as never]: isMobile ? '0px' : '3rem',
-        ['--route-details-height' as never]: isMobile
-          ? '0px'
-          : '0px' /* '1.75rem' */,
-        ['--desktop-content-height' as never]:
-          'calc(100svh - var(--desktop-header-height))',
-        ['--desktop-content-top' as never]:
-          'calc(var(--desktop-header-height) + var(--route-details-height))',
+        ['--header-height' as never]: '60px',
+        ['--footer-height' as never]: isMobile ? '64px' : '44px',
+        ['--content-height' as never]:
+          'calc(100svh - var(--header-height) - var(--footer-height))',
       }}
     >
       {/* Sticky Header */}
-      <header className="sticky top-0 z-30 h-(--desktop-header-height) w-full max-w-full max-md:h-auto">
+      <header className="sticky top-0 z-30 h-(--header-height) w-full max-w-full border-b border-b-white/10 max-md:h-auto">
         {header === null
           ? null
           : header || (
-              <Header extension={extension} hasBack={hasBack} title={title} />
+              <Header
+                className="h-auto max-h-full"
+                extension={extension}
+                hasBack={hasBack}
+                title={title}
+              />
             )}
       </header>
 
       <div id="cio-inline-banner" />
 
-      {/* Route details - only for desktop */}
-      {/* {!isMobile && (
-        <RouteDetails
-          hasBack={hasBack}
-          className="sticky end-0 top-(--desktop-header-height) z-20 ms-(--desktop-sidebar-width) h-(--route-details-height) w-auto"
-        />
-      )} */}
-
-      <div className="flex items-start justify-start max-md:min-h-0 max-md:flex-1 md:grow">
-        {/* Sidebar - only for desktop */}
-        {!isMobile && sidebar !== null && (
-          <aside
-            className="-mt-(--route-details-height) scrollbar-none sticky start-0 top-(--desktop-header-height) z-20 h-[calc(100svh-var(--desktop-header-height))] w-(--desktop-sidebar-width) shrink-0 overflow-auto border-white/10 border-r bg-v1-surface-l0"
-            // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
-            id="sidebar"
-          >
-            {sidebar || <DefaultSidebar />}
-          </aside>
-        )}
-
+      <div className="flex grow items-start justify-start">
         {/* Main content */}
-        <main
-          className={clsx(
-            'w-[calc(100%-var(--desktop-sidebar-width))] max-w-[calc(100%-var(--desktop-sidebar-width))] p-3 max-md:min-h-0 max-md:flex-1 md:grow',
-            mainClassName,
-          )}
-        >
+        <main className={clsx('w-full max-w-full grow p-3', mainClassName)}>
           <AuthorizedContent>{children}</AuthorizedContent>
         </main>
       </div>
 
-      {/* Sticky footer - only for mobile */}
-      {isMobile && footer !== null && (
-        <footer className="scrollbar-none sticky inset-y-0 z-50 w-full overflow-auto empty:hidden">
-          {footer || <DefaultFooter />}
+      {/* Sticky footer */}
+      {footer !== null && (
+        <footer className="scrollbar-none sticky inset-y-0 z-50 h-(--footer-height) w-full overflow-auto border-t border-t-white/10 empty:hidden">
+          {footer || <Footer className="h-auto max-h-full" />}
         </footer>
       )}
 
