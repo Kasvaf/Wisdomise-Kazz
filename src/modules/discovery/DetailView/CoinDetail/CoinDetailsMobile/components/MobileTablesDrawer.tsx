@@ -46,22 +46,25 @@ export function MobileTablesDrawer({
         ))}
       </div>
 
-      {/* Positions Tab */}
-      {activeTab === 'positions' && <MobilePositionsTab />}
+      {/* Tab Content Container - Flex container for tabs with flex-1 */}
+      <div className="flex min-h-0 flex-1 flex-col">
+        {/* Positions Tab */}
+        {activeTab === 'positions' && <MobilePositionsTab />}
 
-      {/* Top Holders Tab */}
-      {activeTab === 'top-holders' && <MobileTopHoldersTab />}
+        {/* Top Holders Tab */}
+        {activeTab === 'top-holders' && <MobileTopHoldersTab />}
 
-      {/* Bubble Chart Tab */}
-      {activeTab === 'bubble-chart' && <MobileBubbleChartTab />}
+        {/* Bubble Chart Tab */}
+        {activeTab === 'bubble-chart' && <MobileBubbleChartTab />}
 
-      {/* Orders Tab */}
-      {activeTab === 'orders' && (
-        <MobileOrdersTab walletAddress={walletAddress} />
-      )}
+        {/* Orders Tab */}
+        {activeTab === 'orders' && (
+          <MobileOrdersTab walletAddress={walletAddress} />
+        )}
 
-      {/* Dev Tokens Tab */}
-      {activeTab === 'dev-tokens' && <MobileDevTokensTab />}
+        {/* Dev Tokens Tab */}
+        {activeTab === 'dev-tokens' && <MobileDevTokensTab />}
+      </div>
     </div>
   );
 }
