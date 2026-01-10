@@ -89,9 +89,15 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         </main>
       </div>
 
-      {/* Sticky footer */}
+      {/* Footer - sticky on detail pages, normal flow on list pages */}
       {footer !== null && (
-        <footer className="scrollbar-none sticky bottom-0 z-50 h-(--footer-height) w-full overflow-hidden border-t border-t-white/10 empty:hidden">
+        <footer
+          className={clsx(
+            'scrollbar-none z-50 h-(--footer-height) w-full overflow-hidden border-t border-t-white/10 empty:hidden',
+            // Only sticky on detail pages, normal flow on list pages
+            isDetailPage && 'sticky bottom-0',
+          )}
+        >
           {footer || <Footer className="h-full" />}
         </footer>
       )}
