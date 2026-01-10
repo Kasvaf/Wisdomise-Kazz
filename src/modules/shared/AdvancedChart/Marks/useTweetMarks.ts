@@ -3,11 +3,18 @@ import { useMemo } from 'react';
 import { useTokenTweets } from 'services/rest/discovery';
 import type { Mark } from '../../../../../public/charting_library';
 
-export const useTweetMarks = () => {
+export const useTweetMarks = ({
+  deviceType,
+}: {
+  deviceType: 'mobile' | 'tablet' | 'desktop';
+}) => {
   const { symbol } = useUnifiedCoinDetails();
   const { data: tweets } = useTokenTweets({
     contractAddress: symbol.contractAddress ?? undefined,
   });
+
+  // Use smaller mark size on mobile for better visibility and reduced overlap
+  const markSize = deviceType === 'mobile' || deviceType === 'tablet' ? 16 : 25;
 
   const marks = useMemo(() => {
     return (
@@ -20,14 +27,14 @@ export const useTweetMarks = () => {
             label: 'X',
             imageUrl: tweet.user.profile_picture,
 
-            minSize: 25,
+            minSize: markSize,
             time: new Date(tweet.related_at).getTime() / 1000,
             text: `Tweet from @${tweet.user.username}`,
             color: 'blue',
           }) as Mark,
       ) ?? []
     );
-  }, [tweets]);
+  }, [tweets, markSize]);
 
   return { marks };
 };

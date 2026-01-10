@@ -13,7 +13,13 @@ import {
 import { formatNumber } from 'utils/numbers';
 import type { Mark } from '../../../../../public/charting_library';
 
-export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
+export const useSwapsMarks = ({
+  swaps,
+  deviceType,
+}: {
+  swaps: Swap[];
+  deviceType: 'mobile' | 'tablet' | 'desktop';
+}) => {
   const { symbol } = useUnifiedCoinDetails();
   const [convertToUsd] = useChartConvertToUSD();
   const [isMarketCap] = useChartIsMarketCap();
@@ -21,12 +27,23 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
   const [marks, setMarks] = useState<Mark[]>([]);
   const namedSwaps = useNamedSwaps({ swaps });
 
+  // Use smaller mark size on mobile for better visibility and reduced overlap
+  const markSize = deviceType === 'mobile' || deviceType === 'tablet' ? 16 : 25;
+
+  // Debug log to verify device detection and mark sizing
+  console.log(
+    '[useSwapMarks] Device type:',
+    deviceType,
+    '| Mark size:',
+    markSize,
+  );
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: namedSwaps intentionally excluded
   useEffect(() => {
     setMarks([]);
   }, [isMarketCap, convertToUsd, symbol.contractAddress]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <reason>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: markSize intentionally included
   useEffect(() => {
     for (const s of namedSwaps) {
       if (!marks.map(m => m.id).includes(s.txId)) {
@@ -59,7 +76,7 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
           id: `swap_${swap.wallet}_${swap.txId}`,
           label,
           labelFontColor: 'white',
-          minSize: 25,
+          minSize: markSize,
           imageUrl: s.image,
           time: Math.floor(new Date(s.relatedAt).getTime() / 1000),
           text,
@@ -70,7 +87,7 @@ export const useSwapsMarks = ({ swaps }: { swaps: Swap[] }) => {
         });
       }
     }
-  }, [namedSwaps, isMarketCap, totalSupply, convertToUsd]);
+  }, [namedSwaps, isMarketCap, totalSupply, convertToUsd, markSize]);
 
   return marks;
 };

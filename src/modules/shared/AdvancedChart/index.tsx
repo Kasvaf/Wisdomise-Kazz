@@ -46,7 +46,15 @@ const AdvancedChart: React.FC<{
   const [, setGlobalChartWidget] = useAdvancedChartWidget();
   const [convertToUsd, setConvertToUsd] = useChartConvertToUSD();
   const [isMarketCap, setIsMarketCap] = useChartIsMarketCap();
-  const { marksRef, addSwap, setMigratedAt, content } = useChartMarks();
+
+  // Detect device type for responsive configuration
+  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>(
+    () => getDeviceType(),
+  );
+
+  const { marksRef, addSwap, setMigratedAt, content } = useChartMarks({
+    deviceType,
+  });
   const { totalSupply } = useTotalSupply();
   const knownWallets = useKnownWallets();
   const knownWalletsRef = useRef(knownWallets);
@@ -65,11 +73,6 @@ const AdvancedChart: React.FC<{
 
   const [quote, setQuote] = useActiveQuote();
   const { data: pairs } = useTokenPairsQuery(slug);
-
-  // Detect device type for responsive configuration
-  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>(
-    () => getDeviceType(),
-  );
 
   // Update device type on window resize
   useEffect(() => {

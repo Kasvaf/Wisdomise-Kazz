@@ -11,14 +11,20 @@ import { useSwapsMarks } from 'shared/AdvancedChart/Marks/useSwapMarks';
 import { useTweetMarks } from 'shared/AdvancedChart/Marks/useTweetMarks';
 import type { Mark } from '../../../../../public/charting_library';
 
-export const useChartMarks = () => {
+export const useChartMarks = ({
+  deviceType,
+}: {
+  deviceType: 'mobile' | 'tablet' | 'desktop';
+}) => {
   const { content } = useMarksClickListener();
   const [marks, setMarks] = useState<Mark[]>([]);
   const marksRef = useRef(marks);
 
   const [swaps, setSwaps] = useState<Swap[]>([]);
-  const { setMigratedAt, mark: migrationMark } = useMigrationMark();
-  const { marks: tweetMarks } = useTweetMarks();
+  const { setMigratedAt, mark: migrationMark } = useMigrationMark({
+    deviceType,
+  });
+  const { marks: tweetMarks } = useTweetMarks({ deviceType });
 
   const { symbol } = useUnifiedCoinDetails();
   const [widget] = useAdvancedChartWidget();
@@ -49,7 +55,7 @@ export const useChartMarks = () => {
     if (stream?.swap) addSwap(stream.swap);
   }, [stream, addSwap]);
 
-  const swapMarks = useSwapsMarks({ swaps });
+  const swapMarks = useSwapsMarks({ swaps, deviceType });
 
   useEffect(() => {
     setMarks([

@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
+import { useLocation } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import DefaultFooter from './DefaultFooter';
@@ -33,10 +34,30 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   // useHubSpot();
   const isMobile = useIsMobile();
   const Header = isMobile ? MobileHeader : DesktopHeader;
+  const location = useLocation();
+
+  // Check if we're on a detail page (e.g., /token/slug or /coin/slug)
+  // Detail pages match the pattern: /:detail/:slug1/:slug2?/:slug3?
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const isDetailPage =
+    pathSegments.length >= 2 &&
+    ![
+      'trench',
+      'bluechip',
+      'bluechips',
+      'meta',
+      'account',
+      'autotrader',
+      'embedded',
+    ].includes(pathSegments[0]);
 
   return (
     <div
-      className="relative flex min-h-screen max-w-full flex-col bg-v1-surface-l0 max-md:h-screen max-md:overflow-hidden"
+      className={clsx(
+        'relative flex min-h-screen max-w-full flex-col bg-v1-surface-l0',
+        // Only lock scroll on mobile for detail pages (token/coin pages)
+        isDetailPage && 'max-md:h-screen max-md:overflow-hidden',
+      )}
       style={{
         ['--desktop-sidebar-width' as never]:
           !isMobile && sidebar !== null ? '4rem' : '0px',
