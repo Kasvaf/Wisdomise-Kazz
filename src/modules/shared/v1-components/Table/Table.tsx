@@ -32,6 +32,7 @@ export function Table<RecordType extends object>({
   chunkSize = 48,
   footer,
   size = 'md',
+  minWidth,
   emptyMessage,
 }: TableProps<RecordType>) {
   const root = useRef<HTMLDivElement>(null);
@@ -72,10 +73,14 @@ export function Table<RecordType extends object>({
 
   const ths = useMemo(
     () =>
-      tds.some(col => !!col.title || !!col.info) && !loading && trs.length > 0
+      tds.some(col => !!col.title || !!col.info || !!col.headerRender) &&
+      !loading &&
+      trs.length > 0
         ? tds.map((th, index) => ({
             ...th,
-            content: (
+            content: th.headerRender ? (
+              th.headerRender()
+            ) : (
               <>
                 {typeof th.sorter === 'function' && (
                   <Sort
@@ -117,7 +122,11 @@ export function Table<RecordType extends object>({
         ['--later-color' as never]: colors.later,
       }}
     >
-      <table>
+      <table
+        style={{
+          minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth,
+        }}
+      >
         {ths.length > 0 && (
           <thead>
             <tr className={clsx(isPaused && '!bg-v1-background-brand/10')}>

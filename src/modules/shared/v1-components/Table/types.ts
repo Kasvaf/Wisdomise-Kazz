@@ -12,6 +12,7 @@ export interface TableColumn<RecordType extends object> {
   sorter?: (a: RecordType, b: RecordType) => number;
   sticky?: 'start' | 'end';
   align?: 'start' | 'end' | 'center';
+  headerRender?: () => ReactNode;
 }
 
 export type RowFunction<RecordType extends object, ReturnType = void> = (
@@ -35,6 +36,7 @@ export interface TableProps<RecordType extends object> {
   rowHoverPrefix?: RowFunction<RecordType, ReactNode>;
   rowHoverSuffix?: RowFunction<RecordType, ReactNode>;
   footer?: ReactNode;
-  size?: 'md' | 'sm';
+  size?: 'md' | 'sm' | 'xs';
+  minWidth?: string | number;
   emptyMessage?: string;
 }

@@ -25,6 +25,21 @@
   }
 }
 
+.wsdm-table[data-size="xs"] {
+  td > div {
+    @apply !min-h-6 !py-0.5 text-[10px];
+  }
+
+  th > div {
+    @apply text-[9px] !py-1;
+  }
+
+  th,
+  td {
+    @apply text-[10px];
+  }
+}
+
 /* Non-Scrollable Table */
 .wsdm-table[data-scrollable="false"] {
   @apply overflow-x-hidden overflow-y-visible;
