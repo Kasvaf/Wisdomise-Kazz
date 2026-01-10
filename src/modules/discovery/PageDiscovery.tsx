@@ -16,15 +16,16 @@ export default function PageDiscovery() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  // Only lock scroll on mobile for detail pages (token/coin pages), not list pages (trench/bluechip)
+  // Enable scrolling for list pages, lock scroll only for detail page content (tables handle their own scrolling)
   const mainClassName = clsx(
     '!p-0',
-    urlParams.detail ? 'h-full max-md:overflow-hidden' : 'min-h-full',
+    'h-full',
+    urlParams.detail ? 'max-md:overflow-hidden' : 'overflow-auto',
   );
 
   return (
     <PageWrapper
-      className={urlParams.detail ? 'h-full' : 'min-h-full'}
+      className="h-full"
       extension={<CoinExtensionsGroup />}
       mainClassName={mainClassName}
     >
@@ -51,12 +52,7 @@ export default function PageDiscovery() {
             </Draggable>
           ))}
 
-        <div
-          className={clsx(
-            'flex justify-start',
-            urlParams.detail ? 'h-full' : 'min-h-full',
-          )}
-        >
+        <div className="flex h-full justify-start">
           {/* List Full-Page Mode */}
           {urlParams.list && (
             <ListView

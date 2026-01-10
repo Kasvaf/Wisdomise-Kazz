@@ -34,13 +34,16 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   // Check if we're on a detail page (e.g., /token/slug, /whale/slug, /wallet/slug)
   // Uses route params instead of manual pathname parsing for robustness
   const isDetailPage = !!urlParams.detail;
+  const isListPage = !!urlParams.list;
+  // Both detail and list pages should have fixed viewport with sticky footer
+  const isFixedViewport = isDetailPage || isListPage;
 
   return (
     <div
       className={clsx(
         'relative flex min-h-screen max-w-full flex-col bg-v1-surface-l0',
-        // Only lock scroll on mobile for detail pages (token/coin pages)
-        isDetailPage && 'max-md:h-screen max-md:overflow-hidden',
+        // Lock scroll on mobile for both detail and list pages for fixed footer
+        isFixedViewport && 'max-md:h-screen max-md:overflow-hidden',
       )}
       style={{
         ['--header-height' as never]: '60px',
@@ -68,20 +71,20 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       <div
         className={clsx(
           'flex items-start justify-start',
-          // Only grow on detail pages to push footer to bottom
-          isDetailPage ? 'grow' : 'md:grow',
-          // Critical for mobile flexbox scrolling on detail pages
-          isDetailPage && 'max-md:min-h-0 max-md:flex-1',
+          // Grow on both detail and list pages to push footer to bottom
+          'grow',
+          // Critical for mobile flexbox scrolling on both detail and list pages
+          isFixedViewport && 'max-md:min-h-0 max-md:flex-1',
         )}
       >
         {/* Main content */}
         <main
           className={clsx(
             'w-full max-w-full p-3',
-            // Only grow on detail pages to push footer to bottom
-            isDetailPage && 'grow',
-            // Critical for mobile flexbox scrolling on detail pages
-            isDetailPage && 'max-md:min-h-0 max-md:flex-1',
+            // Grow on both detail and list pages to push footer to bottom
+            isFixedViewport && 'grow',
+            // Critical for mobile flexbox scrolling on both detail and list pages
+            isFixedViewport && 'max-md:min-h-0 max-md:flex-1',
             mainClassName,
           )}
         >
@@ -89,13 +92,13 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         </main>
       </div>
 
-      {/* Footer - sticky on detail pages, normal flow on list pages */}
+      {/* Footer - sticky on both detail and list pages for consistent fixed positioning */}
       {footer !== null && (
         <footer
           className={clsx(
             'scrollbar-none z-50 h-(--footer-height) w-full overflow-hidden border-t border-t-white/10 empty:hidden',
-            // Only sticky on detail pages, normal flow on list pages
-            isDetailPage && 'sticky bottom-0',
+            // Sticky on both detail and list pages for fixed footer behavior
+            isFixedViewport && 'sticky bottom-0',
           )}
         >
           {footer || <Footer className="h-full" />}
